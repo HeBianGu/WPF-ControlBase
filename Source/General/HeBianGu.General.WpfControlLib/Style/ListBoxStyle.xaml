@@ -1,0 +1,38 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                      xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+
+    <!--由下到上渐显模板-->
+    <ControlTemplate x:Key="ListBox_DownToUp" TargetType="{x:Type ListBox}">
+        <Grid>
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+
+            <StackPanel IsItemsHost="True"/>
+
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard Storyboard="{StaticResource Story_OpacityDownToUp}"/>
+                </EventTrigger>
+            </Grid.Triggers>
+        </Grid>
+    </ControlTemplate>
+
+    <!--带等待框的-->
+    <ControlTemplate x:Key="ListBox_Buzy" TargetType="{x:Type ListBox}">
+        <Grid>
+            <ScrollViewer>
+                <StackPanel IsItemsHost="True"/>
+            </ScrollViewer>
+            <local:WaitingBox IsBusy="{TemplateBinding base:ControlAttachProperty.IsBuzy}"/>
+        </Grid>
+    </ControlTemplate>
+
+</ResourceDictionary>

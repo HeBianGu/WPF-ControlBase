@@ -1,0 +1,464 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:shell="http://schemas.microsoft.com/winfx/2006/xaml/presentation/shell"
+                     xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Style/FIcon.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Controls/FButton.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Style/ToggleButton.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--加载渐显--><!--
+    <LinearGradientBrush x:Key="WindowOpMack" StartPoint="0.5,1" EndPoint="0.5,0">
+        <GradientStop Color="#00000000" Offset="0"/>
+        <GradientStop Color="#00000000" Offset="1"/>
+        <GradientStop Color="#00000000" Offset="1"/>
+    </LinearGradientBrush>
+
+    --><!--关闭渐隐--><!--
+    <LinearGradientBrush x:Key="ClosedBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+        <GradientStop Color="#FF000000" Offset="0"/>
+        <GradientStop Color="#FF000000" Offset="1"/>
+        <GradientStop Color="#FF000000" Offset="1"/>
+    </LinearGradientBrush>
+
+    <Storyboard x:Key="Story_MessageUnLoad">
+        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+            <SplineDoubleKeyFrame KeyTime="00:00:00.5" Value="-304.47500610351562"/>
+        </DoubleAnimationUsingKeyFrames>
+    </Storyboard>-->
+    <!--消息弹窗加载 由下到上 +震动-->
+    <Storyboard x:Key="Story.MessageLoad">
+        <ColorAnimation To="#FF000000" Duration="0" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Color"/>
+        <DoubleAnimation From="1" To="0" Duration="0" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[1].Offset"/>
+        <DoubleAnimation From="1" To="0" Duration="0" BeginTime="0" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Offset"/>
+        <ColorAnimation To="#FF000000" Duration="0" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Color"/>
+
+        <DoubleAnimation From="-100" To="0" Duration="0:0:0.5" BeginTime="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)">
+            <DoubleAnimation.EasingFunction>
+                <ElasticEase EasingMode="EaseOut" Oscillations="3" Springiness="10"></ElasticEase>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <Storyboard x:Key="Story.WindowLoad">
+        <DoubleAnimation From="1" To="0" Duration="0:0:1.5" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[1].Offset"/>
+        <DoubleAnimation From="1" To="0" Duration="0:0:1" BeginTime="0:0:0.5" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Offset"/>
+        <ColorAnimation To="#FF000000" Duration="0" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Color"/>
+    </Storyboard>
+    <!--WindowBase基本样式，可以自定义头部-->
+    <Style x:Key="BaseWindowStyle" TargetType="{x:Type local:WindowBase}">
+        <Setter Property="Background" Value="{DynamicResource S_GrayLight}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TitleTextForeground}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+        <Setter Property="Width" Value="480"/>
+        <Setter Property="Height" Value="320"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S_AccentBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FIconSize" Value="20"/>
+        <Setter Property="CaptionHeight" Value="26"/>
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
+        <!--标题栏背景色-->
+        <Setter Property="CaptionBackground" Value="{DynamicResource S_WindowOpacityAccent}" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource S_WhiteNotice}" />
+        <Setter Property="FIcon" Value="&#xe62e;"/>
+        <Setter Property="MaxboxEnable" Value="True"/>
+        <Setter Property="MinboxEnable" Value="True"/>
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="0"/>
+        <!--窗体基本设置 shell:WindowChrome-->
+        <Setter Property="shell:WindowChrome.WindowChrome">
+            <Setter.Value>
+                <shell:WindowChrome  CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:WindowBase}}}" 
+                                     ResizeBorderThickness="8"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:WindowBase}">
+                    <Grid Margin="2">
+                        <!--背景，边框-->
+                        <Border x:Name="Bg" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" Effect="{StaticResource WindowDropShadow}"
+                            Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        </Border>
+                        <Border  x:Name="BgInner" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
+                            Background="{DynamicResource S_AccentBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
+
+                        <!--内容区域-->
+                        <AdornerDecorator>
+                            <ContentPresenter Margin="1" Content="{TemplateBinding Content}" />
+                        </AdornerDecorator>
+
+                        <!--窗体功能按钮：最小、最大、关闭-->
+                        <Border VerticalAlignment="Top" Height="{TemplateBinding CaptionHeight}" Width="Auto" Margin="1" HorizontalAlignment="Right">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="{TemplateBinding VerticalAlignment}" Height="30">
+                                <local:FButton x:Name="btnMin"  Width="26" VerticalAlignment="Center" Margin="1,2,1,2" 
+                                               Visibility="{Binding Path=MinboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
+                                               Style="{StaticResource FButton_Transparency}"  FIcon="&#xe60d;" FIconSize="16"
+                                               shell:WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"
+                                               Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                <local:FButton x:Name="btnMax"  Width="26" VerticalAlignment="Center" Margin="1,2,1,2" 
+                                                Visibility="{Binding Path=MaxboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
+                                                Style="{StaticResource FButton_Transparency}" FIcon="&#xe615;" FIconSize="16"
+                                                shell:WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"
+                                               Command="{Binding Path=MaximizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                <local:FButton x:Name="btnClose"  Width="38" VerticalAlignment="Center"  Margin="1,2,3,2" CornerRadius="0"
+                                               MouseOverBackground="Red" MouseOverForeground="White" PressedBackground="#AA0D0D" PressedForeground="White"
+                                               AllowsAnimation="True" Style="{StaticResource FButton_Transparency}"  FIcon="&#xe610;" FIconSize="16"
+                                               shell:WindowChrome.IsHitTestVisibleInChrome="True" FIconMargin="0" Foreground="{TemplateBinding CaptionForeground}"
+                                              Command="{Binding Path=CloseWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </StackPanel>
+                        </Border>
+
+                        <!--淡出效果-->
+                        <Grid.OpacityMask>
+                            <LinearGradientBrush StartPoint="0.5,1" EndPoint="0.5,0">
+                                <GradientStop Color="#00000000" Offset="0"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Grid.OpacityMask>
+                        <!--淡出效果-->
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <EventTrigger.Actions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="1" To="0" Duration="0:0:1.5" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[1].Offset"/>
+                                            <DoubleAnimation From="1" To="0" Duration="0:0:1" BeginTime="0:0:0.5" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Offset"/>
+                                            <ColorAnimation To="#FF000000" Duration="0" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Color"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger.Actions>
+                            </EventTrigger>
+                        </Grid.Triggers>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter Property="FIcon" TargetName="btnMax" Value="&#xe62b;"></Setter>
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter Property="FIcon" TargetName="btnMax" Value="&#xe615;"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--非透明的主窗体样式，主要目的是支持Winform控件的显示，用于主窗体-->
+    <Style x:Key="NoTransparencyWindowStyle" TargetType="{x:Type local:WindowBase}">
+        <Setter Property="Background" Value="{StaticResource S_GrayLight}"/>
+        <Setter Property="Foreground" Value="{StaticResource TitleTextForeground}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+        <Setter Property="Width" Value="480"/>
+        <Setter Property="Height" Value="320"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S_AccentBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FIconSize" Value="20"/>
+        <Setter Property="CaptionHeight" Value="26"/>
+        <Setter Property="ResizeMode" Value="NoResize"/>
+        <Setter Property="WindowState" Value="Maximized"/>
+        <!--标题栏背景色-->
+        <Setter Property="CaptionBackground" Value="{DynamicResource S_OpacityGray}" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource S_WhiteNotice}" />
+        <Setter Property="FIcon" Value="&#xe62e;"/>
+        <Setter Property="MaxboxEnable" Value="False"/>
+        <Setter Property="MinboxEnable" Value="True"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:WindowBase}">
+                    <Grid>
+                        <!--背景，边框-->
+                        <Border x:Name="Bg" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
+                            Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
+                        <Border  x:Name="BgInner" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
+                            Background="{DynamicResource S_AccentBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
+                        <!--内容区域-->
+                        <AdornerDecorator>
+                            <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
+                        </AdornerDecorator>
+                        <!--窗体功能按钮：最小、最大、关闭-->
+                        <Border VerticalAlignment="Top" Height="{TemplateBinding CaptionHeight}" Width="Auto" Margin="1" HorizontalAlignment="Right">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="{TemplateBinding VerticalAlignment}" Height="30">
+                                <local:FButton x:Name="btnMin"  Width="26" VerticalAlignment="Center" Margin="1,2,1,2" Foreground="{TemplateBinding CaptionForeground}"
+                                               Visibility="{Binding Path=MinboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
+                                               Style="{StaticResource FButton_Transparency}"  FIcon="&#xe60d;" FIconSize="16" 
+                                               Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                <local:FButton x:Name="btnMax"  Width="26" VerticalAlignment="Center" Margin="1,2,1,2" Foreground="{TemplateBinding CaptionForeground}"
+                                                Visibility="{Binding Path=MaxboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
+                                                Style="{StaticResource FButton_Transparency}" FIcon="&#xe62b;" FIconSize="16" 
+                                               Command="{Binding Path=MaximizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                <local:FButton x:Name="btnClose"  Width="38" VerticalAlignment="Center" Height="24" Margin="1,2,3,2" CornerRadius="0" Foreground="{TemplateBinding CaptionForeground}"
+                                               MouseOverBackground="Red" MouseOverForeground="White" PressedBackground="#AA0D0D" PressedForeground="White"
+                                               AllowsAnimation="True" Style="{StaticResource FButton_Transparency}"  FIcon="&#xe60a;" FIconSize="16" 
+                                               Command="{Binding Path=CloseWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter Property="FIcon" TargetName="btnMax" Value="&#xe62b;"></Setter>
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter Property="FIcon" TargetName="btnMax" Value="&#xe65b;"></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!--默认WindowBase的样式-->
+    <Style x:Key="DefaultWindowStyle" TargetType="{x:Type local:WindowBase}">
+        <Setter Property="Background" Value="{DynamicResource S_WindowOpacityAccent}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TitleTextForeground}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+        <Setter Property="Width" Value="480"/>
+        <Setter Property="Height" Value="320"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S_AccentBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FIconSize" Value="20"/>
+        <Setter Property="CaptionHeight" Value="26"/>
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
+        <!--标题栏背景色-->
+        <Setter Property="CaptionBackground" Value="{DynamicResource S_WindowOpacityAccent}" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource S_WhiteNotice}" />
+        <Setter Property="FIcon" Value="&#xe79c;"/>
+        <Setter Property="MaxboxEnable" Value="True"/>
+        <Setter Property="MinboxEnable" Value="True"/>
+        <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="0"/>
+        <!--窗体基本设置 shell:WindowChrome-->
+        <Setter Property="shell:WindowChrome.WindowChrome">
+            <Setter.Value>
+                <shell:WindowChrome  CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:WindowBase}}}" 
+                                     ResizeBorderThickness="8"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:WindowBase}">
+                    <Grid Name="g_all">
+                        <!--背景-->
+                        <Border x:Name="Bg" 
+                                CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                Effect="{StaticResource WindowDropShadow}"
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
+                        <Border  x:Name="BgInner" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
+                                  Background="{TemplateBinding Background}" 
+                                  BorderThickness="{TemplateBinding BorderThickness}" 
+                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
+                        <Grid Margin="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="20" Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <!--Caption标题部分-->
+                            <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}">
+                                <Grid Margin="2,1,2,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border Grid.ColumnSpan="2" Grid.RowSpan="2"/>
+                                    <!--Header部分-->
+                                    <StackPanel x:Name="PART_Header" Height="{TemplateBinding CaptionHeight}" Margin="15,1,15,1" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Style="{StaticResource FIcon}" Foreground="{TemplateBinding CaptionForeground}" FontSize="{TemplateBinding FIconSize}" FontWeight="Bold" Text="{TemplateBinding FIcon}"/>
+                                        <TextBlock VerticalAlignment="Center" Margin="5" FontSize="{StaticResource HeaderFontSize}" Foreground="{TemplateBinding CaptionForeground}" Text="{TemplateBinding Title}"/>
+                                    </StackPanel>
+                                    <!--窗体功能按钮：最小、最大、关闭-->
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="1" HorizontalAlignment="Right" Height="{TemplateBinding CaptionHeight}">
+
+                                        <ToggleButton x:Name="btnTheme" Width="30" VerticalAlignment="Center" Margin="1" 
+                                               Visibility="{Binding Path=SetboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
+                                              Style="{StaticResource FIconToggleButton}" base:ControlAttachProperty.FIcon="&#xe6d2;"
+                                               shell:WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"/>
+
+                                        <local:FButton x:Name="btnMin"  Width="30" VerticalAlignment="Center" Margin="1" 
+                                               Visibility="{Binding Path=MinboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
+                                               Style="{StaticResource FButton_Transparency}"  FIcon="&#xe61d;" FIconSize="14"
+                                               shell:WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"
+                                               Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                        <local:FButton x:Name="btnMax"  Width="30" VerticalAlignment="Center" Margin="1" 
+                                                Visibility="{Binding Path=MaxboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
+                                                Style="{StaticResource FButton_Transparency}" FIcon="&#xe665;" FIconSize="14"
+                                                shell:WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"
+                                               Command="{Binding Path=MaximizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                        <local:FButton x:Name="btnClose"  Width="35" Height="35" VerticalAlignment="Center" Margin="1" CornerRadius="0" Padding="1 2 1 2"
+                                               MouseOverBackground="Red" MouseOverForeground="White" PressedBackground="#AA0D0D" PressedForeground="White"
+                                               AllowsAnimation="True" Style="{StaticResource FButton_Transparency}"  FIcon="&#xe72c;" FIconSize="14"
+                                               shell:WindowChrome.IsHitTestVisibleInChrome="True" FIconMargin="0" Foreground="{TemplateBinding CaptionForeground}"
+                                               Command="{Binding Path=CloseWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            <!--窗体内容区域-->
+                            <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
+                                <ContentPresenter Content="{TemplateBinding Content}" />
+                            </AdornerDecorator>
+
+                            <Popup x:Name="Pop" PopupAnimation="Slide" IsOpen="{Binding ElementName=btnTheme,Path=IsChecked}"  PlacementTarget="{Binding ElementName=btnTheme}" Placement="Top" AllowsTransparency="True" StaysOpen="False" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                                <Border Background="{DynamicResource S_OpacityGray}" CornerRadius="5" BorderBrush="{DynamicResource S_AccentBrush}" BorderThickness="1">
+                                    <StackPanel Margin="10">
+                                        <local:ThemeSetControl/>
+                                    </StackPanel>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter Property="FIcon" TargetName="btnMax" Value="&#xe665;"></Setter>
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter Property="FIcon" TargetName="btnMax" Value="&#xe615;"></Setter>
+                        </Trigger>
+
+                        <!--淡出动画-->
+                        <EventTrigger RoutedEvent="Window.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard Storyboard="{StaticResource Story.WindowLoad}"/>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--默认WindowBase的样式-->
+    <Style x:Key="MessageWindowStyle" TargetType="{x:Type local:WindowBase}">
+        <Setter Property="Background" Value="{DynamicResource S_WindowOpacityAccent}"/>
+        <Setter Property="Foreground" Value="{StaticResource TitleTextForeground}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
+        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"/>
+        <Setter Property="Width" Value="480"/>
+        <Setter Property="Height" Value="320"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S_AccentBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FIconSize" Value="20"/>
+        <Setter Property="CaptionHeight" Value="26"/>
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
+        <!--标题栏背景色-->
+        <Setter Property="CaptionBackground" Value="{DynamicResource S_WindowOpacityAccent}" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource  S_WhiteNotice}" />
+        <Setter Property="FIcon" Value="&#xe605;"/>
+        <Setter Property="MaxboxEnable" Value="True"/>
+        <Setter Property="MinboxEnable" Value="True"/>
+        <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="0"/>
+        <!--窗体基本设置 shell:WindowChrome-->
+        <Setter Property="shell:WindowChrome.WindowChrome">
+            <Setter.Value>
+                <shell:WindowChrome  CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:WindowBase}}}" 
+                                     ResizeBorderThickness="8"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:WindowBase}">
+                    <Grid Name="g_all" Margin="6">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <!--背景-->
+                        <Border x:Name="Bg" 
+                                CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                Effect="{StaticResource WindowDropShadow}"
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
+                        <Border  x:Name="BgInner" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
+                            Background="{TemplateBinding Background}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
+                        <Grid Margin="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="18" Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <!--Caption标题部分-->
+                            <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}">
+                                <Grid Margin="2,1,2,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <!--Header部分-->
+                                    <StackPanel  x:Name="PART_Header" Height="{TemplateBinding CaptionHeight}" Margin="5,1,5,1" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock   Style="{StaticResource FIcon}" Foreground="{TemplateBinding CaptionForeground}" FontSize="{TemplateBinding FIconSize}" FontWeight="Bold" Text="{TemplateBinding FIcon}"/>
+                                        <TextBlock   VerticalAlignment="Center" Margin="5" FontSize="{StaticResource HeaderFontSize}" Foreground="{TemplateBinding CaptionForeground}" Text="{TemplateBinding Title}"/>
+                                    </StackPanel>
+                                    <!--窗体功能按钮：最小、最大、关闭-->
+                                    <StackPanel   Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="1" HorizontalAlignment="Right" Height="{TemplateBinding CaptionHeight}">
+                                        <local:FButton   x:Name="btnClose"  Width="35" VerticalAlignment="Center" Margin="1" CornerRadius="0" Padding="1 2 1 2"
+                                               MouseOverBackground="Red" MouseOverForeground="White" PressedBackground="#AA0D0D" PressedForeground="White"
+                                               AllowsAnimation="True" Style="{StaticResource FButton_Transparency}"  FIcon="&#xe72c;" FIconSize="14"
+                                               shell:WindowChrome.IsHitTestVisibleInChrome="True" FIconMargin="0" Foreground="{TemplateBinding CaptionForeground}"
+                                               Command="{Binding Path=CloseWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            <!--窗体内容区域-->
+                            <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
+                                <ContentPresenter Content="{TemplateBinding Content}" />
+                            </AdornerDecorator>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <!--淡出动画-->
+                        <EventTrigger RoutedEvent="Window.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard Storyboard="{StaticResource Story.MessageLoad}"/>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--设置窗体默认样式-->
+    <Style TargetType="{x:Type local:WindowBase}" BasedOn="{StaticResource DefaultWindowStyle}"></Style>
+
+
+</ResourceDictionary>

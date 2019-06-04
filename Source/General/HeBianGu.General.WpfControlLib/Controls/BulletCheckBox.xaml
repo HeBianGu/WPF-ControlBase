@@ -1,0 +1,74 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+    
+    
+    <Style TargetType="{x:Type local:BulletCheckBox}">
+        <Setter Property="Background" Value="{StaticResource S_AccentBrush}"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="CheckedForeground" Value="White"></Setter>
+        <Setter Property="CheckedBackground" Value="{StaticResource S_AccentBrush}"></Setter>
+        <Setter Property="FontSize" Value="13"></Setter>
+        <Setter Property="Cursor" Value="Hand"></Setter>
+        <Setter Property="Width" Value="75"></Setter>
+        <Setter Property="Height" Value="28"></Setter>
+        <Setter Property="Margin" Value="1"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <!--控件模板-->
+                <ControlTemplate TargetType="{x:Type local:BulletCheckBox}">
+                    <Viewbox Stretch="Uniform"  VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Border x:Name="border" Width="75" Height="28" Background="{TemplateBinding Background}" SnapsToDevicePixels="True"
+                                Margin="{TemplateBinding Margin}" CornerRadius="14">
+                            <StackPanel Orientation="Horizontal">
+                                <!--状态球-->
+                                <Border x:Name="state" Width="24" Height="24" Margin="3,2,1,2" CornerRadius="12" SnapsToDevicePixels="True"
+                                    Background="{TemplateBinding Foreground}">
+                                    <Border.RenderTransform>
+                                        <TranslateTransform x:Name="transState" X="0"></TranslateTransform>
+                                    </Border.RenderTransform>
+                                </Border>
+                                <!--文本框-->
+                                <TextBlock Width="40" Foreground="{TemplateBinding Foreground}" x:Name="txt" Text="{TemplateBinding Text}" VerticalAlignment="Center" TextAlignment="Center">
+                                    <TextBlock.RenderTransform>
+                                        <TranslateTransform x:Name="transTxt" X="0"></TranslateTransform>
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                            </StackPanel>
+                        </Border>
+                    </Viewbox>
+
+                    <!--触发器：设置选中状态符号-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CheckedText}" TargetName="txt"/>
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CheckedForeground}" TargetName="state"/>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CheckedForeground}" TargetName="txt"/>
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CheckedBackground}" TargetName="border"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="transState" Storyboard.TargetProperty="X" To="45" Duration="0:0:0.2" />
+                                        <DoubleAnimation Storyboard.TargetName="transTxt" Storyboard.TargetProperty="X" To="-24" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="transState" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.2" />
+                                        <DoubleAnimation Storyboard.TargetName="transTxt" Storyboard.TargetProperty="X" To="0" Duration="0:0:0.2" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                       
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="{StaticResource DisableOpacity}" TargetName="border"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
