@@ -1,0 +1,58 @@
+﻿<Page x:Class="WpfControlDemo.View.EffectsBackgroundPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
+      mc:Ignorable="d" 
+      d:DesignHeight="1000" d:DesignWidth="1000"
+      Title="EffectsBackgroundPage">
+
+    <Grid>
+        <DockPanel Name="text" Background="#7f7f7f">
+            <FlowDocumentScrollViewer Foreground="White" Margin="30" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <FlowDocument FontFamily="Calibri" FontSize="30"
+                              FontWeight="Bold" Typography.Capitals="SmallCaps">
+                    <Paragraph>
+                        This is the effects demo.
+                        <LineBreak />
+                        You're seeing two effects in action:
+                    </Paragraph>
+                    <Paragraph>
+                        <Bold FontSize="40">PointLight</Bold>
+                        <Run>which colorizes the image and adds two light orbs.</Run>
+                    </Paragraph>
+                    <Paragraph>
+                        <Bold FontSize="40">Blend</Bold>
+                        <Run>a multi-input effect, which blends the text with the rest of the scene.</Run>
+                    </Paragraph>
+                </FlowDocument>
+            </FlowDocumentScrollViewer>
+        </DockPanel>
+        <Border>
+            <Border.Effect>
+                <wpfcontrollib:BlendEffect>
+                    <wpfcontrollib:BlendEffect.Input2>
+                        <VisualBrush Visual="{Binding ElementName=text}" />
+                    </wpfcontrollib:BlendEffect.Input2>
+                </wpfcontrollib:BlendEffect>
+            </Border.Effect>
+            <Border Name="bg">
+                <UIElement.Effect>
+                    <wpfcontrollib:PointLightEffect x:Name="lightEffect" />
+                </UIElement.Effect>
+                <Viewbox Stretch="UniformToFill" ClipToBounds="True">
+                    <Image Name="image" RenderTransformOrigin="0.5,0.5">
+                        <FrameworkElement.RenderTransform>
+                            <TransformGroup>
+                                <TranslateTransform x:Name="imageTranslate" />
+                                <ScaleTransform x:Name="imageScale" />
+                            </TransformGroup>
+                        </FrameworkElement.RenderTransform>
+                    </Image>
+                </Viewbox>
+            </Border>
+        </Border>
+    </Grid>
+</Page>

@@ -1,0 +1,65 @@
+﻿<Page x:Class="WpfControlDemo.View.HightTextBlockPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:controls="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
+      xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+      mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="1000"
+      Title="HightTextBlockPage">
+    <Page.Resources>
+
+        <controls:HlContentConverter x:Key="converterHlContent" />
+        
+        <Style x:Key="CustomListViewItemStyle" TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="#DDEEFF"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ListView Style="{StaticResource DefaultListView}" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Name="lvContent" AlternationCount="2">
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource DefaultGridViewColumnHeader}">
+                    <GridView.Columns>
+                        <GridViewColumn Header="OS Name" Width="100">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <controls:HighlightTextBlock HlContent="{Binding Path=OsName,Converter={StaticResource converterHlContent}}"></controls:HighlightTextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="File System" Width="150">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <controls:HighlightTextBlock HlContent="{Binding Path=FileSystem,Converter={StaticResource converterHlContent}}"></controls:HighlightTextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Desktop" Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <controls:HighlightTextBlock HlContent="{Binding Path=Desktop,Converter={StaticResource converterHlContent}}"></controls:HighlightTextBlock>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Orientation="Horizontal">
+            <controls:FTextBox Style="{StaticResource LabelTextBox}" base:ControlAttachProperty.Label="关键字：" Height="23" HorizontalAlignment="Left" Name="tbKey" VerticalAlignment="Center" Width="300" />
+            <RadioButton Margin="10 0 0 0" Content="Full Match"  GroupName="grpSearchMode" IsChecked="True" Name="radioFullMatch" />
+            <RadioButton Margin="10 0 0 0" Content="Any Key"  GroupName="grpSearchMode" />
+            <controls:FButton Margin="10 0 0 0" Content="Search" Height="23" Name="btnSearch" Width="75" Click="btnSearch_Click" IsDefault="True" />
+        </StackPanel>
+    </Grid>
+</Page>

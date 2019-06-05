@@ -1,10 +1,10 @@
 ﻿#region <版 本 注 释>
 /*
  * ========================================================================
- * Copyright(c) 长虹智慧健康有限公司, All Rights Reserved.
+ * Copyright(c) 四川*******有限公司, All Rights Reserved.
  * ========================================================================
  *    
- * 作者：[李海军]   时间：2018/4/25 14:28:07 
+ * 作者：[河边骨]   时间：2018/4/25 14:28:07 
  * 文件名：NotifyPropertyChanged 
  * 说明：
  * 
@@ -28,6 +28,21 @@ namespace HeBianGu.Base.WpfBase
     /// <summary> Mvvm绑定模型基类 </summary>
     public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {
+        public RelayCommand RelayCommand { get; set; }
+
+        protected virtual void RelayMethod(object obj)
+        {
+
+        }
+
+        public NotifyPropertyChanged()
+        {
+            RelayCommand = new RelayCommand(RelayMethod);
+
+            RelayMethod("init");
+
+        }
+
         #region - MVVM -
 
         public event PropertyChangedEventHandler PropertyChanged;

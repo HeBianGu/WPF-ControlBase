@@ -1,0 +1,287 @@
+﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Base.WpfBase.Color;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace WpfControlDemo.View
+{
+    /// <summary>
+    /// ThemeUserControlPage.xaml 的交互逻辑
+    /// </summary>
+    public partial class ThemeUserControlPage : Page
+    {
+        public ThemeUserControlPage()
+        {
+            InitializeComponent();
+
+            this.DataContext = new SettingsAppearanceViewModel();
+        }
+    }
+
+    public class SettingsAppearanceViewModel : NotifyPropertyChanged
+    {
+        private const string FontSmall = "small";
+        private const string FontLarge = "large";
+
+        private const string PaletteMetro = "metro";
+        private const string PaletteWP = "windows phone";
+
+        // 9 accent colors from metro design principles
+        private Color[] metroAccentColors = new Color[]{
+            Color.FromRgb(0x33, 0x99, 0xff),   // blue
+            Color.FromRgb(0x00, 0xab, 0xa9),   // teal
+            Color.FromRgb(0x33, 0x99, 0x33),   // green
+            Color.FromRgb(0x8c, 0xbf, 0x26),   // lime
+            Color.FromRgb(0xf0, 0x96, 0x09),   // orange
+            Color.FromRgb(0xff, 0x45, 0x00),   // orange red
+            Color.FromRgb(0xe5, 0x14, 0x00),   // red
+            Color.FromRgb(0xff, 0x00, 0x97),   // magenta
+            Color.FromRgb(0xa2, 0x00, 0xff),   // purple            
+        };
+
+        // 20 accent colors from Windows Phone 8
+        private Color[] wpAccentColors = new Color[]{
+            Color.FromRgb(0xa4, 0xc4, 0x00),   // lime
+            Color.FromRgb(0x60, 0xa9, 0x17),   // green
+            Color.FromRgb(0x00, 0x8a, 0x00),   // emerald
+            Color.FromRgb(0x00, 0xab, 0xa9),   // teal
+            Color.FromRgb(0x1b, 0xa1, 0xe2),   // cyan
+            Color.FromRgb(0x00, 0x50, 0xef),   // cobalt
+            Color.FromRgb(0x6a, 0x00, 0xff),   // indigo
+            Color.FromRgb(0xaa, 0x00, 0xff),   // violet
+            Color.FromRgb(0xf4, 0x72, 0xd0),   // pink
+            Color.FromRgb(0xd8, 0x00, 0x73),   // magenta
+            Color.FromRgb(0xa2, 0x00, 0x25),   // crimson
+            Color.FromRgb(0xe5, 0x14, 0x00),   // red
+            Color.FromRgb(0xfa, 0x68, 0x00),   // orange
+            Color.FromRgb(0xf0, 0xa3, 0x0a),   // amber
+            Color.FromRgb(0xe3, 0xc8, 0x00),   // yellow
+            Color.FromRgb(0x82, 0x5a, 0x2c),   // brown
+            Color.FromRgb(0x6d, 0x87, 0x64),   // olive
+            Color.FromRgb(0x64, 0x76, 0x87),   // steel
+            Color.FromRgb(0x76, 0x60, 0x8a),   // mauve
+            Color.FromRgb(0x87, 0x79, 0x4e),   // taupe
+        };
+
+        private string selectedPalette = PaletteWP;
+
+        private Color selectedAccentColor;
+        private LinkCollection themes = new LinkCollection();
+        private Link selectedTheme;
+        private string selectedFontSize;
+
+        public SettingsAppearanceViewModel()
+        {
+            // add the default themes
+            this.themes.Add(new Link { DisplayName = "dark", Source = ThemeService.DarkThemeSource });
+            this.themes.Add(new Link { DisplayName = "light", Source = ThemeService.LightThemeSource });
+
+            // add additional themes
+            this.themes.Add(new Link { DisplayName = "bing image", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.BingImage.xaml", UriKind.Relative) });
+            this.themes.Add(new Link { DisplayName = "hello kitty", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.HelloKitty.xaml", UriKind.Relative) });
+            this.themes.Add(new Link { DisplayName = "love", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.Love.xaml", UriKind.Relative) });
+            this.themes.Add(new Link { DisplayName = "snowflakes", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.Snowflakes.xaml", UriKind.Relative) });
+
+            this.SelectedFontSize = ThemeService.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
+
+            SyncThemeAndColor();
+
+            ThemeService.Current.PropertyChanged += OnAppearanceManagerPropertyChanged;
+        }
+
+        private void SyncThemeAndColor()
+        {
+            // synchronizes the selected viewmodel theme with the actual theme used by the appearance manager.
+            this.SelectedTheme = this.themes.FirstOrDefault(l => l.Source.Equals(ThemeService.Current.ThemeSource));
+
+            // and make sure accent color is up-to-date
+            this.SelectedAccentColor = ThemeService.Current.AccentColor;
+        }
+
+        private void OnAppearanceManagerPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "ThemeSource" || e.PropertyName == "AccentColor")
+            {
+                SyncThemeAndColor();
+            }
+        }
+
+        public LinkCollection Themes
+        {
+            get { return this.themes; }
+        }
+
+        public string[] FontSizes
+        {
+            get { return new string[] { FontSmall, FontLarge }; }
+        }
+
+        public string[] Palettes
+        {
+            get { return new string[] { PaletteMetro, PaletteWP }; }
+        }
+
+        public Color[] AccentColors
+        {
+            get { return this.selectedPalette == PaletteMetro ? this.metroAccentColors : this.wpAccentColors; }
+        }
+
+        public string SelectedPalette
+        {
+            get { return this.selectedPalette; }
+            set
+            {
+                if (this.selectedPalette != value)
+                {
+                    this.selectedPalette = value;
+                    RaisePropertyChanged("AccentColors");
+
+                    this.SelectedAccentColor = this.AccentColors.FirstOrDefault();
+                }
+            }
+        }
+
+        public Link SelectedTheme
+        {
+            get { return this.selectedTheme; }
+            set
+            {
+                if (this.selectedTheme != value)
+                {
+                    this.selectedTheme = value;
+
+                    RaisePropertyChanged("SelectedTheme");
+
+                    // and update the actual theme
+                    ThemeService.Current.ThemeSource = value.Source;
+                }
+            }
+        }
+
+        public string SelectedFontSize
+        {
+            get { return this.selectedFontSize; }
+            set
+            {
+                if (this.selectedFontSize != value)
+                {
+                    this.selectedFontSize = value;
+                    RaisePropertyChanged("SelectedFontSize");
+
+                    ThemeService.Current.FontSize = value == FontLarge ? FontSize.Large : FontSize.Small;
+                }
+            }
+        }
+
+        public Color SelectedAccentColor
+        {
+            get { return this.selectedAccentColor; }
+            set
+            {
+                if (this.selectedAccentColor != value)
+                {
+                    this.selectedAccentColor = value;
+                    RaisePropertyChanged("SelectedAccentColor");
+
+                    ThemeService.Current.AccentColor = value;
+                }
+            }
+        }
+    }
+
+
+    /// <summary>
+    /// Represents an observable collection of links.
+    /// </summary>
+    public class LinkCollection
+        : ObservableCollection<Link>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LinkCollection"/> class.
+        /// </summary>
+        public LinkCollection()
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LinkCollection"/> class that contains specified links.
+        /// </summary>
+        /// <param name="links">The links that are copied to this collection.</param>
+        public LinkCollection(IEnumerable<Link> links)
+        {
+            if (links == null)
+            {
+                throw new ArgumentNullException("links");
+            }
+            foreach (var link in links)
+            {
+                Add(link);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Provides a base implementation for objects that are displayed in the UI.
+    /// </summary>
+    public abstract class Displayable
+        : NotifyPropertyChanged
+    {
+        private string displayName;
+
+        /// <summary>
+        /// Gets or sets the display name.
+        /// </summary>
+        /// <value>The display name.</value>
+        public string DisplayName
+        {
+            get { return this.displayName; }
+            set
+            {
+                if (this.displayName != value)
+                {
+                    this.displayName = value;
+                    RaisePropertyChanged("DisplayName");
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Represents a displayable link.
+    /// </summary>
+    public class Link : Displayable
+    {
+        private Uri source;
+
+        /// <summary>
+        /// Gets or sets the source uri.
+        /// </summary>
+        /// <value>The source.</value>
+        public Uri Source
+        {
+            get { return this.source; }
+            set
+            {
+                if (this.source != value)
+                {
+                    this.source = value;
+                    RaisePropertyChanged("Source");
+                }
+            }
+        }
+    }
+}

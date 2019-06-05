@@ -1,0 +1,87 @@
+﻿<Page x:Class="WpfControlDemo.View.SliderPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
+      mc:Ignorable="d" 
+      d:DesignHeight="1000" d:DesignWidth="1000"
+      Title="SliderPage">
+
+    <Grid>
+        <StackPanel>
+
+            <GroupBox Header="系统滚动条">
+                <Slider
+                                    Margin="5"
+                                    LargeChange="0.1"
+                                    Maximum="1"
+                                    SmallChange="0.1" />
+
+            </GroupBox>
+
+            <GroupBox Header="自定义滚动条">
+                <Slider
+                                    Margin="5"
+                                    LargeChange="0.1"
+                                    Maximum="1"
+                                    SmallChange="0.1" Style="{StaticResource DefaultSliderStyle}" />
+            </GroupBox>
+            <GroupBox Header="透明滚动条">
+                <Slider
+                                    Margin="5"
+                                    LargeChange="0.1"
+                                    Maximum="1"
+                                    SmallChange="0.1" Style="{StaticResource OpacitySliderStyle}" />
+            </GroupBox>
+
+            <GroupBox Header="进度条样式的拖动条">
+                <Slider
+                                    Margin="5"
+                                    LargeChange="0.1"
+                                    Maximum="1"
+                                    SmallChange="0.1" Style="{StaticResource Slider_CustomStyle}" />
+            </GroupBox>
+
+
+
+            
+            <GroupBox Header="实心滚动条">
+                <Slider Style="{DynamicResource SliderStyle1}" 
+                        Minimum="12" 
+                        Maximum="20"  
+                        VerticalAlignment="Center" 
+                        Value="{Binding FontSize ,ElementName=RichTextBoxLogs}"
+                        Width="100"/>
+            </GroupBox>
+            <GroupBox Header="区间滚动条">
+                <StackPanel  Margin="10">
+
+                    <wpfcontrollib:SpaceSpliterUserControl Background="Red" LeftPercent="{Binding Left,Mode=TwoWay}" RightPercent="{Binding Right,Mode=TwoWay}" Margin="10"/>
+                    <wpfcontrollib:SpaceSpliterUserControl  Background="Red" LeftPercent="0.1" RightPercent="0.9"  Margin="10"/>
+
+                    <TextBlock>
+                <Run Text="左侧值："/>
+                 <Run x:Name="txt_left" Text="{Binding Left}"/>
+                    </TextBlock>
+                    <TextBlock>
+                <Run Text="右侧值："/>
+                 <Run x:Name="txt_right" Text="{Binding Right}"/>
+                    </TextBlock>
+                </StackPanel>
+
+            </GroupBox>
+
+            <GroupBox Header="缓冲播放进度条">
+                <StackPanel>
+                    <wpfcontrollib:BufferPlayControl x:Name="control_bufferPlay"/>
+                    <TextBlock x:Name="txt_persent"/>
+                    <TextBlock Text="{Binding ElementName=control_bufferPlay,Path=Value}"/>
+                    <Button Content="开始" Click="Button_Click"/>
+                    <Button x:Name="btn_play" Content="暂停" Click="Button_Click_1"/>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </Grid>
+</Page>

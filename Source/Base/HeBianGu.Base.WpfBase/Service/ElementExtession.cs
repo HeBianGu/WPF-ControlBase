@@ -26,7 +26,6 @@ namespace HeBianGu.Base.WpfBase
 {
    public static class ElementExtession
     {
-
         #region BindCommand
 
         /// <summary>

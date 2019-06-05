@@ -1,20 +1,4 @@
-﻿#region <版 本 注 释>
-/*
- * ========================================================================
- * Copyright(c) 长虹智慧健康有限公司, All Rights Reserved.
- * ========================================================================
- *    
- * 作者：[李海军]   时间：2017/12/1 9:54:54 
- * 文件名：Class1 
- * 说明：
- * 
- * 
- * 修改者：           时间：               
- * 修改说明：
- * ========================================================================
-*/
-#endregion
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -29,30 +13,54 @@ namespace HeBianGu.Base.WpfBase
     public class RelayCommand : ICommand
     {
         private Action<object> _action;
+
+        private readonly Predicate<object> _canExecute;
+
+        /// <summary> 执行命令 </summary>
         public RelayCommand(Action<object> action)
         {
             _action = action;
         }
-        #region ICommand Members
+
+        /// <summary> 执行命令 </summary>
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+        {
+            _action = execute;
+
+            _canExecute = canExecute ?? (x => true);
+        }
+
+        /// <summary> 命令是否可执行 </summary>
         public bool CanExecute(object parameter)
         {
-            return true;
+            if (_canExecute == null) return true;
+
+            return _canExecute(parameter);
         }
-        public event EventHandler CanExecuteChanged;
+
+        public event EventHandler CanExecuteChanged
+        {
+            add
+            {
+                CommandManager.RequerySuggested += value;
+            }
+            remove
+            {
+                CommandManager.RequerySuggested -= value;
+            }
+        }
+
+        /// <summary> 刷新命令可执行状态 (会调用CanExecute方法) </summary>
+        public void Refresh()
+        {
+            CommandManager.InvalidateRequerySuggested();
+        }
+
+        /// <summary> 执行命令 </summary>
         public void Execute(object parameter)
         {
-            if (parameter != null)
-            {
-                _action(parameter);
-            }
-            else
-            {
-                _action("Hello");
-            }
+            _action(parameter);
         }
-        #endregion
-
-
 
         /// <summary> 隐式转换 </summary>
         static public implicit operator RelayCommand(Action<object> action)
@@ -71,7 +79,9 @@ namespace HeBianGu.Base.WpfBase
     {
         public Action<T> ExecuteCommand { get; private set; }
 
+
         public Predicate<T> CanExecuteCommand { get; private set; }
+
 
         public RelayCommand(Action<T> executeCommand, Predicate<T> canExecuteCommand)
         {
@@ -102,6 +112,7 @@ namespace HeBianGu.Base.WpfBase
         {
             return CanExecuteCommand == null || CanExecuteCommand((T)parameter);
         }
+
 
         public event EventHandler CanExecuteChanged
         {
