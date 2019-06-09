@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase.Color;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,7 +23,12 @@ namespace HeBianGu.Applications.ControlBase.Demo
     {
         public MainWindow()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+        }
+
+        private void WindowBase_Loaded(object sender, RoutedEventArgs e)
+        {
+            //ThemeService.Current.AccentColor = Colors.Black;
         }
     }
 }
