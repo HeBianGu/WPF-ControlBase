@@ -184,6 +184,7 @@ namespace HeBianGu.Base.WpfBase.Color
             ApplyAccentColor(value);
 
             var themeSource = GetThemeSource();
+
             if (themeSource != null)
             {
                 SetThemeSource(themeSource, false);
