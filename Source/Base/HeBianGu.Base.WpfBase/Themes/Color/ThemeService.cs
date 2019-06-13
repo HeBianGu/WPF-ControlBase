@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -66,7 +67,7 @@ namespace HeBianGu.Base.WpfBase.Color
             //    }
             //}, o => o is Color || o is string);
         }
-        
+
 
         private void Storyboard_CurrentGlobalSpeedInvalidated(object sender, EventArgs e)
         {
@@ -271,6 +272,80 @@ namespace HeBianGu.Base.WpfBase.Color
                 dic.Add("TextBorderBrush", "<!--用于边框、分割线-->");
                 return dic;
             }
+        }
+
+
+        //  Message：主题颜色
+        private System.Windows.Media.Color[] metroAccentColors = new System.Windows.Media.Color[]{
+            System.Windows.Media.Color.FromRgb(0x33, 0x99, 0xff),   // blue
+            System.Windows.Media.Color.FromRgb(0x00, 0xab, 0xa9),   // teal
+            System.Windows.Media.Color.FromRgb(0x33, 0x99, 0x33),   // green
+            System.Windows.Media.Color.FromRgb(0x8c, 0xbf, 0x26),   // lime
+            System.Windows.Media.Color.FromRgb(0xf0, 0x96, 0x09),   // orange
+            System.Windows.Media.Color.FromRgb(0xff, 0x45, 0x00),   // orange red
+            System.Windows.Media.Color.FromRgb(0xe5, 0x14, 0x00),   // red
+            System.Windows.Media.Color.FromRgb(0xff, 0x00, 0x97),   // magenta
+            System.Windows.Media.Color.FromRgb(0xa2, 0x00, 0xff),   // purple            
+        };
+
+        //  Message：主题颜色
+        private System.Windows.Media.Color[] wpAccentColors = new System.Windows.Media.Color[]{
+            System.Windows.Media.Color.FromRgb(0xa4, 0xc4, 0x00),   // lime
+            System.Windows.Media.Color.FromRgb(0x60, 0xa9, 0x17),   // green
+            System.Windows.Media.Color.FromRgb(0x00, 0x8a, 0x00),   // emerald
+            System.Windows.Media.Color.FromRgb(0x00, 0xab, 0xa9),   // teal
+            System.Windows.Media.Color.FromRgb(0x1b, 0xa1, 0xe2),   // cyan
+            System.Windows.Media.Color.FromRgb(0x00, 0x50, 0xef),   // cobalt
+            System.Windows.Media.Color.FromRgb(0x6a, 0x00, 0xff),   // indigo
+            System.Windows.Media.Color.FromRgb(0xaa, 0x00, 0xff),   // violet
+            System.Windows.Media.Color.FromRgb(0xf4, 0x72, 0xd0),   // pink
+            System.Windows.Media.Color.FromRgb(0xd8, 0x00, 0x73),   // magenta
+            System.Windows.Media.Color.FromRgb(0xa2, 0x00, 0x25),   // crimson
+            System.Windows.Media.Color.FromRgb(0xe5, 0x14, 0x00),   // red
+            System.Windows.Media.Color.FromRgb(0xfa, 0x68, 0x00),   // orange
+            System.Windows.Media.Color.FromRgb(0xf0, 0xa3, 0x0a),   // amber
+            System.Windows.Media.Color.FromRgb(0xe3, 0xc8, 0x00),   // yellow
+            System.Windows.Media.Color.FromRgb(0x82, 0x5a, 0x2c),   // brown
+            System.Windows.Media.Color.FromRgb(0x6d, 0x87, 0x64),   // olive
+            System.Windows.Media.Color.FromRgb(0x64, 0x76, 0x87),   // steel
+            System.Windows.Media.Color.FromRgb(0x76, 0x60, 0x8a),   // mauve
+            System.Windows.Media.Color.FromRgb(0x87, 0x79, 0x4e),   // taupe
+        };
+
+
+        Timer _timer = new Timer();
+
+        Random _random = new Random();
+        public void StartAnimationTheme(int timespan = 5000, int type = 0)
+        {
+            _timer.Interval = timespan;
+
+            _timer.Elapsed += (l, k) =>
+              {
+                  Action action = () =>
+                 {
+                     if (type == 0)
+                     {
+                         this.AccentColor = wpAccentColors[_random.Next(wpAccentColors.Length)];
+
+                     }
+                     else
+                     {
+                         this.AccentColor = metroAccentColors[_random.Next(metroAccentColors.Length)];
+                     }
+                 };
+
+                  Application.Current?.Dispatcher.Invoke(action);
+
+              };
+
+            _timer.Start();
+
+        }
+
+        public void StopAnimationTheme()
+        {
+            _timer.Stop();
         }
     }
 
