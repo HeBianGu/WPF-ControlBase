@@ -1,7 +1,7 @@
 cd  %~dp0
 
-nuget spec
+nuget spec -force
 
-nuget pack
+nuget pack -force
 
 pause
