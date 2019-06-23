@@ -2,12 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../SystemControls/FIcon.xaml" />
-    </ResourceDictionary.MergedDictionaries>
-
+ 
     <!--FButton模板-->
-    <ControlTemplate x:Key="FButton_Template" TargetType="{x:Type local:FButton}">
+    <ControlTemplate x:Key="S.FButton.Template.Defaut" TargetType="{x:Type local:FButton}">
         <Grid >
             <Border x:Name="border" Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path= Background}" 
                                     Height="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Height}" Opacity="{TemplateBinding Opacity}"
@@ -30,7 +27,7 @@
                   
 
                     <TextBlock x:Name="icon"  Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FIconMargin}" 
-                           RenderTransformOrigin="0.5,0.5" Style="{StaticResource FIcon}"
+                           RenderTransformOrigin="0.5,0.5" Style="{DynamicResource FIcon}"
                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path= FIcon}"
                            FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path= FIconSize}" 
                            Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path= Foreground}" 
@@ -194,11 +191,11 @@
 
             <Trigger Property="IsChecked" Value="true">
 
-                <Setter Property="Background" Value="{DynamicResource S_AccentBrush}" TargetName="border" />
+                <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" TargetName="border" />
 
-                <Setter Property="Foreground" Value="{DynamicResource S_WhiteNotice}" TargetName="icon"/>
+                <Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}" TargetName="icon"/>
 
-                <Setter Property="Foreground" Value="{DynamicResource S_WhiteNotice}" TargetName="txt"/>
+                <Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}" TargetName="txt"/>
 
                 <!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content,Converter={x:Static local:XConverter.SelectTextConverter}}" TargetName="txt"/>-->
             </Trigger>
@@ -206,44 +203,46 @@
     </ControlTemplate>
 
     <!--默认按钮样式-->
-    <Style x:Key="DefaultFButtonStyle" TargetType="{x:Type local:FButton}">
-        <Setter Property="Background" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="Foreground" Value="{DynamicResource S_WhiteNotice}" />
-        <Setter Property="MouseOverBackground" Value="{StaticResource S_AccentBrush}" />
-        <Setter Property="MouseOverForeground" Value="{StaticResource S_WhiteNotice}" />
-        <Setter Property="PressedBackground" Value="{StaticResource S_OpacityGray}" />
-        <Setter Property="PressedForeground" Value="{StaticResource S_WhiteNotice}" />
+    <Style x:Key="S.FButton.Style.Defaut" TargetType="{x:Type local:FButton}">
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}" />
+        <Setter Property="MouseOverBackground" Value="{StaticResource S.Brush.Accent}" />
+        <Setter Property="MouseOverForeground" Value="{StaticResource S.Brush.White.Notice}" />
+        <Setter Property="PressedBackground" Value="{StaticResource S.Brush.Accent.Opacity.5}" />
+        <Setter Property="PressedForeground" Value="{StaticResource S.Brush.White.Notice}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Width" Value="120" />
         <Setter Property="Height" Value="30" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="FIconSize" Value="20" />
-        <Setter Property="Template" Value="{StaticResource FButton_Template}"/>
+        <Setter Property="Template" Value="{StaticResource S.FButton.Template.Defaut}"/>
         <Setter Property="Padding" Value="3,1,3,1" />
         <Setter Property="Content" Value="{x:Null}" />
         <Setter Property="FIconMargin" Value="0,0,5,0" />
+        <Setter Property="FIcon" Value="" /> 
         <Setter Property="AllowsAnimation" Value="False" />
         <Setter Property="CornerRadius" Value="2" />
     </Style>
     <!--默认样式-->
-    <Style TargetType="{x:Type local:FButton}" BasedOn="{StaticResource DefaultFButtonStyle}"/>
+    <Style TargetType="{x:Type local:FButton}" BasedOn="{StaticResource S.FButton.Style.Defaut}"/>
 
     <!--透明按钮-->
-    <Style x:Key="FButton_Transparency" TargetType="{x:Type local:FButton}">
+    <Style x:Key="S.FButton.Style.Transparent" TargetType="{x:Type local:FButton}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="MouseOverBackground" Value="Transparent" />
         <Setter Property="PressedBackground" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource TitleTextForeground}" />
-        <Setter Property="MouseOverForeground" Value="{StaticResource S_AccentBrush}" />
-        <Setter Property="PressedForeground" Value="{StaticResource S_GrayNotice}" />
+        <Setter Property="Foreground" Value="{StaticResource S.Brush.TextForeground.Tiltle}" />
+        <Setter Property="MouseOverForeground" Value="{StaticResource S.Brush.Accent}" />
+        <Setter Property="PressedForeground" Value="{StaticResource S.Brush.Gray}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Height" Value="Auto" />
         <Setter Property="Width" Value="Auto" />
         <Setter Property="CornerRadius" Value="0" />
         <!--<Setter Property="FontSize" Value="13" />
         <Setter Property="FIconSize" Value="20" />-->
-        <Setter Property="Template" Value="{StaticResource FButton_Template}"/>
+        <Setter Property="FIcon" Value="" />
+        <Setter Property="Template" Value="{StaticResource S.FButton.Template.Defaut}"/>
         <Setter Property="Padding" Value="3,1,3,1" />
         <Setter Property="Content" Value="{x:Null}" />
         <Setter Property="FIconMargin" Value="0,0,2,0" />
@@ -252,20 +251,20 @@
     </Style>
 
     <!--超链接按钮-->
-    <Style x:Key="FButton_LinkButton" TargetType="{x:Type local:FButton}">
+    <Style x:Key="S.FButton.Style.Link" TargetType="{x:Type local:FButton}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="MouseOverBackground" Value="Transparent" />
         <Setter Property="PressedBackground" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource TitleTextForeground}" />
-        <Setter Property="MouseOverForeground" Value="{StaticResource S_AccentBrush}" />
-        <Setter Property="PressedForeground" Value="{StaticResource S_GrayNotice}" />
+        <Setter Property="Foreground" Value="{StaticResource S.Brush.TextForeground.Tiltle}" />
+        <Setter Property="MouseOverForeground" Value="{StaticResource S.Brush.Accent}" />
+        <Setter Property="PressedForeground" Value="{StaticResource S.Brush.Gray}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="Height" Value="Auto" />
-        <Setter Property="Width" Value="Auto" />
+        <Setter Property="MinHeight" Value="30" />
+        <Setter Property="MinWidth" Value="150" />
         <Setter Property="CornerRadius" Value="0" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="FIconSize" Value="20" />
-        <Setter Property="Template" Value="{StaticResource FButton_Template}"/>
+        <Setter Property="Template" Value="{StaticResource S.FButton.Template.Defaut}"/>
         <Setter Property="Padding" Value="3,1,3,1" />
         <Setter Property="Content" Value="{x:Null}" />
         <Setter Property="FIconMargin" Value="0" />
@@ -276,7 +275,7 @@
     </Style>
 
     <!--圆形按钮-->
-    <Style x:Key="FButton_CircleButtonStyle" TargetType="{x:Type local:FButton}" BasedOn="{StaticResource DefaultFButtonStyle}">
+    <Style x:Key="S.FButton.Style.Circle" TargetType="{x:Type local:FButton}" BasedOn="{StaticResource S.FButton.Style.Defaut}">
         <Setter Property="Width" Value="35" />
         <Setter Property="Height" Value="35" />
         <Setter Property="FontSize" Value="13" />
@@ -286,26 +285,26 @@
     </Style>
 
     <!--圆形透明安妮-->
-    <Style x:Key="FButton_CircleTransparentStyle" TargetType="{x:Type local:FButton}" BasedOn="{StaticResource DefaultFButtonStyle}">
+    <Style x:Key="S.FButton.Style.CircleTransparent" TargetType="{x:Type local:FButton}" BasedOn="{StaticResource S.FButton.Style.Defaut}">
         <Setter Property="Width" Value="35" />
         <Setter Property="Height" Value="35" />
         <Setter Property="FontSize" Value="13" />
         <Setter Property="CornerRadius" Value="100" />
         <Setter Property="FIconSize" Value="20" />
-        <Setter Property="BorderBrush" Value="{DynamicResource S_AccentBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="FIconMargin" Value="0,0,0,0" />
         
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="MouseOverBackground" Value="{StaticResource S_AccentBrush}" />
-        <Setter Property="MouseOverForeground" Value="{StaticResource S_WhiteNotice}" />
-        <Setter Property="PressedBackground" Value="{StaticResource S_OpacityGray}" />
-        <Setter Property="PressedForeground" Value="{StaticResource S_WhiteNotice}" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="MouseOverBackground" Value="{StaticResource S.Brush.Accent}" />
+        <Setter Property="MouseOverForeground" Value="{StaticResource S.Brush.White.Notice}" />
+        <Setter Property="PressedBackground" Value="{StaticResource S.Brush.Accent.Opacity.5}" />
+        <Setter Property="PressedForeground" Value="{StaticResource S.Brush.White.Notice}" />
     </Style>
 
     <!--圆角按钮-->
-    <Style x:Key="FButton_CornerButtonStyle" TargetType="{x:Type local:FButton}" BasedOn="{StaticResource DefaultFButtonStyle}">
+    <Style x:Key="S.FButton.Style.CornerRadius" TargetType="{x:Type local:FButton}" BasedOn="{StaticResource S.FButton.Style.Defaut}">
         <Setter Property="Width" Value="120" />
         <Setter Property="Height" Value="30" />
         <Setter Property="FontSize" Value="13" />
@@ -316,7 +315,7 @@
 
     <!--圆形鼠标MouseOver显示按钮-->
     <!--矢量图标按钮默认模板-->
-    <ControlTemplate x:Key="ControlTemplate.IconButton.Template" TargetType="{x:Type local:FButton}">
+    <ControlTemplate x:Key="S.FButton.Template.FIcon" TargetType="{x:Type local:FButton}">
         <Grid >
             <Border x:Name="border" Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path= Background}" 
                                     Height="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Height}" Opacity="{TemplateBinding Opacity}"
@@ -336,7 +335,7 @@
                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
 
                     <TextBlock x:Name="icon"  Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FIconMargin}" 
-                           RenderTransformOrigin="0.5,0.5" Style="{StaticResource FIcon}"
+                           RenderTransformOrigin="0.5,0.5" Style="{DynamicResource FIcon}"
                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path= FIcon}"
                            FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path= FIconSize}" 
                            Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path= Foreground}" 
@@ -475,13 +474,13 @@
 
             <Trigger Property="IsChecked" Value="true">
 
-                <Setter Property="Background" Value="{DynamicResource S_AccentBrush}" TargetName="border" />
+                <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" TargetName="border" />
 
-                <Setter Property="Foreground" Value="{DynamicResource S_WhiteNotice}" TargetName="icon"/>
+                <Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}" TargetName="icon"/>
 
                 <Setter Property="Opacity" Value="1"/>
 
-                <!--<Setter Property="Foreground" Value="{DynamicResource S_WhiteNotice}" TargetName="txt"/>-->
+                <!--<Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}" TargetName="txt"/>-->
 
                 <!--<Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content,Converter={x:Static local:XConverter.SelectTextConverter}}" TargetName="txt"/>-->
             </Trigger>
@@ -503,14 +502,14 @@
     </ControlTemplate>
 
     <!--平时隐藏 MouseOver显示-->
-    <Style x:Key="Style.FButton.MouseOverOpacity" TargetType="{x:Type local:FButton}">
-        <Setter Property="Background" Value="{StaticResource S_BlackNotice}" />
-        <Setter Property="MouseOverForeground"  Value="{StaticResource S_WhiteNotice}"/>
-        <Setter Property="MouseOverBackground"  Value="{StaticResource S_BlackNotice}"/>
-        <Setter Property="PressedBackground" Value="Transparent" />
-        <Setter Property="Foreground" Value="{StaticResource S_WhiteNotice}" />
-        <!--<Setter Property="MouseOverForeground" Value="{StaticResource S_AccentBrush}" />-->
-        <Setter Property="PressedForeground" Value="{StaticResource S_GrayNotice}" />
+    <Style x:Key="S.FButton.Style.MouseOverOpacity" TargetType="{x:Type local:FButton}">
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Black.Notice}" />
+        <Setter Property="MouseOverForeground"  Value="{DynamicResource S.Brush.White.Notice}"/>
+        <Setter Property="MouseOverBackground"  Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="PressedBackground" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}" />
+        <!--<Setter Property="MouseOverForeground" Value="{StaticResource S.Brush.Accent}" />-->
+        <Setter Property="PressedForeground" Value="{DynamicResource S.Brush.Gray}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Width" Value="50" />
@@ -519,7 +518,7 @@
         <Setter Property="FontSize" Value="8" />
         <Setter Property="CornerRadius" Value="25" />
         <Setter Property="FIconSize" Value="20" />
-        <Setter Property="Template" Value="{StaticResource ControlTemplate.IconButton.Template}"/>
+        <Setter Property="Template" Value="{StaticResource S.FButton.Template.FIcon}"/>
         <Setter Property="Padding" Value="3,1,3,1" />
         <Setter Property="Content" Value="{x:Null}" />
         <Setter Property="FIconMargin" Value="0,0,0,0" />

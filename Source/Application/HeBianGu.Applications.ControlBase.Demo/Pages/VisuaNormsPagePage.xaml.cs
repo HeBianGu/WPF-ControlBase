@@ -47,7 +47,7 @@ namespace WpfControlDemo.View
         ResourceDictionary GetThemeDictionary()
         {
             return (from dict in Application.Current.Resources.MergedDictionaries
-                    where dict.Contains("S_AccentBrush")
+                    where dict.Contains("S.Brush.Accent")
                     select dict).FirstOrDefault();
         }
 

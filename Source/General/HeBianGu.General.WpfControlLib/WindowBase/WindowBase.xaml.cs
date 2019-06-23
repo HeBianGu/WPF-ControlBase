@@ -173,7 +173,7 @@ namespace HeBianGu.General.WpfControlLib
 
 
             // Todo ：初始化淡出初始效果 
-            this.OpacityMask = this.FindResource("WindowOpMack") as Brush;
+            this.OpacityMask = this.FindResource("S.WindowOpMack.LoadBrush") as Brush;
 
             //this.Style = this.FindResource("DefaultWindowStyle") as Style;
             //this.Icon = Images.CreateImageSourceFromImage(Properties.Resources.logo);

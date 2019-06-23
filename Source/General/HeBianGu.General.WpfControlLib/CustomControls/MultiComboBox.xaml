@@ -2,17 +2,17 @@
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
                     xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <ResourceDictionary.MergedDictionaries>
+    <!--<ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../SystemControls/Share.xaml"/>
         <ResourceDictionary Source="../SystemControls/ToggleButton.xaml"/>
         <ResourceDictionary Source="../CustomControls/FButton.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary.MergedDictionaries>-->
 
     <!--多选项样式-->
     <Style x:Key="CheckItemStyle" TargetType="{x:Type ListBoxItem}" >
         <Setter Property="Height" Value="30"/>
-        <Setter Property="Background" Value="{DynamicResource S_WhiteNotice}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}" >
@@ -30,16 +30,16 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource S_AccentBrush}" />
-                            <Setter Property="Foreground"  TargetName="cbx" Value="{DynamicResource S_WhiteNotice}" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource S.Brush.Accent}" />
+                            <Setter Property="Foreground"  TargetName="cbx" Value="{DynamicResource S.Brush.White.Notice}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource S_AccentBrush_MouseOver}" />
-                            <Setter Property="Foreground" TargetName="cbx" Value="{DynamicResource S_WhiteNotice}" />
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
+                            <Setter Property="Foreground" TargetName="cbx" Value="{DynamicResource S.Brush.White.Notice}" />
                           
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border" Property="Opacity" Value="{StaticResource DisableOpacity}" />
+                            <Setter TargetName="Border" Property="Opacity" Value="{StaticResource S.Opacity.Disable}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -51,17 +51,17 @@
     <Style x:Key="DefaultMultiComboBox" TargetType="{x:Type local:MultiComboBox}">
         <Setter Property="Height" Value="30" />
         <Setter Property="Width" Value="200" />
-        <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="Background" Value="{DynamicResource S_WhiteNotice}" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="base:ControlAttachProperty.FocusBackground" Value="{DynamicResource S_WhiteNotice}" />
-        <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily}" />
-        <Setter Property="FontSize" Value="{StaticResource FontSize}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="base:ControlAttachProperty.FocusBackground" Value="{DynamicResource S.Brush.White.Notice}" />
+        <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="FontFamily" Value="{StaticResource  S.FontFamily.Default}" />
+        <Setter Property="FontSize" Value="{StaticResource S.FontSize.Default}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="MaxDropDownHeight" Value="400" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
@@ -98,7 +98,7 @@
                             
                             <!--下拉按钮-->
                             <ToggleButton x:Name="PART_DropDownToggle" Panel.ZIndex="1" IsTabStop="False" 
-                                          Style="{StaticResource ComboToggleButton}" 
+                                          Style="{DynamicResource ComboToggleButton}" 
                                           IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           Grid.Column="1"  
                                           Grid.ColumnSpan="3" 
@@ -120,7 +120,7 @@
                             <!--内容区-->
                             <Grid Grid.Column="1"  Margin="2 0 0 0">
                                 <!--文本编辑-->
-                                <TextBox  x:Name="PART_EditableTextBox" Style="{StaticResource EditableTextBoxStyle}" 
+                                <TextBox  x:Name="PART_EditableTextBox" Style="{DynamicResource EditableTextBoxStyle}" 
                                           FontSize="{TemplateBinding FontSize}"
                                          HorizontalAlignment="Stretch" 
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" IsHitTestVisible="True"
@@ -177,7 +177,7 @@
                             <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
                         </Trigger>-->
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="PART_Root" Property="Opacity" Value="{StaticResource DisableOpacity}"></Setter>
+                            <Setter TargetName="PART_Root" Property="Opacity" Value="{StaticResource S.Opacity.Disable}"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -191,14 +191,14 @@
         <Setter Property="base:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton FIcon="&#xe72c;" Style="{StaticResource FButton_Transparency}" 
+                    <local:FButton FIcon="&#xe72c;" Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0"
                                    base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
                                    Command="base:ControlAttachProperty.ClearTextCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:MultiComboBox}}}"
                                    IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:MultiComboBox}},
                         Converter={x:Static base:XConverter.TrueToFalseConverter},Mode=OneWay}"
-                               Margin="1,3,0,4" FIconSize="13" Foreground="{DynamicResource S_WhiteNotice}" Cursor="Arrow"/>
+                               Margin="1,3,0,4" FIconSize="13" Foreground="{DynamicResource S.Brush.White.Notice}" Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -210,7 +210,7 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60" Background="{DynamicResource S_AccentBrush}">
+                    <Border Width="60" Background="{DynamicResource S.Brush.Accent}">
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" 
                                    Text="{TemplateBinding Content}"></TextBlock>
                     </Border>
@@ -225,7 +225,7 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60" Background="{DynamicResource S_AccentBrush}">
+                    <Border Width="60" Background="{DynamicResource S.Brush.Accent}">
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" 
                                    Text="{TemplateBinding Content}"></TextBlock>
                     </Border>
@@ -235,7 +235,7 @@
         <Setter Property="base:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton FIcon="&#xe72c;" Style="{StaticResource FButton_Transparency}" 
+                    <local:FButton FIcon="&#xe72c;" Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0"
                                base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
                                    Command="base:ControlAttachProperty.ClearTextCommand" 
@@ -243,7 +243,7 @@
                                    IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:MultiComboBox}},
                         Converter={x:Static base:XConverter.TrueToFalseConverter},Mode=OneWay}"
                                   Margin="0,3,0,4" FIconSize="13" 
-                                   Foreground="{DynamicResource S_AccentBrush}" Cursor="Arrow"/>
+                                   Foreground="{DynamicResource S.Brush.Accent}" Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
