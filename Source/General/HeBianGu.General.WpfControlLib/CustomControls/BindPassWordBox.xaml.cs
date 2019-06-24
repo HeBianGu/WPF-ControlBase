@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -18,10 +19,13 @@ namespace HeBianGu.General.WpfControlLib
 {
     /// <summary> 可以绑定的密码框 </summary>
     [TemplatePart(Name = "PART_PassWord", Type = typeof(PasswordBox))]
-    public partial class BindPassWordBox : UserControl
+    [TemplatePart(Name = "PART_TextBox", Type = typeof(TextBox))]
+    
+
+    public partial class BindPassWordBox : ContentControl
     {
         PasswordBox _password = null;
-
+        TextBox _textbox = null;
         public override void OnApplyTemplate()
         {
 
@@ -29,9 +33,17 @@ namespace HeBianGu.General.WpfControlLib
 
             this._password = Template.FindName("PART_PassWord", this) as PasswordBox;
 
+            this._textbox= Template.FindName("PART_TextBox", this) as TextBox;
+
             this._password.PasswordChanged += pb_center_PasswordChanged;
+
+            this._textbox.TextChanged += BindPassWordBox_TextChanged; ;
         }
 
+        private void BindPassWordBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            this.PassWord = this._textbox.Text;
+        }
 
         private void pb_center_PasswordChanged(object sender, RoutedEventArgs e)
         {
@@ -63,14 +75,6 @@ namespace HeBianGu.General.WpfControlLib
                  if (control._password == null) return;
 
                  control._password.Password = config;
-
-                 //var lable = Base.WpfBase.ControlAttachProperty.GetLabel(control);
-
-                 //Base.WpfBase.ControlAttachProperty.SetLabel(control.pb_center, lable);
-
-                 //var Watermark = Base.WpfBase.ControlAttachProperty.GetWatermark(control);
-
-                 //Base.WpfBase.ControlAttachProperty.SetWatermark(control.pb_center, Watermark);
 
                  SetPasswordBoxSelection(control._password, config.Length, 0);
              }));

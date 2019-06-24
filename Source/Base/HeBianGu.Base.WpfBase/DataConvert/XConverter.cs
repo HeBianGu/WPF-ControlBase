@@ -143,7 +143,6 @@ namespace HeBianGu.Base.WpfBase
         //    get { return Singleton<PassWordConverter>.GetInstance(); }
         //}
 
-
-
+      
     }
 }

@@ -63,7 +63,19 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-       
+        private string _logo;
+        /// <summary> 说明  </summary>
+        public string Logo
+        {
+            get { return _logo; }
+            set
+            {
+                _logo = value;
+                RaisePropertyChanged("Logo");
+            }
+        }
+
+
     }
 
     /// <summary>

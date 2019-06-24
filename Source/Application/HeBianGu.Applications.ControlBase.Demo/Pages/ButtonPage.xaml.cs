@@ -30,7 +30,7 @@ namespace WpfControlDemo.View
         {
             InitializeComponent();
 
-            this.DataContext = _vm; 
+            this.DataContext = _vm;
 
             //bind command
             this.BusyCommand = new RoutedCommand();
@@ -41,7 +41,7 @@ namespace WpfControlDemo.View
             this.Loaded += ButtonPage_Loaded;
         }
 
-    
+
         public static readonly DependencyProperty BusyCommandProperty =
     DependencyProperty.Register("BusyCommand", typeof(RoutedCommand), typeof(ButtonPage), new PropertyMetadata(null));
 
@@ -81,8 +81,8 @@ namespace WpfControlDemo.View
 
         private void ButtonPage_Loaded(object sender, RoutedEventArgs e)
         {
-           // AdornerLayer layer = AdornerLayer.GetAdornerLayer(grid_all);
-           //layer.Add(new PromptAdorner(Prompbutton));
+            // AdornerLayer layer = AdornerLayer.GetAdornerLayer(grid_all);
+            //layer.Add(new PromptAdorner(Prompbutton));
         }
 
 
@@ -96,6 +96,29 @@ namespace WpfControlDemo.View
         private void btnReduce_Click(object sender, RoutedEventArgs e)
         {
             Prompbutton.PromptCount = (int.Parse(Prompbutton.PromptCount) - 1).ToString();
+        }
+
+        Random random = new Random();
+        private async void FButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            await MessageService.ShowWaittingMessge(() =>
+            {
+                Thread.Sleep(2000);
+            });
+
+            MessageService.ShowSumitMessge("查询错误，请检查！");
+
+        }
+
+        private async void FButton_Click_2(object sender, RoutedEventArgs e)
+        {
+            await MessageService.ShowWaittingMessge(() =>
+            {
+                Thread.Sleep(2000);
+            });
+
+
+            MessageService.ShowSnackMessageWithNotice("查询完成");
         }
     }
 

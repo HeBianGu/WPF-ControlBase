@@ -218,6 +218,7 @@ namespace HeBianGu.Base.WpfBase
         #endregion
 
         #region FIconProperty 字体图标
+
         /// <summary>
         /// 字体图标
         /// </summary>
@@ -233,6 +234,23 @@ namespace HeBianGu.Base.WpfBase
         {
             obj.SetValue(FIconProperty, value);
         }
+
+        /// <summary>
+        /// 字体图标
+        /// </summary>
+        public static readonly DependencyProperty FIconChangedProperty = DependencyProperty.RegisterAttached(
+            "FIconChanged", typeof(string), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(""));
+
+        public static string GetFIconChanged(DependencyObject d)
+        {
+            return (string)d.GetValue(FIconChangedProperty);
+        }
+
+        public static void SetFIconChanged(DependencyObject obj, string value)
+        {
+            obj.SetValue(FIconChangedProperty, value);
+        }
+
         #endregion
 
         #region FIconSizeProperty 字体图标大小
