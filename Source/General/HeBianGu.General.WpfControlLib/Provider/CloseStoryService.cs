@@ -59,7 +59,7 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 从下到上渐隐藏窗体 </summary>
         public void DownToUpOpsClose(Window w)
         {
-            w.OpacityMask = w.FindResource("ClosedBrush") as LinearGradientBrush;
+            w.OpacityMask = w.FindResource("S.WindowOpMack.ClosedBrush") as LinearGradientBrush;
 
             ColorAnimation color1 = new ColorAnimation((Color)ColorConverter.ConvertFromString("#00000000"), new Duration(new TimeSpan(0)));
 
@@ -86,7 +86,7 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 从下到上渐隐藏窗体 </summary>
         public void DownToUpOpsOpen(Window w)
         {
-            w.OpacityMask = w.FindResource("ClosedBrush") as LinearGradientBrush;
+            w.OpacityMask = w.FindResource("S.WindowOpMack.ClosedBrush") as LinearGradientBrush;
 
             ColorAnimation color1 = new ColorAnimation((Color)ColorConverter.ConvertFromString("#00000000"), new Duration(new TimeSpan(0)));
 

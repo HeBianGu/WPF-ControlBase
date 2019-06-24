@@ -2,32 +2,31 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
                    xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
-                   xmlns:system="clr-namespace:System;assembly=mscorlib">
-
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../CustomControls/FButton.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-
+                   xmlns:system="clr-namespace:System;assembly=mscorlib"> 
     <!--TextBox默认样式-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="DefaultTextBox">
         <Setter Property="ContextMenu" Value="{DynamicResource TextBoxContextMenu}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily}" />
-        <Setter Property="FontSize" Value="{StaticResource FontSize}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="FontFamily" Value="{StaticResource  S.FontFamily.Default}" />
+        <Setter Property="FontSize" Value="{StaticResource S.FontSize.Default}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="MinHeight" Value="26" />
         <Setter Property="Width" Value="100" />
-        <Setter Property="Background" Value="{DynamicResource S_WhiteNotice}" />
-        <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Defaut}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="base:ControlAttachProperty.FIcon" Value="&#xe787;"/>
+        <Setter Property="base:ControlAttachProperty.FIconSize" Value="{DynamicResource S.FIcon.Size.Default}"/>
+        <Setter Property="base:ControlAttachProperty.FIconMargin" Value="5,0,0,0"/>
         <Setter Property="Padding" Value="0" />
-        <Setter Property="BorderBrush" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S_OrangeNotice}" />
-        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S_AccentBrush_MouseOver}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Defaut}" />
+        <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <!-- change SnapsToDevicePixels to True to view a better border and validation error -->
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <!--英 ['kærət]  美 ['kærət]  插入符号-->
-        <Setter Property="CaretBrush" Value="{DynamicResource S_WhiteNotice}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.White.Notice}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:FTextBox}">
@@ -40,6 +39,7 @@
                         <Grid x:Name="PART_InnerGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition  Width="Auto" />
+                                <ColumnDefinition  Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition  Width="Auto" />
                             </Grid.ColumnDefinitions>
@@ -48,18 +48,24 @@
                                             Background="{TemplateBinding Foreground}"
                                             Template="{TemplateBinding base:ControlAttachProperty.LabelTemplate}"
                                             Content="{TemplateBinding base:ControlAttachProperty.Label}"/>
+
+                            <TextBlock x:Name="ficon" Style="{DynamicResource FIcon}" HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" Grid.Column="1" 
+                                       FontSize="{TemplateBinding base:ControlAttachProperty.FIconSize}"
+                                       Margin="{TemplateBinding base:ControlAttachProperty.FIconMargin}" 
+                                       Text="{TemplateBinding base:ControlAttachProperty.FIcon}"/>
                             <!--内容区域-->
-                            <ScrollViewer x:Name="PART_ContentHost" BorderThickness="0" Grid.Column="1" IsTabStop="False" Margin="2"
+                            <ScrollViewer x:Name="PART_ContentHost" BorderThickness="0" Grid.Column="2" IsTabStop="False" Margin="2"
                                           VerticalAlignment="Stretch" Background="{x:Null}" />
                             <!--水印-->
                             <TextBlock x:Name="Message"  Padding="{TemplateBinding Padding}" Visibility="Collapsed"
-                                       Text="{TemplateBinding base:ControlAttachProperty.Watermark}" Grid.Column="1"
+                                       Text="{TemplateBinding base:ControlAttachProperty.Watermark}" Grid.Column="2"
                                        Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" 
-                                       Opacity="{StaticResource WatermarkOpacity}"
+                                       Opacity="{StaticResource S.Opacity.Watermark}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="5,2,5,2" />
                             <!--附加内容区域-->
-                            <Border x:Name="PART_AttachContent" Grid.Column="2" Margin="1" 
+                            <Border x:Name="PART_AttachContent" Grid.Column="3" Margin="1" 
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center">
                                 <ContentControl VerticalAlignment="Top" VerticalContentAlignment="Top" 
@@ -75,21 +81,28 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="BorderBrush" 
                                     Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+
+                            <Setter  Property="Foreground" TargetName="ficon"
+                                     Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
+                            <Setter  Property="Foreground" TargetName="ficon"
+                                     Value="{DynamicResource S.Brush.Accent}"/>
+                            
                             <Setter  Property="BorderBrush" 
                                      Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                            
                         </Trigger>
                         <!--不可用-->
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="PART_Root" Property="Opacity" Value="{DynamicResource DisableOpacity}" />
+                            <Setter TargetName="PART_Root" Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" />
                         </Trigger>
                         <!--只读时，禁用PART_AttachContent-->
                         <Trigger Property="IsReadOnly" Value="True">
                             <Setter TargetName="PART_AttachContent" Property="IsEnabled" Value="False" />
-                            <Setter TargetName="Bg" Property="Opacity" Value="{DynamicResource ReadonlyOpacity}" />
-                            <Setter TargetName="PART_ContentHost" Property="Opacity" Value="{DynamicResource ReadonlyOpacity}" />
-                            <Setter TargetName="Label" Property="Opacity" Value="{DynamicResource ReadonlyOpacity}" />
+                            <Setter TargetName="Bg" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
+                            <Setter TargetName="PART_ContentHost" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
+                            <Setter TargetName="Label" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -102,13 +115,13 @@
         <Setter Property="base:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton FIcon="&#xe72c;" Style="{StaticResource FButton_Transparency}" 
+                    <local:FButton FIcon="&#xe72c;" Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0"
                                    base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
                                    Command="base:ControlAttachProperty.ClearTextCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="1,3,1,4" FIconSize="13" 
-                                   Foreground="{DynamicResource S_AccentBrush}" 
+                                   Foreground="{DynamicResource S.Brush.Accent}" 
                                    Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -117,13 +130,14 @@
 
     <!--TextBox包含附加属性Label的样式-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="LabelTextBox" BasedOn="{StaticResource DefaultTextBox}">
+        
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60" Background="{DynamicResource S_AccentBrush}">
+                    <Border Width="60" Background="{DynamicResource S.Brush.Accent}">
                         <TextBlock VerticalAlignment="Center" 
-                                   Foreground="{DynamicResource S_WhiteNotice}" 
-                                   Background="{DynamicResource S_AccentBrush}"
+                                   Foreground="{DynamicResource S.Brush.White.Notice}" 
+                                   Background="{DynamicResource S.Brush.Accent}"
                                    HorizontalAlignment="Right" Margin="3" 
                                    Text="{TemplateBinding Content}"/>
                     </Border>
@@ -137,9 +151,9 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60" Background="{DynamicResource S_AccentBrush}">
+                    <Border Width="60" Background="{DynamicResource S.Brush.Accent}">
                         <TextBlock VerticalAlignment="Center" 
-                                   Foreground="{DynamicResource S_WhiteNotice}" 
+                                   Foreground="{DynamicResource S.Brush.White.Notice}" 
                                    HorizontalAlignment="Right" Margin="3" Text="{TemplateBinding Content}"/>
                     </Border>
                 </ControlTemplate>
@@ -148,13 +162,13 @@
         <Setter Property="base:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton FIcon="&#xe72c;" Style="{StaticResource FButton_Transparency}" 
+                    <local:FButton FIcon="&#xe72c;" Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0"
                                    base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
                                    Command="base:ControlAttachProperty.ClearTextCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="0,3,1,4" FIconSize="13" 
-                                   Foreground="{DynamicResource S_AccentBrush}"
+                                   Foreground="{DynamicResource S.Brush.Accent}"
                                    Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -168,14 +182,14 @@
         <Setter Property="base:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton FIcon="&#xe611;" Style="{StaticResource FButton_Transparency}" 
+                    <local:FButton FIcon="&#xe611;" Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0"
                                    base:ControlAttachProperty.IsOpenFileButtonBehaviorEnabled="True" 
                                    Command="base:ControlAttachProperty.OpenFileCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="0,1,0,2"  
                                    FIconSize="18" 
-                                   Foreground="{DynamicResource S_AccentBrush}" 
+                                   Foreground="{DynamicResource S.Brush.Accent}" 
                                    Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -190,13 +204,13 @@
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe611;" 
-                                   Style="{StaticResource FButton_Transparency}" 
+                                   Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0" VerticalAlignment="Center"
                                    base:ControlAttachProperty.IsOpenFolderButtonBehaviorEnabled="True" 
                                    Command="base:ControlAttachProperty.OpenFolderCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="0,1,0,2"  FIconSize="18" 
-                                   Foreground="{DynamicResource S_AccentBrush}" 
+                                   Foreground="{DynamicResource S.Brush.Accent}" 
                                    Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -211,7 +225,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe611;" 
-                                   Style="{StaticResource FButton_Transparency}" 
+                                   Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" 
                                    FIconMargin="0"
                                    base:ControlAttachProperty.IsSaveFileButtonBehaviorEnabled="True" 
@@ -219,7 +233,7 @@
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="0,1,0,2"  
                                    FIconSize="18" 
-                                   Foreground="{DynamicResource S_AccentBrush}" Cursor="Arrow"/>
+                                   Foreground="{DynamicResource S.Brush.Accent}" Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -227,9 +241,9 @@
 
     <!--LabelTextBoxStyle：只读可复制的文本样式-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="LabelTextBoxStyle">
-        <Setter Property="FontSize" Value="{StaticResource FontSize}"></Setter>
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily}"></Setter>
-        <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}"></Setter>
+        <Setter Property="FontSize" Value="{StaticResource S.FontSize.Default}"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource  S.FontFamily.Default}"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"></Setter>
         <Setter Property="SnapsToDevicePixels" Value="True"></Setter>
         <Setter Property="BorderThickness" Value="0"></Setter>
         <Setter Property="Margin" Value="2"></Setter>
@@ -239,12 +253,12 @@
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="ContextMenu" Value="{DynamicResource TextBoxContextMenu}"></Setter>
         <Setter Property="IsTabStop" Value="False"></Setter>
-        <Setter Property="CaretBrush" Value="{DynamicResource S_AccentBrush}"></Setter>
-        <Setter Property="SelectionBrush" Value="{DynamicResource S_AccentBrush}"></Setter>
+        <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}"></Setter>
+        <Setter Property="SelectionBrush" Value="{DynamicResource S.Brush.Accent}"></Setter>
         <Setter Property="Width" Value="Auto"></Setter>
         <Style.Triggers>
             <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="{StaticResource DisableOpacity}"></Setter>
+                <Setter Property="Opacity" Value="{StaticResource S.Opacity.Disable}"></Setter>
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -253,18 +267,18 @@
 
     <Style x:Key="DefaultRichTextBox" TargetType="{x:Type RichTextBox}">
         <Setter Property="ContextMenu" Value="{DynamicResource TextBoxContextMenu}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily}" />
-        <Setter Property="FontSize" Value="{StaticResource FontSize}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="FontFamily" Value="{StaticResource  S.FontFamily.Default}" />
+        <Setter Property="FontSize" Value="{StaticResource S.FontSize.Default}" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource S_AccentBrush}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="MinHeight" Value="26" />
         <Setter Property="MinWidth" Value="10" />
-        <Setter Property="Background" Value="{DynamicResource S_WhiteNotice}" />
-        <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="CaretBrush" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S_OrangeNotice}" />
-        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S_AccentBrush_MouseOver}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Orange}" />
+        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
         <Setter Property="Padding" Value="1" />
         <Setter Property="AllowDrop" Value="True" />
         <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
@@ -309,24 +323,24 @@
     <!--TextBox默认样式-->
     <Style TargetType="{x:Type PasswordBox}" x:Key="DefaultPasswordBox">
         <Setter Property="ContextMenu" Value="{DynamicResource TextBoxContextMenu}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="FontFamily" Value="{StaticResource FontFamily}" />
-        <Setter Property="FontSize" Value="{StaticResource FontSize}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="FontFamily" Value="{StaticResource  S.FontFamily.Default}" />
+        <Setter Property="FontSize" Value="{StaticResource S.FontSize.Default}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="PasswordChar" Value="●"/>
         <Setter Property="Height" Value="30" />
         <Setter Property="Width" Value="200" />
-        <Setter Property="Background" Value="{DynamicResource S_WhiteNotice}" />
-        <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="Padding" Value="0" />
-        <Setter Property="BorderBrush" Value="{DynamicResource S_AccentBrush}" />
-        <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S_OrangeNotice}" />
-        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S_AccentBrush_MouseOver}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Orange}" />
+        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <!-- change SnapsToDevicePixels to True to view a better border and validation error -->
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <!--英 ['kærət]  美 ['kærət]  插入符号-->
-        <Setter Property="CaretBrush" Value="{DynamicResource S_AccentBrush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type PasswordBox}">
@@ -371,7 +385,7 @@
                         </Trigger>
                         <!--不可用-->
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="PART_Root" Property="Opacity" Value="{StaticResource DisableOpacity}"></Setter>
+                            <Setter TargetName="PART_Root" Property="Opacity" Value="{StaticResource S.Opacity.Disable}"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -385,7 +399,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe72c;" 
-                                   Style="{StaticResource FButton_Transparency}" 
+                                   Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" 
                                    FIconMargin="0"
                                    base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
@@ -393,7 +407,7 @@
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type PasswordBox}}}"
                                    Margin="1,3,1,4" 
                                    FIconSize="14" 
-                                   Foreground="{DynamicResource S_AccentBrush}" 
+                                   Foreground="{DynamicResource S.Brush.Accent}" 
                                    Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -405,9 +419,9 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60" Background="{DynamicResource S_AccentBrush}">
+                    <Border Width="60" Background="{DynamicResource S.Brush.Accent}">
                         <TextBlock VerticalAlignment="Center" 
-                                   Foreground="{DynamicResource S_WhiteNotice}" 
+                                   Foreground="{DynamicResource S.Brush.White.Notice}" 
                                    HorizontalAlignment="Right" 
                                    Margin="3" 
                                    Text="{TemplateBinding Content}"/>
@@ -422,9 +436,9 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60" Background="{DynamicResource S_AccentBrush}">
+                    <Border Width="60" Background="{DynamicResource S.Brush.Accent}">
                         <TextBlock VerticalAlignment="Center" 
-                                   Foreground="{DynamicResource S_WhiteNotice}" 
+                                   Foreground="{DynamicResource S.Brush.White.Notice}" 
                                    HorizontalAlignment="Right" 
                                    Margin="3" Text="{TemplateBinding Content}"></TextBlock>
                     </Border>
@@ -435,7 +449,7 @@
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe72c;" 
-                                   Style="{StaticResource FButton_Transparency}" 
+                                   Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" 
                                    FIconMargin="0"
                                    base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
@@ -443,7 +457,7 @@
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type PasswordBox}}}"
                                    Margin="0,3,1,4" 
                                    FIconSize="14" 
-                                   Foreground="{DynamicResource S_AccentBrush}" 
+                                   Foreground="{DynamicResource S.Brush.Accent}" 
                                    Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>

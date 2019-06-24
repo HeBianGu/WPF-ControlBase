@@ -3,9 +3,9 @@
                      xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
 
-    <ResourceDictionary.MergedDictionaries>
+    <!--<ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../SystemControls/FIcon.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary.MergedDictionaries>-->
 
     <!--Menu-->
     <SolidColorBrush x:Key="MenuForeground" Color="#433F3E"></SolidColorBrush>
@@ -20,15 +20,15 @@
 
     <!--菜单项MenuItem样式FIconMenuItem-->
     <Style x:Key="FIconMenuItem" TargetType="{x:Type MenuItem}">
-        <Setter Property="BorderBrush" Value="{DynamicResource S_AccentBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Background" Value="{DynamicResource S_GrayLight}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}"/>
-        <Setter Property="FontSize" Value="{StaticResource FontSize}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.LightGray}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="FontSize" Value="{StaticResource S.FontSize.Default}"/>
         <Setter Property="Height" Value="28"/>
         <Setter Property="Width" Value="Auto"/>
         <Setter Property="Margin" Value="1"/>
-        <Setter Property="base:ControlAttachProperty.FIconSize" Value="22"/>
+        <Setter Property="base:ControlAttachProperty.FIconSize" Value="{DynamicResource S.FIcon.Size.Default}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type MenuItem}">
@@ -45,7 +45,7 @@
                             <TextBlock x:Name="PART_Icon" Text="{TemplateBinding Icon}" 
                                        Foreground="{TemplateBinding Foreground}" Margin="5,1,1,1"  
                                        FontSize="{TemplateBinding base:ControlAttachProperty.FIconSize}"
-                                       Style="{StaticResource FIcon}" />
+                                       Style="{DynamicResource FIcon}" />
                             <!--Header-->
                             <ContentPresenter Grid.Column="1" x:Name="txtHeader" Margin="3,1,5,1" MinWidth="90"
                                           RecognizesAccessKey="True" VerticalAlignment="Center" ContentSource="Header"/>
@@ -60,7 +60,7 @@
                             <TextBlock x:Name="PART_Arrow" Grid.Column="3" Text="&#xe9bf;" 
                                        Foreground="{TemplateBinding Foreground}" 
                                        FontSize="14" 
-                                       Style="{StaticResource FIcon}"/>
+                                       Style="{DynamicResource FIcon}"/>
                             <!--淡出子集菜单容器-->
                             <Popup x:Name="SubMenuPopup" 
                                    AllowsTransparency="true" 
@@ -70,7 +70,7 @@
                                    PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}">
                                 <Border Background="{TemplateBinding Background}"  
                                         CornerRadius="0" Margin="5" 
-                                        Effect="{DynamicResource WindowDropShadow}"
+                                        Effect="{DynamicResource S.DropShadowEffect.Window}"
                                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                         BorderThickness="{TemplateBinding BorderThickness}">
                                     <Grid x:Name="SubMenu" Grid.IsSharedSizeScope="True">
@@ -114,23 +114,23 @@
                         <Trigger Property="IsChecked" Value="True">
                             <Setter TargetName="PART_Icon" Value="&#xe62a;" Property="Text"></Setter>
                             <Setter TargetName="PART_Icon" Value="18" Property="FontSize"></Setter>
-                            <Setter TargetName="PART_Icon" Value="{DynamicResource S_AccentBrush}" Property="Foreground"></Setter>
+                            <Setter TargetName="PART_Icon" Value="{DynamicResource S.Brush.Accent}" Property="Foreground"></Setter>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Value="{DynamicResource DisableOpacity}" Property="Opacity"></Setter>
+                            <Setter TargetName="border" Value="{DynamicResource S.Opacity.Disable}" Property="Opacity"></Setter>
                         </Trigger>
                         <!--高亮状态-->
                         <Trigger Property="IsHighlighted" Value="true">
-                            <Setter Property="Background" TargetName="border" Value="{DynamicResource S_AccentBrush}"></Setter>
-                            <Setter Property="Foreground" Value="{DynamicResource S_WhiteNotice}"></Setter>
+                            <Setter Property="Background" TargetName="border" Value="{DynamicResource S.Brush.Accent}"></Setter>
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}"></Setter>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Background" TargetName="border" Value="{DynamicResource S_GrayNotice}"></Setter>
-                            <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}"></Setter>
+                            <Setter Property="Background" TargetName="border" Value="{DynamicResource S.Brush.Gray}"></Setter>
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"></Setter>
                         </Trigger>
                         <!--子菜单打开状态-->
                         <Trigger Property="IsSubmenuOpen" Value="true" >
-                            <Setter TargetName="PART_Arrow" Value="{DynamicResource S_AccentBrush}" Property="Foreground"></Setter>
+                            <Setter TargetName="PART_Arrow" Value="{DynamicResource S.Brush.Accent}" Property="Foreground"></Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -179,10 +179,10 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Ideal" />
-        <Setter Property="BorderBrush" Value="{DynamicResource S_AccentBrush}"/>
-        <Setter Property="Background" Value="{DynamicResource S_GrayLight}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.LightGray}"/>
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="Foreground" Value="{DynamicResource S_AccentBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Grid.IsSharedSizeScope" Value="True" />
         <Setter Property="HasDropShadow" Value="True" />
@@ -202,7 +202,7 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasDropShadow" Value="True">
-                            <Setter TargetName="Border" Property="Effect" Value="{DynamicResource WindowDropShadow}">
+                            <Setter TargetName="Border" Property="Effect" Value="{DynamicResource S.DropShadowEffect.Window}">
                             </Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
