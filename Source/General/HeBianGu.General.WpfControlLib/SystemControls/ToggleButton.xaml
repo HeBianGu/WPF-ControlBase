@@ -7,7 +7,7 @@
         <ResourceDictionary Source="../SystemControls/FIcon.xaml" />
     </ResourceDictionary.MergedDictionaries>-->
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="DefaultToggleButton">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.Default">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
@@ -38,11 +38,15 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="FIconToggleButton">
+    
+    <!--选中和未选中设置两种颜色-->
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.BrushFIconChecked">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.LightGray}" />
         <Setter Property="base:ControlAttachProperty.FIconSize" Value="{DynamicResource S.FIcon.Size.Large}"/>
         <Setter Property="base:ControlAttachProperty.FIconMargin" Value="1"/>
         <Setter Property="base:ControlAttachProperty.FIcon" Value="&#xe603;"/>
+        <Setter Property="base:ControlAttachProperty.CheckedForegroundBrush" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="base:ControlAttachProperty.CheckedBackgroundBrush" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
@@ -72,7 +76,8 @@
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Gray}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource S.Brush.Accent}" />
+                            <Setter Property="Foreground" Value="{Binding Path=(base:ControlAttachProperty.CheckedForegroundBrush),RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter Property="Background" Value="{Binding Path=(base:ControlAttachProperty.CheckedBackgroundBrush),RelativeSource={RelativeSource TemplatedParent}}" />
                             <Setter Property="Opacity" Value="{StaticResource S.Opacity.Disable}" TargetName="FIcon"/>
                             <Setter Property="Opacity" Value="{StaticResource S.Opacity.Disable}" TargetName="txt"/>
 
@@ -86,8 +91,7 @@
         </Setter>
     </Style>
 
-
-
+    <!--选中和未选中设置成两种图标-->
     <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.DoubleFIconChecked">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="base:ControlAttachProperty.FIconSize" Value="{DynamicResource S.FontSize.Default}"/>

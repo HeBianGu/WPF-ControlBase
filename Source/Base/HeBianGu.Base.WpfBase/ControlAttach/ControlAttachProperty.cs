@@ -150,6 +150,70 @@ namespace HeBianGu.Base.WpfBase
 
         #endregion
 
+        #region SelectedForegroundBrush 选中前景色
+
+        public static readonly DependencyProperty SelectedForegroundBrushProperty = DependencyProperty.RegisterAttached(
+            "SelectedForegroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+        public static void SetSelectedForegroundBrush(DependencyObject element, Brush value)
+        {
+            element.SetValue(SelectedForegroundBrushProperty, value);
+        }
+        public static Brush GetSelectedForegroundBrush(DependencyObject element)
+        {
+            return (Brush)element.GetValue(SelectedForegroundBrushProperty);
+        }
+
+        #endregion
+
+        #region SelectedBackgroundBrush 选中背景色
+
+        public static readonly DependencyProperty SelectedBackgroundBrushProperty = DependencyProperty.RegisterAttached(
+            "SelectedBackgroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+        public static void SetSelectedBackgroundBrush(DependencyObject element, Brush value)
+        {
+            element.SetValue(SelectedBackgroundBrushProperty, value);
+        }
+        public static Brush GetSelectedBackgroundBrush(DependencyObject element)
+        {
+            return (Brush)element.GetValue(SelectedBackgroundBrushProperty);
+        }
+
+        #endregion
+
+        #region CheckedForegroundBrush 选中前景色
+
+        public static readonly DependencyProperty CheckedForegroundBrushProperty = DependencyProperty.RegisterAttached(
+            "CheckedForegroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+
+        public static void SetCheckedForegroundBrush(DependencyObject element, Brush value)
+        {
+            element.SetValue(CheckedForegroundBrushProperty, value);
+        }
+
+        public static Brush GetCheckedForegroundBrush(DependencyObject element)
+        {
+            return (Brush)element.GetValue(CheckedForegroundBrushProperty);
+        }
+
+        #endregion
+
+        #region CheckedBackgroundBrush 选中背景色
+
+        public static readonly DependencyProperty CheckedBackgroundBrushProperty = DependencyProperty.RegisterAttached(
+            "CheckedBackgroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+
+        public static void SetCheckedBackgroundBrush(DependencyObject element, Brush value)
+        {
+            element.SetValue(CheckedBackgroundBrushProperty, value);
+        }
+
+        public static Brush GetCheckedBackgroundBrush(DependencyObject element)
+        {
+            return (Brush)element.GetValue(CheckedBackgroundBrushProperty);
+        }
+
+        #endregion
+
         #region MouseOverBorderBrush 鼠标进入边框色，输入控件
 
         public static readonly DependencyProperty MouseOverBorderBrushProperty =

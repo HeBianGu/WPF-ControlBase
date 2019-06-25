@@ -11,7 +11,7 @@ using System.Windows.Media;
 namespace HeBianGu.General.WpfControlLib
 {
     /// <summary> 链接主窗口 </summary>
-    public partial class LinkWindow : WindowBase
+    public partial class LinkWindowBase : WindowBase
     {
 
         public ObservableCollection<Link> TabLinks
@@ -22,7 +22,7 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TabLinksProperty =
-            DependencyProperty.Register("TabLinks", typeof(ObservableCollection<Link>), typeof(WindowBase), new PropertyMetadata(new ObservableCollection<Link>(), (d, e) =>
+            DependencyProperty.Register("TabLinks", typeof(ObservableCollection<Link>), typeof(LinkWindowBase), new PropertyMetadata(new ObservableCollection<Link>(), (d, e) =>
             {
                 WindowBase control = d as WindowBase;
 
@@ -41,7 +41,7 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SettingLinksProperty =
-            DependencyProperty.Register("SettingLinks", typeof(ObservableCollection<Link>), typeof(WindowBase), new PropertyMetadata(new ObservableCollection<Link>(), (d, e) =>
+            DependencyProperty.Register("SettingLinks", typeof(ObservableCollection<Link>), typeof(LinkWindowBase), new PropertyMetadata(new ObservableCollection<Link>(), (d, e) =>
             {
                 WindowBase control = d as WindowBase;
 
@@ -53,7 +53,7 @@ namespace HeBianGu.General.WpfControlLib
 
 
 
-        public static readonly DependencyProperty LogoProperty = DependencyProperty.Register("Logo", typeof(ImageSource), typeof(WindowBase), new PropertyMetadata(null));
+        public static readonly DependencyProperty LogoProperty = DependencyProperty.Register("Logo", typeof(ImageSource), typeof(LinkWindowBase), new PropertyMetadata(null));
 
         public ImageSource Logo
         {

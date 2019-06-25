@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeBianGu.General.WpfControlLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,26 +11,20 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// LocalLoginWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : HeBianGu.General.WpfControlLib.LinkWindowBase
+    public partial class LoginWindow : LoginWindowBase
     {
-        public MainWindow()
+        public LoginWindow()
         {
             InitializeComponent();
 
             this.DataContext = ShellViewModel.Instance;
-
-            this.Loaded += (l, k) =>
-            {
-                ShellViewModel.Instance.RelayCommand.Execute("Loaded");
-            };
         }
     }
 }

@@ -63,9 +63,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap logo {
+        internal static System.Drawing.Bitmap top背景 {
             get {
-                object obj = ResourceManager.GetObject("logo", resourceCulture);
+                object obj = ResourceManager.GetObject("top背景", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,9 +73,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Properties {
         /// <summary>
         ///   查找 System.Drawing.Bitmap 类型的本地化资源。
         /// </summary>
-        internal static System.Drawing.Bitmap top背景 {
+        internal static System.Drawing.Bitmap 登录bg {
             get {
-                object obj = ResourceManager.GetObject("top背景", resourceCulture);
+                object obj = ResourceManager.GetObject("登录bg", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

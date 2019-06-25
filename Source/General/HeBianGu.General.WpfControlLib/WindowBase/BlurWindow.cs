@@ -10,9 +10,9 @@ using System.Windows.Interop;
 namespace HeBianGu.General.WpfControlLib
 {
     /// <summary> 磨砂类型窗口 </summary>
-    public partial class BlurWindow : WindowBase
+    public partial class BlurWindowBase : WindowBase
     {
-        public BlurWindow() : base()
+        public BlurWindowBase() : base()
         {
             this.Loaded +=(l, k) =>
              {
