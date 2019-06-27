@@ -420,6 +420,24 @@ namespace HeBianGu.Base.WpfBase
         }
         #endregion
 
+        #region double 类型的附加属性 Tag
+        /// <summary>
+        /// Border圆角
+        /// </summary>
+        public static readonly DependencyProperty DoubleAttachProperty = DependencyProperty.RegisterAttached(
+            "DoubleAttach", typeof(double), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(0.0));
+
+        public static double GetDoubleAttach(DependencyObject d)
+        {
+            return (double)d.GetValue(DoubleAttachProperty);
+        }
+
+        public static void SetDoubleAttach(DependencyObject obj, double value)
+        {
+            obj.SetValue(DoubleAttachProperty, value);
+        }
+        #endregion
+
         #region LabelProperty TextBox的头部Label
         /// <summary>
         /// TextBox的头部Label

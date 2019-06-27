@@ -116,6 +116,12 @@ namespace HeBianGu.Base.WpfBase
             get { return new MathMultipleConverter(); }
         }
 
+        public static DrawerOffsetConverter DrawerOffsetConverter
+        {
+            get { return new DrawerOffsetConverter(); }
+        }
+        
+
 
         //public static SelectTextConverter SelectTextConverter
         //{
@@ -143,6 +149,6 @@ namespace HeBianGu.Base.WpfBase
         //    get { return Singleton<PassWordConverter>.GetInstance(); }
         //}
 
-      
+
     }
 }

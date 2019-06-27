@@ -255,9 +255,9 @@ namespace HeBianGu.Base.WpfBase.Color
                 dic.Add("S.Brush.Accent.MouseOver", "<!--半透明的主色调 一般用于MouseOver-->");
                 dic.Add("S.Brush.WindowBackground", "<!--磨砂窗体背景色调-->");
                 dic.Add("S.Brush.Accent.Opacity.5", "<!--背景透明窗体色调-->");
-                dic.Add("S.Brush.LightGray", "< !--用于内容域、面板底色-- > ");
-                dic.Add("S.Brush.LightGrayOpacity.5", "<!--用于透明背景内容域、面板底色-->");
-                dic.Add("S.Brush.Gray", "<!--用于边框、分割线-->");
+                dic.Add("S.Brush.LightGray.Notice", "< !--用于内容域、面板底色-- > ");
+                dic.Add("S.Brush.LightGray.NoticeOpacity.5", "<!--用于透明背景内容域、面板底色-->");
+                dic.Add("S.Brush.Gray.Notice", "<!--用于边框、分割线-->");
                 dic.Add(".Brush.Gray.Opacity.5", "<!--用于边框、分割线-->");
                 dic.Add("S.Brush.Orange.Notice", "<!--黄色  用于提示文字和图标-->");
                 dic.Add("S.Brush.Black.Notice", "<!--黑色 用于提示文字和图标-->");

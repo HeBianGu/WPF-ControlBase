@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace HeBianGu.General.WpfControlLib
 {
@@ -86,8 +87,40 @@ namespace HeBianGu.General.WpfControlLib
                      });
                  });
              });
-
         }
+
+        public static async Task ShowPercentProgress(Action<PercentProgressDialog> action, Action closeAction = null)
+        {
+            await ShowProgressMessge(action, closeAction);
+        }
+
+        public static async Task ShowStringProgress(Action<StringProgressDialog> action, Action closeAction = null)
+        {
+           await ShowProgressMessge(action, closeAction);
+        }
+
+       public static async Task ShowProgressMessge<T>(Action<T> action, Action closeAction = null) where T : new()
+        {
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
+                var view = new T();
+
+                //show the dialog
+                return await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
+                {
+                    Task.Run(() => action.Invoke(view)).ContinueWith(m =>
+                    {
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            e.Session.Close(false);
+
+                            closeAction?.Invoke();
+                        });
+                    });
+                });
+            });
+        }
+
         public static async Task ShowSumitMessge(string message)
         {
             await Application.Current.Dispatcher.Invoke(async () =>
@@ -117,6 +150,8 @@ namespace HeBianGu.General.WpfControlLib
              });
 
         }
+
+
 
         /// <summary> 显示蒙版 </summary>
         public static void ShowWithLayer(Uri uri, int layerIndex = 0)

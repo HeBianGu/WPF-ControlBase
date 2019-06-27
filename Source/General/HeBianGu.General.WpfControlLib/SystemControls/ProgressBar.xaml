@@ -287,6 +287,56 @@
             </Setter.Value>
         </Setter>
 
+    </Style> 
+    
+    <Style TargetType="ProgressBar" x:Key="S.Progessbar.WaittingPercent">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/> 
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="500"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="base:ControlAttachProperty.Label" Value="当前进度"/>
+        <Setter Property="Clip">
+            <Setter.Value>
+                <RectangleGeometry RadiusX="20" RadiusY="20">
+                    <RectangleGeometry.Rect>
+                        <Rect Width="500"  Height="40"/>
+                    </RectangleGeometry.Rect>
+                </RectangleGeometry>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid Background="{TemplateBinding Background}">
+                        
+                        <ProgressBar Value="{TemplateBinding Value}" Foreground="{TemplateBinding Foreground}" Background="Transparent"
+                                         Maximum="{TemplateBinding Maximum}" BorderThickness="{TemplateBinding BorderThickness}"
+                                         Minimum="{TemplateBinding Minimum}"/>
+
+                        <ProgressBar Value="{TemplateBinding Value}" 
+                                     Background="Transparent"  BorderThickness="{TemplateBinding BorderThickness}"
+                                     Opacity="0.5" 
+                                     Foreground="{StaticResource S.Brush.Gray.Notice}" 
+                                     Maximum="100" Minimum="0" IsIndeterminate="True"/>
+
+                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold"
+                                   Foreground="{DynamicResource S.Brush.TextForeground.Tiltle}" 
+                                   VerticalAlignment="Center"
+                                   FontSize="{TemplateBinding FontSize}">
+                            <Run Text="{TemplateBinding base:ControlAttachProperty.Label}"/>
+                            <Run Text="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar},Path=Value}"/>
+                            <Run Text="%"/>
+                            <TextBlock.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.OpacityForever}"/>
+                                </EventTrigger>
+                            </TextBlock.Triggers>
+                        </TextBlock>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

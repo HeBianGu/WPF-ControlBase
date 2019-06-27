@@ -14,15 +14,15 @@ namespace HeBianGu.General.WpfControlLib
     public partial class LinkWindowBase : WindowBase
     {
 
-        public ObservableCollection<Link> TabLinks
+        public LinkGroup TabLinks
         {
-            get { return (ObservableCollection<Link>)GetValue(TabLinksProperty); }
+            get { return (LinkGroup)GetValue(TabLinksProperty); }
             set { SetValue(TabLinksProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TabLinksProperty =
-            DependencyProperty.Register("TabLinks", typeof(ObservableCollection<Link>), typeof(LinkWindowBase), new PropertyMetadata(new ObservableCollection<Link>(), (d, e) =>
+            DependencyProperty.Register("TabLinks", typeof(LinkGroup), typeof(LinkWindowBase), new PropertyMetadata(new LinkGroup(), (d, e) =>
             {
                 WindowBase control = d as WindowBase;
 
@@ -33,15 +33,15 @@ namespace HeBianGu.General.WpfControlLib
             }));
 
 
-        public ObservableCollection<Link> SettingLinks
+        public LinkGroup SettingLinks
         {
-            get { return (ObservableCollection<Link>)GetValue(SettingLinksProperty); }
+            get { return (LinkGroup)GetValue(SettingLinksProperty); }
             set { SetValue(SettingLinksProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SettingLinksProperty =
-            DependencyProperty.Register("SettingLinks", typeof(ObservableCollection<Link>), typeof(LinkWindowBase), new PropertyMetadata(new ObservableCollection<Link>(), (d, e) =>
+            DependencyProperty.Register("SettingLinks", typeof(LinkGroup), typeof(LinkWindowBase), new PropertyMetadata(new LinkGroup(), (d, e) =>
             {
                 WindowBase control = d as WindowBase;
 
@@ -60,5 +60,6 @@ namespace HeBianGu.General.WpfControlLib
             get { return (ImageSource)GetValue(LogoProperty); }
             set { SetValue(LogoProperty, value); }
         }
+
     }
 }

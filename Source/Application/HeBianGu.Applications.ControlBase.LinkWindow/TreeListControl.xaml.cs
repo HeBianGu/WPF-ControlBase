@@ -86,7 +86,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
 
                 //  Message：触发筛选
-                this.RefreshNodes(this.FilterText, this.SelectTyeEncodeDeviceEntityNode);
+                this.RefreshNodes(this.FilterText, this.SelectEntityNode);
             });
 
         }
@@ -179,57 +179,47 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         }
 
 
-        private ObservableCollection<TreeNodeEntityViewModel> _tyeEncodeDeviceEntityCheck = new ObservableCollection<TreeNodeEntityViewModel>();
+        private ObservableCollection<TreeNodeEntityViewModel> _entityCheck = new ObservableCollection<TreeNodeEntityViewModel>();
         /// <summary> 说明  </summary>
-        public ObservableCollection<TreeNodeEntityViewModel> TyeEncodeDeviceEntityCheck
+        public ObservableCollection<TreeNodeEntityViewModel> EntityCheck
         {
-            get { return _tyeEncodeDeviceEntityCheck; }
+            get { return _entityCheck; }
             set
             {
-                _tyeEncodeDeviceEntityCheck = value;
-                RaisePropertyChanged("TyeEncodeDeviceEntityCheck");
+                _entityCheck = value;
+                RaisePropertyChanged("EntityCheck");
             }
         }
 
 
-        private TreeNodeEntityViewModel _selectTyeEncodeDeviceEntityNode;
+        private TreeNodeEntityViewModel _selectEntityNode;
         /// <summary> 设备过滤选择项  </summary>
-        public TreeNodeEntityViewModel SelectTyeEncodeDeviceEntityNode
+        public TreeNodeEntityViewModel SelectEntityNode
         {
-            get { return _selectTyeEncodeDeviceEntityNode; }
+            get { return _selectEntityNode; }
             set
             {
-                _selectTyeEncodeDeviceEntityNode = value;
+                _selectEntityNode = value;
 
-                RaisePropertyChanged("SelectTyeEncodeDeviceEntityNode");
+                RaisePropertyChanged("SelectEntityNode");
 
                 this.FilterText = this.FilterText?.Trim();
                 //  Message：触发筛选
-                this.RefreshNodes(this.FilterText, value);
-
-                //task.ContinueWith(l =>
-                //{
-                //    if (this.Nodes.Count == 1)
-                //    {
-                //        this.Nodes.First().IsExpanded = true;
-                //    }
-                //});
-
-
+                this.RefreshNodes(this.FilterText, value); 
             }
         }
 
 
-        private TreeNodeEntityViewModel _selectTreeTyeEncodeDeviceEntityNode;
-        /// <summary> 设备过滤选择项  </summary>
-        public TreeNodeEntityViewModel SelectTreeTyeEncodeDeviceEntityNode
+        private TreeNodeEntityViewModel _selectTreeEntityNode;
+        /// <summary>   </summary>
+        public TreeNodeEntityViewModel SelectTreeEntityNode
         {
-            get { return _selectTreeTyeEncodeDeviceEntityNode; }
+            get { return _selectTreeEntityNode; }
             set
             {
-                _selectTreeTyeEncodeDeviceEntityNode = value;
+                _selectTreeEntityNode = value;
 
-                RaisePropertyChanged("SelectTreeTyeEncodeDeviceEntityNode");
+                RaisePropertyChanged("SelectTreeEntityNode");
             }
         }
 
@@ -249,9 +239,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 result.Add(new TreeNodeEntityViewModel(item));
             }
 
-            this.TyeEncodeDeviceEntityCheck = result;
+            this.EntityCheck = result;
 
-            this.SelectTyeEncodeDeviceEntityNode = all;
+            this.SelectEntityNode = all;
         }
 
         void RefreshCount()
@@ -285,7 +275,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         public void RefreshFilter(string text)
         {
-            this.RefreshNodes(text, this.SelectTyeEncodeDeviceEntityNode);
+            this.RefreshNodes(text, this.SelectEntityNode);
         }
 
         List<TreeNodeEntityViewModel> matchNodes = new List<TreeNodeEntityViewModel>();
@@ -474,22 +464,24 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
    
     public partial class TreeNodeEntityViewModel: NotifyPropertyChanged
     {
-        public TreeNodeEntityViewModel(TreeNodeEntity tyeEncodeDeviceEntity)
+        public TreeNodeEntityViewModel(TreeNodeEntity entity)
         {
-            this.TyeEncodeDeviceEntity = tyeEncodeDeviceEntity;
+            this.TreeNodeEntity = entity;
 
-            this.ID = tyeEncodeDeviceEntity.ID;
+            this.ID = entity.ID;
 
-            this.ParentID = tyeEncodeDeviceEntity.ParentID;
+            this.ParentID = entity.ParentID;
 
-            this.Code = tyeEncodeDeviceEntity.Code;
+            this.Code = entity.Code;
 
-            this.Name = tyeEncodeDeviceEntity.Name;
+            this.Name = entity.Name;
 
-            this.NamePY = tyeEncodeDeviceEntity.NamePY;
+            this.NamePY = entity.NamePY;
+
+            this.RootCode = entity.RootCode;
         }
 
-        public TreeNodeEntity TyeEncodeDeviceEntity { get; set; }
+        public TreeNodeEntity TreeNodeEntity { get; set; }
 
         public string ID { get; set; }
 
@@ -498,6 +490,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         public string NamePY { get; set; }
 
         public string Code { get; set; }
+
+        public string RootCode { get; set; }
 
         public string ParentID { get; set; }
 

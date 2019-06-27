@@ -31,7 +31,66 @@ namespace HeBianGu.Base.WpfBase
     }
 
     /// <summary> 连接绑定对象 </summary>
-    public class Link : NotifyPropertyChanged
+    public class Link : LinkBase
+    {
+        private Link _leftLink;
+        /// <summary> 连接地址 </summary>
+        public Link LeftLink
+        {
+            get { return this._leftLink; }
+            set
+            {
+                if (this._leftLink != value)
+                {
+                    this._leftLink = value;
+                    RaisePropertyChanged("Source");
+                }
+            }
+        }
+
+
+        private Link _rightLink;
+        /// <summary> 说明  </summary>
+        public Link RightLink
+        {
+            get { return _rightLink; }
+            set
+            {
+                _rightLink = value;
+                RaisePropertyChanged("RightLink");
+            }
+        }
+
+
+        private Link _topLink;
+        /// <summary> 说明  </summary>
+        public Link TopLink
+        {
+            get { return _topLink; }
+            set
+            {
+                _topLink = value;
+                RaisePropertyChanged("TopLink");
+            }
+        }
+
+
+        private Link _bottomLink;
+        /// <summary> 说明  </summary>
+        public Link BottomLink
+        {
+            get { return _bottomLink; }
+            set
+            {
+                _bottomLink = value;
+                RaisePropertyChanged("BottomLink");
+            }
+        }
+
+
+    }
+    /// <summary> 连接绑定对象基类 </summary>
+    public class LinkBase : NotifyPropertyChanged
     {
         private Uri source;
         /// <summary> 连接地址 </summary>
@@ -100,9 +159,6 @@ namespace HeBianGu.Base.WpfBase
         }
 
         private string groupKey;
-        private Link selectedLink;
-        private LinkCollection links = new LinkCollection();
-
         public string GroupKey
         {
             get { return this.groupKey; }
@@ -116,11 +172,8 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-        /// <summary>
-        /// Gets or sets the selected link in this group.
-        /// </summary>
-        /// <value>The selected link.</value>
-        internal Link SelectedLink
+        private Link selectedLink;
+        public Link SelectedLink
         {
             get { return this.selectedLink; }
             set
@@ -133,14 +186,15 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-        /// <summary>
-        /// Gets the links.
-        /// </summary>
-        /// <value>The links.</value>
+        private LinkCollection links = new LinkCollection();
         public LinkCollection Links
         {
             get { return this.links; }
+            set { this.links=value; }
         }
 
     }
+
+
+   
 }

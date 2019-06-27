@@ -246,9 +246,44 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             //  Do：取消
             else if (command == "UpLoadData")
             {
-                await MessageService.ShowWaittingMessge(() =>
+                await MessageService.ShowPercentProgress(l =>
                 {
-                    Thread.Sleep(2000);
+
+                    for (int i = 1; i <= 100; i++)
+                    {
+                        l.Value = i;
+                        Thread.Sleep(50);
+                    }
+
+                    Thread.Sleep(500);
+
+                });
+
+
+                if (random.Next(2) == 1)
+                {
+                    await MessageService.ShowSumitMessge("上传错误，请检查！");
+                }
+                else
+                {
+                    MessageService.ShowSnackMessageWithNotice("上传成功，合计20条");
+                }
+            }
+            //  Do：取消
+            else if (command == "SaveData")
+            {
+
+                await MessageService.ShowStringProgress(l =>
+                {
+
+                    for (int i = 1; i <= 100; i++)
+                    {
+                        l.MessageStr = $"正在提交当前页第{i}份数据,共100份";
+
+                        Thread.Sleep(50);
+                    }
+
+                    Thread.Sleep(500);
                 });
 
 
@@ -348,7 +383,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                 MessageService.ShowSnackMessageWithNotice("加载完成！");
             }
-           
+
 
         }
 
