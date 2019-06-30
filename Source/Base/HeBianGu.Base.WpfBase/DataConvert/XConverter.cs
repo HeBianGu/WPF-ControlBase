@@ -120,9 +120,18 @@ namespace HeBianGu.Base.WpfBase
         {
             get { return new DrawerOffsetConverter(); }
         }
+
+        public static StringSplitFirstConverter StringSplitFirstConverter
+        {
+            get { return new StringSplitFirstConverter(); }
+        }
+
+        public static StringReplaceConverter StringReplaceConverter
+        {
+            get { return new StringReplaceConverter(); }
+        }
+
         
-
-
         //public static SelectTextConverter SelectTextConverter
         //{
         //    get { return Singleton<SelectTextConverter>.GetInstance(); }

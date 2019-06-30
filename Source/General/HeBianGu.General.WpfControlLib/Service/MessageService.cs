@@ -38,7 +38,7 @@ namespace HeBianGu.General.WpfControlLib
 
         /// <summary> 输出消息和操作按钮 </summary>
         public static void ShowSnackMessage(string message, object actionContent, Action actionHandler)
-        {
+        { 
             Application.Current.Dispatcher.Invoke(() =>
             {
                 IWindowBase window = Application.Current.MainWindow as IWindowBase;
@@ -54,7 +54,7 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 输出消息、按钮和参数 </summary>
         public static void ShowSnackMessage<TArgument>(string message, object actionContent, Action<TArgument> actionHandler,
             TArgument actionArgument)
-        {
+        {  
             Application.Current.Dispatcher.Invoke(() =>
             {
                 IWindowBase window = Application.Current.MainWindow as IWindowBase;
@@ -69,6 +69,9 @@ namespace HeBianGu.General.WpfControlLib
 
         public static async Task ShowWaittingMessge(Action action, Action closeAction = null)
         {
+
+            if (CheckOpen()) return;
+
             await Application.Current.Dispatcher.Invoke(async () =>
              {
                  var view = new WaittingMessageDialog();
@@ -101,6 +104,10 @@ namespace HeBianGu.General.WpfControlLib
 
        public static async Task ShowProgressMessge<T>(Action<T> action, Action closeAction = null) where T : new()
         {
+
+            if (CheckOpen()) return;
+
+
             await Application.Current.Dispatcher.Invoke(async () =>
             {
                 var view = new T();
@@ -123,6 +130,7 @@ namespace HeBianGu.General.WpfControlLib
 
         public static async Task ShowSumitMessge(string message)
         {
+            if (CheckOpen()) return;
             await Application.Current.Dispatcher.Invoke(async () =>
              {
                  var view = new SampleMessageDialog();
@@ -134,8 +142,26 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
+        static bool CheckOpen()
+        {
+            if (IsOpened())
+            {
+                ShowSnackMessageWithNotice("存在未关闭的窗口，请等待或关闭窗口再执行此操作");
+                return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsOpened()
+        {
+            return DialogHost.IsOpened();
+        }
+
         public static async void ShowResultMessge(string message, Action<object, DialogClosingEventArgs> action)
         {
+            if (CheckOpen()) return;
+
             await Application.Current.Dispatcher.Invoke(async () =>
              {
                  var view = new ResultMessageDialog();

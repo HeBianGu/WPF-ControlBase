@@ -2,9 +2,7 @@
 
 namespace HeBianGu.General.WpfControlLib
 {
-    /// <summary>
-    /// Allows transitions to be disabled where supported.
-    /// </summary>
+    /// <summary> 附加属性 </summary>
     public static class TransitionAssist
     {
         /// <summary>

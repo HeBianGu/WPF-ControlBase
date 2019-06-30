@@ -445,7 +445,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
             if (result == null)
             {
-                await MessageService.ShowSumitMessge("查询错误，请检查！" + err);
+                await MessageService.ShowSumitMessge(err);
             }
             else
             {

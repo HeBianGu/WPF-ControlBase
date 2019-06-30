@@ -738,5 +738,11 @@ namespace HeBianGu.General.WpfControlLib
                 DialogHost.OpenDialogCommand.Execute(targets[0], null);
             }
         }
+
+        public static bool IsOpened()
+        {
+            return LoadedInstances.Any(l => l.IsOpen);
+
+        }
     }
 }

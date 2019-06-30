@@ -29,14 +29,14 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         {
             err = string.Empty;
 
-            if (r.Next(2) == 1)
+            if (r.Next(5) == 1)
             {
-                return true;
+                err = "运气不佳，请再来一次";
+                return false;
             }
             else
             {
-                err = "用户或密码错误，请检查";
-                return false;
+                return true;
             }
 
 
@@ -63,19 +63,19 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 result.Add(upLoadItem);
             }
 
+            total = 100;
+
             errorInfor = string.Empty;
 
-            if (r.Next(2) == 1)
+            if (r.Next(5) == 1)
             {
-                total = 100;
-
-                return result;
+                errorInfor = "运气不佳，请再试一次";
+                return null;
+            
             }
             else
             {
-                total = 100;
-                errorInfor = "网络错误";
-                return null;
+                return result;
             }
 
 

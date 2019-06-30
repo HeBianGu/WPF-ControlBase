@@ -534,8 +534,9 @@ namespace HeBianGu.General.WpfControlLib
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            base.OnMouseLeftButtonDown(e);
             this.DragMove();
+
+            base.OnMouseLeftButtonDown(e);
         }
 
         #endregion

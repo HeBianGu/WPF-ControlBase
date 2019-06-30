@@ -17,19 +17,30 @@
         </Grid.RowDefinitions>
 
         <DockPanel Grid.Row="0">
-            <TextBlock Style="{StaticResource C.TextBlock.FontSize.18}"   
-                       Foreground="{DynamicResource S.Brush.TextForeground.Tiltle}"  
-                       Text="按姓名搜索"/>
-            
-            <wpfcontrollib:FTextBox Style="{StaticResource ClearButtonTextBox}" Text="{Binding UpLoadViewModel.SearchName}"
-                            CaretBrush="{DynamicResource S.Brush.TitleTextForeground}"
-                            Background="#f3f3f3" Width="300"  Margin="10,0" 
-                            base:ControlAttachProperty.Watermark="请输入姓名搜索"  
-                            base:ControlAttachProperty.FIcon="&#xe787;"/>
 
-            <wpfcontrollib:FButton Content="查询数据..." HorizontalAlignment="Left" Margin="10,0"
+
+            <wpfcontrollib:FButton Content="选择案例..." HorizontalAlignment="Left" Margin="0,0"
+                                   Command="{x:Static wpfcontrollib:DrawerHost.OpenDrawerCommand}"
+                                   CommandParameter="{x:Static Dock.Left}"/>
+
+            <wpfcontrollib:FButton Content="查看详情..."   HorizontalAlignment="Right" Margin="0,0" DockPanel.Dock="Right"
+                                     Command="{x:Static wpfcontrollib:DrawerHost.OpenDrawerCommand}"
+                                   CommandParameter="{x:Static Dock.Right}"/>
+
+            <wpfcontrollib:FButton Content="查询数据..."   HorizontalAlignment="Right" Margin="10,0" DockPanel.Dock="Right"
                                    Command="{Binding RelayCommand}" 
                                    CommandParameter="SearchHealthData"/>
+
+            <wpfcontrollib:FTextBox Style="{StaticResource ClearButtonTextBox}" Text="{Binding UpLoadViewModel.SearchName}"
+                            CaretBrush="{DynamicResource S.Brush.TitleTextForeground}" DockPanel.Dock="Right"
+                            Background="#f3f3f3" Width="300"  Margin="10,0"   HorizontalAlignment="Right"
+                            base:ControlAttachProperty.Watermark="请输入搜索内容"  
+                            base:ControlAttachProperty.FIcon="&#xe787;"/> 
+
+            <TextBlock Style="{StaticResource C.TextBlock.FontSize.18}"   HorizontalAlignment="Right" DockPanel.Dock="Right"
+                       Foreground="{DynamicResource S.Brush.TextForeground.Tiltle}"  
+                       Text="按条件搜索"/>
+
 
         </DockPanel>
 
@@ -114,10 +125,17 @@
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal">
                                     <wpfcontrollib:FButton Style="{DynamicResource S.FButton.Style.Link}" Width="40"
-                                                           Content="删除"/>
+                                                           Content="删除"
+                                                           Command="{x:Static wpfcontrollib:DrawerHost.OpenDrawerCommand}"
+                                                           CommandParameter="{x:Static Dock.Top}"
+                                                           />
                                     <wpfcontrollib:FButton Style="{DynamicResource S.FButton.Style.Link}"  Width="40"
-                                                           Content="编辑"/>
+                                                           Content="编辑" 
+                                                           Command="{x:Static wpfcontrollib:DrawerHost.OpenDrawerCommand}"
+                                                           CommandParameter="{x:Static Dock.Right}"/>
                                     <wpfcontrollib:FButton Style="{DynamicResource S.FButton.Style.Link}"  Width="40"
+                                                           Command="{x:Static wpfcontrollib:DrawerHost.OpenDrawerCommand}"
+                                                           CommandParameter="{x:Static Dock.Bottom}"
                                                            Content="下载"/>
                                 </StackPanel>
                             </DataTemplate>
@@ -155,17 +173,25 @@
                       <Run Text="条数据）"/>
             </TextBlock>
 
-            <wpfcontrollib:FButton Content="提交" Margin="20,5,0,0" DockPanel.Dock="Right"
-                       Command="{Binding RelayCommand}" VerticalAlignment="Center" Width="160" Height="38"
-                       CommandParameter="UpLoadData" Style="{DynamicResource S.FButton.Style.Defaut}" 
+
+
+
+            <wpfcontrollib:FButton Content="查看日志..." Margin="20,15,0,0"  HorizontalAlignment="Right"  DockPanel.Dock="Right"  VerticalAlignment="Center" 
+                                   Command="{x:Static wpfcontrollib:DrawerHost.OpenDrawerCommand}" Style="{StaticResource S.FButton.Style.Defaut}"
+                                   CommandParameter="{x:Static Dock.Bottom}"/>
+            
+            <wpfcontrollib:FButton Content="提交..." Margin="20,15,0,0" DockPanel.Dock="Right"
+                       Command="{Binding RelayCommand}" VerticalAlignment="Center" 
+                       CommandParameter="UpLoadData" Style="{StaticResource S.FButton.Style.Defaut}"
                        FIcon="" Grid.Row="1" 
                        HorizontalAlignment="Right"/>
 
-            <wpfcontrollib:FButton Content="保存" Margin="0,5,0,0"
-                       Command="{Binding RelayCommand}" VerticalAlignment="Center" Width="160" Height="38"
-                       CommandParameter="SaveData" Style="{DynamicResource S.FButton.Style.Defaut}" 
+            <wpfcontrollib:FButton Content="保存..." Margin="20,15,0,0" DockPanel.Dock="Right"
+                       Command="{Binding RelayCommand}" VerticalAlignment="Center" 
+                       CommandParameter="SaveData" Style="{StaticResource S.FButton.Style.Defaut}"
                        FIcon="" Grid.Row="1" 
                        HorizontalAlignment="Right"/>
+
         </DockPanel>
 
     </Grid>
