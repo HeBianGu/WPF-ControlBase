@@ -79,7 +79,7 @@ namespace HeBianGu.Base.WpfBase
 
         public static Brush MouseOverBackground(DependencyObject element)
         {
-            return (Brush)element.GetValue(FocusBackgroundProperty);
+            return (Brush)element.GetValue(MouseOverBackgroundProperty);
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace HeBianGu.Base.WpfBase
 
         public static Brush MouseOverForeground(DependencyObject element)
         {
-            return (Brush)element.GetValue(FocusForegroundProperty);
+            return (Brush)element.GetValue(MouseOverForegroundProperty);
         }
 
         #endregion
@@ -131,6 +131,40 @@ namespace HeBianGu.Base.WpfBase
         public static Brush SelectForeground(DependencyObject element)
         {
             return (Brush)element.GetValue(SelectForegroundProperty);
+        }
+
+        #endregion
+
+        #region PressBackgroundProperty 按下背景色
+
+        public static readonly DependencyProperty PressBackgroundProperty = DependencyProperty.RegisterAttached(
+            "PressBackground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+
+        public static void SetPressBackground(DependencyObject element, Brush value)
+        {
+            element.SetValue(PressBackgroundProperty, value);
+        }
+
+        public static Brush PressBackground(DependencyObject element)
+        {
+            return (Brush)element.GetValue(PressBackgroundProperty);
+        }
+
+        #endregion
+
+        #region  PressForegroundProperty 按下前景色
+
+        public static readonly DependencyProperty PressForegroundProperty = DependencyProperty.RegisterAttached(
+            "PressForeground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+
+        public static void SetPressForeground(DependencyObject element, Brush value)
+        {
+            element.SetValue(PressForegroundProperty, value);
+        }
+
+        public static Brush PressForeground(DependencyObject element)
+        {
+            return (Brush)element.GetValue(PressForegroundProperty);
         }
 
         #endregion

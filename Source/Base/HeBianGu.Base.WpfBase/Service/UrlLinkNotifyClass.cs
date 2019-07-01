@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace HeBianGu.Base.WpfBase
 {
@@ -11,7 +12,6 @@ namespace HeBianGu.Base.WpfBase
     /// <summary> 连接绑定集合 </summary>
     public class LinkCollection : ObservableCollection<Link>
     {
-      
         public LinkCollection()
         {
 
@@ -31,11 +31,27 @@ namespace HeBianGu.Base.WpfBase
     }
 
     /// <summary> 连接绑定对象 </summary>
-    public class Link : LinkBase
+    public class TabLink : Link
     {
-        private Link _leftLink;
-        /// <summary> 连接地址 </summary>
-        public Link LeftLink
+
+        private Control _centerLink;
+        /// <summary> 左侧控件地址 </summary>
+        public Control CenterLink
+        {
+            get { return this._centerLink; }
+            set
+            {
+                if (this._centerLink != value)
+                {
+                    this._centerLink = value;
+                    RaisePropertyChanged("CenterLink");
+                }
+            }
+        }
+
+        private Control _leftLink;
+        /// <summary> 左侧控件地址 </summary>
+        public Control LeftLink
         {
             get { return this._leftLink; }
             set
@@ -43,15 +59,14 @@ namespace HeBianGu.Base.WpfBase
                 if (this._leftLink != value)
                 {
                     this._leftLink = value;
-                    RaisePropertyChanged("Source");
+                    RaisePropertyChanged("LeftLink");
                 }
             }
         }
 
-
-        private Link _rightLink;
-        /// <summary> 说明  </summary>
-        public Link RightLink
+        private Control _rightLink;
+        /// <summary> 右侧控件地址  </summary>
+        public Control RightLink
         {
             get { return _rightLink; }
             set
@@ -61,10 +76,9 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-
-        private Link _topLink;
-        /// <summary> 说明  </summary>
-        public Link TopLink
+        private Control _topLink;
+        /// <summary> 上侧控件地址  </summary>
+        public Control TopLink
         {
             get { return _topLink; }
             set
@@ -74,10 +88,9 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-
-        private Link _bottomLink;
-        /// <summary> 说明  </summary>
-        public Link BottomLink
+        private Control _bottomLink;
+        /// <summary> 下侧控件地址  </summary>
+        public Control BottomLink
         {
             get { return _bottomLink; }
             set
@@ -90,7 +103,7 @@ namespace HeBianGu.Base.WpfBase
 
     }
     /// <summary> 连接绑定对象基类 </summary>
-    public class LinkBase : NotifyPropertyChanged
+    public class Link: NotifyPropertyChanged
     {
         private Uri source;
         /// <summary> 连接地址 </summary>
@@ -158,20 +171,6 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-        private string groupKey;
-        public string GroupKey
-        {
-            get { return this.groupKey; }
-            set
-            {
-                if (this.groupKey != value)
-                {
-                    this.groupKey = value;
-                    RaisePropertyChanged("GroupKey");
-                }
-            }
-        }
-
         private Link selectedLink;
         public Link SelectedLink
         {
@@ -193,8 +192,17 @@ namespace HeBianGu.Base.WpfBase
             set { this.links=value; }
         }
 
+        private string _logo;
+        /// <summary> 说明  </summary>
+        public string Logo
+        {
+            get { return _logo; }
+            set
+            {
+                _logo = value;
+                RaisePropertyChanged("Logo");
+            }
+        }
     }
-
-
    
 }

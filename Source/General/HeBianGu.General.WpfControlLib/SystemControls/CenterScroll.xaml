@@ -1,37 +1,36 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-                      xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
-                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
-
-    <!--<ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../SystemControls/FIcon.xaml"/>
-    </ResourceDictionary.MergedDictionaries>-->
-
+                     xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"> 
     <sys:Double x:Key="CenterScrollBarSize">12</sys:Double>
 
     <!--滚动两边按钮样式-->
-    <Style x:Key="CenterScrollBarButton" TargetType="{x:Type RepeatButton}">
+    <Style x:Key="S.ScrollView.Center.RepeatButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="Background" Value="Transparent"></Setter>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"></Setter>
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer},Path=Foreground}"/>
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
-        <!--<Setter Property="HorizontalAlignment" Value="{x:Null}"></Setter>-->
-        <Setter Property="Width" Value="auto"></Setter>
-        <Setter Property="Height" Value="auto"></Setter>
+        <Setter Property="Width" Value="Auto"></Setter>
+        <Setter Property="Height" Value="Auto"></Setter>
+        <Setter Property="Delay" Value="0"></Setter>
+        <Setter Property="Interval" Value="10"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <TextBlock x:Name="FIcon" 
-                               FontSize="12" 
+                    <TextBlock x:Name="FIcon" Height="{TemplateBinding Height}"
+                               FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}"
                                Text="{TemplateBinding base:ControlAttachProperty.FIcon}" 
-                               Margin="1"
+                               Margin="1" Background="{TemplateBinding Background}"
                                Style="{DynamicResource FIcon}" />
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" TargetName="FIcon"/>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer},Path=(base:ControlAttachProperty.MouseOverForeground)}"
+                                    TargetName="FIcon"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Gray.Notice}" TargetName="FIcon"/>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer},Path=(base:ControlAttachProperty.PressForeground)}" 
+                                    TargetName="FIcon"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Opacity" Value="0.5" TargetName="FIcon"/>
@@ -40,169 +39,82 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <!--滚动条滑块两边按钮样式-->
-    <Style x:Key="CenterScrollBarTrackButton" TargetType="{x:Type RepeatButton}">
-        <Setter Property="Background" Value="Transparent"></Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border Background="Transparent"></Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!--滚动条滑块样式-->
-    <ControlTemplate x:Key="CenterThumbTemplate" TargetType="Thumb">
-        <Grid>
-            <Border  x:Name="Bg" 
-                     CornerRadius="4" 
-                     Margin="2" 
-                     SnapsToDevicePixels="True" 
-                     Background="{DynamicResource S.Brush.Accent.MouseOver}">
-                <!--<Border.Background>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Color="#C7C0C0" Offset="0.15"/>
-                        <GradientStop Color="#AFA9A9" Offset=".5"/>
-                        <GradientStop Color="#989494" Offset=".5"/>
-                        <GradientStop Color="#858585" Offset="1"/>
-                    </LinearGradientBrush>
-                </Border.Background>-->
-            </Border>
-        </Grid>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" TargetName="Bg"></Setter>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter Property="Opacity" Value="0.5" TargetName="Bg"></Setter>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-
+    </Style> 
+    
     <!--水平滚滚动条模板-->
-    <ControlTemplate x:Key="CenterHorizontalScrollBar" TargetType="{x:Type ScrollBar}">
+    <ControlTemplate x:Key="T.ScrollView.Center.ScrollBar.Horizontal" TargetType="{x:Type ScrollBar}">
         <Grid x:Name="HorizontalRoot" Height="{TemplateBinding Height}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <!--外部背景,好像不用更好看-->
-            <!--<Border x:Name="Bg" Grid.Column="0" Grid.ColumnSpan="3" CornerRadius="0"  Opacity="0" Background="#858585"/>-->
-            <!--内部背景-->
-            <!--<Border x:Name="BgInner" Grid.Column="1" Margin="0" SnapsToDevicePixels="True" Opacity="0.3"  CornerRadius="6" Background="{StaticResource ScrollBarBackground}"/>-->
             <!--左按钮-->
-
             <Border Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <RepeatButton  base:ControlAttachProperty.FIcon="&#xe671;"  
-                               Style="{StaticResource CenterScrollBarButton}" 
-                               x:Name="HorizontalSmallDecrease"
-                               IsTabStop="False" Interval="50" 
+                <RepeatButton base:ControlAttachProperty.FIcon="&#xe671;"  
+                               Style="{StaticResource S.ScrollView.Center.RepeatButton}" 
+                               x:Name="HorizontalSmallDecrease"  FontSize="{TemplateBinding FontSize}"
+                               Foreground="{TemplateBinding Foreground}"
+                               IsTabStop="False" Interval="50" Height="{TemplateBinding Height}"
                                Margin="0,1,0,0" 
                                Command="ScrollBar.LineLeftCommand"/>
             </Border>
-            
-            <!--中间滑动区域--><!--
-            <Track x:Name="PART_Track" IsDirectionReversed="False" Grid.Column="1">
-                --><!--左滑块--><!--
-                <Track.DecreaseRepeatButton>
-                    <RepeatButton x:Name="HorizontalLargeDecrease" Command="ScrollBar.PageLeftCommand"
-                                      IsTabStop="False" Interval="50" Style="{DynamicResource ScrollBarTrackButton}" />
-                </Track.DecreaseRepeatButton>
-                --><!--中间滑块 Margin="1" VerticalAlignment="Center" VerticalContentAlignment="Center" --><!--
-                <Track.Thumb>
-                    <Thumb Template="{StaticResource ThumbTemplate}" />
-                </Track.Thumb>
-                --><!--右滑块--><!--
-                <Track.IncreaseRepeatButton>
-                    <RepeatButton x:Name="HorizontalLargeIncrease" Command="ScrollBar.PageRightCommand"
-                                      IsTabStop="False"  Interval="50" Style="{DynamicResource ScrollBarTrackButton}" />
-                </Track.IncreaseRepeatButton>
-            </Track>-->
-            
+
             <!--右按钮-->
             <Border Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <RepeatButton base:ControlAttachProperty.FIcon="&#xe66d;"  Style="{StaticResource CenterScrollBarButton}"
-                                 IsTabStop="False" Interval="50" Margin="0,1,0,0" Command="ScrollBar.LineRightCommand"/>
+                <RepeatButton base:ControlAttachProperty.FIcon="&#xe66d;"  
+                              Style="{StaticResource S.ScrollView.Center.RepeatButton}"   FontSize="{TemplateBinding FontSize}"
+                              Foreground="{TemplateBinding Foreground}"
+                              IsTabStop="False" Interval="50"  Height="{TemplateBinding Height}"
+                              Margin="0,1,0,0" 
+                              Command="ScrollBar.LineRightCommand"/>
             </Border>
-        </Grid>
-        <ControlTemplate.Triggers>
-            <!--<Trigger Property="IsMouseOver" Value="true">
-                <Setter TargetName="BgInner" Property="Opacity" Value="0.5"/>
-            </Trigger>-->
-        </ControlTemplate.Triggers>
+        </Grid> 
     </ControlTemplate>
 
     <!--垂直滚滚动条模板-->
-    <ControlTemplate x:Key="CenterVerticalScrollBar" TargetType="{x:Type ScrollBar}">
+    <ControlTemplate x:Key="T.ScrollView.Center.ScrollBar.Vertical" TargetType="{x:Type ScrollBar}">
         <Grid x:Name="VerticalRoot" Height="{TemplateBinding Height}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <!--外部背景,好像不用更好看-->
-            <!--<Border x:Name="Bg" Grid.Row="0" Grid.RowSpan="3" CornerRadius="0" Opacity="0" Background="#858585"/>-->
-            <!--内部背景-->
-            <!--<Border x:Name="BgInner" Grid.Row="1" Margin="0" CornerRadius="6" SnapsToDevicePixels ="True" Opacity="0.3"  Background="Transparent"/>-->
+            </Grid.RowDefinitions> 
             <!--上按钮-->
             <Border Grid.Row="0"  VerticalAlignment="Stretch" HorizontalAlignment="Stretch" x:Name="VerticalSmallDecrease">
-                <RepeatButton base:ControlAttachProperty.FIcon="&#xe66f;"  Style="{StaticResource CenterScrollBarButton}"
-                                 IsTabStop="False" Interval="50" Margin="0" Command="ScrollBar.LineUpCommand"/>
+                <RepeatButton base:ControlAttachProperty.FIcon="&#xe66f;"  Style="{StaticResource S.ScrollView.Center.RepeatButton}" Foreground="{TemplateBinding Foreground}"
+                                 IsTabStop="False" Interval="50"  FontSize="{TemplateBinding FontSize}" Margin="0" Command="ScrollBar.LineUpCommand"/>
             </Border>
-            <!--中间滑动区域--><!--
-            <Track x:Name="PART_Track" IsDirectionReversed="true" Grid.Row="1">
-                --><!--上滑块--><!--
-                <Track.DecreaseRepeatButton>
-                    <RepeatButton x:Name="HorizontalLargeDecrease" Command="ScrollBar.PageUpCommand" 
-                                      IsTabStop="False" Interval="50" Style="{DynamicResource ScrollBarTrackButton}" />
-                </Track.DecreaseRepeatButton>
-                --><!--中间滑块--><!--
-                <Track.Thumb>
-                    <Thumb Template="{StaticResource ThumbTemplate}" MinHeight="10"/>
-                </Track.Thumb>
-                --><!--下滑块--><!--
-                <Track.IncreaseRepeatButton>
-                    <RepeatButton x:Name="HorizontalLargeIncrease" Command="ScrollBar.PageDownCommand"
-                                      IsTabStop="False" Interval="50" Style="{DynamicResource ScrollBarTrackButton}" />
-                </Track.IncreaseRepeatButton>
-            </Track>-->
+            
             <!--下按钮-->
             <Border Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="VerticalSmallIncrease">
-                <RepeatButton base:ControlAttachProperty.FIcon="&#xe66e;"  Style="{StaticResource CenterScrollBarButton}"
-                                 IsTabStop="False" Interval="50" Margin="0" Command="ScrollBar.LineDownCommand"/>
+                <RepeatButton base:ControlAttachProperty.FIcon="&#xe66e;"  Style="{StaticResource S.ScrollView.Center.RepeatButton}"
+                                 IsTabStop="False" Interval="50"  FontSize="{TemplateBinding FontSize}" Margin="0" Command="ScrollBar.LineDownCommand"/>
             </Border>
-        </Grid>
-        <ControlTemplate.Triggers>
-            <!--<Trigger Property="IsMouseOver" Value="true">
-                <Setter TargetName="BgInner" Property="Opacity" Value="0.5"/>
-            </Trigger>-->
-        </ControlTemplate.Triggers>
+        </Grid> 
     </ControlTemplate>
 
     <!--ScrollBar样式-->
-    <Style x:Key="CenterScrollBar" TargetType="{x:Type ScrollBar}">
+    <Style x:Key="S.ScrollView.Center.ScrollBar" TargetType="{x:Type ScrollBar}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Style.Triggers>
             <Trigger Property="Orientation" Value="Horizontal">
-                <Setter Property="Template" Value="{StaticResource CenterHorizontalScrollBar}" />
-                <Setter Property="Height" Value="{StaticResource CenterScrollBarSize}" />
+                <Setter Property="Template" Value="{StaticResource T.ScrollView.Center.ScrollBar.Horizontal}" />
+                <Setter Property="Height" Value="Auto" />
             </Trigger>
             <Trigger Property="Orientation" Value="Vertical">
-                <Setter Property="Template" Value="{StaticResource CenterVerticalScrollBar}" />
-                <Setter Property="Width" Value="{StaticResource CenterScrollBarSize}" />
+                <Setter Property="Template" Value="{StaticResource T.ScrollView.Center.ScrollBar.Horizontal}" />
+                <Setter Property="Width" Value="Auto" />
             </Trigger>
         </Style.Triggers>
     </Style>
 
     <!--ScrollViewer样式-->
-    <Style x:Key="CenterScrollViewer" TargetType="{x:Type ScrollViewer}">
+    <Style x:Key="S.ScrollView.Center.Defaut" TargetType="{x:Type ScrollViewer}">
         <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/> 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -224,21 +136,21 @@
                                                 Grid.Row="1" Grid.Column="1" />
                         <!--垂直滚动条 -->
                         <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar"
-                                   ViewportSize="{TemplateBinding ViewportHeight}"
+                                   ViewportSize="{TemplateBinding ViewportHeight}" Foreground="{TemplateBinding Foreground}"
                                    Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}"
                                    Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                    Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                   Style="{StaticResource CenterScrollBar}"
+                                   Style="{StaticResource S.ScrollView.Center.ScrollBar}"  FontSize="{TemplateBinding FontSize}" Background="{TemplateBinding Background}"
                                    Grid.RowSpan="3"
                                    />
                         <!--水平底部滚动条-->
                         <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar"
                                    Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}"
-                                   Minimum="0" Orientation="Horizontal" Grid.Row="1"
+                                   Minimum="0" Orientation="Horizontal" Grid.Row="1"  Foreground="{TemplateBinding Foreground}"
                                    Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
                                    Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                   ViewportSize="{TemplateBinding ViewportWidth}"
-                                   Style="{StaticResource CenterScrollBar}"
+                                   ViewportSize="{TemplateBinding ViewportWidth}" Background="{TemplateBinding Background}"
+                                   Style="{StaticResource S.ScrollView.Center.ScrollBar}"  FontSize="{TemplateBinding FontSize}"
                                    Grid.ColumnSpan="3"/>
                     </Grid>
                 </ControlTemplate>

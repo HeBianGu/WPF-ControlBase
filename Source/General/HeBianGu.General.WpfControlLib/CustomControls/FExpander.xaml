@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+    xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!--<ResourceDictionary.MergedDictionaries>
@@ -12,6 +13,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
          <!--内容背景色-->
         <Setter Property="Background" Value="{DynamicResource S.Brush.LightGray.Notice}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}"/>
         <Setter Property="MinWidth" Value="180"/>
         <Setter Property="CanHide" Value="True"/>
         <Setter Property="IsExpanded" Value="False"/>
@@ -58,10 +60,9 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <Border BorderBrush="{DynamicResource S.Brush.LightGray.Notice}" BorderThickness="0,0,0,1">
+                                <Border x:Name="border" BorderBrush="{DynamicResource S.Brush.LightGray.Notice}" BorderThickness="0,0,0,1">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition x:Name="iconWidth" Width="Auto"/>
                                             <ColumnDefinition x:Name="IconFontWidth" Width="Auto"/>
                                             <ColumnDefinition/>
                                             <ColumnDefinition x:Name="hintWidth" Width="Auto"/>
@@ -71,27 +72,28 @@
                                         <local:FButton Grid.ColumnSpan="5" Foreground="Transparent" Background="Transparent" Width="{TemplateBinding Width}" FIcon="" 
                                                        MouseOverBackground="Transparent" BorderThickness="0"  Command="local:FExpander.ButtonClickCommand"/>
 
-                                        <Image Width="12" Height="12" Margin="10,0,0,0" VerticalAlignment="Center" Source="{TemplateBinding Icon}" Opacity="0.7"/>
-
                                         <!--图像-->
-                                        <TextBlock Grid.Column="1" Style="{DynamicResource FIcon}" FontSize="{TemplateBinding FontSize}" Width="12" Height="12" Margin="10,0,0,0" VerticalAlignment="Center" Text="{TemplateBinding IconFont}" Opacity="0.7"/>
-
-                                        <!--<Metro:MetroTextBlock Grid.Column="1" Text="{TemplateBinding Header}" Margin="10,8,5,8" VerticalAlignment="Center" HorizontalAlignment="Left" Opacity="0.65"/>
-                                        
-                                        <Metro:MetroBorder    Grid.Column="2" AutoCornerRadius="True" Margin="0,0,5,0" VerticalAlignment="Center" Background="{TemplateBinding HintBackground}">
-                                            <Metro:MetroTextBlock VerticalAlignment="Center" Margin="8,1" Text="{TemplateBinding Hint}" Foreground="{TemplateBinding HintForeground}"/>
-                                        </Metro:MetroBorder>-->
+                                        <TextBlock Grid.Column="0" Style="{DynamicResource FIcon}" 
+                                                   FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:FExpander},Path=(base:ControlAttachProperty.FIconSize)}"
+                                                   VerticalAlignment="Center" Width="Auto" HorizontalAlignment="Center" Margin="{Binding RelativeSource={RelativeSource AncestorType=local:FExpander},Path=(base:ControlAttachProperty.FIconMargin)}"
+                                                   Text="{TemplateBinding IconFont}" Opacity="0.7"/> 
 
                                        <!--抬头文本-->
-                                        <TextBlock Grid.Column="2" Text="{TemplateBinding Header}"  IsHitTestVisible="False"  Margin="10,8,5,8"  VerticalAlignment="Center" HorizontalAlignment="Left" Opacity="0.65"/>
+                                        <TextBlock Grid.Column="1" Text="{TemplateBinding Header}"  
+                                                   IsHitTestVisible="False"  Margin="10,8,5,8"  Foreground="{TemplateBinding Foreground}"
+                                                   VerticalAlignment="Center" HorizontalAlignment="Left"/>
 
                                         <!--详细信息背景-->
-                                        <Border  Grid.Column="3" Margin="0,0,5,0" VerticalAlignment="Center"  IsHitTestVisible="False"   Background="{TemplateBinding HintBackground}">
-                                            <TextBlock VerticalAlignment="Center" Margin="8,1" Text="{TemplateBinding Hint}" Foreground="{TemplateBinding HintForeground}"/>
+                                        <Border  Grid.Column="2" Margin="0,0,5,0" VerticalAlignment="Center"  
+                                                 IsHitTestVisible="False"
+                                                 Background="{TemplateBinding HintBackground}">
+                                            
+                                            <TextBlock VerticalAlignment="Center" Margin="8,1" FontSize="11" Text="{TemplateBinding Hint}" 
+                                                       Foreground="{TemplateBinding HintForeground}"/>
                                         </Border>
                                         
                                         <!--下拉图标-->
-                                        <Grid Grid.Column="4" Margin="10,0" VerticalAlignment="Center"  IsHitTestVisible="True" >
+                                        <Grid Grid.Column="3" Margin="10,0" VerticalAlignment="Center"  IsHitTestVisible="True" >
                                             <Polyline Points="0,0 5,5 0,10" Stroke="#000000" RenderTransformOrigin="0.5,0.5" Opacity="0.65">
                                                 <Polyline.RenderTransform>
                                                     <TransformGroup>
@@ -100,9 +102,6 @@
                                                 </Polyline.RenderTransform>
                                             </Polyline>
                                         </Grid>
-                                        <!--<Metro:MetroFocusButton Grid.ColumnSpan="4" Foreground="#00000000" MouseMoveForeground="#0C000000" BorderThickness="0" MouseMoveBorderThickness="0" Command="Metro:MetroExpander.ButtonClickCommand"/>-->
-
-
                                     </Grid>
                                 </Border>
                                 <Grid x:Name="height" Grid.Row="1" Background="{TemplateBinding Background}" Height="{Binding ActualHeight,ElementName=content}" ClipToBounds="True">
@@ -117,15 +116,17 @@
                                 <Trigger Property="Hint" Value="{x:Null}">
                                     <Setter TargetName="hintWidth" Property="Width" Value="0"/>
                                 </Trigger>
-                                <Trigger Property="Icon" Value="{x:Null}">
-                                    <Setter TargetName="iconWidth" Property="Width" Value="0"/>
-                                </Trigger>
+                                
                                 <Trigger Property="IconFont" Value="{x:Null}">
                                     <Setter TargetName="IconFontWidth" Property="Width" Value="0"/>
                                 </Trigger>
                                 <Trigger Property="Content" Value="{x:Null}">
                                     <Setter TargetName="algleWidth" Property="MaxWidth" Value="0"/>
                                 </Trigger>
+
+                                <!--<Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver}" TargetName="border"/>
+                                </Trigger>-->
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
@@ -144,26 +145,23 @@
                                 <Border BorderBrush="{DynamicResource S.Brush.Accent}" BorderThickness="0,0,0,1">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition x:Name="iconWidth" Width="Auto"/>
                                             <ColumnDefinition x:Name="IconFontWidth" Width="Auto"/>
                                             <ColumnDefinition/>
                                             <ColumnDefinition x:Name="hintWidth" Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        
-                                        <Image Width="12" Height="12" Margin="10,0,0,0" VerticalAlignment="Center" Source="{TemplateBinding Icon}" Opacity="0.7"/>
-
                                         <!--图像-->
-                                        <TextBlock Grid.Column="1" Style="{DynamicResource FIcon}"  FontSize="{TemplateBinding FontSize}" Width="12" Height="12" Margin="10,0,0,0" VerticalAlignment="Center" Text="{TemplateBinding IconFont}" Opacity="0.7"/>
+                                        <TextBlock Grid.Column="0" Style="{DynamicResource FIcon}" 
+                                                   FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:FExpander},Path=(base:ControlAttachProperty.FIconSize)}"
+                                                   Margin="0,0,0,0" HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center" 
+                                                   Text="{TemplateBinding IconFont}"/> 
 
-
-                                        <!--<Metro:MetroTextBlock Grid.Column="1" Text="{TemplateBinding Header}" Margin="10,8,5,8" VerticalAlignment="Center" HorizontalAlignment="Left" Opacity="0.65"/>
-                                        <Metro:MetroBorder    Grid.Column="2" AutoCornerRadius="True" Margin="0,0,5,0" VerticalAlignment="Center" Background="{TemplateBinding HintBackground}">
-                                            <Metro:MetroTextBlock VerticalAlignment="Center" Margin="8,1" Text="{TemplateBinding Hint}" Foreground="{TemplateBinding HintForeground}"/>
-                                        </Metro:MetroBorder>-->
-
-                                        <TextBlock Grid.Column="2" Text="{TemplateBinding Header}" Margin="10,8,5,8" VerticalAlignment="Center" HorizontalAlignment="Left" Opacity="0.65"/>
+                                        <TextBlock Grid.Column="1" Text="{TemplateBinding Header}" 
+                                                   Margin="10,8,5,8" Foreground="{TemplateBinding Foreground}"
+                                                   VerticalAlignment="Center" 
+                                                   HorizontalAlignment="Left"/>
                                        
-                                        <Border    Grid.Column="3"  Margin="0,0,5,0" VerticalAlignment="Center" Background="{TemplateBinding HintBackground}">
+                                        <Border    Grid.Column="2"  Margin="0,0,5,0" VerticalAlignment="Center" Background="{TemplateBinding HintBackground}">
                                             <TextBlock VerticalAlignment="Center" Margin="8,1" Text="{TemplateBinding Hint}" Foreground="{TemplateBinding HintForeground}"/>
                                         </Border>
                                     </Grid>
@@ -176,10 +174,7 @@
                             <ControlTemplate.Triggers>
                                 <Trigger Property="Hint" Value="{x:Null}">
                                     <Setter TargetName="hintWidth" Property="Width" Value="0"/>
-                                </Trigger>
-                                <Trigger Property="Icon" Value="{x:Null}">
-                                    <Setter TargetName="iconWidth" Property="Width" Value="0"/>
-                                </Trigger>
+                                </Trigger> 
                                 <Trigger Property="IconFont" Value="{x:Null}">
                                     <Setter TargetName="IconFontWidth" Property="Width" Value="0"/>
                                 </Trigger>
@@ -189,9 +184,7 @@
                 </Setter>
             </Trigger>
 
-            <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
-            </Trigger>
+            
         </Style.Triggers>
     </Style>
 

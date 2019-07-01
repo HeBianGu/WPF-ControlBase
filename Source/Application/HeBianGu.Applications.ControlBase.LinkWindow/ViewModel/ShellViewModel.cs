@@ -31,6 +31,18 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         }
 
 
+        private Link _currentLink;
+        /// <summary> 说明  </summary>
+        public Link CurrentLink
+        {
+            get { return _currentLink; }
+            set
+            {
+                _currentLink = value;
+                RaisePropertyChanged("CurrentLink");
+            }
+        } 
+
         private SettingViewModel _settingViewModel = new SettingViewModel();
         /// <summary> 说明  </summary>
         public SettingViewModel SettingViewModel
@@ -42,8 +54,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 RaisePropertyChanged("SettingViewModel");
             }
         }
-
-
 
         private TreeListViewModel _treeListViewModel = new TreeListViewModel();
         /// <summary> 说明  </summary>
@@ -60,7 +70,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         Random random = new Random();
 
-        Link setlink;
         protected async override void RelayMethod(object obj)
         {
             string command = obj.ToString();
@@ -72,7 +81,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                 await Task.Run(() =>
                 {
-                    Thread.Sleep(2000);
+                    Thread.Sleep(500);
 
                     string err;
 
@@ -120,7 +129,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 ////  Do：加载数据库配置
                 //this.CheckSetting();
 
-                await Task.Delay(1000).ContinueWith(l =>
+                await Task.Delay(100).ContinueWith(l =>
                  {
                      Application.Current.Dispatcher.Invoke(() =>
                      {
@@ -433,14 +442,14 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             {
                 System.Diagnostics.Debug.WriteLine(this.UpLoadViewModel.StartSelectedDate);
 
-                Thread.Sleep(2000);
+                Thread.Sleep(500);
 
                 result = AssemblyDomain.Instance.GetGuideList(out err, out total,
                     this.UpLoadViewModel.StartSelectedDate?.ToString("yyyy-MM-dd"),
                     this.UpLoadViewModel.EndSelectedDate?.ToString("yyyy-MM-dd"),
                     this.UpLoadViewModel.SearchName, this.UpLoadViewModel.SelectType == 0 ? 1 : 0,
                     (uint)(int.Parse(this.UpLoadViewModel.CurrentIndex)),
-                    17);
+                    22);
             });
 
             if (result == null)

@@ -484,117 +484,120 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:LinkWindowBase}">
-                    <!--<Viewbox>
-                        <Grid Name="g_all" Width="1920" Height="1080">-->
-                    <Grid Name="g_all">
-                        <!--背景-->
-                        <Border x:Name="Bg" 
+                    <Viewbox>
+                        <Grid Name="g_all" Width="1920" Height="1055">
+
+                            <!--背景-->
+                            <Border x:Name="Bg" 
                                 CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
                                 Background="{TemplateBinding Background}" 
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 Effect="{DynamicResource WindowDropShadow}"
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
-                        <Border  x:Name="BgInner" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
+                            <Border  x:Name="BgInner" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
                                   Background="{TemplateBinding Background}" 
                                   BorderThickness="{TemplateBinding BorderThickness}" 
                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
-                        <Grid Margin="1">
-                            <Grid.RowDefinitions>
-                                <RowDefinition MinHeight="20" Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <!--Caption标题部分-->
-                            <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}">
-                                <Grid Margin="2,1,2,0">
+                            <Grid Margin="1">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="20" Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <!--Caption标题部分-->
+                                <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}">
+                                    <Grid Margin="2,1,2,0">
 
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="250"/>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="250"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
 
-                                    <Border Grid.ColumnSpan="3" Grid.RowSpan="2"/>
-                                    <!--Header部分-->
-                                    <StackPanel x:Name="PART_Header" Height="{TemplateBinding CaptionHeight}" HorizontalAlignment="Left" Margin="15,1,15,1" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Border Grid.ColumnSpan="3" Grid.RowSpan="2"/>
+                                        <!--Header部分-->
+                                        <StackPanel x:Name="PART_Header" Height="{TemplateBinding CaptionHeight}" HorizontalAlignment="Left" Margin="15,1,15,1" Orientation="Horizontal" VerticalAlignment="Center">
+                                            <Image Margin="5,20" Source="{TemplateBinding Logo}" />
+                                        </StackPanel>
 
-                                        <Image Margin="5,20" Source="{TemplateBinding Logo}" />
-                                    </StackPanel>
+                                        <!--菜单页部分-->
 
-                                    <!--菜单页部分-->
-
-                                    <ListBox x:Name="list"  Grid.Column="1" Background="Transparent" 
-                                              BorderBrush="Transparent" SelectedIndex="0" 
-                                              SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink}"
-                                              ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.Links}" Margin="-2"
+                                        <ScrollViewer Grid.Column="1" Style="{DynamicResource S.ScrollView.Center.Defaut}" FontSize="20"
+                                                      base:ControlAttachProperty.MouseOverForeground="{DynamicResource S.Brush.LightGray.Notice}"
+                                                      base:ControlAttachProperty.PressForeground="{DynamicResource S.Brush.Gray.Notice}"
+                                                      Foreground="{DynamicResource S.Brush.White.Notice}" Padding="20,0">
+                                            <ListBox x:Name="list"  Grid.Column="1" Background="Transparent" 
+                                              BorderBrush="Transparent" SelectedIndex="0"
+                                              SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}"
+                                              ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks}" Margin="-2"
                                               WindowChrome.IsHitTestVisibleInChrome="True" >
 
-                                        <ListBox.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"/>
-                                            </ItemsPanelTemplate>
-                                        </ListBox.ItemsPanel>
-                                        <ListBox.ItemContainerStyle>
-                                            <Style TargetType="{x:Type ListBoxItem}">
-                                                <Setter Property="Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                            <Grid Width="218">
-                                                                <Border x:Name="border" Background="Transparent">
-                                                                    <Grid>
-                                                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                                            <TextBlock Style="{DynamicResource FIcon}" 
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"/>
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+                                                <ListBox.ItemContainerStyle>
+                                                    <Style TargetType="{x:Type ListBoxItem}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                                    <Grid Width="218">
+                                                                        <Border x:Name="border" Background="Transparent">
+                                                                            <Grid>
+                                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                                    <TextBlock Style="{DynamicResource FIcon}" 
                                                                                        Foreground="{DynamicResource S.Brush.White.Notice}"
                                                                                        FontSize="30" 
                                                                                        Text="{Binding Logo}" 
                                                                                        HorizontalAlignment="Center" 
                                                                                        VerticalAlignment="Center"/>
 
-                                                                            <TextBlock Text="{Binding DisplayName}" 
+                                                                                    <TextBlock Text="{Binding DisplayName}" 
                                                                                        Margin="8,0,0,0" FontSize="18" VerticalAlignment="Center"
                                                                                        Foreground="{DynamicResource S.Brush.White.Notice}"/>
-                                                                        </StackPanel>
-                                                                        
-                                                                        <Border x:Name="bord_selected" 
+                                                                                </StackPanel>
+
+                                                                                <Border x:Name="bord_selected" 
                                                                                 Visibility="Collapsed" 
                                                                                 VerticalAlignment="Top"
                                                                                 Background="{DynamicResource S.Brush.White.Notice}" Height="5"/>
 
+                                                                            </Grid>
+                                                                        </Border>
                                                                     </Grid>
-                                                                </Border>
-                                                            </Grid>
-                                                            <ControlTemplate.Triggers>
-                                                                <Trigger Property="IsSelected" Value="true">
-                                                                    <Setter Property="Background" Value="{DynamicResource S.Brush.White.Opactiy.4}" 
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsSelected" Value="true">
+                                                                            <Setter Property="Background" Value="{DynamicResource S.Brush.White.Opactiy.4}" 
                                                                             TargetName="border"/>
-                                                                    <Setter Property="Visibility" Value="Visible" 
+                                                                            <Setter Property="Visibility" Value="Visible" 
                                                                             TargetName="bord_selected"/>
-                                                                </Trigger>
-                                                                <Trigger Property="IsMouseOver" Value="true">
-                                                                    <Setter Property="Background" Value="{DynamicResource S.Brush.White.Opactiy.2}" TargetName="border"/>
-                                                                </Trigger>
-                                                            </ControlTemplate.Triggers>
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </ListBox.ItemContainerStyle>
-                                    </ListBox>
-
-                                    <ItemsControl Grid.Column="2" Margin="57,0"
+                                                                        </Trigger>
+                                                                        <Trigger Property="IsMouseOver" Value="true">
+                                                                            <Setter Property="Background" Value="{DynamicResource S.Brush.White.Opactiy.2}" TargetName="border"/>
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </ListBox.ItemContainerStyle>
+                                            </ListBox>
+                                        </ScrollViewer>
+                                        <ItemsControl Grid.Column="2" Margin="57,0"
                                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                  WindowChrome.IsHitTestVisibleInChrome="True" 
+                                                  WindowChrome.IsHitTestVisibleInChrome="True"
                                                   ItemsSource="{TemplateBinding SettingLinks}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel>
-                                                </StackPanel>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <ItemContainerTemplate>
-                                                <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}" 
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel>
+                                                    </StackPanel>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <ItemContainerTemplate>
+                                                    <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}" 
                                                                HorizontalAlignment="Center" FIcon="{Binding Logo}"
                                                                VerticalAlignment="Center" FIconMargin="0,2,5,0"
                                                                Width="100" FontSize="18" Foreground="{DynamicResource S.Brush.White.Notice}"
@@ -602,182 +605,185 @@
                                                                CommandParameter="{Binding Source}"
                                                                Content="{Binding DisplayName}"/>
 
-                                            </ItemContainerTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                    <!--窗体功能按钮：最小、最大、关闭-->
-                                    <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Top" Margin="1" HorizontalAlignment="Right" Height="{TemplateBinding CaptionHeight}">
+                                                </ItemContainerTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <!--窗体功能按钮：最小、最大、关闭-->
+                                        <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Top" Margin="1" HorizontalAlignment="Right" Height="{TemplateBinding CaptionHeight}">
 
-                                        <ToggleButton x:Name="btnTheme" Width="30" VerticalAlignment="Center" Margin="1" 
+                                            <ToggleButton x:Name="btnTheme" Width="30" VerticalAlignment="Center" Margin="1" 
                                                Visibility="{Binding Path=SetboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
                                               Style="{DynamicResource S.ToggleButton.BrushFIconChecked}" base:ControlAttachProperty.FIcon="&#xe6d2;"
                                                WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"/>
 
 
-                                        <local:FButton x:Name="btnMin"  Width="30" VerticalAlignment="Center" Margin="1" 
+                                            <local:FButton x:Name="btnMin"  Width="30" VerticalAlignment="Center" Margin="1" 
                                                Visibility="{Binding Path=MinboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
                                                Style="{DynamicResource S.FButton.Style.Transparent}"  FIcon="&#xe61d;" FIconSize="14"
                                                WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"
                                                Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
 
-                                        <local:FButton x:Name="btnMax"  Width="30" VerticalAlignment="Center" Margin="1" 
+                                            <local:FButton x:Name="btnMax"  Width="30" VerticalAlignment="Center" Margin="1" 
                                                 Visibility="{Binding Path=MaxboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
                                                 Style="{DynamicResource S.FButton.Style.Transparent}" FIcon="&#xe665;" FIconSize="14"
                                                 WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"
                                                Command="{Binding Path=MaximizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
 
-                                        <local:FButton x:Name="btnClose"  Width="35" Height="35" VerticalAlignment="Center" Margin="1" CornerRadius="0" Padding="1 2 1 2"
+                                            <local:FButton x:Name="btnClose"  Width="35" Height="35" VerticalAlignment="Center" Margin="1" CornerRadius="0" Padding="1 2 1 2"
                                                MouseOverBackground="Red" MouseOverForeground="White" PressedBackground="#AA0D0D" PressedForeground="White"
                                                AllowsAnimation="True" Style="{DynamicResource S.FButton.Style.Transparent}"  FIcon="&#xe72c;" FIconSize="14"
                                                WindowChrome.IsHitTestVisibleInChrome="True" FIconMargin="0" Foreground="{TemplateBinding CaptionForeground}"
                                                Command="{Binding Path=CloseWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                            <!--窗体内容区域-->
-                            <AdornerDecorator Grid.Row="1" Margin="0,0,0,0">
-                                <Grid>
-                                    <local:DrawerHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
-                                        <local:DrawerHost.LeftDrawerContent>
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="35"/>
-                                                    <RowDefinition/>
-                                                </Grid.RowDefinitions>
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+                                <!--窗体内容区域-->
+                                <AdornerDecorator Grid.Row="1" Margin="0,0,0,0">
+                                    <Grid>
+                                        <local:DrawerHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+                                            <local:DrawerHost.LeftDrawerContent>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="35"/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
 
-                                                <Border Background="{DynamicResource S.Brush.Gray.Notice}" BorderThickness="0,0,0,0"/>
+                                                    <Border Background="{DynamicResource S.Brush.Gray.Notice}" BorderThickness="0,0,0,0"/>
 
-                                                <local:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.LeftLink.Logo}"
+                                                    <local:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.LeftLink.Logo}"
                                                                HorizontalAlignment="Left" Margin="8,0" FIconSize="12"
-                                                                Command="{x:Static local:DrawerHost.CloseDrawerCommand}" 
+                                                               Command="{x:Static local:DrawerHost.CloseDrawerCommand}" 
                                                                CommandParameter="{x:Static Dock.Left}" 
-                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.LeftLink.DisplayName}"
-                                                    Style="{DynamicResource S.FButton.Style.Transparent}"/>
+                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.LeftLink.DisplayName}"
+                                                               Style="{DynamicResource S.FButton.Style.Transparent}"/>
 
-                                                <local:ModernFrame Grid.Row="1" Margin="0,0" BorderBrush="Transparent" BorderThickness="0"
-                                                                   Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.LeftLink.Source}"/>
+                                                    <ContentPresenter Grid.Row="1"  Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.LeftLink}"/>
+                                                    <!--<local:ModernFrame Grid.Row="1" Margin="0,0" BorderBrush="Transparent" BorderThickness="0" 
+                                                                   Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.LeftLink.Source}"/>-->
 
-                                                <local:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
+                                                    <local:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
                                                                FIcon="&#xe9cd;" AllowsAnimation="True" Command="{x:Static local:DrawerHost.CloseDrawerCommand}" 
                                                                CommandParameter="{x:Static Dock.Left}" 
                                                                FIconSize="14" Margin="5,0"
                                                                HorizontalAlignment="Right"  VerticalAlignment="Center"/>
-                                            </Grid>
-                                        </local:DrawerHost.LeftDrawerContent>
-                                        <local:DrawerHost.TopDrawerContent>
-                                            <Grid>
-                                                <Border Background="{DynamicResource S.Brush.Gray.Notice}" BorderThickness="0,0,0,0"/>
+                                                </Grid>
+                                            </local:DrawerHost.LeftDrawerContent>
+                                            <local:DrawerHost.TopDrawerContent>
+                                                <Grid>
+                                                    <Border Background="{DynamicResource S.Brush.Gray.Notice}" BorderThickness="0,0,0,0"/>
 
-                                            
+                                                    <ContentPresenter Grid.Row="1"  Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink}"/>
 
-                                                <local:ModernFrame Grid.Row="1" Margin="0,0" BorderBrush="Transparent" BorderThickness="0"
-                                                                   Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.TopLink.Source}"/>
 
-                                                <local:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
+                                                    <!--<local:ModernFrame Grid.Row="1" Margin="0,0" BorderBrush="Transparent" BorderThickness="0"
+                                                                   Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink.Source}"/>-->
+
+                                                    <local:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
                                                                FIcon="&#xe9d3;" AllowsAnimation="True" Command="{x:Static local:DrawerHost.CloseDrawerCommand}" 
                                                                CommandParameter="{x:Static Dock.Top}" 
                                                                FIconSize="14" Margin="5,5"
                                                                HorizontalAlignment="Right"  VerticalAlignment="Bottom"/>
 
-                                                <local:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.TopLink.Logo}"
+                                                    <local:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink.Logo}"
                                                                HorizontalAlignment="Right" Margin="30,0" FIconSize="12"
                                                                 Command="{x:Static local:DrawerHost.CloseDrawerCommand}" 
                                                                CommandParameter="{x:Static Dock.Top}" 
-                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.TopLink.DisplayName}"
+                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink.DisplayName}"
                                                     Style="{DynamicResource S.FButton.Style.Transparent}"/>
-                                            </Grid>
-                                        </local:DrawerHost.TopDrawerContent>
-                                        <local:DrawerHost.BottomDrawerContent>
-                                            <Grid>
-                                                <Border Background="{DynamicResource S.Brush.Gray.Notice}" BorderThickness="0,0,0,0"/>
+                                                </Grid>
+                                            </local:DrawerHost.TopDrawerContent>
+                                            <local:DrawerHost.BottomDrawerContent>
+                                                <Grid>
+                                                    <Border Background="{DynamicResource S.Brush.Gray.Notice}" BorderThickness="0,0,0,0"/>
 
+                                                    <ContentPresenter Grid.Row="1"  Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.BottomLink}"/>
 
+                                                    <!--<local:ModernFrame Grid.Row="1" Margin="0,0" BorderBrush="Transparent" BorderThickness="0"
+                                                                   Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.BottomLink.Source}"/>-->
 
-                                                <local:ModernFrame Grid.Row="1" Margin="0,0" BorderBrush="Transparent" BorderThickness="0"
-                                                                   Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.BottomLink.Source}"/>
-
-                                                <local:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
+                                                    <local:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
                                                                FIcon="&#xe9cc;" AllowsAnimation="True" Command="{x:Static local:DrawerHost.CloseDrawerCommand}" 
                                                                CommandParameter="{x:Static Dock.Bottom}" 
                                                                FIconSize="14" Margin="5,5"
                                                                HorizontalAlignment="Right"  VerticalAlignment="Top"/>
 
-                                                <local:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.BottomLink.Logo}"
+                                                    <local:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.BottomLink.Logo}"
                                                                HorizontalAlignment="Right" Margin="8,3" FIconSize="12" VerticalAlignment="Bottom"
                                                                 Command="{x:Static local:DrawerHost.CloseDrawerCommand}" 
                                                                CommandParameter="{x:Static Dock.Bottom}" 
-                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.BottomLink.DisplayName}"
+                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.BottomLink.DisplayName}"
                                                     Style="{DynamicResource S.FButton.Style.Transparent}"/>
-                                            </Grid>
-                                        </local:DrawerHost.BottomDrawerContent>
-                                        <local:DrawerHost.RightDrawerContent>
-                                            <Grid>
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="35"/>
-                                                    <RowDefinition/>
-                                                </Grid.RowDefinitions>
+                                                </Grid>
+                                            </local:DrawerHost.BottomDrawerContent>
+                                            <local:DrawerHost.RightDrawerContent>
+                                                <Grid>
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="35"/>
+                                                        <RowDefinition/>
+                                                    </Grid.RowDefinitions>
 
-                                                <Border Background="{DynamicResource S.Brush.Gray.Notice}" BorderThickness="0,0,0,0"/>
+                                                    <Border Background="{DynamicResource S.Brush.Gray.Notice}" BorderThickness="0,0,0,0"/>
 
-                                                <local:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.RightLink.Logo}"
+                                                    <local:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.RightLink.Logo}"
                                                                HorizontalAlignment="Right" Margin="8,0" FIconSize="12"
                                                                 Command="{x:Static local:DrawerHost.CloseDrawerCommand}" 
                                                                CommandParameter="{x:Static Dock.Right}" 
-                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.RightLink.DisplayName}"
+                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.RightLink.DisplayName}"
                                                     Style="{DynamicResource S.FButton.Style.Transparent}"/>
 
-                                                <local:ModernFrame Grid.Row="1" Margin="0,0" BorderBrush="Transparent" BorderThickness="0"
-                                                                   Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.RightLink.Source}"/>
+                                                    <ContentPresenter Grid.Row="1"  Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.RightLink}"/>
+                                                    
+                                                    <!--<local:ModernFrame Grid.Row="1" Margin="0,0" BorderBrush="Transparent" BorderThickness="0"
+                                                                   Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.RightLink.Source}"/>-->
 
-                                                <local:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
+                                                    <local:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
                                                                FIcon="&#xe9ce;" AllowsAnimation="True" Command="{x:Static local:DrawerHost.CloseDrawerCommand}" 
                                                                CommandParameter="{x:Static Dock.Right}" 
                                                                FIconSize="14" Margin="5,0"
                                                                HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-                                            </Grid>
-                                        </local:DrawerHost.RightDrawerContent>
-                                       
-                                        <Grid>
-                                            <!--整体消息弹出-->
-                                            <local:DialogHost Identifier="windowDialog" Margin="-3,0,-3,-3">
-                                                <Grid>
-                                                    <!--最底层内容-->
-                                                    <local:ModernFrame Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks.SelectedLink.Source }"/>
-
-                                                    <!--第一次蒙版-->
-                                                    <local:ModernFrame  Visibility="Collapsed"
-                                                               x:Name="PART_SettingFrame">
-                                                        <local:ModernFrame.Background>
-                                                            <SolidColorBrush Color="Black" Opacity="0.5"/>
-                                                        </local:ModernFrame.Background>
-                                                    </local:ModernFrame>
-
                                                 </Grid>
-                                            </local:DialogHost>
+                                            </local:DrawerHost.RightDrawerContent>
 
-                                            <local:Snackbar MessageQueue="{local:MessageQueue}" x:Name="PART_SnackBar" />
-                                        </Grid>
-                                    </local:DrawerHost>
-                                   
-                                </Grid>
+                                            <Grid>
+                                                <!--整体消息弹出-->
+                                                <local:DialogHost Identifier="windowDialog" Margin="-3,0,-3,-3">
+                                                    <Grid>
+                                                        <!--最底层内容-->
+                                                        <!--<local:ModernFrame Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.Source }"/>-->
 
+                                                        <ContentPresenter Grid.Row="1"  Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.CenterLink}"/>
 
-                            </AdornerDecorator>
+                                                        <!--第一次蒙版-->
+                                                        <local:ModernFrame  Visibility="Collapsed"
+                                                               x:Name="PART_SettingFrame">
+                                                            <local:ModernFrame.Background>
+                                                                <SolidColorBrush Color="Black" Opacity="0.5"/>
+                                                            </local:ModernFrame.Background>
+                                                        </local:ModernFrame>
 
-                            <Popup x:Name="Pop" PopupAnimation="Slide" IsOpen="{Binding ElementName=btnTheme,Path=IsChecked}"  
+                                                    </Grid>
+                                                </local:DialogHost>
+
+                                                <local:Snackbar MessageQueue="{local:MessageQueue}" x:Name="PART_SnackBar" />
+                                            </Grid>
+                                        </local:DrawerHost>
+                                    </Grid>
+                                </AdornerDecorator>
+
+                                <Popup x:Name="Pop" PopupAnimation="Slide" IsOpen="{Binding ElementName=btnTheme,Path=IsChecked}"  
                                        PlacementTarget="{Binding ElementName=btnTheme}" Placement="Top" 
                                        AllowsTransparency="True" StaysOpen="False" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                                <Border Background="{DynamicResource S.Brush.Accent.Opacity.5}" 
+                                    <Border Background="{DynamicResource S.Brush.Accent.Opacity.5}" 
                                             CornerRadius="5" BorderBrush="{DynamicResource S.Brush.Accent}"
                                             BorderThickness="1">
-                                    <StackPanel Margin="10">
-                                        <local:ThemeSetControl/>
-                                    </StackPanel>
-                                </Border>
-                            </Popup>
+                                        <StackPanel Margin="10">
+                                            <local:ThemeSetControl/>
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                    <!--</Viewbox>-->
+                    </Viewbox>
                     <ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter Property="FIcon" TargetName="btnMax" Value="&#xe665;"></Setter>

@@ -6,56 +6,106 @@
         xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow"
         xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
         xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
-        mc:Ignorable="d"  Style="{StaticResource S.Window.Link.Defaut}" 
-        Title="MainWindow"  Height="873" Width="1500" >  
+        mc:Ignorable="d"  Style="{StaticResource S.Window.Link.Defaut}" CurrentLink="{Binding CurrentLink,Mode=TwoWay}"
+        Title="MainWindow"  Height="1200" Width="1600" >
+
     <wpfcontrollib:LinkWindowBase.Logo>
         <BitmapImage UriSource="../Resources/logo.png"/>
     </wpfcontrollib:LinkWindowBase.Logo>
 
     <wpfcontrollib:LinkWindowBase.TabLinks>
-        <base:LinkGroup>
-            <base:LinkGroup.Links>
-                <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/GridView/GridControl.xaml"
-                           DisplayName="我的表格" Logo="&#xe69f;">
-                    <base:Link.LeftLink>
-                        <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/Share/CustomLeftControl.xaml"
-                           DisplayName="文档大纲" Logo="&#xecd1;"/>
-                    </base:Link.LeftLink>
-                    <base:Link.RightLink>
-                        <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/Share/CustomRightControl.xaml"
-                           DisplayName="属性列表" Logo="&#xe660;"/>
-                    </base:Link.RightLink>
-                    <base:Link.TopLink>
-                        <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/Share/CustomTopControl.xaml"
-                           DisplayName="菜单栏" Logo="&#xe6ec;"/>
-                    </base:Link.TopLink>
-                    <base:Link.BottomLink>
-                        <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/Share/CustomBottomControl.xaml"
-                           DisplayName="状态栏" Logo="&#xe633;"/>
-                    </base:Link.BottomLink>
-                </base:Link>
-                <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/TreeListView/TreeListControl.xaml" DisplayName="树形列表"  Logo="&#xe6a3;"/>
-                <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/CustomView/CustomControl.xaml" DisplayName="基础控件"  Logo="&#xe69e;">
-                    <base:Link.LeftLink>
-                        <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/Share/CustomLeftControl.xaml"
-                           DisplayName="文档大纲" Logo="&#xecd1;"/>
-                    </base:Link.LeftLink>
-                    <base:Link.RightLink>
-                        <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/Share/CustomRightControl.xaml"
-                           DisplayName="属性列表" Logo="&#xe660;"/>
-                    </base:Link.RightLink>
-                    <base:Link.TopLink>
-                        <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/Share/CustomTopControl.xaml"
-                           DisplayName="菜单栏" Logo="&#xe6ec;"/>
-                    </base:Link.TopLink>
-                    <base:Link.BottomLink>
-                        <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/Share/CustomBottomControl.xaml"
-                           DisplayName="状态栏" Logo="&#xe633;"/>
-                    </base:Link.BottomLink>
-                </base:Link>
-                <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/CustomView/CustomControl.xaml" DisplayName="图表视图"  Logo="&#xe64b;"/>
-            </base:LinkGroup.Links>
-        </base:LinkGroup>
+
+        <base:TabLink DisplayName="我的表格"  Logo="&#xe69f;" Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/GridView/GridControl.xaml">
+            <base:TabLink.LeftLink>
+                <local:CustomLeftControl/>
+            </base:TabLink.LeftLink>
+            <base:TabLink.RightLink>
+                <local:CustomRightControl/>
+            </base:TabLink.RightLink>
+            <base:TabLink.TopLink>
+                <local:CustomTopControl/>
+            </base:TabLink.TopLink>
+            <base:TabLink.BottomLink>
+                <local:CustomBottomControl/>
+            </base:TabLink.BottomLink>
+        </base:TabLink>
+
+        <base:TabLink DisplayName="树形列表"  Logo="&#xe69f;" Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/TreeListView/TreeListControl.xaml">
+            <base:TabLink.LeftLink>
+                <local:CustomLeftControl/>
+            </base:TabLink.LeftLink>
+            <base:TabLink.RightLink>
+                <local:CustomRightControl/>
+            </base:TabLink.RightLink>
+            <base:TabLink.TopLink>
+                <local:CustomTopControl/>
+            </base:TabLink.TopLink>
+            <base:TabLink.BottomLink>
+                <local:CustomBottomControl/>
+            </base:TabLink.BottomLink>
+        </base:TabLink>
+
+        <base:TabLink DisplayName="基础控件"  Logo="&#xe69f;" Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/CustomView/CustomControl.xaml">
+            <base:TabLink.LeftLink>
+                <local:CustomLeftControl/>
+            </base:TabLink.LeftLink>
+            <base:TabLink.RightLink>
+                <local:CustomRightControl/>
+            </base:TabLink.RightLink>
+            <base:TabLink.TopLink>
+                <local:CustomTopControl/>
+            </base:TabLink.TopLink>
+            <base:TabLink.BottomLink>
+                <local:CustomBottomControl/>
+            </base:TabLink.BottomLink>
+        </base:TabLink>
+
+        <base:TabLink DisplayName="布局控件"  Logo="&#xe69f;" Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/LoyoutView/MdiControl.xaml">
+            <base:TabLink.LeftLink>
+                <wpfcontrollib:LinkGroupExpander x:Name="selectloyout"
+                                                 Command="{x:Static wpfcontrollib:DrawerHost.CloseDrawerCommand}"
+                                                 CommandParameter="{x:Static Dock.Left}">
+                    <base:LinkGroup DisplayName="基础布局" Logo="&#xe69f;">
+                        <base:LinkGroup.Links>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/GridView/GridControl.xaml"  DisplayName="我的表格" Logo="&#xe69f;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/TreeListView/TreeListControl.xaml" DisplayName="树形列表"  Logo="&#xe6a3;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/CustomView/CustomControl.xaml" DisplayName="基础控件"  Logo="&#xe69e;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/CustomView/CustomControl.xaml" DisplayName="图表视图"  Logo="&#xe64b;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/LoyoutView/MdiControl.xaml" DisplayName="布局控件"  Logo="&#xe64b;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/LoyoutView/MdiControl.xaml" DisplayName="布局控件"  Logo="&#xe64b;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/LoyoutView/MdiControl.xaml" DisplayName="布局控件"  Logo="&#xe64b;"/>
+                        </base:LinkGroup.Links>
+                    </base:LinkGroup>
+                    <base:LinkGroup DisplayName="复杂布局"  Logo="&#xe69f;">
+                        <base:LinkGroup.Links>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/GridView/GridControl.xaml"
+                           DisplayName="我的表格" Logo="&#xe69f;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/TreeListView/TreeListControl.xaml" DisplayName="树形列表"  Logo="&#xe6a3;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/CustomView/CustomControl.xaml" DisplayName="基础控件"  Logo="&#xe69e;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/CustomView/CustomControl.xaml" DisplayName="图表视图"  Logo="&#xe64b;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/LoyoutView/MdiControl.xaml" DisplayName="布局控件"  Logo="&#xe64b;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/LoyoutView/MdiControl.xaml" DisplayName="布局控件"  Logo="&#xe64b;"/>
+                            <base:Link Source="/HeBianGu.Applications.ControlBase.LinkWindow;component/View/LoyoutView/MdiControl.xaml" DisplayName="布局控件"  Logo="&#xe64b;"/>
+
+                        </base:LinkGroup.Links>
+                    </base:LinkGroup>
+                </wpfcontrollib:LinkGroupExpander>
+            </base:TabLink.LeftLink>
+            <base:TabLink.RightLink>
+                <local:CustomRightControl/>
+            </base:TabLink.RightLink>
+            <base:TabLink.TopLink>
+                <local:CustomTopControl/>
+            </base:TabLink.TopLink>
+            <base:TabLink.BottomLink>
+                <local:CustomBottomControl/>
+            </base:TabLink.BottomLink>
+
+            <base:TabLink.CenterLink>
+                <local:CenterContainControl Link="{Binding ElementName=selectloyout,Path=SelectedLink,Mode=TwoWay}"/>
+            </base:TabLink.CenterLink>
+        </base:TabLink>
+
     </wpfcontrollib:LinkWindowBase.TabLinks>
 
     <wpfcontrollib:LinkWindowBase.SettingLinks>
