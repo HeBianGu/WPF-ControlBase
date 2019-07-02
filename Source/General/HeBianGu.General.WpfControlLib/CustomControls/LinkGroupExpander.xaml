@@ -3,8 +3,7 @@
                     xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
 
-
-    <DataTemplate x:Key="D.Link.Defaut"  DataType="base:Link">
+    <DataTemplate x:Key="D.LinkAction.Defaut"  DataType="base:LinkAction">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0">
             <TextBlock Text="{Binding Logo}" FontSize="14"  Foreground="{DynamicResource S.Brush.TextForeground.Title}"
                                            HorizontalAlignment="Left" Margin="10,0"
@@ -19,14 +18,14 @@
     </Style>
 
     <Style x:Key="S.LinkGrouExpander.ListBoxItem.Defaut" TargetType="ListBoxItem">
-        <Setter Property="Height" Value="35"/> 
+        <Setter Property="Height" Value="35"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBoxItem">
                     <Grid>
                         <Border x:Name="border" Background="Transparent"/>
                         <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        
+
                         <Border x:Name="left" HorizontalAlignment="Left" 
                                 Visibility="Collapsed" 
                                 Background="{DynamicResource  S.Brush.Accent}" 
@@ -37,7 +36,7 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
                         </Trigger>
-                        
+
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Dark.2}"/>
                             <Setter Property="Foreground" Value="{DynamicResource  S.Brush.Accent}"/>
@@ -52,18 +51,20 @@
 
     </Style>
 
-
-    <DataTemplate x:Key="D.LinkGroup.Defaut" DataType="base:LinkGroup">
+    <DataTemplate x:Key="D.LinkActionGroup.Defaut" DataType="base:LinkActionGroup">
         <Grid>
-            <local:FExpander Header="{Binding DisplayName}" base:ControlAttachProperty.FIconSize="16" base:ControlAttachProperty.FIconMargin="10,0,0,0"
+            <local:FExpander Header="{Binding DisplayName}" 
+                             base:ControlAttachProperty.FIconSize="16" 
+                             base:ControlAttachProperty.FIconMargin="10,0,0,0"
                              IsExpanded="True" 
                              IconFont="{Binding Logo}" 
                              Hint="{Binding Links.Count}">
                 <ListBox ItemsSource="{Binding Links}" 
                          SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:LinkGroupExpander},Path=SelectedLink,Mode=TwoWay}" 
                          Style="{StaticResource S.LinkGrouExpander.ListBox.Base}"
-                         ItemContainerStyle="{StaticResource S.LinkGrouExpander.ListBoxItem.Defaut}" ItemTemplate="{StaticResource D.Link.Defaut}"
-                         Background="Transparent" BorderThickness="0"> 
+                         ItemContainerStyle="{StaticResource S.LinkGrouExpander.ListBoxItem.Defaut}" 
+                         ItemTemplate="{StaticResource D.LinkAction.Defaut}"
+                         Background="Transparent" BorderThickness="0">
                 </ListBox>
             </local:FExpander>
         </Grid>
@@ -74,7 +75,7 @@
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Defaut}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="ItemTemplate" Value="{StaticResource D.LinkGroup.Defaut}"/>
+        <Setter Property="ItemTemplate" Value="{StaticResource D.LinkActionGroup.Defaut}"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ListBoxItem">

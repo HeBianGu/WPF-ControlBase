@@ -1,66 +1,52 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace HeBianGu.Base.WpfBase
 {
-
-    /// <summary> 连接绑定集合 </summary>
-    public class LinkCollection : ObservableCollection<Link>
+    public class LinkAction : NotifyPropertyChanged
     {
-        public LinkCollection()
-        {
 
-        }
-
-        public LinkCollection(IEnumerable<Link> links)
+        private string _controller;
+        /// <summary> 说明  </summary>
+        public string Controller
         {
-            if (links == null)
-            {
-                throw new ArgumentNullException("links");
-            }
-            foreach (var link in links)
-            {
-                Add(link);
-            }
-        }
-    } 
-    /// <summary> 连接绑定对象基类 </summary>
-    public class Link: NotifyPropertyChanged
-    {
-        private Uri source;
-        /// <summary> 连接地址 </summary>
-        public Uri Source
-        {
-            get { return this.source; }
+            get { return _controller; }
             set
             {
-                if (this.source != value)
-                {
-                    this.source = value;
-                    RaisePropertyChanged("Source");
-                }
+                _controller = value;
+                RaisePropertyChanged("Controller");
             }
         }
 
-        private string displayName;
-        /// <summary> 显示名称 </summary>
+        private string _action;
+        /// <summary> 说明  </summary>
+        public string Action
+        {
+            get { return _action; }
+            set
+            {
+                _action = value;
+                RaisePropertyChanged("Action");
+            }
+        }
+
+        private string _displayName;
+        /// <summary> 说明  </summary>
         public string DisplayName
         {
-            get { return this.displayName; }
+            get { return _displayName; }
             set
             {
-                if (this.displayName != value)
-                {
-                    this.displayName = value;
-                    RaisePropertyChanged("DisplayName");
-                }
+                _displayName = value;
+                RaisePropertyChanged("DisplayName");
             }
         }
+
 
         private string _logo;
         /// <summary> 说明  </summary>
@@ -75,12 +61,22 @@ namespace HeBianGu.Base.WpfBase
         }
 
 
+
+
+        public IActionResult ActionResult
+        {
+            get
+            {
+                return ControllerFactory.CreateActionResult(this.Controller, this.Action);
+            }
+        }
     }
+
 
     /// <summary>
     /// Represents a named group of links.
     /// </summary>
-    public class LinkGroup : NotifyPropertyChanged
+    public class LinkActionGroup : NotifyPropertyChanged
     {
 
         private string displayName;
@@ -98,8 +94,8 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-        private Link selectedLink;
-        public Link SelectedLink
+        private LinkAction selectedLink;
+        public LinkAction SelectedLink
         {
             get { return this.selectedLink; }
             set
@@ -112,11 +108,11 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-        private LinkCollection links = new LinkCollection();
-        public LinkCollection Links
+        private ObservableCollection<LinkAction> links = new ObservableCollection<LinkAction>();
+        public ObservableCollection<LinkAction> Links
         {
             get { return this.links; }
-            set { this.links=value; }
+            set { this.links = value; }
         }
 
         private string _logo;
@@ -131,5 +127,4 @@ namespace HeBianGu.Base.WpfBase
             }
         }
     }
-   
 }

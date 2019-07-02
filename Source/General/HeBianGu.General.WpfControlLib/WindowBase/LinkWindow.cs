@@ -81,4 +81,75 @@ namespace HeBianGu.General.WpfControlLib
              }));
 
     }
+
+    /// <summary> 连接绑定对象 </summary>
+    public class TabLink : LinkAction
+    {
+
+        private LinkAction _centerLink;
+        /// <summary> 左侧控件地址 </summary>
+        public LinkAction CenterLink
+        {
+            get { return this._centerLink; }
+            set
+            {
+                if (this._centerLink != value)
+                {
+                    this._centerLink = value;
+                    RaisePropertyChanged("CenterLink");
+                }
+            }
+        }
+
+        private LinkAction _leftLink;
+        /// <summary> 左侧控件地址 </summary>
+        public LinkAction LeftLink
+        {
+            get { return this._leftLink; }
+            set
+            {
+                if (this._leftLink != value)
+                {
+                    this._leftLink = value;
+                    RaisePropertyChanged("LeftLink");
+                }
+            }
+        }
+
+        private LinkAction _rightLink;
+        /// <summary> 右侧控件地址  </summary>
+        public LinkAction RightLink
+        {
+            get { return _rightLink; }
+            set
+            {
+                _rightLink = value;
+                RaisePropertyChanged("RightLink");
+            }
+        }
+
+        private LinkAction _topLink;
+        /// <summary> 上侧控件地址  </summary>
+        public LinkAction TopLink
+        {
+            get { return _topLink; }
+            set
+            {
+                _topLink = value;
+                RaisePropertyChanged("TopLink");
+            }
+        }
+
+        private LinkAction _bottomLink;
+        /// <summary> 下侧控件地址  </summary>
+        public LinkAction BottomLink
+        {
+            get { return _bottomLink; }
+            set
+            {
+                _bottomLink = value;
+                RaisePropertyChanged("BottomLink");
+            }
+        }
+    }
 }

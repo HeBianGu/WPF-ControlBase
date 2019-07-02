@@ -21,21 +21,21 @@ namespace HeBianGu.General.WpfControlLib
 
         public IInputElement CommandTarget { get; set; }
 
-        public Link SelectedLink
+        public LinkAction SelectedLink
         {
-            get { return (Link)GetValue(SelectedLinkProperty); }
+            get { return (LinkAction)GetValue(SelectedLinkProperty); }
             set { SetValue(SelectedLinkProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedLinkProperty =
-            DependencyProperty.Register("SelectedLink", typeof(Link), typeof(LinkGroupExpander), new PropertyMetadata(default(Link), (d, e) =>
+            DependencyProperty.Register("SelectedLink", typeof(LinkAction), typeof(LinkGroupExpander), new PropertyMetadata(default(LinkAction), (d, e) =>
              {
                  LinkGroupExpander control = d as LinkGroupExpander;
 
                  if (control == null) return;
 
-                 Link config = e.NewValue as Link;
+                 LinkAction config = e.NewValue as LinkAction;
 
                  control.Command?.Execute(control.CommandParameter);
 

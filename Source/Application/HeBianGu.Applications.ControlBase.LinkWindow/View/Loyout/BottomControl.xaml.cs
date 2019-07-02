@@ -13,23 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// BottomControl.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : HeBianGu.General.WpfControlLib.LinkWindowBase
+    public partial class BottomControl : UserControl
     {
-        public MainWindow()
+        public BottomControl()
         {
             InitializeComponent();
-
-            //this.DataContext = ShellViewModel.Instance;
-
-            //this.Loaded += (l, k) =>
-            //{
-            //    ShellViewModel.Instance.RelayCommand.Execute("Loaded");
-            //};
         }
     }
 }
