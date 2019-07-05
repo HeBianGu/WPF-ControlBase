@@ -1,4 +1,5 @@
 ﻿using HeBianGu.Base.WpfBase;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -6,7 +7,7 @@ using System.Windows.Input;
 namespace HeBianGu.General.WpfControlLib
 {
 
-    public class LinkGroupExpander : ListBox, ICommandSource
+    public class LinkGroupExpander : ItemsControl, ICommandSource
     {
 
         //static LinkGroupExpander()
@@ -14,7 +15,7 @@ namespace HeBianGu.General.WpfControlLib
         //    DefaultStyleKeyProperty.OverrideMetadata(typeof(LinkGroupExpander), new FrameworkPropertyMetadata(typeof(LinkGroupExpander)));
         //} 
 
- 
+
         public ICommand Command { get; set; }
 
         public object CommandParameter { get; set; }
@@ -32,10 +33,12 @@ namespace HeBianGu.General.WpfControlLib
             DependencyProperty.Register("SelectedLink", typeof(LinkAction), typeof(LinkGroupExpander), new PropertyMetadata(default(LinkAction), (d, e) =>
              {
                  LinkGroupExpander control = d as LinkGroupExpander;
-
                  if (control == null) return;
 
-                 LinkAction config = e.NewValue as LinkAction;
+                 if(e.NewValue ==null)
+                 {
+                     control.SelectedLink = e.OldValue as LinkAction;
+                 }
 
                  control.Command?.Execute(control.CommandParameter);
 

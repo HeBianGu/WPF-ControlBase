@@ -6,11 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HeBianGu.Base.WpfBase
+namespace HeBianGu.General.WpfControlLib
 {
     public class LinkAction : NotifyPropertyChanged
     {
-
         private string _controller;
         /// <summary> 说明  </summary>
         public string Controller
@@ -70,6 +69,12 @@ namespace HeBianGu.Base.WpfBase
                 return ControllerFactory.CreateActionResult(this.Controller, this.Action);
             }
         }
+
+
+        public List<TransitionEffectBase> OpeningEffects { get; set; } = new List<TransitionEffectBase>();
+
+        public TransitionEffectBase OpeningEffect { get; set; }
+
     }
 
 

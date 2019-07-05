@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace HeBianGu.Base.WpfBase
+namespace HeBianGu.General.WpfControlLib
 {
     public abstract class Controller
     {

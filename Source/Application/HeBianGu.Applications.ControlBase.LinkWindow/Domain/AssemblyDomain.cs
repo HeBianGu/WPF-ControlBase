@@ -1,4 +1,5 @@
-﻿using HeBianGu.General.WpfControlLib;
+﻿using HeBianGu.Applications.ControlBase.LinkWindow.ViewModel;
+using HeBianGu.General.WpfControlLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         }
 
-        public List<UpLoadItem> GetGuideList(out string errorInfor, out uint total, string startTime = "", string endTime = "", string name = "", int type = 0, uint page = 0, uint size = 10)
+        public List<UpLoadItem> GetGridList(out string errorInfor, out uint total, string startTime = "", string endTime = "", string name = "", int type = 0, uint page = 0, uint size = 10)
         {
             List<UpLoadItem> result = new List<UpLoadItem>();
 

@@ -130,8 +130,17 @@ namespace HeBianGu.Base.WpfBase
         {
             get { return new StringReplaceConverter(); }
         }
+        public static IsEqualConverter IsEqualConverter
+        {
+            get { return new IsEqualConverter(); }
+        }
 
+        public static IsMultiValueEqualConverter IsMultiValueEqualConverter
+        {
+            get { return new IsMultiValueEqualConverter(); }
+        }
         
+
         //public static SelectTextConverter SelectTextConverter
         //{
         //    get { return Singleton<SelectTextConverter>.GetInstance(); }

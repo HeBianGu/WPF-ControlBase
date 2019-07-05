@@ -497,4 +497,43 @@ namespace HeBianGu.Base.WpfBase
     }
 
 
+    /// <summary> 替换字符串 </summary>
+    public class IsEqualConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null||parameter==null) return false;
+            return value.Equals(parameter);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if((bool)value)
+            {
+                return parameter;
+            }
+
+            return null;
+        }
+    }
+     
+    public class IsMultiValueEqualConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null) return false;
+
+            if (values.Length <2) return false;
+             
+
+            return values[0] == values[1];
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+
 }

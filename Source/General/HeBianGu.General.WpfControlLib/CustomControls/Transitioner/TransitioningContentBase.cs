@@ -108,7 +108,9 @@ namespace HeBianGu.General.WpfControlLib
 
         protected virtual void RunOpeningEffects()
         {
-            if (!IsLoaded || _matrixTransform == null)
+            //  Do：需要每次都加载动画
+            if (_matrixTransform == null)
+            //if (!IsLoaded || _matrixTransform == null)
             {
                 _isOpeningEffectPending = true;
                 return;
