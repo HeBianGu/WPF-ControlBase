@@ -6,8 +6,21 @@
              xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
              xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout"
              mc:Ignorable="d" Background="Blue"
+             xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="我的按钮" FontSize="80" />
+        <Button HorizontalAlignment="Center"  VerticalAlignment="Center" Content="我的按钮" FontSize="80" >
+            <base:Interaction.Triggers>
+                <base:RoutedEventTrigger RoutedEvent="Button.Click">
+                    <base:EventToCommand Command="{Binding RelayCommand}" PassEventArgsToCommand="True" />
+                </base:RoutedEventTrigger>
+            </base:Interaction.Triggers>
+        </Button>
+
     </Grid>
+    <base:Interaction.Triggers>
+        <base:RoutedEventTrigger RoutedEvent="Loaded">
+            <base:EventToCommand Command="{Binding RelayCommand}" PassEventArgsToCommand="False" CommandParameter="Loaded" />
+        </base:RoutedEventTrigger>
+    </base:Interaction.Triggers>
 </UserControl>

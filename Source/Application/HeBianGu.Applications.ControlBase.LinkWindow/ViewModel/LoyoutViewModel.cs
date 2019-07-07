@@ -29,7 +29,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.ViewModel
 
         protected override void RelayMethod(object obj)
         {
-            string command = obj.ToString();
+            string command = obj?.ToString();
 
             //  Do：应用
             if (command == "Sumit")
