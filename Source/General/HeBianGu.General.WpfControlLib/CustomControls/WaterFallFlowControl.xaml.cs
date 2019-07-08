@@ -60,6 +60,10 @@ namespace HeBianGu.General.WpfControlLib
                     ((element as Grid).Children[0] as FrameworkElement).Margin = new Thickness(Margin.Left);
                 }
             }
+            else if (element is GroupBox)
+            {
+                (element as GroupBox).Margin = new Thickness(Margin.Left);
+            }
             Children.Add(element);
             Refresh();
         }

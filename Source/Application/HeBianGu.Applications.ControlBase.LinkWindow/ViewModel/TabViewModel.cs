@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Applications.ControlBase.LinkWindow.ViewModel
 {
-    [Route("Loyout")]
-    class LoyoutViewModel : NotifyPropertyChanged
+    [Route("Tab")]
+    class TabViewModel : NotifyPropertyChanged
     {
 
         private LinkAction _selectLink;
@@ -34,12 +34,11 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.ViewModel
         private void Loaded(string args)
         {
             LinkAction link = new LinkAction();
-            link.DisplayName = "总体概览";
+            link.DisplayName = "AnimatedTabControl";
             link.Logo = "&#xe69f;";
-            link.Controller = "Loyout";
-            link.Action = "OverView";
-            this.SelectLink = link; 
-           
+            link.Controller = "Tab";
+            link.Action = "AnimatedTab"; 
+            this.SelectLink = link;
         }
 
 
@@ -54,9 +53,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.ViewModel
             string command = obj?.ToString();
 
             //  Do：应用
-            if (command == "Sumit")
+            if (command == "init")
             {
-
+              
 
             }
             //  Do：取消

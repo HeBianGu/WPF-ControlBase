@@ -1,0 +1,541 @@
+﻿<UserControl x:Class="HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout.OverViewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+             xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout"
+             xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="8000" d:DesignWidth="550">
+
+    <UserControl.Resources>
+        <collections:ArrayList x:Key="D.ArrayList.Items">
+            <system:String>北京大学</system:String>
+            <system:String>上海交通大学</system:String>
+            <system:String>斯坦福大学</system:String>
+            <system:String>浙江大学</system:String>
+            <system:String>哈尔滨工业大学</system:String>
+            <system:String>吉林大学</system:String>
+            <system:String>北京理工大学</system:String>
+            <system:String>南京理工大学</system:String>
+            <system:String>天津大学</system:String>
+            <system:String>南京航空航天大学</system:String>
+        </collections:ArrayList>
+
+        <Style TargetType="wpfcontrollib:FButton" BasedOn="{StaticResource S.FButton.Style.Defaut}">
+            <Setter Property="Margin" Value="5,0,0,5"/>
+        </Style>
+        <Style TargetType="GroupBox" BasedOn="{StaticResource S.GroupBox.Defaut}">
+            <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/> 
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <ScrollViewer Grid.Row="1">
+            <wpfcontrollib:WaterFallFlowControl ListWidth="400" Margin="5">
+
+                <Grid>
+                    <GroupBox Header="按钮控件">
+                        <StackPanel Orientation="Vertical">
+                            <GroupBox Header="带图标按钮">
+                                <StackPanel>
+                                    <wpfcontrollib:FButton Content="默认按钮" />
+                                    <wpfcontrollib:FButton Content="弹出消息"/>
+                                    <wpfcontrollib:FButton Content="显示消息"/>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="等待按钮">
+                                <StackPanel>
+                                    <wpfcontrollib:FButton Content="等待的按钮" 
+                                                           Command="{Binding BusyCommand,ElementName=button}" 
+                               base:ControlAttachProperty.IsBuzy="{Binding IsBuzy}" 
+                               />
+                                    <wpfcontrollib:FButton Content="保存的按钮" Command="{Binding BusyCommand,ElementName=button}" 
+                               Grid.Column="1"  Grid.Row="1"
+                               base:ControlAttachProperty.IsBuzy="{Binding IsBuzy}"
+                                base:ControlAttachProperty.BuzyText="正在保存"
+                               />
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="透明背景按钮">
+                                <StackPanel>
+                                    <wpfcontrollib:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                                base:ControlAttachProperty.BuzyText="正在保存"
+                               />
+
+                                    <wpfcontrollib:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                                base:ControlAttachProperty.BuzyText="正在保存"
+                               />
+                                    <wpfcontrollib:FButton Content="弹出蒙版消息框"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                               />
+
+                                    <wpfcontrollib:FButton  Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                        <wpfcontrollib:FButton Content="首页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
+                                                       BorderThickness="1,1,0,1" Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+
+                                        <wpfcontrollib:FButton Content="上一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
+                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+
+
+                                        <wpfcontrollib:FButton Content="下一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
+                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+
+                                        <wpfcontrollib:FButton Content="末页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
+                                                     BorderThickness="1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+                                    </StackPanel>
+
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="超链接按钮">
+                                <StackPanel>
+                                    <wpfcontrollib:FButton Margin="3" Style="{StaticResource S.FButton.Style.Link}">百度网盘</wpfcontrollib:FButton>
+                                    <wpfcontrollib:FButton FIcon="&#xe617;" Margin="3" Style="{StaticResource S.FButton.Style.Link}">设备检测</wpfcontrollib:FButton>
+
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="组合按钮">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                                    <wpfcontrollib:FButton FIcon="&#xe619;" Margin="0,0,0,0" CornerRadius="16,0,0,16" AllowsAnimation="True">Info</wpfcontrollib:FButton>
+                                    <wpfcontrollib:FButton FIcon="&#xe628;" Margin="0,0,0,0" CornerRadius="0" >Question</wpfcontrollib:FButton>
+
+                                    <wpfcontrollib:FButton FIcon="&#xe629;" Margin="0,0,0,0" CornerRadius="0,16,16,0" AllowsAnimation="True" >Error</wpfcontrollib:FButton>
+
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="自定义形状按钮">
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource S.FButton.Style.Circle}" Margin="4"/>
+
+                                    <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource S.FButton.Style.CircleTransparent}"  Margin="4"/>
+
+                                    <wpfcontrollib:FButton FIcon="&#xe756;" Content="圆角按钮" Style="{StaticResource S.FButton.Style.CornerRadius}"  Margin="4"/>
+
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="自定义形状按钮">
+                                <StackPanel HorizontalAlignment="Center">
+
+                                    <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource   S.FButton.Style.MouseOverOpacity}" Margin="4"/>
+
+                                </StackPanel>
+                            </GroupBox>
+
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+                <GroupBox Header="复选按钮">
+                        <StackPanel>
+                            <wpfcontrollib:FCheckBox  Margin="3">记住密码</wpfcontrollib:FCheckBox>
+                            <wpfcontrollib:FCheckBox Margin="3" IsChecked="{x:Null}">其他</wpfcontrollib:FCheckBox>
+                            <wpfcontrollib:FCheckBox Margin="3" IsEnabled="False">禁用</wpfcontrollib:FCheckBox>
+                            <wpfcontrollib:FCheckBox Margin="3" IsEnabled="False" IsChecked="{x:Null}">禁用</wpfcontrollib:FCheckBox>
+                            <wpfcontrollib:FCheckBox Margin="3" IsEnabled="False" IsChecked="True">禁用</wpfcontrollib:FCheckBox>
+                            <wpfcontrollib:FCheckBox Margin="3" IsChecked="True" Width="100"
+                                                     base:ControlAttachProperty.AllowsAnimation="{Binding IsChecked,RelativeSource={RelativeSource Self}}">旋转</wpfcontrollib:FCheckBox>
+
+                        </StackPanel>
+                    </GroupBox>
+               
+                    <GroupBox Header="单选按钮">
+                        <StackPanel>
+                            <RadioButton Margin="3" base:ControlAttachProperty.FIconSize="18" HorizontalAlignment="Center">十八</RadioButton>
+                            <RadioButton Margin="3" base:ControlAttachProperty.FIconSize="18" HorizontalAlignment="Center" IsEnabled="False">禁用</RadioButton>
+                            <!--<RadioButton Margin="3" IsChecked="True" base:ControlAttachProperty.AllowsAnimation="{Binding IsChecked,RelativeSource={RelativeSource Self}}">旋转</RadioButton>-->
+                            <RadioButton Style="{StaticResource BoxRadioButton}" Margin="1" Width="100" IsChecked="True" GroupName="ss">星期一</RadioButton>
+                            <RadioButton Style="{StaticResource BoxRadioButton}" Margin="1" Width="100" GroupName="ss">星期二</RadioButton>
+                            <RadioButton Style="{StaticResource BoxRadioButton}" Margin="1" Width="100" GroupName="ss">星期三</RadioButton>
+                            <RadioButton Style="{StaticResource BoxRadioButton}" Margin="1" Width="100" GroupName="ss">星期四</RadioButton>
+                            <RadioButton Style="{StaticResource BoxRadioButton}" Margin="1" Width="100" GroupName="ss">星期五</RadioButton>
+                            <RadioButton Style="{StaticResource BoxRadioButton}" Margin="1" Width="100" GroupName="ss">星期六</RadioButton>
+                            <RadioButton Style="{StaticResource BoxRadioButton}" Margin="1" Width="100" GroupName="ss">星期日</RadioButton>
+                        </StackPanel>
+                    </GroupBox>
+              
+                    <GroupBox Header="状态按钮">
+                        <StackPanel>
+                            <wpfcontrollib:BulletCheckBox />
+                            <wpfcontrollib:BulletCheckBox Text="关闭" CheckedText="开启" IsChecked="True" />
+                            <wpfcontrollib:SwitchToggleButton Content="" Margin="10" IsEnabled="False" />
+                            <wpfcontrollib:SwitchToggleButton Content="" IsChecked="true" Margin="10" IsEnabled="False" />
+                            <wpfcontrollib:SwitchToggleButton Content="" IsChecked="true" Margin="10" TextHorizontalAlignment="Right" />
+                            <wpfcontrollib:SwitchToggleButton x:Name="ts" Content="" Margin="10" CornerRadius="100" />
+                            <wpfcontrollib:SwitchToggleButton Content="" CornerRadius="2" BorderCornerRadius="3" />
+
+                            <ToggleButton HorizontalAlignment="Center"
+                                          base:ControlAttachProperty.FIconSize="40" Foreground="{DynamicResource S.Brush.Accent}"
+                                          Style="{DynamicResource S.ToggleButton.BrushFIconChecked}"
+                                          base:ControlAttachProperty.FIcon="&#xe6d2;"/>
+
+                            <ToggleButton x:Name="toggle" IsChecked="True"
+                                          Grid.Column="3"  base:ControlAttachProperty.FIconSize="40"
+                                          Style="{DynamicResource S.ToggleButton.DoubleFIconChecked}"/>
+                        </StackPanel>
+                    </GroupBox>
+            
+                    <GroupBox Header="下拉框">
+                        <StackPanel>
+                            <ComboBox Margin="5" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Watermark="请选择你要申报的大学" />
+                            <ComboBox Margin="5" IsEditable="True" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Watermark="请选择你要申报的大学" />
+                            <ComboBox Margin="5" IsEnabled="False" ItemsSource="{StaticResource D.ArrayList.Items}" SelectedIndex="3" />
+
+
+                            <ComboBox Margin="5" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
+                      Style="{DynamicResource LabelComboBox}"  base:ControlAttachProperty.Watermark="水印" />
+                            
+                            <ComboBox Margin="5" IsEditable="True" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
+                      Style="{DynamicResource LabelComboBox}" base:ControlAttachProperty.Watermark="请选择你要申报的大学" />
+                            
+                            <ComboBox Margin="5" IsEnabled="False" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
+                      Style="{DynamicResource LabelComboBox}" SelectedIndex="3" />
+
+
+                            <ComboBox Margin="5" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
+                      Style="{StaticResource LabelClearButtonComboBox}"  base:ControlAttachProperty.Watermark="水印" />
+                            
+                            <ComboBox Margin="5" IsEditable="True" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
+                      Style="{StaticResource LabelClearButtonComboBox}" base:ControlAttachProperty.Watermark="请选择你要申报的大学" />
+                            
+                            <ComboBox Margin="5" IsEnabled="False" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
+                      Style="{StaticResource LabelClearButtonComboBox}" SelectedIndex="3" />
+
+                            <ComboBox Margin="5" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别"
+                      Style="{StaticResource ClearButtonComboBox}"  base:ControlAttachProperty.Watermark="请选择你要申报的大学" />
+                            
+                            <ComboBox Margin="5" IsEditable="True" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
+                      IsReadOnly="True" SelectedIndex="2"
+                      Style="{StaticResource ClearButtonComboBox}" base:ControlAttachProperty.Watermark="请选择你要申报的大学" />
+                            
+                            <ComboBox Margin="5" IsEnabled="False" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
+                      Style="{StaticResource ClearButtonComboBox}" SelectedIndex="3" />
+
+                            <wpfcontrollib:SearchCombobox  Grid.Row="1" SelectedIndex="0" Style="{DynamicResource Resource.Style.SearchCombobox.WithLogo}"
+                                      SelectedItem="{Binding UpLoadViewModel.SelectItem.SelectBiochemical}" MyItemsSource="{StaticResource D.ArrayList.Items}"
+                                        base:ControlAttachProperty.Watermark="请输入搜索条件">
+                            </wpfcontrollib:SearchCombobox>
+                        </StackPanel>
+                    </GroupBox>
+               
+                    <GroupBox  Header="下拉多选">
+                        <StackPanel >
+                            <StackPanel Height="300" Orientation="Vertical">
+                                <wpfcontrollib:MultiComboBox Width="420" Margin="3" IsEditable="True" ItemsSource="{StaticResource D.ArrayList.Items}" 
+                   base:ControlAttachProperty.Label="选择类别:" base:ControlAttachProperty.Watermark="请选择你要申报的大学" Style="{StaticResource ClearButtonMultiComboBox}"/>
+                                <wpfcontrollib:MultiComboBox Width="420" Margin="3" IsEditable="True" ItemsSource="{StaticResource D.ArrayList.Items}"
+                   base:ControlAttachProperty.Label="选择类别:" base:ControlAttachProperty.Watermark="请选择你要申报的大学" Style="{StaticResource LabelMultiComboBox}"/>
+                                <wpfcontrollib:MultiComboBox Width="420" Margin="3" IsEditable="False" ItemsSource="{StaticResource D.ArrayList.Items}"
+                   base:ControlAttachProperty.Label="选择类别:" base:ControlAttachProperty.Watermark="请选择你要申报的大学" Style="{StaticResource LabelClearButtonMultiComboBox}"/>
+
+                                <wpfcontrollib:MultiComboBox Width="420" Margin="3" IsEditable="True" ItemsSource="{StaticResource D.ArrayList.Items}" IsReadOnly="True" SelectedIndex="3"
+                   base:ControlAttachProperty.Label="选择类别:" base:ControlAttachProperty.Watermark="请选择你要申报的大学" Style="{StaticResource LabelClearButtonMultiComboBox}"/>
+
+                                <wpfcontrollib:MultiComboBox Width="420" Margin="3" IsEditable="False" ItemsSource="{StaticResource D.ArrayList.Items}" IsEnabled="False"
+                   base:ControlAttachProperty.Label="选择类别:" base:ControlAttachProperty.Watermark="请选择你要申报的大学" Style="{StaticResource LabelClearButtonMultiComboBox}"/>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </GroupBox>
+            
+                    <GroupBox Header="普通文本输入框">
+                        <StackPanel>
+                            <wpfcontrollib:FTextBox Width="150" Height="30" Margin="3" 
+                 base:ControlAttachProperty.Watermark="我是水印" 
+                 base:ControlAttachProperty.CornerRadius="2"/>
+
+                            <wpfcontrollib:FTextBox Width="140" base:ControlAttachProperty.FIcon="" Text="333333333333333" Height="40" Margin="3" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible"/>
+
+                            <wpfcontrollib:FTextBox Width="150" Height="30" Margin="3" IsReadOnly="True" base:ControlAttachProperty.CornerRadius="15" SnapsToDevicePixels="True" >我是只读的</wpfcontrollib:FTextBox>
+
+                            <wpfcontrollib:FTextBox Width="150" Height="30" Margin="3" IsEnabled="False">IsEnabled="False"</wpfcontrollib:FTextBox>
+
+                            <wpfcontrollib:FTextBox Width="150" Height="30" Margin="3" base:ControlAttachProperty.Watermark="我是水印" Style="{StaticResource ClearButtonTextBox}"  IsEnabled="True"></wpfcontrollib:FTextBox>
+
+                            <wpfcontrollib:FTextBox Width="150" Height="30" Margin="3" Style="{StaticResource ClearButtonTextBox}" IsEnabled="False">IsEnabled="False"</wpfcontrollib:FTextBox>
+
+                            <wpfcontrollib:FTextBox Width="150" Height="30" Margin="3" Style="{StaticResource ClearButtonTextBox}" IsReadOnly="True">IsReadOnly="True"</wpfcontrollib:FTextBox>
+                        </StackPanel>
+                    </GroupBox>
+             
+                    <GroupBox Header="标题文本输入框">
+                        <StackPanel>
+
+                            <wpfcontrollib:FTextBox Width="200" Height="30" Margin="3" base:ControlAttachProperty.Watermark="请输入姓名" 
+                         Style="{StaticResource LabelTextBox}" base:ControlAttachProperty.Label="姓名："></wpfcontrollib:FTextBox>
+                            <wpfcontrollib:FTextBox Width="200" Height="30" Margin="3" base:ControlAttachProperty.Watermark="请输入爱好" 
+                         Style="{StaticResource LabelClearButtonTextBox}" base:ControlAttachProperty.Label="爱好："></wpfcontrollib:FTextBox>
+                            <wpfcontrollib:FTextBox Width="200" Height="30" Margin="3" base:ControlAttachProperty.Watermark="请输入爱好" IsReadOnly="True"
+                         Style="{StaticResource LabelClearButtonTextBox}" base:ControlAttachProperty.Label="爱好：">IsReadOnly="True"</wpfcontrollib:FTextBox>
+                            <wpfcontrollib:FTextBox Width="200" Height="30" Margin="3" base:ControlAttachProperty.Watermark="请输入爱好" IsEnabled="False"
+                         Style="{StaticResource LabelClearButtonTextBox}" base:ControlAttachProperty.Label="爱好：">IsEnabled="False"</wpfcontrollib:FTextBox>
+                        </StackPanel>
+                    </GroupBox>
+              
+                    <GroupBox Header="资源文本输入框">
+                        <StackPanel>
+                            <wpfcontrollib:FTextBox Width="400" Height="30" Margin="3" Style="{StaticResource LabelOpenFileTextBox}"></wpfcontrollib:FTextBox>
+                            <wpfcontrollib:FTextBox Width="400" Height="30" Margin="3" Style="{StaticResource LabelOpenFolderTextBox}"></wpfcontrollib:FTextBox>
+                            <wpfcontrollib:FTextBox Width="400" Height="30" Margin="3" Style="{StaticResource LabelSaveFileTextBox}"></wpfcontrollib:FTextBox>
+                        </StackPanel>
+                    </GroupBox>
+           
+                    <GroupBox Header="按钮文本输入框">
+                        <StackPanel>
+                            <wpfcontrollib:FTextBox Width="200" Height="30" Margin="3" base:ControlAttachProperty.Watermark="查询关键词" IsEnabled="True">
+                                <base:ControlAttachProperty.AttachContent>
+                                    <ControlTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <wpfcontrollib:FButton FIcon="&#xe607;"  Style="{StaticResource S.FButton.Style.Transparent}"  IsTabStop="False" FIconMargin="0"
+                                            FIconSize="18" Margin="1,1,2,3"  Cursor="Arrow"/>
+                                            <wpfcontrollib:FButton FIcon="&#xe674;"  Style="{StaticResource S.FButton.Style.Transparent}" IsTabStop="False" FIconMargin="0"
+                                            FIconSize="22"  Cursor="Arrow"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </base:ControlAttachProperty.AttachContent>
+                            </wpfcontrollib:FTextBox>
+
+                            <wpfcontrollib:FTextBox Width="200" Height="30" Margin="3" base:ControlAttachProperty.Watermark="查询关键词" IsEnabled="False" Text="123">
+                                <base:ControlAttachProperty.AttachContent>
+                                    <ControlTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <wpfcontrollib:FButton FIcon="&#xe607;"  Style="{StaticResource S.FButton.Style.Transparent}" IsTabStop="False" FIconMargin="0"
+                                            FIconSize="18" Margin="1,1,2,3"  Cursor="Arrow"/>
+                                            <wpfcontrollib:FButton FIcon="&#xe674;"  Style="{StaticResource S.FButton.Style.Transparent}" IsTabStop="False"  FIconMargin="0"
+                                            FIconSize="22"  Cursor="Arrow"/>
+                                        </StackPanel>
+                                    </ControlTemplate>
+                                </base:ControlAttachProperty.AttachContent>
+                            </wpfcontrollib:FTextBox>
+                        </StackPanel>
+                    </GroupBox>
+           
+                    <GroupBox Header="加载控件">
+                        <StackPanel>
+
+                        <StackPanel MinWidth="200" HorizontalAlignment="Left">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,32" >
+                                <TextBlock Text="选择样式" VerticalAlignment="Center" />
+                                <ComboBox x:Name="CmbRingStyle" Margin="8,0,0,0">
+                                    <ComboBoxItem Content="Chasing Dots" Tag="{StaticResource FChasingDotsProgressRingStyle}" />
+                                    <ComboBoxItem Content="Circle (default style)" IsSelected="True" Tag="{StaticResource FCircleProgressRingStyle}" />
+                                    <ComboBoxItem Content="Double Bounce" Tag="{StaticResource FDoubleBounceProgressRingStyle}" />
+                                    <ComboBoxItem Content="Pulse" Tag="{StaticResource FPulseProgressRingStyle}" />
+                                    <ComboBoxItem Content="Rotating Plane" Tag="{StaticResource FRotatingPlaneProgressRingStyle}" />
+                                    <ComboBoxItem Content="Three Bounce" Tag="{StaticResource FThreeBounceProgressRingStyle}" />
+                                    <ComboBoxItem Content="Wandering Cubes" Tag="{StaticResource FWanderingCubesProgressRingStyle}" />
+                                    <ComboBoxItem Content="Wave" Tag="{StaticResource FWaveProgressRingStyle}" />
+                                </ComboBox>
+                            </StackPanel>
+
+                            <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}" />
+                        </StackPanel>
+
+
+
+                        <wpfcontrollib:FCheckBox VerticalAlignment="Center" x:Name="cbActive" Margin="5" IsChecked="True">IsActive</wpfcontrollib:FCheckBox>
+                            <wpfcontrollib:RingBox Width="80" 
+                                                   Height="80" 
+                                                   Margin="15"  
+                                                   IsActive="{Binding IsChecked ,ElementName=cbActive}" />
+
+
+                            <wpfcontrollib:ProgressBarControl  CanvasSize="100" 
+                                                               EllipseCount="15" 
+                                                               EllipseSize="10"
+                                                               StepAngle="10" 
+                                                               TimeSpan="50"/>
+
+                            <ProgressBar Minimum="0" Maximum="1" Height="50"  Width="500" 
+                                         IsIndeterminate="True" Margin="5"   
+                                         Style="{StaticResource RunningPointProgressBar}"/>
+
+                         
+
+                        </StackPanel>
+                    </GroupBox>
+            
+                    <GroupBox Header="进度条">
+                        <StackPanel MinWidth="200" HorizontalAlignment="Center">
+                            <TextBlock x:Name="proValue"  Text="{Binding Percent,Mode=OneWay,StringFormat={}{0:p1}}" HorizontalAlignment="Center"></TextBlock>
+
+                            <ProgressBar Margin="5" Value="{Binding Percent,Mode=OneWay}"  
+                                         base:ControlAttachProperty.CornerRadius="28" 
+                                         Height="50" 
+                                         Style="{StaticResource BaseProgressBar}" IsIndeterminate="True"></ProgressBar>
+
+                            <ProgressBar Style="{DynamicResource S.Progessbar.WaittingPercent}" Width="300" Value="80"/>
+                        </StackPanel>
+                    </GroupBox>
+           
+                    <GroupBox Header="样式二">
+                        <StackPanel>
+                            <wpfcontrollib:MetroTextBox x:Name="password" InputHint="PassWord Input Box!" IsPassWordBox="True" ButtonTitle="确定" PopupHint="请输入密码" />
+                            <wpfcontrollib:MetroTextBox InputHint="InputHint..." PopupHint="This is TextBox!" Margin="0,10,0,0" />
+                            <wpfcontrollib:MetroTextBox Margin="0,10,0,0" />
+                            <wpfcontrollib:MetroTextBox Title="Default Title" InputHint="InputHint..." PopupHint="This is TextBox!" Margin="0,10,0,0" />
+                            <wpfcontrollib:MetroTextBox x:Name="check" Title="Default Title" InputHint="InputHint..." ButtonTitle="Button" PopupHint="Length is more than 10!" Margin="0,10,0,0"  IconFont="&#xe633;"/>
+                            <wpfcontrollib:MetroTextBox x:Name="check1" Text="0123456789" Title="Default Title" InputHint="InputHint..." ButtonTitle="Button" PopupHint="Length is more than 10!" Margin="0,10,0,0" IconFont="&#xe633;"  />
+                            <wpfcontrollib:MetroTextBox Title="Default Title" InputHint="InputHint..." Text="This is Content!" ButtonTitle="Button" PopupHint="这是一个多行编辑框!" Margin="0,10,0,0"  MultipleLine="True" IconFont="&#xe633;" />
+                            <wpfcontrollib:MetroTextBox Title="Default Title" InputHint="InputHint..." ButtonTitle="Button" PopupHint="Length is more than 10!" Margin="0,10,0,0"  IsEnabled="False" />
+                            <wpfcontrollib:MetroTextBox Title="Default Title" InputHint="InputHint..." Text="已经输入内容且禁用" ButtonTitle="Button" PopupHint="Length is more than 10!" Margin="0,10,0,0"  IsEnabled="False" />
+                        </StackPanel>
+                    </GroupBox>
+          
+                    <GroupBox Header="密码输入样式">
+                        <StackPanel>
+                            <GroupBox Header="自定义密码文本输入框">
+                                <StackPanel>
+                                    <PasswordBox Style="{StaticResource DefaultPasswordBox}" base:ControlAttachProperty.Watermark="请输入姓名" Margin="3"  />
+                                    <PasswordBox Style="{StaticResource ClearButtonPasswordBox}" Margin="3" />
+                                    <PasswordBox Style="{StaticResource LabelPasswordBox}" base:ControlAttachProperty.Label="密码：" Margin="3" />
+                                    <PasswordBox Style="{StaticResource LabelClearButtonPasswordBox}" base:ControlAttachProperty.Label="密码：" Margin="3"/>
+                                    <PasswordBox  Style="{StaticResource DefaultPasswordBox}"  IsEnabled="False" Password="111" Margin="3"/>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="绑定密码文本输入框">
+                                <StackPanel>
+                                    <wpfcontrollib:FTextBox Width="200" 
+                                                   Height="30" 
+                                                   Margin="3" 
+                                                   base:ControlAttachProperty.Watermark="请输入绑定密码" 
+                                                   Style="{StaticResource LabelTextBox}" 
+                                                   base:ControlAttachProperty.Label="输入："
+                                                   x:Name="tb_bind"></wpfcontrollib:FTextBox>
+
+                                    <wpfcontrollib:BindPassWordBox x:Name="bpw_bindpassword" 
+                                                          base:ControlAttachProperty.Watermark="请输入姓名" Style="{StaticResource DefaultBindPasswordBox}"
+                                                          PassWord="{Binding ElementName=tb_bind,Path=Text,Mode=TwoWay}" Margin="3"  />
+
+                                    <wpfcontrollib:BindPassWordBox Style="{StaticResource DefaultBindPasswordBox}" base:ControlAttachProperty.Watermark="请输入姓名" Margin="3"  />
+                                    <wpfcontrollib:BindPassWordBox Style="{StaticResource ClearButtonBindPasswordBox}" base:ControlAttachProperty.Watermark="请输入姓名" Margin="3" />
+                                    <wpfcontrollib:BindPassWordBox Style="{StaticResource LabelBindPasswordBox}" base:ControlAttachProperty.Watermark="请输入姓名" base:ControlAttachProperty.Label="密码：" Margin="3" />
+                                    <wpfcontrollib:BindPassWordBox  Style="{StaticResource LabelClearButtonBindPasswordBox}" base:ControlAttachProperty.Watermark="请输入姓名" base:ControlAttachProperty.Label="密码：" Margin="3"/>
+                                    <wpfcontrollib:BindPassWordBox  Style="{StaticResource DefaultBindPasswordBox}" base:ControlAttachProperty.Watermark="请输入姓名"  IsEnabled="False" PassWord="111" Margin="3"/>
+
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </GroupBox>
+            
+                    <GroupBox Header="日期控件">
+                        <StackPanel>
+                            <DatePicker Margin="3"/>
+                            <DatePicker Margin="3" SelectedDate="{x:Static system:DateTime.Today}"/>
+                            <DatePicker Margin="3" IsEnabled="False" SelectedDate="{x:Static system:DateTime.Today}"/>
+
+                            <DatePicker Margin="3" Style="{DynamicResource LabelClearButtonDatePicker}" base:ControlAttachProperty.Label="出生日期"/>
+                            <DatePicker Margin="3" Style="{DynamicResource LabelDatePicker}" base:ControlAttachProperty.Label="死亡日期" SelectedDate="{x:Static system:DateTime.Today}"/>
+                            <DatePicker Margin="3" Style="{DynamicResource LabelDatePicker}" base:ControlAttachProperty.Label="非法日期" IsEnabled="False" SelectedDate="{x:Static system:DateTime.Today}"/>
+
+                            <DatePicker Margin="3" Style="{DynamicResource ClearButtonDatePicker}"/>
+                            <DatePicker Margin="3" SelectedDate="{x:Static system:DateTime.Today}"/>
+                            <DatePicker Margin="3" Style="{DynamicResource ClearButtonDatePicker}" IsEnabled="False" SelectedDate="{x:Static system:DateTime.Today}"/>
+
+                        </StackPanel>
+                    </GroupBox>
+             
+                    <GroupBox Header="拖动控件">
+                        <StackPanel>
+
+                            <GroupBox Header="系统滚动条">
+                                <Slider Margin="5"  LargeChange="0.1"  Maximum="1"  SmallChange="0.1" />
+                            </GroupBox>
+
+                            <GroupBox Header="自定义滚动条">
+                                <Slider  Margin="5" LargeChange="0.1" Maximum="1" SmallChange="0.1" Style="{StaticResource DefaultSliderStyle}" />
+                            </GroupBox>
+                            <GroupBox Header="透明滚动条">
+                                <Slider  Margin="5" LargeChange="0.1" Maximum="1" SmallChange="0.1" Style="{StaticResource OpacitySliderStyle}" />
+                            </GroupBox>
+
+                            <GroupBox Header="进度条样式的拖动条">
+                                <Slider Margin="5" LargeChange="0.1" Maximum="1" SmallChange="0.1" Style="{StaticResource Slider_CustomStyle}" />
+                            </GroupBox>
+
+                            <GroupBox Header="实心滚动条">
+                                <Slider Style="{DynamicResource SliderStyle1}" Minimum="12" Maximum="20" VerticalAlignment="Center" 
+                        Value="{Binding FontSize ,ElementName=RichTextBoxLogs}" Width="100"/>
+                            </GroupBox>
+                            <GroupBox Header="区间滚动条">
+                                <StackPanel  Margin="10">
+                                    <wpfcontrollib:SpaceSpliterUserControl Background="Red" LeftPercent="{Binding Left,Mode=TwoWay}" RightPercent="{Binding Right,Mode=TwoWay}" Margin="10"/>
+                                    <wpfcontrollib:SpaceSpliterUserControl  Background="Red" LeftPercent="0.1" RightPercent="0.9"  Margin="10"/>
+
+                                    <TextBlock> <Run Text="左侧值："/><Run x:Name="txt_left" Text="{Binding Left}"/></TextBlock>
+                                    <TextBlock> <Run Text="右侧值："/>  <Run x:Name="txt_right" Text="{Binding Right}"/></TextBlock>
+                                </StackPanel>
+
+                            </GroupBox>
+
+                            <GroupBox Header="缓冲播放进度条">
+                                <StackPanel>
+                                    <wpfcontrollib:BufferPlayControl x:Name="control_bufferPlay"/>
+                                    <TextBlock x:Name="txt_persent"/>
+                                    <TextBlock Text="{Binding ElementName=control_bufferPlay,Path=Value}"/>
+                                    <Button Content="开始" />
+                                    <Button x:Name="btn_play" Content="暂停"/>
+                                </StackPanel>
+                            </GroupBox>
+                        </StackPanel>
+                    </GroupBox>
+             
+                    <GroupBox Header="分页控件">
+                        <StackPanel>
+
+                            <GroupBox Header="样式一">
+                                <wpfcontrollib:AnimatedTabControl Height="200" >
+                                    <TabItem Header="设备配置">
+                                        <TextBlock Text="第一页"  Background="Yellow" TextAlignment="Center" />
+                                    </TabItem>
+
+                                    <TabItem Header="基本设置">
+                                        <Button Content="第二页" Background="Blue"/>
+                                    </TabItem>
+
+                                    <TabItem Header="操作设置">
+                                        <Button Content="第三页" Background="Green"/>
+                                    </TabItem>
+                                </wpfcontrollib:AnimatedTabControl>
+                            </GroupBox>
+
+                        </StackPanel>
+                    </GroupBox>
+
+                <!--<Border BorderBrush="#33000000" BorderThickness="1" Height="90">
+                    <TextBlock FontSize="30" Text="18" Margin="7,0,0,0" Opacity="0.65" />
+                </Border>
+                <Grid>
+                    <Border BorderBrush="#33000000" BorderThickness="1" Height="40">
+                        <TextBlock FontSize="30" Text="19" Margin="7,0,0,0" Opacity="0.65" />
+                    </Border>
+                </Grid>
+                <Grid>
+                    <Border BorderBrush="#33000000" BorderThickness="1" Height="200">
+                        <TextBlock FontSize="30" Text="20" Margin="7,0,0,0" Opacity="0.65" />
+                    </Border>
+                </Grid>-->
+            </wpfcontrollib:WaterFallFlowControl>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
