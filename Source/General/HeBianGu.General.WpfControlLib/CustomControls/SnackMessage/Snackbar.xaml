@@ -119,7 +119,7 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}" />
-        <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Dark.10}" />
         <Setter Property="ActionButtonStyle" Value="{StaticResource MaterialDesignSnackbarActionButton}" />
         <Setter Property="MinWidth" Value="288" />
         <Setter Property="MaxWidth" Value="568" />
@@ -130,20 +130,33 @@
                 <ControlTemplate TargetType="local:Snackbar">
                     <ControlTemplate.Resources>
                         <Storyboard x:Key="ActivateStoryboard" Duration="0:0:0.3">
-                            <DoubleAnimation Storyboard.TargetName="Root" Storyboard.TargetProperty="Tag" From="0" To="1" Duration="0:0:0.3">
+                            <DoubleAnimation Storyboard.TargetName="Root" Storyboard.TargetProperty="Tag" From="0" To="3" Duration="0:0:0.3">
                                 <DoubleAnimation.EasingFunction>
                                     <SineEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                            <DoubleAnimation Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Opacity" To="0" BeginTime="0" Duration="0" />
+                        
+                             <DoubleAnimation Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Opacity" To="0" BeginTime="0" Duration="0" />
                             <DoubleAnimation Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0.075" Duration="0:0:0.225">
                                 <DoubleAnimation.EasingFunction>
                                     <SineEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
+
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0.075" Duration="0:0:0.225">
+                                <DoubleAnimation.EasingFunction>
+                                    <SineEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>
+                            
                         </Storyboard>
                         <Storyboard x:Key="DeactivateStoryboard" Duration="0:0:0.3">
-                            <DoubleAnimation Storyboard.TargetName="Root" Storyboard.TargetProperty="Tag" From="1" To="0" Duration="0:0:0.3">
+                            <!--<DoubleAnimation Storyboard.TargetName="Root" Storyboard.TargetProperty="Tag" From="3" To="0" Duration="0:0:0.3">
+                                <DoubleAnimation.EasingFunction>
+                                    <SineEase EasingMode="EaseOut" />
+                                </DoubleAnimation.EasingFunction>
+                            </DoubleAnimation>-->
+                            <DoubleAnimation   Storyboard.TargetProperty="Opacity" From="1" To="0" BeginTime="0:0:0.075" Duration="0:0:0.225">
                                 <DoubleAnimation.EasingFunction>
                                     <SineEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
@@ -161,10 +174,10 @@
                             </MultiBinding>
                         </StackPanel.Height>
                         <Border x:Name="ContentBorder"
-                                Background="{TemplateBinding Background}" CornerRadius="2" SnapsToDevicePixels="True"                                
+                                Background="{TemplateBinding Background}" Opacity="0.7" CornerRadius="24" SnapsToDevicePixels="True"                                
                                 VerticalAlignment="Stretch"
                                 MinHeight="24">
-                            <ContentPresenter Content="{TemplateBinding Message}"
+                            <ContentPresenter Content="{TemplateBinding Message}" HorizontalAlignment="Center"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Margin="{TemplateBinding Padding}"
                                               x:Name="ContentPresenter" />

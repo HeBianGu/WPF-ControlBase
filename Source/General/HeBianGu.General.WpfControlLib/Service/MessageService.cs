@@ -138,8 +138,7 @@ namespace HeBianGu.General.WpfControlLib
                  view.MessageStr = message;
 
                  return await DialogHost.Show(view, "windowDialog");
-             });
-
+             }); 
         }
 
         static bool CheckOpen()
@@ -199,6 +198,22 @@ namespace HeBianGu.General.WpfControlLib
 
                 window?.CloseWithLayer();
             });
+        }
+
+
+        /// <summary> 显示气泡消息 </summary>
+        public static void ShowNotifyMessage(string message)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                IWindowBase window = Application.Current.MainWindow as IWindowBase;
+
+                if (window != null)
+                {
+                    window.ShowNotifyMessage(message);
+                }
+            });
+
         }
 
     }

@@ -46,24 +46,33 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.ViewModel
         private bool CanLoaded(string args)
         {
             return true;
-        }
+        } 
 
+        protected override async void RelayMethod(object obj)
 
-        protected override void RelayMethod(object obj)
         {
             string command = obj?.ToString();
 
             //  Do：应用
-            if (command == "Sumit")
+            if (command == "Button.ShowDialogMessage")
             {
-
+                await MessageService.ShowSumitMessge("你为什么要点我？");
 
             }
             //  Do：取消
-            else if (command == "Cancel")
+            else if (command == "Button.ShowSnackMessage")
             {
-
-
+                MessageService.ShowSnackMessageWithNotice("干嘛老点我？");
+            }
+            //  Do：取消
+            else if (command == "Button.ShowNotifyIcon")
+            {
+                //MessageService.ShowSnackMessageWithNotice("干嘛老点我？");
+            }
+            //  Do：取消
+            else if (command == "Button.ShowNotifyMessage")
+            {
+                MessageService.ShowNotifyMessage("我是消息气泡");
             }
         }
     }

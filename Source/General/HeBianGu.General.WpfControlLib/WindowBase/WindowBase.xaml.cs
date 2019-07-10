@@ -9,6 +9,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using static HeBianGu.General.WpfControlLib.BlurWindowExtensions;
 
 namespace HeBianGu.General.WpfControlLib
@@ -31,6 +32,10 @@ namespace HeBianGu.General.WpfControlLib
 
         /// <summary> 关闭蒙版 </summary>
         void CloseWithLayer(int layerIndex = 0);
+
+
+        /// <summary> 显示气泡消息 </summary>
+        void ShowNotifyMessage(string message);
 
     }
 
@@ -190,16 +195,52 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (config)
                 {
-                    control.DialogResult = true;
-
-                    CloseStoryService.Instance.UoToDownClose(control);
+                    control.Close();
                 }
 
             }));
 
 
+        public bool IsUseDrag
+        {
+            get { return (bool)GetValue(IsUseDragProperty); }
+            set { SetValue(IsUseDragProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsUseDragProperty =
+            DependencyProperty.Register("IsUseDrag", typeof(bool), typeof(WindowBase), new PropertyMetadata(default(bool), (d, e) =>
+             {
+                 WindowBase control = d as WindowBase;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
 
         #endregion
+
+
+        /// <summary> 托盘图标按钮图标 </summary>
+        public ImageSource NotifyIconSource
+        {
+            get { return (ImageSource)GetValue(NotifyIconSourceProperty); }
+            set { SetValue(NotifyIconSourceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty NotifyIconSourceProperty =
+            DependencyProperty.Register("NotifyIconSource", typeof(ImageSource), typeof(WindowBase), new PropertyMetadata(default(ImageSource), (d, e) =>
+            {
+                LinkWindowBase control = d as LinkWindowBase;
+
+                if (control == null) return;
+
+                ImageSource config = e.NewValue as ImageSource;
+
+            }));
 
 
         #endregion
@@ -208,8 +249,10 @@ namespace HeBianGu.General.WpfControlLib
         public ICommand CloseWindowCommand { get; protected set; }
         public ICommand MaximizeWindowCommand { get; protected set; }
         public ICommand MinimizeWindowCommand { get; protected set; }
-
         public ICommand SettimgWindowCommand { get; protected set; }
+        public ICommand NotifyWindowCommand { get; protected set; }
+
+
 
         private void CloseCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
@@ -251,7 +294,9 @@ namespace HeBianGu.General.WpfControlLib
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            this.DragMove();
+
+            if (e.LeftButton == MouseButtonState.Pressed && this.IsUseDrag)
+                this.DragMove();
 
             base.OnMouseLeftButtonDown(e);
         }
@@ -286,28 +331,76 @@ namespace HeBianGu.General.WpfControlLib
             this.MaximizeWindowCommand = new RoutedUICommand();
             this.MinimizeWindowCommand = new RoutedUICommand();
             this.SettimgWindowCommand = new RoutedUICommand();
+            this.NotifyWindowCommand = new RoutedUICommand();
+
             this.BindCommand(CloseWindowCommand, this.CloseCommand_Execute);
             this.BindCommand(MaximizeWindowCommand, this.MaxCommand_Execute);
             this.BindCommand(MinimizeWindowCommand, this.MinCommand_Execute);
             this.BindCommand(SettimgWindowCommand, this.SettimgCommand_Execute);
+            this.BindCommand(NotifyWindowCommand, this.NotifyCommand_Execute);
 
         }
+
         private void SettimgCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             this.ShowWithLayer(e.Parameter as Uri);
         }
 
+        private void NotifyCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
 
+            MessageService.ShowSnackMessageWithNotice("窗口即将隐藏至右下角，双击右下角图标显示窗口");
+
+            Task.Delay(2000).ContinueWith(l =>
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.ShowWindow = false;
+                });
+
+            });
+
+        }
+
+        public bool ShowWindow
+        {
+            get { return (bool)GetValue(ShowWindowProperty); }
+            set { SetValue(ShowWindowProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowWindowProperty =
+            DependencyProperty.Register("ShowWindow", typeof(bool), typeof(WindowBase), new PropertyMetadata(true, (d, e) =>
+             {
+                 WindowBase control = d as WindowBase;
+
+                 if (control == null) return;
+
+                 bool config = (bool)e.NewValue;
+
+                 if (config)
+                 {
+                     CloseStoryService.Instance.ScaleEnlargeShow(control);
+                 }
+                 else
+                 {
+                     CloseStoryService.Instance.ScaleReduceHide(control);
+                 }
+
+             }));
 
     }
 
 
     [TemplatePart(Name = "PART_SnackBar", Type = typeof(Snackbar))]
     [TemplatePart(Name = "PART_SettingFrame", Type = typeof(ModernFrame))]
+    [TemplatePart(Name = "PART_NotifyIcon", Type = typeof(NotifyIcon))]
+
     partial class WindowBase : IWindowBase
     {
         Snackbar _snackbar;
         ModernFrame _settingFrame;
+        NotifyIcon _notifyIcon;
         public override void OnApplyTemplate()
         {
 
@@ -315,6 +408,8 @@ namespace HeBianGu.General.WpfControlLib
 
             this._snackbar = Template.FindName("PART_SnackBar", this) as Snackbar;
             this._settingFrame = Template.FindName("PART_SettingFrame", this) as ModernFrame;
+            this._notifyIcon = Template.FindName("PART_NotifyIcon", this) as NotifyIcon;
+
         }
         /// <summary> 输出消息 </summary>
         public void AddSnackMessage(string message)
@@ -352,6 +447,16 @@ namespace HeBianGu.General.WpfControlLib
         public void CloseWithLayer(int layerIndex = 0)
         {
             _settingFrame.Visibility = Visibility.Collapsed;
+        }
+
+
+        public void ShowNotifyMessage(string message)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                _notifyIcon.ShowBalloonTip(1000, "Balloon", message, NotifyBalloonIcon.Info);
+
+            });
         }
     }
 

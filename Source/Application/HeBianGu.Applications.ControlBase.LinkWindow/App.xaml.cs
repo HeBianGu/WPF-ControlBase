@@ -19,9 +19,14 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     {
 
         protected override void OnStartup(StartupEventArgs e)
-        {
+        { 
+
+         
+
             //  Do：设置默认主题
             ThemeService.Current.AccentColor = Color.FromRgb(0x1b, 0xa1, 0xe2);
+
+            ThemeService.Current.StartAnimationTheme(5000);
 
             MainWindow shellWindow = new MainWindow();
 

@@ -32,7 +32,7 @@ namespace HeBianGu.General.WpfControlLib
     [ContentProperty("Text")]
     [DefaultEvent("MouseDoubleClick")]
     [UIPermission(SecurityAction.InheritanceDemand, Window = UIPermissionWindow.AllWindows)]
-    public sealed class NotifyIcon : FrameworkElement, IDisposable, IAddChild
+    public sealed class NotifyIcon : FrameworkElement, IDisposable, IAddChild, ICommandSource
     {
         #region Fields
 
@@ -44,8 +44,11 @@ namespace HeBianGu.General.WpfControlLib
         private readonly object _syncObj = new object();
 
         private NotifyIconHwndSource _hwndSource;
+
         private readonly int _id = _nextId++;
+
         private bool _iconCreated;
+
         private bool _doubleClick;
 
         #endregion
@@ -151,7 +154,7 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary>
         ///     Occurs when the user double-clicks the <see cref="NotifyIcon" /> with the mouse.
         /// </summary>
-        public event MouseButtonEventHandler MouseDoubleClick
+        public new event MouseButtonEventHandler MouseDoubleClick
         {
             add { AddHandler(MouseDoubleClickEvent, value); }
             remove { RemoveHandler(MouseDoubleClickEvent, value); }
@@ -179,7 +182,10 @@ namespace HeBianGu.General.WpfControlLib
         public NotifyIcon()
         {
             IsVisibleChanged += OnIsVisibleChanged;
+
+            this.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
         }
+
 
         /// <summary>
         ///     Releases unmanaged resources and performs other cleanup operations before the
@@ -246,12 +252,12 @@ namespace HeBianGu.General.WpfControlLib
         {
             if (timeout < 0)
             {
-                throw new ArgumentOutOfRangeException("timeout", timeout,"");
+                throw new ArgumentOutOfRangeException("timeout", timeout, "");
             }
             ArgumentValidator.NotNullOrEmptyString(tipText, "tipText");
             ArgumentValidator.EnumValueIsDefined(typeof(NotifyBalloonIcon), tipIcon, "tipIcon");
 
-            if (_iconCreated)
+            if (true)
             {
                 _allWindowsPermission.Demand();
 
@@ -267,6 +273,12 @@ namespace HeBianGu.General.WpfControlLib
                 };
                 NativeMethods.Shell_NotifyIcon(1, pnid);
             }
+        }
+
+
+        public void ShowFlash()
+        {
+
         }
 
         #endregion
@@ -762,7 +774,62 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
+        #endregion 
+
+        #region - Command -
+
+
+        public ICommand Command
+        {
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register("Command", typeof(ICommand), typeof(NotifyIcon));
+
+
+
+        public object CommandParameter
+        {
+            get { return (object)GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CommandParameterProperty =
+            DependencyProperty.Register("CommandParameter", typeof(object), typeof(NotifyIcon));
+
+
+
+        public IInputElement CommandTarget
+        {
+            get { return (IInputElement)GetValue(NotifyClassProperty); }
+            set { SetValue(NotifyClassProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty NotifyClassProperty =
+            DependencyProperty.Register("CommandTarget", typeof(IInputElement), typeof(NotifyIcon));
+
+
+        private void NotifyIcon_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            this.Command?.Execute(this.CommandParameter);
+
+            var window = (WindowBase)Application.Current.MainWindow;
+
+            if (window != null)
+            {
+                window.ShowWindow = !window.ShowWindow;
+            }
+
+        }
+
+
         #endregion
+
     }
 
     /// <summary>
@@ -1267,11 +1334,11 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         #endregion
-        
+
         [SecurityCritical, SuppressUnmanagedCodeSecurity, DllImport("winmm", CharSet = CharSet.Unicode)]
         private static extern bool PlaySound(string soundName, IntPtr hmod, PlaySoundFlags soundFlags);
 
-  
+
         #endregion
 
         #region Helpers

@@ -25,7 +25,7 @@ using System.Windows.Media.Animation;
 
 namespace HeBianGu.General.WpfControlLib
 {
-   partial class CloseStoryService
+    partial class CloseStoryService
     {
         /// <summary> 从下到上移动关闭窗口 </summary>
         public void DownToUpClose(Window w)
@@ -109,6 +109,108 @@ namespace HeBianGu.General.WpfControlLib
             storyboard.Begin();
         }
 
+
+        /// <summary> 缩小到右下角隐藏 </summary>
+        public void ScaleReduce(WindowBase w, Point point, double second, double power, Action complate)
+        {
+            w.RenderTransformOrigin = point;
+
+            EasingFunctionBase easeFunction = new PowerEase()
+            {
+                EasingMode = EasingMode.EaseInOut,
+                Power = power
+            };
+
+            {
+                DoubleAnimation dbAscending = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(second)));
+                dbAscending.EasingFunction = easeFunction;
+
+                Storyboard storyboard = new Storyboard();
+                //dbAscending.RepeatBehavior = RepeatBehavior.Forever;
+                storyboard.Children.Add(dbAscending);
+                Storyboard.SetTarget(dbAscending, w);
+                Storyboard.SetTargetProperty(dbAscending, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"));
+                storyboard.Begin();
+            }
+
+            {
+                DoubleAnimation dbAscending1 = new DoubleAnimation(1, 0, new Duration(TimeSpan.FromSeconds(second)));
+                dbAscending1.EasingFunction = easeFunction;
+
+                Storyboard storyboard1 = new Storyboard();
+                //dbAscending.RepeatBehavior = RepeatBehavior.Forever;
+                storyboard1.Children.Add(dbAscending1);
+                Storyboard.SetTarget(dbAscending1, w);
+                Storyboard.SetTargetProperty(dbAscending1, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"));
+                storyboard1.Completed += delegate { complate.Invoke(); };
+                storyboard1.Begin();
+            }
+
+        }
+
+        public void ScaleReduceHide(WindowBase w)
+        {
+            this.ScaleReduce(w, new Point(1, 1), 1.5, 5, () => w.Hide());
+        }
+
+        public void ScaleReduceCloseCenter(WindowBase w)
+        {
+            this.ScaleReduce(w, new Point(1, 1), 1.5, 5, () => w.Close());
+        }
+
+
+        /// <summary> 缩小到右下角显示</summary>
+        public void ScaleEnlarge(WindowBase w, Point point, double second, double power)
+        {
+            w.RenderTransformOrigin = point; 
+
+            EasingFunctionBase easeFunction = new PowerEase()
+            {
+                EasingMode = EasingMode.EaseInOut,
+                Power = power
+            };
+
+            {
+                DoubleAnimation dbAscending = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(second)));
+                dbAscending.EasingFunction = easeFunction;
+
+
+                Storyboard storyboard = new Storyboard();
+                //dbAscending.RepeatBehavior = RepeatBehavior.Forever;
+                storyboard.Children.Add(dbAscending);
+                Storyboard.SetTarget(dbAscending, w);
+                Storyboard.SetTargetProperty(dbAscending, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"));
+                storyboard.Begin();
+            }
+
+            {
+                DoubleAnimation dbAscending1 = new DoubleAnimation(0, 1, new Duration(TimeSpan.FromSeconds(second)));
+                dbAscending1.EasingFunction = easeFunction; 
+
+                Storyboard storyboard1 = new Storyboard();
+                //dbAscending.RepeatBehavior = RepeatBehavior.Forever;
+                storyboard1.Children.Add(dbAscending1);
+                Storyboard.SetTarget(dbAscending1, w);
+                Storyboard.SetTargetProperty(dbAscending1, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"));
+
+                storyboard1.Begin();
+            }
+
+        }
+
+        public void ScaleEnlargeShow(WindowBase w)
+        {
+            w.Show();
+
+            this.ScaleEnlarge(w, new Point(1, 1), 1.5, 5);
+        }
+
+        public void ScaleEnlargeShowCenter(WindowBase w, Point point, double second, double power)
+        {
+            w.Show();
+
+            this.ScaleEnlarge(w, new Point(0.5, 0.5), 1.5, 5);
+        }
 
     }
 

@@ -13,7 +13,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
          <!--内容背景色-->
         <Setter Property="Background" Value="{DynamicResource S.Brush.LightGray.Notice}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}"/>
         <Setter Property="MinWidth" Value="180"/>
         <Setter Property="CanHide" Value="True"/>
         <Setter Property="IsExpanded" Value="False"/>
@@ -60,7 +60,8 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                <Border x:Name="border" BorderBrush="{DynamicResource S.Brush.LightGray.Notice}" BorderThickness="0,0,0,1">
+                                <Border x:Name="border" BorderBrush="{DynamicResource S.Brush.LightGray.Notice}" 
+                                        Background="{DynamicResource S.Brush.Accent}" BorderThickness="0,0,0,1">
                                     <Grid>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition x:Name="IconFontWidth" Width="Auto"/>
@@ -76,7 +77,7 @@
                                         <TextBlock Grid.Column="0" Style="{DynamicResource FIcon}" 
                                                    FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:FExpander},Path=(base:ControlAttachProperty.FIconSize)}"
                                                    VerticalAlignment="Center" Width="Auto" HorizontalAlignment="Center" Margin="{Binding RelativeSource={RelativeSource AncestorType=local:FExpander},Path=(base:ControlAttachProperty.FIconMargin)}"
-                                                   Text="{TemplateBinding IconFont}" Opacity="0.7"/> 
+                                                   Text="{TemplateBinding IconFont}" Opacity="1"/> 
 
                                        <!--抬头文本-->
                                         <TextBlock Grid.Column="1" Text="{TemplateBinding Header}"  
@@ -94,7 +95,7 @@
                                         
                                         <!--下拉图标-->
                                         <Grid Grid.Column="3" Margin="10,0" VerticalAlignment="Center"  IsHitTestVisible="True" >
-                                            <Polyline Points="0,0 5,5 0,10" Stroke="#000000" RenderTransformOrigin="0.5,0.5" Opacity="0.65">
+                                            <Polyline Points="0,0 5,5 0,10" Stroke="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5" Opacity="1">
                                                 <Polyline.RenderTransform>
                                                     <TransformGroup>
                                                         <RotateTransform x:Name="angle" Angle="0"/>
@@ -123,7 +124,9 @@
                                 <Trigger Property="Content" Value="{x:Null}">
                                     <Setter TargetName="algleWidth" Property="MaxWidth" Value="0"/>
                                 </Trigger>
-
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" Value="{DynamicResource S.Brush.Share.UnEnbled.Background}" TargetName="border"/>
+                                </Trigger>
                                 <!--<Trigger Property="IsMouseOver" Value="true">
                                     <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver}" TargetName="border"/>
                                 </Trigger>-->

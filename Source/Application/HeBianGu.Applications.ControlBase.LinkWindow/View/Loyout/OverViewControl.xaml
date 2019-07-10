@@ -8,7 +8,7 @@
              xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="8000" d:DesignWidth="550">
 
     <UserControl.Resources>
@@ -29,7 +29,10 @@
             <Setter Property="Margin" Value="5,0,0,5"/>
         </Style>
         <Style TargetType="GroupBox" BasedOn="{StaticResource S.GroupBox.Defaut}">
-            <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/> 
+        </Style>
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Margin" Value="5"/>
         </Style>
     </UserControl.Resources>
     <Grid>
@@ -37,115 +40,119 @@
             <wpfcontrollib:WaterFallFlowControl ListWidth="400" Margin="5">
 
                 <Grid>
-                    <GroupBox Header="按钮控件">
-                        <StackPanel Orientation="Vertical">
-                            <GroupBox Header="带图标按钮">
-                                <StackPanel>
-                                    <wpfcontrollib:FButton Content="默认按钮" />
-                                    <wpfcontrollib:FButton Content="弹出消息"/>
-                                    <wpfcontrollib:FButton Content="显示消息"/>
-                                </StackPanel>
-                            </GroupBox>
-
-                            <GroupBox Header="等待按钮">
-                                <StackPanel>
-                                    <wpfcontrollib:FButton Content="等待的按钮" 
-                                                           Command="{Binding BusyCommand,ElementName=button}" 
-                               base:ControlAttachProperty.IsBuzy="{Binding IsBuzy}" 
-                               />
-                                    <wpfcontrollib:FButton Content="保存的按钮" Command="{Binding BusyCommand,ElementName=button}" 
-                               Grid.Column="1"  Grid.Row="1"
-                               base:ControlAttachProperty.IsBuzy="{Binding IsBuzy}"
-                                base:ControlAttachProperty.BuzyText="正在保存"
-                               />
-                                </StackPanel>
-                            </GroupBox>
-
-                            <GroupBox Header="透明背景按钮">
-                                <StackPanel>
-                                    <wpfcontrollib:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
-                                base:ControlAttachProperty.BuzyText="正在保存"
-                               />
-
-                                    <wpfcontrollib:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
-                                base:ControlAttachProperty.BuzyText="正在保存"
-                               />
-                                    <wpfcontrollib:FButton Content="弹出蒙版消息框"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
-                               />
-
-                                    <wpfcontrollib:FButton  Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"/>
-                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                        <wpfcontrollib:FButton Content="首页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
-                                                       BorderThickness="1,1,0,1" Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
-                               />
-
-                                        <wpfcontrollib:FButton Content="上一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
-                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
-                               />
-
-
-                                        <wpfcontrollib:FButton Content="下一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
-                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
-                               />
-
-                                        <wpfcontrollib:FButton Content="末页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
-                                                     BorderThickness="1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
-                               />
-                                    </StackPanel>
-
-                                </StackPanel>
-                            </GroupBox>
-
-                            <GroupBox Header="超链接按钮">
-                                <StackPanel>
-                                    <wpfcontrollib:FButton Margin="3" Style="{StaticResource S.FButton.Style.Link}">百度网盘</wpfcontrollib:FButton>
-                                    <wpfcontrollib:FButton FIcon="&#xe617;" Margin="3" Style="{StaticResource S.FButton.Style.Link}">设备检测</wpfcontrollib:FButton>
-
-                                </StackPanel>
-                            </GroupBox>
-
-                            <GroupBox Header="组合按钮">
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-
-                                    <wpfcontrollib:FButton FIcon="&#xe619;" Margin="0,0,0,0" CornerRadius="16,0,0,16" AllowsAnimation="True">Info</wpfcontrollib:FButton>
-                                    <wpfcontrollib:FButton FIcon="&#xe628;" Margin="0,0,0,0" CornerRadius="0" >Question</wpfcontrollib:FButton>
-
-                                    <wpfcontrollib:FButton FIcon="&#xe629;" Margin="0,0,0,0" CornerRadius="0,16,16,0" AllowsAnimation="True" >Error</wpfcontrollib:FButton>
-
-                                </StackPanel>
-                            </GroupBox>
-
-                            <GroupBox Header="自定义形状按钮">
-                                <StackPanel HorizontalAlignment="Center">
-
-                                    <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource S.FButton.Style.Circle}" Margin="4"/>
-
-                                    <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource S.FButton.Style.CircleTransparent}"  Margin="4"/>
-
-                                    <wpfcontrollib:FButton FIcon="&#xe756;" Content="圆角按钮" Style="{StaticResource S.FButton.Style.CornerRadius}"  Margin="4"/>
-
-                                </StackPanel>
-                            </GroupBox>
-
-                            <GroupBox Header="自定义形状按钮">
-                                <StackPanel HorizontalAlignment="Center">
-
-                                    <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource   S.FButton.Style.MouseOverOpacity}" Margin="4"/>
-
-                                </StackPanel>
-                            </GroupBox>
+                    <GroupBox Header="带图标按钮">
+                        <StackPanel>
+                            <wpfcontrollib:FButton Content="默认按钮" />
+                            <wpfcontrollib:FButton Content="弹出消息" Command="{Binding RelayCommand}" CommandParameter="Button.ShowDialogMessage"/>
+                            <wpfcontrollib:FButton Content="显示提示" Command="{Binding RelayCommand}" CommandParameter="Button.ShowSnackMessage"/>
+                            <wpfcontrollib:FButton Content="显示气泡"  Command="{Binding RelayCommand}" CommandParameter="Button.ShowNotifyMessage"/>
 
                         </StackPanel>
                     </GroupBox>
                 </Grid>
-                <GroupBox Header="复选按钮">
+                <Grid>
+                    <GroupBox Header="等待按钮">
+                        <StackPanel>
+                            <wpfcontrollib:FButton Content="等待的按钮" 
+                                                           Command="{Binding BusyCommand,ElementName=button}" 
+                               base:ControlAttachProperty.IsBuzy="{Binding IsBuzy}" 
+                               />
+                            <wpfcontrollib:FButton Content="保存的按钮" Command="{Binding BusyCommand,ElementName=button}" 
+                               Grid.Column="1"  Grid.Row="1"
+                               base:ControlAttachProperty.IsBuzy="{Binding IsBuzy}"
+                                base:ControlAttachProperty.BuzyText="正在保存"
+                               />
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+                <Grid>
+                    <GroupBox Header="透明背景按钮">
+                        <StackPanel>
+                            <wpfcontrollib:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                                base:ControlAttachProperty.BuzyText="正在保存"
+                               />
+
+                            <wpfcontrollib:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                                base:ControlAttachProperty.BuzyText="正在保存"
+                               />
+                            <wpfcontrollib:FButton Content="弹出蒙版消息框"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                               />
+
+                            <wpfcontrollib:FButton  Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <wpfcontrollib:FButton Content="首页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
+                                                       BorderThickness="1,1,0,1" Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+
+                                <wpfcontrollib:FButton Content="上一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
+                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+
+
+                                <wpfcontrollib:FButton Content="下一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
+                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+
+                                <wpfcontrollib:FButton Content="末页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Defaut}"
+                                                     BorderThickness="1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Defaut}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+                            </StackPanel>
+
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+                <Grid>
+                    <GroupBox Header="超链接按钮">
+                        <StackPanel>
+                            <wpfcontrollib:FButton Margin="3" Style="{StaticResource S.FButton.Style.Link}">百度网盘</wpfcontrollib:FButton>
+                            <wpfcontrollib:FButton FIcon="&#xe617;" Margin="3" Style="{StaticResource S.FButton.Style.Link}">设备检测</wpfcontrollib:FButton>
+
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+                <Grid>
+                    <GroupBox Header="组合按钮">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                            <wpfcontrollib:FButton FIcon="&#xe619;" Margin="0,0,0,0" CornerRadius="16,0,0,16" AllowsAnimation="True">Info</wpfcontrollib:FButton>
+                            <wpfcontrollib:FButton FIcon="&#xe628;" Margin="0,0,0,0" CornerRadius="0" >Question</wpfcontrollib:FButton>
+
+                            <wpfcontrollib:FButton FIcon="&#xe629;" Margin="0,0,0,0" CornerRadius="0,16,16,0" AllowsAnimation="True" >Error</wpfcontrollib:FButton>
+
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+                <Grid>
+                    <GroupBox Header="自定义形状按钮">
+                        <StackPanel HorizontalAlignment="Center">
+
+                            <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource S.FButton.Style.Circle}" Margin="4"/>
+
+                            <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource S.FButton.Style.CircleTransparent}"  Margin="4"/>
+
+                            <wpfcontrollib:FButton FIcon="&#xe756;" Content="圆角按钮" Style="{StaticResource S.FButton.Style.CornerRadius}"  Margin="4"/>
+
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+                <Grid>
+                    <GroupBox Header="自定义形状按钮">
+                        <StackPanel HorizontalAlignment="Center">
+
+                            <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource   S.FButton.Style.MouseOverOpacity}" Margin="4"/>
+
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+                <Grid>
+                    <GroupBox Header="复选按钮">
                         <StackPanel>
                             <wpfcontrollib:FCheckBox  Margin="3">记住密码</wpfcontrollib:FCheckBox>
                             <wpfcontrollib:FCheckBox Margin="3" IsChecked="{x:Null}">其他</wpfcontrollib:FCheckBox>
@@ -157,7 +164,8 @@
 
                         </StackPanel>
                     </GroupBox>
-               
+                </Grid>
+                <Grid>
                     <GroupBox Header="单选按钮">
                         <StackPanel>
                             <RadioButton Margin="3" base:ControlAttachProperty.FIconSize="18" HorizontalAlignment="Center">十八</RadioButton>
@@ -172,7 +180,8 @@
                             <RadioButton Style="{StaticResource BoxRadioButton}" Margin="1" Width="100" GroupName="ss">星期日</RadioButton>
                         </StackPanel>
                     </GroupBox>
-              
+                </Grid>
+                <Grid>
                     <GroupBox Header="状态按钮">
                         <StackPanel>
                             <wpfcontrollib:BulletCheckBox />
@@ -193,7 +202,8 @@
                                           Style="{DynamicResource S.ToggleButton.DoubleFIconChecked}"/>
                         </StackPanel>
                     </GroupBox>
-            
+                </Grid>
+                <Grid>
                     <GroupBox Header="下拉框">
                         <StackPanel>
                             <ComboBox Margin="5" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Watermark="请选择你要申报的大学" />
@@ -203,30 +213,30 @@
 
                             <ComboBox Margin="5" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
                       Style="{DynamicResource LabelComboBox}"  base:ControlAttachProperty.Watermark="水印" />
-                            
+
                             <ComboBox Margin="5" IsEditable="True" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
                       Style="{DynamicResource LabelComboBox}" base:ControlAttachProperty.Watermark="请选择你要申报的大学" />
-                            
+
                             <ComboBox Margin="5" IsEnabled="False" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
                       Style="{DynamicResource LabelComboBox}" SelectedIndex="3" />
 
 
                             <ComboBox Margin="5" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
                       Style="{StaticResource LabelClearButtonComboBox}"  base:ControlAttachProperty.Watermark="水印" />
-                            
+
                             <ComboBox Margin="5" IsEditable="True" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
                       Style="{StaticResource LabelClearButtonComboBox}" base:ControlAttachProperty.Watermark="请选择你要申报的大学" />
-                            
+
                             <ComboBox Margin="5" IsEnabled="False" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
                       Style="{StaticResource LabelClearButtonComboBox}" SelectedIndex="3" />
 
                             <ComboBox Margin="5" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别"
                       Style="{StaticResource ClearButtonComboBox}"  base:ControlAttachProperty.Watermark="请选择你要申报的大学" />
-                            
+
                             <ComboBox Margin="5" IsEditable="True" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
                       IsReadOnly="True" SelectedIndex="2"
                       Style="{StaticResource ClearButtonComboBox}" base:ControlAttachProperty.Watermark="请选择你要申报的大学" />
-                            
+
                             <ComboBox Margin="5" IsEnabled="False" ItemsSource="{StaticResource D.ArrayList.Items}" base:ControlAttachProperty.Label="选择类别" 
                       Style="{StaticResource ClearButtonComboBox}" SelectedIndex="3" />
 
@@ -236,7 +246,8 @@
                             </wpfcontrollib:SearchCombobox>
                         </StackPanel>
                     </GroupBox>
-               
+                </Grid>
+                <Grid>
                     <GroupBox  Header="下拉多选">
                         <StackPanel >
                             <StackPanel Height="300" Orientation="Vertical">
@@ -256,7 +267,8 @@
 
                         </StackPanel>
                     </GroupBox>
-            
+                </Grid>
+                <Grid>
                     <GroupBox Header="普通文本输入框">
                         <StackPanel>
                             <wpfcontrollib:FTextBox Width="150" Height="30" Margin="3" 
@@ -276,7 +288,8 @@
                             <wpfcontrollib:FTextBox Width="150" Height="30" Margin="3" Style="{StaticResource ClearButtonTextBox}" IsReadOnly="True">IsReadOnly="True"</wpfcontrollib:FTextBox>
                         </StackPanel>
                     </GroupBox>
-             
+                </Grid>
+                <Grid>
                     <GroupBox Header="标题文本输入框">
                         <StackPanel>
 
@@ -290,7 +303,8 @@
                          Style="{StaticResource LabelClearButtonTextBox}" base:ControlAttachProperty.Label="爱好：">IsEnabled="False"</wpfcontrollib:FTextBox>
                         </StackPanel>
                     </GroupBox>
-              
+                </Grid>
+                <Grid>
                     <GroupBox Header="资源文本输入框">
                         <StackPanel>
                             <wpfcontrollib:FTextBox Width="400" Height="30" Margin="3" Style="{StaticResource LabelOpenFileTextBox}"></wpfcontrollib:FTextBox>
@@ -298,7 +312,8 @@
                             <wpfcontrollib:FTextBox Width="400" Height="30" Margin="3" Style="{StaticResource LabelSaveFileTextBox}"></wpfcontrollib:FTextBox>
                         </StackPanel>
                     </GroupBox>
-           
+                </Grid>
+                <Grid>
                     <GroupBox Header="按钮文本输入框">
                         <StackPanel>
                             <wpfcontrollib:FTextBox Width="200" Height="30" Margin="3" base:ControlAttachProperty.Watermark="查询关键词" IsEnabled="True">
@@ -328,36 +343,42 @@
                             </wpfcontrollib:FTextBox>
                         </StackPanel>
                     </GroupBox>
-           
+                </Grid>
+                <Grid>
+                    <GroupBox Header="进度条">
+                        <StackPanel  HorizontalAlignment="Center">
+                            <TextBlock x:Name="proValue"  Text="{Binding Percent,Mode=OneWay,StringFormat={}{0:p1}}" HorizontalAlignment="Center"></TextBlock>
+
+                            <ProgressBar Margin="5" Value="{Binding Percent,Mode=OneWay}"  
+                                         base:ControlAttachProperty.CornerRadius="28" 
+                                         Height="50" 
+                                         Style="{StaticResource BaseProgressBar}" IsIndeterminate="True"></ProgressBar>
+
+                            <ProgressBar Style="{DynamicResource S.Progessbar.WaittingPercent}" Width="300" Value="80"/>
+
+                            <wpfcontrollib:MetroProgressBar Margin="5" Value="15" ProgressBarHeight="30" CornerRadius="0" ProgressBarState="None" IsEnabled="False" />
+                            <wpfcontrollib:MetroProgressBar x:Name="pb1" Title="MetroProgressBar 调整" Margin="5" Value="20" ProgressBarHeight="20" CornerRadius="0" ProgressBarState="None" TextHorizontalAlignment="Center" />
+                            <wpfcontrollib:MetroProgressBar x:Name="pb2" Title="MetroProgressBar 正常" Margin="5" Value="0" TextHorizontalAlignment="Right" Maximum="50" />
+                            <wpfcontrollib:MetroProgressBar Title="MetroProgressBar 错误" Margin="5" Value="40" ProgressBarState="Error" />
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+                <Grid>
                     <GroupBox Header="加载控件">
                         <StackPanel>
+                                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5" Style="{StaticResource FChasingDotsProgressRingStyle}" />
+                                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FCircleProgressRingStyle}" />
+                                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FDoubleBounceProgressRingStyle}" />
+                                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FPulseProgressRingStyle}" />
+                                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FRotatingPlaneProgressRingStyle}" />
+                                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FThreeBounceProgressRingStyle}" />
+                                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FWanderingCubesProgressRingStyle}" />
+                                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FWaveProgressRingStyle}" />
 
-                        <StackPanel MinWidth="200" HorizontalAlignment="Left">
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,32" >
-                                <TextBlock Text="选择样式" VerticalAlignment="Center" />
-                                <ComboBox x:Name="CmbRingStyle" Margin="8,0,0,0">
-                                    <ComboBoxItem Content="Chasing Dots" Tag="{StaticResource FChasingDotsProgressRingStyle}" />
-                                    <ComboBoxItem Content="Circle (default style)" IsSelected="True" Tag="{StaticResource FCircleProgressRingStyle}" />
-                                    <ComboBoxItem Content="Double Bounce" Tag="{StaticResource FDoubleBounceProgressRingStyle}" />
-                                    <ComboBoxItem Content="Pulse" Tag="{StaticResource FPulseProgressRingStyle}" />
-                                    <ComboBoxItem Content="Rotating Plane" Tag="{StaticResource FRotatingPlaneProgressRingStyle}" />
-                                    <ComboBoxItem Content="Three Bounce" Tag="{StaticResource FThreeBounceProgressRingStyle}" />
-                                    <ComboBoxItem Content="Wandering Cubes" Tag="{StaticResource FWanderingCubesProgressRingStyle}" />
-                                    <ComboBoxItem Content="Wave" Tag="{StaticResource FWaveProgressRingStyle}" />
-                                </ComboBox>
-                            </StackPanel>
-
-                            <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}" />
-                        </StackPanel>
-
-
-
-                        <wpfcontrollib:FCheckBox VerticalAlignment="Center" x:Name="cbActive" Margin="5" IsChecked="True">IsActive</wpfcontrollib:FCheckBox>
+                            
                             <wpfcontrollib:RingBox Width="80" 
                                                    Height="80" 
-                                                   Margin="15"  
-                                                   IsActive="{Binding IsChecked ,ElementName=cbActive}" />
-
+                                                   Margin="15" IsActive="True"/>
 
                             <wpfcontrollib:ProgressBarControl  CanvasSize="100" 
                                                                EllipseCount="15" 
@@ -369,24 +390,11 @@
                                          IsIndeterminate="True" Margin="5"   
                                          Style="{StaticResource RunningPointProgressBar}"/>
 
-                         
 
                         </StackPanel>
                     </GroupBox>
-            
-                    <GroupBox Header="进度条">
-                        <StackPanel MinWidth="200" HorizontalAlignment="Center">
-                            <TextBlock x:Name="proValue"  Text="{Binding Percent,Mode=OneWay,StringFormat={}{0:p1}}" HorizontalAlignment="Center"></TextBlock>
-
-                            <ProgressBar Margin="5" Value="{Binding Percent,Mode=OneWay}"  
-                                         base:ControlAttachProperty.CornerRadius="28" 
-                                         Height="50" 
-                                         Style="{StaticResource BaseProgressBar}" IsIndeterminate="True"></ProgressBar>
-
-                            <ProgressBar Style="{DynamicResource S.Progessbar.WaittingPercent}" Width="300" Value="80"/>
-                        </StackPanel>
-                    </GroupBox>
-           
+                </Grid>
+                <Grid>
                     <GroupBox Header="样式二">
                         <StackPanel>
                             <wpfcontrollib:MetroTextBox x:Name="password" InputHint="PassWord Input Box!" IsPassWordBox="True" ButtonTitle="确定" PopupHint="请输入密码" />
@@ -400,7 +408,8 @@
                             <wpfcontrollib:MetroTextBox Title="Default Title" InputHint="InputHint..." Text="已经输入内容且禁用" ButtonTitle="Button" PopupHint="Length is more than 10!" Margin="0,10,0,0"  IsEnabled="False" />
                         </StackPanel>
                     </GroupBox>
-          
+                </Grid>
+                <Grid>
                     <GroupBox Header="密码输入样式">
                         <StackPanel>
                             <GroupBox Header="自定义密码文本输入框">
@@ -437,7 +446,8 @@
                             </GroupBox>
                         </StackPanel>
                     </GroupBox>
-            
+                </Grid>
+                <Grid>
                     <GroupBox Header="日期控件">
                         <StackPanel>
                             <DatePicker Margin="3"/>
@@ -454,7 +464,8 @@
 
                         </StackPanel>
                     </GroupBox>
-             
+                </Grid>
+                <Grid>
                     <GroupBox Header="拖动控件">
                         <StackPanel>
 
@@ -499,7 +510,8 @@
                             </GroupBox>
                         </StackPanel>
                     </GroupBox>
-             
+                </Grid>
+                <Grid>
                     <GroupBox Header="分页控件">
                         <StackPanel>
 
@@ -521,7 +533,244 @@
 
                         </StackPanel>
                     </GroupBox>
+                </Grid>
 
+                <Grid>
+                    <GroupBox Header="导航控件">
+
+                        <wpfcontrollib:LinkGroupExpander >
+                            <wpfcontrollib:LinkActionGroup DisplayName="项目管理" Logo="&#xe69f;">
+                                <wpfcontrollib:LinkActionGroup.Links>
+                                    <wpfcontrollib:LinkAction  DisplayName="项目进度" Logo="&#xe69f;"  />
+                                    <wpfcontrollib:LinkAction  DisplayName="项目成本"  Logo="&#xe6a3;" />
+                                    <wpfcontrollib:LinkAction  DisplayName="开发周期"  Logo="&#xe6a3;"  />
+                                    <wpfcontrollib:LinkAction  DisplayName="人员安排"  Logo="&#xe6a3;" />
+                                    <wpfcontrollib:LinkAction  DisplayName="委外加工"  Logo="&#xe6a3;" />
+                                    <wpfcontrollib:LinkAction  DisplayName="生产排产"  Logo="&#xe6a3;" />
+                                    <wpfcontrollib:LinkAction  DisplayName="仓储物流"  Logo="&#xe6a3;" />
+
+                                </wpfcontrollib:LinkActionGroup.Links>
+                            </wpfcontrollib:LinkActionGroup>
+
+
+                            <wpfcontrollib:LinkActionGroup DisplayName="基础管理" Logo="&#xe69f;">
+                                <wpfcontrollib:LinkActionGroup.Links>
+                                    <wpfcontrollib:LinkAction  DisplayName="人员管理" Logo="&#xe69f;"/>
+                                    <wpfcontrollib:LinkAction  DisplayName="用户管理" Logo="&#xe69f;"/>
+                                    <wpfcontrollib:LinkAction  DisplayName="日志管理" Logo="&#xe69f;"/>
+                                    <wpfcontrollib:LinkAction  DisplayName="设备管理" Logo="&#xe69f;"/>
+                                </wpfcontrollib:LinkActionGroup.Links>
+                            </wpfcontrollib:LinkActionGroup>
+
+                            <wpfcontrollib:LinkActionGroup DisplayName="权限管理" Logo="&#xe69f;">
+                                <wpfcontrollib:LinkActionGroup.Links>
+                                    <wpfcontrollib:LinkAction  DisplayName="角色管理" Logo="&#xe69f;"/>
+                                    <wpfcontrollib:LinkAction  DisplayName="用户管理" Logo="&#xe69f;"/>
+                                    <wpfcontrollib:LinkAction  DisplayName="权限管理" Logo="&#xe69f;"/>
+                                    <wpfcontrollib:LinkAction  DisplayName="策略管理" Logo="&#xe69f;"/>
+                                </wpfcontrollib:LinkActionGroup.Links>
+                            </wpfcontrollib:LinkActionGroup>
+
+                        </wpfcontrollib:LinkGroupExpander>
+
+                    </GroupBox>
+                </Grid>
+
+
+                <Grid>
+                    <GroupBox Header="树形控件">
+                        <GroupBox.Resources>
+                            <XmlDataProvider x:Key="S.XmlDataProvider.TreeView.Defaut" XPath="FileSystem/Folder">
+                                <x:XData>
+                                    <FileSystem xmlns="">
+                                        <Folder Name="基础控件" Value="../Pages/ButtonPage.xaml"  FIcon="&#xe785;">
+                                            <Folder Name="按钮控件" Value="../Pages/ButtonPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="输入控件" Value="../Pages/TextBoxPage.xaml" FIcon="&#xe799;"/>
+                                            <Folder Name="文本控件" Value="../Pages/TextBlockPage.xaml" FIcon="&#xe799;"/>
+                                            <Folder Name="勾选控件" Value="../Pages/CheckBoxPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="下拉控件" Value="../Pages/ComboboxPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="日期控件" Value="../Pages/DatePickerDemo.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="表格控件(ListView)" Value="../Pages/ListViewPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="树形控件(TreeListView)" Value="../Pages/TreeViewPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="进度控件" Value="../Pages/WaitingPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="导航控件" Value="../Pages/ExpanderPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="状态按钮" Value="../Pages/ToggleButtonPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="数字控件" Value="../Pages/NumberPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="拖动控件" Value="../Pages/SliderPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="托盘控件" Value="../Pages/NotifyPage.xaml"  FIcon="&#xe799;"/>
+                                        </Folder>
+
+                                        <Folder Name="布局控件" Value="../Pages/ButtonPage.xaml"  FIcon="&#xe785;">
+                                            <Folder Name="瀑布控件" Value="../Pages/WaterFallPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="分页控件" Value="../Pages/TabControlPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="内部弹窗" Value="../Pages/InlineDialogPage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="自定义Frame控件" Value="../Pages/FramePage.xaml"  FIcon="&#xe799;"/>
+                                            <Folder Name="绘图控件" Value="../Pages/InkCanvasPage.xaml"  FIcon="&#xe799;"/>
+                                        </Folder>
+                                        <Folder Name="三维效果"  Value="../Pages/TabControlPage.xaml" FIcon="&#xe785;">
+                                            <Folder Name="分页控件" Value="../Pages/TabControlPage.xaml" FIcon="&#xe799;"/>
+                                            <Folder Name="三维示例" Value="../Pages/Viewport3DPage.xaml" FIcon="&#xe799;"/>
+                                            <Folder Name="滑动滚屏示例" Value="../Pages/ScrollView3DControlPage.xaml" FIcon="&#xe799;"/>
+                                        </Folder>
+
+                                        <Folder Name="继承控件" Value="../Pages/BaseUserControlPage.xaml" FIcon="&#xe785;">
+                                            <Folder Name="渐隐藏/显示控件" Value="../Pages/BaseUserControlPage.xaml" FIcon="&#xe799;"/>
+                                        </Folder>
+                                        <Folder Name="主题配置" Value="../Pages/ThemeUserControlPage.xaml" FIcon="&#xe785;">
+                                            <Folder Name="主题配置" Value="../Pages/ThemeUserControlPage.xaml" FIcon="&#xe799;"/>
+                                            <Folder Name="视觉规范" Value="../Pages/VisuaNormsPagePage.xaml" FIcon="&#xe799;"/>
+                                            <Folder Name="系统资源" Value="../Pages/WindowSystemPage.xaml" FIcon="&#xe799;"/>
+                                        </Folder>
+                                    </FileSystem>
+                                </x:XData>
+                            </XmlDataProvider>
+                        </GroupBox.Resources>
+
+                        <TreeView  Grid.Column="0" HorizontalAlignment="Stretch" BorderBrush="Transparent" Height="500"
+                                   ItemsSource="{Binding Source={StaticResource S.XmlDataProvider.TreeView.Defaut}}" >
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding XPath=Folder}">
+                                    <StackPanel  Height="13" Orientation="Horizontal">
+                                        <TextBlock Text="{Binding XPath=@FIcon}" FontSize="15" Style="{DynamicResource FIcon}" VerticalAlignment="Center"/>
+                                        <TextBlock x:Name="a" Text="{Binding XPath=@Name}"  VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+
+                        </TreeView>
+                    </GroupBox>
+                </Grid>
+                <Grid>
+                    <GroupBox Header="导航控件样式一">
+                        <StackPanel>
+                            <Grid>
+                                <wpfcontrollib:FExpander Header="可以折叠并展开" IsExpanded="True" IconFont="&#xe664;">
+                                    <StackPanel>
+                                        <wpfcontrollib:FExpander Header="子内容长标题测试" Hint="1 / 100" />
+                                        <wpfcontrollib:FExpander  Header="Button" />
+                                        <wpfcontrollib:FExpander  Header="Button" />
+                                        <wpfcontrollib:FExpander Header="Button" />
+                                    </StackPanel>
+                                </wpfcontrollib:FExpander>
+                            </Grid>
+                            <Grid>
+                                <wpfcontrollib:FExpander Header="可以折叠没展开" IsExpanded="false" IconFont="&#xe664;" >
+                                    <StackPanel>
+                                        <wpfcontrollib:FExpander Header="子内容长标题测试"  Hint="1 / 100" />
+                                        <wpfcontrollib:FExpander  Header="Button" />
+                                        <wpfcontrollib:FExpander  Header="Button" />
+                                        <wpfcontrollib:FExpander Header="Button" />
+                                    </StackPanel>
+                                </wpfcontrollib:FExpander>
+                            </Grid>
+
+                            <Grid>
+                                <wpfcontrollib:FExpander Header="不可以折叠" CanHide="false" IconFont="&#xe664;">
+                                    <StackPanel>
+                                        <wpfcontrollib:FExpander Header="子内容长标题测试" Hint="1 / 100" />
+                                        <wpfcontrollib:FExpander  Header="Button" />
+                                        <wpfcontrollib:FExpander  Header="Button" />
+                                        <wpfcontrollib:FExpander Header="Button" />
+                                    </StackPanel>
+                                </wpfcontrollib:FExpander>
+                            </Grid>
+
+                            <Grid>
+                                <wpfcontrollib:FExpander Header="多个导航嵌套" IsExpanded="false" IconFont="&#xe664;">
+                                    <StackPanel>
+                                        <wpfcontrollib:FExpander Header="子内容长标题测试" IconFont="&#xe664;" Hint="1 / 100" />
+                                        <wpfcontrollib:FExpander  Header="子内容" IconFont="&#xe664;" Hint="1 / 2">
+                                            <StackPanel>
+                                                <wpfcontrollib:FExpander  Header="Button"/>
+                                            </StackPanel>
+                                        </wpfcontrollib:FExpander>
+                                        <wpfcontrollib:FExpander  Header="Button" />
+                                        <wpfcontrollib:FExpander Header="Button" />
+                                    </StackPanel>
+                                </wpfcontrollib:FExpander>
+                            </Grid>
+
+                            <Grid>
+                                <wpfcontrollib:FExpander Header="嵌套其他控件" IsExpanded="True" IconFont="&#xe664;">
+                                    <StackPanel>
+                                        <wpfcontrollib:FButton Content="FBtutton" Style="{StaticResource S.FButton.Style.Link}"/>
+                                        <wpfcontrollib:FCheckBox Content="FCheckBox"/>
+                                        <RadioButton Content="RadioButton"/>
+                                        <TextBlock Text="RadioButton"/>
+                                    </StackPanel>
+                                </wpfcontrollib:FExpander>
+                            </Grid>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+                <Grid>
+                    <GroupBox Header="导航控件样式二">
+                        <StackPanel>
+                            <Expander HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignExpander}"
+                              Header="Expander Example 1a">
+                                <StackPanel Orientation="Vertical"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                            Margin="24,8,24,16">
+                                    <TextBlock Text="Your Content" />
+                                    <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Expander>
+                            <Expander HorizontalAlignment="Stretch"  Style="{StaticResource MaterialDesignExpander}"
+                      Header="Expander Example 1b">
+                                <StackPanel Orientation="Vertical"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                            Margin="24,8,24,16">
+                                    <TextBlock Text="Your Content" />
+                                    <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Expander>
+                            <Expander HorizontalAlignment="Stretch"  Style="{StaticResource MaterialDesignExpander}"
+                      Header="Expander Example 1c">
+                                <StackPanel Orientation="Vertical"
+                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
+                            Margin="24,8,24,16">
+                                    <TextBlock Text="Your Content" />
+                                    <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                               TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Expander>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+
+                <Grid>
+                    <GroupBox Header="数字控件">
+                        <wpfcontrollib:NumericControl/>
+                    </GroupBox>
+                </Grid>
+
+                <Grid>
+                    <GroupBox Header="托盘图标">
+                        <StackPanel Margin="20">
+                            <Button Name="b" Content="显示托盘气泡" Command="{Binding RelayCommand}" CommandParameter="Button.ShowNotifyIcon" HorizontalAlignment="Left" Margin="2" />
+
+                            <wpfcontrollib:NotifyIcon Name="notifyIcon" Icon="/HeBianGu.Applications.ControlBase.LinkWindow;component/Resources/Zipped 3.ico"
+                           Text="NotifyIcon Demo"
+                           IconVisibility="Visible">
+                                <FrameworkElement.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Some Text" />
+                                        <MenuItem>
+                                            <MenuItem.Header>
+                                                <Grid>
+                                                    <Ellipse StrokeThickness="2" Stroke="Red" />
+                                                    <TextBlock Text="[b]WPF[/] Content" />
+                                                </Grid>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </FrameworkElement.ContextMenu>
+                            </wpfcontrollib:NotifyIcon>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
                 <!--<Border BorderBrush="#33000000" BorderThickness="1" Height="90">
                     <TextBlock FontSize="30" Text="18" Margin="7,0,0,0" Opacity="0.65" />
                 </Border>
