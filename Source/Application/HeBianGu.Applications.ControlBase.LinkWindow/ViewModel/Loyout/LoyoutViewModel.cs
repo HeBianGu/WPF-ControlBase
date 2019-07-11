@@ -11,22 +11,22 @@ using System.Threading.Tasks;
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     [ViewModel("Loyout")]
-    class LoyoutViewModel : NotifyPropertyChanged
+    class LoyoutViewModel : MvcViewModelBase
     {
 
-        private LinkAction _selectLink;
-        /// <summary> 说明  </summary>
-        public LinkAction SelectLink
-        {
-            get { return _selectLink; }
-            set
-            {
-                _selectLink = value;
+        //private LinkAction _selectLink;
+        ///// <summary> 说明  </summary>
+        //public LinkAction SelectLink
+        //{
+        //    get { return _selectLink; }
+        //    set
+        //    {
+        //        _selectLink = value;
 
-                RaisePropertyChanged("SelectLink");
+        //        RaisePropertyChanged("SelectLink");
 
-            }
-        }
+        //    }
+        //}
 
 
         public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() =>
@@ -34,7 +34,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         private void Loaded(string args)
         {
-            LinkAction link = new LinkAction();
+            ILinkActionBase link = new LinkActionBase();
             link.DisplayName = "总体概览";
             link.Logo = "&#xe69f;";
             link.Controller = "Loyout";

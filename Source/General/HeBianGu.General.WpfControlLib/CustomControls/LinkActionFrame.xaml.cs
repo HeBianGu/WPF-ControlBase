@@ -36,67 +36,114 @@ namespace HeBianGu.General.WpfControlLib
         public override void OnApplyTemplate()
         {
 
-            _transitionerSlide = GetTemplateChild("PART_TransitionerSlide") as TransitionerSlide;
             base.OnApplyTemplate();
+
+            _transitionerSlide = GetTemplateChild("PART_TransitionerSlide") as TransitionerSlide;
+
         }
-        public LinkAction LinkAction
+        public ILinkActionBase LinkAction
         {
-            get { return (LinkAction)GetValue(LinkActionProperty); }
+            get { return (ILinkActionBase)GetValue(LinkActionProperty); }
             set { SetValue(LinkActionProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LinkActionProperty =
-            DependencyProperty.Register("LinkAction", typeof(LinkAction), typeof(LinkActionFrame), new PropertyMetadata(default(LinkAction), (d, e) =>
+            DependencyProperty.Register("LinkAction", typeof(ILinkActionBase), typeof(LinkActionFrame), new PropertyMetadata(default(LinkAction), async (d, e) =>
              {
                  LinkActionFrame control = d as LinkActionFrame;
 
                  if (control == null) return;
 
-                 LinkAction config = e.NewValue as LinkAction;
-
-                 try
+                 if (e.NewValue is LinkAction)
                  {
-                     control.Content = config?.ActionResult?.View;
+                     LinkAction config = e.NewValue as LinkAction;
 
-                     if (control.UseRandomEffects)
+                     try
                      {
-                         control._transitionerSlide.OpeningEffects.Clear();
+                         //var result = await config?.ActionResult();
 
-                         control._transitionerSlide.OpeningEffects.Add(control.RandomOpeningEffects[new Random().Next(control.RandomOpeningEffects.Count)]);
-                     }
-                     else
-                     {
+                         var result = await Task.Run(() => config?.ActionResult());
+
+                         control.Content = result?.View;
 
                          if (control._transitionerSlide == null) return;
 
-                         if (config.OpeningEffects.Count > 0)
+                         if (control.UseRandomEffects)
                          {
                              control._transitionerSlide.OpeningEffects.Clear();
 
-                             foreach (var item in config.OpeningEffects)
+                             control._transitionerSlide.OpeningEffects.Add(control.RandomOpeningEffects[new Random().Next(control.RandomOpeningEffects.Count)]);
+                         }
+                         else
+                         {
+                             if (config.OpeningEffects.Count > 0)
                              {
-                                 control._transitionerSlide.OpeningEffects.Add(item);
+                                 control._transitionerSlide.OpeningEffects.Clear();
+
+                                 foreach (var item in config.OpeningEffects)
+                                 {
+                                     control._transitionerSlide.OpeningEffects.Add(item);
+                                 }
+                             }
+
+                             if (config.OpeningEffect != null)
+                             {
+                                 control._transitionerSlide.OpeningEffects.Clear();
+
+                                 control._transitionerSlide.OpeningEffects.Add(config.OpeningEffect);
                              }
                          }
 
-                         if (config.OpeningEffect != null)
+
+                         control._transitionerSlide.State = TransitionerSlideState.None;
+
+                         control._transitionerSlide.State = TransitionerSlideState.Current;
+                     }
+                     catch (Exception ex)
+                     {
+                         control.Content = ex;
+                     }
+                 }
+                 else
+                 {
+                     ILinkActionBase config = e.NewValue as ILinkActionBase;
+
+                     if (control._transitionerSlide == null) return;
+                     try
+                     {
+
+                         var result = await Task.Run(() => config?.ActionResult());
+
+                         control.Content = result?.View;
+
+                         if (control.UseRandomEffects)
                          {
                              control._transitionerSlide.OpeningEffects.Clear();
 
-                             control._transitionerSlide.OpeningEffects.Add(config.OpeningEffect);
+                             control._transitionerSlide.OpeningEffects.Add(control.RandomOpeningEffects[new Random().Next(control.RandomOpeningEffects.Count)]);
                          }
+                         else
+                         {
+                             control._transitionerSlide.OpeningEffects.Clear();
+
+                             control._transitionerSlide.OpeningEffects.Add(new TransitionEffect(TransitionEffectKind.FadeIn));
+                         }
+
+
+                         control._transitionerSlide.State = TransitionerSlideState.None;
+
+                         control._transitionerSlide.State = TransitionerSlideState.Current;
                      }
-
-
-                     control._transitionerSlide.State = TransitionerSlideState.None;
-
-                     control._transitionerSlide.State = TransitionerSlideState.Current;
+                     catch (Exception ex)
+                     {
+                         control.Content = ex;
+                     }
                  }
-                 catch (Exception ex)
-                 {
-                     control.Content = ex;
-                 }
+
+
+
+
              }));
 
 

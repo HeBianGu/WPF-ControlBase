@@ -8,15 +8,15 @@ using System.Windows;
 using System.Windows.Controls;
 using HeBianGu.Base.WpfBase;
 
-namespace HeBianGu.General.WpfMvc
+namespace HeBianGu.Base.WpfBase
 {
-    public class ControllerService 
+    public class ControllerService
     {
-        public static IActionResult CreateActionResult(string controlName, string name)
+        public static async Task<IActionResult> CreateActionResult(string controlName, string name)
         {
             IController control = GetController(controlName);
 
-            return GetActionResult(control, name);
+            return await GetActionResult(control, name);
         }
 
         public static IController GetController(string controlName)
@@ -27,10 +27,24 @@ namespace HeBianGu.General.WpfMvc
             return ServiceRegistry.Instance.GetInstance(type) as IController;
         }
 
-        public static IActionResult GetActionResult(IController controller, string action, object[] args = null)
+        public static async Task<IActionResult> GetActionResult(IController controller, string action, object[] args = null)
         {
             //  Do：通过反射调用指定名称的方法
-            return controller.GetType().GetMethod(action).Invoke(controller, args) as IActionResult;
+            var from = controller.GetType().GetMethod(action).Invoke(controller, args) as Task<IActionResult>;
+
+            return await from;
+
+            //if (from is Task<IActionResult>)
+            //{
+            //    Task<IActionResult> task = from as Task<IActionResult>;
+            //    return await task;
+            //}
+            //else if (from is IActionResult)
+            //{ 
+            //    return from as IActionResult;
+            //} 
+
+            //return null;
         }
 
         public static object GetViewModel(string controlName)

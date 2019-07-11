@@ -68,12 +68,11 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         public static async Task ShowWaittingMessge(Action action, Action closeAction = null)
-        {
-
-            if (CheckOpen()) return;
-
+        {  
             await Application.Current.Dispatcher.Invoke(async () =>
              {
+                 if (CheckOpen()) return null; 
+
                  var view = new WaittingMessageDialog();
 
                  //show the dialog

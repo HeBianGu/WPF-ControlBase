@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 
-namespace HeBianGu.General.WpfMvc
+namespace HeBianGu.Base.WpfBase
 {
     public interface IController
     {

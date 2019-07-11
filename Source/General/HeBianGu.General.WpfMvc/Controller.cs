@@ -25,6 +25,7 @@ namespace HeBianGu.General.WpfMvc
     {
         protected virtual IActionResult View([CallerMemberName] string name = "")
         {
+
             var route = this.GetType().GetCustomAttributes(typeof(RouteAttribute), true).Cast<RouteAttribute>();
 
             string controlName = null;
@@ -44,7 +45,12 @@ namespace HeBianGu.General.WpfMvc
 
             Uri uri = new Uri(path, UriKind.RelativeOrAbsolute);
 
-            var content = Application.LoadComponent(uri);
+
+
+            var content=  Application.Current.Dispatcher.Invoke(() =>
+            {
+                return Application.LoadComponent(uri);
+            });
 
             ActionResult result = new ActionResult();
 
@@ -54,7 +60,12 @@ namespace HeBianGu.General.WpfMvc
             Type type = Assembly.GetEntryAssembly().GetTypeOfMatch<NotifyPropertyChanged>(l => l.Name == controlName + "ViewModel");
 
             result.ViewModel = ServiceRegistry.Instance.GetInstance(type);
-            result.View.DataContext = result.ViewModel;
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                result.View.DataContext = result.ViewModel;
+
+            }); 
 
             return result;
         }

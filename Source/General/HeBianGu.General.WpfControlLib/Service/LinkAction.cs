@@ -1,5 +1,4 @@
 ﻿using HeBianGu.Base.WpfBase;
-using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.General.WpfControlLib
 {
-    public class LinkAction : NotifyPropertyChanged
+    public class LinkAction : NotifyPropertyChanged, ILinkActionBase
     {
         private string _controller;
         /// <summary> 说明  </summary>
@@ -47,12 +46,10 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        public IActionResult ActionResult
-        {
-            get
-            {
-                return ControllerService.CreateActionResult(this.Controller, this.Action);
-            }
+        public async Task<IActionResult> ActionResult()
+        { 
+            return await ControllerService.CreateActionResult(this.Controller, this.Action);
+
         }
 
         private string _logo;
@@ -65,7 +62,7 @@ namespace HeBianGu.General.WpfControlLib
                 _logo = value;
                 RaisePropertyChanged("Logo");
             }
-        }  
+        }
 
 
 
@@ -97,8 +94,8 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        private LinkAction selectedLink;
-        public LinkAction SelectedLink
+        private ILinkActionBase selectedLink;
+        public ILinkActionBase SelectedLink
         {
             get { return this.selectedLink; }
             set
@@ -111,8 +108,8 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        private ObservableCollection<LinkAction> links = new ObservableCollection<LinkAction>();
-        public ObservableCollection<LinkAction> Links
+        private ObservableCollection<ILinkActionBase> links = new ObservableCollection<ILinkActionBase>();
+        public ObservableCollection<ILinkActionBase> Links
         {
             get { return this.links; }
             set { this.links = value; }

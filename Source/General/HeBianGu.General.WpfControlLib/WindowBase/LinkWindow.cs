@@ -14,21 +14,21 @@ namespace HeBianGu.General.WpfControlLib
     public partial class LinkWindowBase : WindowBase
     {
 
-        public ObservableCollection<TabLink> TabLinks
+        public List<TabLink> TabLinks
         {
-            get { return (ObservableCollection<TabLink>)GetValue(TabLinksProperty); }
+            get { return (List<TabLink>)GetValue(TabLinksProperty); }
             set { SetValue(TabLinksProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TabLinksProperty =
-            DependencyProperty.Register("TabLinks", typeof(ObservableCollection<TabLink>), typeof(LinkWindowBase), new PropertyMetadata(new ObservableCollection<TabLink>(), (d, e) =>
+            DependencyProperty.Register("TabLinks", typeof(List<TabLink>), typeof(LinkWindowBase), new PropertyMetadata(new List<TabLink>(), (d, e) =>
             {
                 WindowBase control = d as WindowBase;
 
                 if (control == null) return;
 
-                ObservableCollection<TabLink> config = e.NewValue as ObservableCollection<TabLink>;
+                List<TabLink> config = e.NewValue as List<TabLink>;
 
             }));
 

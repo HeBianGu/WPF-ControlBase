@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.General.WpfMvc
 {
-    public class LinkActionBase : NotifyPropertyChanged
+    public class LinkActionBase : NotifyPropertyChanged, ILinkActionBase
     {
         private string _controller;
         /// <summary> 说明  </summary>
@@ -44,14 +44,24 @@ namespace HeBianGu.General.WpfMvc
                 _displayName = value;
                 RaisePropertyChanged("DisplayName");
             }
-        } 
+        }
 
-        public IActionResult ActionResult
+        private string _logo;
+        /// <summary> 说明  </summary>
+        public string Logo
         {
-            get
+            get { return _logo; }
+            set
             {
-                return ControllerService.CreateActionResult(this.Controller, this.Action);
+                _logo = value;
+                RaisePropertyChanged("Logo");
             }
+        }
+
+        public async Task<IActionResult> ActionResult()
+        {
+            return await ControllerService.CreateActionResult(this.Controller, this.Action);
+
         }
     }
 
