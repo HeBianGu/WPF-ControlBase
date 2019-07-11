@@ -469,6 +469,7 @@
         <Setter Property="FIcon" Value="&#xe79c;"/>
         <Setter Property="MaxboxEnable" Value="True"/>
         <Setter Property="MinboxEnable" Value="True"/>
+        <Setter Property="NotifyIconSource" Value="/HeBianGu.General.WpfControlLib;component/Resources/gothic drive.ico"/>
         <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
         <Setter Property="Padding" Value="3"/>
         <Setter Property="WindowStyle" Value="None"/>
@@ -646,38 +647,27 @@
                                                Command="{Binding Path=CloseWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
                                         </StackPanel>
 
-                                        <!--托盘图标-->
-                                        <local:NotifyIcon x:Name="PART_NotifyIcon" 
-                                                          Icon="{TemplateBinding Icon}" Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"
-                                                          Text="{TemplateBinding Title}"
-                                                          IconVisibility="Visible">
-                                            
-                                            <FrameworkElement.ContextMenu>
-                                                <ContextMenu Style="{DynamicResource DefaultContextMenu}">
-                                                    <MenuItem Header="Some Text" />
-                                                    <MenuItem>
-                                                        <MenuItem.Header>
-                                                            <Grid>
-                                                                <Ellipse StrokeThickness="2" Stroke="Red" />
-                                                                <TextBlock Text="[b]WPF[/] Content" />
-                                                            </Grid>
-                                                        </MenuItem.Header>
-                                                    </MenuItem>
-                                                </ContextMenu>
-                                            </FrameworkElement.ContextMenu>
-
-                                            <!--<base:Interaction.Triggers>
-                                                <base:RoutedEventTrigger RoutedEvent="local:NotifyIcon.Click">
-                                                    <base: Command="{Binding Path=NotifyWindowCommand,RelativeSource={RelativeSource TemplatedParent}}" 
-                                                                         CommandParameter="MouseDoubleClick"/>
-                                                </base:RoutedEventTrigger>
-                                            </base:Interaction.Triggers>-->
-                                        </local:NotifyIcon>
+                                       
                                     </Grid>
                                 </Border>
                                 <!--窗体内容区域-->
                                 <AdornerDecorator Grid.Row="1"  Margin="1"  WindowChrome.IsHitTestVisibleInChrome="True">
                                     <Grid>
+                                        <!--托盘图标-->
+                                        <local:NotifyIcon x:Name="PART_NotifyIcon" 
+                                                          Icon="{Binding Path=NotifyIconSource,RelativeSource={RelativeSource TemplatedParent}}" 
+                                                          Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"
+                                                          Text="{TemplateBinding Title}"
+                                                          IconVisibility="Visible">
+
+                                            <FrameworkElement.ContextMenu>
+                                                <ContextMenu Style="{DynamicResource DefaultContextMenu}">
+                                                    <MenuItem Header="显示面板" />
+                                                    <MenuItem Header="退出" /> 
+                                                </ContextMenu>
+                                            </FrameworkElement.ContextMenu> 
+                                        </local:NotifyIcon>
+                                        
                                         <local:DrawerHost HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
                                             <local:DrawerHost.LeftDrawerContent>
                                                 <Grid>

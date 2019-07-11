@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeBianGu.General.WpfControlLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,18 +19,11 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : HeBianGu.General.WpfControlLib.LinkWindowBase
+    public partial class MainWindow : LinkWindowBase
     {
         public MainWindow()
         {
             InitializeComponent();
-
-            //this.DataContext = ShellViewModel.Instance;
-
-            //this.Loaded += (l, k) =>
-            //{
-            //    ShellViewModel.Instance.RelayCommand.Execute("Loaded");
-            //};
         }
     }
 }

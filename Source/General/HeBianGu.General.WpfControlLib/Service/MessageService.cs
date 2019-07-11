@@ -38,7 +38,7 @@ namespace HeBianGu.General.WpfControlLib
 
         /// <summary> 输出消息和操作按钮 </summary>
         public static void ShowSnackMessage(string message, object actionContent, Action actionHandler)
-        { 
+        {
             Application.Current.Dispatcher.Invoke(() =>
             {
                 IWindowBase window = Application.Current.MainWindow as IWindowBase;
@@ -54,7 +54,7 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 输出消息、按钮和参数 </summary>
         public static void ShowSnackMessage<TArgument>(string message, object actionContent, Action<TArgument> actionHandler,
             TArgument actionArgument)
-        {  
+        {
             Application.Current.Dispatcher.Invoke(() =>
             {
                 IWindowBase window = Application.Current.MainWindow as IWindowBase;
@@ -99,10 +99,10 @@ namespace HeBianGu.General.WpfControlLib
 
         public static async Task ShowStringProgress(Action<StringProgressDialog> action, Action closeAction = null)
         {
-           await ShowProgressMessge(action, closeAction);
+            await ShowProgressMessge(action, closeAction);
         }
 
-       public static async Task ShowProgressMessge<T>(Action<T> action, Action closeAction = null) where T : new()
+        public static async Task ShowProgressMessge<T>(Action<T> action, Action closeAction = null) where T : new()
         {
 
             if (CheckOpen()) return;
@@ -138,7 +138,7 @@ namespace HeBianGu.General.WpfControlLib
                  view.MessageStr = message;
 
                  return await DialogHost.Show(view, "windowDialog");
-             }); 
+             });
         }
 
         static bool CheckOpen()
@@ -202,7 +202,7 @@ namespace HeBianGu.General.WpfControlLib
 
 
         /// <summary> 显示气泡消息 </summary>
-        public static void ShowNotifyMessage(string message)
+        public static void ShowNotifyMessage(string message, string title = null, NotifyBalloonIcon tipIcon = NotifyBalloonIcon.Info, int timeout = 1000)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -210,9 +210,9 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (window != null)
                 {
-                    window.ShowNotifyMessage(message);
+                    window.ShowNotifyMessage(title,message, tipIcon, timeout);
                 }
-            });
+});
 
         }
 

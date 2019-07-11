@@ -35,7 +35,7 @@ namespace HeBianGu.General.WpfControlLib
 
 
         /// <summary> 显示气泡消息 </summary>
-        void ShowNotifyMessage(string message);
+        void ShowNotifyMessage(string tipTitle, string tipText, NotifyBalloonIcon tipIcon = NotifyBalloonIcon.Info, int timeout = 1000);
 
     }
 
@@ -277,7 +277,12 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 用于重写关闭到那个花 </summary>
         public virtual void BegionStoryClose()
         {
-            CloseStoryService.Instance.DownToUpOpsClose(this);
+
+            this._notifyIcon.Visibility = Visibility.Collapsed;
+            this._notifyIcon.Dispose();
+
+            this.CloseDownToUpOps();
+
         }
 
         private void MaxCommand_Execute(object sender, ExecutedRoutedEventArgs e)
@@ -351,7 +356,9 @@ namespace HeBianGu.General.WpfControlLib
 
             MessageService.ShowSnackMessageWithNotice("窗口即将隐藏至右下角，双击右下角图标显示窗口");
 
-            Task.Delay(2000).ContinueWith(l =>
+            this._notifyIcon.ShowBalloonTip(1000, "sssss", "sssss", NotifyBalloonIcon.Info);
+
+            Task.Delay(1000).ContinueWith(l =>
             {
                 this.Dispatcher.Invoke(() =>
                 {
@@ -380,11 +387,11 @@ namespace HeBianGu.General.WpfControlLib
 
                  if (config)
                  {
-                     CloseStoryService.Instance.ScaleEnlargeShow(control);
+                     control.ShowOfScaleEnlarge();
                  }
                  else
                  {
-                     CloseStoryService.Instance.ScaleReduceHide(control);
+                     control.HideOfScaleReduce();
                  }
 
              }));
@@ -409,6 +416,16 @@ namespace HeBianGu.General.WpfControlLib
             this._snackbar = Template.FindName("PART_SnackBar", this) as Snackbar;
             this._settingFrame = Template.FindName("PART_SettingFrame", this) as ModernFrame;
             this._notifyIcon = Template.FindName("PART_NotifyIcon", this) as NotifyIcon;
+
+            if (this._notifyIcon != null)
+            {
+                this._notifyIcon.MouseDoubleClick += (l, k) =>
+              {
+                  this.ShowWindow = !this.ShowWindow;
+
+              };
+
+            }
 
         }
         /// <summary> 输出消息 </summary>
@@ -450,11 +467,11 @@ namespace HeBianGu.General.WpfControlLib
         }
 
 
-        public void ShowNotifyMessage(string message)
+        public void ShowNotifyMessage(string tipTitle, string tipText, NotifyBalloonIcon tipIcon = NotifyBalloonIcon.Info, int timeout = 1000)
         {
             this.Dispatcher.Invoke(() =>
             {
-                _notifyIcon.ShowBalloonTip(1000, "Balloon", message, NotifyBalloonIcon.Info);
+                _notifyIcon.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon);
 
             });
         }

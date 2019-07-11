@@ -24,7 +24,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         {
             InitializeComponent();
 
-            this.DataContext = ShellViewModel.Instance;
+            //this.DataContext = ShellViewModel.Instance;
         }
     }
 }

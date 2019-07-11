@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using HeBianGu.Applications.ControlBase.LinkWindow.Controler;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -17,5 +18,20 @@ namespace UnitTestProject1
 
             var content = controller.TreeList();
         }
+
+        [TestMethod]
+        public void TestMethod2()
+        {
+
+            
+           
+           var  tt= Assembly.GetEntryAssembly().GetType("HeBianGu.Applications.ControlBase.LinkWindow.ViewModel.LoyoutViewModel");
+
+
+            string stss = string.Empty;
+        }
+
+
+       
     }
 }

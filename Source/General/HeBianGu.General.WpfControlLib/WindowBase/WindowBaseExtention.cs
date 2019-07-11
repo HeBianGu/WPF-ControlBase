@@ -1,20 +1,4 @@
-﻿#region <版 本 注 释>
-/*
- * ========================================================================
- * Copyright(c) 四川*******有限公司, All Rights Reserved.
- * ========================================================================
- *    
- * 作者：[河边骨]   时间：2017/12/11 15:36:15 
- * 文件名：Class1 
- * 说明：
- * 
- * 
- * 修改者：           时间：               
- * 修改说明：
- * ========================================================================
-*/
-#endregion
-using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,10 +9,12 @@ using System.Windows.Media.Animation;
 
 namespace HeBianGu.General.WpfControlLib
 {
-    partial class CloseStoryService
+
+    /// <summary> WindowBase动画扩展 </summary>
+    public static class WindowBaseStoryBoardExtention
     {
         /// <summary> 从下到上移动关闭窗口 </summary>
-        public void DownToUpClose(Window w)
+        public static void CloseOfDownToUp(this WindowBase w)
         {
             DoubleAnimation dbAscending = new DoubleAnimation(0, -360, new Duration(TimeSpan.FromSeconds(1)));
 
@@ -42,7 +28,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 从下到上移动关闭窗口 </summary>
-        public void UoToDownClose(Window w)
+        public static void CloseOfUoToDown(this WindowBase w)
         {
             DoubleAnimation dbAscending = new DoubleAnimation(0, 360, new Duration(TimeSpan.FromSeconds(0.5)));
 
@@ -53,11 +39,10 @@ namespace HeBianGu.General.WpfControlLib
             Storyboard.SetTargetProperty(dbAscending, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"));
             storyboard.Completed += delegate { w.Close(); };
             storyboard.Begin();
-        }
-
+        } 
 
         /// <summary> 从下到上渐隐藏窗体 </summary>
-        public void DownToUpOpsClose(Window w)
+        public static void CloseDownToUpOps(this WindowBase w)
         {
             w.OpacityMask = w.FindResource("S.WindowOpMack.ClosedBrush") as LinearGradientBrush;
 
@@ -84,7 +69,7 @@ namespace HeBianGu.General.WpfControlLib
 
 
         /// <summary> 从下到上渐隐藏窗体 </summary>
-        public void DownToUpOpsOpen(Window w)
+        public static void CloseDownToUpOpsOpen(this WindowBase w)
         {
             w.OpacityMask = w.FindResource("S.WindowOpMack.ClosedBrush") as LinearGradientBrush;
 
@@ -111,7 +96,7 @@ namespace HeBianGu.General.WpfControlLib
 
 
         /// <summary> 缩小到右下角隐藏 </summary>
-        public void ScaleReduce(WindowBase w, Point point, double second, double power, Action complate)
+        public static void ScaleReduceWithAction(this WindowBase w, Point point, double second, double power, Action complate)
         {
             w.RenderTransformOrigin = point;
 
@@ -148,19 +133,19 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
-        public void ScaleReduceHide(WindowBase w)
+        public static void HideOfScaleReduce(this WindowBase w)
         {
-            this.ScaleReduce(w, new Point(1, 1), 1.5, 5, () => w.Hide());
+            ScaleReduceWithAction(w, new Point(1, 1), 0.5, 5, () => w.Hide());
         }
 
-        public void ScaleReduceCloseCenter(WindowBase w)
+        public static void CloseOfScaleReduceCenter(this WindowBase w)
         {
-            this.ScaleReduce(w, new Point(1, 1), 1.5, 5, () => w.Close());
+            ScaleReduceWithAction(w, new Point(1, 1), 0.5, 5, () => w.Close());
         }
 
 
         /// <summary> 缩小到右下角显示</summary>
-        public void ScaleEnlarge(WindowBase w, Point point, double second, double power)
+        public static void ScaleEnlarge(this WindowBase w, Point point, double second, double power)
         {
             w.RenderTransformOrigin = point; 
 
@@ -198,57 +183,21 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
-        public void ScaleEnlargeShow(WindowBase w)
+        public static void ShowOfScaleEnlarge(this WindowBase w)
         {
             w.Show();
 
-            this.ScaleEnlarge(w, new Point(1, 1), 1.5, 5);
+            ScaleEnlarge(w, new Point(1, 1), 0.5, 5);
         }
 
-        public void ScaleEnlargeShowCenter(WindowBase w, Point point, double second, double power)
+        public static void ShowOfScaleEnlargeWithCenter(this WindowBase w, Point point, double second, double power)
         {
             w.Show();
 
-            this.ScaleEnlarge(w, new Point(0.5, 0.5), 1.5, 5);
+            ScaleEnlarge(w, new Point(0.5, 0.5), 1.5, 5);
         }
 
     }
-
-
-    /// <summary> 此类的说明 </summary>
-    partial class CloseStoryService
-    {
-        #region - Start 单例模式 -
-
-        /// <summary> 单例模式 </summary>
-        private static CloseStoryService t = null;
-
-        /// <summary> 多线程锁 </summary>
-        private static object localLock = new object();
-
-        /// <summary> 创建指定对象的单例实例 </summary>
-        public static CloseStoryService Instance
-        {
-            get
-            {
-                if (t == null)
-                {
-                    lock (localLock)
-                    {
-                        if (t == null)
-                            return t = new CloseStoryService();
-                    }
-                }
-                return t;
-            }
-        }
-        /// <summary> 禁止外部实例 </summary>
-        private CloseStoryService()
-        {
-
-        }
-        #endregion - 单例模式 End -
-
-    }
+     
 
 }

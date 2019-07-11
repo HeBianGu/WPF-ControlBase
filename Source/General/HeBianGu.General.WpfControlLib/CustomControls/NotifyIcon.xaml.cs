@@ -183,7 +183,7 @@ namespace HeBianGu.General.WpfControlLib
         {
             IsVisibleChanged += OnIsVisibleChanged;
 
-            this.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
+            //this.MouseDoubleClick += NotifyIcon_MouseDoubleClick;
         }
 
 

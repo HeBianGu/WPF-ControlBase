@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -8,9 +9,19 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace HeBianGu.General.WpfControlLib
+namespace HeBianGu.General.WpfMvc
 {
-    public abstract class Controller
+    public abstract class Controller<T> : Controller
+    {
+        public T ViewModel { get; set; } = ServiceRegistry.Instance.GetInstance<T>();
+    }
+
+    public abstract class Controller : ControllerBase
+    {
+
+    }
+
+    public abstract class ControllerBase: IController
     {
         protected virtual IActionResult View([CallerMemberName] string name = "")
         {
@@ -24,15 +35,15 @@ namespace HeBianGu.General.WpfControlLib
             }
             else
             {
-                controlName = route.FirstOrDefault().Path;
+                controlName = route.FirstOrDefault().Name;
             }
 
             var ass = Assembly.GetEntryAssembly().GetName();
 
             string path = $"/{ass.Name};component/View/{controlName}/{name}Control.xaml";
-            string space = $"{ass.Name}.ViewModel.{controlName}ViewModel";
 
             Uri uri = new Uri(path, UriKind.RelativeOrAbsolute);
+
             var content = Application.LoadComponent(uri);
 
             ActionResult result = new ActionResult();
@@ -40,38 +51,18 @@ namespace HeBianGu.General.WpfControlLib
             result.Uri = uri;
             result.View = content as ContentControl;
 
-            var obj = Assembly.GetEntryAssembly().CreateInstance(space);
+            Type type = Assembly.GetEntryAssembly().GetTypeOfMatch<NotifyPropertyChanged>(l => l.Name == controlName + "ViewModel");
 
-            result.ViewModel = Assembly.GetEntryAssembly().CreateInstance(space);
+            result.ViewModel = ServiceRegistry.Instance.GetInstance(type);
             result.View.DataContext = result.ViewModel;
+
             return result;
         }
-    }
-
-    public sealed class RouteAttribute : Attribute
-    {
-        public string Path { get; set; }
-        public RouteAttribute(string path)
-        {
-            this.Path = path;
-        }
 
     }
 
-    public interface IActionResult
-    {
-        ContentControl View { get; set; }
 
-        Uri Uri { get; set; }
-        object ViewModel { get; set; }
-    }
+  
 
-    public class ActionResult : IActionResult
-    {
-        public ContentControl View { get; set; }
 
-        public Uri Uri { get; set; }
-
-        public object ViewModel { get; set; }
-    }
 }

@@ -1,4 +1,5 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -46,6 +47,13 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
+        public IActionResult ActionResult
+        {
+            get
+            {
+                return ControllerService.CreateActionResult(this.Controller, this.Action);
+            }
+        }
 
         private string _logo;
         /// <summary> 说明  </summary>
@@ -57,18 +65,8 @@ namespace HeBianGu.General.WpfControlLib
                 _logo = value;
                 RaisePropertyChanged("Logo");
             }
-        }
+        }  
 
-
-
-
-        public IActionResult ActionResult
-        {
-            get
-            {
-                return ControllerFactory.CreateActionResult(this.Controller, this.Action);
-            }
-        }
 
 
         public List<TransitionEffectBase> OpeningEffects { get; set; } = new List<TransitionEffectBase>();

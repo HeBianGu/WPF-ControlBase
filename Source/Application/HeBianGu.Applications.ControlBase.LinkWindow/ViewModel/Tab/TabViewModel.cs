@@ -1,5 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,10 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow.ViewModel
+namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
-    [Route("Loyout")]
-    class LoyoutViewModel : NotifyPropertyChanged
+    [ViewModel("Tab")]
+    class TabViewModel : NotifyPropertyChanged
     {
 
         private LinkAction _selectLink;
@@ -34,45 +35,35 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.ViewModel
         private void Loaded(string args)
         {
             LinkAction link = new LinkAction();
-            link.DisplayName = "总体概览";
+            link.DisplayName = "AnimatedTabControl";
             link.Logo = "&#xe69f;";
-            link.Controller = "Loyout";
-            link.Action = "OverView";
-            this.SelectLink = link; 
-           
+            link.Controller = "Tab";
+            link.Action = "AnimatedTab"; 
+            this.SelectLink = link;
         }
 
 
         private bool CanLoaded(string args)
         {
             return true;
-        } 
+        }
 
-        protected override async void RelayMethod(object obj)
 
+        protected override void RelayMethod(object obj)
         {
             string command = obj?.ToString();
 
             //  Do：应用
-            if (command == "Button.ShowDialogMessage")
+            if (command == "init")
             {
-                await MessageService.ShowSumitMessge("你为什么要点我？");
+              
 
             }
             //  Do：取消
-            else if (command == "Button.ShowSnackMessage")
+            else if (command == "Cancel")
             {
-                MessageService.ShowSnackMessageWithNotice("干嘛老点我？");
-            }
-            //  Do：取消
-            else if (command == "Button.ShowNotifyIcon")
-            {
-                //MessageService.ShowSnackMessageWithNotice("干嘛老点我？");
-            }
-            //  Do：取消
-            else if (command == "Button.ShowNotifyMessage")
-            {
-                MessageService.ShowNotifyMessage("我是消息气泡");
+
+
             }
         }
     }

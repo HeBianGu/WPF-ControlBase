@@ -96,7 +96,7 @@ namespace HeBianGu.General.WpfControlLib
 
         public override void BegionStoryClose()
         {
-            CloseStoryService.Instance.UoToDownClose(this);
+            this.CloseOfUoToDown();
         }
     }
 }

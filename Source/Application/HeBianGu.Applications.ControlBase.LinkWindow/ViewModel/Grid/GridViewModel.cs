@@ -1,5 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,8 +9,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow.ViewModel
+namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
+    [ViewModel("Grid")]
     public class GridViewModel : NotifyPropertyChanged
     {
 
@@ -332,9 +334,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.ViewModel
         }
 
     }
-
-
-
 
     public class UpLoadItem : Base.WpfBase.NotifyPropertyChanged
     {

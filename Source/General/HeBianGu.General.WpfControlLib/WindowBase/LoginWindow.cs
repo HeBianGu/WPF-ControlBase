@@ -39,7 +39,7 @@ namespace HeBianGu.General.WpfControlLib
 
                  if (config)
                  {
-                     CloseStoryService.Instance.ScaleReduce(control, new Point(0.5, 0.5), 0.5, 5, () =>
+                     control.ScaleReduceWithAction(new Point(0.5, 0.5), 0.5, 5, () =>
                      {
                          control.DialogResult = true;
                          control.Close();
