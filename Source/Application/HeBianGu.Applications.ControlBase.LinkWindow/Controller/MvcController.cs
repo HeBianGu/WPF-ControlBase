@@ -5,14 +5,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow.Controler
+namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
 {
-    [Route("Custom")]
-    class CustomController : Controller
+    [Route("Mvc")]
+    class MvcController : Controller<MvcViewModel>
     {
-        public async Task<IActionResult> Custom()
+        public async Task<IActionResult> Center()
         {
             return View();
         }

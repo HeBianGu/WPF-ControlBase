@@ -88,6 +88,10 @@ namespace HeBianGu.Base.WpfBase
         {
             get { return new VisibilityStringConverter(); }
         }
+        public static VisibilityWithOutStringConverter VisibilityWithOutStringConverter
+        {
+            get { return new VisibilityWithOutStringConverter(); }
+        }
 
         
         public static CornerRadiusToDouble CornerRadiusToDouble

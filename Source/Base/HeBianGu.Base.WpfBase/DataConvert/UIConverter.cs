@@ -104,6 +104,27 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+    /// <summary> 匹配文本本不可用 </summary>
+    [ValueConversion(typeof(Visibility), typeof(string))]
+    public class VisibilityWithOutStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null) return Visibility.Collapsed;
+
+            if (parameter == null) return Visibility.Visible;
+
+            if (value.ToString().Trim() == parameter.ToString().Trim()) return Visibility.Collapsed;
+
+            return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new Exception();
+        }
+    }
+
     /// <summary> 警告级别转换 </summary>
     [ValueConversion(typeof(string), typeof(int))]
     public class LevelToColorConverter : IValueConverter
