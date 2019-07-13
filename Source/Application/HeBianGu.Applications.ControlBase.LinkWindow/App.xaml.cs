@@ -1,6 +1,6 @@
 ﻿using HeBianGu.Applications.ControlBase.LinkWindow.Control;
 using HeBianGu.Applications.ControlBase.LinkWindow.Controler;
-using HeBianGu.Base.WpfBase.Color;
+using HeBianGu.Base.WpfBase;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

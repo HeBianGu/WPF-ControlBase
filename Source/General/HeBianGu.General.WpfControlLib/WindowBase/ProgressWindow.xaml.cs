@@ -55,7 +55,7 @@ namespace HeBianGu.General.WpfControlLib
                     f.Margin = new Thickness(0, 0, 20, 0);
                     //f.FIcon = "";
 
-                    f.Style = f.FindResource("S.FButton.Style.Defaut") as Style;
+                    f.Style = f.FindResource("S.FButton.Style.Default") as Style;
 
                     f.Click += (object sender, RoutedEventArgs e) =>
                     {

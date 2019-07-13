@@ -53,6 +53,7 @@ namespace HeBianGu.General.WpfControlLib
         public void Add(FrameworkElement element)
         {
             element.Width = ListWidth;
+
             if (element is Grid)
             {
                 if ((element as Grid).Children.Count > 0)
@@ -64,6 +65,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 (element as GroupBox).Margin = new Thickness(Margin.Left);
             }
+
             Children.Add(element);
             Refresh();
         }
@@ -85,7 +87,10 @@ namespace HeBianGu.General.WpfControlLib
             for (int i = 0; i < Children.Count; i++)
             {
                 (Children[i] as FrameworkElement).UpdateLayout();
-                list.Add(i, new Point(i, (Children[i] as FrameworkElement).ActualHeight, 0.0));
+                list.Add(i, new Point(i, (Children[i] as FrameworkElement).ActualHeight
+                    + (Children[i] as FrameworkElement).Margin.Bottom 
+                    + (Children[i] as FrameworkElement).Margin.Top, 0.0));
+
             }
             for (int i = 0; i < column; i++)
             {
@@ -123,13 +128,19 @@ namespace HeBianGu.General.WpfControlLib
             {
                 for (int j = 0; j < nlist[i].Count; j++)
                 {
-                    Children[nlist[i][j].Index].SetValue(LeftProperty, i * ActualWidth / column);
-                    Children[nlist[i][j].Index].SetValue(TopProperty, nlist[i][j].Buttom - nlist[i][j].Height);
-                    Children[nlist[i][j].Index].SetValue(WidthProperty, ActualWidth / column);
-
                     if (Children[nlist[i][j].Index] is Grid)
                     {
+                        Children[nlist[i][j].Index].SetValue(LeftProperty, i * ActualWidth / column);
+                        Children[nlist[i][j].Index].SetValue(TopProperty, nlist[i][j].Buttom - nlist[i][j].Height);
+                        Children[nlist[i][j].Index].SetValue(WidthProperty, ActualWidth / column);
+
                         ((Children[nlist[i][j].Index] as Grid).Children[0] as FrameworkElement).Margin = Margin;
+                    }
+                    else if (Children[nlist[i][j].Index] is GroupBox)
+                    {
+                        Children[nlist[i][j].Index].SetValue(LeftProperty, i * ActualWidth / column);
+                        Children[nlist[i][j].Index].SetValue(TopProperty, nlist[i][j].Buttom - nlist[i][j].Height);
+                        Children[nlist[i][j].Index].SetValue(WidthProperty, Math.Max(ActualWidth / column - Margin.Left - Margin.Right,0));
                     }
                 }
 

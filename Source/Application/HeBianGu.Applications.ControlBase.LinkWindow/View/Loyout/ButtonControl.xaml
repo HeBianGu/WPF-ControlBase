@@ -11,20 +11,20 @@
     <Grid>
         <Button HorizontalAlignment="Center"  VerticalAlignment="Center" Content="{Binding ButtonContentText}" FontSize="80" >
             <base:Interaction.Triggers>
-                <base:RoutedEventTrigger RoutedEvent="Button.Click">
-                    <base:EventToCommand Command="{Binding MvcCommand}">
-                        <base:EventToCommand.CommandParameter>
+                <base:EventTrigger EventName="Button.Click">
+                    <base:InvokeCommandAction Command="{Binding MvcCommand}">
+                        <base:InvokeCommandAction.CommandParameter>
                             <wpfcontrollib:LinkAction Controller="Loyout" Action="OverView"/>
-                        </base:EventToCommand.CommandParameter>
-                    </base:EventToCommand>
-                </base:RoutedEventTrigger>
+                        </base:InvokeCommandAction.CommandParameter>
+                    </base:InvokeCommandAction>
+                </base:EventTrigger> 
             </base:Interaction.Triggers>
         </Button>
 
     </Grid>
     <base:Interaction.Triggers>
-        <base:RoutedEventTrigger RoutedEvent="Loaded">
-            <base:EventToCommand Command="{Binding RelayCommand}" PassEventArgsToCommand="False" CommandParameter="Loaded" />
-        </base:RoutedEventTrigger>
+        <base:EventTrigger EventName="Loaded">
+            <base:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </base:EventTrigger>
     </base:Interaction.Triggers>
 </UserControl>

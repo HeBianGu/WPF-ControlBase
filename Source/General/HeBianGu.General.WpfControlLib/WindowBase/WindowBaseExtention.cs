@@ -147,7 +147,7 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 缩小到右下角显示</summary>
         public static void ScaleEnlarge(this WindowBase w, Point point, double second, double power)
         {
-            w.RenderTransformOrigin = point; 
+            w.RenderTransformOrigin = point;
 
             EasingFunctionBase easeFunction = new PowerEase()
             {

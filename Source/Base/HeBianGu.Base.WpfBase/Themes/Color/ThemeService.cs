@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace HeBianGu.Base.WpfBase.Color
+namespace HeBianGu.Base.WpfBase
 {
     /// <summary> 主题颜色管理器 </summary>
     public class ThemeService : NotifyPropertyChanged
@@ -265,11 +265,11 @@ namespace HeBianGu.Base.WpfBase.Color
                 dic.Add("S.Brush.Green.Notice", "<!--绿色 用于提示文字和图标-->");
                 dic.Add("S.Brush.White.Notice", "<!--面板、标题、输入框底色-->");
                 dic.Add("S.Brush.TextForeground.Tiltle", "<!--重要文字信息及标题-->");
-                dic.Add("S.Brush.TextForeground.Defaut", "<!--用于普通文字、内容信息-->");
+                dic.Add("S.Brush.TextForeground.Default", "<!--用于普通文字、内容信息-->");
                 dic.Add("S.Brush.TextForeground.Assist", "<!--用于标注、辅助文字-->");
                 dic.Add("S.Brush.TextForeground.Link", "<!--用于链接文字文字-->");
-                dic.Add("S.Brush.TextBackground.Defaut", "<!--用于面板底色内容域底色-->");
-                dic.Add("S.Brush.TextBorderBrush.Defaut", "<!--用于边框、分割线-->");
+                dic.Add("S.Brush.TextBackground.Default", "<!--用于面板底色内容域底色-->");
+                dic.Add("S.Brush.TextBorderBrush.Default", "<!--用于边框、分割线-->");
                 return dic;
             }
         }

@@ -25,7 +25,7 @@ namespace HeBianGu.General.WpfControlLib
 
     /// <summary> 自定义导航框架 </summary> 
     public class ObjectPropertyForm : ItemsControl
-    {
+    { 
         static ObjectPropertyForm()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ObjectPropertyForm), new FrameworkPropertyMetadata(typeof(ObjectPropertyForm)));
