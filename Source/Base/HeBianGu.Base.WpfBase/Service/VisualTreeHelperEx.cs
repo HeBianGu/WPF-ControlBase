@@ -125,5 +125,25 @@ namespace HeBianGu.Base.WpfBase
 
             return VisualTreeHelper.GetParent(dependencyObject);
         }
+
+
+        /// <summary>
+        /// This method locates the first visual parent of the given Type.
+        /// </summary>
+        /// <param name="fe">Framework Element</param>
+        /// <param name="lookForType">Specific type to look for</param>
+        /// <returns>Visual Parent</returns>
+        public static DependencyObject GetParent(this DependencyObject fe, Type lookForType)
+        {
+            fe = VisualTreeHelper.GetParent(fe);
+            while (fe != null)
+            {
+                if (lookForType.IsInstanceOfType(fe))
+                    return fe;
+
+                fe = VisualTreeHelper.GetParent(fe);
+            }
+            return null;
+        }
     }
 }

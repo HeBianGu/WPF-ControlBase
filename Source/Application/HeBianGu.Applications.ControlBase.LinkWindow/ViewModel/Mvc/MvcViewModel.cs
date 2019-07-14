@@ -13,6 +13,18 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     [ViewModel("Mvc")]
     class MvcViewModel : MvcViewModelBase
     {
-         
+        public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() =>
+new RelayCommand<string>(Loaded, CanLoaded)).Value;
+
+        private void Loaded(string args)
+        {
+            string sss=string.Empty;
+
+        }
+
+        private bool CanLoaded(string args)
+        {
+            return true;
+        }
     }
 }
