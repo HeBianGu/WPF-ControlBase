@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Base.WpfBase
 {
-
+    /// <summary> 类型基类 </summary>
     public class ObjectPropertyItem : NotifyPropertyChanged
     {
         public string Name { get; set; }
@@ -29,6 +29,7 @@ namespace HeBianGu.Base.WpfBase
 
     }
 
+    /// <summary> 泛型类型基类 </summary>
     public class ObjectPropertyItem<T> : ObjectPropertyItem
     {
         private T _value;
@@ -98,6 +99,7 @@ namespace HeBianGu.Base.WpfBase
 
     }
 
+    /// <summary> 字符串属性类型 </summary>
     public class StringPropertyItem : ObjectPropertyItem<string>
     {
         public StringPropertyItem(PropertyInfo property, object obj) : base(property, obj)
@@ -105,6 +107,7 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+    /// <summary> 时间属性类型 </summary>
     public class DateTimePropertyItem : ObjectPropertyItem<DateTime>
     {
         public DateTimePropertyItem(PropertyInfo property, object obj) : base(property, obj)
@@ -112,12 +115,15 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+    /// <summary> Double属性类型 </summary>
     public class DoublePropertyItem : ObjectPropertyItem<double>
     {
         public DoublePropertyItem(PropertyInfo property, object obj) : base(property, obj)
         {
         }
     }
+
+    /// <summary> Int属性类型 </summary>
 
     public class IntPropertyItem : ObjectPropertyItem<int>
     {
@@ -126,6 +132,7 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+    /// <summary> Bool属性类型 </summary>
     public class BoolPropertyItem : ObjectPropertyItem<bool>
     {
         public BoolPropertyItem(PropertyInfo property, object obj) : base(property, obj)

@@ -8,13 +8,24 @@ using System.Windows.Media.Animation;
 
 namespace HeBianGu.Base.WpfBase
 {
+    /// <summary> DoubleAnimation动画引擎 </summary>
     public class DoubleStoryboardEngine : StoryboardEngineBase<double>
     {
+        /// <summary> 构造方法 </summary>
+        /// <param name="from"> 起始值</param>
+        /// <param name="to"> 结束值  </param>
+        /// <param name="second"> 间隔时间秒 </param>
+        /// <param name="property"> 修改属性名称 </param>
+        /// 
         public static DoubleStoryboardEngine Create(double from, double to, int second, string property)
         {
             return new DoubleStoryboardEngine(from, to, second, property);
         }
-
+        /// <summary> 构造函数 </summary>
+        /// <param name="from"> 起始值</param>
+        /// <param name="to"> 结束值  </param>
+        /// <param name="second"> 间隔时间秒 </param>
+        /// <param name="property"> 修改属性名称 </param>
         public DoubleStoryboardEngine(double from, double to, int second, string property) : base(from, to, second, property)
         {
 

@@ -18,12 +18,12 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary>
     /// Interaction logic for SampleMessageDialog.xaml
     /// </summary>
-    public partial class PercentProgressDialog : UserControl
+    public partial class PercentProgressDialog : UserControl, IPercentProgress
     {
         public PercentProgressDialog()
         {
             InitializeComponent();
-        } 
+        }
 
         public int Value
         {
@@ -31,10 +31,17 @@ namespace HeBianGu.General.WpfControlLib
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    this.progress.Value = value; 
+                    this.progress.Value = value;
                 });
             }
         }
 
     }
+    
+    public interface IPercentProgress
+    {
+
+        int Value { set; }
+    }
+
 }

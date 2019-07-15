@@ -31,7 +31,7 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (window != null)
                 {
-                    window.AddSnackMessage($"提示!  [" + DateTime.Now.ToString("HH:mm:ss]  " + message));
+                    window.AddSnackMessage($"友情提示：[" + DateTime.Now.ToString("HH:mm:ss]  " + message));
                 }
             });
         }
@@ -91,9 +91,9 @@ namespace HeBianGu.General.WpfControlLib
              });
         }
 
-        public static async Task ShowPercentProgress(Action<PercentProgressDialog> action, Action closeAction = null)
+        public static async Task ShowPercentProgress(Action<IPercentProgress> action, Action closeAction = null)
         {
-            await ShowProgressMessge(action, closeAction);
+            await ShowProgressMessge<PercentProgressDialog>(action, closeAction);
         }
 
         public static async Task ShowStringProgress(Action<StringProgressDialog> action, Action closeAction = null)

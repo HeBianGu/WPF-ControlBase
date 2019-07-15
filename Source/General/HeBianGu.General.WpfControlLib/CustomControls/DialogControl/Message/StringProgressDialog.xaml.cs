@@ -18,7 +18,7 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary>
     /// Interaction logic for SampleMessageDialog.xaml
     /// </summary>
-    public partial class StringProgressDialog : UserControl
+    public partial class StringProgressDialog : UserControl, IStringProgress
     {
         public StringProgressDialog()
         {
@@ -33,5 +33,10 @@ namespace HeBianGu.General.WpfControlLib
 
             }}
 
+    }
+
+    public interface IStringProgress
+    {
+        string MessageStr { set; }
     }
 }

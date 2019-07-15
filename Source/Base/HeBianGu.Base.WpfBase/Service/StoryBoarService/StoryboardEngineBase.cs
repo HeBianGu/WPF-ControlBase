@@ -8,6 +8,7 @@ using System.Windows.Media.Animation;
 
 namespace HeBianGu.Base.WpfBase
 {
+    /// <summary> 动画引擎基类 </summary>
     public abstract class StoryboardEngineBase : IDisposable
     {
         protected Storyboard storyboard = new Storyboard();
@@ -37,6 +38,7 @@ namespace HeBianGu.Base.WpfBase
 
     }
 
+    /// <summary> 动画泛型引擎基类 </summary>
     public abstract class StoryboardEngineBase<T> : StoryboardEngineBase
     {
         public StoryboardEngineBase(T from, T to, int second, string property) : base(second, property)
