@@ -9,15 +9,44 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using static HeBianGu.General.WpfControlLib.BlurWindowExtensions;
 
 namespace HeBianGu.General.WpfControlLib
 {
+
+    public interface IWindowBase
+    {
+        /// <summary> 输出消息 </summary>
+        void AddSnackMessage(string message);
+
+        /// <summary> 输出消息和操作按钮 </summary>
+        void AddSnackMessage(string message, object actionContent, Action actionHandler);
+
+        /// <summary> 输出消息、按钮和参数 </summary>
+        void AddSnackMessage<TArgument>(string message, object actionContent, Action<TArgument> actionHandler,
+           TArgument actionArgument);
+
+        /// <summary> 显示蒙版 </summary>
+        void ShowWithLayer(Uri uri, int layerIndex = 0);
+
+        /// <summary> 关闭蒙版 </summary>
+        void CloseWithLayer(int layerIndex = 0);
+
+
+        /// <summary> 显示气泡消息 </summary>
+        void ShowNotifyMessage(string tipTitle, string tipText, NotifyBalloonIcon tipIcon = NotifyBalloonIcon.Info, int timeout = 1000);
+
+    }
+
     /// <summary>
     /// WindowBase.xaml 的交互逻辑
     /// </summary>
-    public class WindowBase : Window
+    public partial class WindowBase : Window
     {
+
+        #region - 依赖属性 -
+
         #region 默认Header：窗体字体图标FIcon
 
         public static readonly DependencyProperty FIconProperty =
@@ -81,6 +110,7 @@ namespace HeBianGu.General.WpfControlLib
             set { SetValue(CaptionBackgroundProperty, value); }
         }
 
+
         #endregion
 
         #region CaptionForeground 标题栏前景景色
@@ -94,7 +124,7 @@ namespace HeBianGu.General.WpfControlLib
             set { SetValue(CaptionForegroundProperty, value); }
         }
 
-        #endregion
+        #endregion 
 
         #region Header 标题栏内容模板，以提高默认模板，可自定义
 
@@ -146,12 +176,137 @@ namespace HeBianGu.General.WpfControlLib
             set { SetValue(SetboxEnableProperty, value); }
         }
 
+
+        public bool IsClose
+        {
+            get { return (bool)GetValue(IsCloseProperty); }
+            set { SetValue(IsCloseProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsCloseProperty =
+            DependencyProperty.Register("IsClose", typeof(bool), typeof(WindowBase), new PropertyMetadata(default(bool), (d, e) =>
+            {
+                WindowBase control = d as WindowBase;
+
+                if (control == null) return;
+
+                bool config = (bool)e.NewValue;
+
+                if (config)
+                {
+                    control.Close();
+                }
+
+            }));
+
+
+        public bool IsUseDrag
+        {
+            get { return (bool)GetValue(IsUseDragProperty); }
+            set { SetValue(IsUseDragProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsUseDragProperty =
+            DependencyProperty.Register("IsUseDrag", typeof(bool), typeof(WindowBase), new PropertyMetadata(default(bool), (d, e) =>
+             {
+                 WindowBase control = d as WindowBase;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
+
         #endregion
 
-        /****************** commands ******************/
+
+        /// <summary> 托盘图标按钮图标 </summary>
+        public ImageSource NotifyIconSource
+        {
+            get { return (ImageSource)GetValue(NotifyIconSourceProperty); }
+            set { SetValue(NotifyIconSourceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty NotifyIconSourceProperty =
+            DependencyProperty.Register("NotifyIconSource", typeof(ImageSource), typeof(WindowBase), new PropertyMetadata(default(ImageSource), (d, e) =>
+            {
+                LinkWindowBase control = d as LinkWindowBase;
+
+                if (control == null) return;
+
+                ImageSource config = e.NewValue as ImageSource;
+
+            }));
+
+
+        #endregion
+
+        #region - 绑定命令 -
         public ICommand CloseWindowCommand { get; protected set; }
         public ICommand MaximizeWindowCommand { get; protected set; }
         public ICommand MinimizeWindowCommand { get; protected set; }
+        public ICommand SettimgWindowCommand { get; protected set; }
+        public ICommand NotifyWindowCommand { get; protected set; }
+
+
+
+        private void CloseCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            Action<object, DialogClosingEventArgs> action = (l, k) =>
+            {
+                if ((bool)k.Parameter)
+                {
+                    this.BegionStoryClose();
+                }
+            };
+
+            if (Application.Current.MainWindow == this)
+            {
+                MessageService.ShowResultMessge("确认要退出系统?", action);
+            }
+            else
+            {
+                this.BegionStoryClose();
+            }
+        }
+
+        /// <summary> 用于重写关闭到那个花 </summary>
+        public virtual void BegionStoryClose()
+        {
+
+            this._notifyIcon.Visibility = Visibility.Collapsed;
+            this._notifyIcon.Dispose();
+
+            this.CloseDownToUpOps();
+
+        }
+
+        private void MaxCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.WindowState = this.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
+            e.Handled = true;
+        }
+
+        private void MinCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+            e.Handled = true;
+        }
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+
+            if (e.LeftButton == MouseButtonState.Pressed && this.IsUseDrag)
+                this.DragMove();
+
+            base.OnMouseLeftButtonDown(e);
+        }
+
+        #endregion
 
         public WindowBase()
         {
@@ -173,174 +328,153 @@ namespace HeBianGu.General.WpfControlLib
 
 
             // Todo ：初始化淡出初始效果 
-            this.OpacityMask = this.FindResource("WindowOpMack") as Brush;
+            this.OpacityMask = this.FindResource("S.WindowOpMack.LoadBrush") as Brush;
 
-            //this.Style = this.FindResource("DefaultWindowStyle") as Style;
-            //this.Icon = Images.CreateImageSourceFromImage(Properties.Resources.logo);
-            //12=6+6//Margin=6,Border.Effect.BlueRadius=6
             this.MaxHeight = SystemParameters.WorkArea.Height + 12 + 2;
             //bind command
             this.CloseWindowCommand = new RoutedUICommand();
             this.MaximizeWindowCommand = new RoutedUICommand();
             this.MinimizeWindowCommand = new RoutedUICommand();
+            this.SettimgWindowCommand = new RoutedUICommand();
+            this.NotifyWindowCommand = new RoutedUICommand();
+
             this.BindCommand(CloseWindowCommand, this.CloseCommand_Execute);
             this.BindCommand(MaximizeWindowCommand, this.MaxCommand_Execute);
             this.BindCommand(MinimizeWindowCommand, this.MinCommand_Execute);
-
-            this.Loaded += WindowBase_Loaded;
-
+            this.BindCommand(SettimgWindowCommand, this.SettimgCommand_Execute);
+            this.BindCommand(NotifyWindowCommand, this.NotifyCommand_Execute);
 
         }
 
-        private void WindowBase_Loaded(object sender, RoutedEventArgs e)
+        private void SettimgCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            this.EnableBlur();
+            this.ShowWithLayer(e.Parameter as Uri);
         }
 
-        private void CloseCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        private void NotifyCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            this.BegionStoryClose();
+
+            MessageService.ShowSnackMessageWithNotice("窗口即将隐藏至右下角，双击右下角图标显示窗口");
+
+            this._notifyIcon.ShowBalloonTip(1000, "sssss", "sssss", NotifyBalloonIcon.Info);
+
+            Task.Delay(1000).ContinueWith(l =>
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.ShowWindow = false;
+                });
+
+            });
+
         }
 
-        /// <summary> 用于重写关闭到那个花 </summary>
-        public virtual void BegionStoryClose()
+        public bool ShowWindow
         {
-            CloseStoryService.Instance.DownToUpOpsClose(this);
+            get { return (bool)GetValue(ShowWindowProperty); }
+            set { SetValue(ShowWindowProperty, value); }
         }
 
-        private void MaxCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            this.WindowState = this.WindowState == WindowState.Maximized ? WindowState.Normal : WindowState.Maximized;
-            e.Handled = true;
-        }
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowWindowProperty =
+            DependencyProperty.Register("ShowWindow", typeof(bool), typeof(WindowBase), new PropertyMetadata(true, (d, e) =>
+             {
+                 WindowBase control = d as WindowBase;
 
-        private void MinCommand_Execute(object sender, ExecutedRoutedEventArgs e)
-        {
-            this.WindowState = WindowState.Minimized;
-            e.Handled = true;
-        }
+                 if (control == null) return;
 
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-            this.DragMove();
-        }
+                 bool config = (bool)e.NewValue;
 
+                 if (config)
+                 {
+                     control.ShowOfScaleEnlarge();
+                 }
+                 else
+                 {
+                     control.HideOfScaleReduce();
+                 }
+
+             }));
 
     }
 
-    internal static class BlurWindowExtensions
+
+    [TemplatePart(Name = "PART_SnackBar", Type = typeof(Snackbar))]
+    [TemplatePart(Name = "PART_SettingFrame", Type = typeof(ModernFrame))]
+    [TemplatePart(Name = "PART_NotifyIcon", Type = typeof(NotifyIcon))]
+
+    partial class WindowBase : IWindowBase
     {
-        internal static class NativeMethods
+        Snackbar _snackbar;
+        ModernFrame _settingFrame;
+        NotifyIcon _notifyIcon;
+        public override void OnApplyTemplate()
         {
-            [DllImport("user32.dll")]
-            internal static extern int SetWindowCompositionAttribute(IntPtr hwnd, ref WindowCompositionAttribData data);
 
+            base.OnApplyTemplate();
 
-            [StructLayout(LayoutKind.Sequential)]
-            internal struct WindowCompositionAttribData
+            this._snackbar = Template.FindName("PART_SnackBar", this) as Snackbar;
+            this._settingFrame = Template.FindName("PART_SettingFrame", this) as ModernFrame;
+            this._notifyIcon = Template.FindName("PART_NotifyIcon", this) as NotifyIcon;
+
+            if (this._notifyIcon != null)
             {
-                public WindowCompositionAttribute Attribute;
-                public IntPtr Data;
-                public int SizeOfData;
+                this._notifyIcon.MouseDoubleClick += (l, k) =>
+              {
+                  this.ShowWindow = !this.ShowWindow;
+
+              };
+
             }
 
+        }
+        /// <summary> 输出消息 </summary>
+        public void AddSnackMessage(string message)
+        {
+            SnackbarMessageQueue queue = _snackbar.MessageQueue;
 
-            [StructLayout(LayoutKind.Sequential)]
-            internal struct AccentPolicy
-            {
-                public AccentState AccentState;
-                public AccentFlags AccentFlags;
-                public int GradientColor;
-                public int AnimationId;
-            }
+            Task.Factory.StartNew(() => queue.Enqueue(message));
+        }
 
+        /// <summary> 输出消息和操作按钮 </summary>
+        public void AddSnackMessage(string message, object actionContent, Action actionHandler)
+        {
+            SnackbarMessageQueue queue = _snackbar.MessageQueue;
 
-            [Flags]
-            internal enum AccentFlags
-            {
-                // ... 
-                DrawLeftBorder = 0x20,
-                DrawTopBorder = 0x40,
-                DrawRightBorder = 0x80,
-                DrawBottomBorder = 0x100,
-                DrawAllBorders = (DrawLeftBorder | DrawTopBorder | DrawRightBorder | DrawBottomBorder),
-                DrawNoBorder = 0
-                // ... 
-            }
+            Task.Factory.StartNew(() => queue.Enqueue(message, actionContent, actionHandler));
+        }
 
+        /// <summary> 输出消息、按钮和参数 </summary>
+        public void AddSnackMessage<TArgument>(string message, object actionContent, Action<TArgument> actionHandler,
+            TArgument actionArgument)
+        {
+            SnackbarMessageQueue queue = _snackbar.MessageQueue;
 
-            internal enum WindowCompositionAttribute
-            {
-                // ... 
-                WCA_ACCENT_POLICY = 19
-                // ... 
-            }
-
-
-            internal enum AccentState
-            {
-                ACCENT_DISABLED = 0,
-                ACCENT_ENABLE_GRADIENT = 1,
-                ACCENT_ENABLE_TRANSPARENTGRADIENT = 2,
-                ACCENT_ENABLE_BLURBEHIND = 3,
-                ACCENT_INVALID_STATE = 4
-            }
+            Task.Factory.StartNew(() => queue.Enqueue(message, actionContent, actionHandler, actionArgument));
         }
 
 
-        public static void EnableBlur(this Window window)
+        public void ShowWithLayer(Uri uri, int layerIndex = 0)
         {
-            if (SystemParameters.HighContrast)
-            {
-                return; // Blur is not useful in high contrast mode 
-            }
+            _settingFrame.Source = uri as Uri;
 
-            SetAccentPolicy(window, NativeMethods.AccentState.ACCENT_ENABLE_BLURBEHIND);
+            _settingFrame.Visibility = Visibility.Visible;
+        }
+
+        public void CloseWithLayer(int layerIndex = 0)
+        {
+            _settingFrame.Visibility = Visibility.Collapsed;
         }
 
 
-        public static void DisableBlur(this Window window)
+        public void ShowNotifyMessage(string tipTitle, string tipText, NotifyBalloonIcon tipIcon = NotifyBalloonIcon.Info, int timeout = 1000)
         {
-            SetAccentPolicy(window, NativeMethods.AccentState.ACCENT_DISABLED);
-        }
-
-
-        private static void SetAccentPolicy(Window window, NativeMethods.AccentState accentState)
-        {
-            var windowHelper = new WindowInteropHelper(window);
-
-
-            var accent = new NativeMethods.AccentPolicy
+            this.Dispatcher.Invoke(() =>
             {
-                AccentState = accentState,
-                AccentFlags = GetAccentFlagsForTaskbarPosition()
-            };
+                _notifyIcon.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon);
 
-
-            var accentStructSize = Marshal.SizeOf(accent);
-
-
-            var accentPtr = Marshal.AllocHGlobal(accentStructSize);
-            Marshal.StructureToPtr(accent, accentPtr, false);
-
-
-            var data = new NativeMethods.WindowCompositionAttribData
-            {
-                Attribute = NativeMethods.WindowCompositionAttribute.WCA_ACCENT_POLICY,
-                SizeOfData = accentStructSize,
-                Data = accentPtr
-            };
-
-            NativeMethods.SetWindowCompositionAttribute(windowHelper.Handle, ref data);
-
-            Marshal.FreeHGlobal(accentPtr);
-        }
-
-
-        private static NativeMethods.AccentFlags GetAccentFlagsForTaskbarPosition()
-        {
-            return NativeMethods.AccentFlags.DrawNoBorder;
+            });
         }
     }
+
 }

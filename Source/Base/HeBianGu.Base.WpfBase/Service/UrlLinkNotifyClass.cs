@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace HeBianGu.Base.WpfBase
 {
@@ -11,7 +12,6 @@ namespace HeBianGu.Base.WpfBase
     /// <summary> 连接绑定集合 </summary>
     public class LinkCollection : ObservableCollection<Link>
     {
-      
         public LinkCollection()
         {
 
@@ -28,10 +28,9 @@ namespace HeBianGu.Base.WpfBase
                 Add(link);
             }
         }
-    }
-
-    /// <summary> 连接绑定对象 </summary>
-    public class Link : NotifyPropertyChanged
+    } 
+    /// <summary> 连接绑定对象基类 </summary>
+    public class Link: NotifyPropertyChanged
     {
         private Uri source;
         /// <summary> 连接地址 </summary>
@@ -63,7 +62,19 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-       
+        private string _logo;
+        /// <summary> 说明  </summary>
+        public string Logo
+        {
+            get { return _logo; }
+            set
+            {
+                _logo = value;
+                RaisePropertyChanged("Logo");
+            }
+        }
+
+
     }
 
     /// <summary>
@@ -87,28 +98,8 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-        private string groupKey;
         private Link selectedLink;
-        private LinkCollection links = new LinkCollection();
-
-        public string GroupKey
-        {
-            get { return this.groupKey; }
-            set
-            {
-                if (this.groupKey != value)
-                {
-                    this.groupKey = value;
-                    RaisePropertyChanged("GroupKey");
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the selected link in this group.
-        /// </summary>
-        /// <value>The selected link.</value>
-        internal Link SelectedLink
+        public Link SelectedLink
         {
             get { return this.selectedLink; }
             set
@@ -121,14 +112,24 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-        /// <summary>
-        /// Gets the links.
-        /// </summary>
-        /// <value>The links.</value>
+        private LinkCollection links = new LinkCollection();
         public LinkCollection Links
         {
             get { return this.links; }
+            set { this.links=value; }
         }
 
+        private string _logo;
+        /// <summary> 说明  </summary>
+        public string Logo
+        {
+            get { return _logo; }
+            set
+            {
+                _logo = value;
+                RaisePropertyChanged("Logo");
+            }
+        }
     }
+   
 }

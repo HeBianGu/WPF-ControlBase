@@ -55,7 +55,7 @@ namespace HeBianGu.General.WpfControlLib
                     f.Margin = new Thickness(0, 0, 20, 0);
                     //f.FIcon = "";
 
-                    f.Style = f.FindResource("DefaultFButtonStyle") as Style;
+                    f.Style = f.FindResource("S.FButton.Style.Default") as Style;
 
                     f.Click += (object sender, RoutedEventArgs e) =>
                     {
@@ -96,7 +96,7 @@ namespace HeBianGu.General.WpfControlLib
 
         public override void BegionStoryClose()
         {
-            CloseStoryService.Instance.UoToDownClose(this);
+            this.CloseOfUoToDown();
         }
     }
 }

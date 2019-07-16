@@ -75,9 +75,9 @@ namespace HeBianGu.General.WpfControlLib
                     //f.Width = 300;
                     //f.Height = 80;
                     f.Margin = new Thickness(0, 0, 20, 0);
-                    f.Style = f.FindResource("DefaultFButtonStyle") as Style;
+                    f.Style = f.FindResource("S.FButton.Style.Default") as Style;
 
-                    //f.Style = myResourceDictionary["FButton_LinkButton"] as Style;
+                    //f.Style = myResourceDictionary["S.FButton.Style.Link"] as Style;
 
                     f.Click += (object sender, RoutedEventArgs e) =>
                     {
@@ -199,7 +199,7 @@ namespace HeBianGu.General.WpfControlLib
 
         public override void BegionStoryClose()
         {
-            CloseStoryService.Instance.UoToDownClose(this);
+            this.CloseOfUoToDown();
         }
 
         #endregion
@@ -230,9 +230,9 @@ namespace HeBianGu.General.WpfControlLib
             FButton f = new FButton();
             f.Content = "确定";
             f.Margin = new Thickness(0, 0, 20, 0);
-            f.Style = f.FindResource("DefaultFButtonStyle") as Style;
+            f.Style = f.FindResource("S.FButton.Style.Default") as Style;
 
-            //f.Style = myResourceDictionary["FButton_LinkButton"] as Style;
+            //f.Style = myResourceDictionary["S.FButton.Style.Link"] as Style;
 
             f.Click += (object sender, RoutedEventArgs e) =>
             {

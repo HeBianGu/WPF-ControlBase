@@ -88,6 +88,10 @@ namespace HeBianGu.Base.WpfBase
         {
             get { return new VisibilityStringConverter(); }
         }
+        public static VisibilityWithOutStringConverter VisibilityWithOutStringConverter
+        {
+            get { return new VisibilityWithOutStringConverter(); }
+        }
 
         
         public static CornerRadiusToDouble CornerRadiusToDouble
@@ -116,6 +120,30 @@ namespace HeBianGu.Base.WpfBase
             get { return new MathMultipleConverter(); }
         }
 
+        public static DrawerOffsetConverter DrawerOffsetConverter
+        {
+            get { return new DrawerOffsetConverter(); }
+        }
+
+        public static StringSplitFirstConverter StringSplitFirstConverter
+        {
+            get { return new StringSplitFirstConverter(); }
+        }
+
+        public static StringReplaceConverter StringReplaceConverter
+        {
+            get { return new StringReplaceConverter(); }
+        }
+        public static IsEqualConverter IsEqualConverter
+        {
+            get { return new IsEqualConverter(); }
+        }
+
+        public static IsMultiValueEqualConverter IsMultiValueEqualConverter
+        {
+            get { return new IsMultiValueEqualConverter(); }
+        }
+        
 
         //public static SelectTextConverter SelectTextConverter
         //{
@@ -142,7 +170,6 @@ namespace HeBianGu.Base.WpfBase
         //{
         //    get { return Singleton<PassWordConverter>.GetInstance(); }
         //}
-
 
 
     }

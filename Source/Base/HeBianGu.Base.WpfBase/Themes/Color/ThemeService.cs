@@ -10,7 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace HeBianGu.Base.WpfBase.Color
+namespace HeBianGu.Base.WpfBase
 {
     /// <summary> 主题颜色管理器 </summary>
     public class ThemeService : NotifyPropertyChanged
@@ -29,10 +29,10 @@ namespace HeBianGu.Base.WpfBase.Color
         public const string KeyAccent = "Accent";
 
         /// <summary> 默认大小 </summary>
-        public const string KeyDefaultFontSize = "DefaultFontSize";
+        public const string KeyDefaultFontSize = "S.FontSize.Default";
 
         /// <summary> 固定字体 </summary>
-        public const string KeyFixedFontSize = "FixedFontSize";
+        public const string KeyFixedFontSize = "S.FontSize.Fixed";
 
         public static ThemeService Current = new ThemeService();
 
@@ -81,7 +81,7 @@ namespace HeBianGu.Base.WpfBase.Color
         private ResourceDictionary GetThemeDictionary()
         {
             return (from dict in Application.Current.Resources.MergedDictionaries
-                    where dict.Contains("S_AccentBrush")
+                    where dict.Contains("S.Brush.Accent")
                     select dict).FirstOrDefault();
         }
 
@@ -251,25 +251,25 @@ namespace HeBianGu.Base.WpfBase.Color
             get
             {
                 Dictionary<string, string> dic = new Dictionary<string, string>();
-                dic.Add("S_AccentBrush", "<!--主色调-->");
-                dic.Add("S_AccentBrush_MouseOver", "<!--半透明的主色调 一般用于MouseOver-->");
-                dic.Add("S_WindowOpacityAccent", "<!--磨砂窗体背景色调-->");
-                dic.Add("S_OpacityGray", "<!--背景透明窗体色调-->");
-                dic.Add("S_GrayLight", "< !--用于内容域、面板底色-- > ");
-                dic.Add("S_GrayLightOpacity", "<!--用于透明背景内容域、面板底色-->");
-                dic.Add("S_GrayNotice", "<!--用于边框、分割线-->");
-                dic.Add("S_GrayNoticeOpacity", "<!--用于边框、分割线-->");
-                dic.Add("S_OrangeNotice", "<!--黄色  用于提示文字和图标-->");
-                dic.Add("S_BlackNotice", "<!--黑色 用于提示文字和图标-->");
-                dic.Add("S_RedNotice", "<!--红色 用于警告文字和图标-->");
-                dic.Add("S_GreenNotice", "<!--绿色 用于提示文字和图标-->");
-                dic.Add("S_WhiteNotice", "<!--面板、标题、输入框底色-->");
-                dic.Add("TitleTextForeground", "<!--重要文字信息及标题-->");
-                dic.Add("NormalTextForeground", "<!--用于普通文字、内容信息-->");
-                dic.Add("AssistTextForeground", "<!--用于标注、辅助文字-->");
-                dic.Add("LinkTextForeground", "<!--用于链接文字文字-->");
-                dic.Add("TextBackground", "<!--用于面板底色内容域底色-->");
-                dic.Add("TextBorderBrush", "<!--用于边框、分割线-->");
+                dic.Add("S.Brush.Accent", "<!--主色调-->");
+                dic.Add("S.Brush.Accent.MouseOver", "<!--半透明的主色调 一般用于MouseOver-->");
+                dic.Add("S.Brush.WindowBackground", "<!--磨砂窗体背景色调-->");
+                dic.Add("S.Brush.Accent.Opacity.5", "<!--背景透明窗体色调-->");
+                dic.Add("S.Brush.LightGray.Notice", "< !--用于内容域、面板底色-- > ");
+                dic.Add("S.Brush.LightGray.NoticeOpacity.5", "<!--用于透明背景内容域、面板底色-->");
+                dic.Add("S.Brush.Gray.Notice", "<!--用于边框、分割线-->");
+                dic.Add(".Brush.Gray.Opacity.5", "<!--用于边框、分割线-->");
+                dic.Add("S.Brush.Orange.Notice", "<!--黄色  用于提示文字和图标-->");
+                dic.Add("S.Brush.Black.Notice", "<!--黑色 用于提示文字和图标-->");
+                dic.Add("S.Brush.Red.Notice", "<!--红色 用于警告文字和图标-->");
+                dic.Add("S.Brush.Green.Notice", "<!--绿色 用于提示文字和图标-->");
+                dic.Add("S.Brush.White.Notice", "<!--面板、标题、输入框底色-->");
+                dic.Add("S.Brush.TextForeground.Tiltle", "<!--重要文字信息及标题-->");
+                dic.Add("S.Brush.TextForeground.Default", "<!--用于普通文字、内容信息-->");
+                dic.Add("S.Brush.TextForeground.Assist", "<!--用于标注、辅助文字-->");
+                dic.Add("S.Brush.TextForeground.Link", "<!--用于链接文字文字-->");
+                dic.Add("S.Brush.TextBackground.Default", "<!--用于面板底色内容域底色-->");
+                dic.Add("S.Brush.TextBorderBrush.Default", "<!--用于边框、分割线-->");
                 return dic;
             }
         }

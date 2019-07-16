@@ -40,7 +40,12 @@ namespace HeBianGu.Base.WpfBase
         {
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
             {
-                PrintVisualTree(VisualTreeHelper.GetChild(obj, i));
+                var from = PrintVisualTree(VisualTreeHelper.GetChild(obj, i)).ToList();
+
+                foreach (var item in from)
+                {
+                    yield return item;
+                }
             }
 
             yield return obj;
@@ -54,7 +59,13 @@ namespace HeBianGu.Base.WpfBase
             {
                 if (v is DependencyObject)
                 {
-                    PrintLogicalTree(v as DependencyObject);
+                    var from = PrintLogicalTree(v as DependencyObject);
+
+
+                    foreach (var item in from)
+                    {
+                        yield return item;
+                    }
                 }
             }
 
@@ -76,9 +87,12 @@ namespace HeBianGu.Base.WpfBase
                         yield return (T)child;
                     }
                 }
-                else
+
+                var from = FindAllVisualChild<T>(child, match);
+
+                foreach (var item in from)
                 {
-                    FindAllVisualChild<T>(child, match);
+                    yield return item;
                 }
             }
         }

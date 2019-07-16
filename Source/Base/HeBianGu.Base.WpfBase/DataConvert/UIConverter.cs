@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -93,6 +94,27 @@ namespace HeBianGu.Base.WpfBase
             if (parameter == null) return Visibility.Visible;
 
             if (value.ToString().Trim() != parameter.ToString().Trim()) return Visibility.Collapsed;
+
+            return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new Exception();
+        }
+    }
+
+    /// <summary> 匹配文本本不可用 </summary>
+    [ValueConversion(typeof(Visibility), typeof(string))]
+    public class VisibilityWithOutStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null) return Visibility.Collapsed;
+
+            if (parameter == null) return Visibility.Visible;
+
+            if (value.ToString().Trim() == parameter.ToString().Trim()) return Visibility.Collapsed;
 
             return Visibility.Visible;
         }
@@ -430,5 +452,109 @@ namespace HeBianGu.Base.WpfBase
             throw new NotImplementedException();
         }
     }
+
+    public class DrawerOffsetConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var d = value as double? ?? 0;
+            if (double.IsInfinity(d) || double.IsNaN(d)) d = 0;
+
+            var dock = (parameter is Dock) ? (Dock)parameter : Dock.Left;
+            switch (dock)
+            {
+                case Dock.Top:
+                    return new Thickness(0, 0 - d, 0, 0);
+                case Dock.Bottom:
+                    return new Thickness(0, 0, 0, 0 - d);
+                case Dock.Right:
+                    return new Thickness(0, 0, 0 - d, 0);
+                case Dock.Left:
+                default:
+                    return new Thickness(0 - d, 0, 0, 0);
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary> 分割字符串取第一个值 </summary>
+    public class StringSplitFirstConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return null;
+
+            if (parameter == null) return value.ToString().Split(' ')[0];
+
+            return value.ToString().Split(parameter.ToString().ToCharArray())[0];
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary> 替换字符串 </summary>
+    public class StringReplaceConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return null;
+
+            if (parameter == null) return value; 
+
+            return value.ToString().Replace(value.ToString().Split(' ')[0], value.ToString().Split(' ')[1]);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    /// <summary> 替换字符串 </summary>
+    public class IsEqualConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null||parameter==null) return false;
+            return value.Equals(parameter);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if((bool)value)
+            {
+                return parameter;
+            }
+
+            return null;
+        }
+    }
+     
+    public class IsMultiValueEqualConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null) return false;
+
+            if (values.Length <2) return false;
+             
+
+            return values[0] == values[1];
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
 
 }

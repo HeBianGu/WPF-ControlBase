@@ -23,7 +23,7 @@ using System.Windows.Data;
 using System.Drawing;
 using System.Windows.Media;
 
-namespace HeBianGu.Base.WpfBase.Convert
+namespace HeBianGu.Base.WpfBase
 {
 
 }

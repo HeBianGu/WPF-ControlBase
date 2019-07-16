@@ -79,7 +79,7 @@ namespace HeBianGu.Base.WpfBase
 
         public static Brush MouseOverBackground(DependencyObject element)
         {
-            return (Brush)element.GetValue(FocusBackgroundProperty);
+            return (Brush)element.GetValue(MouseOverBackgroundProperty);
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace HeBianGu.Base.WpfBase
 
         public static Brush MouseOverForeground(DependencyObject element)
         {
-            return (Brush)element.GetValue(FocusForegroundProperty);
+            return (Brush)element.GetValue(MouseOverForegroundProperty);
         }
 
         #endregion
@@ -135,6 +135,40 @@ namespace HeBianGu.Base.WpfBase
 
         #endregion
 
+        #region PressBackgroundProperty 按下背景色
+
+        public static readonly DependencyProperty PressBackgroundProperty = DependencyProperty.RegisterAttached(
+            "PressBackground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+
+        public static void SetPressBackground(DependencyObject element, Brush value)
+        {
+            element.SetValue(PressBackgroundProperty, value);
+        }
+
+        public static Brush PressBackground(DependencyObject element)
+        {
+            return (Brush)element.GetValue(PressBackgroundProperty);
+        }
+
+        #endregion
+
+        #region  PressForegroundProperty 按下前景色
+
+        public static readonly DependencyProperty PressForegroundProperty = DependencyProperty.RegisterAttached(
+            "PressForeground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+
+        public static void SetPressForeground(DependencyObject element, Brush value)
+        {
+            element.SetValue(PressForegroundProperty, value);
+        }
+
+        public static Brush PressForeground(DependencyObject element)
+        {
+            return (Brush)element.GetValue(PressForegroundProperty);
+        }
+
+        #endregion
+
         #region FocusBorderBrush 焦点边框色，输入控件
 
         public static readonly DependencyProperty FocusBorderBrushProperty = DependencyProperty.RegisterAttached(
@@ -146,6 +180,70 @@ namespace HeBianGu.Base.WpfBase
         public static Brush GetFocusBorderBrush(DependencyObject element)
         {
             return (Brush)element.GetValue(FocusBorderBrushProperty);
+        }
+
+        #endregion
+
+        #region SelectedForegroundBrush 选中前景色
+
+        public static readonly DependencyProperty SelectedForegroundBrushProperty = DependencyProperty.RegisterAttached(
+            "SelectedForegroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+        public static void SetSelectedForegroundBrush(DependencyObject element, Brush value)
+        {
+            element.SetValue(SelectedForegroundBrushProperty, value);
+        }
+        public static Brush GetSelectedForegroundBrush(DependencyObject element)
+        {
+            return (Brush)element.GetValue(SelectedForegroundBrushProperty);
+        }
+
+        #endregion
+
+        #region SelectedBackgroundBrush 选中背景色
+
+        public static readonly DependencyProperty SelectedBackgroundBrushProperty = DependencyProperty.RegisterAttached(
+            "SelectedBackgroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+        public static void SetSelectedBackgroundBrush(DependencyObject element, Brush value)
+        {
+            element.SetValue(SelectedBackgroundBrushProperty, value);
+        }
+        public static Brush GetSelectedBackgroundBrush(DependencyObject element)
+        {
+            return (Brush)element.GetValue(SelectedBackgroundBrushProperty);
+        }
+
+        #endregion
+
+        #region CheckedForegroundBrush 选中前景色
+
+        public static readonly DependencyProperty CheckedForegroundBrushProperty = DependencyProperty.RegisterAttached(
+            "CheckedForegroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+
+        public static void SetCheckedForegroundBrush(DependencyObject element, Brush value)
+        {
+            element.SetValue(CheckedForegroundBrushProperty, value);
+        }
+
+        public static Brush GetCheckedForegroundBrush(DependencyObject element)
+        {
+            return (Brush)element.GetValue(CheckedForegroundBrushProperty);
+        }
+
+        #endregion
+
+        #region CheckedBackgroundBrush 选中背景色
+
+        public static readonly DependencyProperty CheckedBackgroundBrushProperty = DependencyProperty.RegisterAttached(
+            "CheckedBackgroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+
+        public static void SetCheckedBackgroundBrush(DependencyObject element, Brush value)
+        {
+            element.SetValue(CheckedBackgroundBrushProperty, value);
+        }
+
+        public static Brush GetCheckedBackgroundBrush(DependencyObject element)
+        {
+            return (Brush)element.GetValue(CheckedBackgroundBrushProperty);
         }
 
         #endregion
@@ -218,6 +316,7 @@ namespace HeBianGu.Base.WpfBase
         #endregion
 
         #region FIconProperty 字体图标
+
         /// <summary>
         /// 字体图标
         /// </summary>
@@ -233,6 +332,23 @@ namespace HeBianGu.Base.WpfBase
         {
             obj.SetValue(FIconProperty, value);
         }
+
+        /// <summary>
+        /// 字体图标
+        /// </summary>
+        public static readonly DependencyProperty FIconChangedProperty = DependencyProperty.RegisterAttached(
+            "FIconChanged", typeof(string), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(""));
+
+        public static string GetFIconChanged(DependencyObject d)
+        {
+            return (string)d.GetValue(FIconChangedProperty);
+        }
+
+        public static void SetFIconChanged(DependencyObject obj, string value)
+        {
+            obj.SetValue(FIconChangedProperty, value);
+        }
+
         #endregion
 
         #region FIconSizeProperty 字体图标大小
@@ -335,6 +451,24 @@ namespace HeBianGu.Base.WpfBase
         public static void SetCornerRadius(DependencyObject obj, CornerRadius value)
         {
             obj.SetValue(CornerRadiusProperty, value);
+        }
+        #endregion
+
+        #region double 类型的附加属性 Tag
+        /// <summary>
+        /// Border圆角
+        /// </summary>
+        public static readonly DependencyProperty DoubleAttachProperty = DependencyProperty.RegisterAttached(
+            "DoubleAttach", typeof(double), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(0.0));
+
+        public static double GetDoubleAttach(DependencyObject d)
+        {
+            return (double)d.GetValue(DoubleAttachProperty);
+        }
+
+        public static void SetDoubleAttach(DependencyObject obj, double value)
+        {
+            obj.SetValue(DoubleAttachProperty, value);
         }
         #endregion
 

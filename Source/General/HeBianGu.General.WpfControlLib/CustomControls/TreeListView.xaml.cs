@@ -27,6 +27,53 @@ namespace HeBianGu.General.WpfControlLib
         {
             return item is TreeListViewItem;
         }
+
+
+        public object SelectItem
+        {
+            get { return (object)GetValue(SelectItemProperty); }
+            set { SetValue(SelectItemProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectItemProperty =
+            DependencyProperty.Register("SelectItem", typeof(object), typeof(TreeListView), new PropertyMetadata(default(object), (d, e) =>
+             {
+                 TreeListView control = d as TreeListView;
+
+                 if (control == null) return;
+
+                 object config = e.NewValue as object;
+
+             }));
+
+
+        protected override void OnSelectedItemChanged(RoutedPropertyChangedEventArgs<object> e)
+        {
+            base.OnSelectedItemChanged(e);
+
+            SelectItem = e.NewValue;
+        }
+
+
+        public GridViewColumnCollection Columns
+        {
+            get { return (GridViewColumnCollection)GetValue(ColumnsProperty); }
+            set { SetValue(ColumnsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ColumnsProperty =
+            DependencyProperty.Register("Columns", typeof(GridViewColumnCollection), typeof(TreeListView), new PropertyMetadata(new GridViewColumnCollection(), (d, e) =>
+             {
+                 TreeListView control = d as TreeListView;
+
+                 if (control == null) return;
+
+                 GridViewColumnCollection config = e.NewValue as GridViewColumnCollection;
+
+             }));
+
     }
 
     public class TreeListViewItem : TreeViewItem

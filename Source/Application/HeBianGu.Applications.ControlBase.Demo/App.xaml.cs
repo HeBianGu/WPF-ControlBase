@@ -19,8 +19,8 @@ namespace HeBianGu.Applications.ControlBase.Demo
 
         public App()
         {
-            DispatcherUnhandledException += App_DispatcherUnhandledException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            //DispatcherUnhandledException += App_DispatcherUnhandledException;
+            //AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
         void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
@@ -44,7 +44,7 @@ namespace HeBianGu.Applications.ControlBase.Demo
             //  Do：设置默认主题
             ThemeService.Current.AccentColor = Color.FromRgb(0x33, 0x99, 0x33);
 
-            ThemeService.Current.StartAnimationTheme(2000);
+            ThemeService.Current.StartAnimationTheme(1000);
 
 
             base.OnStartup(e);
