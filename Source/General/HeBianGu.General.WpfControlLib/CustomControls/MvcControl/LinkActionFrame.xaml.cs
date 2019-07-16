@@ -24,7 +24,9 @@ namespace HeBianGu.General.WpfControlLib
 
     /// <summary> 自定义导航框架 </summary>
     [TemplatePart(Name = "PART_TransitionerSlide")]
-    public class LinkActionFrame : ContentControl
+    [TemplatePart(Name = "PART_TransitionerSlideBottom")]
+
+    public class LinkActionFrame : ContentControl, IZIndexController
     {
         static LinkActionFrame()
         {
@@ -33,12 +35,15 @@ namespace HeBianGu.General.WpfControlLib
 
 
         TransitionerSlide _transitionerSlide = null;
+        TransitionerSlide _transitionerSlideBottom = null;
         public override void OnApplyTemplate()
         {
 
             base.OnApplyTemplate();
 
             _transitionerSlide = GetTemplateChild("PART_TransitionerSlide") as TransitionerSlide;
+            _transitionerSlideBottom = GetTemplateChild("PART_TransitionerSlideBottom") as TransitionerSlide;
+
 
         }
         public ILinkActionBase LinkAction
@@ -55,14 +60,13 @@ namespace HeBianGu.General.WpfControlLib
 
                  if (control == null) return;
 
+
                  if (e.NewValue is LinkAction)
                  {
                      LinkAction config = e.NewValue as LinkAction;
 
                      try
                      {
-                         //var result = await config?.ActionResult();
-
                          var result = await Task.Run(() => config?.ActionResult());
 
                          control.Content = result?.View;
@@ -183,6 +187,19 @@ namespace HeBianGu.General.WpfControlLib
                  //bool config = e.NewValue as bool;
 
              }));
+
+
+        void IZIndexController.Stack(params TransitionerSlide[] highestToLowest)
+        {
+            //if (highestToLowest == null) return;
+
+            //var pos = highestToLowest.Length;
+
+            //foreach (var slide in highestToLowest.Where(s => s != null))
+            //{
+            //    Panel.SetZIndex(slide, pos--);
+            //}
+        }
 
     }
 

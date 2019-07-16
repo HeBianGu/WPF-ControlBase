@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
-    [Route("Grid")]
-    class GridController: Controller
+    [Route("Switch")]
+    class SwitchController : Controller<SwitchViewModel>
     {
-        public async Task<IActionResult> Grid()
+        public async Task<IActionResult> Center()
         {
             return View();
         }
