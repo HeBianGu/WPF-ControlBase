@@ -1,15 +1,15 @@
 ﻿# WPF-ControlBase
 
+##OverView 
 
+###动画封装
 
-https://blog.csdn.net/u010975589/article/details/95985190
-https://blog.csdn.net/u010975589/article/details/95974854
-https://blog.csdn.net/u010975589/article/details/95970200
+![动画封装](https://github.com/HeBianGu/WPF-ControlBase/blob/version-1.0.4.0/Document/ImageSource/动画封装.gif)
 
-OverView 
+###属性列表
 
-![动画封装](https://raw.githubusercontent.com/NaBian/HandyControl/master/Resources/动画封装.gif)
+![属性列表](https://github.com/HeBianGu/WPF-ControlBase/blob/version-1.0.4.0/Document/ImageSource/属性列表.gif)
 
-![属性列表](https://raw.githubusercontent.com/NaBian/HandyControl/master/Resources/属性列表.gif)
+###消息对话
 
-![消息对话](https://raw.githubusercontent.com/NaBian/HandyControl/master/Resources/消息对话.gif) 
+![消息对话](https://github.com/HeBianGu/WPF-ControlBase/blob/version-1.0.4.0/Document/ImageSource/消息对话.gif) 
