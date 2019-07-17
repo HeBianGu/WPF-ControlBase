@@ -4,18 +4,99 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow.View.Switch"
+              xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
              xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
-        <TextBlock Text="zhongxin" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="50"/>
+             d:DesignHeight="1000" d:DesignWidth="800">
 
-        <wpfcontrollib:SwtichTransitioner x:Name="transitioner" Background="Yellow"/>
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type wpfcontrollib:CircleWipe}">
+            <Grid Height="30">
+                <TextBlock VerticalAlignment="Center">
+                         <Run Text="CircleWip:"/>
+                          <Run Text="过度(秒) = "/>
+                         <Run Text="{Binding MidTime.Seconds,Mode=OneWay}"/>
+                         <Run Text="时间(秒) = "/>
+                         <Run Text="{Binding Duration.Seconds,Mode=OneWay}"/>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
 
-        <Button Grid.Row="1" Click="Button_Click"/>
+        <DataTemplate DataType="{x:Type wpfcontrollib:SlideWipe}">
+            <Grid Height="30">
+                <TextBlock VerticalAlignment="Center">
+                         <Run Text="SlideWipe:"/>
+                         <Run Text="方向 = "/>
+                         <Run Text="{Binding Direction}"/> 
+                         <Run Text="时间(秒) = "/>
+                         <Run Text="{Binding Duration.Seconds,Mode=OneWay}"/>
+                </TextBlock>
+            </Grid>
+        </DataTemplate> 
+
+        <DataTemplate DataType="{x:Type wpfcontrollib:SlideOutWipe}">
+            <Grid Height="30">
+                <TextBlock VerticalAlignment="Center">
+                         <Run Text="SlideOutWipe:"/>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type wpfcontrollib:FadeWipe}">
+            <Grid Height="30">
+                <TextBlock VerticalAlignment="Center">
+                         <Run Text="SlideWipe:"/>
+                         <Run Text="时间(秒) = "/>
+                         <Run Text="{Binding Duration.Seconds,Mode=OneWay}"/>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid > 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+
+        <wpfcontrollib:SwtichTransitioner Grid.Column="0" Background="Black" x:Name="transitioner" CurrentContent="{Binding CurrentContent }"
+                                          ITransitionWipe="{Binding ElementName=selectwipe,Path=SelectItem}"/>
+        <!--Command="{Binding RelayCommand}" CommandParameter="GroupExpander.SelectChanged"-->
+
+        <Border  Grid.Column="1" Background="{DynamicResource S.Brush.TextBackground.Default}">
+            <wpfcontrollib:GroupExpander x:Name="selectwipe" Command="{Binding SelectChangedCommand}" VerticalAlignment="Stretch">
+                <wpfcontrollib:GroupObject DisplayName="CircleWipe" Logo="&#xe69f;">
+                    <wpfcontrollib:CircleWipe/>
+                    <wpfcontrollib:CircleWipe Duration="00:00:04"/>
+                    <wpfcontrollib:CircleWipe MidTime="00:00:02" Duration="00:00:04"/>
+                </wpfcontrollib:GroupObject>
+                <wpfcontrollib:GroupObject DisplayName="SlideWipe"  Logo="&#xe69f;">
+                    <wpfcontrollib:SlideWipe Direction="Left"/>
+                    <wpfcontrollib:SlideWipe Direction="Right"/>
+                    <wpfcontrollib:SlideWipe Direction="Down"/>
+                    <wpfcontrollib:SlideWipe Direction="Up"/>
+                    <wpfcontrollib:SlideWipe Direction="Left" Duration="00:00:01"/>
+                    <wpfcontrollib:SlideWipe Direction="Right" Duration="00:00:02"/>
+                    <wpfcontrollib:SlideWipe Direction="Down" Duration="00:00:03"/>
+                    <wpfcontrollib:SlideWipe Direction="Up" Duration="00:00:04"/>
+                </wpfcontrollib:GroupObject>
+                <wpfcontrollib:GroupObject DisplayName="SlideOutWipe"  Logo="&#xe69f;">
+                    <wpfcontrollib:SlideOutWipe/>
+                </wpfcontrollib:GroupObject>
+                <wpfcontrollib:GroupObject DisplayName="FadeWipe"  Logo="&#xe69f;">
+                    <wpfcontrollib:FadeWipe/>
+                    <wpfcontrollib:FadeWipe Duration="00:00:01"/>
+                    <wpfcontrollib:FadeWipe Duration="00:00:02"/>
+                    <wpfcontrollib:FadeWipe Duration="00:00:03"/>
+                </wpfcontrollib:GroupObject>
+            </wpfcontrollib:GroupExpander>
+
+        </Border>
     </Grid>
+
+    <base:Interaction.Triggers>
+        <base:EventTrigger EventName="Loaded">
+            <base:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </base:EventTrigger>
+    </base:Interaction.Triggers>
 </UserControl>

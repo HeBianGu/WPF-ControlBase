@@ -61,7 +61,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
 
         public async Task<IActionResult> OverView()
         {
-            await MessageService.ShowWaittingMessge(() => Thread.Sleep(1000));
+            await MessageService.ShowWaittingMessge(() => Thread.Sleep(1500));
 
             MessageService.ShowSnackMessageWithNotice("OverView");
 

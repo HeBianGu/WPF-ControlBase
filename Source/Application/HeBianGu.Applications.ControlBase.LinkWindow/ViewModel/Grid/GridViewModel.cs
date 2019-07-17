@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     [ViewModel("Grid")]
-    public class GridViewModel : NotifyPropertyChanged
+    public class GridViewModel : MvcViewModelBase
     {
 
         private string _total = "0";

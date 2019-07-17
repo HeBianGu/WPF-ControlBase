@@ -11,24 +11,8 @@ using System.Threading.Tasks;
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     [ViewModel("Tab")]
-    class TabViewModel : NotifyPropertyChanged
-    {
-
-        private LinkAction _selectLink;
-        /// <summary> 说明  </summary>
-        public LinkAction SelectLink
-        {
-            get { return _selectLink; }
-            set
-            {
-                _selectLink = value;
-
-                RaisePropertyChanged("SelectLink");
-
-            }
-        }
-
-
+    class TabViewModel : MvcViewModelBase
+    { 
         public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() =>
     new RelayCommand<string>(Loaded, CanLoaded)).Value;
 
@@ -46,25 +30,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         private bool CanLoaded(string args)
         {
             return true;
-        }
-
-
-        protected override void RelayMethod(object obj)
-        {
-            string command = obj?.ToString();
-
-            //  Do：应用
-            if (command == "init")
-            {
-              
-
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-
-            }
-        }
+        } 
     }
 }

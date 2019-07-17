@@ -13,29 +13,8 @@ using System.Windows;
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     [ViewModel("TreeList")]
-    partial class TreeListViewModel : NotifyPropertyChanged
-    {
-
-        private IActionResult _selectLink;
-        /// <summary> 说明  </summary>
-        public IActionResult SelectLink
-        {
-            get { return _selectLink; }
-            set
-            {
-                _selectLink = value;
-                RaisePropertyChanged("SelectLink");
-            }
-        }
-
-        public static TreeListViewModel _instance = new TreeListViewModel();
-
-        /// <summary> 获取单例模式 </summary>
-        public static TreeListViewModel CreateInstance()
-        {
-            return _instance;
-        }
-
+    partial class TreeListViewModel : MvcViewModelBase
+    {  
         private int _count;
         /// <summary> 说明  </summary>
         public int Count

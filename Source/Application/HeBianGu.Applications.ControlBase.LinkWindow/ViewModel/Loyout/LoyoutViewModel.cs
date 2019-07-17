@@ -14,21 +14,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     [ViewModel("Loyout")]
     class LoyoutViewModel : MvcViewModelBase
     {
-
-        //private LinkAction _selectLink;
-        ///// <summary> 说明  </summary>
-        //public LinkAction SelectLink
-        //{
-        //    get { return _selectLink; }
-        //    set
-        //    {
-        //        _selectLink = value;
-
-        //        RaisePropertyChanged("SelectLink");
-
-        //    }
-        //}
-
+ 
 
         public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() =>
     new RelayCommand<string>(Loaded, CanLoaded)).Value;

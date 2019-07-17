@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeBianGu.General.WpfControlLib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,25 +24,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.View.Switch
         public CenterControl()
         {
             InitializeComponent();
-        }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Button button = new Button();
-            button.Content = "第一個";
-            button.Width = 1000;
-            button.Height = 1000;
-            button.Background = Brushes.Red; 
-            transitioner.OldContent = button;
-
-            button = new Button();
-            button.Content = "第二個";
-            button.Background = Brushes.Blue;
-            button.Width = 1000;
-            button.Height = 1000;
-            transitioner.NewContent = button;
-
-            transitioner.RefreshSwitch();
-        }
+      
+        } 
+  
     }
 }

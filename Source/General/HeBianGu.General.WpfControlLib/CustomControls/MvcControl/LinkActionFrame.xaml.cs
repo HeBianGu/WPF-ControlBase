@@ -21,12 +21,9 @@ using System.Windows.Threading;
 
 namespace HeBianGu.General.WpfControlLib
 {
-
     /// <summary> 自定义导航框架 </summary>
-    [TemplatePart(Name = "PART_TransitionerSlide")]
-    [TemplatePart(Name = "PART_TransitionerSlideBottom")]
 
-    public class LinkActionFrame : ContentControl, IZIndexController
+    public class LinkActionFrame : ContentControl
     {
         static LinkActionFrame()
         {
@@ -34,17 +31,10 @@ namespace HeBianGu.General.WpfControlLib
         }
 
 
-        TransitionerSlide _transitionerSlide = null;
-        TransitionerSlide _transitionerSlideBottom = null;
+
         public override void OnApplyTemplate()
         {
-
             base.OnApplyTemplate();
-
-            _transitionerSlide = GetTemplateChild("PART_TransitionerSlide") as TransitionerSlide;
-            _transitionerSlideBottom = GetTemplateChild("PART_TransitionerSlideBottom") as TransitionerSlide;
-
-
         }
         public ILinkActionBase LinkAction
         {
@@ -60,146 +50,98 @@ namespace HeBianGu.General.WpfControlLib
 
                  if (control == null) return;
 
-
-                 if (e.NewValue is LinkAction)
+                 if (e.NewValue is ILinkActionBase config)
                  {
-                     LinkAction config = e.NewValue as LinkAction;
-
-                     try
-                     {
-                         var result = await Task.Run(() => config?.ActionResult());
-
-                         control.Content = result?.View;
-
-                         if (control._transitionerSlide == null) return;
-
-                         if (control.UseRandomEffects)
-                         {
-                             control._transitionerSlide.OpeningEffects.Clear();
-
-                             control._transitionerSlide.OpeningEffects.Add(control.RandomOpeningEffects[new Random().Next(control.RandomOpeningEffects.Count)]);
-                         }
-                         else
-                         {
-                             if (config.OpeningEffects.Count > 0)
-                             {
-                                 control._transitionerSlide.OpeningEffects.Clear();
-
-                                 foreach (var item in config.OpeningEffects)
-                                 {
-                                     control._transitionerSlide.OpeningEffects.Add(item);
-                                 }
-                             }
-
-                             if (config.OpeningEffect != null)
-                             {
-                                 control._transitionerSlide.OpeningEffects.Clear();
-
-                                 control._transitionerSlide.OpeningEffects.Add(config.OpeningEffect);
-                             }
-                         }
-
-
-                         control._transitionerSlide.State = TransitionerSlideState.None;
-
-                         control._transitionerSlide.State = TransitionerSlideState.Current;
-                     }
-                     catch (Exception ex)
-                     {
-                         control.Content = ex;
-                     }
+                     await control.RefreshLinkAction(config);
                  }
-                 else
-                 {
-                     ILinkActionBase config = e.NewValue as ILinkActionBase;
-
-                     if (control._transitionerSlide == null) return;
-                     try
-                     {
-
-                         var result = await Task.Run(() => config?.ActionResult());
-
-                         control.Content = result?.View;
-
-                         if (control.UseRandomEffects)
-                         {
-                             control._transitionerSlide.OpeningEffects.Clear();
-
-                             control._transitionerSlide.OpeningEffects.Add(control.RandomOpeningEffects[new Random().Next(control.RandomOpeningEffects.Count)]);
-                         }
-                         else
-                         {
-                             control._transitionerSlide.OpeningEffects.Clear();
-
-                             control._transitionerSlide.OpeningEffects.Add(new TransitionEffect(TransitionEffectKind.FadeIn));
-                         }
-
-
-                         control._transitionerSlide.State = TransitionerSlideState.None;
-
-                         control._transitionerSlide.State = TransitionerSlideState.Current;
-                     }
-                     catch (Exception ex)
-                     {
-                         control.Content = ex;
-                     }
-                 }
-
-
-
 
              }));
 
+        Random random = new Random();
 
-        public ObservableCollection<TransitionEffectBase> RandomOpeningEffects
+        async Task RefreshLinkAction(ILinkActionBase linkActionBase)
         {
-            get { return (ObservableCollection<TransitionEffectBase>)GetValue(RandomOpeningEffectsProperty); }
-            set { SetValue(RandomOpeningEffectsProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty RandomOpeningEffectsProperty =
-            DependencyProperty.Register("RandomOpeningEffects", typeof(ObservableCollection<TransitionEffectBase>),
-             typeof(LinkActionFrame), new PropertyMetadata(new ObservableCollection<TransitionEffectBase>()
+            try
             {
-                 new TransitionEffect(TransitionEffectKind.ExpandIn),
-                 new TransitionEffect(TransitionEffectKind.FadeIn),
-                 new TransitionEffect(TransitionEffectKind.SlideInFromBottom),
-                 new TransitionEffect(TransitionEffectKind.SlideInFromLeft),
-                 new TransitionEffect(TransitionEffectKind.SlideInFromTop)
-             }));
 
+                if (this.UseRandomWipe)
+                {
+                    this.CurrentWipe = this.RandomWipes[random.Next(this.RandomWipes.Count)];
+                }
+                else
+                {
+                    if (linkActionBase is LinkAction linkAction)
+                    {
+                        this.CurrentWipe = linkAction.TransitionWipe ?? new CircleWipe();
+                    }
+                }
 
-        public bool UseRandomEffects
+                await Task.Run(async () =>
+                {
+                    var result = await linkActionBase?.ActionResult();
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        this.Content = result?.View;
+                    });
+
+                });
+            }
+            catch (Exception ex)
+            {
+                this.Content = ex;
+            }
+        }
+
+        public ITransitionWipe CurrentWipe
         {
-            get { return (bool)GetValue(UseRandomEffectsProperty); }
-            set { SetValue(UseRandomEffectsProperty, value); }
+            get { return (ITransitionWipe)GetValue(CurrentWipeProperty); }
+            set { SetValue(CurrentWipeProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty UseRandomEffectsProperty =
-            DependencyProperty.Register("UseRandomEffects", typeof(bool), typeof(TransitionEffectBase), new PropertyMetadata(true, (d, e) =>
+        public static readonly DependencyProperty CurrentWipeProperty =
+            DependencyProperty.Register("CurrentWipe", typeof(ITransitionWipe), typeof(LinkActionFrame), new PropertyMetadata(new CircleWipe(), (d, e) =>
              {
-                 TransitionEffectBase control = d as TransitionEffectBase;
+                 LinkActionFrame control = d as LinkActionFrame;
 
                  if (control == null) return;
 
-                 //bool config = e.NewValue as bool;
+                 ITransitionWipe config = e.NewValue as ITransitionWipe;
 
              }));
 
 
-        void IZIndexController.Stack(params TransitionerSlide[] highestToLowest)
+        public ObservableCollection<ITransitionWipe> RandomWipes
         {
-            //if (highestToLowest == null) return;
-
-            //var pos = highestToLowest.Length;
-
-            //foreach (var slide in highestToLowest.Where(s => s != null))
-            //{
-            //    Panel.SetZIndex(slide, pos--);
-            //}
+            get { return (ObservableCollection<ITransitionWipe>)GetValue(RandomWipesProperty); }
+            set { SetValue(RandomWipesProperty, value); }
         }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RandomWipesProperty =
+            DependencyProperty.Register("RandomWipes", typeof(ObservableCollection<ITransitionWipe>), typeof(LinkActionFrame), new PropertyMetadata(new ObservableCollection<ITransitionWipe>()
+            {
+                 new CircleWipe(),
+                 new SlideWipe(){ Direction=SlideDirection.Left},
+                 new SlideWipe(){ Direction=SlideDirection.Right},
+                 new SlideWipe(){ Direction=SlideDirection.Down},
+                 new SlideWipe(){ Direction=SlideDirection.Up},
+                 new SlideOutWipe(),
+                 new FadeWipe()
+             }));
+
+
+        public bool UseRandomWipe
+        {
+            get { return (bool)GetValue(UseRandomWipeProperty); }
+            set { SetValue(UseRandomWipeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseRandomWipeProperty =
+            DependencyProperty.Register("UseRandomWipe", typeof(bool), typeof(TransitionEffectBase), new PropertyMetadata(true));
+
 
     }
 

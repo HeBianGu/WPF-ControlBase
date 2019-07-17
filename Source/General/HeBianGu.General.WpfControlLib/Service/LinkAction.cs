@@ -64,11 +64,7 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-
-
-        public List<TransitionEffectBase> OpeningEffects { get; set; } = new List<TransitionEffectBase>();
-
-        public TransitionEffectBase OpeningEffect { get; set; }
+        public ITransitionWipe TransitionWipe { get; set; }
 
     }
 

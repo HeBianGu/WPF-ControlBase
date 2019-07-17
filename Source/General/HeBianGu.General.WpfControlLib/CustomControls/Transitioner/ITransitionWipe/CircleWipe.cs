@@ -8,6 +8,12 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary> 原型过度效果 </summary>
     public class CircleWipe : ITransitionWipe
     {
+        public TimeSpan StartTime { get; set; } = TimeSpan.Zero;
+
+        public TimeSpan MidTime { get; set; } = TimeSpan.FromMilliseconds(400);
+
+        public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(1000);
+
         public void Wipe(TransitionerSlide fromSlide, TransitionerSlide toSlide, Point origin, IZIndexController zIndexController)
         {
             if (fromSlide == null) throw new ArgumentNullException(nameof(fromSlide));
@@ -33,14 +39,14 @@ namespace HeBianGu.General.WpfControlLib
             toSlide.SetCurrentValue(UIElement.ClipProperty, ellipseGeomotry);            
             zIndexController.Stack(toSlide, fromSlide);
 
-            var zeroKeyTime = KeyTime.FromTimeSpan(TimeSpan.Zero);
-            var midKeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(200));
-            var endKeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(400));
+            //var zeroKeyTime = KeyTime.FromTimeSpan(StartTime);
+            //var midKeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(400));
+            //var endKeyTime = KeyTime.FromTimeSpan(Duration);
 
             var opacityAnimation = new DoubleAnimationUsingKeyFrames();
-            opacityAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(1, zeroKeyTime));
-            opacityAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(1, midKeyTime));
-            opacityAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(0, endKeyTime));
+            opacityAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(1, StartTime));
+            opacityAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(1, MidTime));
+            opacityAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(0, Duration));
             opacityAnimation.Completed += (sender, args) =>
             {
                 fromSlide.BeginAnimation(UIElement.OpacityProperty, null);
@@ -55,8 +61,8 @@ namespace HeBianGu.General.WpfControlLib
                 fromSlide.BeginAnimation(UIElement.OpacityProperty, null);
                 fromSlide.Opacity = 0;
             };
-            scaleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(0, zeroKeyTime));
-            scaleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(1, endKeyTime));
+            scaleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(0, MidTime));
+            scaleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(1, Duration));
             scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, scaleAnimation);
             scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleAnimation);
         }

@@ -32,19 +32,8 @@ namespace HeBianGu.Base.WpfBase
             //  Do：通过反射调用指定名称的方法
             var from = controller.GetType().GetMethod(action).Invoke(controller, args) as Task<IActionResult>;
 
-            return await from;
-
-            //if (from is Task<IActionResult>)
-            //{
-            //    Task<IActionResult> task = from as Task<IActionResult>;
-            //    return await task;
-            //}
-            //else if (from is IActionResult)
-            //{ 
-            //    return from as IActionResult;
-            //} 
-
-            //return null;
+            return await from; 
+    
         }
 
         public static object GetViewModel(string controlName)

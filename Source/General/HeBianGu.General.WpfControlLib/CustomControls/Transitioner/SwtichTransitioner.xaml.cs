@@ -24,20 +24,6 @@ namespace HeBianGu.General.WpfControlLib
         TransitionerSlide _transitionerSlide_Old = null;
         TransitionerSlide _transitionerSlide_New = null;
 
-        //public SwtichTransitioner()
-        //{
-
-        //    //_transitionerSlide_Old = GetTemplateChild("PART_TransitionerSlide_Old") as TransitionerSlide;
-        //    //_transitionerSlide_New = GetTemplateChild("PART_TransitionerSlide_New") as TransitionerSlide;
-
-
-
-
-        //    //_transitionerSlide_Old = Template.FindName("PART_TransitionerSlide_Old",this) as TransitionerSlide;
-        //    //_transitionerSlide_New = Template.FindName("PART_TransitionerSlide_New", this) as TransitionerSlide;
-
-        //}
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -150,43 +136,72 @@ namespace HeBianGu.General.WpfControlLib
 
 
 
-        async void RefreshSlide(LinkAction oldLink, LinkAction newLink)
+        public ITransitionWipe ITransitionWipe
         {
-
-            var oldResult = await Task.Run(() => oldLink == null ? newLink?.ActionResult() : oldLink?.ActionResult());
-
-            var newResult = await Task.Run(() => newLink?.ActionResult());
-
-            this._transitionerSlide_Old.Content = oldResult?.View;
-            this._transitionerSlide_New.Content = newResult?.View;
-
-            CircleWipe circleWipe = new CircleWipe();
-
-            circleWipe.Wipe(this._transitionerSlide_Old, this._transitionerSlide_New, this.DefaultTransitionOrigin, this);
+            get { return (ITransitionWipe)GetValue(ITransitionWipeProperty); }
+            set { SetValue(ITransitionWipeProperty, value); }
         }
 
-        public void RefreshSwitch()
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ITransitionWipeProperty =
+            DependencyProperty.Register("ITransitionWipe", typeof(ITransitionWipe), typeof(SwtichTransitioner), new PropertyMetadata(default(ITransitionWipe), (d, e) =>
+             {
+                 SwtichTransitioner control = d as SwtichTransitioner;
+
+                 if (control == null) return;
+
+                 ITransitionWipe config = e.NewValue as ITransitionWipe;
+
+             }));
+
+
+
+        public object CurrentContent
         {
-            //CircleWipe circleWipe = new CircleWipe();
+            get { return (object)GetValue(CurrentContentProperty); }
+            set { SetValue(CurrentContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentContentProperty =
+            DependencyProperty.Register("CurrentContent", typeof(object), typeof(SwtichTransitioner), new PropertyMetadata(default(object), (d, e) =>
+             {
+                 SwtichTransitioner control = d as SwtichTransitioner;
+
+                 if (control == null) return;
+
+                 object config = e.NewValue as object;
+
+                 control.RefreshControls(e.OldValue, e.NewValue);
+
+             }));
+
+        void RefreshControls(object oldControl, object newControl)
+        {
+            this.OldContent = oldControl == null ? newControl : oldControl;
+            this.NewContent = newControl;
+
+            FrameworkElement control = NewContent as FrameworkElement;
+
+            if (control == null)
+            {
+                this.RefreshSwitch();return;
+            }
+
+            control.Loaded += (l, k) =>
+              {
+                  this.RefreshSwitch();
+              };
 
 
-            ////this._transitionerSlide_New.Opacity = 1;
+        }
 
-            ////this._transitionerSlide_Old.Opacity = 1;
-
-            ////this._transitionerSlide_New.SetCurrentValue(TransitionerSlide.StateProperty, TransitionerSlideState.Current);
-
-            ////this._transitionerSlide_Old.SetCurrentValue(TransitionerSlide.StateProperty, TransitionerSlideState.Current);
-
-            ////Panel.SetZIndex(this._transitionerSlide_New, 0);
-
-
-            //circleWipe.Wipe(this._transitionerSlide_Old, this._transitionerSlide_New, this.DefaultTransitionOrigin, this);
-
-
+        void RefreshSwitch()
+        {
             TransitionerSlide oldSlide = null, newSlide = null;
 
             List<TransitionerSlide> Items = new List<TransitionerSlide>();
+
             Items.Add(_transitionerSlide_Old);
             Items.Add(_transitionerSlide_New);
 
@@ -222,7 +237,10 @@ namespace HeBianGu.General.WpfControlLib
 
             if (oldSlide != null && newSlide != null)
             {
-                var wipe = selectedIndex > unselectedIndex ? oldSlide.ForwardWipe : oldSlide.BackwardWipe;
+                //var wipe = selectedIndex > unselectedIndex ? oldSlide.ForwardWipe : oldSlide.BackwardWipe;
+
+                var wipe = ITransitionWipe;
+
                 if (wipe != null)
                 {
                     wipe.Wipe(oldSlide, newSlide, GetTransitionOrigin(newSlide), this);
@@ -237,6 +255,7 @@ namespace HeBianGu.General.WpfControlLib
             else if (oldSlide != null || newSlide != null)
             {
                 DoStack(oldSlide ?? newSlide);
+
                 if (oldSlide != null)
                 {
                     oldSlide.Opacity = 0;

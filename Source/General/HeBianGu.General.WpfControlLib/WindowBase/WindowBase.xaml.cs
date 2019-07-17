@@ -277,6 +277,7 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 用于重写关闭到那个花 </summary>
         public virtual void BegionStoryClose()
         {
+            if (this._notifyIcon == null) return;
 
             this._notifyIcon.Visibility = Visibility.Collapsed;
             this._notifyIcon.Dispose();
