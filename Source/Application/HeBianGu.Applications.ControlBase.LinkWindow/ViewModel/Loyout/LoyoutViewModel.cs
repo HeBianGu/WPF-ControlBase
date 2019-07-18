@@ -13,9 +13,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     [ViewModel("Loyout")]
     class LoyoutViewModel : MvcViewModelBase
-    {
- 
-
+    { 
         public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() =>
     new RelayCommand<string>(Loaded, CanLoaded)).Value;
 
@@ -27,6 +25,20 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             link.Controller = "Loyout";
             link.Action = "OverView";
             this.SelectLink = link;
+
+
+            this.Collection.Clear();
+
+            for (int i = 0; i < 100; i++)
+            {
+                UpLoadItem item = new UpLoadItem();
+
+                item.Index = (i + 1).ToString();
+                item.Name = "吉林大学";
+                item.Path = "吉林省长春市";
+
+                this.Collection.Add(item);
+            }
 
         }
 
@@ -49,6 +61,24 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         {
             return true;
         }
+
+
+
+
+
+        private ObservableCollection<UpLoadItem> _collection = new ObservableCollection<UpLoadItem>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<UpLoadItem> Collection
+        {
+            get { return _collection; }
+            set
+            {
+                _collection = value;
+                RaisePropertyChanged("Collection");
+            }
+        }
+
+
 
         /// <summary> 命令通用方法 </summary>
         protected override async void RelayMethod(object obj)
