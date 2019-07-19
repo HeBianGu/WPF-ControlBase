@@ -112,6 +112,18 @@ namespace HeBianGu.Base.WpfBase
         /// </summary>
         public static RoutedCommand Next { get; } = new RoutedCommand(nameof(Next), typeof(CommandService));
 
+
+
+        /// <summary>
+        ///     第一个
+        /// </summary>
+        public static RoutedCommand First { get; } = new RoutedCommand(nameof(First), typeof(CommandService));
+
+        /// <summary>
+        ///     最后一个
+        /// </summary>
+        public static RoutedCommand Last { get; } = new RoutedCommand(nameof(Last), typeof(CommandService));
+
         /// <summary>
         ///     上午
         /// </summary>

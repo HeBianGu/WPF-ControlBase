@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
-    class SettingViewModel : NotifyPropertyChanged
+   public class SettingViewModel : NotifyPropertyChanged
     {
         string _ip;
         /// <summary> 数据库ip地址 </summary>

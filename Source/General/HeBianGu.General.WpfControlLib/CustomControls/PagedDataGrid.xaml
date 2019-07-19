@@ -8,18 +8,53 @@
         <ResourceDictionary Source="../SystemControls/DataGrid.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="{x:Type local:PagingDataGrid}" BasedOn="{StaticResource S.DataGrid.Default}" TargetType="{x:Type local:PagingDataGrid}"> 
+    <Style x:Key="{x:Type local:PagedDataGrid}" BasedOn="{StaticResource S.DataGrid.Default}" TargetType="{x:Type local:PagedDataGrid}"> 
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:PagingDataGrid}">
-                    <Border Background="{TemplateBinding Background}"  BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" Padding="{TemplateBinding Padding}">
+                <ControlTemplate TargetType="{x:Type local:PagedDataGrid}">
+                    <Border Background="{TemplateBinding Background}"  
+                            BorderBrush="{TemplateBinding BorderBrush}"  
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            SnapsToDevicePixels="True" 
+                            Padding="{TemplateBinding Padding}">
                         <Grid>
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="50" />
                                 <RowDefinition Height="*" />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="50" />
                             </Grid.RowDefinitions>
 
-                            <ScrollViewer Grid.Row="0" Focusable="false"  Name="DG_ScrollViewer">
+                            <Grid >
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="每页显示条数:" Style="{DynamicResource S.TextBlock.Default}"/>
+                                    <ComboBox  ItemsSource="{TemplateBinding PageCountSource}" 
+                                               SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid},Path=PageCount}"/> 
+
+                                </StackPanel>
+
+
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <local:FButton Content="导出Excel" BorderThickness="1,1,0,1" 
+                                                   BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Height="30" Width="100"
+                                                   Style="{DynamicResource S.FButton.Style.Transparent}"/>
+                                    <local:FButton Content="复制数据"  BorderThickness="1,1,0,1"
+                                                   BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Height="30" Width="100"
+                                                   Style="{DynamicResource S.FButton.Style.Transparent}"/>
+                                    <local:FButton Content="打印表格"  
+                                                   BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Height="30" Width="100"
+                                                   BorderThickness="1" Style="{DynamicResource S.FButton.Style.Transparent}"/>
+
+                                </StackPanel>
+                                
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0">
+                                    <local:FTextBox Width="300" base:ControlAttachProperty.Watermark="请输入搜索条件" base:ControlAttachProperty.Label="搜索：" 
+                                                    Style="{DynamicResource LabelTextBox}" 
+                                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=FilterString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </StackPanel>
+                            </Grid>
+                        
+
+                            <ScrollViewer Grid.Row="1" >
                                 <ScrollViewer.Template>
                                     <ControlTemplate TargetType="{x:Type ScrollViewer}">
                                         <Grid>
@@ -48,14 +83,14 @@
 
                                             <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" CanContentScroll="{TemplateBinding CanContentScroll}" />
 
-                                            <ScrollBar Grid.Row="1" Grid.Column="2" Name="PART_VerticalScrollBar"
+                                            <!--<ScrollBar Grid.Row="1" Grid.Column="2" Name="PART_VerticalScrollBar"
                                                  Orientation="Vertical"
                                                  Maximum="{TemplateBinding ScrollableHeight}"
                                                  ViewportSize="{TemplateBinding ViewportHeight}"
                                                  Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
-                                                 Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
+                                                 Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>-->
 
-                                            <Grid Grid.Row="2" Grid.Column="1">
+                                            <!--<Grid Grid.Row="2" Grid.Column="1">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=NonFrozenColumnsViewportHorizontalOffset}"/>
                                                     <ColumnDefinition Width="*"/>
@@ -68,52 +103,33 @@
                                                        Value="{Binding Path=HorizontalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                                        Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
 
-                                            </Grid>
+                                            </Grid>-->
                                         </Grid>
                                     </ControlTemplate>
                                 </ScrollViewer.Template>
-                                
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </ScrollViewer>
 
-                            <!--分页控件-->
-                            <Grid Grid.Row="1" Visibility="{Binding IsShowPaging,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Orientation="Horizontal" Margin="5,0,0,0">
-
-                                    <TextBlock Text="每页 "  VerticalAlignment="Center"/>
-
-                                    <ComboBox Grid.Column="0" Width="100"  VerticalAlignment="Center" Name="PART_PageSizeList" MinWidth="40" Margin="5,0,0,0" 
-                                              ItemsSource="{Binding PageSizeItemsSource,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}" FontSize="{TemplateBinding FontSize}"
-                                              SelectedItem="{Binding PageSize,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
-
-                                    <TextBlock Text=" 项 "  VerticalAlignment="Center"/>
-
-                                    <local:FButton FIcon="&#xe684;" ToolTip="首页" Style="{DynamicResource S.FButton.Style.Transparent}"  FIconSize="{TemplateBinding FontSize}" x:Name="PART_FirstPage"/>
-                                    <local:FButton  FIcon="&#xe671;" ToolTip="上一页" Width="50" Style="{DynamicResource S.FButton.Style.Transparent}" x:Name="PART_PerviousPage" />
-
-                                    <TextBlock Text="第 "  VerticalAlignment="Center"/>
-                                    <local:FTextBox Width="30"  Text="{Binding PageIndex,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}" FontSize="{TemplateBinding FontSize}" x:Name="PART_PageIndex" />
-                                    <TextBlock Text=" 页    共计 "  VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding PageCount,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}" VerticalAlignment="Center"/>
-                                    <TextBlock Text=" 页  "  VerticalAlignment="Center"/>
-                                    <local:FButton  FIcon="&#xe66d;" ToolTip="下一页" Width="50"  Style="{DynamicResource S.FButton.Style.Transparent}" x:Name="PART_NextPage"/>
-                                    <local:FButton  FIcon="&#xe687;" ToolTip="尾页" Width="50" Style="{DynamicResource S.FButton.Style.Transparent}" x:Name="PART_LastPage"/>
-                                    <local:FButton  FIcon="&#xe925;" ToolTip="转置" Width="50" Style="{DynamicResource S.FButton.Style.Transparent}" CornerRadius="0,16,16,0" x:Name="PART_Refresh" />
+                            <Grid Grid.Row="2">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                    <TextBlock  Style="{DynamicResource S.TextBlock.Default}">
+                                        <Run Text="第"/>
+                                         <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=MinValue}"/>
+                                         <Run Text="到"/>
+                                         <Run Text="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid},Path=MaxValue}"/>
+                                         <Run Text="条记录，共"/>
+                                          <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Total}"/>
+                                         <Run Text="条"/>
+                                    </TextBlock>
                                 </StackPanel>
 
-                                <TextBlock Grid.Column="2" VerticalAlignment="Center" Margin="5,0,5,0" >
-            当前从 <TextBlock Text="{Binding Start,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}" /> 
-            到 <TextBlock Text="{Binding End,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}"  /> 
-            共 <TextBlock Text="{Binding Total,RelativeSource={RelativeSource TemplatedParent},Mode=OneWay}"  /> 
-            项记录
-        </TextBlock>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                    <local:Pagination MaxPageCount="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid},Path=TotalPage,Mode=TwoWay}"  Width="500"
+                                                      PageIndex="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid},Path=PageIndex,Mode=TwoWay}"/>
+
+                                </StackPanel>
                             </Grid>
+
                         </Grid>
                     </Border>
                 </ControlTemplate>
