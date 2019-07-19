@@ -438,9 +438,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
             }
             //  Do：取消
-            else if (command == "Cancel")
+            else if (command == "init")
             {
-
+                RelayMethod("TreeList.Load");
 
             }
             //  Do：取消
