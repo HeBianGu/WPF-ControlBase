@@ -54,6 +54,12 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
             return View();
         }
 
+        public async Task<IActionResult> Grid()
+        {
+            return View();
+        }
+
+
         public async Task<IActionResult> Combobox()
         {
             return View();

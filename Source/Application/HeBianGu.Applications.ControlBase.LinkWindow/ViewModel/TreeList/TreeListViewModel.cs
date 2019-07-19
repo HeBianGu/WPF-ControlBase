@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     [ViewModel("TreeList")]
     partial class TreeListViewModel : MvcViewModelBase
-    {  
+    {
         private int _count;
         /// <summary> 说明  </summary>
         public int Count
@@ -426,7 +427,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         }
 
-
         protected override async void RelayMethod(object obj)
         {
             string command = obj.ToString();
@@ -459,6 +459,24 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                     this.InitTyeEncodeDevice(collecion);
 
                     this.LoadTyeEncodeCheckDevice(collecion.Where(l => l.Code.Length == 2).ToList());
+
+                    //Random random = new Random();
+
+                    //var arr = ss.ToArray();
+
+                    //foreach (var item in collecion)
+                    //{
+                    //    item.Name = string.Empty;
+                    //    for (int i = 0; i < random.Next(5,15); i++)
+                    //    {
+                    //        item.Name += arr[random.Next(ss.Length)].ToString();
+                    //    }
+                    //}
+
+                    //string ss2 = JsonConvert.SerializeObject(collecion);
+
+
+                    //File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data2.json"),ss2);
                 });
 
                 MessageService.ShowSnackMessageWithNotice("加载完成！");

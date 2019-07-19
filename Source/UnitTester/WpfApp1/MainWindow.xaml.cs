@@ -1,4 +1,5 @@
-﻿using HeBianGu.Base.WpfBase;
+﻿using HeBianGu.Applications.ControlBase.LinkWindow;
+using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.General.WpfMvc;
 using System;
@@ -8,38 +9,50 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace WpfApp1
 {
-    [ViewModel("Loyout")]
+    /// <summary>
+    /// MainWindow.xaml 的交互逻辑
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+
+            LoyoutViewModel vm = new LoyoutViewModel();
+
+            vm.LoadedCommand.Execute(null);
+
+            this.DataContext = vm;
+        }
+    }
+
     class LoyoutViewModel : MvcViewModelBase
-    { 
+    {
         public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() =>
     new RelayCommand<string>(Loaded, CanLoaded)).Value;
 
         private void Loaded(string args)
         {
-            ILinkActionBase link = new LinkActionBase();
-            link.DisplayName = "总体概览";
-            link.Logo = "&#xe69f;";
-            link.Controller = "Loyout";
-            link.Action = "OverView";
-            this.SelectLink = link;
+            this.Collection.Clear();
 
+            var data = AssemblyDomain.Instance.GetTreeListData();
 
-            //this.Collection.Clear();
-
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    UpLoadItem item = new UpLoadItem();
-
-            //    item.Index = (i + 1).ToString();
-            //    item.Name = "吉林大学";
-            //    item.Path = "吉林省长春市";
-
-            //    this.Collection.Add(item);
-            //}
-
+            foreach (var item in data)
+            {
+                this.Collection.Add(item);
+            }  
         }
 
 
@@ -63,22 +76,17 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         }
 
 
-
-
-
-        //private ObservableCollection<UpLoadItem> _collection = new ObservableCollection<UpLoadItem>();
-        ///// <summary> 说明  </summary>
-        //public ObservableCollection<UpLoadItem> Collection
-        //{
-        //    get { return _collection; }
-        //    set
-        //    {
-        //        _collection = value;
-        //        RaisePropertyChanged("Collection");
-        //    }
-        //}
-
-
+        private ObservableCollection<TreeNodeEntity> _collection = new ObservableCollection<TreeNodeEntity>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<TreeNodeEntity> Collection
+        {
+            get { return _collection; }
+            set
+            {
+                _collection = value;
+                RaisePropertyChanged("Collection");
+            }
+        }
 
         /// <summary> 命令通用方法 </summary>
         protected override async void RelayMethod(object obj)
@@ -103,18 +111,18 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             else if (command == "Button.ShowPercentProgress")
             {
                 Action<IPercentProgress> action = l =>
+                {
+                    for (int i = 0; i < 100; i++)
                     {
-                        for (int i = 0; i < 100; i++)
-                        {
-                            l.Value = i;
+                        l.Value = i;
 
-                            Thread.Sleep(50);
-                        }
+                        Thread.Sleep(50);
+                    }
 
-                        Thread.Sleep(1000);
+                    Thread.Sleep(1000);
 
-                        MessageService.ShowSnackMessageWithNotice("加载完成！");
-                    };
+                    MessageService.ShowSnackMessageWithNotice("加载完成！");
+                };
                 await MessageService.ShowPercentProgress(action);
 
             }
@@ -161,7 +169,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             else if (command == "Button.ShowSnackMessage")
             {
                 MessageService.ShowSnackMessageWithNotice("这是提示消息？");
-            } 
+            }
             //  Do：气泡消息
             else if (command == "Button.ShowNotifyMessage")
             {
@@ -169,4 +177,5 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             }
         }
     }
+
 }

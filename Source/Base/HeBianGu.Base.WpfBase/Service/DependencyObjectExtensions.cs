@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -196,6 +197,28 @@ namespace HeBianGu.Base.WpfBase
             }
 
             return null;
+        }
+
+
+        public static VisualStateGroup TryGetVisualStateGroup(this DependencyObject d, string groupName)
+        {
+            var root = GetImplementationRoot(d);
+            if (root == null)
+            {
+                return null;
+            }
+
+            return VisualStateManager
+                .GetVisualStateGroups(root)?
+                .OfType<VisualStateGroup>()
+                .FirstOrDefault(group => string.CompareOrdinal(groupName, group.Name) == 0);
+        }
+
+        internal static FrameworkElement GetImplementationRoot(DependencyObject d)
+        {
+            return 1 == VisualTreeHelper.GetChildrenCount(d)
+                ? VisualTreeHelper.GetChild(d, 0) as FrameworkElement
+                : null;
         }
     }
 }

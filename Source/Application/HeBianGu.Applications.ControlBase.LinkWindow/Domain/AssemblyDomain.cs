@@ -1,4 +1,5 @@
 ﻿using HeBianGu.General.WpfControlLib;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
-    class AssemblyDomain
+   public class AssemblyDomain
     {
         public static AssemblyDomain Instance = new AssemblyDomain();
 
@@ -41,46 +42,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
 
         }
-
-        public List<UpLoadItem> GetGridList(out string errorInfor, out uint total, string startTime = "", string endTime = "", string name = "", int type = 0, uint page = 0, uint size = 10)
-        {
-            List<UpLoadItem> result = new List<UpLoadItem>();
-
-            uint index = page - 1;
-
-            for (uint i = index * size; i < index * size + size; i++)
-            {
-
-                UpLoadItem upLoadItem = new UpLoadItem();
-                upLoadItem.Index = (i + 1).ToString();
-                upLoadItem.Name = $"《权利的游戏 第{(int)(i / 10) + 1 }季》 第{i + 1}集";
-                upLoadItem.Path = "D:/Movie/2019-06-25 10:11:23/" + upLoadItem.Name + ".mp4";
-                upLoadItem.Type = ".mp4";
-                upLoadItem.Tag = "欧美,中文字幕,高清";
-                upLoadItem.Time = DateTime.Now.ToString("yyyy-MM-dd");
-                upLoadItem.Span = "01:25;12";
-                upLoadItem.Size = "1.2G";
-                result.Add(upLoadItem);
-            }
-
-            total = 100;
-
-            errorInfor = string.Empty;
-
-            if (r.Next(5) == 1)
-            {
-                errorInfor = "运气不佳，请再试一次";
-                return null;
-            
-            }
-            else
-            {
-                return result;
-            }
-
-
-        }
-
+   
 
         SettingViewModel _setting;
         public bool SaveSetting(SettingViewModel setting, out string err)
@@ -114,5 +76,13 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             return _setting;
         }
 
+        public List<TreeNodeEntity> GetTreeListData()
+        {
+            string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data.json");
+
+            string txt = System.IO.File.ReadAllText(url, Encoding.Default);
+
+            return JsonConvert.DeserializeObject<List<TreeNodeEntity>>(txt);
+        }
     }
 }
