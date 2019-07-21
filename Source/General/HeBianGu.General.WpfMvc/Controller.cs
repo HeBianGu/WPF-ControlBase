@@ -11,9 +11,38 @@ using System.Windows.Controls;
 
 namespace HeBianGu.General.WpfMvc
 {
+
+    public abstract class Controller<T, R, K> : Controller<T, R>
+    {
+        public K Extend { get; set; } = ServiceRegistry.Instance.GetInstance<K>();
+
+    }
+
+    public abstract class Controller<T, R> : Controller<T>
+    {
+        public R Respository { get; set; } = ServiceRegistry.Instance.GetInstance<R>();
+
+    }
+
     public abstract class Controller<T> : Controller
     {
         public T ViewModel { get; set; } = ServiceRegistry.Instance.GetInstance<T>();
+
+        public bool ModelState(object obj, out string message)
+        {
+            var results = ObjectPropertyFactory.ModelState(obj);
+
+            message = results.FirstOrDefault();
+
+            return results.Count == 0;
+        }
+
+        public bool ModelState(object obj)
+        {
+            string message;
+
+            return this.ModelState(obj, out message);
+        }
     }
 
     public abstract class Controller : ControllerBase
@@ -21,7 +50,7 @@ namespace HeBianGu.General.WpfMvc
 
     }
 
-    public abstract class ControllerBase: IController
+    public abstract class ControllerBase : IController
     {
         protected virtual IActionResult View([CallerMemberName] string name = "")
         {
@@ -47,7 +76,7 @@ namespace HeBianGu.General.WpfMvc
 
 
 
-            var content=  Application.Current.Dispatcher.Invoke(() =>
+            var content = Application.Current.Dispatcher.Invoke(() =>
             {
                 return Application.LoadComponent(uri);
             });
@@ -65,7 +94,7 @@ namespace HeBianGu.General.WpfMvc
             {
                 result.View.DataContext = result.ViewModel;
 
-            }); 
+            });
 
             return result;
         }
@@ -73,7 +102,7 @@ namespace HeBianGu.General.WpfMvc
     }
 
 
-  
+
 
 
 }

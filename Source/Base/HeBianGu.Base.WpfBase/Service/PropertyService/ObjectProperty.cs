@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HeBianGu.Base.WpfBase
 {
@@ -12,6 +13,10 @@ namespace HeBianGu.Base.WpfBase
     {
         public string Name { get; set; }
         public PropertyInfo PropertyInfo { get; set; }
+
+        public bool ReadOnly { get; set; } 
+
+        public Visibility Visibility { get; set; }
 
         public object Obj { get; set; }
         public ObjectPropertyItem(PropertyInfo property, object obj)
@@ -24,6 +29,15 @@ namespace HeBianGu.Base.WpfBase
             Name = display == null ? property.Name : display.Name;
 
             Obj = obj;
+
+
+            var hidden = property.GetCustomAttribute<HiddenAttribute>();
+
+            var readyOnly = property.GetCustomAttribute<ReadOnlyAttribute>();
+
+            this.ReadOnly = readyOnly == null ? true : false;
+
+            this.Visibility = hidden == null ? Visibility.Visible : Visibility.Collapsed;
         }
 
 
@@ -71,14 +85,15 @@ namespace HeBianGu.Base.WpfBase
 
         public ObjectPropertyItem(PropertyInfo property, object obj) : base(property, obj)
         {
-            Value = (T)property.GetValue(obj); 
-
+        
             Validations = property.GetCustomAttributes<ValidationAttribute>()?.ToList();
 
             if(Validations!=null&& Validations.Count>0)
             {
                 this.Flag = "*";
             }
+
+            Value = (T)property.GetValue(obj);
         }
 
 

@@ -58,9 +58,9 @@ namespace HeBianGu.General.WpfMvc
             }
         }
 
-        public async Task<IActionResult> ActionResult()
+        public IActionResult ActionResult()
         {
-            return await ControllerService.CreateActionResult(this.Controller, this.Action);
+            return ControllerService.CreateActionResult(this.Controller, this.Action);
 
         }
     }

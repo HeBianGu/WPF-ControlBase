@@ -71,6 +71,28 @@ namespace HeBianGu.General.WpfControlLib
 
              }));
 
+
+
+
+        public object BottomContent
+        {
+            get { return (object)GetValue(BottomContentProperty); }
+            set { SetValue(BottomContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BottomContentProperty =
+            DependencyProperty.Register("BottomContent", typeof(object), typeof(ObjectPropertyForm), new PropertyMetadata(default(object), (d, e) =>
+             {
+                 ObjectPropertyForm control = d as ObjectPropertyForm;
+
+                 if (control == null) return;
+
+                 object config = e.NewValue as object;
+
+             }));
+
+
         ObservableCollection<ObjectPropertyItem> PropertyItemSource
         {
             get { return (ObservableCollection<ObjectPropertyItem>)GetValue(PropertyItemSourceProperty); }
@@ -92,6 +114,8 @@ namespace HeBianGu.General.WpfControlLib
 
         void RefreshObject(object o)
         {
+            if (o == null) return;
+
             Type type = o.GetType();
 
             var propertys = type.GetProperties();
@@ -104,8 +128,16 @@ namespace HeBianGu.General.WpfControlLib
 
                 this.PropertyItemSource.Add(from);
             }
+            //this.Items.Refresh();
 
-            this.ItemsSource = this.PropertyItemSource;
+            //this.ItemsSource = this.PropertyItemSource;
+
+            this.Items.Clear();
+
+            foreach (var item in this.PropertyItemSource)
+            {
+                this.Items.Add(item);
+            }
         }
 
     }

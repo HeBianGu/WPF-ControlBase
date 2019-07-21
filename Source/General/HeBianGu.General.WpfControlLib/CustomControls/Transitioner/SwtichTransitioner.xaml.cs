@@ -178,14 +178,14 @@ namespace HeBianGu.General.WpfControlLib
 
         void RefreshControls(object oldControl, object newControl)
         {
-            this.OldContent = oldControl == null ? newControl : oldControl;
+            this.OldContent = oldControl ?? this.OldContent;
             this.NewContent = newControl;
 
             FrameworkElement control = NewContent as FrameworkElement;
 
             if (control == null)
             {
-                this.RefreshSwitch();return;
+                this.RefreshSwitch(); return;
             }
 
             control.Loaded += (l, k) =>

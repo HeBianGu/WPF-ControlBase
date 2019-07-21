@@ -12,11 +12,11 @@ namespace HeBianGu.Base.WpfBase
 {
     public class ControllerService
     {
-        public static async Task<IActionResult> CreateActionResult(string controlName, string name)
+        public static IActionResult CreateActionResult(string controlName, string name)
         {
             IController control = GetController(controlName);
 
-            return await GetActionResult(control, name);
+            return  GetActionResult(control, name) as IActionResult;
         }
 
         public static IController GetController(string controlName)
@@ -27,12 +27,10 @@ namespace HeBianGu.Base.WpfBase
             return ServiceRegistry.Instance.GetInstance(type) as IController;
         }
 
-        public static async Task<IActionResult> GetActionResult(IController controller, string action, object[] args = null)
+        public static  object GetActionResult(IController controller, string action, object[] args = null)
         {
             //  Do：通过反射调用指定名称的方法
-            var from = controller.GetType().GetMethod(action).Invoke(controller, args) as Task<IActionResult>;
-
-            return await from; 
+            return controller.GetType().GetMethod(action).Invoke(controller, args); 
     
         }
 

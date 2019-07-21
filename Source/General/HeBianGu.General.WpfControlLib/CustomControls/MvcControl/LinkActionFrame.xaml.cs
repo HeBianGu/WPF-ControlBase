@@ -52,7 +52,7 @@ namespace HeBianGu.General.WpfControlLib
 
                  if (e.NewValue is ILinkActionBase config)
                  {
-                     await control.RefreshLinkAction(config);
+                     control.RefreshLinkAction(config);
                  }
 
              }));
@@ -63,7 +63,6 @@ namespace HeBianGu.General.WpfControlLib
         {
             try
             {
-
                 if (this.UseRandomWipe)
                 {
                     this.CurrentWipe = this.RandomWipes[random.Next(this.RandomWipes.Count)];
@@ -76,15 +75,15 @@ namespace HeBianGu.General.WpfControlLib
                     }
                 }
 
-                await Task.Run(async () =>
+                var result = await Task.Run(()=>
                 {
-                    var result = await linkActionBase?.ActionResult();
+                    return linkActionBase?.ActionResult();
+                });
+                 
 
-                    this.Dispatcher.Invoke(() =>
-                    {
-                        this.Content = result?.View;
-                    });
-
+                this.Dispatcher.Invoke(() =>
+                {
+                    this.Content = result?.View;
                 });
             }
             catch (Exception ex)
@@ -92,6 +91,39 @@ namespace HeBianGu.General.WpfControlLib
                 this.Content = ex;
             }
         }
+
+        //async Task RefreshLinkAction(ILinkActionBase linkActionBase)
+        //{
+        //    try
+        //    {
+        //        if (this.UseRandomWipe)
+        //        {
+        //            this.CurrentWipe = this.RandomWipes[random.Next(this.RandomWipes.Count)];
+        //        }
+        //        else
+        //        {
+        //            if (linkActionBase is LinkAction linkAction)
+        //            {
+        //                this.CurrentWipe = linkAction.TransitionWipe ?? new CircleWipe();
+        //            }
+        //        }
+
+        //        await Task.Run(async () =>
+        //        {
+        //            var result = await linkActionBase?.ActionResult();
+
+        //            this.Dispatcher.Invoke(() =>
+        //            {
+        //                this.Content = result?.View;
+        //            });
+
+        //        });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        this.Content = ex;
+        //    }
+        //}
 
         public ITransitionWipe CurrentWipe
         {

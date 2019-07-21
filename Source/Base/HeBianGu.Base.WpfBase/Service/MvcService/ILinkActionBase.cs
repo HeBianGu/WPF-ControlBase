@@ -6,7 +6,7 @@ namespace HeBianGu.Base.WpfBase
     {
         string Action { get; set; }
 
-        Task<IActionResult> ActionResult();
+        IActionResult ActionResult();
 
         string Controller { get; set; }
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Base.WpfBase
 {
-   public class ObjectPropertyFactory
+    public class ObjectPropertyFactory
     {
         public static ObjectPropertyItem Create(PropertyInfo info, object obj)
         {
@@ -33,6 +33,33 @@ namespace HeBianGu.Base.WpfBase
             }
 
             return null;
+        }
+
+        public static List<string> ModelState(object obj)
+        {
+            List<string> results = new List<string>();
+
+            var propertys = obj.GetType().GetProperties();
+
+            foreach (var item in propertys)
+            {
+                var collection = item.GetCustomAttributes<ValidationAttribute>()?.ToList();
+
+                var value = item.GetValue(obj);
+
+                //  Do：检验数据有效性
+                if (results == null) continue;
+
+                foreach (var r in collection)
+                {
+                    if (!r.IsValid(value))
+                    {
+                        results.Add(r.ErrorMessage);
+                    }
+                } 
+            }
+
+            return results;
         }
     }
 }
