@@ -12,11 +12,11 @@ namespace HeBianGu.Base.WpfBase
 {
     public class ControllerService
     {
-        public static IActionResult CreateActionResult(string controlName, string name)
+        public static  Task<IActionResult> CreateActionResult(string controlName, string name)
         {
             IController control = GetController(controlName);
 
-            return  GetActionResult(control, name) as IActionResult;
+            return GetActionResult(control, name) as Task<IActionResult>;
         }
 
         public static IController GetController(string controlName)
@@ -27,11 +27,13 @@ namespace HeBianGu.Base.WpfBase
             return ServiceRegistry.Instance.GetInstance(type) as IController;
         }
 
-        public static  object GetActionResult(IController controller, string action, object[] args = null)
+        public static object GetActionResult(IController controller, string action, object[] args = null)
         {
+            MethodInfo method = controller.GetType().GetMethod(action);
+
             //  Do：通过反射调用指定名称的方法
-            return controller.GetType().GetMethod(action).Invoke(controller, args); 
-    
+            return controller.GetType().GetMethod(action).Invoke(controller, args);
+
         }
 
         public static object GetViewModel(string controlName)

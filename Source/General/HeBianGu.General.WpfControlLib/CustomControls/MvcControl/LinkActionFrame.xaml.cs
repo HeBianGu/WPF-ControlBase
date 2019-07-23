@@ -44,7 +44,7 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LinkActionProperty =
-            DependencyProperty.Register("LinkAction", typeof(ILinkActionBase), typeof(LinkActionFrame), new PropertyMetadata(default(LinkAction), async (d, e) =>
+            DependencyProperty.Register("LinkAction", typeof(ILinkActionBase), typeof(LinkActionFrame), new PropertyMetadata(default(LinkAction),(d, e) =>
              {
                  LinkActionFrame control = d as LinkActionFrame;
 
@@ -75,11 +75,10 @@ namespace HeBianGu.General.WpfControlLib
                     }
                 }
 
-                var result = await Task.Run(()=>
+                var result = await Task.Run(() =>
                 {
                     return linkActionBase?.ActionResult();
                 });
-                 
 
                 this.Dispatcher.Invoke(() =>
                 {

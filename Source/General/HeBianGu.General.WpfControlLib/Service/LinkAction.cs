@@ -46,7 +46,7 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        public IActionResult ActionResult()
+        public Task<IActionResult> ActionResult()
         { 
             return ControllerService.CreateActionResult(this.Controller, this.Action);
 
