@@ -68,10 +68,10 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         public static async Task ShowWaittingMessge(Action action, Action closeAction = null)
-        {  
+        {
             await Application.Current.Dispatcher.Invoke(async () =>
              {
-                 if (CheckOpen()) return null; 
+                 if (CheckOpen()) return null;
 
                  var view = new WaittingMessageDialog();
 
@@ -153,10 +153,14 @@ namespace HeBianGu.General.WpfControlLib
 
         public static bool IsOpened()
         {
-            return DialogHost.IsOpened();
+            return Application.Current.Dispatcher.Invoke(() =>
+            {
+                return DialogHost.IsOpened();
+            });
+
         }
 
-        public static async void ShowResultMessge(string message, Action<object, DialogClosingEventArgs> action)
+        public static async Task ShowResultMessge(string message, Action<object, DialogClosingEventArgs> action)
         {
             if (CheckOpen()) return;
 
@@ -209,9 +213,9 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (window != null)
                 {
-                    window.ShowNotifyMessage(title,message, tipIcon, timeout);
+                    window.ShowNotifyMessage(title, message, tipIcon, timeout);
                 }
-});
+            });
 
         }
 
