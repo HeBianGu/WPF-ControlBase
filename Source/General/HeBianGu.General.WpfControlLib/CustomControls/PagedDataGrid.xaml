@@ -27,11 +27,10 @@
                             <Grid >
                                 <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="每页显示条数:" Style="{DynamicResource S.TextBlock.Default}"/>
-                                    <ComboBox  ItemsSource="{TemplateBinding PageCountSource}" SelectedIndex="2"
-                                               SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid},Path=PageCount}"/> 
-
+                                    <ComboBox  ItemsSource="{TemplateBinding PageCountSource}"
+                                               SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid},Path=PageCount}">
+                                    </ComboBox>
                                 </StackPanel>
-
 
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                                     <local:FButton Content="导出Excel" BorderThickness="1,1,0,1" 
@@ -45,16 +44,15 @@
                                                    BorderThickness="1" Style="{DynamicResource S.FButton.Style.Transparent}"/>
 
                                 </StackPanel>
-                                
+
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0">
                                     <local:FTextBox Width="300" base:ControlAttachProperty.Watermark="请输入搜索条件" base:ControlAttachProperty.Label="搜索：" 
                                                     Style="{DynamicResource LabelTextBox}" 
                                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=FilterString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                                 </StackPanel>
                             </Grid>
-                        
 
-                            <ScrollViewer Grid.Row="1" >
+                            <ScrollViewer Grid.Row="1" Style="{DynamicResource DefaultScrollViewer}">
                                 <ScrollViewer.Template>
                                     <ControlTemplate TargetType="{x:Type ScrollViewer}">
                                         <Grid>
@@ -76,11 +74,10 @@
                                                 Focusable="false"
                                                 Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.All}}" />
 
-                                            <DataGridColumnHeadersPresenter Grid.Column="1" 
+                                            <DataGridColumnHeadersPresenter Grid.Column="1"
                                                            Name="PART_ColumnHeadersPresenter"
                                                            Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}"/>
-
-
+ 
                                             <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" CanContentScroll="{TemplateBinding CanContentScroll}" />
 
                                             <!--<ScrollBar Grid.Row="1" Grid.Column="2" Name="PART_VerticalScrollBar"

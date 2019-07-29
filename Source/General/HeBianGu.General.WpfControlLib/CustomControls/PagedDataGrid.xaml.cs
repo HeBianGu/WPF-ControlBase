@@ -51,6 +51,8 @@ namespace HeBianGu.General.WpfControlLib
                  control.InitData();
 
 
+             
+
              }));
 
 
@@ -127,7 +129,7 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PageCountProperty =
-            DependencyProperty.Register("PageCount", typeof(int), typeof(PagedDataGrid), new PropertyMetadata(10, (d, e) =>
+            DependencyProperty.Register("PageCount", typeof(int), typeof(PagedDataGrid), new PropertyMetadata(20, (d, e) =>
              {
                  PagedDataGrid control = d as PagedDataGrid;
 
@@ -148,8 +150,21 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PageCountSourceProperty =
-            DependencyProperty.Register("PageCountSource", typeof(List<int>), typeof(PagedDataGrid), new PropertyMetadata(new List<int>() { 10, 20, 30, 40, 50 }));
+            DependencyProperty.Register("PageCountSource", typeof(List<int>), typeof(PagedDataGrid), new PropertyMetadata(GetSelect(50)));
 
+
+        static List<int> GetSelect(int count)
+        {
+
+            List<int> result = new List<int>();
+
+            for (int i = 1; i <= count; i++)
+            {
+                result.Add(i);
+            }
+
+            return result;
+        }
 
 
         public Action<string> Message { get; set; }
@@ -316,7 +331,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         void InitData()
-        {
+        { 
 
             this.PageIndex = 1;
 

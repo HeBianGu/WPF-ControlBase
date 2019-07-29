@@ -1,6 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -10,6 +11,8 @@ namespace HeBianGu.General.WpfMvc
 {
     public class MvcViewModelBase : NotifyPropertyChanged
     {
+
+
         private ILinkActionBase _selectLink;
         /// <summary> 说明  </summary>
         public ILinkActionBase SelectLink
@@ -28,6 +31,7 @@ namespace HeBianGu.General.WpfMvc
         [MethodImpl(MethodImplOptions.Synchronized)]
         private void Mvc(ILinkActionBase args)
         {
+            args.Controller = args.Controller ?? this.GetController();
 
             this.SelectLink = args;
         }
@@ -39,31 +43,89 @@ namespace HeBianGu.General.WpfMvc
 
 
         protected void GoToLink(string controller, string action)
-        {  
+        {
             ILinkActionBase link = new LinkActionBase();
             link.Controller = controller;
             link.Action = action;
             this.SelectLink = link;
         }
 
-        protected void GoToLink(string action)
-        {
 
+        public string GetController()
+        {
             var results = this.GetType().GetCustomAttributes(typeof(ViewModelAttribute), true);
 
-            if (results == null) return;
+            return results?.FirstOrDefault()?.Cast<ViewModelAttribute>().Name;
+        }
 
+        protected void GoToLink(string action)
+        {
             ILinkActionBase link = new LinkActionBase();
-            link.Controller = results.FirstOrDefault().Cast<ViewModelAttribute>().Name;
+            link.Controller = this.GetController();
             link.Action = action;
             this.SelectLink = link;
         }
+
+        public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() => new RelayCommand<string>(Loaded, CanLoaded)).Value;
+
+        private void Loaded(string args)
+        {
+            this.GoToLink(args?? "List");
+        }
+
+        private bool CanLoaded(string args)
+        {
+            return true;
+        }
     }
 
-    public class MvcViewModelBase<T> : MvcViewModelBase
-    {
-        public T Respository { get; set; } = ServiceRegistry.Instance.GetInstance<T>();
 
+
+    public class MvcEntityViewModelBase<M> : MvcViewModelBase where M : new()
+    {
+        private ObservableCollection<M> _collection = new ObservableCollection<M>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<M> Collection
+        {
+            get { return _collection; }
+            set
+            {
+                _collection = value;
+                RaisePropertyChanged("Collection");
+            }
+        }
+
+        private M _addItem = new M();
+        /// <summary> 说明  </summary>
+        public M AddItem
+        {
+            get { return _addItem; }
+            set
+            {
+                _addItem = value;
+                RaisePropertyChanged("AddItem");
+            }
+        }
+
+
+        private M _seletItem;
+        /// <summary> 说明  </summary>
+        public M SeletItem
+        {
+            get { return _seletItem; }
+            set
+            {
+                _seletItem = value;
+                RaisePropertyChanged("SeletItem");
+            }
+        }
+
+    }
+
+
+    public class MvcViewModelBase<R, M> : MvcEntityViewModelBase<M> where M : new()
+    {
+        public R Respository { get; set; } = ServiceRegistry.Instance.GetInstance<R>();
     }
 
 }
