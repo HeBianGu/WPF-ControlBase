@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace HeBianGu.General.WpfMvc
 {
@@ -149,7 +150,23 @@ namespace HeBianGu.General.WpfMvc
 
     public abstract class Controller : ControllerBase
     {
+        public Dispatcher Dispatcher
+        {
+            get
+            {
+                return Application.Current.Dispatcher;
+            }
+        }
 
+        public T Invoke<T>(Func<T> func)
+        {
+            return this.Dispatcher.Invoke(func);
+        }
+
+        public void Invoke(Action action)
+        {
+            this.Dispatcher.Invoke(action);
+        }
     }
 
     public abstract class ControllerBase : IController

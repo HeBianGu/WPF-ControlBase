@@ -43,5 +43,15 @@ namespace HeBianGu.Base.WpfBase
             return ServiceRegistry.Instance.GetInstance(type);
         }
 
+        public static Task DoActionResult(string control, string action, object[] args = null)
+        {
+            IController controller = GetController(control);
+
+            MethodInfo method = controller.GetType().GetMethod(action);
+
+            //  Do：通过反射调用指定名称的方法
+            return controller.GetType().GetMethod(action).Invoke(controller, args) as Task;
+
+        }
     }
 }

@@ -162,5 +162,9 @@ namespace HeBianGu.Base.WpfBase
 
         /// <summary> 渐隐藏 </summary>
         public static CollapsedOfOpacityCommand CollapsedOfOpacityCommand { get; } = new CollapsedOfOpacityCommand();
+
+        /// <summary> 打开应用程序 </summary>
+        public static ProcessCommand ProcessCommand { get; } = new ProcessCommand();
+        
     }
 }

@@ -180,5 +180,52 @@
         </Setter>
     </Style>
 
+    <Style x:Key="S.CheckBox.Box" TargetType="{x:Type CheckBox}">
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Assist}"></Setter>
+        <Setter Property="Padding" Value="3 2 3 2"></Setter>
+        <Setter Property="FontFamily" Value="{StaticResource  S.FontFamily.Default}" />
+        <Setter Property="FontSize" Value="{DynamicResource FontSize}"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Height" Value="auto"></Setter>
+        <Setter Property="SnapsToDevicePixels" Value="true"></Setter>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextForeground.Assist}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Grid x:Name="grid" VerticalAlignment="Center">
+                        <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"  Height="{TemplateBinding Height}" HorizontalAlignment="Stretch"
+                                Background="{TemplateBinding Background}" Width="{TemplateBinding Width}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                        <!--选中的状态标识-->
+                        <TextBlock Text="&#xe627;" x:Name="checkState" Style="{DynamicResource FIcon}" VerticalAlignment="Bottom" Visibility="Collapsed"
+                                   FontSize="25" Margin="0,0,-3,-7" HorizontalAlignment="Right" 
+                                   Foreground="{TemplateBinding Foreground}"/>
+                    </Grid>
+                    <!--触发器：设置选中状态符号-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="true">
+                            <Setter Property="Visibility" Value="Visible" TargetName="checkState" ></Setter>
+                            <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"></Setter>
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" TargetName="checkState"></Setter>
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"></Setter>
+                            <Setter Property="BorderThickness" Value="1.3"></Setter>
+
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"></Setter>
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" TargetName="checkState"></Setter>
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"></Setter>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" TargetName="grid" ></Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type local:FCheckBox}" BasedOn="{StaticResource DefaultCheckBox}"/>
 </ResourceDictionary>

@@ -236,7 +236,7 @@ namespace HeBianGu.Base.WpfBase
         {
             return DependencyProperty.UnsetValue;
         }
-    } 
+    }
 
     /// <summary> 百分比转换为角度值 </summary>
     public class PercentToAngleConverter : IValueConverter
@@ -387,7 +387,7 @@ namespace HeBianGu.Base.WpfBase
         {
             return null;
         }
-    } 
+    }
 
     public class BrushRoundConverter : IValueConverter
     {
@@ -420,7 +420,7 @@ namespace HeBianGu.Base.WpfBase
         Subtract,
         Multiply,
         Divide
-    } 
+    }
 
     public sealed class MathMultipleConverter : IMultiValueConverter
     {
@@ -507,7 +507,7 @@ namespace HeBianGu.Base.WpfBase
         {
             if (value == null) return null;
 
-            if (parameter == null) return value; 
+            if (parameter == null) return value;
 
             return value.ToString().Replace(value.ToString().Split(' ')[0], value.ToString().Split(' ')[1]);
         }
@@ -524,13 +524,13 @@ namespace HeBianGu.Base.WpfBase
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null||parameter==null) return false;
+            if (value == null || parameter == null) return false;
             return value.Equals(parameter);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if((bool)value)
+            if ((bool)value)
             {
                 return parameter;
             }
@@ -538,15 +538,15 @@ namespace HeBianGu.Base.WpfBase
             return null;
         }
     }
-     
+
     public class IsMultiValueEqualConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (values == null) return false;
 
-            if (values.Length <2) return false;
-             
+            if (values.Length < 2) return false;
+
 
             return values[0] == values[1];
         }
@@ -556,7 +556,7 @@ namespace HeBianGu.Base.WpfBase
             return null;
         }
     }
-     
+
     /// <summary> 替换字符串 </summary>
     public class ByteToImageSourceConverter : IValueConverter
     {
@@ -564,22 +564,23 @@ namespace HeBianGu.Base.WpfBase
         {
             if (value == null) return null;
 
-           byte[] byteArray = Encoding.Default.GetBytes(value.ToString());
-
-            BitmapImage bmp = null;
+            byte[] byteArray =System.Convert.FromBase64String(value.ToString());
+        
             try
             {
+                BitmapImage bmp = null;
+
                 bmp = new BitmapImage();
                 bmp.BeginInit();
                 bmp.StreamSource = new MemoryStream(byteArray);
                 bmp.EndInit();
-            }
-            catch
-            {
-                bmp = null;
-            }
-            return bmp;
 
+                return bmp;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

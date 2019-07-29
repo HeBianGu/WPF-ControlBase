@@ -1,21 +1,6 @@
-﻿#region <版 本 注 释>
-/*
- * ========================================================================
- * Copyright(c) 四川*******有限公司, All Rights Reserved.
- * ========================================================================
- *    
- * 作者：[河边骨]   时间：2017/11/21 15:50:57 
- * 文件名：ControlAttachProperty 
- * 说明：
- * 
- * 
- * 修改者：           时间：               
- * 修改说明：
- * ========================================================================
-*/
-#endregion
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +14,7 @@ using System.Windows.Media.Animation;
 namespace HeBianGu.Base.WpfBase
 {
     /// <summary> 公共附加属性 </summary>
-    public  static partial class ControlAttachProperty
+    public static partial class ControlAttachProperty
     {
         /************************************ Attach Property **************************************/
 
@@ -685,7 +670,7 @@ namespace HeBianGu.Base.WpfBase
                 cb.SelectedItem = null;
                 cb.Text = string.Empty;
             }
-      
+
             if (tbox is DatePicker)
             {
                 var dp = tbox as DatePicker;
@@ -875,6 +860,79 @@ namespace HeBianGu.Base.WpfBase
 
         #endregion
 
+
+        #region - ListBox - 
+
+
+        public static IList GetSelectedItems(DependencyObject obj)
+
+        {
+
+            return (IList)obj.GetValue(SelectedItemsProperty);
+
+        }
+
+
+
+        public static void SetSelectedItems(DependencyObject obj, IList value)
+
+        {
+
+            obj.SetValue(SelectedItemsProperty, value);
+
+        }
+
+
+
+        //Using a DependencyProperty as the backing store for SelectedItems.  This enables animation, styling, binding, etc...
+
+        public static readonly DependencyProperty SelectedItemsProperty =
+
+            DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(ControlAttachProperty), new PropertyMetadata(OnSelectedItemsChanged));
+
+        static public void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var listBox = d as ListBox;
+            if ((listBox != null) && (listBox.SelectionMode == SelectionMode.Multiple))
+            {
+                if (e.OldValue != null)
+                {
+                    listBox.SelectionChanged -= OnlistBoxSelectionChanged;
+                }
+
+                IList collection = e.NewValue as IList;
+
+                listBox.SelectedItems.Clear();
+
+                if (collection != null)
+                {
+                    foreach (var item in collection)
+                    {
+                        listBox.SelectedItems.Add(item);
+                    }
+                    listBox.SelectionChanged += OnlistBoxSelectionChanged;
+                }
+            }
+        }
+
+        static void OnlistBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            IList dataSource = GetSelectedItems(sender as DependencyObject);
+
+            //添加用户选中的当前项.
+            foreach (var item in e.AddedItems)
+            {
+                dataSource.Add(item);
+            }
+
+            //删除用户取消选中的当前项
+            foreach (var item in e.RemovedItems)
+            {
+                dataSource.Remove(item);
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// 静态构造函数

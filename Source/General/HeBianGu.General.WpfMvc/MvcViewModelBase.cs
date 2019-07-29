@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -25,23 +26,58 @@ namespace HeBianGu.General.WpfMvc
             }
         }
 
-        public RelayCommand<ILinkActionBase> MvcCommand => new Lazy<RelayCommand<ILinkActionBase>>(() =>
-    new RelayCommand<ILinkActionBase>(Mvc, CanMvc)).Value;
+        /// <summary> 跳转到Link页面 </summary>
+        public RelayCommand<ILinkActionBase> GoToLinkCommand => new Lazy<RelayCommand<ILinkActionBase>>(() =>
+    new RelayCommand<ILinkActionBase>(GoToLink, CanGoToLink)).Value;
 
         [MethodImpl(MethodImplOptions.Synchronized)]
-        private void Mvc(ILinkActionBase args)
+        private void GoToLink(ILinkActionBase args)
         {
             args.Controller = args.Controller ?? this.GetController();
 
             this.SelectLink = args;
         }
 
-        private bool CanMvc(ILinkActionBase args)
+        private bool CanGoToLink(ILinkActionBase args)
+        {
+            return true;
+        }
+
+        /// <summary> 跳转到Action页面 </summary>
+        public RelayCommand<string> GoToActionCommand => new Lazy<RelayCommand<string>>(() => new RelayCommand<string>(GoToAction, CanGoToAction)).Value;
+
+        private void GoToAction(string args)
+        {
+            this.GoToLink(args);
+        }
+
+        private bool CanGoToAction(string args)
+        {
+            return true;
+        }
+
+        /// <summary> 执行异步操作操作 </summary>
+        public RelayCommand<string> DoActionCommand => new Lazy<RelayCommand<string>>(() => new RelayCommand<string>(DoAction, CanDoAction)).Value;
+
+        private async void DoAction(string args)
+        {
+            string controller = this.GetController();
+
+            string action = args;
+
+            await Task.Run(() =>
+              {
+                  return ControllerService.DoActionResult(controller, action);
+              });
+        }
+
+        private bool CanDoAction(string args)
         {
             return true;
         }
 
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         protected void GoToLink(string controller, string action)
         {
             ILinkActionBase link = new LinkActionBase();
@@ -58,6 +94,7 @@ namespace HeBianGu.General.WpfMvc
             return results?.FirstOrDefault()?.Cast<ViewModelAttribute>().Name;
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         protected void GoToLink(string action)
         {
             ILinkActionBase link = new LinkActionBase();
@@ -70,7 +107,7 @@ namespace HeBianGu.General.WpfMvc
 
         private void Loaded(string args)
         {
-            this.GoToLink(args?? "List");
+            this.GoToLink(args ?? "List");
         }
 
         private bool CanLoaded(string args)

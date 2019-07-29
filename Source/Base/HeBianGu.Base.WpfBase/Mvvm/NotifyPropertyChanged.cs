@@ -1,19 +1,4 @@
-﻿#region <版 本 注 释>
-/*
- * ========================================================================
- * Copyright(c) 四川*******有限公司, All Rights Reserved.
- * ========================================================================
- *    
- * 作者：[河边骨]   时间：2018/4/25 14:28:07 
- * 文件名：NotifyPropertyChanged 
- * 说明：
- * 
- * 
- * 修改者：           时间：               
- * 修改说明：
- * ========================================================================
-*/
-#endregion
+﻿
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,35 +9,37 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Base.WpfBase
 {
-
-    /// <summary> Mvvm绑定模型基类 </summary>
-    public abstract class NotifyPropertyChanged : INotifyPropertyChanged
+    public partial class SelectViewModel<T> : NotifyPropertyChanged
     {
-        public RelayCommand RelayCommand { get; set; }
 
-        protected virtual void RelayMethod(object obj)
+        public SelectViewModel(T t)
         {
-
+            Model = t;
         }
 
-        public NotifyPropertyChanged()
+        private T _model;
+        /// <summary> 说明  </summary>
+        public T Model
         {
-            RelayCommand = new RelayCommand(RelayMethod);
-
-            RelayMethod("init");
-
+            get { return _model; }
+            set
+            {
+                _model = value;
+                RaisePropertyChanged("Model");
+            }
         }
 
-        #region - MVVM -
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged([CallerMemberName] string propertyName = "")
+        private bool _selected;
+        /// <summary> 说明  </summary>
+        public bool Selected
         {
-            if (PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            get { return _selected; }
+            set
+            {
+                _selected = value;
+                RaisePropertyChanged("Selected");
+            }
         }
 
-        #endregion
     }
 }
