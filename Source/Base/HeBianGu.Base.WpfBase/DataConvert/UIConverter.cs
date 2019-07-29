@@ -19,6 +19,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -555,6 +556,41 @@ namespace HeBianGu.Base.WpfBase
             return null;
         }
     }
+     
+    /// <summary> 替换字符串 </summary>
+    public class ByteToImageSourceConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return null;
 
+           byte[] byteArray = Encoding.Default.GetBytes(value.ToString());
+
+            BitmapImage bmp = null;
+            try
+            {
+                bmp = new BitmapImage();
+                bmp.BeginInit();
+                bmp.StreamSource = new MemoryStream(byteArray);
+                bmp.EndInit();
+            }
+            catch
+            {
+                bmp = null;
+            }
+            return bmp;
+
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((bool)value)
+            {
+                return parameter;
+            }
+
+            return null;
+        }
+    }
 
 }

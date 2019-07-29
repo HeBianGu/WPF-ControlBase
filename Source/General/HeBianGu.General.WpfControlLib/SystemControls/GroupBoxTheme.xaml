@@ -76,6 +76,42 @@
         </Setter>
     </Style>
 
+
+    <Style x:Key="S.GroupBox.Single" TargetType="{x:Type GroupBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Padding" Value="15"/>
+        <Setter Property="base:ControlAttachProperty.FIcon" Value="&#xea5e;"/>
+        <Setter Property="base:ControlAttachProperty.FIconSize" Value="14"/>
+        <Setter Property="base:ControlAttachProperty.FIconMargin" Value="5"/>
+        <Setter Property="local:ShadowAssist.ShadowDepth" Value="Depth5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Grid>
+                        <Border Grid.RowSpan="2" Margin="0,0,0,0" x:Name="bordercenter"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{TemplateBinding Background}" 
+                                Effect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(local:ShadowAssist.ShadowDepth), Converter={x:Static local:ShadowConverter.Instance}}"
+                                BorderThickness="1" CornerRadius="3" Opacity="1">
+                        </Border>
+
+                        <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}"/>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="bordercenter" Property="BorderBrush" Value="{DynamicResource S.Brush.Share.UnEnbled.Background}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource S.GroupBox.Default}"/>
 
 

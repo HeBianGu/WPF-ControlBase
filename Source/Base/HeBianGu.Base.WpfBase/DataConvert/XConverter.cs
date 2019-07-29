@@ -143,7 +143,12 @@ namespace HeBianGu.Base.WpfBase
         {
             get { return new IsMultiValueEqualConverter(); }
         }
-        
+
+
+        public static ByteToImageSourceConverter ByteToImageSourceConverter
+        {
+            get { return new ByteToImageSourceConverter(); }
+        }
 
         //public static SelectTextConverter SelectTextConverter
         //{

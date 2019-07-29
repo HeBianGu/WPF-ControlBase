@@ -179,6 +179,35 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
+        public static async Task<bool> ShowResultMessge(string message)
+        {
+            if (CheckOpen()) return false;
+
+
+            bool result = false;
+
+            Action<object, DialogClosingEventArgs> action = (l, k) =>
+             {
+                 result = (bool)k.Parameter;
+             };
+
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
+                var view = new ResultMessageDialog();
+
+                view.MessageStr = message;
+
+                //show the dialog
+                return await DialogHost.ShowWithClose(view, "windowDialog", (l, e) =>
+                {
+                    action?.Invoke(l, e);
+                });
+            });
+
+            return result;
+
+        }
+
 
 
         /// <summary> 显示蒙版 </summary>

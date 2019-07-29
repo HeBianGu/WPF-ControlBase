@@ -25,5 +25,5 @@ using System.Windows.Media;
 
 namespace HeBianGu.Base.WpfBase
 {
-
+  
 }

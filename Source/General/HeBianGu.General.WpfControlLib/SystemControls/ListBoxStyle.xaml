@@ -37,7 +37,7 @@
 
 
     <!--以WrapPanel为容器的选择列表-->
-    <Style x:Key="S.ListBox.WrapPanelCheckBoxSelecter" TargetType="ListBox">
+    <Style x:Key="S.ListBox.WrapPanelSelecter.CheckBox" TargetType="ListBox">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
@@ -58,7 +58,7 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="CheckBox">
                                                     <Grid>
-                                                        <TextBlock x:Name="txt"  Text="{TemplateBinding Content}"/>
+                                                        <TextBlock x:Name="txt" Text="{TemplateBinding Content}"/>
                                                     </Grid>
                                                     <ControlTemplate.Triggers>
                                                         <Trigger Property="IsChecked" Value="true">
@@ -98,6 +98,82 @@
                                                     Value="{DynamicResource S.Brush.Accent.Opacity.8}"/>
                                     </Trigger>
                                 </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.ListBox.WrapPanelSelecter.Default" TargetType="ListBox">
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Height" Value="30"/>
+                    <Setter Property="Margin" Value="2,0"/>
+                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+                    <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <RadioButton x:Name="cb" Style="{DynamicResource BoxRadioButton}">
+                                    <RadioButton.Content>
+                                        <ContentPresenter/>
+                                    </RadioButton.Content>
+                                </RadioButton>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="IsChecked" TargetName="cb" Value="true"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.ListBox.Default" TargetType="ListBox">
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+                    <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="boder">
+                                    <ContentPresenter/>
+                                </Border>
+                                <!--<ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Background" TargetName="boder" Value="Red"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>-->
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
