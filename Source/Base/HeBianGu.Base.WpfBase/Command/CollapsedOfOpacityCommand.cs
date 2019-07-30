@@ -11,9 +11,15 @@ namespace HeBianGu.Base.WpfBase
 
         public void Execute(object parameter)
         {
-            if(parameter is UIElement element)
+            if (parameter is UIElement element)
             {
                 var engine = DoubleStoryboardEngine.Create(1, 0, 1, "Opacity");
+
+                engine.CompletedEvent += (l, k) =>
+              {
+                  element.Visibility = Visibility.Collapsed;
+              };
+
 
                 engine.Start(element);
             }

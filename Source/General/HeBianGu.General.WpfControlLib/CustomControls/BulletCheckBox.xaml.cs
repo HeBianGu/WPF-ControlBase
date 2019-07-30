@@ -57,5 +57,11 @@ namespace HeBianGu.General.WpfControlLib
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(BulletCheckBox), new FrameworkPropertyMetadata(typeof(BulletCheckBox)));
         }
+
+        public BulletCheckBox()
+        {
+           
+        }
+
     }
 }
