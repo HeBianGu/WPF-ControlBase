@@ -9,37 +9,34 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Base.WpfBase
 {
-    public partial class SelectViewModel<T> : NotifyPropertyChanged
+    /// <summary> Mvvm绑定模型基类 </summary>
+    public abstract class NotifyPropertyChanged : INotifyPropertyChanged
     {
+        public RelayCommand RelayCommand { get; set; }
 
-        public SelectViewModel(T t)
+        protected virtual void RelayMethod(object obj)
         {
-            Model = t;
+
         }
 
-        private T _model;
-        /// <summary> 说明  </summary>
-        public T Model
+        public NotifyPropertyChanged()
         {
-            get { return _model; }
-            set
-            {
-                _model = value;
-                RaisePropertyChanged("Model");
-            }
+            RelayCommand = new RelayCommand(RelayMethod);
+
+            RelayMethod("init");
+
         }
 
-        private bool _selected;
-        /// <summary> 说明  </summary>
-        public bool Selected
+        #region - MVVM -
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void RaisePropertyChanged([CallerMemberName] string propertyName = "")
         {
-            get { return _selected; }
-            set
-            {
-                _selected = value;
-                RaisePropertyChanged("Selected");
-            }
+            if (PropertyChanged != null)
+                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        #endregion
     }
 }

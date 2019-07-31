@@ -492,6 +492,8 @@ namespace HeBianGu.Base.WpfBase
         public static void SetLabelTemplate(DependencyObject obj, ControlTemplate value)
         {
             obj.SetValue(LabelTemplateProperty, value);
+
+            
         }
         #endregion
 
@@ -875,11 +877,8 @@ namespace HeBianGu.Base.WpfBase
 
 
         public static void SetSelectedItems(DependencyObject obj, IList value)
-
         {
-
             obj.SetValue(SelectedItemsProperty, value);
-
         }
 
 
@@ -917,7 +916,7 @@ namespace HeBianGu.Base.WpfBase
 
         static void OnlistBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            IList dataSource = GetSelectedItems(sender as DependencyObject);
+            IList dataSource = GetSelectedItems(sender as DependencyObject); 
 
             //添加用户选中的当前项.
             foreach (var item in e.AddedItems)

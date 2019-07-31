@@ -15,17 +15,106 @@ using System.Windows.Threading;
 namespace HeBianGu.General.WpfMvc
 {
 
-    public abstract class ExtendEntityBaseController<T, M, R1, R2> : EntityBaseController<T, M, R1> where R1 : IStringRepository<T>
-         where M : MvcEntityViewModelBase<T>
-         where T : StringEntityBase, new()
+    /// <summary> 带有具体列表的Controler基类 T=实体类型 M = ViewModel R = Resistory E=实体类型的ViewModel封装 </summary>
+    public abstract class ViewModelEntityController<Model, ViewModel, Repository, EntityViewModel> : Controller<ViewModel, Repository> where Repository : IStringRepository<Model>
+         where ViewModel : MvcEntityViewModelBase<EntityViewModel>
+         where Model : StringEntityBase, new()
+         where EntityViewModel : ModelViewModel<Model>, new()
     {
-        public R2 Extend { get; set; } = ServiceRegistry.Instance.GetInstance<R2>();
+        /// <summary> 跳转列表页面 </summary>
+        public virtual async Task<IActionResult> List()
+        {
+            var models = await this.Respository.GetListAsync();
+
+            if (models == null)
+            {
+                return View();
+            }
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.ViewModel.Collection.Clear();
+
+                foreach (var item in models)
+                {
+                    EntityViewModel viewModel = Activator.CreateInstance(typeof(EntityViewModel),new object[] { item }) as EntityViewModel;
+
+                    this.ViewModel.Collection.Add(viewModel);
+                }
+            });
+
+            return View();
+        }
+
+        /// <summary> 跳转到中心 </summary>
+        public virtual async Task<IActionResult> Center()
+        {
+            return View();
+        }
+
+        public virtual async Task<IActionResult> Insert()
+        {
+            string message;
+
+            if (!this.ModelState(this.ViewModel.AddItem, out message))
+            {
+                return await Add();
+            }
+
+            await this.Respository.InsertAsync(this.ViewModel.AddItem.Model);
+
+            return await List();
+        }
+
+
+        public virtual async Task<IActionResult> Add()
+        {
+            this.ViewModel.AddItem = new EntityViewModel();
+
+            return View();
+        }
+
+        public virtual async Task<IActionResult> Edit()
+        {
+            return View();
+        }
+
+        public virtual async Task<IActionResult> Delete()
+        {
+            await this.Respository.DeleteAsync(this.ViewModel.SeletItem?.Model.ID);
+
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                this.ViewModel.Collection.Remove(this.ViewModel.SeletItem);
+            });
+
+            return await List();
+        }
+
+        public virtual async Task<IActionResult> Update()
+        {
+            string message;
+
+            if (!this.ModelState(this.ViewModel.SeletItem, out message))
+            {
+                return await Edit();
+            }
+
+            await this.Respository.UpdateAsync(this.ViewModel.SeletItem?.Model);
+
+            return await List();
+        }
+
+        public virtual async Task<IActionResult> Detial()
+        {
+            return View();
+        }
     }
 
     /// <summary> 带有具体列表的Controler基类 T=实体类型 M = ViewModel R = Resistory </summary>
-    public abstract class EntityBaseController<T, M, R> : Controller<M, R> where R : IStringRepository<T>
-         where M : MvcEntityViewModelBase<T>
-         where T : StringEntityBase, new()
+    public abstract class EntityBaseController<Model, ViewModel, Repository> : Controller<ViewModel, Repository> where Repository : IStringRepository<Model>
+         where ViewModel : MvcEntityViewModelBase<Model>
+         where Model : StringEntityBase, new()
     {
         /// <summary> 跳转列表页面 </summary>
         public virtual async Task<IActionResult> List()
@@ -73,7 +162,7 @@ namespace HeBianGu.General.WpfMvc
 
         public virtual async Task<IActionResult> Add()
         {
-            this.ViewModel.AddItem = new T();
+            this.ViewModel.AddItem = new Model();
 
             return View();
         }
@@ -113,13 +202,7 @@ namespace HeBianGu.General.WpfMvc
         {
             return View();
         }
-    }
-
-    public abstract class Controller<T, R1, R2> : Controller<T, R1> where T : MvcViewModelBase where R1 : IRepository where R2 : IRepository
-    {
-        public R2 Extend { get; set; } = ServiceRegistry.Instance.GetInstance<R2>();
-
-    }
+    } 
 
     public abstract class Controller<M, R> : Controller<M> where M : MvcViewModelBase where R : IRepository
     {

@@ -45,10 +45,11 @@
                                 <ColumnDefinition  Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <!--Label区域-->
-                            <ContentControl x:Name="Label" Margin="1" Foreground="{TemplateBinding Background}"
-                                            Background="{TemplateBinding Foreground}"
+                            <ContentControl x:Name="Label" Margin="1"  Background="Transparent"
                                             Template="{TemplateBinding base:ControlAttachProperty.LabelTemplate}"
                                             Content="{TemplateBinding base:ControlAttachProperty.Label}"/>
+                            <!--Foreground="{TemplateBinding Foreground}"
+                                            Background="{TemplateBinding Background}"-->
 
                             <TextBlock x:Name="ficon" Style="{DynamicResource FIcon}" HorizontalAlignment="Center"
                                        VerticalAlignment="Center" Grid.Column="1" 
@@ -465,6 +466,23 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    
+
+
+    <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Label.Default" BasedOn="{StaticResource DefaultTextBox}">
+
+        <Setter Property="base:ControlAttachProperty.LabelTemplate" >
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border Background="Transparent" Margin="5,0,0,0">
+                        <TextBlock VerticalAlignment="Center" 
+                                   Foreground="{DynamicResource S.Brush.Accent}" 
+                                   Background="Transparent"
+                                   HorizontalAlignment="Right"
+                                   Text="{TemplateBinding Content}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

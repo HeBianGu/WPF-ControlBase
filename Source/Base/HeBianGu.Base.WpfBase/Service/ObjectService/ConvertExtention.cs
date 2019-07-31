@@ -17,10 +17,14 @@ namespace System.Linq
         }
 
         /// <summary> 转换为Int类型 </summary>
-        public static int ToInt(this string s)
+        public static int ToInt(this string s, int value = 0)
         {
+            if (string.IsNullOrEmpty(s)) return value;
+
             return Convert.ToInt32(s);
         }
+
+
 
         /// <summary> 转换为Double类型 </summary>
         public static double? ToDoubleNull(this string s)
@@ -85,7 +89,7 @@ namespace System.Linq
         /// <summary> 字符串转换成日期 string format = "yyyy-MM-dd hh:mi:ss"; </summary>
         public static DateTime ToDateTime(this string str, string format)
         {
-           DateTime ss = DateTime.ParseExact(str, format, CultureInfo.InvariantCulture);
+            DateTime ss = DateTime.ParseExact(str, format, CultureInfo.InvariantCulture);
 
             return ss;
         }

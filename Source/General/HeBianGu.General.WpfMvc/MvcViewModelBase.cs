@@ -144,7 +144,6 @@ namespace HeBianGu.General.WpfMvc
             }
         }
 
-
         private M _seletItem;
         /// <summary> 说明  </summary>
         public M SeletItem
