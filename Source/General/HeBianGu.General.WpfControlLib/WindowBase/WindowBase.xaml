@@ -1000,13 +1000,113 @@
                             <Setter Property="FIcon" TargetName="btnMax" Value="&#xe615;"></Setter>
                         </Trigger>
 
-                        <!--淡出动画-->
+                        <!--淡出动画--><!--
                         <EventTrigger RoutedEvent="Window.Loaded">
                             <EventTrigger.Actions>
                                 <BeginStoryboard Storyboard="{DynamicResource Story.WindowLoad}"/>
                             </EventTrigger.Actions>
-                        </EventTrigger>
+                        </EventTrigger>-->
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.Window.Dialog.Default" TargetType="{x:Type local:DialogWindow}">
+        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/>
+        <Setter Property="Foreground" Value="{StaticResource S.Brush.TextForeground.Tiltle}"/>
+        <Setter Property="FontSize" Value="{StaticResource S.FontSize.Default}"/>
+        <Setter Property="FontFamily" Value="{StaticResource  S.FontFamily.Default}"/>
+        <Setter Property="Width" Value="480"/>
+        <Setter Property="Height" Value="320"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FIconSize" Value="20"/>
+        <Setter Property="CaptionHeight" Value="26"/>
+        <Setter Property="ResizeMode" Value="CanResizeWithGrip"/>
+        <!--标题栏背景色-->
+        <Setter Property="CaptionBackground" Value="{DynamicResource S.Brush.WindowBackground}" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource  S.Brush.White.Notice}" />
+        <Setter Property="FIcon" Value="&#xe65c;"/>
+        <Setter Property="MaxboxEnable" Value="True"/>
+        <Setter Property="MinboxEnable" Value="True"/>
+        <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="5"/>
+        <!--窗体基本设置 WindowChrome-->
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome  CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:WindowBase}}}" 
+                                     ResizeBorderThickness="8"/>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:WindowBase}">
+                    <Grid Name="g_all" Margin="6">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <!--背景-->
+                        <Border x:Name="Bg" 
+                                CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
+                                Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                Effect="{StaticResource S.DropShadowEffect.Window}"
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
+                        <Border  x:Name="BgInner" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
+                            Background="{TemplateBinding Background}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
+                        <Grid Margin="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="18" Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <!--Caption标题部分-->
+                            <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}"  CornerRadius="5,5,0,0" >
+                                <Grid Margin="2,1,2,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <!--Header部分-->
+                                    <StackPanel  x:Name="PART_Header" Height="{TemplateBinding CaptionHeight}" Margin="5,1,5,1" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock   Style="{DynamicResource FIcon}" Foreground="{TemplateBinding CaptionForeground}" FontSize="{TemplateBinding FIconSize}" FontWeight="Bold" Text="{TemplateBinding FIcon}"/>
+                                        <TextBlock   VerticalAlignment="Center" Margin="5" FontSize="{StaticResource S.FontSize.Header}" Foreground="{TemplateBinding CaptionForeground}" Text="{TemplateBinding Title}"/>
+                                    </StackPanel>
+                                    <!--窗体功能按钮：最小、最大、关闭-->
+                                    <StackPanel   Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="1" HorizontalAlignment="Right" Height="{TemplateBinding CaptionHeight}">
+                                        <local:FButton   x:Name="btnClose"  Width="35" VerticalAlignment="Center" Margin="1" CornerRadius="0" Padding="1 2 1 2"
+                                               MouseOverBackground="Red" MouseOverForeground="White" PressedBackground="#AA0D0D" PressedForeground="White"
+                                               AllowsAnimation="True" Style="{DynamicResource S.FButton.Style.Transparent}"  FIcon="&#xe72c;" FIconSize="14"
+                                               WindowChrome.IsHitTestVisibleInChrome="True" FIconMargin="0" Foreground="{TemplateBinding CaptionForeground}"
+                                               Command="{x:Static base:CommandService.Close}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                            <!--窗体内容区域-->
+                            <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
+                                <ContentPresenter Content="{TemplateBinding Content}" />
+                            </AdornerDecorator>
+                        </Grid>
+                    </Grid>
+                    <!--<ControlTemplate.Triggers>
+                        --><!--淡出动画--><!--
+                        <EventTrigger RoutedEvent="Window.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard Storyboard="{StaticResource Story.MessageLoad}"/>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

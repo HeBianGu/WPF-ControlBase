@@ -11,7 +11,7 @@ using System.Windows.Media;
 namespace HeBianGu.General.WpfControlLib
 {
     /// <summary> 链接主窗口 </summary>
-    public partial class LinkWindowBase : WindowBase
+    public partial class LinkWindowBase : MainWindowBase
     {
 
         public List<TabLink> TabLinks
@@ -79,11 +79,6 @@ namespace HeBianGu.General.WpfControlLib
                  TabLink config = e.NewValue as TabLink;
 
              }));
-
-
-
-
-
     }
 
     /// <summary> 连接绑定对象 </summary>

@@ -10,7 +10,6 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
@@ -19,14 +18,13 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary>
     /// MessageWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MessageWindow
+    public partial class MessageWindow : DialogWindow
     {
-        private MessageWindow()
+        public MessageWindow()
         {
             InitializeComponent();
-
-           this.Style= this.FindResource("MessageWindowStyle") as Style;
         }
+
 
         #region - 动态加载按钮 -
 
@@ -43,15 +41,12 @@ namespace HeBianGu.General.WpfControlLib
         {
             MessageWindow m = new MessageWindow();
 
-            // Todo ：消息 2017-07-28 10:46:24 
-            m.messageText.Text = messge;
-
+            m.messageText.Text = messge; 
             var array = messge.ToArray();
 
             var c = array.ToList().Count(l => l == '\r');
 
             m.Height += c * 30;
-
 
             if (!string.IsNullOrEmpty(title))
             {
@@ -66,22 +61,16 @@ namespace HeBianGu.General.WpfControlLib
             {
                 m.actionPanel.Children.Clear();
 
-                // Todo ：根据事件加载按钮 2017-07-28 10:46:07
                 foreach (var item in acts)
                 {
                     FButton f = new FButton();
                     f.Content = item.Item1;
-                    //f.MinWidth = 300;
-                    //f.Width = 300;
-                    //f.Height = 80;
-                    f.Margin = new Thickness(0, 0, 20, 0);
-                    f.Style = f.FindResource("S.FButton.Style.Default") as Style;
-
-                    //f.Style = myResourceDictionary["S.FButton.Style.Link"] as Style;
+                    f.Margin = new Thickness(0, 0, 0, 0);
+                    //f.Style = f.FindResource("S.FButton.Default") as Style;
 
                     f.Click += (object sender, RoutedEventArgs e) =>
                     {
-                        m.BegionStoryClose();
+                        m.CloseAnimation(m);
 
                         if (item.Item2 != null)
                         {
@@ -104,7 +93,7 @@ namespace HeBianGu.General.WpfControlLib
                         m.Dispatcher.Invoke(() => m.Title = title + " 关闭倒计时(" + i + ")秒");
                     }
 
-                    m.Dispatcher.Invoke(() => m.BegionStoryClose());
+                    m.Dispatcher.Invoke(() => m.CloseAnimation(m));
                 };
 
 
@@ -158,11 +147,9 @@ namespace HeBianGu.General.WpfControlLib
                 {
                     FButton f = new FButton();
                     f.Content = item.Item1;
-                    f.MinWidth = 300;
-                    f.Width = double.NaN;
-                    f.Height = 80;
-                    f.Margin = new Thickness(0, 0, 20, 0);
-                    f.FIcon = "";
+                    //f.Width = double.NaN;
+                    f.Margin = new Thickness(0, 0, 10, 0);
+                    //f.FIcon = "";
                     //f.SetPressed(false);
 
                     f.Click += (object sender, RoutedEventArgs e) =>
@@ -174,7 +161,7 @@ namespace HeBianGu.General.WpfControlLib
 
                         result = acts.ToList().IndexOf(item);
 
-                        m.BegionStoryClose();
+                        m.CloseAnimation(m);
                     };
 
                     m.actionPanel.Children.Add(f);
@@ -197,13 +184,7 @@ namespace HeBianGu.General.WpfControlLib
             return true;
         }
 
-        public override void BegionStoryClose()
-        {
-            this.CloseOfUoToDown();
-        }
-
         #endregion
-
 
 
         #region - 带蒙版的消息 -
@@ -230,13 +211,13 @@ namespace HeBianGu.General.WpfControlLib
             FButton f = new FButton();
             f.Content = "确定";
             f.Margin = new Thickness(0, 0, 20, 0);
-            f.Style = f.FindResource("S.FButton.Style.Default") as Style;
+            //f.Style = f.FindResource("S.FButton.Default") as Style;
 
-            //f.Style = myResourceDictionary["S.FButton.Style.Link"] as Style;
+            //f.Style = myResourceDictionary["FButton_LinkButton"] as Style;
 
             f.Click += (object sender, RoutedEventArgs e) =>
             {
-                box.BegionStoryClose();
+                box.CloseAnimation(box);
             };
 
             box.actionPanel.Children.Add(f);
@@ -273,16 +254,12 @@ namespace HeBianGu.General.WpfControlLib
         {
             this.DialogResult = true;
             _result = true;
-            this.BegionStoryClose();
+            this.CloseAnimation(this);
         }
 
-
-        /// <summary> 取消 </summary>
         private void cancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = false;
-            _result = false;
-            this.BegionStoryClose();
+            this.CloseAnimation(this);
         }
     }
 }

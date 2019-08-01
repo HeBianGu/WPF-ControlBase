@@ -184,9 +184,9 @@ namespace HeBianGu.General.WpfControlLib
 
     public class BindingActions
 {
-    private List<Tuple<string, Action<MessageWindow>>> _Action;
+    private List<Tuple<string, Action<DialogWindow>>> _Action;
 
-    public List<Tuple<string, Action<MessageWindow>>> Action
+    public List<Tuple<string, Action<DialogWindow>>> Action
     {
         get { return _Action; }
         set { _Action = value; }

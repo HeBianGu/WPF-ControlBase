@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace HeBianGu.General.WpfControlLib
 {
-    public partial class LoginWindowBase : WindowBase
+    public partial class LoginWindowBase : DialogWindow
     {
 
         public static readonly DependencyProperty LogoProperty = DependencyProperty.Register("Logo", typeof(ImageSource), typeof(LoginWindowBase), new PropertyMetadata(null));

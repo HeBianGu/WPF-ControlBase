@@ -13,7 +13,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     [ViewModel("Loyout")]
     class LoyoutViewModel : MvcViewModelBase
-    { 
+    {
         public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() =>
     new RelayCommand<string>(Loaded, CanLoaded)).Value;
 
@@ -161,11 +161,67 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             else if (command == "Button.ShowSnackMessage")
             {
                 MessageService.ShowSnackMessageWithNotice("这是提示消息？");
-            } 
+            }
             //  Do：气泡消息
             else if (command == "Button.ShowNotifyMessage")
             {
                 MessageService.ShowNotifyMessage("你有一条报警信息需要处理，请检查", "Notify By HeBianGu");
+            }
+            //  Do：气泡消息
+            else if (command == "Button.ShowWindowSumitMessage")
+            {
+                MessageWindow.ShowSumit("这是窗口提示消息");
+            }
+
+            //  Do：气泡消息
+            else if (command == "Button.ShowWindowResultMessage")
+            {
+                MessageWindow.ShowDialog("这是窗口提示消息");
+            }
+            //  Do：气泡消息
+            else if (command == "Button.ShowWindowIndentifyMessage")
+            {
+
+                List<Tuple<string, Action<MessageWindow>>> acts = new List<Tuple<string, Action<MessageWindow>>>();
+
+
+                Action<MessageWindow> action = l =>
+                  {
+                      l.DialogResult = true;
+                      l.Close();
+
+                      MessageService.ShowSnackMessageWithNotice("你点到我了！");
+                  };
+
+                acts.Add(Tuple.Create("按钮一", action));
+                acts.Add(Tuple.Create("按钮二", action)); 
+                acts.Add(Tuple.Create("按钮三", action)); 
+
+                MessageWindow.ShowDialogWith("这是自定义按钮提示消息","好心提醒", acts.ToArray());
+            }
+
+
+            //  Do：气泡消息
+            else if (command == "Button.Upgrade")
+            {
+                UpgradeWindow window = new UpgradeWindow();
+                window.TitleMessage = "发现新版本：V3.0.1";
+                List<string> message = new List<string>();
+                message.Add("1、增加了检验更新和版本下载");
+                message.Add("2、增加了Mvc跳转页面方案");
+                message.Add("3、修改了一些已知BUG");
+                window.Message = message;
+
+                var find = window.ShowDialog();
+
+                if (find.HasValue && find.Value)
+                {
+                    DownLoadWindow downLoad = new DownLoadWindow();
+                    downLoad.TitleMessage = "正在下载新版本：V3.0.1";
+                    downLoad.Url = @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4";
+                    downLoad.Message = message;
+                    downLoad.ShowDialog();
+                }
             }
         }
     }

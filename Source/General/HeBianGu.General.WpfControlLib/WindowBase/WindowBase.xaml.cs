@@ -14,37 +14,11 @@ using static HeBianGu.General.WpfControlLib.BlurWindowExtensions;
 
 namespace HeBianGu.General.WpfControlLib
 {
-
-    public interface IWindowBase
-    {
-        /// <summary> 输出消息 </summary>
-        void AddSnackMessage(string message);
-
-        /// <summary> 输出消息和操作按钮 </summary>
-        void AddSnackMessage(string message, object actionContent, Action actionHandler);
-
-        /// <summary> 输出消息、按钮和参数 </summary>
-        void AddSnackMessage<TArgument>(string message, object actionContent, Action<TArgument> actionHandler,
-           TArgument actionArgument);
-
-        /// <summary> 显示蒙版 </summary>
-        void ShowWithLayer(Uri uri, int layerIndex = 0);
-
-        /// <summary> 关闭蒙版 </summary>
-        void CloseWithLayer(int layerIndex = 0);
-
-
-        /// <summary> 显示气泡消息 </summary>
-        void ShowNotifyMessage(string tipTitle, string tipText, NotifyBalloonIcon tipIcon = NotifyBalloonIcon.Info, int timeout = 1000);
-
-    }
-
     /// <summary>
     /// WindowBase.xaml 的交互逻辑
     /// </summary>
     public partial class WindowBase : Window
     {
-
         #region - 依赖属性 -
 
         #region 默认Header：窗体字体图标FIcon
@@ -222,36 +196,52 @@ namespace HeBianGu.General.WpfControlLib
 
         #endregion
 
+        /// <summary> 显示时的动画效果 </summary>
 
-        /// <summary> 托盘图标按钮图标 </summary>
-        public ImageSource NotifyIconSource
+        public Action<WindowBase> ShowAnimation
         {
-            get { return (ImageSource)GetValue(NotifyIconSourceProperty); }
-            set { SetValue(NotifyIconSourceProperty, value); }
+            get { return (Action<WindowBase>)GetValue(ShowAnimationProperty); }
+            set { SetValue(ShowAnimationProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty NotifyIconSourceProperty =
-            DependencyProperty.Register("NotifyIconSource", typeof(ImageSource), typeof(WindowBase), new PropertyMetadata(default(ImageSource), (d, e) =>
-            {
-                LinkWindowBase control = d as LinkWindowBase;
+        public static readonly DependencyProperty ShowAnimationProperty =
+            DependencyProperty.Register("ShowAnimation", typeof(Action<WindowBase>), typeof(WindowBase), new PropertyMetadata(default(Action<DialogWindow>), (d, e) =>
+             {
+                 WindowBase control = d as WindowBase;
 
-                if (control == null) return;
+                 if (control == null) return;
 
-                ImageSource config = e.NewValue as ImageSource;
+                 Action<WindowBase> config = e.NewValue as Action<WindowBase>;
 
-            }));
+             }));
 
+        /// <summary> 关闭时的动画效果 </summary>
+
+        public Action<WindowBase> CloseAnimation
+        {
+            get { return (Action<WindowBase>)GetValue(CloseAnimationProperty); }
+            set { SetValue(CloseAnimationProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CloseAnimationProperty =
+            DependencyProperty.Register("CloseAnimation", typeof(Action<WindowBase>), typeof(WindowBase), new PropertyMetadata(default(Action<DialogWindow>), (d, e) =>
+             {
+                 WindowBase control = d as WindowBase;
+
+                 if (control == null) return;
+
+                 Action<WindowBase> config = e.NewValue as Action<WindowBase>;
+
+             }));
 
         #endregion
 
         #region - 绑定命令 -
         public ICommand CloseWindowCommand { get; protected set; }
         public ICommand MaximizeWindowCommand { get; protected set; }
-        public ICommand MinimizeWindowCommand { get; protected set; }
-        public ICommand SettimgWindowCommand { get; protected set; }
-        public ICommand NotifyWindowCommand { get; protected set; }
-
+        public ICommand MinimizeWindowCommand { get; protected set; } 
 
 
         private void CloseCommand_Execute(object sender, ExecutedRoutedEventArgs e)
@@ -260,7 +250,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 if ((bool)k.Parameter)
                 {
-                    this.BegionStoryClose();
+                    this.CloseAnimation?.Invoke(this);
                 }
             };
 
@@ -270,21 +260,11 @@ namespace HeBianGu.General.WpfControlLib
             }
             else
             {
-                this.BegionStoryClose();
+                this.CloseAnimation?.Invoke(this);
             }
         }
 
-        /// <summary> 用于重写关闭到那个花 </summary>
-        public virtual void BegionStoryClose()
-        {
-            if (this._notifyIcon == null) return;
 
-            this._notifyIcon.Visibility = Visibility.Collapsed;
-            this._notifyIcon.Dispose();
-
-            this.CloseDownToUpOps();
-
-        }
 
         private void MaxCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
@@ -325,157 +305,48 @@ namespace HeBianGu.General.WpfControlLib
             group.Children.Add(skew);
             group.Children.Add(rotate);
             group.Children.Add(translate);
-            this.RenderTransform = group;
-
-
-            // Todo ：初始化淡出初始效果 
-            this.OpacityMask = this.FindResource("S.WindowOpMack.LoadBrush") as Brush;
+            this.RenderTransform = group; 
 
             this.MaxHeight = SystemParameters.WorkArea.Height + 12 + 2;
             //bind command
             this.CloseWindowCommand = new RoutedUICommand();
             this.MaximizeWindowCommand = new RoutedUICommand();
             this.MinimizeWindowCommand = new RoutedUICommand();
-            this.SettimgWindowCommand = new RoutedUICommand();
-            this.NotifyWindowCommand = new RoutedUICommand();
+       
+      
 
             this.BindCommand(CloseWindowCommand, this.CloseCommand_Execute);
             this.BindCommand(MaximizeWindowCommand, this.MaxCommand_Execute);
             this.BindCommand(MinimizeWindowCommand, this.MinCommand_Execute);
-            this.BindCommand(SettimgWindowCommand, this.SettimgCommand_Execute);
-            this.BindCommand(NotifyWindowCommand, this.NotifyCommand_Execute);
+     
+
+            //this.ShowAnimation = l =>
+            //  {
+            //      // Todo ：初始化淡出初始效果 
+            //      this.OpacityMask = this.FindResource("S.WindowOpMack.LoadBrush") as Brush;
+            //  };
+
+            //this.CloseAnimation = l =>
+            // {
+            //     this.BegionStoryClose();
+            // };
 
         }
 
-        private void SettimgCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        public new bool? ShowDialog()
         {
-            this.ShowWithLayer(e.Parameter as Uri);
+            this.ShowAnimation?.Invoke(this);
+
+           return base.ShowDialog();
         }
 
-        private void NotifyCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        public new void Show()
         {
+            this.ShowAnimation?.Invoke(this);
 
-            MessageService.ShowSnackMessageWithNotice("窗口即将隐藏至右下角，双击右下角图标显示窗口");
-
-            this._notifyIcon.ShowBalloonTip(1000, "sssss", "sssss", NotifyBalloonIcon.Info);
-
-            Task.Delay(1000).ContinueWith(l =>
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    this.ShowWindow = false;
-                });
-
-            });
-
+            base.Show();
+             
         }
-
-        public bool ShowWindow
-        {
-            get { return (bool)GetValue(ShowWindowProperty); }
-            set { SetValue(ShowWindowProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ShowWindowProperty =
-            DependencyProperty.Register("ShowWindow", typeof(bool), typeof(WindowBase), new PropertyMetadata(true, (d, e) =>
-             {
-                 WindowBase control = d as WindowBase;
-
-                 if (control == null) return;
-
-                 bool config = (bool)e.NewValue;
-
-                 if (config)
-                 {
-                     control.ShowOfScaleEnlarge();
-                 }
-                 else
-                 {
-                     control.HideOfScaleReduce();
-                 }
-
-             }));
 
     }
-
-
-    [TemplatePart(Name = "PART_SnackBar", Type = typeof(Snackbar))]
-    [TemplatePart(Name = "PART_SettingFrame", Type = typeof(ModernFrame))]
-    [TemplatePart(Name = "PART_NotifyIcon", Type = typeof(NotifyIcon))]
-
-    partial class WindowBase : IWindowBase
-    {
-        Snackbar _snackbar;
-        ModernFrame _settingFrame;
-        NotifyIcon _notifyIcon;
-        public override void OnApplyTemplate()
-        {
-
-            base.OnApplyTemplate();
-
-            this._snackbar = Template.FindName("PART_SnackBar", this) as Snackbar;
-            this._settingFrame = Template.FindName("PART_SettingFrame", this) as ModernFrame;
-            this._notifyIcon = Template.FindName("PART_NotifyIcon", this) as NotifyIcon;
-
-            if (this._notifyIcon != null)
-            {
-                this._notifyIcon.MouseDoubleClick += (l, k) =>
-              {
-                  this.ShowWindow = !this.ShowWindow;
-
-              };
-
-            }
-
-        }
-        /// <summary> 输出消息 </summary>
-        public void AddSnackMessage(string message)
-        {
-            SnackbarMessageQueue queue = _snackbar.MessageQueue;
-
-            Task.Factory.StartNew(() => queue.Enqueue(message));
-        }
-
-        /// <summary> 输出消息和操作按钮 </summary>
-        public void AddSnackMessage(string message, object actionContent, Action actionHandler)
-        {
-            SnackbarMessageQueue queue = _snackbar.MessageQueue;
-
-            Task.Factory.StartNew(() => queue.Enqueue(message, actionContent, actionHandler));
-        }
-
-        /// <summary> 输出消息、按钮和参数 </summary>
-        public void AddSnackMessage<TArgument>(string message, object actionContent, Action<TArgument> actionHandler,
-            TArgument actionArgument)
-        {
-            SnackbarMessageQueue queue = _snackbar.MessageQueue;
-
-            Task.Factory.StartNew(() => queue.Enqueue(message, actionContent, actionHandler, actionArgument));
-        }
-
-
-        public void ShowWithLayer(Uri uri, int layerIndex = 0)
-        {
-            _settingFrame.Source = uri as Uri;
-
-            _settingFrame.Visibility = Visibility.Visible;
-        }
-
-        public void CloseWithLayer(int layerIndex = 0)
-        {
-            _settingFrame.Visibility = Visibility.Collapsed;
-        }
-
-
-        public void ShowNotifyMessage(string tipTitle, string tipText, NotifyBalloonIcon tipIcon = NotifyBalloonIcon.Info, int timeout = 1000)
-        {
-            this.Dispatcher.Invoke(() =>
-            {
-                _notifyIcon.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon);
-
-            });
-        }
-    }
-
 }

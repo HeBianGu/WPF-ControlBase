@@ -818,7 +818,7 @@ namespace HeBianGu.General.WpfControlLib
         {
             this.Command?.Execute(this.CommandParameter);
 
-            var window = (WindowBase)Application.Current.MainWindow;
+            var window = (MainWindowBase)Application.Current.MainWindow;
 
             if (window != null)
             {
