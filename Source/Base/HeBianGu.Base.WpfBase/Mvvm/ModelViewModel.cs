@@ -30,5 +30,19 @@ namespace HeBianGu.Base.WpfBase
                 RaisePropertyChanged("Model");
             }
         }
+
+
+        private bool _visible = true;
+        /// <summary> 说明  </summary>
+        public bool Visible
+        {
+            get { return _visible; }
+            set
+            {
+                _visible = value;
+                RaisePropertyChanged("Visible");
+            }
+        }
+
     }
 }

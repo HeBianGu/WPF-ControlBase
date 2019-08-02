@@ -1,15 +1,20 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace HeBianGu.General.WpfControlLib
 {
     public static class MessageService
     {
+
+        public static MessageCloseLayerCommand CloseLayer { get; } = new MessageCloseLayerCommand();
+
         public static void ShowSnackMessage(string message)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -183,7 +188,6 @@ namespace HeBianGu.General.WpfControlLib
         {
             if (CheckOpen()) return false;
 
-
             bool result = false;
 
             Action<object, DialogClosingEventArgs> action = (l, k) =>
@@ -215,9 +219,22 @@ namespace HeBianGu.General.WpfControlLib
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                IWindowBase window = Application.Current.MainWindow as IWindowBase;
+                if (Application.Current.MainWindow is IWindowBase window)
+                {
+                    window.ShowWithLayer(uri);
+                }
+            });
+        }
 
-                window?.ShowWithLayer(uri);
+        /// <summary> 显示蒙版 </summary>
+        public static void ShowWithLayer(IActionResult link, int layerIndex = 0)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if(Application.Current.MainWindow is IWindowBase window)
+                {
+                    window.ShowWithLayer(link);
+                }
             });
         }
 
@@ -225,10 +242,11 @@ namespace HeBianGu.General.WpfControlLib
         public static void CloseWithLayer(int layerIndex = 0)
         {
             Application.Current.Dispatcher.Invoke(() =>
-            {
-                IWindowBase window = Application.Current.MainWindow as IWindowBase;
-
-                window?.CloseWithLayer();
+            {  
+                if (Application.Current.MainWindow is IWindowBase window)
+                {
+                    window.CloseWithLayer();
+                }
             });
         }
 
@@ -248,5 +266,21 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
+    } 
+
+    public class MessageCloseLayerCommand : ICommand
+    {
+
+        public bool CanExecute(object parameter)
+        {  
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            MessageService.CloseWithLayer();
+        }
+
+        public event EventHandler CanExecuteChanged;
     }
 }

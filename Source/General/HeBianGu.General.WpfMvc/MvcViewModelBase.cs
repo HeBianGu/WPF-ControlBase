@@ -87,13 +87,12 @@ namespace HeBianGu.General.WpfMvc
             this.SelectLink = link;
         }
 
-
         public string GetController()
         {
             var results = this.GetType().GetCustomAttributes(typeof(ViewModelAttribute), true);
 
             return results?.FirstOrDefault()?.Cast<ViewModelAttribute>().Name;
-        }
+        } 
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         protected void GoToLink(string action)

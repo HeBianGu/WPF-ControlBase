@@ -141,12 +141,18 @@ namespace HeBianGu.General.WpfControlLib
     [TemplatePart(Name = "PART_SnackBar", Type = typeof(Snackbar))]
     [TemplatePart(Name = "PART_SettingFrame", Type = typeof(ModernFrame))]
     [TemplatePart(Name = "PART_NotifyIcon", Type = typeof(NotifyIcon))]
+    [TemplatePart(Name = "PART_LinkActionFrame", Type = typeof(LinkActionFrame))]
 
+    [TemplatePart(Name = "PART_SwtichTransitioner", Type = typeof(SwtichTransitioner))]
+    
     partial class MainWindowBase : IWindowBase
     {
         Snackbar _snackbar;
         ModernFrame _settingFrame;
         NotifyIcon _notifyIcon;
+        LinkActionFrame _linkActionFrame;
+        SwtichTransitioner _swtichTransitioner;
+
         public override void OnApplyTemplate()
         {
 
@@ -155,6 +161,8 @@ namespace HeBianGu.General.WpfControlLib
             this._snackbar = Template.FindName("PART_SnackBar", this) as Snackbar;
             this._settingFrame = Template.FindName("PART_SettingFrame", this) as ModernFrame;
             this._notifyIcon = Template.FindName("PART_NotifyIcon", this) as NotifyIcon;
+            this._linkActionFrame= Template.FindName("PART_LinkActionFrame", this) as LinkActionFrame;
+            this._swtichTransitioner = Template.FindName("PART_SwtichTransitioner", this) as SwtichTransitioner;
 
             if (this._notifyIcon != null)
             {
@@ -200,9 +208,27 @@ namespace HeBianGu.General.WpfControlLib
             _settingFrame.Visibility = Visibility.Visible;
         }
 
+        public void ShowWithLayer(IActionResult link, int layerIndex = 0)
+        {
+            //_linkActionFrame.LinkAction = link; 
+
+            //_linkActionFrame.Visibility = Visibility.Visible;
+
+            //this.ShowWithLayer(link.Uri);
+
+
+            this._swtichTransitioner.CurrentContent = link.View;
+            this._swtichTransitioner.Visibility = Visibility.Visible;
+        }
+         
+
         public void CloseWithLayer(int layerIndex = 0)
         {
-            _settingFrame.Visibility = Visibility.Collapsed;
+            this._settingFrame.Visibility = Visibility.Collapsed;
+            this._linkActionFrame.Visibility = Visibility.Collapsed;
+            this._swtichTransitioner.Visibility = Visibility.Collapsed;
+
+
         }
 
 
@@ -231,6 +257,9 @@ namespace HeBianGu.General.WpfControlLib
 
         /// <summary> 显示蒙版 </summary>
         void ShowWithLayer(Uri uri, int layerIndex = 0);
+
+
+        void ShowWithLayer(IActionResult link, int layerIndex = 0);
 
         /// <summary> 关闭蒙版 </summary>
         void CloseWithLayer(int layerIndex = 0);
