@@ -566,11 +566,28 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
     public class TreeNodeEntity
     {
+        [Display("编号")]
+        [Required]
         public string Code { get; set; }
+
+        [Display("跟节点")]
+        [Required]
         public string RootCode { get; set; }
+
+        [Display("拼音")]
+        [Required]
         public string NamePY { get; set; }
+
+        [Display("名称")]
+        [Required]
         public string Name { get; set; }
+
+        [Display("父节点ID")]
+        [Required]
         public string ParentID { get; set; }
+
+        [Display("当前ID")]
+        [Required]
         public string ID { get; set; }
     }
 }

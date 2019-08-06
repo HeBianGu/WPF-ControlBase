@@ -5,13 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
               xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
               xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
-             xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow">
+             xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow"
+             xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--自定义资源引用-->
                 <ResourceDictionary Source="/HeBianGu.Base.WpfBase;component/Themes/HeBianGu.Threme.Default.xaml"/>
-                <ResourceDictionary Source="/HeBianGu.General.WpfControlLib;component/Themes/HeBianGu.Themes.Default.xaml"/>
+                <ResourceDictionary Source="/HeBianGu.General.WpfControlLib;component/Theme/HeBianGu.Themes.Default.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <local:DataSourceLocator x:Key="S.DataSource.Locator"/>
@@ -45,6 +46,36 @@
             <Style x:Key="C.TextBlock.FontSize.14" TargetType="TextBlock" BasedOn="{StaticResource C.TextBlock.Default}">
                 <Setter Property="FontSize" Value="12"/>
             </Style>
+
+            <collections:ArrayList x:Key="D.ArrayList.Items">
+                <sys:String>北京大学</sys:String>
+                <sys:String>上海交通大学</sys:String>
+                <sys:String>斯坦福大学</sys:String>
+                <sys:String>浙江大学</sys:String>
+                <sys:String>哈尔滨工业大学</sys:String>
+                <sys:String>吉林大学</sys:String>
+                <sys:String>北京理工大学</sys:String>
+                <sys:String>南京理工大学</sys:String>
+                <sys:String>天津大学</sys:String>
+                <sys:String>南京航空航天大学</sys:String>
+            </collections:ArrayList>
+
+
+            <DataTemplate DataType="{x:Type local:TreeNodeEntity}">
+                <Grid Height="40">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Style="{StaticResource S.TextBlock.FontSize.16}" Grid.Column="0" Text="{Binding ID}"/>
+                    <TextBlock Style="{StaticResource S.TextBlock.FontSize.16}" Grid.Column="1"  Text="{Binding ParentID}"/>
+                    <TextBlock Style="{StaticResource S.TextBlock.FontSize.16}" Grid.Column="2"  Text="{Binding Code}"/>
+                    <TextBlock Style="{StaticResource S.TextBlock.FontSize.16}" Grid.Column="3"  Text="{Binding Name}"/>
+                </Grid>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

@@ -8,40 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     [ViewModel("Loyout")]
     class LoyoutViewModel : MvcViewModelBase
     {
-        public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() =>
-    new RelayCommand<string>(Loaded, CanLoaded)).Value;
-
-        private void Loaded(string args)
-        {
-            ILinkActionBase link = new LinkActionBase();
-            link.DisplayName = "总体概览";
-            link.Logo = "&#xe69f;";
-            link.Controller = "Loyout";
-            link.Action = "OverView";
-            this.SelectLink = link;
-
-
-            //this.Collection.Clear();
-
-            //for (int i = 0; i < 100; i++)
-            //{
-            //    UpLoadItem item = new UpLoadItem();
-
-            //    item.Index = (i + 1).ToString();
-            //    item.Name = "吉林大学";
-            //    item.Path = "吉林省长春市";
-
-            //    this.Collection.Add(item);
-            //}
-
-        }
-
 
         private string _buttonContentText;
         /// <summary> 说明  </summary>
@@ -57,28 +30,31 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
 
 
-        private bool CanLoaded(string args)
+
+        private ObservableSource<TreeNodeEntity> _observableSource = new ObservableSource<TreeNodeEntity>();
+        /// <summary> 说明  </summary>
+        public ObservableSource<TreeNodeEntity> ObservableSource
         {
-            return true;
+            get { return _observableSource; }
+            set
+            {
+                _observableSource = value;
+                RaisePropertyChanged("ObservableSource");
+            }
         }
 
+        protected override void Init()
+        {
 
+            this.ObservableSource.PageCount = 6;
 
+            this.ObservableSource.Clear();
 
+            var data = AssemblyDomain.Instance.GetTreeListData();
 
-        //private ObservableCollection<UpLoadItem> _collection = new ObservableCollection<UpLoadItem>();
-        ///// <summary> 说明  </summary>
-        //public ObservableCollection<UpLoadItem> Collection
-        //{
-        //    get { return _collection; }
-        //    set
-        //    {
-        //        _collection = value;
-        //        RaisePropertyChanged("Collection");
-        //    }
-        //}
+            this.ObservableSource.Add(data.ToArray());
 
-
+        }
 
         /// <summary> 命令通用方法 </summary>
         protected override async void RelayMethod(object obj)
@@ -187,17 +163,18 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                 Action<MessageWindow> action = l =>
                   {
+                      l.CloseAnimation(l);
+
                       l.DialogResult = true;
-                      l.Close();
 
                       MessageService.ShowSnackMessageWithNotice("你点到我了！");
                   };
 
                 acts.Add(Tuple.Create("按钮一", action));
-                acts.Add(Tuple.Create("按钮二", action)); 
-                acts.Add(Tuple.Create("按钮三", action)); 
+                acts.Add(Tuple.Create("按钮二", action));
+                acts.Add(Tuple.Create("按钮三", action));
 
-                MessageWindow.ShowDialogWith("这是自定义按钮提示消息","好心提醒", acts.ToArray());
+                MessageWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒", acts.ToArray());
             }
 
 

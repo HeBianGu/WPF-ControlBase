@@ -5,26 +5,110 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
              xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout"
-             mc:Ignorable="d" Background="Blue"
+             mc:Ignorable="d"
              xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="1450" d:DesignWidth="800">
     <Grid>
-        <Button HorizontalAlignment="Center"  VerticalAlignment="Center" Content="{Binding ButtonContentText}" FontSize="80" >
-            <base:Interaction.Triggers>
-                <base:EventTrigger EventName="Button.Click">
-                    <base:InvokeCommandAction Command="{Binding MvcCommand}">
-                        <base:InvokeCommandAction.CommandParameter>
-                            <wpfcontrollib:LinkAction Controller="Loyout" Action="OverView"/>
-                        </base:InvokeCommandAction.CommandParameter>
-                    </base:InvokeCommandAction>
-                </base:EventTrigger> 
-            </base:Interaction.Triggers>
-        </Button>
+        <ScrollViewer>
+            <StackPanel>
+                <GroupBox Header="默认按钮">
+                    <wpfcontrollib:FButton Content="默认按钮" />
+                </GroupBox>
+                <GroupBox Header="等待按钮">
+                    <StackPanel>
+                        <CheckBox x:Name="cb" IsChecked="True" Content="选我"/>
+                        <wpfcontrollib:FButton Content="等待的按钮" Margin="10" 
+                               base:ControlAttachProperty.IsBuzy="{Binding IsChecked,ElementName=cb}" 
+                               />
+                        <wpfcontrollib:FButton Content="保存的按钮"
+                               Grid.Column="1"  Grid.Row="1"
+                               base:ControlAttachProperty.IsBuzy="{Binding IsChecked,ElementName=cb}"
+                                base:ControlAttachProperty.BuzyText="正在保存"
+                               />
+                    </StackPanel>
+                </GroupBox>
 
+                <GroupBox Header="透明背景按钮">
+                    <StackPanel>
+                        <wpfcontrollib:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                                base:ControlAttachProperty.BuzyText="正在保存"
+                               />
+
+                        <wpfcontrollib:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                                base:ControlAttachProperty.BuzyText="正在保存"
+                               />
+                        <wpfcontrollib:FButton Content="弹出蒙版消息框"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                               />
+
+                        <wpfcontrollib:FButton  Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <wpfcontrollib:FButton Content="首页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                       BorderThickness="1,1,0,1" Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+
+                            <wpfcontrollib:FButton Content="上一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+
+
+                            <wpfcontrollib:FButton Content="下一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+
+                            <wpfcontrollib:FButton Content="末页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                     BorderThickness="1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+                        </StackPanel>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="超链接按钮">
+                    <StackPanel>
+                        <wpfcontrollib:FButton Margin="3" Style="{StaticResource S.FButton.Style.Link}">百度网盘</wpfcontrollib:FButton>
+                        <wpfcontrollib:FButton FIcon="&#xe617;" Margin="3" Style="{StaticResource S.FButton.Style.Link}">设备检测</wpfcontrollib:FButton>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="组合按钮">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                        <wpfcontrollib:FButton FIcon="&#xe619;" Margin="0,0,0,0" CornerRadius="16,0,0,16" AllowsAnimation="True">Info</wpfcontrollib:FButton>
+                        <wpfcontrollib:FButton FIcon="&#xe628;" Margin="0,0,0,0" CornerRadius="0" >Question</wpfcontrollib:FButton>
+
+                        <wpfcontrollib:FButton FIcon="&#xe629;" Margin="0,0,0,0" CornerRadius="0,16,16,0" AllowsAnimation="True" >Error</wpfcontrollib:FButton>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="自定义形状按钮">
+                    <StackPanel HorizontalAlignment="Center">
+
+                        <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource S.FButton.Style.Circle}" Margin="4"/>
+
+                        <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource S.FButton.Style.CircleTransparent}"  Margin="4"/>
+
+                        <wpfcontrollib:FButton FIcon="&#xe756;" Content="圆角按钮" Style="{StaticResource S.FButton.Style.CornerRadius}"  Margin="4"/>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="自定义形状按钮">
+                    <StackPanel HorizontalAlignment="Center">
+
+                        <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource   S.FButton.Style.MouseOverOpacity}" Margin="4"/>
+
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
-    <base:Interaction.Triggers>
-        <base:EventTrigger EventName="Loaded">
-            <base:InvokeCommandAction Command="{Binding LoadedCommand}"/>
-        </base:EventTrigger>
-    </base:Interaction.Triggers>
 </UserControl>

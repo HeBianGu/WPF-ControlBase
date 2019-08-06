@@ -13,8 +13,6 @@ namespace HeBianGu.General.WpfMvc
 {
     public class MvcViewModelBase : NotifyPropertyChanged
     {
-
-
         private ILinkActionBase _selectLink;
         /// <summary> 说明  </summary>
         public ILinkActionBase SelectLink
