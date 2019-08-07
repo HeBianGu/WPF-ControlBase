@@ -1,5 +1,4 @@
 ﻿using HeBianGu.Base.WpfBase;
-using HeBianGu.General.WpfControlLib.Commond;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

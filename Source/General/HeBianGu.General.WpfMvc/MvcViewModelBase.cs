@@ -1,4 +1,5 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Common.PublicTool;
 using System;
 using System.Collections;
 using System.Collections.Generic;

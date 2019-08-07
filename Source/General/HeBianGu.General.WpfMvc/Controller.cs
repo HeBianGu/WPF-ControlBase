@@ -1,6 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
-using HeBianGu.ExplorePlayer.Base.Model;
-using HeBianGu.ExplorePlayer.General.SqliteDataBase;
+using HeBianGu.Common.DataBase;
+using HeBianGu.Common.PublicTool;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -291,7 +291,7 @@ namespace HeBianGu.General.WpfMvc
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                result.View.DataContext = result.ViewModel;
+                result.View.Cast<FrameworkElement>().DataContext = result.ViewModel;
 
             });
 
@@ -328,7 +328,7 @@ namespace HeBianGu.General.WpfMvc
             ActionResult result = new ActionResult();
 
             result.Uri = uri;
-            result.View = content as ContentControl;
+            result.View = content;
 
             Type type = Assembly.GetEntryAssembly().GetTypeOfMatch<NotifyPropertyChanged>(l => l.Name == controlName + "ViewModel");
 
@@ -336,7 +336,7 @@ namespace HeBianGu.General.WpfMvc
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                result.View.DataContext = result.ViewModel;
+                result.View.Cast<FrameworkElement>().DataContext = result.ViewModel;
 
             });
 
