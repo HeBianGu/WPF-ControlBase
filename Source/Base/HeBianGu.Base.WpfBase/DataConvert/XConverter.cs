@@ -150,6 +150,13 @@ namespace HeBianGu.Base.WpfBase
             get { return new ByteToImageSourceConverter(); }
         }
 
+        public static Number2PercentageConverter Number2PercentageConverter
+        {
+            get { return new Number2PercentageConverter(); }
+        }
+        
+
+
         //public static SelectTextConverter SelectTextConverter
         //{
         //    get { return Singleton<SelectTextConverter>.GetInstance(); }

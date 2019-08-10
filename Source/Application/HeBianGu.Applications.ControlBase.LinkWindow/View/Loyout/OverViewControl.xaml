@@ -342,6 +342,9 @@
              
                 <GroupBox Header="进度条">
                     <StackPanel  HorizontalAlignment="Center">
+
+                        <Slider x:Name="slide" Minimum="0" Maximum="100" SmallChange="1" LargeChange="2" Value="50" />
+
                         <TextBlock x:Name="proValue"  Text="{Binding Percent,Mode=OneWay,StringFormat={}{0:p1}}" HorizontalAlignment="Center"></TextBlock>
 
                         <ProgressBar Margin="5" Value="{Binding Percent,Mode=OneWay}"  
@@ -349,12 +352,21 @@
                                          Height="50" 
                                          Style="{StaticResource BaseProgressBar}" IsIndeterminate="True"></ProgressBar>
 
-                        <ProgressBar Style="{DynamicResource S.Progessbar.WaittingPercent}" Width="300" Value="80"/>
+                        <ProgressBar Style="{DynamicResource S.Progessbar.WaittingPercent}" Width="300" Value="{Binding ElementName=slide,Path=Value}"/>
 
-                        <wpfcontrollib:MetroProgressBar Margin="5" Value="15" ProgressBarHeight="30" CornerRadius="0" ProgressBarState="None" IsEnabled="False" />
-                        <wpfcontrollib:MetroProgressBar x:Name="pb1" Title="MetroProgressBar 调整" Margin="5" Value="20" ProgressBarHeight="20" CornerRadius="0" ProgressBarState="None" TextHorizontalAlignment="Center" />
-                        <wpfcontrollib:MetroProgressBar x:Name="pb2" Title="MetroProgressBar 正常" Margin="5" Value="0" TextHorizontalAlignment="Right" Maximum="50" />
-                        <wpfcontrollib:MetroProgressBar Title="MetroProgressBar 错误" Margin="5" Value="40" ProgressBarState="Error" />
+                        <wpfcontrollib:MetroProgressBar Margin="5" Value="{Binding ElementName=slide,Path=Value}" ProgressBarHeight="30" CornerRadius="0" ProgressBarState="None" IsEnabled="False" />
+                        <wpfcontrollib:MetroProgressBar x:Name="pb1" Title="MetroProgressBar 调整" Margin="5" Value="{Binding ElementName=slide,Path=Value}" ProgressBarHeight="20" CornerRadius="0" ProgressBarState="None" TextHorizontalAlignment="Center" />
+                        <wpfcontrollib:MetroProgressBar x:Name="pb2" Title="MetroProgressBar 正常" Margin="5" Value="{Binding ElementName=slide,Path=Value}" TextHorizontalAlignment="Right" Maximum="50" />
+                        <wpfcontrollib:MetroProgressBar Title="MetroProgressBar 错误" Margin="5" Value="{Binding ElementName=slide,Path=Value}" ProgressBarState="Error" />
+
+
+                        <wpfcontrollib:WaveProgressBar  Value="{Binding ElementName=slide,Path=Value}" Style="{DynamicResource ProgressBarWaveBaseStyle}" Margin="15"/>
+
+
+                        <ProgressBar Style="{DynamicResource S.ProgressBar.Handy.Default}" Value="{Binding ElementName=slide,Path=Value}" Margin="15" />
+                        
+                        <ProgressBar Style="{DynamicResource S.ProgressBar.Handy.Stripe}" Value="{Binding ElementName=slide,Path=Value}"  Margin="15"/>
+
                     </StackPanel>
                 </GroupBox>
               
@@ -457,29 +469,30 @@
                 <GroupBox Header="拖动控件">
                     <StackPanel>
 
-                        <GroupBox Header="系统滚动条">
-                            <Slider Margin="5"  LargeChange="0.1"  Maximum="1"  SmallChange="0.1" />
+                        <GroupBox Header="默认">
+                            <Slider x:Name="slider1" Margin="5" Maximum="100" Value="50" SmallChange="1" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}" />
                         </GroupBox>
 
-                        <GroupBox Header="自定义滚动条">
-                            <Slider  Margin="5" LargeChange="0.1" Maximum="1" SmallChange="0.1" Style="{StaticResource DefaultSliderStyle}" />
+                        <GroupBox Header="空心">
+                            <Slider Value="{Binding ElementName=slider1,Path=Value}" Margin="20" Style="{StaticResource S.Slider.Default}"/>
                         </GroupBox>
-                        <GroupBox Header="透明滚动条">
-                            <Slider  Margin="5" LargeChange="0.1" Maximum="1" SmallChange="0.1" Style="{StaticResource OpacitySliderStyle}" />
-                        </GroupBox>
-
-                        <GroupBox Header="进度条样式的拖动条">
-                            <Slider Margin="5" LargeChange="0.1" Maximum="1" SmallChange="0.1" Style="{StaticResource Slider_CustomStyle}" />
+                        <GroupBox Header="实心">
+                            <Slider Value="{Binding ElementName=slider1,Path=Value}"  Margin="20" Style="{StaticResource S.Slider.Circle}"/>
                         </GroupBox>
 
-                        <GroupBox Header="实心滚动条">
-                            <Slider Style="{DynamicResource SliderStyle1}" Minimum="12" Maximum="20" VerticalAlignment="Center" 
-                        Value="{Binding FontSize ,ElementName=RichTextBoxLogs}" Width="100"/>
+                        <GroupBox Header="自定义">
+                            <wpfcontrollib:PreviewSlider Name="PreviewSlider" Width="300" Value="500" Maximum="1000" VerticalAlignment="Center">
+                                
+                            <wpfcontrollib:PreviewSlider.PreviewContent>
+                                <Label Background="{DynamicResource S.Brush.Accent}" Foreground="White" Content="{Binding PreviewPosition,ElementName=PreviewSlider}" ContentStringFormat="{}{0:#0.0}"/>
+                            </wpfcontrollib:PreviewSlider.PreviewContent>
+                        </wpfcontrollib:PreviewSlider>
                         </GroupBox>
+
                         <GroupBox Header="区间滚动条">
                             <StackPanel  Margin="10">
-                                <wpfcontrollib:SpaceSpliterUserControl Background="Red" LeftPercent="{Binding Left,Mode=TwoWay}" RightPercent="{Binding Right,Mode=TwoWay}" Margin="10"/>
-                                <wpfcontrollib:SpaceSpliterUserControl  Background="Red" LeftPercent="0.1" RightPercent="0.9"  Margin="10"/>
+                                <wpfcontrollib:SpaceSpliterUserControl LeftPercent="{Binding Left,Mode=TwoWay}" RightPercent="{Binding Right,Mode=TwoWay}" Margin="10"/>
+                                <wpfcontrollib:SpaceSpliterUserControl LeftPercent="0.1" RightPercent="0.9"  Margin="10"/>
 
                                 <TextBlock> <Run Text="左侧值："/><Run x:Name="txt_left" Text="{Binding Left}"/></TextBlock>
                                 <TextBlock> <Run Text="右侧值："/>  <Run x:Name="txt_right" Text="{Binding Right}"/></TextBlock>
@@ -496,6 +509,8 @@
                                 <Button x:Name="btn_play" Content="暂停"/>
                             </StackPanel>
                         </GroupBox>
+
+                       
                     </StackPanel>
                 </GroupBox>
               
@@ -768,8 +783,8 @@
                         </wpfcontrollib:EvaluateControl>
                     </StackPanel>
                 </GroupBox>
-                
 
+ 
 
 
             </wpfcontrollib:WaterFallFlowControl>
