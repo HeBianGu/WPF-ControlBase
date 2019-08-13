@@ -17,10 +17,10 @@ namespace HeBianGu.Base.WpfBase
     {
         /// <summary> 深颜色主题 </summary>
 
-        public static readonly Uri DarkThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Themes/Color/DarkThemeResource.xaml", UriKind.Relative);
+        public static readonly Uri DarkThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/DarkThemeResource.xaml", UriKind.Relative);
 
         /// <summary> 浅颜色主题 </summary>
-        public static readonly Uri LightThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Themes/Color/LightThemeResource.xaml", UriKind.Relative);
+        public static readonly Uri LightThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/LightThemeResource.xaml", UriKind.Relative);
 
         /// <summary> 主颜色Key </summary>
         public const string KeyAccentColor = "AccentColor";
@@ -264,7 +264,7 @@ namespace HeBianGu.Base.WpfBase
                 dic.Add("S.Brush.Red.Notice", "<!--红色 用于警告文字和图标-->");
                 dic.Add("S.Brush.Green.Notice", "<!--绿色 用于提示文字和图标-->");
                 dic.Add("S.Brush.White.Notice", "<!--面板、标题、输入框底色-->");
-                dic.Add("S.Brush.TextForeground.Tiltle", "<!--重要文字信息及标题-->");
+                dic.Add("S.Brush.TextForeground.Title", "<!--重要文字信息及标题-->");
                 dic.Add("S.Brush.TextForeground.Default", "<!--用于普通文字、内容信息-->");
                 dic.Add("S.Brush.TextForeground.Assist", "<!--用于标注、辅助文字-->");
                 dic.Add("S.Brush.TextForeground.Link", "<!--用于链接文字文字-->");

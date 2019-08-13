@@ -6,55 +6,65 @@
              xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout"
              xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
              xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
-             mc:Ignorable="d" Background="Purple"
+             mc:Ignorable="d"
              d:DesignHeight="1450" d:DesignWidth="800">
-    <StackPanel>
-        <GroupBox Header="进度条">
-            <StackPanel  HorizontalAlignment="Center">
-                <TextBlock x:Name="proValue"  Text="{Binding Percent,Mode=OneWay,StringFormat={}{0:p1}}" HorizontalAlignment="Center"></TextBlock>
+    <ScrollViewer>
+        <StackPanel>
+            <GroupBox Header="进度条">
+                <StackPanel  HorizontalAlignment="Center">
+                    <Slider x:Name="slide" Minimum="0" Maximum="100" SmallChange="1" LargeChange="2" Value="50" Margin="15"/>
 
-                <ProgressBar Margin="5" Value="{Binding Percent,Mode=OneWay}"  
+                    <ProgressBar Margin="15" Value="{Binding Percent,Mode=OneWay}"  
                                          base:ControlAttachProperty.CornerRadius="28" 
-                                         Height="50" 
                                          Style="{StaticResource BaseProgressBar}" IsIndeterminate="True"></ProgressBar>
 
-                <ProgressBar Style="{DynamicResource S.Progessbar.WaittingPercent}" Width="300" Value="80"/>
+                    <ProgressBar Style="{DynamicResource S.Progessbar.WaittingPercent}"  Margin="15"  Width="300" Value="{Binding ElementName=slide,Path=Value}"/>
 
-                <wpfcontrollib:MetroProgressBar Margin="5" Value="15" ProgressBarHeight="30" CornerRadius="0" ProgressBarState="None" IsEnabled="False" />
-                <wpfcontrollib:MetroProgressBar x:Name="pb1" Title="MetroProgressBar 调整" Margin="5" Value="20" ProgressBarHeight="20" CornerRadius="0" ProgressBarState="None" TextHorizontalAlignment="Center" />
-                <wpfcontrollib:MetroProgressBar x:Name="pb2" Title="MetroProgressBar 正常" Margin="5" Value="0" TextHorizontalAlignment="Right" Maximum="50" />
-                <wpfcontrollib:MetroProgressBar Title="MetroProgressBar 错误" Margin="5" Value="40" ProgressBarState="Error" />
-            </StackPanel>
-        </GroupBox>
+                    <wpfcontrollib:MetroProgressBar Margin="15" Value="{Binding ElementName=slide,Path=Value}" ProgressBarHeight="30" CornerRadius="0" 
+                                                        ProgressBarState="None" TextHorizontalAlignment="Center" />
 
-        <GroupBox Header="加载控件">
-            <StackPanel>
-                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5" Style="{StaticResource FChasingDotsProgressRingStyle}" />
-                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FCircleProgressRingStyle}" />
-                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FDoubleBounceProgressRingStyle}" />
-                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FPulseProgressRingStyle}" />
-                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FRotatingPlaneProgressRingStyle}" />
-                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FThreeBounceProgressRingStyle}" />
-                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FWanderingCubesProgressRingStyle}" />
-                <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FWaveProgressRingStyle}" />
+                    <wpfcontrollib:MetroProgressBar Margin="15" Value="{Binding ElementName=slide,Path=Value}" CornerRadius="15"   ProgressBarHeight="30" TextHorizontalAlignment="Right"/>
 
 
-                <wpfcontrollib:RingBox Width="80" 
+                    <wpfcontrollib:WaveProgressBar  Value="{Binding ElementName=slide,Path=Value}" Style="{DynamicResource ProgressBarWaveBaseStyle}" Margin="15"/>
+
+
+                    <ProgressBar Style="{DynamicResource S.ProgressBar.Handy.Default}" Height="30" Value="{Binding ElementName=slide,Path=Value}" Margin="15" />
+
+                    <ProgressBar Style="{DynamicResource S.ProgressBar.Handy.Stripe}"  Height="30"  Value="{Binding ElementName=slide,Path=Value}"  Margin="15"/>
+
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="加载控件">
+                <StackPanel>
+                    <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5" Style="{StaticResource FChasingDotsProgressRingStyle}" />
+                    <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FCircleProgressRingStyle}" />
+                    <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FDoubleBounceProgressRingStyle}" />
+                    <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FPulseProgressRingStyle}" />
+                    <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FRotatingPlaneProgressRingStyle}" />
+                    <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FThreeBounceProgressRingStyle}" />
+                    <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FWanderingCubesProgressRingStyle}" />
+                    <wpfcontrollib:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="5"  Style="{StaticResource FWaveProgressRingStyle}" />
+
+
+                    <wpfcontrollib:RingBox Width="80" 
                                                    Height="80" 
                                                    Margin="15" IsActive="True"/>
 
-                <wpfcontrollib:ProgressBarControl  CanvasSize="100" 
+                    <wpfcontrollib:ProgressBarControl  CanvasSize="100" 
                                                                EllipseCount="15" 
                                                                EllipseSize="10"
                                                                StepAngle="10" 
                                                                TimeSpan="50"/>
 
-                <ProgressBar Minimum="0" Maximum="1" Height="50"  Width="500" 
+                    <ProgressBar Minimum="0" Maximum="1" Height="50"  Width="500" 
                                          IsIndeterminate="True" Margin="5"   
                                          Style="{StaticResource RunningPointProgressBar}"/>
 
 
-            </StackPanel>
-        </GroupBox>
-    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

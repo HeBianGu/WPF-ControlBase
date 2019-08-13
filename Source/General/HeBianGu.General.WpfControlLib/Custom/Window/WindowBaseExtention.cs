@@ -135,7 +135,7 @@ namespace HeBianGu.General.WpfControlLib
 
         public static void HideOfScaleReduce(this WindowBase w)
         {
-            ScaleReduceWithAction(w, new Point(1, 1), 0.5, 5, () => w.Hide());
+            ScaleReduceWithAction(w, new Point(1, 1), 0.5, 5,() => w.Hide());
         }
 
         public static void CloseOfScaleReduceCenter(this WindowBase w)
@@ -185,7 +185,7 @@ namespace HeBianGu.General.WpfControlLib
 
         public static void ShowOfScaleEnlarge(this WindowBase w)
         {
-            w.Show();
+            ((Window)w).Show();
 
             ScaleEnlarge(w, new Point(1, 1), 0.5, 5);
         }

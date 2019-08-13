@@ -4,10 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="ProgressBarWaveBaseStyle" TargetType="local:WaveProgressBar">
-        <Setter Property="Background" Value="{DynamicResource S.Brush.Dark.3}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Dark.4}"/>
         <Setter Property="Width" Value="100"/> 
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="ShowText" Value="False"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+        <Setter Property="ShowText" Value="True"/>
         <Setter Property="WaveStroke" Value="Black"/>
         <Setter Property="WaveFill" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="ClipToBounds" Value="True"/>
@@ -23,7 +24,7 @@
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
                     </ControlTemplate.Resources>
-                    <StackPanel>
+                    <Grid>
                         <Border  Background="{TemplateBinding Background}" CornerRadius="100" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
                             <Viewbox>
                                 <Border x:Name="PART_Clip" CornerRadius="100" ClipToBounds="True" Width="200" Height="200">
@@ -41,12 +42,16 @@
                                                 </PathFigure>
                                             </PathGeometry>
                                         </Path.Data>
-                                    </Path>
+                                    </Path> 
                                 </Border>
                             </Viewbox>
                         </Border>
-                        <TextBlock Margin="0,10,0,0" Visibility="{Binding ShowText,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Text}"/>
-                    </StackPanel>
+
+                        <TextBlock Margin="0,10,0,0" Visibility="{Binding ShowText,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}" 
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"
+                                   Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Text}"/>
+
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="FrameworkElement.Loaded">
                             <BeginStoryboard Storyboard="{StaticResource StoryboardOnLoaded}"/>

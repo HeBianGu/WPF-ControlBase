@@ -39,18 +39,33 @@ namespace HeBianGu.General.WpfControlLib
 
     public static class ShadowAssist
     {
-        public static readonly DependencyProperty ShadowDepthProperty = DependencyProperty.RegisterAttached(
-            "ShadowDepth", typeof (ShadowDepth), typeof (ShadowAssist), new FrameworkPropertyMetadata(default(ShadowDepth), FrameworkPropertyMetadataOptions.AffectsRender));
+        //public static readonly DependencyProperty ShadowDepthProperty = DependencyProperty.RegisterAttached(
+        //    "ShadowDepth", typeof(ShadowDepth), typeof(ShadowAssist), new FrameworkPropertyMetadata(default(ShadowDepth), FrameworkPropertyMetadataOptions.AffectsRender));
 
-        public static void SetShadowDepth(DependencyObject element, ShadowDepth value)
+        //public static void SetShadowDepth(DependencyObject element, ShadowDepth value)
+        //{
+        //    element.SetValue(ShadowDepthProperty, value);
+        //}
+
+        //public static ShadowDepth GetShadowDepth(DependencyObject element)
+        //{
+        //    return (ShadowDepth)element.GetValue(ShadowDepthProperty);
+        //}
+
+        public static readonly DependencyProperty ShadowDepthProperty = DependencyProperty.RegisterAttached(
+            "ShadowDepth", typeof(DropShadowEffect), typeof(ShadowAssist), new FrameworkPropertyMetadata(default(DropShadowEffect), FrameworkPropertyMetadataOptions.AffectsRender));
+
+        public static void SetShadowDepth(DependencyObject element, DropShadowEffect value)
         {
             element.SetValue(ShadowDepthProperty, value);
         }
 
-        public static ShadowDepth GetShadowDepth(DependencyObject element)
+        public static DropShadowEffect GetShadowDepth(DependencyObject element)
         {
-            return (ShadowDepth) element.GetValue(ShadowDepthProperty);
-        }
+            return (DropShadowEffect)element.GetValue(ShadowDepthProperty);
+        } 
+
+
 
         private static readonly DependencyPropertyKey LocalInfoPropertyKey = DependencyProperty.RegisterAttachedReadOnly(
             "LocalInfo", typeof (ShadowLocalInfo), typeof (ShadowAssist), new PropertyMetadata(default(ShadowLocalInfo)));

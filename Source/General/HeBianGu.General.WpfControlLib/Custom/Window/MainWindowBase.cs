@@ -118,6 +118,8 @@ namespace HeBianGu.General.WpfControlLib
                 if (config)
                 {
                     control.ShowOfScaleEnlarge();
+
+                    control.ScaleEnlarge(new Point(1, 1), 0.5, 5);
                 }
                 else
                 {
@@ -125,6 +127,7 @@ namespace HeBianGu.General.WpfControlLib
                 }
 
             }));
+
 
         /// <summary> 用于重写关闭到那个花 </summary>
         public virtual void BegionStoryClose()

@@ -263,7 +263,7 @@ namespace HeBianGu.General.WpfControlLib
                 var button = new Button
                 {
 
-                    Style = this.FindResource("S.CarourselControl.SmapleButton") as Style,
+                    Style = this.TryFindResource("S.CarourselControl.SmapleButton") as Style,
                     Content = new Border
                     {
                         Width = 10,

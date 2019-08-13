@@ -213,6 +213,8 @@ namespace HeBianGu.General.WpfControlLib
         /// <param name="e"></param>
         private void HandleUnloaded(object sender, RoutedEventArgs e)
         {
+            if (animationTimer == null) return;
+
             animationTimer.Stop();
             //除去委托
             animationTimer.Tick -= HandleAnimationTick;

@@ -12,35 +12,36 @@
         <GroupBox Header="拖动控件">
             <StackPanel>
 
-                <GroupBox Header="系统滚动条">
-                    <Slider Margin="5"  LargeChange="0.1"  Maximum="1"  SmallChange="0.1" />
+                <GroupBox Header="默认">
+                    <Slider x:Name="slider1" Margin="5" Maximum="100" Value="50" SmallChange="1" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}" />
                 </GroupBox>
 
-                <GroupBox Header="自定义滚动条">
-                    <Slider  Margin="5" LargeChange="0.1" Maximum="1" SmallChange="0.1" Style="{StaticResource DefaultSliderStyle}" />
+                <GroupBox Header="空心">
+                    <Slider Value="{Binding ElementName=slider1,Path=Value}" Margin="20" Style="{StaticResource S.Slider.Default}"/>
                 </GroupBox>
-                <GroupBox Header="透明滚动条">
-                    <Slider  Margin="5" LargeChange="0.1" Maximum="1" SmallChange="0.1" Style="{StaticResource OpacitySliderStyle}" />
-                </GroupBox>
-
-                <GroupBox Header="进度条样式的拖动条">
-                    <Slider Margin="5" LargeChange="0.1" Maximum="1" SmallChange="0.1" Style="{StaticResource Slider_CustomStyle}" />
+                <GroupBox Header="实心">
+                    <Slider Value="{Binding ElementName=slider1,Path=Value}"  Margin="20" Style="{StaticResource S.Slider.Circle}"/>
                 </GroupBox>
 
-                <GroupBox Header="实心滚动条">
-                    <Slider Style="{DynamicResource SliderStyle1}" Minimum="12" Maximum="20" VerticalAlignment="Center" 
-                        Value="{Binding FontSize ,ElementName=RichTextBoxLogs}" Width="100"/>
+                <GroupBox Header="自定义">
+                    <wpfcontrollib:PreviewSlider Name="PreviewSlider" Width="300" Value="500" Maximum="1000" VerticalAlignment="Center">
+
+                        <wpfcontrollib:PreviewSlider.PreviewContent>
+                            <Label Background="{DynamicResource S.Brush.Accent}" Foreground="White" Content="{Binding PreviewPosition,ElementName=PreviewSlider}" ContentStringFormat="{}{0:#0.0}"/>
+                        </wpfcontrollib:PreviewSlider.PreviewContent>
+                    </wpfcontrollib:PreviewSlider>
                 </GroupBox>
-                <GroupBox Header="区间滚动条">
+
+                <!--<GroupBox Header="区间滚动条">
                     <StackPanel  Margin="10">
-                        <wpfcontrollib:SpaceSpliterUserControl Background="Red" LeftPercent="{Binding Left,Mode=TwoWay}" RightPercent="{Binding Right,Mode=TwoWay}" Margin="10"/>
-                        <wpfcontrollib:SpaceSpliterUserControl  Background="Red" LeftPercent="0.1" RightPercent="0.9"  Margin="10"/>
+                        <wpfcontrollib:SpaceSpliterUserControl LeftPercent="{Binding Left,Mode=TwoWay}" RightPercent="{Binding Right,Mode=TwoWay}" Margin="10"/>
+                        <wpfcontrollib:SpaceSpliterUserControl LeftPercent="0.1" RightPercent="0.9"  Margin="10"/>
 
                         <TextBlock> <Run Text="左侧值："/><Run x:Name="txt_left" Text="{Binding Left}"/></TextBlock>
                         <TextBlock> <Run Text="右侧值："/>  <Run x:Name="txt_right" Text="{Binding Right}"/></TextBlock>
                     </StackPanel>
 
-                </GroupBox>
+                </GroupBox>-->
 
                 <GroupBox Header="缓冲播放进度条">
                     <StackPanel>

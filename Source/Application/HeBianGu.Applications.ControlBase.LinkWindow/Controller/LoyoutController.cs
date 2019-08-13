@@ -104,6 +104,18 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
             return View();
         }
 
+
+        public async Task<IActionResult> Brush()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Shadow()
+        {
+            return View();
+        }
+
+        
         public async Task<IActionResult> Button()
         {
             await MessageService.ShowWaittingMessge(() => Thread.Sleep(500));
