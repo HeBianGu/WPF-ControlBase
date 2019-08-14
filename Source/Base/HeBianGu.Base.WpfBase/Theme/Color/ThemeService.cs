@@ -8,7 +8,6 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 
 namespace HeBianGu.Base.WpfBase
 {
@@ -21,6 +20,12 @@ namespace HeBianGu.Base.WpfBase
 
         /// <summary> 浅颜色主题 </summary>
         public static readonly Uri LightThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/LightThemeResource.xaml", UriKind.Relative);
+
+        /// <summary> 灰色主题 </summary>
+        public static readonly Uri GrayThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/GrayThemeResource.xaml", UriKind.Relative);
+
+        /// <summary> Accent主题 </summary>
+        public static readonly Uri AccentThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/AccentThemeResource.xaml", UriKind.Relative);
 
         /// <summary> 主颜色Key </summary>
         public const string KeyAccentColor = "AccentColor";
@@ -113,7 +118,7 @@ namespace HeBianGu.Base.WpfBase
 
             var themeDict = new ResourceDictionary { Source = source };
 
-            var accentColor = themeDict[KeyAccentColor] as System.Windows.Media.Color?;
+            var accentColor = themeDict[KeyAccentColor] as Color?;
 
             if (accentColor.HasValue)
             {
@@ -135,7 +140,7 @@ namespace HeBianGu.Base.WpfBase
             RaisePropertyChanged("ThemeSource");
         }
 
-        private void ApplyAccentColor(System.Windows.Media.Color accentColor)
+        private void ApplyAccentColor(Color accentColor)
         {
             Application.Current.Resources[KeyAccentColor] = accentColor;
 
@@ -168,19 +173,19 @@ namespace HeBianGu.Base.WpfBase
             RaisePropertyChanged("FontSize");
         }
 
-        private System.Windows.Media.Color GetAccentColor()
+        private Color GetAccentColor()
         {
-            var accentColor = Application.Current.Resources[KeyAccentColor] as System.Windows.Media.Color?;
+            var accentColor = Application.Current.Resources[KeyAccentColor] as Color?;
 
             if (accentColor.HasValue)
             {
                 return accentColor.Value;
             }
 
-            return System.Windows.Media.Color.FromArgb(0xff, 0x1b, 0xa1, 0xe2);
+            return Color.FromArgb(0xff, 0x1b, 0xa1, 0xe2);
         }
 
-        private void SetAccentColor(System.Windows.Media.Color value)
+        private void SetAccentColor(Color value)
         {
             ApplyAccentColor(value);
 
@@ -238,7 +243,7 @@ namespace HeBianGu.Base.WpfBase
         }
 
         /// <summary> 主色调 </summary>
-        public System.Windows.Media.Color AccentColor
+        public Color AccentColor
         {
             get { return GetAccentColor(); }
             set { SetAccentColor(value); }
@@ -276,40 +281,41 @@ namespace HeBianGu.Base.WpfBase
 
 
         //  Message：主题颜色
-        private System.Windows.Media.Color[] metroAccentColors = new System.Windows.Media.Color[]{
-            System.Windows.Media.Color.FromRgb(0x33, 0x99, 0xff),   // blue
-            System.Windows.Media.Color.FromRgb(0x00, 0xab, 0xa9),   // teal
-            System.Windows.Media.Color.FromRgb(0x33, 0x99, 0x33),   // green
-            System.Windows.Media.Color.FromRgb(0x8c, 0xbf, 0x26),   // lime
-            System.Windows.Media.Color.FromRgb(0xf0, 0x96, 0x09),   // orange
-            System.Windows.Media.Color.FromRgb(0xff, 0x45, 0x00),   // orange red
-            System.Windows.Media.Color.FromRgb(0xe5, 0x14, 0x00),   // red
-            System.Windows.Media.Color.FromRgb(0xff, 0x00, 0x97),   // magenta
-            System.Windows.Media.Color.FromRgb(0xa2, 0x00, 0xff),   // purple            
+        private Color[] metroAccentColors = new Color[]{
+            Color.FromRgb(0x33, 0x99, 0xff),   // blue
+            Color.FromRgb(0x00, 0xab, 0xa9),   // teal
+            Color.FromRgb(0x33, 0x99, 0x33),   // green
+            Color.FromRgb(0x8c, 0xbf, 0x26),   // lime
+            Color.FromRgb(0xf0, 0x96, 0x09),   // orange
+            Color.FromRgb(0xff, 0x45, 0x00),   // orange red
+            Color.FromRgb(0xe5, 0x14, 0x00),   // red
+            Color.FromRgb(0xff, 0x00, 0x97),   // magenta
+            Color.FromRgb(0xa2, 0x00, 0xff),   // purple            
         };
 
         //  Message：主题颜色
-        private System.Windows.Media.Color[] wpAccentColors = new System.Windows.Media.Color[]{
-            System.Windows.Media.Color.FromRgb(0xa4, 0xc4, 0x00),   // lime
-            System.Windows.Media.Color.FromRgb(0x60, 0xa9, 0x17),   // green
-            System.Windows.Media.Color.FromRgb(0x00, 0x8a, 0x00),   // emerald
-            System.Windows.Media.Color.FromRgb(0x00, 0xab, 0xa9),   // teal
-            System.Windows.Media.Color.FromRgb(0x1b, 0xa1, 0xe2),   // cyan
-            System.Windows.Media.Color.FromRgb(0x00, 0x50, 0xef),   // cobalt
-            System.Windows.Media.Color.FromRgb(0x6a, 0x00, 0xff),   // indigo
-            System.Windows.Media.Color.FromRgb(0xaa, 0x00, 0xff),   // violet
-            System.Windows.Media.Color.FromRgb(0xf4, 0x72, 0xd0),   // pink
-            System.Windows.Media.Color.FromRgb(0xd8, 0x00, 0x73),   // magenta
-            System.Windows.Media.Color.FromRgb(0xa2, 0x00, 0x25),   // crimson
-            System.Windows.Media.Color.FromRgb(0xe5, 0x14, 0x00),   // red
-            System.Windows.Media.Color.FromRgb(0xfa, 0x68, 0x00),   // orange
-            System.Windows.Media.Color.FromRgb(0xf0, 0xa3, 0x0a),   // amber
-            System.Windows.Media.Color.FromRgb(0xe3, 0xc8, 0x00),   // yellow
-            System.Windows.Media.Color.FromRgb(0x82, 0x5a, 0x2c),   // brown
-            System.Windows.Media.Color.FromRgb(0x6d, 0x87, 0x64),   // olive
-            System.Windows.Media.Color.FromRgb(0x64, 0x76, 0x87),   // steel
-            System.Windows.Media.Color.FromRgb(0x76, 0x60, 0x8a),   // mauve
-            System.Windows.Media.Color.FromRgb(0x87, 0x79, 0x4e),   // taupe
+        private Color[] wpAccentColors = new Color[]{
+            Color.FromRgb(0xa4, 0xc4, 0x00),   // lime
+            Color.FromRgb(0x60, 0xa9, 0x17),   // green
+            Color.FromRgb(0x00, 0x8a, 0x00),   // emerald
+            Color.FromRgb(0x00, 0xab, 0xa9),   // teal
+            Color.FromRgb(0x1b, 0xa1, 0xe2),   // cyan
+            Color.FromRgb(0x00, 0x50, 0xef),   // cobalt
+            Color.FromRgb(0x6a, 0x00, 0xff),   // indigo
+            Color.FromRgb(0xaa, 0x00, 0xff),   // violet
+            Color.FromRgb(0xf4, 0x72, 0xd0),   // pink
+            Color.FromRgb(0xd8, 0x00, 0x73),   // magenta
+            Color.FromRgb(0xa2, 0x00, 0x25),   // crimson
+            Color.FromRgb(0xe5, 0x14, 0x00),   // red
+            Color.FromRgb(0xfa, 0x68, 0x00),   // orange
+            Color.FromRgb(0xf0, 0xa3, 0x0a),   // amber
+            Color.FromRgb(0xe3, 0xc8, 0x00),   // yellow
+            Color.FromRgb(0x82, 0x5a, 0x2c),   // brown
+            Color.FromRgb(0x6d, 0x87, 0x64),   // olive
+            Color.FromRgb(0x64, 0x76, 0x87),   // steel
+            Color.FromRgb(0x76, 0x60, 0x8a),   // mauve
+            Color.FromRgb(0x87, 0x79, 0x4e),   // taupe
+            Color.FromRgb(0, 0, 0),   // black
         };
 
 

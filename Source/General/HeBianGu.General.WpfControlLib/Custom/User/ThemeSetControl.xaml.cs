@@ -32,11 +32,11 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary> 主题设置模型 </summary>
     public class SettingsAppearanceViewModel : NotifyPropertyChanged
     {
-        private const string FontSmall = "small";
-        private const string FontLarge = "large";
+        private const string FontSmall = "Small";
+        private const string FontLarge = "Large";
 
-        private const string PaletteMetro = "metro";
-        private const string PaletteWP = "windows phone";
+        private const string PaletteMetro = "Custom";
+        private const string PaletteWP = "Window";
 
         //  Message：主题颜色
         private Color[] metroAccentColors = new Color[]{
@@ -48,7 +48,7 @@ namespace HeBianGu.General.WpfControlLib
             Color.FromRgb(0xff, 0x45, 0x00),   // orange red
             Color.FromRgb(0xe5, 0x14, 0x00),   // red
             Color.FromRgb(0xff, 0x00, 0x97),   // magenta
-            Color.FromRgb(0xa2, 0x00, 0xff),   // purple            
+            Color.FromRgb(0xa2, 0x00, 0xff),   // purple    
         };
 
         //  Message：主题颜色
@@ -73,20 +73,24 @@ namespace HeBianGu.General.WpfControlLib
             Color.FromRgb(0x64, 0x76, 0x87),   // steel
             Color.FromRgb(0x76, 0x60, 0x8a),   // mauve
             Color.FromRgb(0x87, 0x79, 0x4e),   // taupe
+            Color.FromRgb(0, 0, 0),   // black
         };
 
         private string selectedPalette = PaletteWP;
 
         private Color selectedAccentColor;
-        private LinkCollection themes = new LinkCollection();
+        private ObservableCollection<ColorLink> themes = new ObservableCollection<ColorLink>();
         private Link selectedTheme;
         private string selectedFontSize;
 
         public SettingsAppearanceViewModel()
         {
             //  Message：主题
-            this.themes.Add(new Link { DisplayName = "Light", Source = ThemeService.LightThemeSource });
-            this.themes.Add(new Link { DisplayName = "Dark", Source = ThemeService.DarkThemeSource });
+            this.themes.Add(new ColorLink { DisplayName = "Light", Source = ThemeService.LightThemeSource, Color = Brushes.White,Text=Brushes.Black });
+            this.themes.Add(new ColorLink { DisplayName = "Dark", Source = ThemeService.DarkThemeSource, Color = Brushes.Black, Text = Brushes.White });
+            this.themes.Add(new ColorLink { DisplayName = "Gray", Source = ThemeService.GrayThemeSource, Color = Brushes.Gray, Text = Brushes.White });
+            this.themes.Add(new ColorLink { DisplayName = "Accent", Source = ThemeService.AccentThemeSource, Color = Brushes.White, Text = Brushes.Black });
+
 
             //this.themes.Add(new Link { DisplayName = "bing image", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.BingImage.xaml", UriKind.Relative) });
             //this.themes.Add(new Link { DisplayName = "hello kitty", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.HelloKitty.xaml", UriKind.Relative) });
@@ -119,8 +123,8 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-   
-        public LinkCollection Themes
+
+        public ObservableCollection<ColorLink> Themes
         {
             get { return this.themes; }
         }
@@ -232,6 +236,10 @@ namespace HeBianGu.General.WpfControlLib
 
     }
 
-
+   public class ColorLink : Link
+    {
+        public Brush Color { get; set; }
+        public Brush Text { get; set; }
+    }
 
 }

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
              xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -33,6 +34,26 @@
                 </ListBox>
 
                 <Grid HorizontalAlignment="Left">
+                    <Grid.Resources>
+                        <DataTemplate x:Key="D.ColorLink.Default" DataType="{x:Type local:ColorLink}">
+                            <Grid Height="30">
+                                <Border x:Name="border" Background="{Binding Color}">
+                                    <TextBlock x:Name="text" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding DisplayName}" Foreground="{Binding Text}" ToolTip="{Binding Source.LocalPath}"/>
+                                </Border>
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding DisplayName}" Value="Accent">
+                                    <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" TargetName="border"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}" TargetName="text"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers> 
+                        </DataTemplate>
+
+                        <Style x:Key="S.ComboBoxItem.Current" TargetType="ComboBoxItem" BasedOn="{StaticResource ComboBoxItemStyle}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        </Style>
+                    </Grid.Resources>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition MinWidth="120"/>
@@ -45,14 +66,20 @@
                         <RowDefinition  Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="应用场景:" VerticalAlignment="Center" Margin="0,0,16,4" />
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding Palettes}"  IsEnabled="False"  SelectedItem="{Binding SelectedPalette, Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,0,4" />
+                    <TextBlock Text="应用场景:" VerticalAlignment="Center" Margin="0,0,16,4" /> 
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding Palettes}" SelectedItem="{Binding SelectedPalette, Mode=TwoWay}" 
+                              VerticalAlignment="Center" Margin="0,0,0,4" ItemContainerStyle="{StaticResource S.ComboBoxItem.Current}" > 
+                    </ComboBox>
 
                     <TextBlock Grid.Row="1" Text="应用主题:" VerticalAlignment="Center" Margin="0,0,16,4" />
-                    <ComboBox Grid.Row="1" Grid.Column="1" IsEnabled="True" ItemsSource="{Binding Themes}" SelectedItem="{Binding SelectedTheme, Mode=TwoWay}" DisplayMemberPath="DisplayName" VerticalAlignment="Center" Margin="0,0,0,4" />
+                    
+                    <ComboBox Grid.Row="1" Grid.Column="1" IsEnabled="True" ItemsSource="{Binding Themes}" 
+                              SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
+                              ItemTemplate="{StaticResource D.ColorLink.Default}"
+                              VerticalAlignment="Center" Margin="0,0,0,4" /> 
 
                     <TextBlock Grid.Row="2" Text="字体大小:" VerticalAlignment="Center" Margin="0,0,16,0" />
-                    <ComboBox Grid.Row="2" Grid.Column="1"  IsEnabled="False"  ItemsSource="{Binding FontSizes}" SelectedItem="{Binding SelectedFontSize, Mode=TwoWay}" VerticalAlignment="Center" />
+                    <ComboBox Grid.Row="2" Grid.Column="1"   HorizontalContentAlignment="Center"   ItemsSource="{Binding FontSizes}" SelectedItem="{Binding SelectedFontSize, Mode=TwoWay}" VerticalAlignment="Center" />
 
                     <TextBlock Text="跟随系统:" Grid.Row="3"  VerticalAlignment="Center" Margin="0,0,16,4" />
 

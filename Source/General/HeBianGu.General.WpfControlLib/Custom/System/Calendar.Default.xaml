@@ -51,7 +51,7 @@
                                     <Storyboard>
                                         <DoubleAnimation Duration="0" To=".75" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SelectedBackground"/>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground)" Storyboard.TargetName="NormalText">
-                                            <DiscreteObjectKeyFrame Value="{DynamicResource S.Brush.White.Notice}" KeyTime="0" />
+                                            <DiscreteObjectKeyFrame Value="{DynamicResource S.Brush.TextForeground.White}" KeyTime="0" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -129,7 +129,7 @@
     </Style>
 
     <Style x:Key="S.Calendar.Button.Day" TargetType="{x:Type CalendarDayButton}">
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="MinWidth" Value="5"/>
         <Setter Property="MinHeight" Value="5"/>
         <Setter Property="FontSize" Value="12"/>
@@ -169,7 +169,7 @@
                                     <Storyboard>
                                         <DoubleAnimation Duration="0" To=".75" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="SelectedBackground"/>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground)" Storyboard.TargetName="NormalText">
-                                            <DiscreteObjectKeyFrame Value="{DynamicResource S.Brush.White.Notice}" KeyTime="0" />
+                                            <DiscreteObjectKeyFrame Value="{DynamicResource S.Brush.TextForeground.White}" KeyTime="0" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -217,7 +217,7 @@
                                     <Storyboard>
                                         <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="TodayBackground"/>
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground)" Storyboard.TargetName="NormalText">
-                                            <DiscreteObjectKeyFrame Value="{DynamicResource S.Brush.White.Notice}" KeyTime="0" />
+                                            <DiscreteObjectKeyFrame Value="{DynamicResource S.Brush.TextForeground.White}" KeyTime="0" />
                                         </ObjectAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
@@ -279,6 +279,7 @@
     <Style x:Key="S.CalendarItem.Default" TargetType="{x:Type CalendarItem}">
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Margin" Value="0,3,0,3"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CalendarItem}">
@@ -310,7 +311,7 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <local:Card UniformCornerRadius="2"  Background="{TemplateBinding Background}" local:ShadowAssist.ShadowDepth="Depth0">
+                        <local:Card UniformCornerRadius="2"  Background="{TemplateBinding Background}" local:ShadowAssist.ShadowDepth="{DynamicResource S.EffectShadow.1}">
                             <Grid>
                                 <Grid.Resources>
                                     <ControlTemplate x:Key="PreviousButtonTemplate" TargetType="{x:Type Button}">
@@ -362,7 +363,8 @@
                                                     <VisualState x:Name="Disabled"/>
                                                 </VisualStateGroup>
                                             </VisualStateManager.VisualStateGroups>
-                                            <local:MaterialDateDisplay x:Name="buttonContent" Foreground="{DynamicResource S}"
+                                            <!--上标题文本-->
+                                            <local:MaterialDateDisplay x:Name="buttonContent" Foreground="{DynamicResource S.Brush.TextForeground.White}"
                                                                      IsEnabled="{TemplateBinding IsEnabled}">
                                                 <local:MaterialDateDisplay.DisplayDate>
                                                     <MultiBinding Mode="OneWay">
@@ -404,7 +406,7 @@
                                            Margin="8"
                                            FontSize="14"
                                            Grid.Row="1" Grid.Column="1"
-                                           FontWeight="SemiBold"
+                                           FontWeight="SemiBold" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
                                            RenderTransformOrigin="0, 0.5"
                                            Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Calendar}}, Path=DisplayDate, StringFormat=yyyy-MM-dd}">
                                     <TextBlock.RenderTransform>
@@ -597,7 +599,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Calendar}">
-                    <CalendarItem x:Name="PART_CalendarItem" BorderBrush="{TemplateBinding BorderBrush}" 
+                    <CalendarItem x:Name="PART_CalendarItem" BorderBrush="{TemplateBinding BorderBrush}"
                                   BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" 
                                   Style="{DynamicResource S.CalendarItem.Default}"/>
                 </ControlTemplate>
