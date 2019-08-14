@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout
 {
     /// <summary>
-    /// CustomBottomControl.xaml 的交互逻辑
+    /// DimensionControl.xaml 的交互逻辑
     /// </summary>
-    public partial class CustomBottomControl : UserControl
+    public partial class DimensionControl : UserControl
     {
-        public CustomBottomControl()
+        public DimensionControl()
         {
             InitializeComponent();
         }

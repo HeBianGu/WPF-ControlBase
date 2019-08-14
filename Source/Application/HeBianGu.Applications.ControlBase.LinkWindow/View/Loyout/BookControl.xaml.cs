@@ -16,15 +16,25 @@ using System.Windows.Shapes;
 namespace HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout
 {
     /// <summary>
-    /// OverViewControl.xaml 的交互逻辑
+    /// BookControl.xaml 的交互逻辑
     /// </summary>
-    public partial class OverViewControl : UserControl
+    public partial class BookControl : UserControl
     {
-        public OverViewControl()
+        public BookControl()
         {
             InitializeComponent();
         }
 
+        private void AutoNextClick(object sender, RoutedEventArgs e)
+        {
+            myBook.AnimateToNextPage(cbFromTop.SelectedIndex == 0, 700);
+            myBook.Focus();
+        }
 
+        private void AutoPreviousClick(object sender, RoutedEventArgs e)
+        {
+            myBook.AnimateToPreviousPage(cbFromTop.SelectedIndex == 0, 700);
+            myBook.Focus();
+        }
     }
 }

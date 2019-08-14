@@ -155,5 +155,26 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
         {
             return View();
         }
+
+        public async Task<IActionResult> Book()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Xaml()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Dimension()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Geometry()
+        {
+            return View();
+        }
+        
     }
 }

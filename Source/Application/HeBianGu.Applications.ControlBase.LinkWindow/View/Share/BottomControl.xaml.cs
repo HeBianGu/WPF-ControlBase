@@ -13,18 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout
+namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     /// <summary>
-    /// OverViewControl.xaml 的交互逻辑
+    /// CustomBottomControl.xaml 的交互逻辑
     /// </summary>
-    public partial class OverViewControl : UserControl
+    public partial class BottomControl : UserControl
     {
-        public OverViewControl()
+        public BottomControl()
         {
             InitializeComponent();
         }
-
-
     }
 }
