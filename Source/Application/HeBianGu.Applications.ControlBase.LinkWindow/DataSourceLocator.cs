@@ -13,7 +13,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     {
         public DataSourceLocator()
         {
-            ServiceRegistry.Instance.UseMvc();
+           
         }
 
 

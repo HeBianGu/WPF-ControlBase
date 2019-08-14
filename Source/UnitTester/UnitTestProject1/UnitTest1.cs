@@ -5,6 +5,7 @@ using System.Net;
 using System.Reflection;
 using System.Windows.Media.Imaging;
 using HeBianGu.Applications.ControlBase.LinkWindow.Controler;
+using HeBianGu.Common.LocalConfig;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestProject1
@@ -16,19 +17,16 @@ namespace UnitTestProject1
         public void TestMethod1()
         {
 
-            TreeListController controller = new TreeListController();
+            //TreeListController controller = new TreeListController();
 
-            var uri = controller.TreeList();
+            //var uri = controller.TreeList();
 
-            var content = controller.TreeList();
+            //var content = controller.TreeList();
         }
 
         [TestMethod]
         public void TestMethod2()
         {
-
-            
-           
            var  tt= Assembly.GetEntryAssembly().GetType("HeBianGu.Applications.ControlBase.LinkWindow.ViewModel.LoyoutViewModel");
 
 
@@ -74,5 +72,48 @@ namespace UnitTestProject1
         }
 
 
+        [TestMethod]
+        public void TestMethod4()
+        {
+
+            MyClass myClass = new MyClass();
+
+            myClass.MyProperty = 11111;
+            myClass.MyProperty1 = 22222;
+            myClass.Name = "hebiangu";
+            //myClass.Name1 = "hebiangu1";
+            LocalConfigService service = new LocalConfigService();
+
+            service.Init(@"C:\Users\Healthy\Documents\HeBianGu\Tester\Config");
+
+            service.SaveConfig(myClass);
+
+             
+        }
+
+
+        [TestMethod]
+        public void TestMethod5()
+        {
+            LocalConfigService service = new LocalConfigService();
+
+            service.Init(@"C:\Users\Healthy\Documents\HeBianGu\Tester\Config");
+
+            MyClass result= service.LoadConfig<MyClass>();
+
+        }
     }
+
+   public class MyClass
+    {
+        public int MyProperty { get; set; }
+
+        public int MyProperty1 { get; set; }
+
+        public string Name { get; set; }
+
+
+           //public string Name1 { get; set; }
+    }
+   
 }

@@ -1,6 +1,9 @@
 ﻿using HeBianGu.Applications.ControlBase.LinkWindow.Control;
 using HeBianGu.Applications.ControlBase.LinkWindow.Controler;
 using HeBianGu.Base.WpfBase;
+using HeBianGu.Common.LocalConfig;
+using HeBianGu.Common.PublicTool;
+using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -19,9 +22,14 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     {
 
         protected override void OnStartup(StartupEventArgs e)
-        { 
+        {
+            //  Do：依赖注入
+            ServiceRegistry.Instance.Register<LocalConfigService>();
+
+            ServiceRegistry.Instance.UseMvc();
+
             //  Do：设置默认主题
-            ThemeService.Current.AccentColor = Color.FromRgb(0x1b, 0xa1, 0xe2);
+            ThemeService.Current.AccentColor =Color.FromRgb(0x1b, 0xa1, 0xe2);
 
             ThemeService.Current.StartAnimationTheme(1000 * 30);
 
@@ -41,8 +49,11 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             }
 
             base.OnStartup(e);
+        }
 
-
+        protected override void OnExit(ExitEventArgs e)
+        {
+            base.OnExit(e);
         }
 
 
