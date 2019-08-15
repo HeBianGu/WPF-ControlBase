@@ -25,7 +25,6 @@ namespace HeBianGu.General.WpfControlLib
         //集成到按指定时间间隔和指定优先级处理的 System.Windows.Threading.Dispatcher 队列中的计时器。
         private DispatcherTimer animationTimer;
         private ProgressBarDataModel _dataModel;
-        private int index = 0;
         #region 构造方法与加载
         /// <summary>
         /// 构造方法

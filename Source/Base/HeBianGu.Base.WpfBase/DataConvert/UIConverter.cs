@@ -564,8 +564,8 @@ namespace HeBianGu.Base.WpfBase
         {
             if (value == null) return null;
 
-            byte[] byteArray =System.Convert.FromBase64String(value.ToString());
-        
+            byte[] byteArray = System.Convert.FromBase64String(value.ToString());
+
             try
             {
                 BitmapImage bmp = null;
@@ -577,7 +577,7 @@ namespace HeBianGu.Base.WpfBase
 
                 return bmp;
             }
-            catch (Exception ex)
+            catch
             {
                 return null;
             }
@@ -617,6 +617,25 @@ namespace HeBianGu.Base.WpfBase
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class IsLastItemInContainerConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType,
+                              object parameter, CultureInfo culture)
+        {
+            DependencyObject item = (DependencyObject)value;
+            ItemsControl ic = ItemsControl.ItemsControlFromItemContainer(item);
+
+            return ic.ItemContainerGenerator.IndexFromContainer(item)
+                    == ic.Items.Count - 1;
+        }
+
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

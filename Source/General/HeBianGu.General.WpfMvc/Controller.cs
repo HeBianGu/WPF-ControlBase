@@ -37,7 +37,7 @@ namespace HeBianGu.General.WpfMvc
 
                 foreach (var item in models)
                 {
-                    EntityViewModel viewModel = Activator.CreateInstance(typeof(EntityViewModel),new object[] { item }) as EntityViewModel;
+                    EntityViewModel viewModel = Activator.CreateInstance(typeof(EntityViewModel), new object[] { item }) as EntityViewModel;
 
                     this.ViewModel.Collection.Add(viewModel);
                 }
@@ -202,7 +202,7 @@ namespace HeBianGu.General.WpfMvc
         {
             return View();
         }
-    } 
+    }
 
     public abstract class Controller<M, R> : Controller<M> where M : MvcViewModelBase where R : IRepository
     {
@@ -255,7 +255,7 @@ namespace HeBianGu.General.WpfMvc
     public abstract class ControllerBase : IController
     {
         protected virtual IActionResult View([CallerMemberName] string name = "")
-        { 
+        {
             var route = this.GetType().GetCustomAttributes(typeof(RouteAttribute), true).Cast<RouteAttribute>();
 
             string controlName = null;
@@ -273,7 +273,7 @@ namespace HeBianGu.General.WpfMvc
 
             string path = $"/{ass.Name};component/View/{controlName}/{name}Control.xaml";
 
-            Uri uri = new Uri(path, UriKind.RelativeOrAbsolute); 
+            Uri uri = new Uri(path, UriKind.RelativeOrAbsolute);
 
             var content = Application.Current.Dispatcher.Invoke(() =>
             {
@@ -344,6 +344,72 @@ namespace HeBianGu.General.WpfMvc
         }
 
     }
+
+
+    /// <summary> 用于记录带有输出日志的Controller类 </summary>
+    public class MvcLogControllerBase<T> : Controller<T> where T : MvcViewModelBase
+    {
+        IMvcLog _mvcLog = null;
+
+        public MvcLogControllerBase(IMvcLog shareViewModel)
+        {
+            _mvcLog = shareViewModel;
+        }
+
+        public void RunLog(string title, string message)
+        {
+            _mvcLog?.RunLog(title, message);
+        }
+
+        public void ErrorLog(string title, string message)
+        {
+            _mvcLog?.ErrorLog(title, message);
+        }
+
+        public void OutPutLog(string title, string message)
+        {
+            _mvcLog?.OutPutLog(title, message);
+        }
+
+        protected override IActionResult View([CallerMemberName] string name = "")
+        {
+            this.OutPutLog("跳转页面", $"调用控制器{this.GetType().Name},跳转到页面{name}");
+
+            return base.View(name);
+        }
+    }
+
+    public class MvcNavigationControllerBase<T> : MvcLogControllerBase<T> where T : MvcViewModelBase
+    {
+
+        public MvcNavigationControllerBase(IMvcLog imvclog) : base(imvclog)
+        {
+
+        }
+
+        protected override IActionResult View([CallerMemberName] string name = "")
+        {
+            if (this.GetType().GetMethod(name).GetCustomAttributes(typeof(RouteAttribute), true).FirstOrDefault() is RouteAttribute route)
+            {
+                var routes = route.Name.Split('/');
+
+                List<ILinkActionBase> result = new List<ILinkActionBase>();
+
+ 
+                foreach (var item in routes)
+                {
+                    ILinkActionBase link = this.ViewModel.GetLinkAction(item);
+
+                    result.Add(link);  
+                }
+
+                this.ViewModel.Navigation = result.ToObservable();
+            }
+
+            return base.View(name);
+        }
+    }
+
 
 
 

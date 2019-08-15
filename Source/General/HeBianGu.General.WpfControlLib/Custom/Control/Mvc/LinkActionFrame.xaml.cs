@@ -93,39 +93,6 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        //async Task RefreshLinkAction(ILinkActionBase linkActionBase)
-        //{
-        //    try
-        //    {
-        //        if (this.UseRandomWipe)
-        //        {
-        //            this.CurrentWipe = this.RandomWipes[random.Next(this.RandomWipes.Count)];
-        //        }
-        //        else
-        //        {
-        //            if (linkActionBase is LinkAction linkAction)
-        //            {
-        //                this.CurrentWipe = linkAction.TransitionWipe ?? new CircleWipe();
-        //            }
-        //        }
-
-        //        await Task.Run(async () =>
-        //        {
-        //            var result = await linkActionBase?.ActionResult();
-
-        //            this.Dispatcher.Invoke(() =>
-        //            {
-        //                this.Content = result?.View;
-        //            });
-
-        //        });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        this.Content = ex;
-        //    }
-        //}
-
         public ITransitionWipe CurrentWipe
         {
             get { return (ITransitionWipe)GetValue(CurrentWipeProperty); }

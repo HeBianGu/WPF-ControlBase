@@ -6,11 +6,11 @@ using System.Windows.Input;
 namespace HeBianGu.Base.WpfBase
 {
     public class ProcessCommand : ICommand
-    {
+    { 
 
         public bool CanExecute(object parameter)
         {
-            var result= File.Exists(parameter?.ToString()) || Directory.Exists(parameter?.ToString());
+            var result= File.Exists(parameter?.ToString()) || Directory.Exists(parameter?.ToString()); 
 
             return result;
         }
@@ -19,6 +19,7 @@ namespace HeBianGu.Base.WpfBase
         {
             System.Diagnostics.Process.Start(parameter?.ToString());
         }
+
 
         public event EventHandler CanExecuteChanged;
     }

@@ -12,10 +12,8 @@ using System.Threading.Tasks;
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     [ViewModel("Share")]
-    public class ShareViewModel : MvcViewModelBase
+    public class ShareViewModel : MvcLogViewModelBase
     {
-
-    
-
+        
     }
 }

@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     /// <summary>
-    /// CustomRightPropertyControl.xaml 的交互逻辑
+    /// CustomTopControl.xaml 的交互逻辑
     /// </summary>
-    public partial class CustomRightControl : UserControl
+    public partial class TopControl : UserControl
     {
-        public CustomRightControl()
+        public TopControl()
         {
             InitializeComponent();
         }

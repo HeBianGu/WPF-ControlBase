@@ -91,15 +91,21 @@ namespace HeBianGu.General.WpfMvc
             var results = this.GetType().GetCustomAttributes(typeof(ViewModelAttribute), true);
 
             return results?.FirstOrDefault()?.Cast<ViewModelAttribute>().Name;
-        } 
+        }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        protected void GoToLink(string action)
+        public ILinkActionBase GetLinkAction(string action)
         {
             ILinkActionBase link = new LinkActionBase();
             link.Controller = this.GetController();
             link.Action = action;
-            this.SelectLink = link;
+            link.DisplayName = action;
+            return link;
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        protected void GoToLink(string action)
+        {
+            this.SelectLink = GetLinkAction(action);
         }
 
         public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() => new RelayCommand<string>(Loaded, CanLoaded)).Value;
@@ -113,6 +119,20 @@ namespace HeBianGu.General.WpfMvc
         {
             return true;
         }
+
+
+        private ObservableCollection<ILinkActionBase> _navigation = new ObservableCollection<ILinkActionBase>();
+        /// <summary> 导航索引  </summary>
+        public ObservableCollection<ILinkActionBase> Navigation
+        {
+            get { return _navigation; }
+            set
+            {
+                _navigation = value;
+                RaisePropertyChanged("Navigation");
+            }
+        }
+
     }
 
 

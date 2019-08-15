@@ -28,7 +28,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         }
 
         Random random = new Random();
-        protected override async void RelayMethod(object obj)
+        protected override  void RelayMethod(object obj)
         {
             string command = obj.ToString();
 

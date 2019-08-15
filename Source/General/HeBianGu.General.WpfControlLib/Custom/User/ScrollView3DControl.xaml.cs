@@ -82,8 +82,6 @@ namespace HeBianGu.General.WpfControlLib
 
         private int SelectItemIndex = 0;
 
-        private int SelectImage = 0;
-
         private void Set3D(List<Visual> items)
         {
             
@@ -97,8 +95,6 @@ namespace HeBianGu.General.WpfControlLib
                 ItemCount = " / " + items.Count.ToString();
 
                 SelectItemIndex = 0;
-
-                SelectImage = 0;
 
                 AngleOffset = 360.0 / items.Count;
 

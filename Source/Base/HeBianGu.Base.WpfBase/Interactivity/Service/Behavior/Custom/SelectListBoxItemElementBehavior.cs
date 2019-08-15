@@ -6,6 +6,7 @@ using System.Windows.Media;
 
 namespace HeBianGu.Base.WpfBase
 {
+    /// <summary> 但点击当前控件时ListBoxItem项值也选中 </summary>
     public class SelectListBoxItemElementBehavior : Behavior<FrameworkElement>
     {
 
@@ -25,8 +26,6 @@ namespace HeBianGu.Base.WpfBase
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            int maxIndex = 0;
-
             var parent = AssociatedObject.GetParent<ListBoxItem>();
 
             if(parent!=null)

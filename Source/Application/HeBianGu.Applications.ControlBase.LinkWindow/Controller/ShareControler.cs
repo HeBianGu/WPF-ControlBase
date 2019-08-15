@@ -18,5 +18,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             return View();
         }
 
+        public async Task<IActionResult> Top()
+        {
+            return View();
+        }
     }
 }

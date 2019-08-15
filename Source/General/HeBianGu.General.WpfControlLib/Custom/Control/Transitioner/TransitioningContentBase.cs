@@ -23,8 +23,6 @@ namespace HeBianGu.General.WpfControlLib
         private SkewTransform _skewTransform;
         private TranslateTransform _translateTransform;
 
-        private bool _isOpeningEffectPending;
-
         static TransitioningContentBase()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(TransitioningContentBase), new FrameworkPropertyMetadata(typeof(TransitioningContentBase)));
@@ -112,10 +110,8 @@ namespace HeBianGu.General.WpfControlLib
             if (_matrixTransform == null)
             //if (!IsLoaded || _matrixTransform == null)
             {
-                _isOpeningEffectPending = true;
                 return;
             }
-            _isOpeningEffectPending = false;
 
             var storyboard = new Storyboard();
             var openingEffect = OpeningEffect?.Build(this);

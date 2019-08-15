@@ -56,7 +56,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
 
 
-        public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() =>new RelayCommand<string>(Loaded, CanLoaded)).Value;
+        public new RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() =>new RelayCommand<string>(Loaded, CanLoaded)).Value;
 
         private void Loaded(string args)
         {

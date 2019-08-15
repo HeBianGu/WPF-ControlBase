@@ -315,7 +315,6 @@ namespace HeBianGu.Base.WpfBase
             Color.FromRgb(0x64, 0x76, 0x87),   // steel
             Color.FromRgb(0x76, 0x60, 0x8a),   // mauve
             Color.FromRgb(0x87, 0x79, 0x4e),   // taupe
-            Color.FromRgb(0, 0, 0),   // black
         };
 
 

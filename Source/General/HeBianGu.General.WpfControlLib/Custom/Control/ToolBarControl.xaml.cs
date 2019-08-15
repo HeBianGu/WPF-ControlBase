@@ -72,36 +72,5 @@ namespace HeBianGu.General.WpfControlLib
 
              }));
 
-
-
-        public HorizontalAlignment HorizontalAlignment
-        {
-            get { return (HorizontalAlignment)GetValue(HorizontalAlignmentProperty); }
-            set { SetValue(HorizontalAlignmentProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty HorizontalAlignmentProperty =
-            DependencyProperty.Register("HorizontalAlignment", typeof(HorizontalAlignment), typeof(ToolBarControl), new PropertyMetadata(default(HorizontalAlignment), (d, e) =>
-             {
-                 ToolBarControl control = d as ToolBarControl;
-
-                 if (control == null) return;
-
-                 HorizontalAlignment config = (HorizontalAlignment)e.NewValue;
-
-                 control.sp_button.HorizontalAlignment = config;
-
-             }));
-
-        //private void cb_Checked(object sender, RoutedEventArgs e)
-        //{
-        //    this.sp_button.HorizontalAlignment = HorizontalAlignment.Left;
-        //}
-
-        //private void cb_Unchecked(object sender, RoutedEventArgs e)
-        //{
-        //    this.sp_button.HorizontalAlignment = HorizontalAlignment.Right;
-        //}
     }
 }

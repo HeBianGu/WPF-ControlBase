@@ -13,7 +13,7 @@ namespace HeBianGu.General.WpfControlLib
     [TemplatePart(Name = "PART_TransitionerSlide_New")]
     public partial class SwtichTransitioner : ContentControl, IZIndexController
     {
-        private Point? _nextTransitionOrigin;
+        private Point? _nextTransitionOrigin=null;
 
         static SwtichTransitioner()
         {

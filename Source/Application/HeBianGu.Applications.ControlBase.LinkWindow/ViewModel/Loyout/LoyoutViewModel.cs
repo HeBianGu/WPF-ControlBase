@@ -1,4 +1,5 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Common.PublicTool;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.General.WpfMvc;
 using System;
@@ -14,7 +15,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     [ViewModel("Loyout")]
     class LoyoutViewModel : MvcViewModelBase
-    {
+    { 
 
         private string _buttonContentText;
         /// <summary> 说明  </summary>
@@ -26,9 +27,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 _buttonContentText = value;
                 RaisePropertyChanged("ButtonContentText");
             }
-        }
-
-
+        } 
 
 
         private ObservableSource<TreeNodeEntity> _observableSource = new ObservableSource<TreeNodeEntity>();
@@ -117,21 +116,16 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             //  Do：确认取消对话框
             else if (command == "Button.ShowResultMessge")
             {
-                Action<object, DialogClosingEventArgs> action = (l, k) =>
+                var result = await MessageService.ShowResultMessge("确认要退出系统?");
+
+                if (result)
                 {
-                    if ((bool)k.Parameter)
-                    {
-                        MessageService.ShowSnackMessageWithNotice("你点击了取消");
-                    }
-                    else
-                    {
-                        MessageService.ShowSnackMessageWithNotice("你点击了确定");
-                    }
-                };
-
-                MessageService.ShowResultMessge("确认要退出系统?", action);
-
-
+                    MessageService.ShowSnackMessageWithNotice("你点击了取消");
+                }
+                else
+                {
+                    MessageService.ShowSnackMessageWithNotice("你点击了确定");
+                }
             }
             //  Do：提示消息
             else if (command == "Button.ShowSnackMessage")

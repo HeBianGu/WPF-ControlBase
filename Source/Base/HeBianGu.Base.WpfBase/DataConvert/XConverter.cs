@@ -154,8 +154,14 @@ namespace HeBianGu.Base.WpfBase
         {
             get { return new Number2PercentageConverter(); }
         }
-        
 
+        public static IsLastItemInContainerConverter IsLastItemInContainerConverter
+        {
+            get { return new IsLastItemInContainerConverter(); }
+        }
+
+
+        
 
         //public static SelectTextConverter SelectTextConverter
         //{

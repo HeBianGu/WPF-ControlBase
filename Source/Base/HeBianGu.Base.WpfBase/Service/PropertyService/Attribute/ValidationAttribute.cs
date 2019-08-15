@@ -8,7 +8,7 @@ namespace HeBianGu.Base.WpfBase
 {
     public abstract class ValidationAttribute : Attribute
     {
-        public Predicate<object> Match { get; set; }
+        public new Predicate<object> Match { get; set; }
 
         public ValidationAttribute(Predicate<object> match)
         {

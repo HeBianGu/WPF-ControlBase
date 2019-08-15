@@ -5,9 +5,11 @@ using System.Windows.Input;
 namespace HeBianGu.Base.WpfBase
 {
     public class CollapsedOfOpacityCommand : ICommand
-    {
-
-        public bool CanExecute(object parameter) => true;
+    {  
+        public bool CanExecute(object parameter)
+        { 
+            return true;
+        }
 
         public void Execute(object parameter)
         {

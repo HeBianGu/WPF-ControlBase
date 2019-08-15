@@ -9,7 +9,7 @@ namespace HeBianGu.General.WpfControlLib
     public class DragablzDragCompletedEventArgs : RoutedEventArgs
     {
         private readonly DragablzItem _dragablzItem;
-        private readonly bool _isDropTargetFound;
+
         private readonly DragCompletedEventArgs _dragCompletedEventArgs;
 
         public DragablzDragCompletedEventArgs(DragablzItem dragablzItem, DragCompletedEventArgs dragCompletedEventArgs)
