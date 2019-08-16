@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout
 {
     /// <summary>
-    /// BottomControl.xaml 的交互逻辑
+    /// PanelControl.xaml 的交互逻辑
     /// </summary>
-    public partial class BottomControl : UserControl
+    public partial class PanelControl : UserControl
     {
-        public BottomControl()
+        public PanelControl()
         {
             InitializeComponent();
         }

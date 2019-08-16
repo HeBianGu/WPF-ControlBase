@@ -318,7 +318,7 @@ namespace HeBianGu.General.WpfControlLib
             this.BindCommand(CloseWindowCommand, this.CloseCommand_Execute);
             this.BindCommand(MaximizeWindowCommand, this.MaxCommand_Execute);
             this.BindCommand(MinimizeWindowCommand, this.MinCommand_Execute);
-     
+
 
             //this.ShowAnimation = l =>
             //  {

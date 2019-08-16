@@ -297,7 +297,7 @@ namespace HeBianGu.General.WpfControlLib
 
             if (_selectedButton != null && _selectedButton.Content is Border border)
             {
-                border.Background = this.FindResource("S.Brush.Accent") as Brush;
+                border.Background = this.TryFindResource("S.Brush.Accent") as Brush;
             }
 
             var index = _panelPage.Children.IndexOf(_selectedButton);

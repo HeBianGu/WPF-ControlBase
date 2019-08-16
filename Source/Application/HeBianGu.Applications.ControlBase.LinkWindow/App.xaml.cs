@@ -3,6 +3,7 @@ using HeBianGu.Applications.ControlBase.LinkWindow.Controler;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.Common.LocalConfig;
 using HeBianGu.Common.PublicTool;
+using HeBianGu.General.WpfControlLib;
 using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
@@ -65,7 +66,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            Current.Dispatcher.Invoke(() => MessageBox.Show(e.Exception.Message, "系统异常"));
+            Current.Dispatcher.Invoke(() => MessageWindow.ShowSumit(e.Exception.Message, "系统异常",5));
 
             e.Handled = true;
         }

@@ -49,7 +49,7 @@ namespace HeBianGu.General.WpfControlLib
             this.ShowAnimation = l =>
             {
                 // Todo ：初始化淡出初始效果 
-                this.OpacityMask = this.FindResource("S.WindowOpMack.LoadBrush") as Brush;
+                this.OpacityMask = this.TryFindResource("S.WindowOpMack.LoadBrush") as Brush;
             };
 
             this.CloseAnimation = l =>

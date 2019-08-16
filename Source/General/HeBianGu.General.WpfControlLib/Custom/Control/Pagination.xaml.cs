@@ -355,7 +355,7 @@ namespace HeBianGu.General.WpfControlLib
         {
             return new RadioButton
             {
-                Style = this.FindResource("PaginationButtonStyle") as Style,
+                Style = this.TryFindResource("PaginationButtonStyle") as Style,
                 Tag = page.ToString()
             };
         }

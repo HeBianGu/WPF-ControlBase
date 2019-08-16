@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout.Transform3DControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout"
+             xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type wpfcontrollib:FButton}" BasedOn="{StaticResource S.FButton.Style.Transparent}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="30"/>
+        </Style>
+    </UserControl.Resources>
+    <ScrollViewer>
+        <StackPanel>
+            <GroupBox Header="三维变换 - 旋转">
+                <Viewbox Height="500">
+                    <Grid Background="Black" Width="1000" Height="600">
+                        <Viewport3D Margin="3">
+                            <Viewport3D.Camera>
+                                <PerspectiveCamera Position="0 0 800" LookDirection="0 0 -1" NearPlaneDistance="100"/>
+                            </Viewport3D.Camera>
+                            <Viewport3D.Children>
+                                <ContainerUIElement3D>
+                                    <Viewport2DVisual3D>
+                                        <Viewport2DVisual3D.Geometry>
+                                            <MeshGeometry3D Positions="-200 150 0  -200 -150 0  200 -150 0  200 150 0" TriangleIndices="0 1 2  0 2 3" TextureCoordinates="0 0  0 1  1 1  1 0"/>
+                                        </Viewport2DVisual3D.Geometry>
+                                        <Viewport2DVisual3D.Material>
+                                            <DiffuseMaterial Viewport2DVisual3D.IsVisualHostMaterial="True"/>
+                                        </Viewport2DVisual3D.Material>
+                                        <Viewport2DVisual3D.Visual>
+                                            <Border Width="400" Height="200" Background="Green">
+                                                <TextBlock FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">第一页</TextBlock>
+                                            </Border>
+                                        </Viewport2DVisual3D.Visual>
+                                    </Viewport2DVisual3D>
+                                    <Viewport2DVisual3D>
+                                        <Viewport2DVisual3D.Geometry>
+                                            <MeshGeometry3D Positions="200 150 0  200 -150 0  -200 -150 0  -200 150 0" TriangleIndices="0 1 2  0 2 3" TextureCoordinates="0 0  0 1  1 1  1 0"/>
+                                        </Viewport2DVisual3D.Geometry>
+                                        <Viewport2DVisual3D.Material>
+                                            <DiffuseMaterial Viewport2DVisual3D.IsVisualHostMaterial="True"/>
+                                        </Viewport2DVisual3D.Material>
+                                        <Viewport2DVisual3D.Visual>
+                                            <Border Width="400" Height="200" Background="Orange">
+                                                <TextBlock FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">第二页</TextBlock>
+                                            </Border>
+                                        </Viewport2DVisual3D.Visual>
+                                    </Viewport2DVisual3D>
+                                    <!-- 三维变换 -->
+                                    <ContainerUIElement3D.Transform>
+                                        <RotateTransform3D CenterX="0.5" CenterY="0.5" CenterZ="0.5">
+                                            <RotateTransform3D.Rotation>
+                                                <AxisAngleRotation3D x:Name="axr" Angle="0" Axis="0 1 0"/>
+                                            </RotateTransform3D.Rotation>
+                                        </RotateTransform3D> 
+                                    </ContainerUIElement3D.Transform>
+                                </ContainerUIElement3D>
+                                <ModelVisual3D>
+                                    <ModelVisual3D.Content>
+                                        <DirectionalLight Color="Transparent"/>
+                                    </ModelVisual3D.Content>
+                                </ModelVisual3D>
+                            </Viewport3D.Children>
+                        </Viewport3D>
+
+                        <wpfcontrollib:FButton   FontSize="50" Margin="50" Click="FButton_Click_Left" Content="&lt;" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        
+                        <wpfcontrollib:FButton    FontSize="50"  Margin="50"  Click="FButton_Click_Right" Content="&gt;"  HorizontalAlignment="Right" VerticalAlignment="Center"/>
+
+                        <wpfcontrollib:FButton   FontSize="50" Margin="50" Click="FButton_Click_Top" Content="&gt;" HorizontalAlignment="Center" VerticalAlignment="Top">
+                            <wpfcontrollib:FButton.RenderTransform>
+                                <RotateTransform Angle="-90"  CenterX="0.5" CenterY="0.5"/>
+                            </wpfcontrollib:FButton.RenderTransform>
+                           </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton   FontSize="50" Margin="-50" Click="FButton_Click_Botton" Content="&lt;" HorizontalAlignment="Center" VerticalAlignment="Bottom">
+                            <wpfcontrollib:FButton.RenderTransform>
+                                <RotateTransform Angle="-90" CenterX="0.5" CenterY="0.5"/>
+                            </wpfcontrollib:FButton.RenderTransform>
+                        </wpfcontrollib:FButton>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" >
+                            <wpfcontrollib:FButton  Click="FButton_Click_Rotate_Left" Content="左转"/>
+                            <wpfcontrollib:FButton  Click="FButton_Click_Rotate_Right" Content="右转" />
+                        </StackPanel>
+                    </Grid>
+                </Viewbox>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

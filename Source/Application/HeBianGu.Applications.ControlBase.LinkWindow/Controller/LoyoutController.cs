@@ -17,7 +17,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
     class LoyoutController : MvcNavigationControllerBase<LoyoutViewModel>
     {
 
-        public LoyoutController(ShareViewModel shareViewModel) :base(shareViewModel)
+        public LoyoutController(ShareViewModel shareViewModel) : base(shareViewModel)
         {
 
         }
@@ -32,7 +32,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
         {
             return View();
         }
-        
+
         public async Task<IActionResult> Left()
         {
             return View();
@@ -42,12 +42,12 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
         {
             return View();
         }
-        
+
         public async Task<IActionResult> Top()
         {
             return View();
         }
-        
+
         public async Task<IActionResult> Bottom()
         {
             return View();
@@ -153,8 +153,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
             return View();
 
         }
-        
-   
+
+
 
         [Route("OverView/Grid")]
         public async Task<IActionResult> Grid()
@@ -207,6 +207,22 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
         {
             return View();
         }
-        
+
+        [Route("OverView/Panel")]
+        public async Task<IActionResult> Panel()
+        {
+            return View();
+        }
+        [Route("OverView/Transform3D")]
+        public async Task<IActionResult> Transform3D()
+        {
+            return View();
+        }
+
+        [Route("OverView/Drawer")]
+        public async Task<IActionResult> Drawer()
+        {
+            return View();
+        }
     }
 }

@@ -13,21 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Applications.ControlBase.Demo
+namespace HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// DrawerControl.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow 
+    public partial class DrawerControl : UserControl
     {
-        public MainWindow()
+        public DrawerControl()
         {
-            InitializeComponent(); 
-        }
-
-        private void WindowBase_Loaded(object sender, RoutedEventArgs e)
-        {
-            //ThemeService.Current.AccentColor = Colors.Black;
+            InitializeComponent();
         }
     }
 }

@@ -4,25 +4,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 
-    <Style TargetType="{x:Type local:MetroProgressBar}">
+    <Style x:Key="S.MetroProgressBar.Default" TargetType="{x:Type local:MetroProgressBar}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
-
         <Setter Property="ProgressBarHeight" Value="15"/>
-        <Setter Property="CornerRadius" Value="7.5"/>
+        <Setter Property="CornerRadius" Value="0"/>
         <Setter Property="ProgressBarState" Value="None"/>
         <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Dark.2}"/>
         <Setter Property="FontSize" Value="10"/>
         <Setter Property="Padding" Value="5,0"/>
         <Setter Property="TextHorizontalAlignment" Value="Left"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MetroProgressBar}">
-                    <Grid Background="#00000000">
+                    <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" x:Name="height1"/>
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Determinate"/>
@@ -37,12 +39,18 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
+
                         <TextBlock Text="{TemplateBinding Title}" FontSize="12" Opacity="0.65" Margin="0,0,0,10" HorizontalAlignment="{TemplateBinding TextHorizontalAlignment}"/>
+
                         <Grid Grid.Row="1" Height="{TemplateBinding ProgressBarHeight}">
-                            <Border Background="{DynamicResource S.Brush.TextBackground.Default}" CornerRadius="{TemplateBinding CornerRadius}" Opacity="0.05"/>
-                            <Border BorderBrush="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" CornerRadius="{TemplateBinding CornerRadius}" Opacity="0.1"/>
+
+                            <Border Background="{DynamicResource S.Brush.Dark.3}" CornerRadius="{TemplateBinding CornerRadius}" Opacity="0.05"/>
+
+                            <Border BorderBrush="{DynamicResource S.Brush.Dark.4}" BorderThickness="1" CornerRadius="{TemplateBinding CornerRadius}" Opacity="0.1"/>
+
                             <Grid Margin="{TemplateBinding BorderThickness}">
-                                <Border x:Name="PART_Track"/>
+                                <Border x:Name="PART_Track" Background="{TemplateBinding Foreground}"/>
+
                                 <Grid x:Name="PART_Indicator" ClipToBounds="True" HorizontalAlignment="Left" MinWidth="{TemplateBinding CornerRadius,Converter={x:Static base:XConverter.VisibilityEmptyConverter},ConverterParameter=2}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition x:Name="width1"/>
@@ -71,7 +79,9 @@
                                                 </TextBlock>
                                             </Viewbox>
                                         </Border>
-                                        <Border BorderBrush="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" CornerRadius="{TemplateBinding CornerRadius}" Opacity="0.1"/>
+
+                                        <Border BorderBrush="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" 
+                                                CornerRadius="{TemplateBinding CornerRadius}" Opacity="0.1"/>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -104,4 +114,20 @@
         </Setter>
     </Style>
 
+    <Style  x:Key="S.MetroProgressBar.CornerRadius.30"  TargetType="{x:Type local:MetroProgressBar}" BasedOn="{StaticResource S.MetroProgressBar.Default}"> 
+        <Setter Property="ProgressBarHeight" Value="30"/> 
+        <Setter Property="Width" Value="300"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Setter Property="Clip">
+            <Setter.Value>
+                <RectangleGeometry RadiusX="20" RadiusY="20">
+                    <RectangleGeometry.Rect>
+                        <Rect Width="300"  Height="30"/>
+                    </RectangleGeometry.Rect>
+                </RectangleGeometry>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:MetroProgressBar}" BasedOn="{StaticResource S.MetroProgressBar.Default}"/>
 </ResourceDictionary>

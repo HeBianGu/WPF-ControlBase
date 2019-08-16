@@ -10,7 +10,7 @@ using System.Windows.Interop;
 namespace HeBianGu.General.WpfControlLib
 {
     /// <summary> 磨砂类型窗口 </summary>
-    public partial class BlurWindowBase : WindowBase
+    public partial class BlurWindowBase : MainWindowBase
     {
         public BlurWindowBase() : base()
         {
