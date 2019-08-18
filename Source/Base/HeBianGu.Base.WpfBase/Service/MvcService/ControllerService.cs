@@ -4,19 +4,17 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using HeBianGu.Base.WpfBase;
+using System.Windows; 
 
 namespace HeBianGu.Base.WpfBase
 {
     public class ControllerService
     {
-        public static async Task<IActionResult> CreateActionResult(string controlName, string name)
+        public static  Task<IActionResult> CreateActionResult(string controlName, string name)
         {
             IController control = GetController(controlName);
 
-            return await GetActionResult(control, name);
+            return GetActionResult(control, name) as Task<IActionResult>;
         }
 
         public static IController GetController(string controlName)
@@ -27,32 +25,31 @@ namespace HeBianGu.Base.WpfBase
             return ServiceRegistry.Instance.GetInstance(type) as IController;
         }
 
-        public static async Task<IActionResult> GetActionResult(IController controller, string action, object[] args = null)
+        public static object GetActionResult(IController controller, string action, object[] args = null)
         {
+            MethodInfo method = controller.GetType().GetMethod(action);
+
             //  Do：通过反射调用指定名称的方法
-            var from = controller.GetType().GetMethod(action).Invoke(controller, args) as Task<IActionResult>;
+            return controller.GetType().GetMethod(action).Invoke(controller, args);
 
-            return await from;
-
-            //if (from is Task<IActionResult>)
-            //{
-            //    Task<IActionResult> task = from as Task<IActionResult>;
-            //    return await task;
-            //}
-            //else if (from is IActionResult)
-            //{ 
-            //    return from as IActionResult;
-            //} 
-
-            //return null;
         }
 
         public static object GetViewModel(string controlName)
         {
-            Type type = Assembly.GetEntryAssembly().GetTypeOfMatch<NotifyPropertyChanged>(l => l.Name == controlName + "ViewModel");
+            Type type = Assembly.GetEntryAssembly().GetTypeOfMatch(l => l.Name == controlName + "ViewModel");
 
             return ServiceRegistry.Instance.GetInstance(type);
         }
 
+        public static Task DoActionResult(string control, string action, object[] args = null)
+        {
+            IController controller = GetController(control);
+
+            MethodInfo method = controller.GetType().GetMethod(action);
+
+            //  Do：通过反射调用指定名称的方法
+            return controller.GetType().GetMethod(action).Invoke(controller, args) as Task;
+
+        }
     }
 }

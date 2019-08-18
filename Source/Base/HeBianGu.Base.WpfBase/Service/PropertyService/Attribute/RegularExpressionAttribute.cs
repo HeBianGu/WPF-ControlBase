@@ -17,6 +17,8 @@ namespace HeBianGu.Base.WpfBase
             _regex = new Regex(pattern);
 
             Pattern = pattern;
+
+            this.ErrorMessage = "数据不匹配";
         }
 
         public string Pattern { get; }
@@ -24,6 +26,8 @@ namespace HeBianGu.Base.WpfBase
 
         public override bool IsValid(object value)
         {
+            if (value == null) return false;
+
             return _regex.IsMatch(value.ToString());
         }
     }

@@ -19,6 +19,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -235,7 +236,7 @@ namespace HeBianGu.Base.WpfBase
         {
             return DependencyProperty.UnsetValue;
         }
-    } 
+    }
 
     /// <summary> 百分比转换为角度值 </summary>
     public class PercentToAngleConverter : IValueConverter
@@ -386,7 +387,7 @@ namespace HeBianGu.Base.WpfBase
         {
             return null;
         }
-    } 
+    }
 
     public class BrushRoundConverter : IValueConverter
     {
@@ -419,7 +420,7 @@ namespace HeBianGu.Base.WpfBase
         Subtract,
         Multiply,
         Divide
-    } 
+    }
 
     public sealed class MathMultipleConverter : IMultiValueConverter
     {
@@ -506,7 +507,7 @@ namespace HeBianGu.Base.WpfBase
         {
             if (value == null) return null;
 
-            if (parameter == null) return value; 
+            if (parameter == null) return value;
 
             return value.ToString().Replace(value.ToString().Split(' ')[0], value.ToString().Split(' ')[1]);
         }
@@ -523,13 +524,13 @@ namespace HeBianGu.Base.WpfBase
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value == null||parameter==null) return false;
+            if (value == null || parameter == null) return false;
             return value.Equals(parameter);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if((bool)value)
+            if ((bool)value)
             {
                 return parameter;
             }
@@ -537,15 +538,15 @@ namespace HeBianGu.Base.WpfBase
             return null;
         }
     }
-     
+
     public class IsMultiValueEqualConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (values == null) return false;
 
-            if (values.Length <2) return false;
-             
+            if (values.Length < 2) return false;
+
 
             return values[0] == values[1];
         }
@@ -556,5 +557,88 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+    /// <summary> 替换字符串 </summary>
+    public class ByteToImageSourceConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value == null) return null;
+
+            byte[] byteArray = System.Convert.FromBase64String(value.ToString());
+
+            try
+            {
+                BitmapImage bmp = null;
+
+                bmp = new BitmapImage();
+                bmp.BeginInit();
+                bmp.StreamSource = new MemoryStream(byteArray);
+                bmp.EndInit();
+
+                return bmp;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((bool)value)
+            {
+                return parameter;
+            }
+
+            return null;
+        }
+    }
+
+    public class Number2PercentageConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null || values.Length != 2) return .0;
+
+            var obj1 = values[0];
+            var obj2 = values[1];
+
+            if (obj1 == null || obj2 == null) return .0;
+
+            var str1 = values[0].ToString();
+            var str2 = values[1].ToString();
+
+            var v1 = double.Parse(str1);
+            var v2 = double.Parse(str2);
+
+            if (Math.Abs(v2) < 1E-06) return 100.0;
+
+            return v1 / v2 * 100;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class IsLastItemInContainerConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType,
+                              object parameter, CultureInfo culture)
+        {
+            DependencyObject item = (DependencyObject)value;
+            ItemsControl ic = ItemsControl.ItemsControlFromItemContainer(item);
+
+            return ic.ItemContainerGenerator.IndexFromContainer(item)
+                    == ic.Items.Count - 1;
+        }
+
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 
 }

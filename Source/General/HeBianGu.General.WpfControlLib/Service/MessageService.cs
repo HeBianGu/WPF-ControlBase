@@ -1,15 +1,20 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace HeBianGu.General.WpfControlLib
 {
     public static class MessageService
     {
+
+        public static MessageCloseLayerCommand CloseLayer { get; } = new MessageCloseLayerCommand();
+
         public static void ShowSnackMessage(string message)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -68,10 +73,10 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         public static async Task ShowWaittingMessge(Action action, Action closeAction = null)
-        {  
+        {
             await Application.Current.Dispatcher.Invoke(async () =>
              {
-                 if (CheckOpen()) return null; 
+                 if (CheckOpen()) return null;
 
                  var view = new WaittingMessageDialog();
 
@@ -153,10 +158,14 @@ namespace HeBianGu.General.WpfControlLib
 
         public static bool IsOpened()
         {
-            return DialogHost.IsOpened();
+            return Application.Current.Dispatcher.Invoke(() =>
+            {
+                return DialogHost.IsOpened();
+            });
+
         }
 
-        public static async void ShowResultMessge(string message, Action<object, DialogClosingEventArgs> action)
+        public static async Task ShowResultMessge(string message, Action<object, DialogClosingEventArgs> action)
         {
             if (CheckOpen()) return;
 
@@ -175,6 +184,34 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
+        public static async Task<bool> ShowResultMessge(string message)
+        {
+            if (CheckOpen()) return false;
+
+            bool result = false;
+
+            Action<object, DialogClosingEventArgs> action = (l, k) =>
+             {
+                 result = (bool)k.Parameter;
+             };
+
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
+                var view = new ResultMessageDialog();
+
+                view.MessageStr = message;
+
+                //show the dialog
+                return await DialogHost.ShowWithClose(view, "windowDialog", (l, e) =>
+                {
+                    action?.Invoke(l, e);
+                });
+            });
+
+            return result;
+
+        }
+
 
 
         /// <summary> 显示蒙版 </summary>
@@ -182,9 +219,22 @@ namespace HeBianGu.General.WpfControlLib
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                IWindowBase window = Application.Current.MainWindow as IWindowBase;
+                if (Application.Current.MainWindow is IWindowBase window)
+                {
+                    window.ShowWithLayer(uri);
+                }
+            });
+        }
 
-                window?.ShowWithLayer(uri);
+        /// <summary> 显示蒙版 </summary>
+        public static void ShowWithLayer(IActionResult link, int layerIndex = 0)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if(Application.Current.MainWindow is IWindowBase window)
+                {
+                    window.ShowWithLayer(link);
+                }
             });
         }
 
@@ -192,10 +242,11 @@ namespace HeBianGu.General.WpfControlLib
         public static void CloseWithLayer(int layerIndex = 0)
         {
             Application.Current.Dispatcher.Invoke(() =>
-            {
-                IWindowBase window = Application.Current.MainWindow as IWindowBase;
-
-                window?.CloseWithLayer();
+            {  
+                if (Application.Current.MainWindow is IWindowBase window)
+                {
+                    window.CloseWithLayer();
+                }
             });
         }
 
@@ -209,11 +260,27 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (window != null)
                 {
-                    window.ShowNotifyMessage(title,message, tipIcon, timeout);
+                    window.ShowNotifyMessage(title, message, tipIcon, timeout);
                 }
-});
+            });
 
         }
 
+    } 
+
+    public class MessageCloseLayerCommand : ICommand
+    { 
+
+        public bool CanExecute(object parameter)
+        { 
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            MessageService.CloseWithLayer();
+        }
+
+        public event EventHandler CanExecuteChanged;
     }
 }

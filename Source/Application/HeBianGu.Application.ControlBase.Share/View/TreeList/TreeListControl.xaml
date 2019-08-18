@@ -1,0 +1,132 @@
+﻿<UserControl x:Class="HeBianGu.Applications.ControlBase.LinkWindow.TreeListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow"
+             xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
+             xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+             mc:Ignorable="d" Foreground="{DynamicResource S.Brush.TextForeground.Default}" 
+             FontSize="{DynamicResource S.FontSize.Default}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Grid.Column="1" Grid.Row="1" Margin="15,0,15,20">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <wpfcontrollib:FButton Content="加载..." 
+                               Grid.Row="0" Style="{DynamicResource S.FButton.Style.Default}" 
+                               HorizontalAlignment="Left"
+                               Command="{Binding RelayCommand}" 
+                               CommandParameter="TreeList.Load"/>
+
+        <Grid  Grid.Row="4" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="数量总计："  Foreground="{DynamicResource S.Brush.TextForeground.Title}"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Text="{Binding Count}" FontWeight="Bold"
+                       Margin="10,5"  Grid.Column="1" Foreground="{DynamicResource S.Brush.Red.Notice}"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center"/>
+
+            <TextBlock Text="选则项目：" Foreground="{DynamicResource S.Brush.TextForeground.Title}"
+                       Margin="10,5"   Grid.Column="2"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"/>
+
+            <TextBlock  Foreground="{DynamicResource S.Brush.Orange.Notice}"
+                       Margin="10,5"  Grid.Column="3"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center">
+                <Run Text="{Binding ElementName=treeList,Path=SelectedItem.Code}"/>
+                 <Run Text="-"/>
+                <Run Text="{Binding ElementName=treeList,Path=SelectedItem.Name}"/>
+            </TextBlock>
+        </Grid>
+
+        <Grid  Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="选择类别：" Foreground="{DynamicResource S.Brush.TextForeground.Title}" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Top"/>
+
+            <ListBox  Style="{DynamicResource S.ListBox.WrapPanelSelecter.CheckBox}" MinHeight="50"
+                      ItemsSource="{Binding EntityCheck}" 
+                      SelectedItem="{Binding SelectEntityNode}"
+                      SelectedIndex="0"   Grid.Column="1" 
+                      VerticalAlignment="Center"></ListBox>
+        </Grid>
+
+        <Grid  Grid.Row="2" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="输入条件："  Foreground="{DynamicResource S.Brush.TextForeground.Title}"
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center"/>
+
+            <wpfcontrollib:FTextBox  Height="30" Grid.Column="1"
+                                 Width="Auto"  TextChanged="Txt_filter_TextChanged"
+                                 Style="{DynamicResource ClearButtonTextBox}"/>
+        </Grid>
+
+
+        <wpfcontrollib:TreeListView x:Name="treeList" Grid.Row="3"  FontSize="{DynamicResource S.FontSize.Default}"
+                                    SelectItem="{Binding SelectTreeEntityNode,Mode=TwoWay}" 
+                                    ItemsSource="{Binding Nodes}">
+            <wpfcontrollib:TreeListView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Nodes}"/>
+            </wpfcontrollib:TreeListView.ItemTemplate>
+            <wpfcontrollib:TreeListView.Columns>
+                <GridViewColumnCollection>
+                    <GridViewColumn Header="列头"  Width="500">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}" 
+                                                  Margin="{Binding Path=Level, Converter={StaticResource LevelIndentConverter}, 
+                                                            RelativeSource={RelativeSource AncestorType={x:Type wpfcontrollib:TreeListViewItem}}}"
+                                                  IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type wpfcontrollib:TreeListViewItem}}}"
+                                                  ClickMode="Press"/>
+                                    <!--首列绑定值-->
+                                    <TextBlock Margin="5,0">
+                <Run Text="{Binding Code}"/>
+                <Run Text="{Binding Name}"/>
+                                    </TextBlock>
+                                </DockPanel>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Path=HasItems,RelativeSource={RelativeSource AncestorType={x:Type wpfcontrollib:TreeListViewItem}}}" Value="False">
+                                        <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="名称"   DisplayMemberBinding="{Binding Name}" Width="200" />
+                    <GridViewColumn Header="编号"   DisplayMemberBinding="{Binding Code}" Width="200" />
+                    <GridViewColumn Header="类型"   DisplayMemberBinding="{Binding RootCode}" Width="200" />
+                    <GridViewColumn Header="父节点" DisplayMemberBinding="{Binding ParentID}" Width="200" />
+                </GridViewColumnCollection>
+            </wpfcontrollib:TreeListView.Columns>
+        </wpfcontrollib:TreeListView>
+    </Grid> 
+</UserControl>

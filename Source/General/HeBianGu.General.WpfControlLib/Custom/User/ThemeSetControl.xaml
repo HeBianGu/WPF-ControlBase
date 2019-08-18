@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="HeBianGu.General.WpfControlLib.ThemeSetControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+             xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d"
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <ScrollViewer  HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <StackPanel x:Name="Panel" MinWidth="150">
+
+                <TextBlock Text="主题设置"  Margin="0,0,0,8" />
+
+                <ListBox ItemsSource="{Binding AccentColors}"
+                         SelectedItem="{Binding SelectedAccentColor, Mode=TwoWay}"
+                         Margin="0,0,0,16">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=Panel}" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Rectangle Width="40" Height="40" Margin="2" >
+                                <Rectangle.Fill>
+                                    <SolidColorBrush x:Name="Brush" Color="{Binding}" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Grid HorizontalAlignment="Left">
+                    <Grid.Resources>
+                        <DataTemplate x:Key="D.ColorLink.Default" DataType="{x:Type local:ColorLink}">
+                            <Grid Height="30">
+                                <Border x:Name="border" Background="{Binding Color}">
+                                    <TextBlock x:Name="text" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding DisplayName}" Foreground="{Binding Text}" ToolTip="{Binding Source.LocalPath}"/>
+                                </Border>
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding DisplayName}" Value="Accent">
+                                    <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" TargetName="border"/>
+                                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}" TargetName="text"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers> 
+                        </DataTemplate>
+
+                        <Style x:Key="S.ComboBoxItem.Current" TargetType="ComboBoxItem" BasedOn="{StaticResource ComboBoxItemStyle}">
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                        </Style>
+                    </Grid.Resources>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition MinWidth="120"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" />
+                        <RowDefinition  Height="*"/>
+                        <RowDefinition  Height="*"/>
+                        <RowDefinition  Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="应用场景:" VerticalAlignment="Center" Margin="0,0,16,4" /> 
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding Palettes}" SelectedItem="{Binding SelectedPalette, Mode=TwoWay}" 
+                              VerticalAlignment="Center" Margin="0,0,0,4" ItemContainerStyle="{StaticResource S.ComboBoxItem.Current}" > 
+                    </ComboBox>
+
+                    <TextBlock Grid.Row="1" Text="应用主题:" VerticalAlignment="Center" Margin="0,0,16,4" />
+                    
+                    <ComboBox Grid.Row="1" Grid.Column="1" IsEnabled="True" ItemsSource="{Binding Themes}" 
+                              SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
+                              ItemTemplate="{StaticResource D.ColorLink.Default}"
+                              VerticalAlignment="Center" Margin="0,0,0,4" /> 
+
+                    <TextBlock Grid.Row="2" Text="字体大小:" VerticalAlignment="Center" Margin="0,0,16,0" />
+                    <ComboBox Grid.Row="2" Grid.Column="1"   HorizontalContentAlignment="Center"   ItemsSource="{Binding FontSizes}" SelectedItem="{Binding SelectedFontSize, Mode=TwoWay}" VerticalAlignment="Center" />
+
+                    <TextBlock Text="跟随系统:" Grid.Row="3"  VerticalAlignment="Center" Margin="0,0,16,4" />
+
+                    <local:FCheckBox Grid.Row="3"  Grid.Column="1" HorizontalAlignment="Center"  IsChecked="{Binding IsFollowSystemSystem}"/>
+
+                    <TextBlock Text="自定义色:" Grid.Row="4"  VerticalAlignment="Center" Margin="0,0,16,4" />
+
+                    <local:MetroColorPicker Grid.Row="4" Grid.Column="1" Background="{Binding SelectedAccentColor,Converter={x:Static base:XConverter.ColorToBrushConverter},Mode=TwoWay}" Height="30" Width="30" Margin="5"/>
+                </Grid>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

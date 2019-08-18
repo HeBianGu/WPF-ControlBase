@@ -46,9 +46,9 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        public async Task<IActionResult> ActionResult()
+        public Task<IActionResult> ActionResult()
         { 
-            return await ControllerService.CreateActionResult(this.Controller, this.Action);
+            return ControllerService.CreateActionResult(this.Controller, this.Action);
 
         }
 
@@ -64,11 +64,7 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-
-
-        public List<TransitionEffectBase> OpeningEffects { get; set; } = new List<TransitionEffectBase>();
-
-        public TransitionEffectBase OpeningEffect { get; set; }
+        public ITransitionWipe TransitionWipe { get; set; }
 
     }
 

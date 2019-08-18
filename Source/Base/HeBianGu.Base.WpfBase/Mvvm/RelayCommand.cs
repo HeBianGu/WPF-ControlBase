@@ -68,9 +68,7 @@ namespace HeBianGu.Base.WpfBase
             RelayCommand s = new RelayCommand(action);
             return s;
         }
-    }
-
-
+    } 
 
     /// <summary>
     /// 广播命令：基本ICommand实现接口，带参数

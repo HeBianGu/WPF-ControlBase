@@ -1,4 +1,6 @@
-﻿using HeBianGu.Base.WpfBase.Color;
+﻿
+
+using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using System;
 using System.Collections.Generic;
@@ -19,8 +21,8 @@ namespace HeBianGu.Applications.ControlBase.Demo
 
         public App()
         {
-            //DispatcherUnhandledException += App_DispatcherUnhandledException;
-            //AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
         void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
@@ -46,6 +48,9 @@ namespace HeBianGu.Applications.ControlBase.Demo
 
             ThemeService.Current.StartAnimationTheme(1000);
 
+            MainWindow shellWindow = new MainWindow();
+
+            shellWindow.Show();
 
             base.OnStartup(e);
         }

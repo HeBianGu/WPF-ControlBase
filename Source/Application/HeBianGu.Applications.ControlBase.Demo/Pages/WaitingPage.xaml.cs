@@ -89,27 +89,27 @@ namespace WpfControlDemo.View
 
         private void btn_showwindow_Click(object sender, RoutedEventArgs e)
         {
-            string format = "正在处理{0}/{1}";
+            //string format = "正在处理{0}/{1}";
 
-            bool isBreak = false;
+            //bool isBreak = false;
 
-            Action<ProgressWindow> action = l =>
-            {
-                for (int i = 1; i < 19; i++)
-                {
-                    if (isBreak) break;
+            //Action<ProgressWindow> action = l =>
+            //{
+            //    for (int i = 1; i < 19; i++)
+            //    {
+            //        if (isBreak) break;
 
-                    Thread.Sleep(1000);
+            //        Thread.Sleep(1000);
 
-                    l.SetPercent(18, i, string.Format(format, i, 18));
-                }
-            };
+            //        l.SetPercent(18, i, string.Format(format, i, 18));
+            //    }
+            //};
 
-            Action cancelAction = () => isBreak = true;
+            //Action cancelAction = () => isBreak = true;
 
-            Tuple<string, Action> cancel = new Tuple<string, Action>("取消", cancelAction);
+            //Tuple<string, Action> cancel = new Tuple<string, Action>("取消", cancelAction);
 
-            ProgressWindow.ShowDialogWith(action, "正在上传", cancel);
+            //ProgressWindow.ShowDialogWith(action, "正在上传", cancel);
         }
     }
 }

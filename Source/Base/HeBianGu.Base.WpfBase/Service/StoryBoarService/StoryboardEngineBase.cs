@@ -30,7 +30,7 @@ namespace HeBianGu.Base.WpfBase
 
         public abstract StoryboardEngineBase Stop();
 
-        public StoryboardEngineBase(int second, string property)
+        public StoryboardEngineBase(double second, string property)
         {
             this.PropertyPath = new PropertyPath(property);
             this.Duration = new Duration(TimeSpan.FromSeconds(second));
@@ -41,7 +41,7 @@ namespace HeBianGu.Base.WpfBase
     /// <summary> 动画泛型引擎基类 </summary>
     public abstract class StoryboardEngineBase<T> : StoryboardEngineBase
     {
-        public StoryboardEngineBase(T from, T to, int second, string property) : base(second, property)
+        public StoryboardEngineBase(T from, T to, double second, string property) : base(second, property)
         {
             this.FromValue = from;
             this.ToValue = to;

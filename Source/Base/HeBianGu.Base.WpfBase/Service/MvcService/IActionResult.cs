@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
+using System.Threading.Tasks; 
 
 namespace HeBianGu.Base.WpfBase
 {
     public interface IActionResult
     {
-        ContentControl View { get; set; }
+        object View { get; set; }
 
         Uri Uri { get; set; }
 

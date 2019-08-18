@@ -17,7 +17,7 @@ namespace HeBianGu.Base.WpfBase
         /// <param name="second"> 间隔时间秒 </param>
         /// <param name="property"> 修改属性名称 </param>
         /// 
-        public static DoubleStoryboardEngine Create(double from, double to, int second, string property)
+        public static DoubleStoryboardEngine Create(double from, double to, double second, string property)
         {
             return new DoubleStoryboardEngine(from, to, second, property);
         }
@@ -26,7 +26,7 @@ namespace HeBianGu.Base.WpfBase
         /// <param name="to"> 结束值  </param>
         /// <param name="second"> 间隔时间秒 </param>
         /// <param name="property"> 修改属性名称 </param>
-        public DoubleStoryboardEngine(double from, double to, int second, string property) : base(from, to, second, property)
+        public DoubleStoryboardEngine(double from, double to, double second, string property) : base(from, to, second, property)
         {
 
         }
@@ -34,7 +34,7 @@ namespace HeBianGu.Base.WpfBase
         public override StoryboardEngineBase Start(UIElement element)
         {
             //  Do：时间线
-            DoubleAnimation animation = new DoubleAnimation(1, 0, this.Duration);
+            DoubleAnimation animation = new DoubleAnimation(this.FromValue, this.ToValue, this.Duration);
 
             if (this.Easing != null)
                 animation.EasingFunction = this.Easing;

@@ -32,7 +32,35 @@ namespace HeBianGu.Base.WpfBase
             @ui.CommandBindings.Add(bind);
         }
 
-        #endregion  
+        #endregion
+
+
+   
+        public static void Visible(this UIElement @ui)
+        {
+            @ui.Visibility=Visibility.Visible;
+        }
+
+        public static void VisibilityWith(this UIElement @ui,bool from)
+        {
+            if(from)
+            {
+                @ui.Visible();
+            }else
+            {
+                ui.Collapsed();
+            }
+        }
+
+        public static void Hidden(this UIElement @ui)
+        {
+            @ui.Visibility = Visibility.Hidden;
+        }
+
+        public static void Collapsed(this UIElement @ui)
+        {
+            @ui.Visibility = Visibility.Collapsed;
+        }
     }
 
 

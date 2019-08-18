@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout.ObservableControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout"
+             xmlns:local1="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow"
+             xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
+             xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="D.Template.TreeNodeEntity.Property" DataType="{x:Type local1:TreeNodeEntity}">
+            <Grid Height="350">
+                <Viewbox>
+                    <wpfcontrollib:ObjectPropertyForm Grid.Row="1" Title="学生信息" SelectObject="{Binding}" >
+                        <base:Interaction.Behaviors>
+                            <base:MouseDragElementBehavior ConstrainToParentBounds="True"/>
+                            <base:SelectZIndexElementBehavior/>
+                        </base:Interaction.Behaviors>
+                    </wpfcontrollib:ObjectPropertyForm>
+                </Viewbox>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Grid >
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="每页显示条数:" Style="{DynamicResource S.TextBlock.Default}"/>
+                <Slider x:Name="slider" Maximum="100" Minimum="5"  Value="{Binding ObservableSource.PageCount}" Width="300" VerticalAlignment="Center" SmallChange="1"/>
+                <TextBlock Text="{Binding ElementName=slider,Path=Value}" Style="{DynamicResource S.TextBlock.Default}"/>
+            </StackPanel>
+        </Grid>
+
+
+        <ListBox Grid.Row="1" ItemsSource="{Binding ObservableSource.Source}" Style="{DynamicResource S.ListBox.FluidMoveBehavior}"
+                 ItemTemplate="{StaticResource D.Template.TreeNodeEntity.Property}">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid IsItemsHost="True" Columns="3"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <TextBlock  Style="{DynamicResource S.TextBlock.FontSize.16}">
+                    <Run Text="第"/>
+                    <Run Text="{Binding ObservableSource.MinValue}" FontWeight="Black"/>
+                    <Run Text="到"/>
+                    <Run Text="{Binding ObservableSource.MaxValue}" FontWeight="Black"/>
+                    <Run Text="条记录，共"/>
+                    <Run Text="{Binding ObservableSource.Total}"  FontWeight="Black"/>
+                    <Run Text="条"/>
+                </TextBlock>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <wpfcontrollib:Pagination MaxPageCount="{Binding ObservableSource.TotalPage,Mode=TwoWay}" Width="600"
+                                  PageIndex="{Binding ObservableSource.PageIndex,Mode=TwoWay}"/>
+
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

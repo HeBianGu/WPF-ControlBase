@@ -22,7 +22,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>..\..\..\Product\Debug\HeBianGu.Base.WpfBase.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,6 +51,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\ProcessCommand.cs" />
     <Compile Include="Command\CollapsedOfOpacityCommand.cs" />
     <Compile Include="Command\CommandService.cs" />
     <Compile Include="ControlAttach\ControlAttachEvent.cs" />
@@ -79,9 +81,12 @@
     <Compile Include="Interactivity\Service\Behavior\Custom\ScrollToTargetAction.cs" />
     <Compile Include="Interactivity\Service\Behavior\Custom\SelectedItemsCollectionSynchronizerBehavior.cs" />
     <Compile Include="Interactivity\Service\Behavior\Custom\SelectTextOnFocusBehavior.cs" />
+    <Compile Include="Interactivity\Service\Behavior\Custom\SelectListBoxItemElementBehavior.cs" />
     <Compile Include="Interactivity\Service\Behavior\Custom\SynchronizedScrollingBehavior.cs" />
     <Compile Include="Interactivity\Service\Behavior\Custom\ViewportSynchronizerBehavior.cs" />
     <Compile Include="Interactivity\Service\Behavior\Custom\WatermarkTextBehavior.cs" />
+    <Compile Include="Mvvm\ViewModelBase\ModelViewModel.cs" />
+    <Compile Include="Mvvm\ViewModelBase\SelectViewModel.cs" />
     <Compile Include="Mvvm\RelayCommand.cs" />
     <Compile Include="DataConvert\DataConverter.cs" />
     <Compile Include="DataConvert\UIConverter.cs" />
@@ -143,27 +148,33 @@
     <Compile Include="Interactivity\Provider\TypeConstraintAttribute.cs" />
     <Compile Include="Interactivity\Provider\TypeConverterHelper.cs" />
     <Compile Include="Interactivity\Provider\VisualStateUtilities.cs" />
-    <Compile Include="Mvvm\NotifyPropertyChanged.cs" />
-    <Compile Include="Service\DependencyObjectExtensions.cs" />
+    <Compile Include="Mvvm\ViewModelBase\NotifyPropertyChanged.cs" />
     <Compile Include="Service\MvcService\ControllerService.cs" />
-    <Compile Include="Service\MvcService\IController.cs" />
     <Compile Include="Service\MvcService\IActionResult.cs" />
+    <Compile Include="Service\MvcService\IController.cs" />
     <Compile Include="Service\MvcService\ILinkActionBase.cs" />
+    <Compile Include="Service\MvcService\ServiceRegistry.cs" />
+    <Compile Include="Service\MvcService\TypeExtention.cs" />
+    <Compile Include="Service\ObservableService\IObservableSource.cs" />
+    <Compile Include="Service\ObservableService\ObservableSource.cs" />
+    <Compile Include="Service\ObservableService\ObservableExtension.cs" />
+    <Compile Include="Service\ClipBoardService.cs" />
+    <Compile Include="Service\DependencyObjectExtensions.cs" />
+    <Compile Include="Service\GeometryExtension.cs" />
+    <Compile Include="Service\ImageService\ImageService.cs" />
+    <Compile Include="Service\PropertyService\Attribute\ReadOnlyAttribute.cs" />
+    <Compile Include="Service\PropertyService\Attribute\HiddenAttribute.cs" />
     <Compile Include="Service\PropertyService\Attribute\RequiredAttribute.cs" />
     <Compile Include="Service\PropertyService\Attribute\RegularExpressionAttribute.cs" />
     <Compile Include="Service\PropertyService\Attribute\ValidationAttribute.cs" />
     <Compile Include="Service\PropertyService\Attribute\DisplayAttribute.cs" />
     <Compile Include="Service\PropertyService\ObjectPropertyFactory.cs" />
     <Compile Include="Service\PropertyService\ObjectProperty.cs" />
-    <Compile Include="Service\ObjectService\BaseFactory.cs" />
-    <Compile Include="Service\ObjectService\ConvertExtention.cs" />
-    <Compile Include="Service\ObjectService\ObjectExtend.cs" />
-    <Compile Include="Service\ObjectService\ServiceRegistry.cs" />
-    <Compile Include="Service\ReflectService\TypeExtention.cs" />
     <Compile Include="Service\StoryBoarService\DoubleStoryboardEngine.cs" />
     <Compile Include="Service\StoryBoarService\EasingFunctionFactroy.cs" />
+    <Compile Include="Service\StoryBoarService\ElementStoryBoardExtention.cs" />
     <Compile Include="Service\StoryBoarService\StoryboardEngineBase.cs" />
-    <Compile Include="Themes\Color\ThemeService.cs" />
+    <Compile Include="Theme\Color\ThemeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -181,7 +192,7 @@
     <Compile Include="Service\VisualTreeHelperEx.cs" />
     <Compile Include="Service\ElementExtention.cs" />
     <Compile Include="Service\PrintControlTreeService.cs" />
-    <Compile Include="Service\StoryBoardService.cs" />
+    <Compile Include="Service\StoryBoarService\StoryBoardService.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -193,30 +204,38 @@
     <Resource Include="Resources\iconfont.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Themes\Color\视觉规范.png" />
+    <Resource Include="Theme\Color\视觉规范.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Themes\HeBianGu.Theme.Resource.xaml">
+    <Page Include="Theme\Color\GrayThemeResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\Color\AccentThemeResource.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Theme\HeBianGu.Theme.Resource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\HeBianGu.Threme.Default.xaml">
+    <Page Include="Theme\HeBianGu.Threme.Default.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\HeBianGu.Threme.StoryBoard.xaml">
+    <Page Include="Theme\HeBianGu.Threme.StoryBoard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Color\DarkThemeResource.xaml">
+    <Page Include="Theme\Color\DarkThemeResource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Color\LightThemeResource.xaml">
+    <Page Include="Theme\Color\LightThemeResource.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\Generic.xaml">
+    <Page Include="Theme\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

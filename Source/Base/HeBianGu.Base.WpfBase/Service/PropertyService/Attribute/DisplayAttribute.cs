@@ -8,7 +8,12 @@ namespace HeBianGu.Base.WpfBase
 {
     [AttributeUsage(AttributeTargets.All, Inherited = false, AllowMultiple = true)]
    public sealed class DisplayAttribute : Attribute
-    { 
+    {
+
+        public DisplayAttribute()
+        {
+
+        }
         public DisplayAttribute(string positionalString)
         {
             this.Name = positionalString;
@@ -17,7 +22,7 @@ namespace HeBianGu.Base.WpfBase
 
         public string Name
         {
-            get;
+            get;set;
         } 
     }
 }
