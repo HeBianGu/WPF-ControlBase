@@ -129,7 +129,7 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        
+
                         <Grid x:Name="Root">
                             <Border x:Name="PART_Track" BorderBrush="{TemplateBinding BorderBrush}"  BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" />
                             <Grid x:Name="ProgressBarRootGrid">
@@ -249,11 +249,11 @@
             </Setter.Value>
         </Setter>
 
-    </Style> 
-    
+    </Style>
+
     <Style TargetType="ProgressBar" x:Key="S.Progessbar.WaittingPercent">
         <Setter Property="Background" Value="{DynamicResource S.Brush.Dark.4}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/> 
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="Height" Value="40"/>
         <Setter Property="Width" Value="300"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -271,9 +271,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ProgressBar">
                     <Grid Background="{TemplateBinding Background}">
-                        
+
                         <ProgressBar Value="{TemplateBinding Value}" Foreground="{TemplateBinding Foreground}" Background="Transparent"
-                                         Maximum="{TemplateBinding Maximum}" BorderThickness="{TemplateBinding BorderThickness}"
+                                         Maximum="{TemplateBinding Maximum}" BorderThickness="{TemplateBinding BorderThickness}" Opacity="{TemplateBinding Value,Converter={x:Static base:XConverter.OpacityProgressBarConverter}}"
                                          Minimum="{TemplateBinding Minimum}"/>
 
                         <ProgressBar Value="{TemplateBinding Value}" 
@@ -287,7 +287,7 @@
                                    VerticalAlignment="Center"
                                    FontSize="{TemplateBinding FontSize}">
                             <Run Text="{TemplateBinding base:ControlAttachProperty.Label}"/>
-                            <Run Text="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar},Path=Value}"/>
+                            <Run Text="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar},Path=Value,Converter={x:Static base:XConverter.DoubleRoundConverter}}"/>
                             <Run Text="%"/>
                             <TextBlock.Triggers>
                                 <EventTrigger RoutedEvent="Loaded">
@@ -301,4 +301,50 @@
         </Setter>
     </Style>
 
+
+    <Style TargetType="ProgressBar" x:Key="S.Progessbar.CriclePercent">
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Dark.4}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Height" Value="100"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="base:ControlAttachProperty.Label" Value=""/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Viewbox>
+                        <Grid>
+                            <Grid>
+                                <Ellipse Width="100" Height="100" Stroke="{TemplateBinding Background}" StrokeThickness="25"/>
+                                <Ellipse Width="100" Height="100" Stroke="{TemplateBinding Foreground}" StrokeThickness="25" StrokeDashArray="182 182" 
+                                         RenderTransformOrigin="0.5 0.5" Opacity="{TemplateBinding Value,Converter={x:Static base:XConverter.OpacityProgressBarConverter}}"
+                                     StrokeDashOffset="{TemplateBinding Value,Converter={x:Static base:XConverter.CircleProgressBarConverter}}">
+                                    <Ellipse.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="-90"/>
+                                        </TransformGroup>
+                                    </Ellipse.RenderTransform>
+                                </Ellipse>
+                            </Grid>
+
+                            <TextBlock HorizontalAlignment="Center" FontWeight="Bold"
+                                   Foreground="{DynamicResource S.Brush.TextForeground.Title}" 
+                                   VerticalAlignment="Center"
+                                   FontSize="{TemplateBinding FontSize}">
+                            <Run Text="{TemplateBinding base:ControlAttachProperty.Label}"/>
+                            <Run Text="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar},Path=Value,Converter={x:Static base:XConverter.DoubleRoundConverter}}"/><Run Text="%"/>
+                                <TextBlock.Triggers>
+                                    <EventTrigger RoutedEvent="Loaded">
+                                        <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.OpacityForever}"/>
+                                    </EventTrigger>
+                                </TextBlock.Triggers>
+                            </TextBlock>
+
+                        </Grid>
+                    </Viewbox>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

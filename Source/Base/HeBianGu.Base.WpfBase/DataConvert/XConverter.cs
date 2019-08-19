@@ -161,6 +161,21 @@ namespace HeBianGu.Base.WpfBase
         }
 
 
+        public static CircleProgressBarConverter CircleProgressBarConverter
+        {
+            get { return new CircleProgressBarConverter(); }
+        }
+
+        public static DoubleRoundConverter DoubleRoundConverter
+        {
+            get { return new DoubleRoundConverter(); }
+        }
+
+        public static OpacityProgressBarConverter OpacityProgressBarConverter
+        {
+            get { return new OpacityProgressBarConverter(); }
+        }
+
         
 
         //public static SelectTextConverter SelectTextConverter
