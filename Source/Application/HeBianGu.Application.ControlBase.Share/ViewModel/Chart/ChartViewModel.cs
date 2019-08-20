@@ -91,10 +91,10 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
             entity = new CurveEntitySource();
             entity.Text = "重量(kg)";
-            entity.Color = Brushes.Orange;
+            entity.Color = Brushes.Blue;
             entity.Marker = new T5PointMarker();
 
-            entity.Marker.Fill = Brushes.Orange;
+            entity.Marker.Fill = Brushes.Blue;
 
             for (int i = 0; i < 20; i++)
             {
@@ -315,7 +315,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         }
 
         /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
+        protected override  void RelayMethod(object obj)
         {
             string command = obj?.ToString();
             if (command == "RefreshCardiogramCurve")
@@ -354,6 +354,11 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             {
                 this.RefreshCurveData();
             }
+        }
+
+        protected override void Loaded(string args)
+        {
+            base.Loaded("Curve");
         }
     }
 }

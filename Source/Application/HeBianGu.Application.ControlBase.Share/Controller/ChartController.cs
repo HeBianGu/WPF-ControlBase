@@ -16,5 +16,21 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Controler
         {
             return View();
         }
+
+        public async Task<IActionResult> Curve()
+        {
+            return View();
+        }
+
+
+        public async Task<IActionResult> Cardiogram()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> ChartLeft()
+        {
+            return View();
+        }
     }
 }
