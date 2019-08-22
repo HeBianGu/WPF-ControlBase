@@ -192,7 +192,12 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                     downLoad.Message = message;
                     downLoad.ShowDialog();
                 }
+
+                //UpgradeWindow.BeginUpgrade("发现新版本：V3.0.1", @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
+                //   message.ToArray());
             }
         }
+
+
     }
 }

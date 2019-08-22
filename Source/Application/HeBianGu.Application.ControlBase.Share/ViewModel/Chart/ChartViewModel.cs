@@ -359,6 +359,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         protected override void Loaded(string args)
         {
             base.Loaded("Curve");
+
+
+            this.RefreshCurveData();
         }
     }
 }
