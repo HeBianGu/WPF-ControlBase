@@ -225,7 +225,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 message.Message = "错误信息！" + DateTime.Now.ToString();
 
                 this.MessageSource.Add(message);
-                
+
+                MessageService.ShowNotifyMessage(message);
             }
             //  Do：气泡消息
             else if (command == "Button.Message.Info")
@@ -235,6 +236,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 message.Message = "提示信息！" + DateTime.Now.ToString();
 
                 this.MessageSource.Add(message);
+
+                MessageService.ShowNotifyMessage(message);
 
             }
             //  Do：气泡消息
@@ -246,6 +249,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                 this.MessageSource.Add(message);
 
+                MessageService.ShowNotifyMessage(message);
+
             }
             //  Do：气泡消息
             else if (command == "Button.Message.Fatal")
@@ -255,6 +260,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 message.Message = "问题很严重！" + DateTime.Now.ToString();
 
                 this.MessageSource.Add(message);
+
+                MessageService.ShowNotifyMessage(message);
+
 
             }
             //  Do：气泡消息
@@ -276,6 +284,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 message.Message = "可以保存了么?" + DateTime.Now.ToString();
 
                 this.MessageSource.Add(message);
+
+                MessageService.ShowNotifyMessage(message);
 
             }
 

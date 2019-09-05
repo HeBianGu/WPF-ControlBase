@@ -275,6 +275,23 @@ namespace HeBianGu.General.WpfControlLib
             });
         }
 
+        static NotifyMessageWindow _notifyMessage;
+        /// <summary> 显示自定义气泡消息 </summary>
+        public static void ShowNotifyMessage(MessageBase message)
+        {
+           
+          if(_notifyMessage==null)
+            {
+                _notifyMessage = new NotifyMessageWindow();
+
+                _notifyMessage.Show();
+
+            }
+
+            _notifyMessage.Source.Add(message);
+        }
+
+      
     }
 
     public class MessageCloseLayerCommand : ICommand
