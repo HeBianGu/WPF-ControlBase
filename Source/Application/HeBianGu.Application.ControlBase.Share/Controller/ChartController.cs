@@ -14,23 +14,23 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Controler
     {
         public async Task<IActionResult> ChartCenter()
         {
-            return View();
+            return await ViewAsync();
         }
 
         public async Task<IActionResult> Curve()
         {
-            return View();
+            return await ViewAsync();
         }
 
 
         public async Task<IActionResult> Cardiogram()
         {
-            return View();
+            return await ViewAsync();
         }
 
         public async Task<IActionResult> ChartLeft()
         {
-            return View();
+            return await ViewAsync();
         }
     }
 }

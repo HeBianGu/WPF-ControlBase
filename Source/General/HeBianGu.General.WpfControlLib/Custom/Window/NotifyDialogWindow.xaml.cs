@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,13 +19,12 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary>
     /// MessageWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MessageWindow : DialogWindow
+    public partial class NotifyDialogWindow : NotifyWindow
     {
-        public MessageWindow()
+        public NotifyDialogWindow()
         {
             InitializeComponent();
         }
-
 
         #region - 动态加载按钮 -
 
@@ -37,11 +37,53 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 显示窗口 </summary>
+        public static void ShowMessage(string messge, string title = null, int closeTime = -1)
+        {
+            NotifyDialogWindow m = new NotifyDialogWindow();
+
+            m.messageText.Text = messge;
+
+            m.actionPanel.Visibility = Visibility.Collapsed;
+
+            var array = messge.ToArray();
+
+            var c = array.ToList().Count(l => l == '\r');
+
+            m.Height += c * 30;
+
+            if (!string.IsNullOrEmpty(title))
+            {
+                m.Title = title;
+            }
+
+            if (closeTime != -1)
+            {
+                Action action = () =>
+                {
+                    for (int i = closeTime; i > 0; i--)
+                    {
+                        Thread.Sleep(1000);
+
+                        m.Dispatcher.Invoke(() => m.Title = title + " 关闭倒计时(" + i + ")秒");
+                    }
+
+                    m.Dispatcher.Invoke(() => m.CloseAnimation(m));
+                }; 
+
+                Task task = new Task(action);
+                task.Start();
+            } 
+
+            m.Show();   
+        }
+
+
+        /// <summary> 显示窗口 </summary>
         public static bool ShowDialog(string messge, string title = null, int closeTime = -1, params Tuple<string, Action>[] acts)
         {
-            MessageWindow m = new MessageWindow();
+            NotifyDialogWindow m = new NotifyDialogWindow();
 
-            m.messageText.Text = messge; 
+            m.messageText.Text = messge;
             var array = messge.ToArray();
 
             var c = array.ToList().Count(l => l == '\r');
@@ -108,15 +150,16 @@ namespace HeBianGu.General.WpfControlLib
 
 
 
-            return m._result;
+            return m.Result;
         }
 
+
         /// <summary> 显示窗口 </summary>
-        public static int ShowDialogWith(string messge, string title = null, params Tuple<string, Action<MessageWindow>>[] acts)
+        public static int ShowDialogWith(string messge, string title = null, params Tuple<string, Action<NotifyDialogWindow>>[] acts)
         {
             int result = -1;
 
-            MessageWindow m = new MessageWindow();
+            NotifyDialogWindow m = new NotifyDialogWindow();
 
             // Todo ：消息 2017-07-28 10:46:24 
             m.messageText.Text = messge;
@@ -147,7 +190,6 @@ namespace HeBianGu.General.WpfControlLib
                 {
                     FButton f = new FButton();
                     f.Content = item.Item1;
-                    //f.Width = double.NaN;
                     f.Margin = new Thickness(0, 0, 10, 0);
                     //f.FIcon = "";
                     //f.SetPressed(false);
@@ -202,7 +244,7 @@ namespace HeBianGu.General.WpfControlLib
             owner.Children.Add(layer);
 
             //弹出消息框
-            MessageWindow box = new MessageWindow();
+            NotifyDialogWindow box = new NotifyDialogWindow();
             box.Tag = owner;
             box.Title = message;
             box.Closed += Window_Closed;
@@ -246,7 +288,6 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         #endregion
-
 
         /// <summary> 确定 </summary>
         private void sumitBtn_Click(object sender, RoutedEventArgs e)

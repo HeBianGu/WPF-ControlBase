@@ -14,7 +14,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     {
         public async Task<IActionResult> GridCenter()
         {
-            return View();
+            return await ViewAsync();
         }
 
     }

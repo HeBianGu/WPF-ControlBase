@@ -14,33 +14,33 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     {
         public async Task<IActionResult> TabCenter()
         {
-            return View();
+            return await ViewAsync();
         }
 
         public async Task<IActionResult> AnimatedTab()
         {
-            return View();
+            return await ViewAsync();
         }
 
         public async Task<IActionResult> DTabItem()
         {
-            return View();
+            return await ViewAsync();
         }
 
         public async Task<IActionResult> MetroTab()
         {
-            return View();
+            return await ViewAsync();
         }
 
 
         public async Task<IActionResult> WebCenter()
         {
-            return View();
+            return await ViewAsync();
         }
 
         public async Task<IActionResult> TabLeft()
         {
-            return View();
+            return await ViewAsync();
         }
 
     }

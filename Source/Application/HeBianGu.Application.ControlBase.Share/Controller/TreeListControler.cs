@@ -22,7 +22,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Controler
         {
             await MessageService.ShowWaittingMessge(() => Thread.Sleep(1000));
 
-            return View();
+            return await ViewAsync();
         }
     }
 }

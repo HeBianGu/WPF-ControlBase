@@ -50,8 +50,10 @@ namespace HeBianGu.General.WpfControlLib
 
                   if (control == null) return;
 
-                  if (e.NewValue is ILinkActionBase config)
+                  if (e.NewValue is ILinkActionBase)
                   {
+                      ILinkActionBase config = e.NewValue as ILinkActionBase;
+
                       control.RefreshLinkAction(config);
                   }
 

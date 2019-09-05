@@ -231,7 +231,7 @@ namespace HeBianGu.General.WpfControlLib
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if(Application.Current.MainWindow is IWindowBase window)
+                if (Application.Current.MainWindow is IWindowBase window)
                 {
                     window.ShowWithLayer(link);
                 }
@@ -242,7 +242,7 @@ namespace HeBianGu.General.WpfControlLib
         public static void CloseWithLayer(int layerIndex = 0)
         {
             Application.Current.Dispatcher.Invoke(() =>
-            {  
+            {
                 if (Application.Current.MainWindow is IWindowBase window)
                 {
                     window.CloseWithLayer();
@@ -266,13 +266,22 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
-    } 
+        /// <summary> 显示自定义气泡消息 </summary>
+        public static void ShowNotifyDialogMessage(string message, string title = null, int closeTime = -1)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                NotifyDialogWindow.ShowMessage(message, title, closeTime);
+            });
+        }
+
+    }
 
     public class MessageCloseLayerCommand : ICommand
-    { 
+    {
 
         public bool CanExecute(object parameter)
-        { 
+        {
             return true;
         }
 

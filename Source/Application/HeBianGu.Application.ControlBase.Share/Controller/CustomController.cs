@@ -14,7 +14,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Controler
     {
         public async Task<IActionResult> Custom()
         {
-            return View();
+            return await ViewAsync();
         }
     }
 }

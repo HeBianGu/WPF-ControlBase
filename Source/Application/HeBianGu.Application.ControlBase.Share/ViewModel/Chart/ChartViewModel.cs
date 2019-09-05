@@ -30,14 +30,12 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             }
         }
 
-        void Init()
-        {
-            RefreshCurveData();
+        //void Init()
+        //{
+        //    RefreshCurveData();
 
-            this.RefreshCardiogramCurve();
-
-
-        }
+        //    this.RefreshCardiogramCurve(); 
+        //}
 
         private double _left = 0.1;
         /// <summary> 说明 </summary>

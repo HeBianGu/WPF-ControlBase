@@ -104,48 +104,53 @@ namespace HeBianGu.General.WpfMvc
         }
 
 
-        protected virtual IActionResult LinkAction([CallerMemberName] string name = "")
+        protected virtual async Task<IActionResult> ViewAsync([CallerMemberName] string name = "")
         {
-            var route = this.GetType().GetCustomAttributes(typeof(RouteAttribute), true).Cast<RouteAttribute>();
-
-            string controlName = null;
-
-            if (route.FirstOrDefault() == null)
-            {
-                controlName = this.GetType().Name;
-            }
-            else
-            {
-                controlName = route.FirstOrDefault().Name;
-            }
-
-            var ass = Assembly.GetEntryAssembly().GetName();
-
-            string path = $"/{ass.Name};component/View/{controlName}/{name}Control.xaml";
-
-            Uri uri = new Uri(path, UriKind.RelativeOrAbsolute);
-
-            var content = Application.Current.Dispatcher.Invoke(() =>
-            {
-                return Application.LoadComponent(uri);
-            });
-
-            ActionResult result = new ActionResult();
-
-            result.Uri = uri;
-            result.View = content;
-
-            Type type = Assembly.GetEntryAssembly().GetTypeOfMatch<NotifyPropertyChanged>(l => l.Name == controlName + "ViewModel");
-
-            result.ViewModel = ServiceRegistry.Instance.GetInstance(type);
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                (result.View as FrameworkElement).DataContext = result.ViewModel;
-            });
-
-            return result;
+            return await Task.Run(() => View(name));
         }
+
+        //protected virtual IActionResult LinkAction([CallerMemberName] string name = "")
+        //{
+        //    var route = this.GetType().GetCustomAttributes(typeof(RouteAttribute), true).Cast<RouteAttribute>();
+
+        //    string controlName = null;
+
+        //    if (route.FirstOrDefault() == null)
+        //    {
+        //        controlName = this.GetType().Name;
+        //    }
+        //    else
+        //    {
+        //        controlName = route.FirstOrDefault().Name;
+        //    }
+
+        //    var ass = Assembly.GetEntryAssembly().GetName();
+
+        //    string path = $"/{ass.Name};component/View/{controlName}/{name}Control.xaml";
+
+        //    Uri uri = new Uri(path, UriKind.RelativeOrAbsolute);
+
+        //    var content = Application.Current.Dispatcher.Invoke(() =>
+        //    {
+        //        return Application.LoadComponent(uri);
+        //    });
+
+        //    ActionResult result = new ActionResult();
+
+        //    result.Uri = uri;
+        //    result.View = content;
+
+        //    Type type = Assembly.GetEntryAssembly().GetTypeOfMatch<NotifyPropertyChanged>(l => l.Name == controlName + "ViewModel");
+
+        //    result.ViewModel = ServiceRegistry.Instance.GetInstance(type);
+
+        //    Application.Current.Dispatcher.Invoke(() =>
+        //    {
+        //        (result.View as FrameworkElement).DataContext = result.ViewModel;
+        //    });
+
+        //    return result;
+        //}
 
     }
 
@@ -198,12 +203,12 @@ namespace HeBianGu.General.WpfMvc
 
                 List<ILinkActionBase> result = new List<ILinkActionBase>();
 
- 
+
                 foreach (var item in routes)
                 {
                     ILinkActionBase link = this.ViewModel.GetLinkAction(item);
 
-                    result.Add(link);  
+                    result.Add(link);
                 }
 
                 this.ViewModel.Navigation = result.ToObservable();

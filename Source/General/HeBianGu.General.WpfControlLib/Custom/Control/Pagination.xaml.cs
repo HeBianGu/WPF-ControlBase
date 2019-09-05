@@ -94,8 +94,11 @@ namespace HeBianGu.General.WpfControlLib
         public static readonly DependencyProperty MaxPageCountProperty = DependencyProperty.Register(
             "MaxPageCount", typeof(int), typeof(Pagination), new PropertyMetadata(1, (o, args) =>
             {
-                if (o is Pagination pagination && args.NewValue is int value)
+                if (o is Pagination && args.NewValue is int)
                 {
+                    Pagination pagination = o as Pagination;
+                    int value = (int)args.NewValue;
+
                     if (pagination.PageIndex > pagination.MaxPageCount)
                     {
                         pagination.PageIndex = pagination.MaxPageCount;
@@ -134,8 +137,9 @@ namespace HeBianGu.General.WpfControlLib
         public static readonly DependencyProperty DataCountPerPageProperty = DependencyProperty.Register(
             "DataCountPerPage", typeof(int), typeof(Pagination), new PropertyMetadata(20, (o, args) =>
             {
-                if (o is Pagination pagination)
+                if (o is Pagination)
                 {
+                    Pagination pagination = o as Pagination;
                     pagination.Update();
                 }
             }, (o, value) =>
@@ -168,8 +172,12 @@ namespace HeBianGu.General.WpfControlLib
         public static readonly DependencyProperty PageIndexProperty = DependencyProperty.Register(
             "PageIndex", typeof(int), typeof(Pagination), new PropertyMetadata(1, (o, args) =>
             {
-                if (o is Pagination pagination && args.NewValue is int value)
+                if (o is Pagination && args.NewValue is int)
                 {
+                    Pagination pagination = o as Pagination;
+
+                    int value = (int)args.NewValue;
+
                     pagination.Update();
                     pagination.RaiseEvent(new FunctionEventArgs<int>(PageUpdatedEvent, pagination)
                     {
@@ -178,7 +186,10 @@ namespace HeBianGu.General.WpfControlLib
                 }
             }, (o, value) =>
             {
-                if (!(o is Pagination pagination)) return 1;
+                if (!(o is Pagination)) return 1;
+
+                var pagination = o as Pagination;
+
                 var intValue = (int)value;
                 if (intValue < 0)
                 {
@@ -207,8 +218,10 @@ namespace HeBianGu.General.WpfControlLib
         public static readonly DependencyProperty MaxPageIntervalProperty = DependencyProperty.Register(
             "MaxPageInterval", typeof(int), typeof(Pagination), new PropertyMetadata(3, (o, args) =>
             {
-                if (o is Pagination pagination)
+                if (o is Pagination)
                 {
+                    Pagination pagination = o as Pagination;
+
                     pagination.Update();
                 }
             }), value =>

@@ -12,10 +12,8 @@ namespace HeBianGu.General.WpfControlLib
 {
     public partial class DialogWindow : WindowBase
     {
-
         public DialogWindow()
-        {
-
+        { 
             this.ShowAnimation = l =>
               {
 
@@ -57,11 +55,5 @@ namespace HeBianGu.General.WpfControlLib
                 this.CloseAnimation?.Invoke(this);
             });
         } 
-
-        ///// <summary> 显示时的动画效果 </summary>
-        //public Action<DialogWindow> ShowAnimation { get; set; }
-
-        ///// <summary> 关闭时的动画效果 </summary>
-        //public Action<DialogWindow> CloseAnimation { get; set; }
     }
 }

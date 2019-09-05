@@ -14,12 +14,12 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     {
         public async Task<IActionResult> Bottom()
         {
-            return View();
+            return await ViewAsync();
         }
 
         public async Task<IActionResult> Top()
         {
-            return View();
+            return await ViewAsync();
         }
     }
 }

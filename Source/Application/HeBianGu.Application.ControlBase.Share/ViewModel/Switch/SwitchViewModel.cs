@@ -41,25 +41,22 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             //  Do：应用
             if (command == "init")
             {
-                
+
 
 
             }
             //  Do：取消
             else if (command == "GroupExpander.SelectChanged")
             {
-            
+
 
             }
 
         }
 
-
-
-        public new RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() =>new RelayCommand<string>(Loaded, CanLoaded)).Value;
-
-        private void Loaded(string args)
+        protected override void Loaded(string args)
         {
+
             SolidColorBrush[] solids = new SolidColorBrush[] {
                 new SolidColorBrush(Colors.Red),
                 new SolidColorBrush(Colors.Green),
@@ -90,13 +87,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 }
             });
 
-        } 
-
-        private bool CanLoaded(string args)
-        {
-            return true;
         }
-
 
         public RelayCommand<string> SelectChangedCommand => new Lazy<RelayCommand<string>>(() => new RelayCommand<string>(SelectChanged, CanSelectChanged)).Value;
 
@@ -110,7 +101,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 value++;
             });
 
-        } 
+        }
 
 
         private bool CanSelectChanged(string args)
