@@ -72,6 +72,8 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
+
+
         public static async Task ShowWaittingMessge(Action action, Action closeAction = null)
         {
             await Application.Current.Dispatcher.Invoke(async () =>
@@ -277,21 +279,33 @@ namespace HeBianGu.General.WpfControlLib
 
         static NotifyMessageWindow _notifyMessage;
         /// <summary> 显示自定义气泡消息 </summary>
-        public static void ShowNotifyMessage(MessageBase message)
-        {
-           
+        public static void ShowSystemNotifyMessage(MessageBase message)
+        { 
           if(_notifyMessage==null)
             {
                 _notifyMessage = new NotifyMessageWindow();
 
-                _notifyMessage.Show();
-
+                _notifyMessage.Show(); 
             }
 
             _notifyMessage.Source.Add(message);
         }
 
-      
+        /// <summary> 输出消息、按钮和参数 </summary>
+        public static void ShowWindowNotifyMessage(MessageBase message)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                IWindowBase window = Application.Current.MainWindow as IWindowBase;
+
+                if (window != null)
+                {
+                    window.ShowWindowNotifyMessage(message);
+                }
+            });
+        }
+
+
     }
 
     public class MessageCloseLayerCommand : ICommand

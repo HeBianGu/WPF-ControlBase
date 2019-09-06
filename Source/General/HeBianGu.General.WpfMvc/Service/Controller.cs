@@ -13,8 +13,6 @@ using System.Windows.Threading;
 namespace HeBianGu.General.WpfMvc
 {
 
-
-
     public abstract class Controller<M> : Controller where M : MvcViewModelBase
     {
         public M ViewModel { get; set; } = ServiceRegistry.Instance.GetInstance<M>();

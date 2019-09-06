@@ -178,7 +178,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                   {
                       l.CloseAnimation(l);
 
-                      l.DialogResult = true;
+                      l.Result = true;
 
                       MessageService.ShowSnackMessageWithNotice("你点到我了！");
                   };
@@ -218,77 +218,83 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             }
 
             //  Do：气泡消息
-            else if (command == "Button.Message.Error")
+            else if (command.StartsWith("Button.Message.Error"))
             {
                 ErrorMessage message = new ErrorMessage();
 
                 message.Message = "错误信息！" + DateTime.Now.ToString();
 
-                this.MessageSource.Add(message);
-
-                MessageService.ShowNotifyMessage(message);
+                this.AddMessage(message, command);
             }
             //  Do：气泡消息
-            else if (command == "Button.Message.Info")
+            else if (command.StartsWith("Button.Message.Info"))
             {
                 InfoMessage message = new InfoMessage();
 
                 message.Message = "提示信息！" + DateTime.Now.ToString();
 
-                this.MessageSource.Add(message);
-
-                MessageService.ShowNotifyMessage(message);
+                this.AddMessage(message, command);
 
             }
             //  Do：气泡消息
-            else if (command == "Button.Message.Success")
+            else if (command.StartsWith("Button.Message.Success"))
             {
                 SuccessMessage message = new SuccessMessage();
 
                 message.Message = "保存成功！" + DateTime.Now.ToString();
 
-                this.MessageSource.Add(message);
-
-                MessageService.ShowNotifyMessage(message);
+                this.AddMessage(message, command);
 
             }
             //  Do：气泡消息
-            else if (command == "Button.Message.Fatal")
+            else if (command.StartsWith("Button.Message.Fatal"))
             {
                 FatalMessage message = new FatalMessage();
 
                 message.Message = "问题很严重！" + DateTime.Now.ToString();
 
-                this.MessageSource.Add(message);
-
-                MessageService.ShowNotifyMessage(message);
+                this.AddMessage(message, command);
 
 
             }
             //  Do：气泡消息
-            else if (command == "Button.Message.Warn")
+            else if (command.StartsWith("Button.Message.Warn"))
             {
                 WarnMessage message = new WarnMessage();
 
                 message.Message = "警告信息！" + DateTime.Now.ToString();
 
-                this.MessageSource.Add(message);
+                this.AddMessage(message, command);
 
             }
 
             //  Do：气泡消息
-            else if (command == "Button.Message.Dailog")
+            else if (command.StartsWith("Button.Message.Dailog"))
             {
                 DailogMessage message = new DailogMessage();
 
                 message.Message = "可以保存了么?" + DateTime.Now.ToString();
 
-                this.MessageSource.Add(message);
-
-                MessageService.ShowNotifyMessage(message);
-
+                this.AddMessage(message, command);
             }
 
+        }
+
+        void AddMessage(MessageBase message,string command)
+        {
+            if(command.EndsWith("System"))
+            {
+                MessageService.ShowSystemNotifyMessage(message);
+            }
+            else if(command.EndsWith("Window"))
+            {
+
+                MessageService.ShowWindowNotifyMessage(message);
+            }
+            else
+            {
+                this.MessageSource.Add(message);
+            }
         }
 
 

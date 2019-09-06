@@ -49,12 +49,37 @@
 
                     </StackPanel>
                 </GroupBox>
+                
                 <GroupBox Header="消息窗口">
                     <StackPanel>
                         <wpfcontrollib:FButton Content="提示消息"  Command="{Binding RelayCommand}" CommandParameter="Button.ShowWindowSumitMessage"/>
                         <wpfcontrollib:FButton Content="对话消息"  Command="{Binding RelayCommand}" CommandParameter="Button.ShowWindowResultMessage"/>
                         <wpfcontrollib:FButton Content="自定义消息"  Command="{Binding RelayCommand}" CommandParameter="Button.ShowWindowIndentifyMessage"/>
 
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="气泡列表(Window)">
+                    <StackPanel>
+                        <wpfcontrollib:FButton Content="Error" Command="{Binding RelayCommand}" CommandParameter="Button.Message.ErrorWindow"/>
+                        <wpfcontrollib:FButton Content="Info" Command="{Binding RelayCommand}" CommandParameter="Button.Message.InfoWindow"/>
+                        <wpfcontrollib:FButton Content="Success" Command="{Binding RelayCommand}" CommandParameter="Button.Message.SuccessWindow"/>
+                        <wpfcontrollib:FButton Content="Warnning" Command="{Binding RelayCommand}" CommandParameter="Button.Message.WarnWindow"/>
+                        <wpfcontrollib:FButton Content="Fatal" Command="{Binding RelayCommand}" CommandParameter="Button.Message.FatalWindow"/>
+                        <wpfcontrollib:FButton Content="Off" Command="{Binding RelayCommand}" CommandParameter="Button.Message.OffWindow"/>
+                        <wpfcontrollib:FButton Content="Dailog" Command="{Binding RelayCommand}" CommandParameter="Button.Message.DailogWindow"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="气泡列表(System)">
+                    <StackPanel>
+                        <wpfcontrollib:FButton Content="Error" Command="{Binding RelayCommand}" CommandParameter="Button.Message.ErrorSystem"/>
+                        <wpfcontrollib:FButton Content="Info" Command="{Binding RelayCommand}" CommandParameter="Button.Message.InfoSystem"/>
+                        <wpfcontrollib:FButton Content="Success" Command="{Binding RelayCommand}" CommandParameter="Button.Message.SuccessSystem"/>
+                        <wpfcontrollib:FButton Content="Warnning" Command="{Binding RelayCommand}" CommandParameter="Button.Message.WarnSystem"/>
+                        <wpfcontrollib:FButton Content="Fatal" Command="{Binding RelayCommand}" CommandParameter="Button.Message.FatalSystem"/>
+                        <wpfcontrollib:FButton Content="Off" Command="{Binding RelayCommand}" CommandParameter="Button.Message.OffSystem"/>
+                        <wpfcontrollib:FButton Content="Dailog" Command="{Binding RelayCommand}" CommandParameter="Button.Message.DailogSystem"/>
                     </StackPanel>
                 </GroupBox>
 
@@ -124,7 +149,7 @@
 
                     </StackPanel>
                 </GroupBox>
-              
+
                 <GroupBox Header="超链接按钮">
                     <StackPanel>
                         <wpfcontrollib:FButton Margin="3" Style="{StaticResource S.FButton.Style.Link}">百度网盘</wpfcontrollib:FButton>
@@ -132,18 +157,7 @@
 
                     </StackPanel>
                 </GroupBox>
-           
-                <GroupBox Header="组合按钮">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 
-                        <wpfcontrollib:FButton FIcon="&#xe619;" Margin="0,0,0,0" CornerRadius="16,0,0,16" AllowsAnimation="True">Info</wpfcontrollib:FButton>
-                        <wpfcontrollib:FButton FIcon="&#xe628;" Margin="0,0,0,0" CornerRadius="0" >Question</wpfcontrollib:FButton>
-
-                        <wpfcontrollib:FButton FIcon="&#xe629;" Margin="0,0,0,0" CornerRadius="0,16,16,0" AllowsAnimation="True" >Error</wpfcontrollib:FButton>
-
-                    </StackPanel>
-                </GroupBox>
-               
                 <GroupBox Header="自定义形状按钮">
                     <StackPanel HorizontalAlignment="Center">
 
@@ -158,7 +172,6 @@
                 
                 <GroupBox Header="自定义形状按钮">
                     <StackPanel HorizontalAlignment="Center">
-
                         <wpfcontrollib:FButton FIcon="&#xe756;" Style="{StaticResource S.FButton.Style.MouseOverOpacity}" Margin="4"/>
 
                     </StackPanel>
@@ -477,45 +490,18 @@
                         <GroupBox Header="默认">
                             <Slider x:Name="slider1" Margin="5" Maximum="100" Value="50" SmallChange="1" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}" />
                         </GroupBox>
-
-                        <GroupBox Header="空心">
-                            <Slider Value="{Binding ElementName=slider1,Path=Value}" Margin="20" Style="{StaticResource S.Slider.Default}"/>
-                        </GroupBox>
+                        
                         <GroupBox Header="实心">
                             <Slider Value="{Binding ElementName=slider1,Path=Value}"  Margin="20" Style="{StaticResource S.Slider.Circle}"/>
                         </GroupBox>
 
                         <GroupBox Header="自定义">
                             <wpfcontrollib:PreviewSlider Name="PreviewSlider" Width="300" Value="500" Maximum="1000" VerticalAlignment="Center">
-                                
-                            <wpfcontrollib:PreviewSlider.PreviewContent>
-                                <Label Background="{DynamicResource S.Brush.Accent}" Foreground="White" Content="{Binding PreviewPosition,ElementName=PreviewSlider}" ContentStringFormat="{}{0:#0.0}"/>
-                            </wpfcontrollib:PreviewSlider.PreviewContent>
-                        </wpfcontrollib:PreviewSlider>
+                                <wpfcontrollib:PreviewSlider.PreviewContent>
+                                    <Label Background="{DynamicResource S.Brush.Accent}" Foreground="White" Content="{Binding PreviewPosition,ElementName=PreviewSlider}" ContentStringFormat="{}{0:#0.0}"/>
+                                </wpfcontrollib:PreviewSlider.PreviewContent>
+                            </wpfcontrollib:PreviewSlider>
                         </GroupBox>
-
-                        <GroupBox Header="区间滚动条">
-                            <StackPanel  Margin="10">
-                                <wpfcontrollib:SpaceSpliterUserControl LeftPercent="{Binding Left,Mode=TwoWay}" RightPercent="{Binding Right,Mode=TwoWay}" Margin="10"/>
-                                <wpfcontrollib:SpaceSpliterUserControl LeftPercent="0.1" RightPercent="0.9"  Margin="10"/>
-
-                                <TextBlock> <Run Text="左侧值："/><Run x:Name="txt_left" Text="{Binding Left}"/></TextBlock>
-                                <TextBlock> <Run Text="右侧值："/>  <Run x:Name="txt_right" Text="{Binding Right}"/></TextBlock>
-                            </StackPanel>
-
-                        </GroupBox>
-
-                        <GroupBox Header="缓冲播放进度条">
-                            <StackPanel>
-                                <wpfcontrollib:BufferPlayControl x:Name="control_bufferPlay"/>
-                                <TextBlock x:Name="txt_persent"/>
-                                <TextBlock Text="{Binding ElementName=control_bufferPlay,Path=Value}"/>
-                                <Button Content="开始" />
-                                <Button x:Name="btn_play" Content="暂停"/>
-                            </StackPanel>
-                        </GroupBox>
-
-                       
                     </StackPanel>
                 </GroupBox>
               
@@ -540,9 +526,8 @@
 
                     </StackPanel>
                 </GroupBox>
-         
-                <GroupBox Header="导航控件">
 
+                <GroupBox Header="导航控件">
                     <wpfcontrollib:LinkGroupExpander >
                         <wpfcontrollib:LinkActionGroup DisplayName="项目管理" Logo="&#xe69f;">
                             <wpfcontrollib:LinkActionGroup.Links>
@@ -553,7 +538,6 @@
                                 <wpfcontrollib:LinkAction  DisplayName="委外加工"  Logo="&#xe6a3;" />
                                 <wpfcontrollib:LinkAction  DisplayName="生产排产"  Logo="&#xe6a3;" />
                                 <wpfcontrollib:LinkAction  DisplayName="仓储物流"  Logo="&#xe6a3;" />
-
                             </wpfcontrollib:LinkActionGroup.Links>
                         </wpfcontrollib:LinkActionGroup>
 
@@ -579,7 +563,7 @@
                     </wpfcontrollib:LinkGroupExpander>
 
                 </GroupBox>
-      
+
                 <GroupBox Header="树形控件">
                     <GroupBox.Resources>
                         <XmlDataProvider x:Key="S.XmlDataProvider.TreeView.Default" XPath="FileSystem/Folder">
@@ -641,104 +625,7 @@
 
                     </TreeView>
                 </GroupBox>
-    
-                <GroupBox Header="导航控件样式一">
-                    <StackPanel>
-                        <Grid>
-                            <wpfcontrollib:FExpander Header="可以折叠并展开" IsExpanded="True" IconFont="&#xe664;">
-                                <StackPanel>
-                                    <wpfcontrollib:FExpander Header="子内容长标题测试" Hint="1 / 100" />
-                                    <wpfcontrollib:FExpander  Header="Button" />
-                                    <wpfcontrollib:FExpander  Header="Button" />
-                                    <wpfcontrollib:FExpander Header="Button" />
-                                </StackPanel>
-                            </wpfcontrollib:FExpander>
-                        </Grid>
-                        <Grid>
-                            <wpfcontrollib:FExpander Header="可以折叠没展开" IsExpanded="false" IconFont="&#xe664;" >
-                                <StackPanel>
-                                    <wpfcontrollib:FExpander Header="子内容长标题测试"  Hint="1 / 100" />
-                                    <wpfcontrollib:FExpander  Header="Button" />
-                                    <wpfcontrollib:FExpander  Header="Button" />
-                                    <wpfcontrollib:FExpander Header="Button" />
-                                </StackPanel>
-                            </wpfcontrollib:FExpander>
-                        </Grid>
 
-                        <Grid>
-                            <wpfcontrollib:FExpander Header="不可以折叠" CanHide="false" IconFont="&#xe664;">
-                                <StackPanel>
-                                    <wpfcontrollib:FExpander Header="子内容长标题测试" Hint="1 / 100" />
-                                    <wpfcontrollib:FExpander  Header="Button" />
-                                    <wpfcontrollib:FExpander  Header="Button" />
-                                    <wpfcontrollib:FExpander Header="Button" />
-                                </StackPanel>
-                            </wpfcontrollib:FExpander>
-                        </Grid>
-
-                        <Grid>
-                            <wpfcontrollib:FExpander Header="多个导航嵌套" IsExpanded="false" IconFont="&#xe664;">
-                                <StackPanel>
-                                    <wpfcontrollib:FExpander Header="子内容长标题测试" IconFont="&#xe664;" Hint="1 / 100" />
-                                    <wpfcontrollib:FExpander  Header="子内容" IconFont="&#xe664;" Hint="1 / 2">
-                                        <StackPanel>
-                                            <wpfcontrollib:FExpander  Header="Button"/>
-                                        </StackPanel>
-                                    </wpfcontrollib:FExpander>
-                                    <wpfcontrollib:FExpander  Header="Button" />
-                                    <wpfcontrollib:FExpander Header="Button" />
-                                </StackPanel>
-                            </wpfcontrollib:FExpander>
-                        </Grid>
-
-                        <Grid>
-                            <wpfcontrollib:FExpander Header="嵌套其他控件" IsExpanded="True" IconFont="&#xe664;">
-                                <StackPanel>
-                                    <wpfcontrollib:FButton Content="FBtutton" Style="{StaticResource S.FButton.Style.Link}"/>
-                                    <wpfcontrollib:FCheckBox Content="FCheckBox"/>
-                                    <RadioButton Content="RadioButton"/>
-                                    <TextBlock Text="RadioButton"/>
-                                </StackPanel>
-                            </wpfcontrollib:FExpander>
-                        </Grid>
-                    </StackPanel>
-                </GroupBox>
-               
-                <GroupBox Header="导航控件样式二">
-                    <StackPanel>
-                        <Expander HorizontalAlignment="Stretch" Style="{StaticResource MaterialDesignExpander}"
-                              Header="Expander Example 1a">
-                            <StackPanel Orientation="Vertical"
-                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                            Margin="24,8,24,16">
-                                <TextBlock Text="Your Content" />
-                                <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                               TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Expander>
-                        <Expander HorizontalAlignment="Stretch"  Style="{StaticResource MaterialDesignExpander}"
-                      Header="Expander Example 1b">
-                            <StackPanel Orientation="Vertical"
-                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                            Margin="24,8,24,16">
-                                <TextBlock Text="Your Content" />
-                                <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                               TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Expander>
-                        <Expander HorizontalAlignment="Stretch"  Style="{StaticResource MaterialDesignExpander}"
-                      Header="Expander Example 1c">
-                            <StackPanel Orientation="Vertical"
-                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                            Margin="24,8,24,16">
-                                <TextBlock Text="Your Content" />
-                                <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                               TextWrapping="Wrap"/>
-                            </StackPanel>
-                        </Expander>
-                    </StackPanel>
-                </GroupBox>
-            
                 <GroupBox Header="数字控件">
                     <wpfcontrollib:NumericControl/>
                 </GroupBox>

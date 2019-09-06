@@ -26,10 +26,10 @@ namespace HeBianGu.General.WpfControlLib
         {
             InitializeComponent();
 
-            this.Loaded += (l, k) =>
-              {
-                  this.Height = SystemParameters.WorkArea.Height;
-              };
+            //this.Loaded += (l, k) =>
+            //  {
+            //      this.Height = SystemParameters.WorkArea.Height;
+            //  };
         }
 
 
