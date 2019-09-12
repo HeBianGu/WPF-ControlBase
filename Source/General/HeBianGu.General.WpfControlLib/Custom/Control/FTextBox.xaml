@@ -219,11 +219,11 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60" Background="{DynamicResource S.Brush.Accent}">
-                        <TextBlock VerticalAlignment="Center" 
+                    <Border MinWidth="70" Background="{DynamicResource S.Brush.Accent}">
+                        <TextBlock VerticalAlignment="Center"  Margin="3" 
                                    Foreground="{DynamicResource S.Brush.TextForeground.White}" 
                                    Background="{DynamicResource S.Brush.Accent}"
-                                   HorizontalAlignment="Right" Margin="3" 
+                                   HorizontalAlignment="Right"
                                    Text="{TemplateBinding Content}"/>
                     </Border>
                 </ControlTemplate>
@@ -232,18 +232,7 @@
     </Style>
 
     <!--TextBox包含附加属性Label，以及ClearText按钮的样式-->
-    <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.LabelClear" BasedOn="{StaticResource S.FTextBox.Default}">
-        <Setter Property="base:ControlAttachProperty.LabelTemplate" >
-            <Setter.Value>
-                <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60" Background="{DynamicResource S.Brush.Accent}">
-                        <TextBlock VerticalAlignment="Center" 
-                                   Foreground="{DynamicResource S.Brush.TextForeground.White}" 
-                                   HorizontalAlignment="Right" Margin="3" Text="{TemplateBinding Content}"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.LabelClear" BasedOn="{StaticResource S.FTextBox.Label}">
         <Setter Property="base:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
@@ -262,8 +251,8 @@
 
     <!--S.FTextBox.OpenFile-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.OpenFile" BasedOn="{StaticResource S.FTextBox.LabelClear}">
-        <Setter Property="base:ControlAttachProperty.Label" Value="文件路径"/>
-        <Setter Property="base:ControlAttachProperty.Watermark" Value="选择文件路径"/>
+        <Setter Property="base:ControlAttachProperty.Label" Value="文件路径 "/>
+        <Setter Property="base:ControlAttachProperty.Watermark" Value="选择文件路径 "/>
         <Setter Property="base:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
@@ -283,8 +272,8 @@
 
     <!--S.FTextBox.OpenFolder-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.OpenFolder" BasedOn="{StaticResource S.FTextBox.LabelClear}">
-        <Setter Property="base:ControlAttachProperty.Label" Value="设置路径"/>
-        <Setter Property="base:ControlAttachProperty.Watermark" Value="选择文件夹路径"/>
+        <Setter Property="base:ControlAttachProperty.Label" Value="设置路径 "/>
+        <Setter Property="base:ControlAttachProperty.Watermark" Value="选择文件夹路径 "/>
         <Setter Property="base:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
@@ -304,8 +293,8 @@
 
     <!--S.FTextBox.SaveFile-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.SaveFile" BasedOn="{StaticResource S.FTextBox.LabelClear}">
-        <Setter Property="base:ControlAttachProperty.Label" Value="保存路径"/>
-        <Setter Property="base:ControlAttachProperty.Watermark" Value="选择文件保存路径"/>
+        <Setter Property="base:ControlAttachProperty.Label" Value="保存路径 "/>
+        <Setter Property="base:ControlAttachProperty.Watermark" Value="选择文件保存路径 "/>
         <Setter Property="base:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
@@ -324,6 +313,8 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
 
     <!--S.FTextBox.LabelStyle：只读可复制的文本样式-->
     <!--<Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.LabelStyle">
@@ -410,10 +401,11 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Background="Transparent" Margin="5,0,0,0">
+                    <Border MinWidth="70"  Background="Transparent" Margin="3">
                         <TextBlock x:Name="txt" VerticalAlignment="Center" 
                                    Foreground="{TemplateBinding Foreground}" 
                                    Background="Transparent"
+                                   FontSize="{TemplateBinding FontSize}"
                                    HorizontalAlignment="Right"
                                    Text="{TemplateBinding Content}"/>
                     </Border>
@@ -449,5 +441,71 @@
 
         <Setter Property="Template" Value="{StaticResource S.FTextBox.Template.Single}"/>
     </Style>
+
+    <!--S.FTextBox.OpenFile-->
+    <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Single.OpenFile" BasedOn="{StaticResource S.FTextBox.Single.LabelClear}">
+        <Setter Property="base:ControlAttachProperty.Label" Value="文件路径 "/>
+        <Setter Property="base:ControlAttachProperty.Watermark" Value="选择文件路径 "/>
+        <Setter Property="base:ControlAttachProperty.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:FButton FIcon="&#xe611;" Style="{DynamicResource S.FButton.Style.Transparent}" 
+                                   IsTabStop="False" FIconMargin="0"
+                                   base:ControlAttachProperty.IsOpenFileButtonBehaviorEnabled="True" 
+                                   Command="base:ControlAttachProperty.OpenFileCommand" 
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
+                                   Margin="0,1,0,2"  
+                                   FIconSize="18" 
+                                   Foreground="{TemplateBinding Foreground}" 
+                                   Cursor="Arrow"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--S.FTextBox.OpenFolder-->
+    <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Single.OpenFolder" BasedOn="{StaticResource S.FTextBox.Single.LabelClear}">
+        <Setter Property="base:ControlAttachProperty.Label" Value="设置路径 "/>
+        <Setter Property="base:ControlAttachProperty.Watermark" Value="选择文件夹路径 "/>
+        <Setter Property="base:ControlAttachProperty.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:FButton FIcon="&#xe611;" 
+                                   Style="{DynamicResource S.FButton.Style.Transparent}" 
+                                   IsTabStop="False" FIconMargin="0" VerticalAlignment="Center"
+                                   base:ControlAttachProperty.IsOpenFolderButtonBehaviorEnabled="True" 
+                                   Command="base:ControlAttachProperty.OpenFolderCommand" 
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
+                                   Margin="0,1,0,2"  FIconSize="18" 
+                                   Foreground="{TemplateBinding Foreground}" 
+                                   Cursor="Arrow"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--S.FTextBox.SaveFile-->
+    <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Single.SaveFile" BasedOn="{StaticResource S.FTextBox.Single.LabelClear}">
+        <Setter Property="base:ControlAttachProperty.Label" Value="保存路径 "/>
+        <Setter Property="base:ControlAttachProperty.Watermark" Value="选择文件保存路径 "/>
+        <Setter Property="base:ControlAttachProperty.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:FButton FIcon="&#xe611;" 
+                                   Style="{DynamicResource S.FButton.Style.Transparent}" 
+                                   IsTabStop="False" 
+                                   FIconMargin="0"
+                                   base:ControlAttachProperty.IsSaveFileButtonBehaviorEnabled="True" 
+                                   Command="base:ControlAttachProperty.SaveFileCommand" 
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
+                                   Margin="0,1,0,2"  
+                                   FIconSize="18" 
+                                   Foreground="{TemplateBinding Foreground}"  
+                                   Cursor="Arrow"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
 </ResourceDictionary>

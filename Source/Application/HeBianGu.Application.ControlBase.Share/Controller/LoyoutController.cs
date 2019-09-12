@@ -231,6 +231,26 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
             return await ViewAsync();
         }
 
-        
+
+        [Route("OverView/DatePicker")]
+        public async Task<IActionResult> DatePicker()
+        {
+            return await ViewAsync();
+        }
+
+        [Route("OverView/Password")]
+        public async Task<IActionResult> Password()
+        {
+            return await ViewAsync();
+        }
+
+        [Route("OverView/ListBox")]
+        public async Task<IActionResult> ListBox()
+        {
+            return await ViewAsync();
+        }
+
+
+
     }
 }

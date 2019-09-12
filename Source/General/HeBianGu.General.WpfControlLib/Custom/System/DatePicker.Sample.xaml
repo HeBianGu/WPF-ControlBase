@@ -21,7 +21,7 @@
                 
                 <!--Label区域-->
                 <ContentControl x:Name="Label" Template="{TemplateBinding base:ControlAttachProperty.LabelTemplate}" IsTabStop="False" IsHitTestVisible="False"
-                                            Content="{TemplateBinding base:ControlAttachProperty.Label}" Margin="1,1,0,1"/>
+                                            Content="{TemplateBinding base:ControlAttachProperty.Label}" Margin="1"/>
                 <!--附加内容区域-->
                 <Border Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" >
                     <ContentControl  x:Name="PART_AttachContent"  VerticalAlignment="Center" VerticalContentAlignment="Center"  Foreground="{DynamicResource S.Brush.TextForeground.Assist}" Template="{TemplateBinding base:ControlAttachProperty.AttachContent}"/>
@@ -102,6 +102,7 @@
                 <!--Label区域-->
                 <ContentControl x:Name="Label" Template="{TemplateBinding base:ControlAttachProperty.LabelTemplate}" IsTabStop="False"
                                             Content="{TemplateBinding base:ControlAttachProperty.Label}" Margin="1"/>
+                
                 <!--附加内容区域-->
                 <Border Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" >
                     <ContentControl  x:Name="PART_AttachContent" VerticalAlignment="Center" VerticalContentAlignment="Center"  Foreground="{DynamicResource S.Brush.TextForeground.Assist}" Template="{TemplateBinding base:ControlAttachProperty.AttachContent}"/>
@@ -153,7 +154,9 @@
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
-                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/> 
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{DynamicResource S.Brush.Accent}"/>
+
             </Trigger>
             <Trigger Property="IsEnabled" Value="False">
                 <Setter TargetName="PART_Root" Property="Opacity" Value="{StaticResource S.Opacity.Disable}" />
@@ -168,14 +171,14 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Dark.3}" />
         <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
-        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
         <Setter Property="base:ControlAttachProperty.FocusBackground" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="base:ControlAttachProperty.FIconSize" Value="18" />
         <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,5,0" />
         <Setter Property="base:ControlAttachProperty.FIcon" Value="&#xe6f3;" />
         <Setter Property="base:ControlAttachProperty.CornerRadius" Value="2" />
         <Setter Property="FontFamily" Value="{DynamicResource S.FontFamily.Default}" />
-        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Small}" />
+        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}" />
         <Setter Property="MinHeight" Value="26" />
         <Setter Property="Height" Value="30" />
         <Setter Property="Width" Value="300" />
@@ -217,10 +220,8 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60" Background="{DynamicResource S.Brush.Accent}">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" 
-                                   Foreground="{DynamicResource S.Brush.TextForeground.White}" 
-                                   Text="{TemplateBinding Content}"></TextBlock>
+                    <Border MinWidth="70" Background="{DynamicResource S.Brush.Accent}">
+                        <TextBlock   Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{DynamicResource S.Brush.TextForeground.White}" Text="{TemplateBinding Content}"></TextBlock>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -235,10 +236,10 @@
                     <local:FButton FIcon="&#xe72c;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0"
-                               base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
+                                   base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
                                    Command="base:ControlAttachProperty.ClearTextCommand" 
-                               CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type DatePicker}}}"
-                               Margin="0,3,0,4" FIconSize="14"  Foreground="{TemplateBinding Foreground}"   Cursor="Arrow"/>
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type DatePicker}}}"
+                                   Margin="0,3,0,4" FIconSize="14"  Foreground="{TemplateBinding Foreground}"   Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -250,10 +251,8 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" 
-                                   Foreground="{TemplateBinding Foreground}" 
-                                   Text="{TemplateBinding Content}"></TextBlock>
+                    <Border MinWidth="70"  Margin="3">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -268,10 +267,10 @@
                     <local:FButton FIcon="&#xe72c;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0"
-                               base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
+                                   base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
                                    Command="base:ControlAttachProperty.ClearTextCommand" 
-                               CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type DatePicker}}}"
-                               Margin="0,3,0,4" FIconSize="14"  Foreground="{TemplateBinding Foreground}"   Cursor="Arrow"/>
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type DatePicker}}}"
+                                   Margin="0,3,0,4" FIconSize="14"  Foreground="{TemplateBinding Foreground}"   Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
