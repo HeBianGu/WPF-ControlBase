@@ -6,14 +6,162 @@
              xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
              xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
              xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="1450" d:DesignWidth="800">
     <ScrollViewer>
-        <GroupBox Header="日期控件">
-            <StackPanel>
-          
+        <UniformGrid>
+            <GroupBox Header="默认样式">
+                <StackPanel>
+                    <ListBox ItemsSource="{DynamicResource D.ArrayList.Items}" Style="{DynamicResource S.ListBox.Default}"  SelectedIndex="0"/>
+                </StackPanel>
+            </GroupBox>
 
-            </StackPanel>
-        </GroupBox>
+            <GroupBox Header="精简样式">
+                <StackPanel>
+                    <ListBox ItemsSource="{DynamicResource D.ArrayList.Items}" Style="{DynamicResource S.ListBox.Sinple}"  SelectedIndex="0"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="单选样式">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <DataTemplate DataType="{x:Type system:String}">
+                            <Grid Height="30" Width="150" Margin="2">
+                                <Border x:Name="border" Background="Transparent" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="1" CornerRadius="15"/> 
+                                <TextBlock x:Name="txt" Text="{Binding}" Foreground="{DynamicResource S.Brush.TextForeground.Default}" HorizontalAlignment="Center" VerticalAlignment="Center"/>  
+                            </Grid>
+
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                                    <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                                </Trigger>
+
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="true">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
+                                    <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+                                    <Setter TargetName="txt" Property="FontWeight" Value="Black"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </StackPanel.Resources>
+                    <ListBox ItemsSource="{DynamicResource D.ArrayList.Items}" Style="{DynamicResource S.ListBox.Sinple}"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="单选样式">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <DataTemplate DataType="{x:Type system:String}">
+                            <Grid Height="30" Width="150">
+                                <Border x:Name="border" Background="Transparent"/>
+                                <TextBlock x:Name="txt" Text="{Binding}"  Foreground="{DynamicResource S.Brush.TextForeground.Default}" Margin="15,0,0,0" VerticalAlignment="Center"/>
+                                <Border x:Name="left" HorizontalAlignment="Left" Visibility="Collapsed" Background="{DynamicResource S.Brush.Accent}" Width="5"/> 
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                                </Trigger>
+
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="true">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Dark.2}"/>
+                                    <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+                                    <Setter TargetName="left" Property="Visibility" Value="Visible"/>
+                                    <Setter TargetName="txt" Property="FontWeight" Value="Bold"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers> 
+                        </DataTemplate>
+                    </StackPanel.Resources>
+                    <ListBox ItemsSource="{DynamicResource D.ArrayList.Items}" Style="{DynamicResource S.ListBox.Sinple}" SelectedIndex="0"/>
+                </StackPanel>
+            </GroupBox>
+
+
+            <GroupBox Header="单选样式">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <DataTemplate DataType="{x:Type system:String}">
+                            <Grid Height="30" Width="150" Margin="1">
+                                <RadioButton  Style="{StaticResource BoxRadioButton}"
+                                             IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" GroupName="listbox">
+                                    <RadioButton.Content>
+                                        <TextBlock Text="{Binding}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                    </RadioButton.Content>
+                                </RadioButton>
+                            </Grid>
+                        </DataTemplate>
+                    </StackPanel.Resources>
+                    <ListBox ItemsSource="{DynamicResource D.ArrayList.Items}" Style="{DynamicResource S.ListBox.Sinple}" SelectedIndex="0"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="单选布局">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <DataTemplate DataType="{x:Type system:String}">
+                            <Grid Height="30" Width="150" Margin="2">
+                                <Border x:Name="border" Background="Transparent" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="1" CornerRadius="15"/>
+                                <TextBlock x:Name="txt" Text="{Binding}" Foreground="{DynamicResource S.Brush.TextForeground.Default}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                                    <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                                </Trigger>
+
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="true">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
+                                    <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+                                    <Setter TargetName="txt" Property="FontWeight" Value="Black"/> 
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </StackPanel.Resources>
+                    <ListBox ItemsSource="{DynamicResource D.ArrayList.Items}" Style="{DynamicResource S.ListBox.Sinple}"  SelectedIndex="0">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="3"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="单选布局">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <DataTemplate DataType="{x:Type system:String}">
+                            <Grid Height="30" Width="120" Margin="2">
+                                <Border x:Name="border" Background="Transparent" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="1"/>
+                                <TextBlock x:Name="txt" Text="{Binding}" Foreground="{DynamicResource S.Brush.TextForeground.Default}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                                    <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                                </Trigger>
+
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="true">
+                                    <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
+                                    <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+                                    <Setter TargetName="txt" Property="FontWeight" Value="Black"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </StackPanel.Resources>
+                    <ListBox ItemsSource="{DynamicResource D.ArrayList.Items}" Style="{DynamicResource S.ListBox.Sinple}"  SelectedIndex="0">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </StackPanel>
+            </GroupBox>
+        </UniformGrid>
     </ScrollViewer>
 </UserControl>
