@@ -27,9 +27,9 @@ namespace HeBianGu.General.WpfControlLib
             {
                 MessageService.ShowSnackMessageWithNotice("窗口即将隐藏至右下角，双击右下角图标显示窗口");
 
-                this._notifyIcon.ShowBalloonTip(1000, "sssss", "sssss", NotifyBalloonIcon.Info);
+                this._notifyIcon.ShowBalloonTip(1000, "提示！", "窗口即将隐藏至右下角，双击右下角图标显示窗口", NotifyBalloonIcon.Info);
 
-                Task.Delay(1000).ContinueWith(t =>
+                Task.Delay(100).ContinueWith(t =>
                 {
                     this.Dispatcher.Invoke(() =>
                     {

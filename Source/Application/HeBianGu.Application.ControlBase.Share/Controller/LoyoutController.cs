@@ -250,7 +250,12 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
             return await ViewAsync();
         }
 
-
+        [Route("OverView/Document")]
+        public async Task<IActionResult> Document()
+        {
+            return await ViewAsync();
+        }
+        
 
     }
 }
