@@ -1,11 +1,12 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace HeBianGu.Base.WpfBase
+namespace HeBianGu.General.WpfControlLib
 {
     /// <summary>
     ///     控件库使用的所有命令（为了统一，不使用wpf自带的命令）
@@ -165,6 +166,10 @@ namespace HeBianGu.Base.WpfBase
 
         /// <summary> 打开应用程序 </summary>
         public static ProcessCommand ProcessCommand { get; } = new ProcessCommand();
+
+        /// <summary> 关闭消息层 </summary>
+        public static MessageLayerCloseCommand MessageLayerCloseCommand { get; } = new MessageLayerCloseCommand();
         
+
     }
 }

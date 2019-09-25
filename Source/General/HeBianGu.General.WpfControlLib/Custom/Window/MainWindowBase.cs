@@ -223,7 +223,13 @@ namespace HeBianGu.General.WpfControlLib
             this._swtichTransitioner.CurrentContent = link.View;
             this._swtichTransitioner.Visibility = Visibility.Visible;
         }
-         
+
+        public void ShowWithLayer(FrameworkElement element, int layerIndex = 0)
+        {
+            this._swtichTransitioner.CurrentContent = element;
+            this._swtichTransitioner.Visibility = Visibility.Visible;
+        }
+
 
         public void CloseWithLayer(int layerIndex = 0)
         {
@@ -271,6 +277,8 @@ namespace HeBianGu.General.WpfControlLib
         void ShowWithLayer(Uri uri, int layerIndex = 0);
 
         void ShowWithLayer(IActionResult link, int layerIndex = 0);
+
+        void ShowWithLayer(FrameworkElement element, int layerIndex = 0);
 
         /// <summary> 关闭蒙版 </summary>
         void CloseWithLayer(int layerIndex = 0);

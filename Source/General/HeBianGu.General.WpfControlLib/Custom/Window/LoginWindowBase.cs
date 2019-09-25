@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,8 +20,6 @@ namespace HeBianGu.General.WpfControlLib
             set { SetValue(LogoProperty, value); }
         }
 
-
-
         public bool IsLogined
         {
             get { return (bool)GetValue(IsLoginedProperty); }
@@ -39,14 +38,31 @@ namespace HeBianGu.General.WpfControlLib
 
                  if (config)
                  {
-                     control.ScaleReduceWithAction(new Point(0.5, 0.5), 0.5, 5, () =>
+                     //control.ScaleReduceWithAction(new Point(0.5, 0.5), 0.5, 5, () =>
+                     //{
+                     //    control.DialogResult = true;
+                     //    control.Close();
+                     //}); 
+
+
+                     control.RenderTransformOrigin = new Point(0.5, 0.5);
+
+                     var engine2 = DoubleStoryboardEngine.Create(1, 0.5, 0.3, "Opacity");
+                     var engine = DoubleStoryboardEngine.Create(1, 0.5, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
+                     var engine1 = DoubleStoryboardEngine.Create(1, 0.5, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
+
+                     engine.CompletedEvent += (s, k) =>
                      {
                          control.DialogResult = true;
                          control.Close();
-                     });
+                     };
+
+                     engine.Start(control);
+                     engine1.Start(control);
+                     engine2.Start(control);
                  }
 
-             })); 
-       
+             }));
+
     }
 }

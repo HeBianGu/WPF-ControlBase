@@ -240,6 +240,19 @@ namespace HeBianGu.General.WpfControlLib
             });
         }
 
+
+        /// <summary> 显示蒙版 </summary>
+        public static void ShowWithLayer(FrameworkElement element, int layerIndex = 0)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (Application.Current.MainWindow is IWindowBase window)
+                {
+                    window.ShowWithLayer(element);
+                }
+            });
+        }
+
         /// <summary> 关闭蒙版 </summary>
         public static void CloseWithLayer(int layerIndex = 0)
         {
