@@ -17,7 +17,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     /// <summary>
     /// App.xaml 的交互逻辑
     /// </summary>
-    public partial class App : Application
+    public partial class App : ApplicationBase
     {
 
         protected override void OnStartup(StartupEventArgs e)
@@ -33,6 +33,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
             LoginWindow loginWindow = new LoginWindow();
 
+            loginWindow.Title = this.GetWpfControlLibVersonInfo();
+
             var result = loginWindow.ShowDialog();
 
             if (result.HasValue && result.Value)
@@ -46,33 +48,5 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
             base.OnStartup(e);
         }
-
-        protected override void OnExit(ExitEventArgs e)
-        {
-            base.OnExit(e);
-        }
-
-
-        public App()
-        {
-            DispatcherUnhandledException += App_DispatcherUnhandledException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-        }
-
-        void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
-        {
-            Current.Dispatcher.Invoke(() => MessageWindow.ShowSumit(e.Exception.Message, "系统异常",5));
-
-            e.Handled = true;
-        }
-
-
-        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Exception error = (Exception)e.ExceptionObject;
-
-            Current.Dispatcher.Invoke(() => MessageBox.Show("当前应用程序遇到一些问题，该操作已经终止，请进行重试，如果问题继续存在，请联系管理员", "意外的操作"));
-        }
-
     }
 }
