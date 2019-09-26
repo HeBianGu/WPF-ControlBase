@@ -15,7 +15,7 @@ namespace HeBianGu.Base.WpfBase
         {
             if (parameter is UIElement element)
             {
-                var engine = DoubleStoryboardEngine.Create(1, 0, 1, "Opacity");
+                var engine = DoubleStoryboardEngine.Create(1, 0, 0.4, "Opacity");
 
                 engine.CompletedEvent += (l, k) =>
               {

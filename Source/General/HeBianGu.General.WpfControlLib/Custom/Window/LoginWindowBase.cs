@@ -47,9 +47,9 @@ namespace HeBianGu.General.WpfControlLib
 
                      control.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                     var engine2 = DoubleStoryboardEngine.Create(1, 0.5, 0.3, "Opacity");
-                     var engine = DoubleStoryboardEngine.Create(1, 0.5, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
-                     var engine1 = DoubleStoryboardEngine.Create(1, 0.5, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
+                     var engine2 = DoubleStoryboardEngine.Create(1, 0.5, 0.5, "Opacity");
+                     var engine = DoubleStoryboardEngine.Create(1, 0.3, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
+                     var engine1 = DoubleStoryboardEngine.Create(1, 0.3, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
 
                      engine.CompletedEvent += (s, k) =>
                      {
