@@ -143,10 +143,7 @@
         </Grid>
         <!--触发器-->
         <ControlTemplate.Triggers>
-            <!--1.显示水印-->
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
-                <Setter TargetName="Message" Property="Visibility" Value="Visible" />
-            </DataTrigger>
+      
             <!--编辑模式-->
             <Trigger Property="IsEditable" Value="True">
                 <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
@@ -157,12 +154,21 @@
                 <Setter Property="IsTabStop" Value="false" />
                 <Setter TargetName="PART_DropDownToggle" Property="Focusable" Value="False" />
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="PART_Root" Property="Opacity" Value="{DynamicResource S.Opacity.Disable}"></Setter>
+            </Trigger>
+
+            <!--1.显示水印-->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
+                <Setter TargetName="Message" Property="Visibility" Value="Visible" />
+            </DataTrigger>
 
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
@@ -172,11 +178,10 @@
                 <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>
             </Trigger>
 
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="PART_Root" Property="Opacity" Value="{DynamicResource S.Opacity.Disable}"></Setter>
-            </Trigger>
+
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
@@ -284,10 +289,7 @@
         </Grid>
         <!--触发器-->
         <ControlTemplate.Triggers>
-            <!--1.显示水印-->
-            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
-                <Setter TargetName="Message" Property="Visibility" Value="Visible" />
-            </DataTrigger>
+   
             <!--编辑模式-->
             <Trigger Property="IsEditable" Value="True">
                 <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
@@ -298,12 +300,22 @@
                 <Setter Property="IsTabStop" Value="false" />
                 <Setter TargetName="PART_DropDownToggle" Property="Focusable" Value="False" />
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="PART_Root" Property="Opacity" Value="{DynamicResource S.Opacity.Disable}"></Setter>
+            </Trigger>
+
+            <!--1.显示水印-->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
+                <Setter TargetName="Message" Property="Visibility" Value="Visible" />
+            </DataTrigger>
 
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
@@ -313,10 +325,10 @@
                 <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>
+
             </Trigger>
-            <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="PART_Root" Property="Opacity" Value="{DynamicResource S.Opacity.Disable}"></Setter>
-            </Trigger>
+       
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
@@ -442,7 +454,7 @@
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Circle.Label" BasedOn="{StaticResource S.ComboBox.Label}">
         <Setter Property="Padding" Value="0,0,20,0"/>
         <Setter Property="Height" Value="35"/>
-        <Setter Property="IsEditable" Value="True"/>
+        <Setter Property="IsEditable" Value="False"/>
         <Setter Property="base:ControlAttachProperty.CornerRadius" Value="17"/>
         <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,13,0"/>
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >

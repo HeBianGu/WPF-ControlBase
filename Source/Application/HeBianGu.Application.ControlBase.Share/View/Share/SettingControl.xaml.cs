@@ -33,10 +33,10 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         {
             await MessageService.ShowWaittingMessge(() =>
             {
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
             });
 
-            if (random.Next(2) == 1)
+            if (random.Next(5) == 1)
             {
                 await MessageService.ShowSumitMessge("查询错误，请检查！");
             }

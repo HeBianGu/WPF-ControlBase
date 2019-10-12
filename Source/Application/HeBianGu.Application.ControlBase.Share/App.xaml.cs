@@ -27,7 +27,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             //  Do：设置默认主题
             ThemeService.Current.AccentColor =Color.FromRgb(0x1b, 0xa1, 0xe2);
 
-            ThemeService.Current.StartAnimationTheme(1000 * 30);
+            ThemeService.Current.StartAnimationTheme(1000 * 10);
 
             MainWindow shellWindow = new MainWindow();
 

@@ -278,6 +278,16 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 this.AddMessage(message, command);
             }
 
+            //  Do：气泡消息
+            else if (command.StartsWith("Button.ShowCoverMessge"))
+            {
+                SettingControl setting = new SettingControl();
+
+                MessageService.ShowWithLayer(setting);
+
+            }
+
+           
         }
 
         void AddMessage(MessageBase message,string command)

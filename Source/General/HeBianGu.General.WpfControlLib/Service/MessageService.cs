@@ -98,6 +98,31 @@ namespace HeBianGu.General.WpfControlLib
              });
         }
 
+        //public static async Task<object> ShowWaittingMessge(Func<object> action, Action closeAction = null)
+        //{
+        //    await Application.Current.Dispatcher.Invoke(async () =>
+        //    {
+        //        if (CheckOpen()) return null;
+
+        //        var view = new WaittingMessageDialog();
+
+        //        //show the dialog
+        //        return await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
+        //        {
+        //          Task.Run(action);
+        //            //.ContinueWith(m =>
+        //            //{
+        //            //    Application.Current.Dispatcher.Invoke(() =>
+        //            //    {
+        //            //        e.Session.Close(false);
+
+        //            //        closeAction?.Invoke();
+        //            //    });
+        //            //});
+        //        });
+        //    });
+        //}
+
         public static async Task ShowPercentProgress(Action<IPercentProgress> action, Action closeAction = null)
         {
             await ShowProgressMessge<PercentProgressDialog>(action, closeAction);

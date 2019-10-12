@@ -8,6 +8,7 @@ using System.Timers;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace HeBianGu.Base.WpfBase
 {
@@ -327,20 +328,10 @@ namespace HeBianGu.Base.WpfBase
 
             _timer.Elapsed += (l, k) =>
               {
-                  Action action = () =>
-                 {
-                     if (type == 0)
-                     {
-                         this.AccentColor = wpAccentColors[_random.Next(wpAccentColors.Length)];
-
-                     }
-                     else
-                     {
-                         this.AccentColor = metroAccentColors[_random.Next(metroAccentColors.Length)];
-                     }
-                 };
-
-                  Application.Current?.Dispatcher.Invoke(action);
+                  Application.Current?.Dispatcher.Invoke(() =>
+                  {
+                      this.AccentColor = type == 0 ? wpAccentColors[_random.Next(wpAccentColors.Length)] : metroAccentColors[_random.Next(metroAccentColors.Length)];
+                  });
 
               };
 
