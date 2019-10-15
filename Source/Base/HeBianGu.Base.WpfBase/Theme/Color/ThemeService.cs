@@ -154,11 +154,14 @@ namespace HeBianGu.Base.WpfBase
 
             if (defaultFontSize.HasValue)
             {
-                return defaultFontSize.Value == 12D ? FontSize.Small : FontSize.Large;
+                return defaultFontSize.Value == smallldouble ? FontSize.Small : FontSize.Large;
             }
 
             return FontSize.Large;
         }
+
+
+        double smallldouble = 13D;
 
         private void SetFontSize(FontSize fontSize)
         {
@@ -167,7 +170,11 @@ namespace HeBianGu.Base.WpfBase
                 return;
             }
 
-            Application.Current.Resources[KeyDefaultFontSize] = fontSize == FontSize.Small ? 12D : 13D;
+            //Application.Current.Resources[KeyDefaultFontSize] = fontSize == FontSize.Small ? 12D : 13D;
+
+            //Application.Current.Resources[KeyFixedFontSize] = fontSize == FontSize.Small ? 10.667D : 13.333D;
+
+            Application.Current.Resources[KeyDefaultFontSize] = fontSize == FontSize.Small ? smallldouble : 15D;
 
             Application.Current.Resources[KeyFixedFontSize] = fontSize == FontSize.Small ? 10.667D : 13.333D;
 
