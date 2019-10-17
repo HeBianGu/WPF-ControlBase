@@ -12,9 +12,6 @@ namespace HeBianGu.General.WpfControlLib
 {
     public static class MessageService
     {
-
-        public static MessageCloseLayerCommand CloseLayer { get; } = new MessageCloseLayerCommand();
-
         #region - 提示消息 -
 
         public static void ShowSnackMessage(string message)
@@ -103,30 +100,31 @@ namespace HeBianGu.General.WpfControlLib
              });
         }
 
-        //public static async Task<object> ShowWaittingMessge(Func<object> action, Action closeAction = null)
-        //{
-        //    await Application.Current.Dispatcher.Invoke(async () =>
-        //    {
-        //        if (CheckOpen()) return null;
+        /// <summary> 带有返回结果的等待消息窗口 </summary>
+        public static async Task<object> ShowWaittingResultMessge(Func<object> action)
+        {
+            if (CheckOpen()) return null;
 
-        //        var view = new WaittingMessageDialog();
+            object result = null;
 
-        //        //show the dialog
-        //        return await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
-        //        {
-        //          Task.Run(action);
-        //            //.ContinueWith(m =>
-        //            //{
-        //            //    Application.Current.Dispatcher.Invoke(() =>
-        //            //    {
-        //            //        e.Session.Close(false);
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
+                var view = new WaittingMessageDialog();
 
-        //            //        closeAction?.Invoke();
-        //            //    });
-        //            //});
-        //        });
-        //    });
-        //}
+                //show the dialog
+                await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
+                 {
+                     Task.Run(() => result = action?.Invoke()).ContinueWith(m =>
+                          {
+                              Application.Current.Dispatcher.Invoke(() =>
+                              {
+                                  e.Session.Close(false);
+                              });
+                          });
+                 });
+            });
+            return result;
+        }
 
         public static async Task ShowPercentProgress(Action<IPercentProgress> action, Action closeAction = null)
         {
@@ -263,6 +261,9 @@ namespace HeBianGu.General.WpfControlLib
 
         #region - 蒙版消息 -
 
+        public static MessageCloseLayerCommand CloseLayer { get; } = new MessageCloseLayerCommand();
+
+
         /// <summary> 显示蒙版 </summary>
         public static void ShowWithLayer(Uri uri, int layerIndex = 0)
         {
@@ -341,7 +342,6 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         #endregion
-
 
         #region - 列表消息 -
 

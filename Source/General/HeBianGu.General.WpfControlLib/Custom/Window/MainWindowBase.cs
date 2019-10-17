@@ -144,7 +144,7 @@ namespace HeBianGu.General.WpfControlLib
     [TemplatePart(Name = "PART_SnackBar", Type = typeof(Snackbar))]
     [TemplatePart(Name = "PART_SettingFrame", Type = typeof(ModernFrame))]
     [TemplatePart(Name = "PART_NotifyIcon", Type = typeof(NotifyIcon))]
-    [TemplatePart(Name = "PART_LinkActionFrame", Type = typeof(LinkActionFrame))] 
+    [TemplatePart(Name = "PART_LinkActionFrame", Type = typeof(LinkActionFrame))]
     [TemplatePart(Name = "PART_SwtichTransitioner", Type = typeof(SwtichTransitioner))]
     [TemplatePart(Name = "PART_Message", Type = typeof(MessageContainer))]
 
@@ -166,9 +166,9 @@ namespace HeBianGu.General.WpfControlLib
             this._snackbar = Template.FindName("PART_SnackBar", this) as Snackbar;
             this._settingFrame = Template.FindName("PART_SettingFrame", this) as ModernFrame;
             this._notifyIcon = Template.FindName("PART_NotifyIcon", this) as NotifyIcon;
-            this._linkActionFrame= Template.FindName("PART_LinkActionFrame", this) as LinkActionFrame;
+            this._linkActionFrame = Template.FindName("PART_LinkActionFrame", this) as LinkActionFrame;
             this._swtichTransitioner = Template.FindName("PART_SwtichTransitioner", this) as SwtichTransitioner;
-            this._messageContainer= Template.FindName("PART_Message", this) as MessageContainer;
+            this._messageContainer = Template.FindName("PART_Message", this) as MessageContainer;
 
             if (this._notifyIcon != null)
             {
@@ -226,17 +226,31 @@ namespace HeBianGu.General.WpfControlLib
 
         public void ShowWithLayer(FrameworkElement element, int layerIndex = 0)
         {
+
             this._swtichTransitioner.CurrentContent = element;
             this._swtichTransitioner.Visibility = Visibility.Visible;
+
+            var story = DoubleStoryboardEngine.Create(0, 1, 0.3, "Opacity");
+            story.Start(this._swtichTransitioner);
+            story.Dispose();
+
         }
 
 
         public void CloseWithLayer(int layerIndex = 0)
         {
-            this._settingFrame.Visibility = Visibility.Collapsed;
-            this._linkActionFrame.Visibility = Visibility.Collapsed;
-            this._swtichTransitioner.Visibility = Visibility.Collapsed;
+            var story = DoubleStoryboardEngine.Create(1, 0, 0.2, "Opacity");
 
+            story.CompletedEvent += (l, k) =>
+            {
+                this._settingFrame.Visibility = Visibility.Collapsed;
+                this._linkActionFrame.Visibility = Visibility.Collapsed;
+                this._swtichTransitioner.Visibility = Visibility.Collapsed;
+
+                story.Dispose();
+            };
+
+            story.Start(this._swtichTransitioner);
 
         }
 
