@@ -694,4 +694,31 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+    /// <summary>
+    /// 区间范围筛选
+    /// </summary>
+    public class MultiComboboxSelectConverter : IMultiValueConverter
+    {
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null) return null;
+
+            //  Message：起始杆号可选项删选
+            if (values.Length != 2) return null;
+
+            if (values[1]==null) return null;
+
+            int selectIndex = (int)values[0];
+
+            IEnumerable<object> enumerable = values[1] as IEnumerable<object>;
+
+            return enumerable.Skip(selectIndex).ToList();
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

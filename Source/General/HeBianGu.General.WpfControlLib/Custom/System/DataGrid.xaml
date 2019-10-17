@@ -25,7 +25,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="MinWidth" Value="5" />
         <Setter Property="MinHeight" Value="35" />
-        <Setter Property="Height" Value="35" />
+        <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=ColumnHeaderHeight}" />
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -102,12 +102,12 @@
     <!--行样式-->
     <Style x:Key="S.DataGrid.DataGridRow.Default" TargetType="{x:Type DataGridRow}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
-        <Setter Property="Height" Value="35" />
+        <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=RowHeight}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Margin" Value="0,0,0,0" />
         <Style.Triggers>
             <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                <Setter Property="Background" Value="{DynamicResource S.Brush.RowIndex.BackGround}" />
+                <Setter Property="Background" Value="#FFE4EFF9" />
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
                 <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent}" />
@@ -154,7 +154,6 @@
                         </Storyboard>
                     </BeginStoryboard>
                 </MultiTrigger.EnterActions>
-
                 <MultiTrigger.ExitActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -171,7 +170,6 @@
                 </MultiTrigger.Conditions>
                 <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.8}" /> 
             </MultiTrigger>
-
         </Style.Triggers>
     </Style>
 
@@ -257,6 +255,8 @@
     <!--表格DataGrid样式-->
     <Style x:Key="S.DataGrid.Default" TargetType="{x:Type DataGrid}">
         <Setter Property="MinRowHeight" Value="25" />
+        <Setter Property="MinRowHeight" Value="35" />
+        <Setter Property="ColumnHeaderHeight" Value="35" />
         <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}" />
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
         <Setter Property="BorderThickness" Value="1" />
@@ -368,6 +368,22 @@
                 <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="S.DataGrid.Single" TargetType="DataGrid" BasedOn="{StaticResource S.DataGrid.Default}">
+        <Setter Property="RowHeight" Value="35" />
+        <Setter Property="ColumnHeaderHeight" Value="35" />
+        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource S.DataGrid.DataGridColumnHeader.Default}">
+                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent.Opacity.2}" />
+                    <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.2}" />
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

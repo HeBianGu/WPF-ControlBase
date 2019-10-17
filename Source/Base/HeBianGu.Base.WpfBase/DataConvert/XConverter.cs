@@ -176,6 +176,13 @@ namespace HeBianGu.Base.WpfBase
             get { return new OpacityProgressBarConverter(); }
         }
 
+
+        public static MultiComboboxSelectConverter MultiComboboxSelectConverter
+        {
+            get { return new MultiComboboxSelectConverter(); }
+        }
+
+
         
 
         //public static SelectTextConverter SelectTextConverter

@@ -154,14 +154,17 @@ namespace HeBianGu.Base.WpfBase
 
             if (defaultFontSize.HasValue)
             {
-                return defaultFontSize.Value == smallldouble ? FontSize.Small : FontSize.Large;
+                return defaultFontSize.Value == SmallFontSize ? FontSize.Small : FontSize.Large;
             }
 
-            return FontSize.Large;
+            return FontSize.Small;
         }
 
 
-        double smallldouble = 13D;
+
+        public double SmallFontSize { get; set; } = 13D;
+
+        public double LargeFontSize { get; set; } = 15D;
 
         private void SetFontSize(FontSize fontSize)
         {
@@ -174,7 +177,7 @@ namespace HeBianGu.Base.WpfBase
 
             //Application.Current.Resources[KeyFixedFontSize] = fontSize == FontSize.Small ? 10.667D : 13.333D;
 
-            Application.Current.Resources[KeyDefaultFontSize] = fontSize == FontSize.Small ? smallldouble : 15D;
+            Application.Current.Resources[KeyDefaultFontSize] = fontSize == FontSize.Small ? SmallFontSize : LargeFontSize;
 
             Application.Current.Resources[KeyFixedFontSize] = fontSize == FontSize.Small ? 10.667D : 13.333D;
 
@@ -349,6 +352,12 @@ namespace HeBianGu.Base.WpfBase
         public void StopAnimationTheme()
         {
             _timer.Stop();
+        }
+
+
+        public void InitTheme(Action<ThemeService> action)
+        {
+            action?.Invoke(this);
         }
     }
 

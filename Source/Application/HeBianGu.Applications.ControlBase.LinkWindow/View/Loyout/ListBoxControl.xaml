@@ -7,6 +7,7 @@
              xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
              xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="1450" d:DesignWidth="800">
     <ScrollViewer>
@@ -23,7 +24,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="单选样式">
+            <GroupBox Header="单选样式一">
                 <StackPanel>
                     <StackPanel.Resources>
                         <DataTemplate DataType="{x:Type system:String}">
@@ -50,7 +51,33 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox Header="单选样式">
+            <GroupBox Header="单选样式二">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <DataTemplate DataType="{x:Type system:String}">
+                            <Grid Height="30" Width="150" Margin="2">
+                                <Border x:Name="border" Background="Transparent" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="1" CornerRadius="15"/>
+                                <TextBlock x:Name="txt" Text="{Binding}" Foreground="{DynamicResource S.Brush.TextForeground.Default}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
+                                </Trigger>
+
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="true">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Accent}"/>
+                                    <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                                    <Setter TargetName="txt" Property="FontWeight" Value="Black"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </StackPanel.Resources>
+                    <ListBox ItemsSource="{DynamicResource D.ArrayList.Items}" Style="{DynamicResource S.ListBox.Sinple}"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="单选样式三">
                 <StackPanel>
                     <StackPanel.Resources>
                         <DataTemplate DataType="{x:Type system:String}">
@@ -78,7 +105,7 @@
             </GroupBox>
 
 
-            <GroupBox Header="单选样式">
+            <GroupBox Header="单选样式四">
                 <StackPanel>
                     <StackPanel.Resources>
                         <DataTemplate DataType="{x:Type system:String}">
@@ -159,6 +186,36 @@
                                 <WrapPanel/>
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
+                    </ListBox>
+                </StackPanel>
+            </GroupBox>
+
+
+            <GroupBox Header="多选样式">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <DataTemplate DataType="{x:Type system:String}">
+                            <Grid Height="50" Width="50">
+                                <Border x:Name="border" Background="Transparent" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="1" Margin="1"/>
+                                <TextBlock x:Name="txt" Text="{Binding}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Grid>
+                        </DataTemplate>
+                    </StackPanel.Resources>
+                    <ListBox Style="{DynamicResource S.ListBox.MultipleSelect.Default}">
+                        <ListBox.ItemsSource>
+                            <collections:ArrayList>
+                                <system:String>1</system:String>
+                                <system:String>2</system:String>
+                                <system:String>3</system:String>
+                                <system:String>4</system:String>
+                                <system:String>5</system:String>
+                                <system:String>6</system:String>
+                                <system:String>7</system:String>
+                                <system:String>8</system:String>
+                                <system:String>9</system:String>
+                                <system:String>10</system:String>
+                            </collections:ArrayList>
+                        </ListBox.ItemsSource>
                     </ListBox>
                 </StackPanel>
             </GroupBox>
