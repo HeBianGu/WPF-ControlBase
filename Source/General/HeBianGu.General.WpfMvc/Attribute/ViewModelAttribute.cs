@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.General.WpfMvc
 {
+    /// <summary> 应用再Mvc中的特性，根据此特性查找ViewModel中的对应的名称 </summary>
     public sealed class ViewModelAttribute : Attribute
     {
         public string Name { get; set; }

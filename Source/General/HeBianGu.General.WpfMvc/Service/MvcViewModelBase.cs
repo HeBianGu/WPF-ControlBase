@@ -8,10 +8,13 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HeBianGu.General.WpfMvc
 {
-    public class MvcViewModelBase : NotifyPropertyChanged
+
+    /// <summary> Mvc模式所有ViewModel的基类 </summary>
+    public class MvcViewModelBase : NotifyPropertyChanged, IMvcViewModelBase
     {
         private ILinkActionBase _selectLink;
         /// <summary> 说明  </summary>
@@ -85,6 +88,7 @@ namespace HeBianGu.General.WpfMvc
             this.SelectLink = link;
         }
 
+        /// <summary> 获取控制器名称 </summary>
         public string GetController()
         {
             var results = this.GetType().GetCustomAttributes(typeof(ViewModelAttribute), true);
@@ -92,6 +96,7 @@ namespace HeBianGu.General.WpfMvc
             return (results?.FirstOrDefault() as ViewModelAttribute)?.Name;
         }
 
+        /// <summary> 获取当前LinkAction </summary>
         public ILinkActionBase GetLinkAction(string action)
         {
             ILinkActionBase link = new LinkActionBase();
@@ -119,7 +124,6 @@ namespace HeBianGu.General.WpfMvc
             return true;
         }
 
-
         private ObservableCollection<ILinkActionBase> _navigation = new ObservableCollection<ILinkActionBase>();
         /// <summary> 导航索引  </summary>
         public ObservableCollection<ILinkActionBase> Navigation
@@ -131,15 +135,13 @@ namespace HeBianGu.General.WpfMvc
                 RaisePropertyChanged("Navigation");
             }
         }
-
     }
 
-
-
-    public class MvcEntityViewModelBase<M> : MvcViewModelBase where M : new()
+    /// <summary> 带有封装好集合实体的基类 </summary>
+    public class MvcEntityViewModelBase<M> : MvcViewModelBase, IMvcEntityViewModelBase<M> where M : new()
     {
         private ObservableCollection<M> _collection = new ObservableCollection<M>();
-        /// <summary> 说明  </summary>
+        /// <summary> 实体集合  </summary>
         public ObservableCollection<M> Collection
         {
             get { return _collection; }
@@ -151,7 +153,7 @@ namespace HeBianGu.General.WpfMvc
         }
 
         private M _addItem = new M();
-        /// <summary> 说明  </summary>
+        /// <summary> 要添加的实体  </summary>
         public M AddItem
         {
             get { return _addItem; }
@@ -163,7 +165,7 @@ namespace HeBianGu.General.WpfMvc
         }
 
         private M _seletItem;
-        /// <summary> 说明  </summary>
+        /// <summary> 选中的实体  </summary>
         public M SeletItem
         {
             get { return _seletItem; }
@@ -175,7 +177,7 @@ namespace HeBianGu.General.WpfMvc
         }
     }
 
-
+    /// <summary> 带有依赖注入Respository的基类 </summary>
     public class MvcViewModelBase<R, M> : MvcEntityViewModelBase<M> where M : new()
     {
         public R Respository { get; set; } = ServiceRegistry.Instance.GetInstance<R>();

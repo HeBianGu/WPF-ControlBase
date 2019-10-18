@@ -336,7 +336,7 @@ namespace HeBianGu.General.WpfControlLib
         {
             this.ShowAnimation?.Invoke(this);
 
-            return base.ShowDialog();
+           return base.ShowDialog();
         }
 
         public new void Show()

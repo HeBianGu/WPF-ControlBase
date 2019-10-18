@@ -17,6 +17,7 @@ namespace HeBianGu.General.WpfControlLib
 
 
             fromSlide.Opacity = 0;
+            toSlide.Opacity = 1;
 
             var zeroKeyTime = KeyTime.FromTimeSpan(TimeSpan.Zero);
             var endKeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(400));

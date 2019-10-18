@@ -8,10 +8,11 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.General.WpfMvc
 {
+    /// <summary> 页面绑定实体基类 </summary>
     public class LinkActionBase : NotifyPropertyChanged, ILinkActionBase
     {
         private string _controller;
-        /// <summary> 说明  </summary>
+        /// <summary> 控制器名称  </summary>
         public string Controller
         {
             get { return _controller; }
@@ -23,7 +24,7 @@ namespace HeBianGu.General.WpfMvc
         }
 
         private string _action;
-        /// <summary> 说明  </summary>
+        /// <summary> 视图名称  </summary>
         public string Action
         {
             get { return _action; }
@@ -35,7 +36,7 @@ namespace HeBianGu.General.WpfMvc
         }
 
         private string _displayName;
-        /// <summary> 说明  </summary>
+        /// <summary> 显示名称  </summary>
         public string DisplayName
         {
             get { return _displayName; }
@@ -47,7 +48,7 @@ namespace HeBianGu.General.WpfMvc
         }
 
         private string _logo;
-        /// <summary> 说明  </summary>
+        /// <summary> 图标  </summary>
         public string Logo
         {
             get { return _logo; }
@@ -58,6 +59,7 @@ namespace HeBianGu.General.WpfMvc
             }
         }
 
+        /// <summary> 异步加载页面 </summary>
         public Task<IActionResult> ActionResult()
         {
             return ControllerService.CreateActionResult(this.Controller, this.Action);

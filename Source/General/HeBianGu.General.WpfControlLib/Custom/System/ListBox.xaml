@@ -39,7 +39,7 @@
     <!--以WrapPanel为容器的选择列表-->
     <Style x:Key="S.ListBox.WrapPanelSelecter.CheckBox" TargetType="ListBox">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ItemContainerStyle">
@@ -115,7 +115,7 @@
 
     <Style x:Key="S.ListBox.WrapPanelSelecter.Default" TargetType="ListBox">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Assist}"/>
-        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ItemContainerStyle">
@@ -155,9 +155,9 @@
 
     <Style x:Key="S.ListBox.Default" TargetType="ListBox">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
-        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/> 
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type ListBoxItem}">
@@ -208,11 +208,32 @@
                                             </BeginStoryboard>
                                         </MultiTrigger.ExitActions>
                                     </MultiTrigger>
+
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Background" TargetName="boder" Value="{DynamicResource S.Brush.Accent}"/>
+                                        <Setter Property="Foreground"  Value="{DynamicResource S.Brush.White.Notice}"/>
+                                    </Trigger>
+
+                               
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
                 </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity"  Value="{DynamicResource S.Opacity.Disable}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers> 
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="ItemsPanel">
@@ -226,7 +247,7 @@
 
     <Style x:Key="S.ListBox.Sinple" TargetType="ListBox">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
@@ -276,11 +297,25 @@
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity"  Value="{DynamicResource S.Opacity.Disable}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="S.ListBox.FluidMoveBehavior" TargetType="ListBox">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -326,6 +361,20 @@
                 <ItemsPanelTemplate>
                     <StackPanel/>
                 </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity"  Value="{DynamicResource S.Opacity.Disable}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>

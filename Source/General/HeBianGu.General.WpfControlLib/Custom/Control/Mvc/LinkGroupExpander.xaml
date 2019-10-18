@@ -57,13 +57,8 @@
             </RadioButton.Template>
           
         </RadioButton>
-    </DataTemplate>
-
-    <Style x:Key="S.LinkGrouExpander.ListBox.Base" TargetType="ListBox">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-    </Style>
-
+    </DataTemplate> 
+    
     <Style x:Key="S.LinkGrouExpander.ListBoxItem.Default" TargetType="ListBoxItem">
         <Setter Property="Height" Value="35"/>
         <Setter Property="Template">
@@ -80,12 +75,16 @@
 
                     </Grid>
                     <!--<ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        --><!--<Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="Transparent"/>
                         </Trigger>
 
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="border" Property="Background" Value="Transparent"/> 
+                        </Trigger>--><!--
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity"  Value="{DynamicResource S.Opacity.Disable}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>-->
                 </ControlTemplate>
@@ -104,7 +103,7 @@
                              Hint="{Binding Links.Count}">
                 <ListBox ItemsSource="{Binding Links}"
                          SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:LinkGroupExpander},Path=SelectedLink,Mode=TwoWay}" 
-                         Style="{StaticResource S.LinkGrouExpander.ListBox.Base}"
+                         Style="{DynamicResource S.ListBox.Default}"
                          ItemContainerStyle="{StaticResource S.LinkGrouExpander.ListBoxItem.Default}" 
                          ItemTemplate="{StaticResource D.LinkAction.Default}"
                          Background="Transparent" BorderThickness="0">
@@ -125,7 +124,8 @@
                     <StackPanel IsItemsHost="True"/>
                 </ItemsPanelTemplate>
             </Setter.Value>
-        </Setter> 
+        </Setter>
+
     </Style>
 
 </ResourceDictionary>

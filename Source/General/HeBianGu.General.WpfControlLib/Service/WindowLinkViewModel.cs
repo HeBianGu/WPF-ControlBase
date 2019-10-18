@@ -33,5 +33,7 @@ namespace HeBianGu.General.WpfControlLib
                 RaisePropertyChanged("TabLinks");
             }
         }
+
+
     }
 }

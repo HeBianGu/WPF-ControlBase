@@ -12,10 +12,11 @@ using System.Windows;
 
 namespace HeBianGu.General.WpfMvc
 {
+    /// <summary> 带有日志集合的MvcViewMode基类 </summary>
     public class MvcLogViewModelBase : MvcViewModelBase, IMvcLog
     {
         private ObservableCollection<Log> _logs = new ObservableCollection<Log>();
-        /// <summary> 说明  </summary>
+        /// <summary> 所有日志  </summary>
         public ObservableCollection<Log> Logs
         {
             get { return _logs; }
@@ -28,7 +29,7 @@ namespace HeBianGu.General.WpfMvc
 
 
         private ObservableCollection<Log> _runlogs = new ObservableCollection<Log>();
-        /// <summary> 说明  </summary>
+        /// <summary> 运行日志  </summary>
         public ObservableCollection<Log> RunLogs
         {
             get { return _runlogs; }
@@ -40,7 +41,7 @@ namespace HeBianGu.General.WpfMvc
         }
 
         private ObservableCollection<Log> _errorlogs = new ObservableCollection<Log>();
-        /// <summary> 说明  </summary>
+        /// <summary> 错误日志  </summary>
         public ObservableCollection<Log> ErrorLogs
         {
             get { return _errorlogs; }
@@ -52,7 +53,7 @@ namespace HeBianGu.General.WpfMvc
         }
 
         private ObservableCollection<Log> _outputlogs = new ObservableCollection<Log>();
-        /// <summary> 说明  </summary>
+        /// <summary> 输出日志  </summary>
         public ObservableCollection<Log> OutPutLogs
         {
             get { return _outputlogs; }
@@ -63,23 +64,19 @@ namespace HeBianGu.General.WpfMvc
             }
         }
 
-        
-
+        /// <summary> 写运行日志 </summary>
         public void RunLog(string title,string message)
         {
             var log = new Log() { Flag = "\xe76c", Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Title = title, Message = message };
-
-
 
             Application.Current.Dispatcher.Invoke(() =>
             {
                 this.RunLogs.Add(log);
                 this.Logs.Add(log);
             });
-
-            
         }
 
+        /// <summary> 写输出日志 </summary>
         public void OutPutLog(string title, string message)
         {
             var log = new Log() { Flag = "\xe76c", Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Title = title, Message = message }; 
@@ -89,10 +86,9 @@ namespace HeBianGu.General.WpfMvc
                 this.OutPutLogs.Add(log);
                 this.Logs.Add(log);
             });
-
-
         }
 
+        /// <summary> 写错误日志 </summary>
         public void ErrorLog(string title, string message)
         {
             var log = new Log() { Flag = "\xe701", Time = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), Title = title, Message = message };

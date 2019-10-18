@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Base.WpfBase
 {
+    /// <summary> 控制器接口 </summary>
     public interface IController
     {
 

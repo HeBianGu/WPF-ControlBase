@@ -10,12 +10,11 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.General.WpfMvc
 {
-
-   public class Log : NotifyPropertyChanged
+    /// <summary> 日志实体类 </summary>
+    public class Log : NotifyPropertyChanged
     {
-
         private string _flag;
-        /// <summary> 说明  </summary>
+        /// <summary> 标识  </summary>
         public string Flag
         {
             get { return _flag; }
@@ -26,9 +25,8 @@ namespace HeBianGu.General.WpfMvc
             }
         }
 
-
         private string _time;
-        /// <summary> 说明  </summary>
+        /// <summary> 时间  </summary>
         public string Time
         {
             get { return _time; }
@@ -39,9 +37,8 @@ namespace HeBianGu.General.WpfMvc
             }
         }
 
-
         private string _title;
-        /// <summary> 说明  </summary>
+        /// <summary> 标题  </summary>
         public string Title
         {
             get { return _title; }
@@ -52,10 +49,8 @@ namespace HeBianGu.General.WpfMvc
             }
         }
 
-
-
         private string _message;
-        /// <summary> 说明  </summary>
+        /// <summary> 日志信息  </summary>
         public string Message
         {
             get { return _message; }
