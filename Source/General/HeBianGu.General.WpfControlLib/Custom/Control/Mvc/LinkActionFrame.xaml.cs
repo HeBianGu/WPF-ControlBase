@@ -85,7 +85,16 @@ namespace HeBianGu.General.WpfControlLib
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    this.Content = result?.View;
+                    if(this.Content==result?.View)
+                    {
+                        this.Content = new Button() { Visibility=Visibility.Collapsed};
+                        this.Content = result?.View;
+                    }
+                    else
+                    {
+                        this.Content = result?.View;
+                    }
+                    
                 });
             }
             catch (Exception ex)

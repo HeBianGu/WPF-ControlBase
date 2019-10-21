@@ -10,7 +10,7 @@ namespace HeBianGu.Base.WpfBase
 {
     public class ControllerService
     {
-        public static  Task<IActionResult> CreateActionResult(string controlName, string name)
+        public static Task<IActionResult> CreateActionResult(string controlName, string name)
         {
             IController control = GetController(controlName);
 

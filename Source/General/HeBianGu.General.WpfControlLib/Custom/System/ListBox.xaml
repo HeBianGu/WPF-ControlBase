@@ -36,6 +36,13 @@
     </ControlTemplate>
 
 
+    <Style x:Key="S.ListBoxItem.Default" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="MinHeight" Value="{DynamicResource S.Window.Item.Height}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+    </Style>
+
     <!--以WrapPanel为容器的选择列表-->
     <Style x:Key="S.ListBox.WrapPanelSelecter.CheckBox" TargetType="ListBox">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
@@ -44,9 +51,7 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Height" Value="30"/>
-                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource S.ListBoxItem.Default}">
                     <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}"/>
                     <Setter Property="Template">
                         <Setter.Value>
@@ -75,7 +80,7 @@
                                         <CheckBox Content="{Binding Name}" 
                                                       IsChecked="{Binding IsSelected}" 
                                                       IsHitTestVisible="False" 
-                                                      VerticalAlignment="Center" 
+                                                      VerticalAlignment="{TemplateBinding VerticalAlignment}" 
                                                       Foreground="{TemplateBinding Foreground}" x:Name="cb"/>
                                     </Border>
                                 </Border>
@@ -120,14 +125,12 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <Style TargetType="{x:Type ListBoxItem}">
-                    <Setter Property="Height" Value="30"/>
+                <Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource S.ListBoxItem.Default}">
                     <Setter Property="Margin" Value="2,0"/>
-                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Assist}"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <CheckBox Style="{DynamicResource S.CheckBox.Box}" Foreground="Black"
+                                <CheckBox Style="{DynamicResource S.CheckBox.Box}" VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                              IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}">
                                     <CheckBox.Content>
                                         <ContentPresenter/>
@@ -160,7 +163,7 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/> 
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <Style TargetType="{x:Type ListBoxItem}">
+                <Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource S.ListBoxItem.Default}">
                     <!--<Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
                     <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}"/>-->
                     <Setter Property="Template">
@@ -168,7 +171,7 @@
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">
                                 <Grid>
                                     <Border x:Name="boder"/>
-                                    <ContentPresenter/>
+                                    <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
                                 </Grid>
 
                                 <ControlTemplate.Triggers>
@@ -253,7 +256,7 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <Style TargetType="{x:Type ListBoxItem}">
+                <Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource S.ListBoxItem.Default}">
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type ListBoxItem}">

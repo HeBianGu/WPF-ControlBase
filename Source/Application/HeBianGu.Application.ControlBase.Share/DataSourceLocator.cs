@@ -13,9 +13,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     {
         public DataSourceLocator()
         {
-           
+            string ss = string.Empty;
         }
-
 
         public ShellViewModel ShellViewModel => ServiceRegistry.Instance.GetInstance<ShellViewModel>();
         public GridViewModel GridViewModel => ServiceRegistry.Instance.GetInstance<GridViewModel>();

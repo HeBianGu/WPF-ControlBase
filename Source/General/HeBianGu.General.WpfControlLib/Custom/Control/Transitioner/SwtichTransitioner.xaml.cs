@@ -183,11 +183,12 @@ namespace HeBianGu.General.WpfControlLib
 
             FrameworkElement control = NewContent as FrameworkElement;
 
-            if (control == null)
+            if (control == null|| control.IsLoaded)
             {
                 this.RefreshSwitch(); return;
             }
 
+            
             control.Loaded += (l, k) =>
               {
                   this.RefreshSwitch();

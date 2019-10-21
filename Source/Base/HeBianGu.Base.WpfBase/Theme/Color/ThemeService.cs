@@ -179,7 +179,7 @@ namespace HeBianGu.Base.WpfBase
 
             Application.Current.Resources[KeyDefaultFontSize] = fontSize == FontSize.Small ? SmallFontSize : LargeFontSize;
 
-            Application.Current.Resources[KeyFixedFontSize] = fontSize == FontSize.Small ? 10.667D : 13.333D;
+            Application.Current.Resources[KeyFixedFontSize] = fontSize == FontSize.Small ? SmallFontSize - 1.5 : LargeFontSize - 1.5;
 
             RaisePropertyChanged("FontSize");
         }
@@ -332,6 +332,7 @@ namespace HeBianGu.Base.WpfBase
         Timer _timer = new Timer();
 
         Random _random = new Random();
+
         public void StartAnimationTheme(int timespan = 5000, int type = 0)
         {
             _timer.Interval = timespan;
@@ -358,6 +359,45 @@ namespace HeBianGu.Base.WpfBase
         public void InitTheme(Action<ThemeService> action)
         {
             action?.Invoke(this);
+        }
+
+        /// <summary> 项的高度 </summary>
+        public double ItemHeight
+        {
+            set
+            {
+                Application.Current.Resources["S.Window.Item.Height"] = value;
+            }
+            get
+            {
+                return (double)Application.Current.Resources["S.Window.Item.Height"];
+            }
+        }
+
+        /// <summary> 项的宽度 </summary>
+        public double ItemWidth
+        {
+            set
+            {
+                Application.Current.Resources["S.Window.Item.Width"] = value;
+            }
+            get
+            {
+                return (double)Application.Current.Resources["S.Window.Item.Width"];
+            }
+        }
+
+        /// <summary> 项的边角 </summary>
+        public CornerRadius ItemCornerRadius
+        {
+            set
+            {
+                Application.Current.Resources["S.Window.Item.CornerRadius"] = value;
+            }
+            get
+            {
+                return (CornerRadius)Application.Current.Resources["S.Window.Item.CornerRadius"];
+            }
         }
     }
 

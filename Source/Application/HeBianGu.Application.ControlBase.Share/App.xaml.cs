@@ -19,15 +19,24 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     /// </summary>
     public partial class App : ApplicationBase
     {
-
         protected override void OnStartup(StartupEventArgs e)
         {
-            ServiceRegistry.Instance.UseMvc();
 
-            //  Do：设置默认主题
-            ThemeService.Current.AccentColor =Color.FromRgb(0x1b, 0xa1, 0xe2);
+            //ThemeService.Current.InitTheme(l=>
+            //{
+            //    l.AccentColor = Color.FromRgb(0x64, 0x76, 0x87);
+            //    l.SmallFontSize = 15D;
+            //    l.LargeFontSize = 18D;
+            //    l.FontSize = FontSize.Small;
 
-            ThemeService.Current.StartAnimationTheme(1000 * 10);
+            //    l.ItemHeight = 11;
+            //    //l.ItemWidth = 120;
+            //    l.ItemCornerRadius = new CornerRadius(20);
+            //    l.StartAnimationTheme(1000 * 10);
+            //});
+
+   
+
 
             MainWindow shellWindow = new MainWindow();
 
@@ -47,6 +56,30 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             }
 
             base.OnStartup(e);
+
+        }
+
+        protected override void ConfigureServices(IServiceCollection services)
+        {
+            //  Do：注册Mvc模式
+            services.UseMvc();
+        }
+
+        protected override void Configure(IApplicationBuilder app)
+        {
+            //  Do：设置默认主题
+            app.UseTheme(l =>
+            {
+                l.AccentColor = Color.FromRgb(0x64, 0x76, 0x87);
+                l.SmallFontSize = 15D;
+                l.LargeFontSize = 18D;
+                l.FontSize = FontSize.Small;
+
+                l.ItemHeight = 40;
+                //l.ItemWidth = 120;
+                l.ItemCornerRadius = new CornerRadius(20);
+                l.StartAnimationTheme(1000 * 10);
+            });
         }
     }
 }

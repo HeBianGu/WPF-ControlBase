@@ -226,8 +226,16 @@ namespace HeBianGu.General.WpfControlLib
 
         public void ShowWithLayer(FrameworkElement element, int layerIndex = 0)
         {
-
-            this._swtichTransitioner.CurrentContent = element;
+            if(this._swtichTransitioner.CurrentContent == element)
+            {
+                this._swtichTransitioner.CurrentContent = new FButton();
+                this._swtichTransitioner.CurrentContent = element;
+            }
+            else
+            {
+                this._swtichTransitioner.CurrentContent = element;
+            }
+            
             this._swtichTransitioner.Visibility = Visibility.Visible;
 
             var story = DoubleStoryboardEngine.Create(0, 1, 0.3, "Opacity");

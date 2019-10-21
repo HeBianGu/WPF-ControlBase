@@ -85,14 +85,24 @@ namespace HeBianGu.General.WpfMvc
             Uri uri = new Uri(path, UriKind.RelativeOrAbsolute);
 
             //  Message：加载视图
-            var content = Application.Current.Dispatcher.Invoke(() =>
-            {
-                return Application.LoadComponent(uri);
-            });
+            var content = MemoryCacheService.Instance.Get(path, () =>
+             {
+                 return Application.Current.Dispatcher.Invoke(() =>
+                 {
+                     return Application.LoadComponent(uri);
+                 });
+
+             });
+
+            //var content = Application.Current.Dispatcher.Invoke(() =>
+            //{
+            //    return Application.LoadComponent(uri);
+            //});
 
             ActionResult result = new ActionResult();
 
             result.Uri = uri;
+
             result.View = content as ContentControl;
 
             //  Message：反射获取ViewModel

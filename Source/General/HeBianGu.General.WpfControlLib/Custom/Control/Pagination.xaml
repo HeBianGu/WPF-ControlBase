@@ -26,10 +26,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RadioButton">
-                    <Border Height="30" MinWidth="30" x:Name="border" CornerRadius="2" 
+                    <Border MinWidth="30" x:Name="border" CornerRadius="2" 
                             Background="{TemplateBinding Background}"
                             BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-                        <TextBlock x:Name="txt" Margin="6" FontSize="16" Text="{TemplateBinding Tag}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="txt" Margin="6" Text="{TemplateBinding Tag}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                     </Border> 
                 </ControlTemplate>
             </Setter.Value>
@@ -64,13 +64,13 @@
 
     <Style TargetType="local:Pagination">
         <Setter Property="Focusable" Value="False"/>
-        <Setter Property="Height" Value="40"/>
+        <!--<Setter Property="Height" Value="{DynamicResource S.Window.Item.Height}" />-->
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:Pagination">
-                    <Grid>
+                    <Grid TextBlock.FontSize="{DynamicResource S.FontSize.Default}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
@@ -78,7 +78,7 @@
                         </Grid.ColumnDefinitions>
                         
                         <local:FButton Content="上一页" x:Name="PART_ButtonLeft"  Margin="5,0" VerticalAlignment="Center"
-                                       Command="{x:Static local:CommandService.Prev}" Width="60"  
+                                       Command="{x:Static local:CommandService.Prev}"
                                        Style="{DynamicResource S.FButton.Style.Transparent}"/>
 
                         <StackPanel HorizontalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
@@ -90,11 +90,11 @@
 
                             <RadioButton Name="PART_ButtonFirst" Tag="1" IsChecked="True" Style="{StaticResource PaginationButtonStyle}"/>
 
-                            <TextBlock Name="PART_TextBlockLeft" Margin="10,0" FontSize="16" Text="..." Foreground="{DynamicResource S.Brush.TextForeground.Default}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Name="PART_TextBlockLeft" Margin="10,0"  Text="..." VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
                             <StackPanel Name="PART_PanelMain" Orientation="Horizontal"/>
 
-                            <TextBlock Name="PART_TextBlockRight" Margin="10,0" FontSize="16" Text="..." Foreground="{DynamicResource S.Brush.TextForeground.Default}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            <TextBlock Name="PART_TextBlockRight" Margin="10,0" Text="..." VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
                             <RadioButton Name="PART_ButtonLast"  Tag="10" Style="{StaticResource PaginationButtonStyle}"/>
 
@@ -102,7 +102,7 @@
 
                         <local:FButton Content="下一页" x:Name="PART_ButtonRight" Grid.Column="2"  Margin="5,0" VerticalAlignment="Center"
                                        Command="{x:Static local:CommandService.Next}" 
-                                       Width="60"  Style="{DynamicResource S.FButton.Style.Transparent}"/>
+                                       Style="{DynamicResource S.FButton.Style.Transparent}"/>
 
                     </Grid>
                 </ControlTemplate>
