@@ -21,23 +21,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-
-            //ThemeService.Current.InitTheme(l=>
-            //{
-            //    l.AccentColor = Color.FromRgb(0x64, 0x76, 0x87);
-            //    l.SmallFontSize = 15D;
-            //    l.LargeFontSize = 18D;
-            //    l.FontSize = FontSize.Small;
-
-            //    l.ItemHeight = 11;
-            //    //l.ItemWidth = 120;
-            //    l.ItemCornerRadius = new CornerRadius(20);
-            //    l.StartAnimationTheme(1000 * 10);
-            //});
-
-   
-
-
             MainWindow shellWindow = new MainWindow();
 
             LoginWindow loginWindow = new LoginWindow();
@@ -75,9 +58,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 l.LargeFontSize = 18D;
                 l.FontSize = FontSize.Small;
 
-                l.ItemHeight = 40;
+                l.ItemHeight = 35;
                 //l.ItemWidth = 120;
-                l.ItemCornerRadius = new CornerRadius(20);
+                l.ItemCornerRadius = new CornerRadius(17.5);
                 l.StartAnimationTheme(1000 * 10);
             });
         }

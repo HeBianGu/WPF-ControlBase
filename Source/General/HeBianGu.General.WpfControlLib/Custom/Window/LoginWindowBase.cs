@@ -11,7 +11,22 @@ namespace HeBianGu.General.WpfControlLib
 {
     public partial class LoginWindowBase : DialogWindow
     {
+        public LoginWindowBase()
+        {
+            this.ShowAnimation = l =>
+            {
 
+                l.RenderTransformOrigin = new Point(0.5, 0.5);
+
+                var engine2 = DoubleStoryboardEngine.Create(0.5, 1, 0.5, "Opacity");
+                var engine = DoubleStoryboardEngine.Create(0.1, 0.98, 1, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
+                var engine1 = DoubleStoryboardEngine.Create(0.1, 0.98, 1, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
+
+                engine.Start(l);
+                engine1.Start(l);
+                engine2.Start(l);
+            };
+        }
         public static readonly DependencyProperty LogoProperty = DependencyProperty.Register("Logo", typeof(ImageSource), typeof(LoginWindowBase), new PropertyMetadata(null));
 
         public ImageSource Logo
