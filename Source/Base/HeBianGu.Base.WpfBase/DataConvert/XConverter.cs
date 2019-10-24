@@ -182,8 +182,17 @@ namespace HeBianGu.Base.WpfBase
             get { return new MultiComboboxSelectConverter(); }
         }
 
+        public static VisibilityContainWithOutStringConverter VisibilityContainWithOutStringConverter
+        {
+            get { return new VisibilityContainWithOutStringConverter(); }
+        }
+        public static VisibilityContainWithStringConverter VisibilityContainWithStringConverter
+        {
+            get { return new VisibilityContainWithStringConverter(); }
+        }
 
-        
+
+
 
         //public static SelectTextConverter SelectTextConverter
         //{

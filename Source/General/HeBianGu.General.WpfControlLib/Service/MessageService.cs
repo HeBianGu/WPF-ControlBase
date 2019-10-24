@@ -123,7 +123,18 @@ namespace HeBianGu.General.WpfControlLib
                           });
                  });
             });
+
             return result;
+        }
+
+        /// <summary> 带有返回结果的等待消息窗口 </summary>
+        public static async Task<T> ShowWaittingResultMessge<T>(Func<object> action)
+        {
+            var result = await ShowWaittingResultMessge(action);
+
+            if (result == null) return default(T);
+
+            return (T)result;
         }
 
         public static async Task ShowPercentProgress(Action<IPercentProgress> action, Action closeAction = null)

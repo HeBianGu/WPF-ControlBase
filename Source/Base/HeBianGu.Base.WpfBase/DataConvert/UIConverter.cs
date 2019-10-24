@@ -721,4 +721,54 @@ namespace HeBianGu.Base.WpfBase
             throw new NotImplementedException();
         }
     }
+
+    /// <summary> 匹配文本本不可用 </summary>
+    public class VisibilityContainWithOutStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null) return Visibility.Collapsed;
+
+            if (parameter == null) return Visibility.Visible;
+
+            IList collection = parameter as IList;
+
+            if (collection.Contains(value.ToString().Trim()))
+            {
+                return Visibility.Collapsed;
+            }
+
+            return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new Exception();
+        }
+    }
+
+    /// <summary> 匹配文本本不可用 </summary>
+    public class VisibilityContainWithStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null) return Visibility.Collapsed;
+
+            if (parameter == null) return Visibility.Visible;
+
+            IList collection = parameter as IList;
+
+            if (collection.Contains(value.ToString().Trim()))
+            {
+                return Visibility.Visible;
+            }
+
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new Exception();
+        }
+    }
 }
