@@ -66,7 +66,7 @@ namespace HeBianGu.Base.WpfBase
         }
 
 
-        public static void Foreach<T>(this ObservableCollection<T> collection, Action<T> action) where T : IComparable
+        public static void Foreach<T>(this ObservableCollection<T> collection, Action<T> action)
         {
             foreach (var item in collection)
             {
