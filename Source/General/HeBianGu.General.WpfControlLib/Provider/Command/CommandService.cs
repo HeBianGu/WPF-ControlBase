@@ -164,6 +164,10 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 渐隐藏 </summary>
         public static CollapsedOfOpacityCommand CollapsedOfOpacityCommand { get; } = new CollapsedOfOpacityCommand();
 
+        /// <summary> 渐显示 </summary>
+        public static VisibleOfOpacityCommand VisibleOfOpacityCommand { get; } = new VisibleOfOpacityCommand();
+        
+
         /// <summary> 打开应用程序 </summary>
         public static ProcessCommand ProcessCommand { get; } = new ProcessCommand();
 
