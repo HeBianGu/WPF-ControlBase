@@ -24,7 +24,7 @@ namespace HeBianGu.General.WpfControlLib
     {
         public SpaceSpliterUserControl()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
 
         public override void OnApplyTemplate()
