@@ -39,12 +39,16 @@
                         </TextBlock.RenderTransform>
                     </TextBlock>
 
-                    <TextBlock VerticalAlignment="Center"  x:Name="txt" 
+                    <Label Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content}" FontSize="{TemplateBinding FontSize}"
+                           Foreground="{TemplateBinding Foreground}"  x:Name="txt"/>
+
+
+                    <!--<TextBlock VerticalAlignment="Center"  x:Name="txt" 
                            TextDecorations="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ContentDecorations}" 
                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content}" 
                                                FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FontSize}" 
                                                Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"
-                           HorizontalAlignment="Center" />
+                           HorizontalAlignment="Center" />-->
                 </StackPanel>
             </Grid>
 
@@ -73,7 +77,7 @@
                 <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=MouseOverBackground}" TargetName="border" />
                 <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=MouseOverBorderBrush}" TargetName="border" />
                 <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MouseOverForeground}" TargetName="icon"/>
-                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MouseOverForeground}" TargetName="txt"/>
+                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MouseOverForeground}"  TargetName="txt"/>
 
                 <Trigger.EnterActions>
                     <BeginStoryboard>
@@ -120,7 +124,7 @@
                                 Path=PressedBackground}" TargetName="border" />-->
                 <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=PressedBorderBrush}" TargetName="border" />
                 <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=PressedForeground}" TargetName="icon"/>
-                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=PressedForeground}" TargetName="txt"/>
+                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=PressedForeground}"  TargetName="txt"/>
                 <!--<Setter Property="Margin" Value="0,3,0,0" TargetName="grid"/>-->
 
                 <Trigger.EnterActions>
@@ -155,14 +159,14 @@
             </Trigger>
 
             <Trigger Property="base:ControlAttachProperty.IsBuzy" Value="true">
-                <Setter Property="Text" Value="{Binding Path=(base:ControlAttachProperty.BuzyText),RelativeSource={RelativeSource TemplatedParent}}" TargetName="txt"/>
+                <Setter Property="Content" Value="{Binding Path=(base:ControlAttachProperty.BuzyText),RelativeSource={RelativeSource TemplatedParent}}" TargetName="txt"/>
                 <Setter Property="IsEnabled" Value="False"/>
             </Trigger>
 
             <Trigger Property="IsChecked" Value="true">
                 <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" TargetName="border" />
                 <Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}" TargetName="icon"/>
-                <Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}" TargetName="txt"/>
+                <Setter Property="Foreground" Value="{DynamicResource S.Brush.White.Notice}" />
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -178,7 +182,6 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="Width" Value="120" />
         <Setter Property="Height" Value="{DynamicResource S.Window.Item.Height}" />
-        <Setter Property="FontSize" Value="13" />
         <Setter Property="CornerRadius" Value="2" />
         <Setter Property="FIconSize" Value="20" />
         <Setter Property="Template" Value="{StaticResource S.FButton.Template.Default}"/>
