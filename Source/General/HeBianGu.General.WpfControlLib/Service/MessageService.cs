@@ -139,18 +139,55 @@ namespace HeBianGu.General.WpfControlLib
 
         public static async Task ShowPercentProgress(Action<IPercentProgress> action, Action closeAction = null)
         {
-            await ShowProgressMessge<PercentProgressDialog>(action, closeAction);
+            Func<PercentProgressDialog, object> func = l =>
+            {
+                action(l);
+                return null;
+            };
+
+            await ShowProgressMessge(func, closeAction);
         }
 
-        public static async Task ShowStringProgress(Action<StringProgressDialog> action, Action closeAction = null)
+
+        public static async Task<T> ShowPercentProgress<T>(Func<IPercentProgress, T> action, Action closeAction = null)
         {
-            await ShowProgressMessge(action, closeAction);
+            Func<PercentProgressDialog, T> func = l =>
+            {
+                return action(l);
+            };
+
+            return await ShowProgressMessge(func, closeAction);
         }
 
-        public static async Task ShowProgressMessge<T>(Action<T> action, Action closeAction = null) where T : new()
-        {
-            if (CheckOpen()) return;
 
+        /// <summary> 带有结果的进度消息 </summary>
+        public static async Task<T> ShowStringProgress<T>(Func<IStringProgress, T> action, Action closeAction = null)
+        {
+            Func<StringProgressDialog, T> func = l =>
+            {
+                return action(l);
+            };
+
+            return await ShowProgressMessge<StringProgressDialog, T>(func, closeAction);
+        }
+
+        /// <summary> 进度消息 </summary>
+        public static async Task ShowStringProgress(Action<IStringProgress> action, Action closeAction = null)
+        {
+            Func<StringProgressDialog, object> func = l =>
+               {
+                   action(l);
+                   return null;
+               };
+
+            await ShowProgressMessge<StringProgressDialog, object>(func, closeAction);
+        }
+
+        public static async Task<R> ShowProgressMessge<T, R>(Func<T, R> action, Action closeAction = null) where T : new()
+        {
+            if (CheckOpen()) return default(R);
+
+            R result = default(R);
 
             await Application.Current.Dispatcher.Invoke(async () =>
             {
@@ -159,17 +196,19 @@ namespace HeBianGu.General.WpfControlLib
                 //show the dialog
                 return await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
                 {
-                    Task.Run(() => action.Invoke(view)).ContinueWith(m =>
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            e.Session.Close(false);
+                    Task.Run(() => result = action.Invoke(view)).ContinueWith(m =>
+                     {
+                         Application.Current.Dispatcher.Invoke(() =>
+                         {
+                             e.Session.Close(false);
 
-                            closeAction?.Invoke();
-                        });
-                    });
+                             closeAction?.Invoke();
+                         });
+                     });
                 });
             });
+
+            return result;
         }
 
         public static async Task ShowSumitMessge(string message)
