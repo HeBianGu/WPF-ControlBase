@@ -6,9 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Xml;
 
 namespace HeBianGu.Base.WpfBase
 {
@@ -41,6 +43,34 @@ namespace HeBianGu.Base.WpfBase
         public const string KeyFixedFontSize = "S.FontSize.Fixed";
 
         public static ThemeService Current = new ThemeService();
+
+        static readonly Uri LanguageChineseSource = new Uri("/HeBianGu.Base.WpfBase;component/Resources/zh-cn.xml", UriKind.RelativeOrAbsolute);
+        static readonly Uri LanguageEnglishSource = new Uri("/HeBianGu.Base.WpfBase;component/Resources/en-us.xml", UriKind.RelativeOrAbsolute);
+
+
+        private Language _language;
+
+        /// <summary> 设置语言 </summary>
+        public Language Language
+        {
+            get
+            {
+                return _language;
+            }
+            set
+            {
+                XmlDataProvider provider = System.Windows.Application.Current.FindResource("S.XmlDataProvider.Language") as XmlDataProvider;
+
+                if (value == Language.Chinese)
+                {
+                    provider.Source = LanguageChineseSource;
+                }
+                else if (value == Language.English)
+                {
+                    provider.Source = LanguageEnglishSource;
+                }
+            }
+        }
 
         private ThemeService()
         {
@@ -401,6 +431,51 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+
+    public class LanguageService
+    {
+        public static LanguageService Instance = new LanguageService();
+
+        public string GetConfigByKey(string key)
+        {
+            XmlDataProvider provider = System.Windows.Application.Current.FindResource("S.XmlDataProvider.Language") as XmlDataProvider;
+
+            if (provider.Document == null) return null;
+
+            XmlElement root = provider.Document.DocumentElement as XmlElement;
+
+            return root.SelectSingleNode(key)?.InnerText;
+
+        }
+
+        public string GetMessageByCode(string code)
+        {
+            XmlDataProvider provider = System.Windows.Application.Current.FindResource("S.XmlDataProvider.Language") as XmlDataProvider;
+
+            if (provider.Document == null) return null;
+
+            XmlElement root = provider.Document.DocumentElement as XmlElement;
+
+            var elements = root?.GetElementsByTagName("Message");
+
+            foreach (XmlNode item in elements)
+            {
+                foreach (XmlAttribute attribute in item.Attributes)
+                {
+                    if (attribute.Name == "Code")
+                    {
+                        if (attribute.Value == code)
+                        {
+                            return item.InnerText;
+                        }
+                    }
+                }
+            }
+
+            return null;
+        }
+    }
+
     public enum FontSize
     {
         /// <summary>
@@ -411,6 +486,19 @@ namespace HeBianGu.Base.WpfBase
         /// Small fonts.
         /// </summary>
         Small
+    }
+
+
+    public enum Language
+    {
+        /// <summary>
+        /// Large fonts.
+        /// </summary>
+        Chinese,
+        /// <summary>
+        /// Small fonts.
+        /// </summary>
+        English
     }
 
 }

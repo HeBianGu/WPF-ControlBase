@@ -244,7 +244,7 @@ namespace HeBianGu.General.WpfControlLib
         public ICommand MinimizeWindowCommand { get; protected set; }
 
 
-        private void CloseCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        private async void CloseCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             Action<object, DialogClosingEventArgs> action = (l, k) =>
             {
@@ -256,7 +256,9 @@ namespace HeBianGu.General.WpfControlLib
 
             if (Application.Current.MainWindow == this)
             {
-                MessageService.ShowResultMessge("确认要退出系统?", action);
+                string message = LanguageService.Instance.GetMessageByCode("M00001");
+
+                await MessageService.ShowResultMessge(message, action);
             }
             else
             {
@@ -336,7 +338,7 @@ namespace HeBianGu.General.WpfControlLib
         {
             this.ShowAnimation?.Invoke(this);
 
-           return base.ShowDialog();
+            return base.ShowDialog();
         }
 
         public new void Show()

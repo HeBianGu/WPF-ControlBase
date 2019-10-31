@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace HeBianGu.Base.WpfBase
 {
 
     /// <summary> 依赖注入服务 - 常用 </summary>
     public partial class ServiceRegistry
-    { 
+    {
         /// <summary> 注入服务 </summary>
         public void Register<TClass>() where TClass : class
         {
@@ -51,11 +52,11 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-        /// <summary> 获取服务 </summary>
+        /// <summary> 获取服务 如果返回是空则表示没有注入 </summary>
         public TService GetInstance<TService>()
         {
             return (TService)((object)this.DoGetService(typeof(TService), this._defaultKey, true));
-        } 
+        }
     }
 
     /// <summary> 依赖注入服务 - 基本 </summary>
@@ -76,7 +77,7 @@ namespace HeBianGu.Base.WpfBase
         private readonly object _syncLock = new object();
 
         private static ServiceRegistry _instance;
-   
+
         public static ServiceRegistry Instance
         {
             get
@@ -90,13 +91,13 @@ namespace HeBianGu.Base.WpfBase
                 return arg_14_0;
             }
         }
-         
+
         public bool ContainsCreated<TClass>()
         {
             return this.ContainsCreated<TClass>(null);
         }
 
-   
+
         public bool ContainsCreated<TClass>(string key)
         {
             Type classType = typeof(TClass);
@@ -110,25 +111,25 @@ namespace HeBianGu.Base.WpfBase
             }
             return this._instancesRegistry[classType].ContainsKey(key);
         }
- 
+
         public bool IsRegistered<T>()
         {
             Type classType = typeof(T);
             return this._interfaceToClassMap.ContainsKey(classType);
         }
 
-   
+
         public bool IsRegistered<T>(string key)
         {
             Type classType = typeof(T);
             return this._interfaceToClassMap.ContainsKey(classType) && this._factories.ContainsKey(classType) && this._factories[classType].ContainsKey(key);
         }
- 
+
         public void Register<TInterface, TClass>() where TInterface : class where TClass : class
         {
             this.Register<TInterface, TClass>(false);
         }
-  
+
         public void Register<TInterface, TClass>(bool createInstanceImmediately) where TInterface : class where TClass : class
         {
             lock (this._syncLock)
@@ -157,10 +158,10 @@ namespace HeBianGu.Base.WpfBase
                     this.GetInstance<TInterface>();
                 }
             }
-        } 
-    
+        }
 
- 
+
+
         public void Register<TClass>(bool createInstanceImmediately) where TClass : class
         {
             Type classType = typeof(TClass);
@@ -197,13 +198,13 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
- 
+
         public void Register<TClass>(Func<TClass> factory) where TClass : class
         {
             this.Register<TClass>(factory, false);
         }
 
- 
+
         public void Register<TClass>(Func<TClass> factory, bool createInstanceImmediately) where TClass : class
         {
             if (factory == null)
@@ -232,13 +233,13 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
- 
+
         public void Register<TClass>(Func<TClass> factory, string key) where TClass : class
         {
             this.Register<TClass>(factory, key, false);
         }
 
-   
+
         public void Register<TClass>(Func<TClass> factory, string key, bool createInstanceImmediately) where TClass : class
         {
             lock (this._syncLock)
@@ -264,7 +265,7 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
- 
+
         public void Reset()
         {
             this._interfaceToClassMap.Clear();
@@ -272,9 +273,9 @@ namespace HeBianGu.Base.WpfBase
             this._constructorInfos.Clear();
             this._factories.Clear();
         }
-  
 
-    
+
+
         public void Unregister<TClass>(TClass instance) where TClass : class
         {
             lock (this._syncLock)
@@ -294,7 +295,7 @@ namespace HeBianGu.Base.WpfBase
                 }
             }
         }
-         
+
         public void Unregister<TClass>(string key) where TClass : class
         {
             lock (this._syncLock)
@@ -334,10 +335,13 @@ namespace HeBianGu.Base.WpfBase
                 {
                     if (!this._interfaceToClassMap.ContainsKey(serviceType))
                     {
-                        throw new Exception(string.Format(CultureInfo.InvariantCulture, "Type not found in cache: {0}.", new object[]
-                        {
-                            serviceType.FullName
-                        }));
+                        //  Do ：修改没有注册抛出异常为返回空
+                        //throw new Exception(string.Format(CultureInfo.InvariantCulture, "Type not found in cache: {0}.", new object[]
+                        //{
+                        //    serviceType.FullName
+                        //}));
+
+                        return null;
                     }
                     if (cache)
                     {
@@ -487,7 +491,7 @@ namespace HeBianGu.Base.WpfBase
             return (TClass)((object)constructor.Invoke(parameters));
         }
 
-    
+
         public IEnumerable<object> GetAllCreatedInstances(Type serviceType)
         {
             if (this._instancesRegistry.ContainsKey(serviceType))
@@ -497,7 +501,7 @@ namespace HeBianGu.Base.WpfBase
             return new List<object>();
         }
 
-        
+
         public IEnumerable<TService> GetAllCreatedInstances<TService>()
         {
             Type serviceType = typeof(TService);
@@ -505,13 +509,13 @@ namespace HeBianGu.Base.WpfBase
                    select (TService)((object)instance);
         }
 
-       
+
         public object GetService(Type serviceType)
         {
             return this.DoGetService(serviceType, this._defaultKey, true);
         }
 
-       
+
         public IEnumerable<object> GetAllInstances(Type serviceType)
         {
             lock (this._factories)
@@ -531,7 +535,7 @@ namespace HeBianGu.Base.WpfBase
             return new List<object>();
         }
 
-        
+
         public IEnumerable<TService> GetAllInstances<TService>()
         {
             Type serviceType = typeof(TService);
@@ -539,7 +543,7 @@ namespace HeBianGu.Base.WpfBase
                    select (TService)((object)instance);
         }
 
-       
+
         public object GetInstance(Type serviceType)
         {
             return this.DoGetService(serviceType, this._defaultKey, true);
@@ -550,30 +554,30 @@ namespace HeBianGu.Base.WpfBase
             return this.DoGetService(serviceType, this._defaultKey, false);
         }
 
-       
+
         public object GetInstance(Type serviceType, string key)
         {
             return this.DoGetService(serviceType, key, true);
         }
 
-        
+
         public object GetInstanceWithoutCaching(Type serviceType, string key)
         {
             return this.DoGetService(serviceType, key, false);
         }
-        
+
         public TService GetInstanceWithoutCaching<TService>()
         {
             return (TService)((object)this.DoGetService(typeof(TService), this._defaultKey, false));
         }
 
-        
+
         public TService GetInstance<TService>(string key)
         {
             return (TService)((object)this.DoGetService(typeof(TService), key, true));
         }
 
-       
+
         public TService GetInstanceWithoutCaching<TService>(string key)
         {
             return (TService)((object)this.DoGetService(typeof(TService), key, false));

@@ -27,6 +27,7 @@ namespace HeBianGu.General.WpfControlLib
             });
         }
 
+
         public static void ShowSnackMessageWithNotice(string message)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -35,7 +36,9 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (window != null)
                 {
-                    window.AddSnackMessage($"友情提示：[" + DateTime.Now.ToString("HH:mm:ss]  " + message));
+                    string info = $"{LanguageService.Instance.GetConfigByKey("Notice")}：[" + DateTime.Now.ToString("HH:mm:ss]  " + message);
+
+                    window.AddSnackMessage(info);
                 }
             });
         }
@@ -148,7 +151,6 @@ namespace HeBianGu.General.WpfControlLib
             await ShowProgressMessge(func, closeAction);
         }
 
-
         public static async Task<T> ShowPercentProgress<T>(Func<IPercentProgress, T> action, Action closeAction = null)
         {
             Func<PercentProgressDialog, T> func = l =>
@@ -159,7 +161,6 @@ namespace HeBianGu.General.WpfControlLib
             return await ShowProgressMessge(func, closeAction);
         }
 
-
         /// <summary> 带有结果的进度消息 </summary>
         public static async Task<T> ShowStringProgress<T>(Func<IStringProgress, T> action, Action closeAction = null)
         {
@@ -168,7 +169,7 @@ namespace HeBianGu.General.WpfControlLib
                 return action(l);
             };
 
-            return await ShowProgressMessge<StringProgressDialog, T>(func, closeAction);
+            return await ShowProgressMessge(func, closeAction);
         }
 
         /// <summary> 进度消息 </summary>
@@ -180,7 +181,7 @@ namespace HeBianGu.General.WpfControlLib
                    return null;
                };
 
-            await ShowProgressMessge<StringProgressDialog, object>(func, closeAction);
+            await ShowProgressMessge(func, closeAction);
         }
 
         public static async Task<R> ShowProgressMessge<T, R>(Func<T, R> action, Action closeAction = null) where T : new()
@@ -211,7 +212,7 @@ namespace HeBianGu.General.WpfControlLib
             return result;
         }
 
-        public static async Task ShowSumitMessge(string message)
+        public static async Task ShowSumitMessge(string message, bool isLog = true)
         {
             if (CheckOpen()) return;
 
@@ -244,7 +245,9 @@ namespace HeBianGu.General.WpfControlLib
         {
             if (IsOpened())
             {
-                ShowSnackMessageWithNotice("存在未关闭的窗口，请等待或关闭窗口再执行此操作");
+                string message = LanguageService.Instance.GetMessageByCode("M00002");
+
+                ShowSnackMessageWithNotice(message);
                 return true;
             }
 
@@ -505,7 +508,6 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         #endregion
-
     }
 
     public class MessageCloseLayerCommand : ICommand
