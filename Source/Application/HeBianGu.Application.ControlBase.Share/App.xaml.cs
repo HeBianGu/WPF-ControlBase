@@ -20,7 +20,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     public partial class App : ApplicationBase
     {
         protected override void OnStartup(StartupEventArgs e)
-        {
+        { 
+            base.OnStartup(e);
+
             MainWindow shellWindow = new MainWindow();
 
             LoginWindow loginWindow = new LoginWindow();
@@ -38,7 +40,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 shellWindow.Close();
             }
 
-            base.OnStartup(e);
+      
 
         }
 
@@ -61,7 +63,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 l.ItemHeight = 35;
                 //l.ItemWidth = 120;
                 l.ItemCornerRadius = new CornerRadius(17.5);
-                l.StartAnimationTheme(1000 * 10);
+                l.StartAnimationTheme(1000 * 5);
+
+                l.Language = Language.Chinese;
             });
         }
     }

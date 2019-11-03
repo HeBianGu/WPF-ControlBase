@@ -101,12 +101,12 @@ namespace WpfControlDemo.View
                         itemClass.Name = item.ToString();
                         itemClass.Value = current.ToString();
 
-                        if( ThemeService.Current.KeyToMarkDictionary.ContainsKey(itemClass.Name))
-                        {
-                            itemClass.Mark = ThemeService.Current.KeyToMarkDictionary[itemClass.Name];
-                        }
+                        //if( ThemeService.Current.KeyToMarkDictionary.ContainsKey(itemClass.Name))
+                        //{
+                        //    itemClass.Mark = ThemeService.Current.KeyToMarkDictionary[itemClass.Name];
+                        //}
 
-                        this.Collection.Add(itemClass);
+                        //this.Collection.Add(itemClass);
 
                     }
                 }

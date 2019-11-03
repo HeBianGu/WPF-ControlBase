@@ -19,10 +19,9 @@ namespace HeBianGu.Base.WpfBase
     public static class ApplicationBuilderExtention
     {
         public static IApplicationBuilder UseTheme(this IApplicationBuilder builder, Action<ThemeService> theme)
-        {
-            //theme?.Invoke(ThemeService.Current);
+        {   
+            theme?.Invoke(ThemeService.Current);
 
-            ThemeService.Current.InitTheme(theme);
             return builder;
         }
     }
