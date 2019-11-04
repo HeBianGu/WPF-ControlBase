@@ -3,6 +3,9 @@
                      xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Control/FButton.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
     <!--消息弹窗加载 由下到上 +震动-->
     <Storyboard x:Key="Story.MessageLoad">
         <ColorAnimation To="#FF000000" Duration="0" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Color"/>
@@ -609,37 +612,41 @@
                                         </ItemsControl>
 
                                         <!--窗体功能按钮：最小、最大、关闭-->
-                                        <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Top" Margin="10,0"  HorizontalAlignment="Right" Height="{TemplateBinding CaptionHeight}">
+                                        <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Margin="10,0"  HorizontalAlignment="Right" Height="{TemplateBinding CaptionHeight}">
+                                            <StackPanel.Resources>
+                                                <Style TargetType="{x:Type local:FButton}" BasedOn="{StaticResource S.FButton.Style.Transparent}">
+                                                    <Setter  Property="Margin" Value="10,0"/>
+                                                    <Setter  Property="Width" Value="{DynamicResource S.Window.ItemHeight}"/>
+                                                    <Setter  Property="MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                                                    <Setter  Property="PressedForeground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                                                    <Setter  Property="FIconSize" Value="15"/>
+                                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CaptionForeground}"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                            <Setter Property="Opacity" Value="0.6"/>
+                                                        </Trigger>
+                                                        </Style.Triggers>
+                                                </Style>
+                                            </StackPanel.Resources>
+                                            
                                             <ToggleButton x:Name="btnTheme"  Width="{DynamicResource S.Window.ItemHeight}"  VerticalAlignment="Center" Margin="5,0"   ToolTip="更换主题颜色"
                                                Visibility="{Binding Path=SetboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
                                               Style="{DynamicResource S.ToggleButton.BrushFIconChecked}" base:ControlAttachProperty.FIcon="&#xe6d2;"  base:ControlAttachProperty.FIconSize="25"
                                                WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"/>
 
 
-                                            <local:FButton x:Name="btnNotify"   Width="{DynamicResource S.Window.ItemHeight}"  VerticalAlignment="Center" Margin="10,0" 
-                                                           MouseOverForeground="{DynamicResource S.Brush.White.Opactiy.8}"
-                                                           Style="{DynamicResource S.FButton.Style.Transparent}"  
-                                                           FIcon="&#xe659;" FIconSize="15" ToolTip="隐藏到托盘"
-                                               WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"
-                                               Command="{Binding Path=NotifyWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+                                            <local:FButton x:Name="btnNotify"   FIcon="&#xe659;" ToolTip="隐藏到托盘"  Command="{Binding Path=NotifyWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
 
+                                            <local:FButton x:Name="btnMin"  Visibility="{Binding Path=MinboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
+                                              FIcon="&#xe61d;"   Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
 
-                                            <local:FButton x:Name="btnMin"  Width="{DynamicResource S.Window.ItemHeight}"  VerticalAlignment="Center" Margin="10,0"   MouseOverForeground="{DynamicResource S.Brush.White.Opactiy.8}"
-                                               Visibility="{Binding Path=MinboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
-                                               Style="{DynamicResource S.FButton.Style.Transparent}"  FIcon="&#xe61d;" FIconSize="15"
-                                               WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"
-                                               Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
-
-                                            <local:FButton x:Name="btnMax"   Width="{DynamicResource S.Window.ItemHeight}"  VerticalAlignment="Center" Margin="10,0"   MouseOverForeground="{DynamicResource S.Brush.White.Opactiy.8}"
+                                            <local:FButton x:Name="btnMax" 
                                                 Visibility="{Binding Path=MaxboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
-                                                Style="{DynamicResource S.FButton.Style.Transparent}" FIcon="&#xe665;" FIconSize="15"
-                                                WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"
                                                Command="{Binding Path=MaximizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
 
-                                            <local:FButton x:Name="btnClose"   Width="35"  VerticalAlignment="Center" CornerRadius="0" Margin="10,0"  
-                                               MouseOverBackground="Red" MouseOverForeground="White" PressedBackground="#AA0D0D" PressedForeground="White"
-                                               AllowsAnimation="True" Style="{DynamicResource S.FButton.Style.Transparent}"  FIcon="&#xe6f4;" FIconSize="15"
-                                               WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"
+                                            <local:FButton x:Name="btnClose" Width="{DynamicResource S.Window.Item.Height}" Margin="10,0" FIconSize="15"
+                                               MouseOverBackground="Red" MouseOverForeground="{DynamicResource S.Brush.TextForeground.White}"  PressedForeground="{DynamicResource S.Brush.TextForeground.White}"
+                                               AllowsAnimation="True"  FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}"
                                                Command="{Binding Path=CloseWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
                                         </StackPanel>
 
@@ -849,7 +856,7 @@
         <Setter Property="MaxboxEnable" Value="False"/>
         <Setter Property="MinboxEnable" Value="False"/>
         <Setter Property="ResizeMode" Value="NoResize"/>
-        <Setter Property="CaptionForeground" Value="{DynamicResource S.Brush.White.Notice}" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
         <Setter Property="CaptionBackground" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="FIcon" Value=""/>
         <Setter Property="MaxboxEnable" Value="False"/>
@@ -905,8 +912,7 @@
                                         <Grid Grid.ColumnSpan="3" x:Name="PART_Header" HorizontalAlignment="Stretch"  
                                           Height="{TemplateBinding CaptionHeight}" Margin="15,1,15,1" VerticalAlignment="Stretch">
                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                                <TextBlock Style="{DynamicResource FIcon}" 
-                                                   Foreground="{TemplateBinding CaptionForeground}" 
+                                                <TextBlock Style="{DynamicResource FIcon}"   Foreground="{TemplateBinding CaptionForeground}" 
                                                    FontSize="{TemplateBinding FIconSize}" 
                                                    FontWeight="Bold" Text="{TemplateBinding FIcon}"/>
 
@@ -957,11 +963,11 @@
                                             </Grid.RowDefinitions>
 
                                             <!--用户名-->
-                                            <local:FTextBox Grid.Row="0" Background="{DynamicResource S.Brush.White.Notice}" Width="220" Height="38" 
+                                            <local:FTextBox Grid.Row="0" Width="220" Height="38" 
                                                                 FontSize="14" base:ControlAttachProperty.FIcon="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Account}" 
                                                                 base:ControlAttachProperty.Watermark="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Account}" 
                                                                 CaretBrush="{DynamicResource S.Brush.TextForeground.Title}"
-                                                                base:ControlAttachProperty.FIconSize="14" Foreground="{TemplateBinding Foreground}"
+                                                                base:ControlAttachProperty.FIconSize="14"
                                                                 base:ControlAttachProperty.FIconMargin="5" Text="{Binding LoginUseName}"
                                                                 Style="{DynamicResource S.FTextBox.Clear}"/>
 

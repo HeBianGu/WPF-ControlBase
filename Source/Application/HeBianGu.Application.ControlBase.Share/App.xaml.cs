@@ -48,12 +48,20 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         {
             //  Do：注册Mvc模式
             services.UseMvc();
+
+            //  Do ：注册本地化配置读写服务
+            services.AddSingleton<IThemeLocalizeService, AssemblyDomain>();
+
+            ////  Do ：注册日志服务
+            //services.AddSingleton<ILogService, AssemblyDomain>();
+
+
         }
 
         protected override void Configure(IApplicationBuilder app)
         {
             //  Do：设置默认主题
-            app.UseTheme(l =>
+            app.UseLocalTheme(l =>
             {
                 l.AccentColor = Color.FromRgb(0x64, 0x76, 0x87);
                 l.SmallFontSize = 15D;

@@ -37,6 +37,8 @@ namespace HeBianGu.General.WpfControlLib
 
         protected override void OnExit(ExitEventArgs e)
         {
+            this.IApplicationBuilder.SaveLocalTheme();
+
             this.ILogger?.Info("系统退出");
 
             base.OnExit(e);
@@ -106,6 +108,7 @@ namespace HeBianGu.General.WpfControlLib
                 return ServiceRegistry.Instance.GetInstance<IServiceCollection>();
             }
         }
+        
     }
 
 }

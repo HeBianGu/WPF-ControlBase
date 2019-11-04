@@ -18,11 +18,11 @@ using System.Windows.Threading;
 
 namespace HeBianGu.General.WpfControlLib
 {
-    public partial class Row : Grid
+    public class FRow : Grid
     {
-        static Row()
+        static FRow()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(Row), new FrameworkPropertyMetadata(typeof(Row)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(FRow), new FrameworkPropertyMetadata(typeof(FRow)));
         }
 
     }

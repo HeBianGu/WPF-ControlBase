@@ -14,8 +14,56 @@ using System.Xml;
 
 namespace HeBianGu.Base.WpfBase
 {
+
+    public class ThemeLocalizeConfig : IThemeService
+    {
+        public Color AccentColor { get; set; }
+
+        public FontSize FontSize { get; set; }
+
+        public CornerRadius ItemCornerRadius { get; set; }
+
+        public double ItemHeight { get; set; }
+
+        public double ItemWidth { get; set; }
+
+        public Language Language { get; set; }
+
+        public double LargeFontSize { get; set; }
+
+        public double RowHeight { get; set; }
+
+        public double SmallFontSize { get; set; }
+
+        public ThemeType ThemeType { get; set; }
+    }
+
+    public interface IThemeService
+    {
+        Color AccentColor { get; set; }
+
+        FontSize FontSize { get; set; }
+
+        CornerRadius ItemCornerRadius { get; set; }
+
+        double ItemHeight { get; set; }
+
+        double ItemWidth { get; set; }
+
+        Language Language { get; set; }
+
+        double LargeFontSize { get; set; }
+
+        double RowHeight { get; set; }
+
+        double SmallFontSize { get; set; }
+
+        ThemeType ThemeType { get; set; }
+
+    }
+
     /// <summary> 主题颜色管理器 </summary>
-    public class ThemeService : NotifyPropertyChanged
+    public class ThemeService : NotifyPropertyChanged, IThemeService
     {
         private ThemeService()
         {
@@ -42,7 +90,6 @@ namespace HeBianGu.Base.WpfBase
         public double SmallFontSize { get; set; } = 13D;
 
         public double LargeFontSize { get; set; } = 15D;
-
 
         Language _language;
         /// <summary> 设置语言 </summary>
@@ -78,7 +125,7 @@ namespace HeBianGu.Base.WpfBase
                     provider.Source = LanguageEnglishSource;
                 }
             }
-        } 
+        }
 
         /// <summary> 获取第一个带有WindowBackground的资源字典作为主题 </summary>
         private ResourceDictionary GetThemeDictionary()
@@ -87,14 +134,64 @@ namespace HeBianGu.Base.WpfBase
                           where dict.Contains("S.DropShadowEffect.Window")
                           select dict).FirstOrDefault();
             return result;
-        } 
+        }
+
+
+        public ThemeType ThemeType
+        {
+            get
+            {
+                if (ThemeSource == LightThemeSource)
+                {
+                    return ThemeType.Light;
+                }
+                else if (ThemeSource == DarkThemeSource)
+                {
+                    return ThemeType.Dark;
+                }
+                else if (ThemeSource == GrayThemeSource)
+                {
+                    return ThemeType.Gray;
+                }
+                else if (ThemeSource == AccentThemeSource)
+                {
+                    return ThemeType.Accent;
+                }
+
+                return ThemeType.Light;
+            }
+            set
+            {
+
+                Uri uri = null;
+
+                if (value == ThemeType.Light)
+                {
+                    uri = LightThemeSource;
+                }
+                else if (value == ThemeType.Dark)
+                {
+                    uri = DarkThemeSource;
+                }
+                else if (value == ThemeType.Gray)
+                {
+                    uri = GrayThemeSource;
+                }
+                else if (value == ThemeType.Accent)
+                {
+                    uri = AccentThemeSource;
+                }
+
+                ThemeSource = uri;
+            }
+        }
 
         /// <summary> 主题地址 </summary>
         public Uri ThemeSource
         {
             get
             {
-                return this.GetThemeDictionary()?.Source; 
+                return this.GetThemeDictionary()?.Source;
             }
             set
             {
@@ -113,7 +210,7 @@ namespace HeBianGu.Base.WpfBase
                     dictionaries.Remove(oldThemeDict);
                 }
 
-                RaisePropertyChanged("ThemeSource"); 
+                RaisePropertyChanged("ThemeSource");
             }
         }
 
@@ -133,7 +230,6 @@ namespace HeBianGu.Base.WpfBase
             }
             set
             {
-                if (this.FontSize == value) return;
 
                 Application.Current.Resources["S.FontSize.Default"] = value == FontSize.Small ? SmallFontSize : LargeFontSize;
 
@@ -167,7 +263,7 @@ namespace HeBianGu.Base.WpfBase
 
                 RaisePropertyChanged("AccentColor");
             }
-        }  
+        }
 
         private Color[] metroAccentColors = new Color[]{
             Color.FromRgb(0x33, 0x99, 0xff),   // blue
@@ -273,6 +369,53 @@ namespace HeBianGu.Base.WpfBase
                 return (CornerRadius)Application.Current.Resources["S.Window.Item.CornerRadius"];
             }
         }
+
+        /// <summary> 行的高度 </summary>
+        public double RowHeight
+        {
+            set
+            {
+                Application.Current.Resources["S.Window.Row.Height"] = value;
+            }
+            get
+            {
+                return (double)Application.Current.Resources["S.Window.Row.Height"];
+            }
+        }
+
+
+        public ThemeLocalizeConfig ConvertTo()
+        {
+            ThemeLocalizeConfig themeLocalize = new ThemeLocalizeConfig();
+
+            themeLocalize.AccentColor = this.AccentColor;
+            themeLocalize.SmallFontSize = this.SmallFontSize;
+            themeLocalize.LargeFontSize = this.LargeFontSize;
+            themeLocalize.FontSize = this.FontSize;
+            themeLocalize.ItemHeight = this.ItemHeight;
+            themeLocalize.ItemWidth = this.ItemWidth;
+            themeLocalize.ItemCornerRadius = this.ItemCornerRadius;
+            themeLocalize.RowHeight = this.RowHeight;
+            themeLocalize.Language = this.Language;
+            themeLocalize.ThemeType = this.ThemeType;
+            return themeLocalize;
+        }
+
+        public void LoadFrom(ThemeLocalizeConfig config)
+        {
+            this.AccentColor = config.AccentColor == default(Color) ? this.AccentColor : config.AccentColor;
+            this.SmallFontSize = config.SmallFontSize == default(double)? this.SmallFontSize: config.SmallFontSize;
+            this.LargeFontSize = config.LargeFontSize == default(double) ? this.LargeFontSize : config.LargeFontSize;
+            this.FontSize = config.FontSize;
+            this.ItemHeight = config.ItemHeight == default(double) ? this.ItemHeight : config.ItemHeight;
+            this.ItemWidth = config.ItemWidth == default(double) ? this.ItemWidth : config.ItemWidth;
+            this.ItemCornerRadius = config.ItemCornerRadius == default(CornerRadius) ? this.ItemCornerRadius : config.ItemCornerRadius;
+            this.RowHeight = config.RowHeight == default(double) ? this.RowHeight : config.RowHeight;
+            this.Language = config.Language;
+            this.ThemeType = config.ThemeType;
+        }
+
+
     }
 
 
@@ -332,9 +475,8 @@ namespace HeBianGu.Base.WpfBase
         Small
     }
 
-
     public enum Language
-    { 
+    {
         /// <summary>
         /// Large fonts.
         /// </summary>
@@ -343,6 +485,11 @@ namespace HeBianGu.Base.WpfBase
         /// Small fonts.
         /// </summary>
         English
+    }
+
+    public enum ThemeType
+    {
+        Light, Dark, Gray, Accent
     }
 
 }
