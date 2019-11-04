@@ -57,7 +57,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextForeground.White}" 
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
                     CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
 
             <TextBlock Text="&#xe701;" Style="{DynamicResource FIcon}" FontSize="30" Foreground="{DynamicResource S.Brush.Red.Notice}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -100,7 +100,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextForeground.White}" 
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
                     CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
 
             <TextBlock Text="&#xe70a;" Style="{DynamicResource FIcon}"  FontSize="30"  Foreground="{DynamicResource S.Brush.Accent}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -132,7 +132,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextForeground.White}" 
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
                     CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
 
             <TextBlock Text="&#xe76c;" Style="{DynamicResource FIcon}"  FontSize="30"  Foreground="{DynamicResource S.Brush.Green.Notice}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -165,7 +165,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextForeground.White}" 
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
                     CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
 
             <TextBlock Text="&#xe62e;" Style="{DynamicResource FIcon}"  FontSize="30"  Foreground="{DynamicResource S.Brush.Orange.Notice}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -205,7 +205,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextForeground.White}" 
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
                     CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
 
             <TextBlock Text="&#xe718;" Style="{DynamicResource FIcon}"  FontSize="30"  Foreground="{DynamicResource S.Brush.Black.Notice}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
@@ -224,7 +224,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:DailogMessage}">
-        <Grid Height="80" Width="350"  Margin="0,0,5,5">
+        <Grid Height="100" Width="350"  Margin="0,0,5,5">
             <Grid.RenderTransform>
                 <TransformGroup>
                     <ScaleTransform/>
@@ -243,19 +243,32 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextForeground.White}" 
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition  Height="22"/>
+                <RowDefinition Height="22"/> 
+            </Grid.RowDefinitions>
+
+            <Border Grid.ColumnSpan="2" Grid.RowSpan="5" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
                     CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
 
-            <TextBlock Text="&#xe713;" Style="{DynamicResource FIcon}"  FontSize="30"  Foreground="{DynamicResource S.Brush.Accent}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBlock Text="&#xe713;" Style="{DynamicResource FIcon}"  FontSize="30" Grid.RowSpan="2" Foreground="{DynamicResource S.Brush.Accent}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-            <StackPanel Grid.Column="1"  VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
-                <TextBlock Text="{Binding Message}"/>
-                <TextBlock Text="{Binding Time}"/> 
-            </StackPanel>
+            <!--<StackPanel Grid.Column="1"  VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
+                <TextBlock Text="{Binding Message}" VerticalAlignment="Center" Height="30"/>
+            </StackPanel>-->
 
-            <StackPanel  Grid.Column="1"  Orientation="Horizontal" HorizontalAlignment="Right" Margin="00,35,30,0" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
+            <TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding Message}" VerticalAlignment="Center" />
+
+
+            <TextBlock Grid.Row="1" Grid.Column="1"   Text="{Binding Time}"/>
+
+
+            <StackPanel  Grid.Column="1" Grid.Row="2" Margin="0,5"  Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Stretch" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
+                
                 <local:FButton Content="忽略" Style="{DynamicResource S.FButton.Style.Link}" Margin="20,0" Command="{x:Static local:CommandService.CollapsedOfOpacityCommand}"
                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Grid}}"/>
+                
                 <local:FButton Content="确定" Style="{DynamicResource S.FButton.Style.Link}"/>
             </StackPanel>
 
