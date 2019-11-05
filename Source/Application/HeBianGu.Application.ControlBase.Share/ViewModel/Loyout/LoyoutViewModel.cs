@@ -222,7 +222,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             {
                 ErrorMessage message = new ErrorMessage();
 
-                message.Message = "错误信息！" + DateTime.Now.ToString();
+                message.Message = "错误信息！";
 
                 this.AddMessage(message, command);
             }
@@ -231,7 +231,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             {
                 InfoMessage message = new InfoMessage();
 
-                message.Message = "提示信息！" + DateTime.Now.ToString();
+                message.Message = "提示信息！";
 
                 this.AddMessage(message, command);
 
@@ -241,7 +241,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             {
                 SuccessMessage message = new SuccessMessage();
 
-                message.Message = "保存成功！" + DateTime.Now.ToString();
+                message.Message = "保存成功！";
 
                 this.AddMessage(message, command);
 
@@ -251,7 +251,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             {
                 FatalMessage message = new FatalMessage();
 
-                message.Message = "问题很严重！" + DateTime.Now.ToString();
+                message.Message = "问题很严重！";
 
                 this.AddMessage(message, command);
 
@@ -262,7 +262,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             {
                 WarnMessage message = new WarnMessage();
 
-                message.Message = "警告信息！" + DateTime.Now.ToString();
+                message.Message = "警告信息！";
 
                 this.AddMessage(message, command);
 
@@ -273,7 +273,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             {
                 DailogMessage message = new DailogMessage();
 
-                message.Message = "可以保存了么?" + DateTime.Now.ToString();
+                message.Message = "可以保存了么?";
 
                 this.AddMessage(message, command);
             }
