@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -261,6 +262,34 @@ namespace HeBianGu.Base.WpfBase
 
                 Application.Current.Resources["S.Brush.Accent"] = new SolidColorBrush(value);
 
+
+                List<string> findAll = new List<string>();
+
+                var oldThemeDict = GetThemeDictionary();
+
+                foreach (DictionaryEntry item in oldThemeDict)
+                {
+                    var ss = item.Key;
+
+                    if (item.Key.ToString().StartsWith("S.Brush.Accent"))
+                    {
+
+                        findAll.Add(item.Key.ToString());
+                    }
+                }
+
+                foreach (var item in findAll)
+                {
+
+                    SolidColorBrush brush = Application.Current.Resources[item] as SolidColorBrush;
+
+                    SolidColorBrush result = new SolidColorBrush(value);
+
+                    result.Opacity = brush.Opacity;
+
+                    Application.Current.Resources[item] = result;
+                }
+
                 RaisePropertyChanged("AccentColor");
             }
         }
@@ -404,7 +433,7 @@ namespace HeBianGu.Base.WpfBase
         public void LoadFrom(ThemeLocalizeConfig config)
         {
             this.AccentColor = config.AccentColor == default(Color) ? this.AccentColor : config.AccentColor;
-            this.SmallFontSize = config.SmallFontSize == default(double)? this.SmallFontSize: config.SmallFontSize;
+            this.SmallFontSize = config.SmallFontSize == default(double) ? this.SmallFontSize : config.SmallFontSize;
             this.LargeFontSize = config.LargeFontSize == default(double) ? this.LargeFontSize : config.LargeFontSize;
             this.FontSize = config.FontSize;
             this.ItemHeight = config.ItemHeight == default(double) ? this.ItemHeight : config.ItemHeight;
