@@ -71,7 +71,12 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 l.ItemHeight = 35;
                 //l.ItemWidth = 120;
                 l.ItemCornerRadius = new CornerRadius(17.5);
-                l.StartAnimationTheme(1000 * 5);
+
+                l.AnimalSpeed = 1000;
+                l.AccentColorSelectType = 0;
+                l.IsUseAnimal=true;
+
+                l.ThemeType = ThemeType.Dark;
 
                 l.Language = Language.Chinese;
             });

@@ -37,6 +37,12 @@ namespace HeBianGu.Base.WpfBase
         public double SmallFontSize { get; set; }
 
         public ThemeType ThemeType { get; set; }
+
+        public int AnimalSpeed { get; set; }
+
+        public int AccentColorSelectType { get; set; }
+
+        public bool IsUseAnimal { get; set; }
     }
 
     public interface IThemeService
@@ -61,6 +67,11 @@ namespace HeBianGu.Base.WpfBase
 
         ThemeType ThemeType { get; set; }
 
+        int AnimalSpeed { get; set; }
+
+        int AccentColorSelectType { get; set; }
+
+        bool IsUseAnimal { get; set; }
     }
 
     /// <summary> 主题颜色管理器 </summary>
@@ -336,7 +347,7 @@ namespace HeBianGu.Base.WpfBase
 
         Random _random = new Random();
 
-        public void StartAnimationTheme(int timespan = 5000, int type = 0)
+        private void StartAnimationTheme(int timespan = 5000, int type = 0)
         {
             _timer.Interval = timespan;
 
@@ -353,12 +364,44 @@ namespace HeBianGu.Base.WpfBase
 
         }
 
-        public void StopAnimationTheme()
+        private void StopAnimationTheme()
         {
             _timer.Stop();
         }
 
-        #endregion  
+
+        private bool _isUseAnimal;
+
+        public bool IsUseAnimal
+        {
+          
+            get 
+            { 
+                return _isUseAnimal; 
+            }
+            set 
+            { 
+                _isUseAnimal = value; 
+
+                if(value)
+                {
+                    this.StartAnimationTheme(AnimalSpeed,this.AccentColorSelectType);
+                }
+                else
+                {
+                    this.StopAnimationTheme();
+                }
+            }
+        }
+
+
+        public int AnimalSpeed { get; set; } = 1000;
+
+
+        public int AccentColorSelectType { get; set; } = 0;
+
+
+        #endregion
 
         /// <summary> 项的高度 </summary>
         public double ItemHeight
@@ -427,6 +470,11 @@ namespace HeBianGu.Base.WpfBase
             themeLocalize.RowHeight = this.RowHeight;
             themeLocalize.Language = this.Language;
             themeLocalize.ThemeType = this.ThemeType;
+
+            themeLocalize.AnimalSpeed = this.AnimalSpeed;
+            themeLocalize.AccentColorSelectType = this.AccentColorSelectType;
+            themeLocalize.IsUseAnimal = this.IsUseAnimal;
+
             return themeLocalize;
         }
 
@@ -442,6 +490,10 @@ namespace HeBianGu.Base.WpfBase
             this.RowHeight = config.RowHeight == default(double) ? this.RowHeight : config.RowHeight;
             this.Language = config.Language;
             this.ThemeType = config.ThemeType;
+
+            this.AnimalSpeed = config.AnimalSpeed;
+            this.AccentColorSelectType = config.AccentColorSelectType;
+            this.IsUseAnimal = config.IsUseAnimal;
         }
 
 
