@@ -46,7 +46,9 @@ namespace HeBianGu.Applications.ControlBase.Demo
             //  Do：设置默认主题
             ThemeService.Current.AccentColor = Color.FromRgb(0x33, 0x99, 0x33);
 
-            ThemeService.Current.StartAnimationTheme(1000);
+            ThemeService.Current.AnimalSpeed = 1000;
+
+            ThemeService.Current.IsUseAnimal = true;
 
             MainWindow shellWindow = new MainWindow();
 
