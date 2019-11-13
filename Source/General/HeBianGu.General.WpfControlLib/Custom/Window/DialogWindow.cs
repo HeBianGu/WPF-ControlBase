@@ -12,18 +12,16 @@ namespace HeBianGu.General.WpfControlLib
 {
     public partial class DialogWindow : WindowBase
     {
-
         public DialogWindow()
-        {
-
+        { 
             this.ShowAnimation = l =>
               {
 
-                  var engine2 = DoubleStoryboardEngine.Create(0, 1, 0.5, "Opacity"); 
-
                   l.RenderTransformOrigin = new Point(0.5, 0.5);
-                  var engine = DoubleStoryboardEngine.Create(0, 1, 0.5, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
-                  var engine1 = DoubleStoryboardEngine.Create(0, 1, 0.5, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
+
+                  var engine2 = DoubleStoryboardEngine.Create(0.5, 1, 0.5, "Opacity"); 
+                  var engine = DoubleStoryboardEngine.Create(0.1, 0.96, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
+                  var engine1 = DoubleStoryboardEngine.Create(0.1, 0.96, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
 
                   engine.Start(l);
                   engine1.Start(l);
@@ -38,12 +36,13 @@ namespace HeBianGu.General.WpfControlLib
               {
                   l.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                  var engine2 = DoubleStoryboardEngine.Create(1, 0, 0.5, "Opacity");
-                  var engine = DoubleStoryboardEngine.Create(1, 0, 0.5, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
-                  var engine1 = DoubleStoryboardEngine.Create(1, 0, 0.5, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
+                  var engine2 = DoubleStoryboardEngine.Create(1, 0.5, 0.3, "Opacity");
+                  var engine = DoubleStoryboardEngine.Create(1, 0.1, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
+                  var engine1 = DoubleStoryboardEngine.Create(1, 0.1, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
 
                   engine.CompletedEvent += (s, e) =>
                   {
+                      this.MouseDown -= DialogWindow_MouseDown;
                       l.Close();
                   };
 
@@ -56,12 +55,18 @@ namespace HeBianGu.General.WpfControlLib
             {
                 this.CloseAnimation?.Invoke(this);
             });
-        } 
 
-        ///// <summary> 显示时的动画效果 </summary>
-        //public Action<DialogWindow> ShowAnimation { get; set; }
+            this.MouseDown += DialogWindow_MouseDown;
 
-        ///// <summary> 关闭时的动画效果 </summary>
-        //public Action<DialogWindow> CloseAnimation { get; set; }
+           
+
+        }
+
+        private void DialogWindow_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.DragMove();
+        }
+
+        
     }
 }

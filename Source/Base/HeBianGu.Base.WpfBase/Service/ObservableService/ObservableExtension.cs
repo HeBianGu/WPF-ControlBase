@@ -17,9 +17,9 @@ namespace HeBianGu.Base.WpfBase
                 source.Add(sortedItem);
         }
 
-        public static void Sort<TSource, TKey>(this Collection<TSource> source, Func<TSource, TKey> keySelector,bool isdesc)
+        public static void Sort<TSource, TKey>(this Collection<TSource> source, Func<TSource, TKey> keySelector, bool isdesc)
         {
-            List<TSource> sortedList = isdesc? source.OrderByDescending(keySelector).ToList(): source.OrderBy(keySelector).ToList();
+            List<TSource> sortedList = isdesc ? source.OrderByDescending(keySelector).ToList() : source.OrderBy(keySelector).ToList();
             source.Clear();
             foreach (var sortedItem in sortedList)
                 source.Add(sortedItem);
@@ -51,7 +51,27 @@ namespace HeBianGu.Base.WpfBase
                 result.Add(item);
             }
             return result;
-          
+
+        }
+
+        public static void Refresh<T>(this ObservableCollection<T> collection)
+        {
+
+            ObservableCollection<T> result = new ObservableCollection<T>();
+            foreach (var item in collection)
+            {
+                result.Add(item);
+            }
+            collection = result;
+        }
+
+
+        public static void Foreach<T>(this ObservableCollection<T> collection, Action<T> action)
+        {
+            foreach (var item in collection)
+            {
+                action(item);
+            }
         }
     }
 }

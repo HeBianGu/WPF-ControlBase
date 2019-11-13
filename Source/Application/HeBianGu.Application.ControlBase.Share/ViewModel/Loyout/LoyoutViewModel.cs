@@ -14,7 +14,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
     [ViewModel("Loyout")]
     class LoyoutViewModel : MvcViewModelBase
-    { 
+    {
 
         private string _buttonContentText;
         /// <summary> 说明  </summary>
@@ -26,7 +26,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 _buttonContentText = value;
                 RaisePropertyChanged("ButtonContentText");
             }
-        } 
+        }
 
 
         private ObservableSource<TreeNodeEntity> _observableSource = new ObservableSource<TreeNodeEntity>();
@@ -40,6 +40,20 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 RaisePropertyChanged("ObservableSource");
             }
         }
+
+        private ObservableCollection<MessageBase> _messageSource = new ObservableCollection<MessageBase>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<MessageBase> MessageSource
+        {
+            get { return _messageSource; }
+            set
+            {
+                _messageSource = value;
+                RaisePropertyChanged("MessageSource");
+            }
+        }
+
+        
 
         protected override void Init()
         {
@@ -137,6 +151,12 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 MessageService.ShowNotifyMessage("你有一条报警信息需要处理，请检查", "Notify By HeBianGu");
             }
             //  Do：气泡消息
+            else if (command == "Button.ShowIdentifyNotifyMessage")
+            {
+                MessageService.ShowNotifyDialogMessage("自定义气泡消息" + DateTime.Now.ToString("yyyy-mm-dd HH:mm:ss"),"友情提示",5);
+            }
+
+            //  Do：气泡消息
             else if (command == "Button.ShowWindowSumitMessage")
             {
                 MessageWindow.ShowSumit("这是窗口提示消息");
@@ -158,7 +178,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                   {
                       l.CloseAnimation(l);
 
-                      l.DialogResult = true;
+                      l.Result = true;
 
                       MessageService.ShowSnackMessageWithNotice("你点到我了！");
                   };
@@ -192,7 +212,101 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                     downLoad.Message = message;
                     downLoad.ShowDialog();
                 }
+
+                //UpgradeWindow.BeginUpgrade("发现新版本：V3.0.1", @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
+                //   message.ToArray());
+            }
+
+            //  Do：气泡消息
+            else if (command.StartsWith("Button.Message.Error"))
+            {
+                ErrorMessage message = new ErrorMessage();
+
+                message.Message = "错误信息！";
+
+                this.AddMessage(message, command);
+            }
+            //  Do：气泡消息
+            else if (command.StartsWith("Button.Message.Info"))
+            {
+                InfoMessage message = new InfoMessage();
+
+                message.Message = "提示信息！";
+
+                this.AddMessage(message, command);
+
+            }
+            //  Do：气泡消息
+            else if (command.StartsWith("Button.Message.Success"))
+            {
+                SuccessMessage message = new SuccessMessage();
+
+                message.Message = "保存成功！";
+
+                this.AddMessage(message, command);
+
+            }
+            //  Do：气泡消息
+            else if (command.StartsWith("Button.Message.Fatal"))
+            {
+                FatalMessage message = new FatalMessage();
+
+                message.Message = "问题很严重！";
+
+                this.AddMessage(message, command);
+
+
+            }
+            //  Do：气泡消息
+            else if (command.StartsWith("Button.Message.Warn"))
+            {
+                WarnMessage message = new WarnMessage();
+
+                message.Message = "警告信息！";
+
+                this.AddMessage(message, command);
+
+            }
+
+            //  Do：气泡消息
+            else if (command.StartsWith("Button.Message.Dailog"))
+            {
+                DailogMessage message = new DailogMessage();
+
+                message.Message = "可以保存了么?";
+
+                this.AddMessage(message, command);
+            }
+
+            //  Do：气泡消息
+            else if (command.StartsWith("Button.ShowCoverMessge"))
+            {
+                SettingControl setting = new SettingControl();
+
+                MessageService.ShowWithLayer(setting);
+
+            }
+
+           
+        }
+
+        void AddMessage(MessageBase message,string command)
+        {
+            if(command.EndsWith("System"))
+            {
+                MessageService.ShowSystemNotifyMessage(message);
+            }
+            else if(command.EndsWith("Window"))
+            {
+
+                MessageService.ShowWindowNotifyMessage(message);
+            }
+            else
+            {
+                this.MessageSource.Add(message);
             }
         }
+
+
     }
 }

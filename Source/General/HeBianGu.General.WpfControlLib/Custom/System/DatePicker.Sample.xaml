@@ -5,117 +5,226 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
 
+    <!--默认样式-->
+    <ControlTemplate x:Key="S.DatePick.Template.Default" TargetType="{x:Type DatePicker}">
+        <Grid x:Name="PART_Root">
+            <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}" />
+            <Grid x:Name="PART_InnerGrid" Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                
+                <!--Label区域-->
+                <ContentControl x:Name="Label" Template="{TemplateBinding base:ControlAttachProperty.LabelTemplate}" IsTabStop="False" IsHitTestVisible="False"
+                                            Content="{TemplateBinding base:ControlAttachProperty.Label}" Margin="1"/>
+                <!--附加内容区域-->
+                <Border Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <ContentControl  x:Name="PART_AttachContent"  VerticalAlignment="Center" VerticalContentAlignment="Center"  Foreground="{DynamicResource S.Brush.TextForeground.Assist}" Template="{TemplateBinding base:ControlAttachProperty.AttachContent}"/>
+                </Border>
+
+                <!--下拉按钮-->
+                <ToggleButton x:Name="PART_DropDownToggle" 
+                                          IsTabStop="False" base:ControlAttachProperty.FIcon="{TemplateBinding base:ControlAttachProperty.FIcon}"
+                                          Style="{DynamicResource S.ToggleButton.FIconSingle}" Width="20"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                          Grid.Column="3"  
+                                          Margin="{TemplateBinding base:ControlAttachProperty.FIconMargin}"
+                                          base:ControlAttachProperty.FIconSize="{TemplateBinding base:ControlAttachProperty.FIconSize}"/>
+                <!--水印-->
+                <Border Grid.Column="1">
+                    <TextBlock x:Name="Message"  Padding="0" Visibility="Collapsed" Text="{TemplateBinding base:ControlAttachProperty.Watermark}" 
+                                       Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" Opacity="{StaticResource S.Opacity.Watermark}" HorizontalAlignment="Left" TextAlignment="Center" 
+                                       VerticalAlignment="Center" Margin="5,2,5,2" />
+                </Border>
+                <!--Date内容区-->
+                <Grid Grid.Column="1">
+                    <TextBox x:Name="PART_TextBox" Style="{DynamicResource EditableTextBoxStyle}" HorizontalAlignment="Stretch" 
+                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" IsHitTestVisible="True" IsReadOnly="True"
+                                     FontFamily="{TemplateBinding FontFamily}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}"  Margin="{TemplateBinding Padding}"
+                                     Text="{Binding Path=SelectedDate,Mode=OneWay,RelativeSource={RelativeSource TemplatedParent},StringFormat={StaticResource DateFormat}}"/>
+                </Grid>
+                <!--弹出日历-->
+                <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom"
+                                   PlacementTarget="{Binding ElementName=PART_Root}" StaysOpen="False" />
+            </Grid>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <!--1.显示水印-->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
+                <Setter TargetName="Message" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="PART_Root" Property="Opacity" Value="{StaticResource S.Opacity.Disable}" />
+            </Trigger>
+            
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+
+            </Trigger>
+            
+            <Trigger Property="IsFocused" Value="True">
+                <Setter  Property="BorderBrush"  Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{DynamicResource S.Brush.Accent}"/>
+
+            </Trigger>
+            
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/> 
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <!--抬头在外边样式-->
+    <ControlTemplate x:Key="S.DatePick.Template.Single" TargetType="{x:Type DatePicker}">
+        <Grid x:Name="PART_Root">
+
+            <Grid x:Name="PART_InnerGrid" Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.Column="1" Grid.ColumnSpan="3"  CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}" />
+                
+                <!--Label区域-->
+                <ContentControl x:Name="Label" Template="{TemplateBinding base:ControlAttachProperty.LabelTemplate}" IsTabStop="False"
+                                            Content="{TemplateBinding base:ControlAttachProperty.Label}" Margin="1"/>
+                
+                <!--附加内容区域-->
+                <Border Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <ContentControl  x:Name="PART_AttachContent" VerticalAlignment="Center" VerticalContentAlignment="Center"  Foreground="{DynamicResource S.Brush.TextForeground.Assist}" Template="{TemplateBinding base:ControlAttachProperty.AttachContent}"/>
+                </Border>
+                
+                <!--下拉按钮-->
+                <ToggleButton x:Name="PART_DropDownToggle" 
+                                          IsTabStop="False" base:ControlAttachProperty.FIcon="{TemplateBinding base:ControlAttachProperty.FIcon}"
+                                          Style="{DynamicResource S.ToggleButton.FIconSingle}" Width="20"
+                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                                          Grid.Column="3"  base:ControlAttachProperty.FIconMargin="{TemplateBinding base:ControlAttachProperty.FIconMargin}"
+                                          Margin="{TemplateBinding base:ControlAttachProperty.FIconMargin}"
+                                          base:ControlAttachProperty.FIconSize="{TemplateBinding base:ControlAttachProperty.FIconSize}"/>
+                <!--水印-->
+                <Border Grid.Column="1">
+                    <TextBlock x:Name="Message"  Padding="0" Visibility="Collapsed" Text="{TemplateBinding base:ControlAttachProperty.Watermark}" 
+                                       Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" Opacity="{StaticResource S.Opacity.Watermark}" HorizontalAlignment="Left" TextAlignment="Center" 
+                                       VerticalAlignment="Center" Margin="5,2,5,2" />
+                </Border>
+                <!--Date内容区-->
+                <Grid Grid.Column="1">
+                    <TextBox x:Name="PART_TextBox" Style="{DynamicResource EditableTextBoxStyle}" HorizontalAlignment="Stretch" 
+                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" IsHitTestVisible="True" IsReadOnly="True"
+                                     FontFamily="{TemplateBinding FontFamily}" Foreground="{TemplateBinding Foreground}" FontSize="{TemplateBinding FontSize}"  Margin="{TemplateBinding Padding}"
+                                     Text="{Binding Path=SelectedDate,Mode=OneWay,RelativeSource={RelativeSource TemplatedParent},StringFormat={StaticResource DateFormat}}"/>
+                </Grid>
+                <!--弹出日历-->
+                <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom"
+                                   PlacementTarget="{Binding ElementName=PART_Root}" StaysOpen="False" />
+            </Grid>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <!--1.显示水印-->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
+                <Setter TargetName="Message" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="PART_Root" Property="Opacity" Value="{StaticResource S.Opacity.Disable}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+
+
+            </Trigger>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="BorderBrush"  Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+
+            </Trigger>
+            <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground"  Value="{DynamicResource S.Brush.Accent}"/>
+
+
+            </Trigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
 
     <Style x:Key="S.DatePicker.Sample" TargetType="{x:Type DatePicker}">
-
         <Setter Property="SelectedDate" Value="{x:Static sys:DateTime.Now}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Dark.3}" />
         <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
-        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
         <Setter Property="base:ControlAttachProperty.FocusBackground" Value="{DynamicResource S.Brush.Accent}" />
-        <Setter Property="base:ControlAttachProperty.FIconSize" Value="{DynamicResource S.FIcon.Size.Default}" />
-        <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,5,0" />
-
-        <Setter Property="FontFamily" Value="{DynamicResource  S.FontFamily.Default}" />
-        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Small}" />
+        <Setter Property="base:ControlAttachProperty.FIconSize" Value="18" />
+        <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,3,0" />
+        <Setter Property="base:ControlAttachProperty.FIcon" Value="&#xe6f3;" />
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="2" />
+        <Setter Property="FontFamily" Value="{DynamicResource S.FontFamily.Default}" />
+        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}" />
         <Setter Property="MinHeight" Value="26" />
-        <Setter Property="Height" Value="30" />
-        <Setter Property="Width" Value="200" />
+        <Setter Property="Height" Value="{DynamicResource S.Window.Item.Height}" />
+        <Setter Property="Width" Value="300" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="IsTodayHighlighted" Value="True" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="SelectedDate" Value="{x:Null}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="CalendarStyle" Value="{DynamicResource S.Calendar.Sample}" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type DatePicker}">
-                    <Grid x:Name="PART_Root">
-                        <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="{TemplateBinding Background}" />
-                        <Grid x:Name="PART_InnerGrid" Margin="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <!--Label区域-->
-                            <ContentControl x:Name="Label" Template="{TemplateBinding base:ControlAttachProperty.LabelTemplate}" IsTabStop="False" IsHitTestVisible="False"
-                                            Content="{TemplateBinding base:ControlAttachProperty.Label}" Margin="1,1,0,1"/>
-                            <!--附加内容区域-->
-                            <Border x:Name="PART_AttachContent" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" >
-                                <ContentControl VerticalAlignment="Center" VerticalContentAlignment="Center" Template="{TemplateBinding base:ControlAttachProperty.AttachContent}"/>
-                            </Border>
-                            <!--下拉按钮-->
-                            <ToggleButton x:Name="PART_DropDownToggle" 
-                                          IsTabStop="False" 
-                                          Style="{DynamicResource S.ToggleButton.BrushFIconChecked}" 
-                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                          Grid.Column="3"  
-                                          Margin="{TemplateBinding base:ControlAttachProperty.FIconMargin}"
-                                          base:ControlAttachProperty.FIconSize="{TemplateBinding base:ControlAttachProperty.FIconSize}"
-                                          Foreground="{TemplateBinding  base:ControlAttachProperty.FocusBackground}"
-                                          Background="{TemplateBinding base:ControlAttachProperty.FocusBackground}"/>
-                            <!--水印-->
-                            <Border Grid.Column="1">
-                                <TextBlock x:Name="Message"  Padding="0" Visibility="Collapsed" Text="{TemplateBinding base:ControlAttachProperty.Watermark}" 
-                                       Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" Opacity="{StaticResource S.Opacity.Watermark}" HorizontalAlignment="Left" TextAlignment="Center" 
-                                       VerticalAlignment="Center" Margin="5,2,5,2" />
-                            </Border>
-                            <!--Date内容区-->
-                            <Grid Grid.Column="1">
-                                <TextBox x:Name="PART_TextBox" Style="{DynamicResource EditableTextBoxStyle}" HorizontalAlignment="Stretch" 
-                                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" IsHitTestVisible="True" IsReadOnly="True"
-                                     FontFamily="{TemplateBinding FontFamily}" Foreground="{TemplateBinding Foreground}" FontSize="13"
-                                     Text="{Binding Path=SelectedDate,Mode=OneWay,RelativeSource={RelativeSource TemplatedParent},StringFormat={StaticResource DateFormat}}"/>
-                            </Grid>
-                            <!--弹出日历-->
-                            <Popup x:Name="PART_Popup" AllowsTransparency="True" Placement="Bottom"
-                                   PlacementTarget="{Binding ElementName=PART_Root}" StaysOpen="False" />
-                        </Grid>
-                    </Grid>
+        <Setter Property="CalendarStyle" Value="{DynamicResource S.Calendar.Default}" />
+        <Setter Property="Template" Value="{DynamicResource  S.DatePick.Template.Default}"/>
+    </Style>
 
-                    <ControlTemplate.Triggers>
-                        <!--1.显示水印-->
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
-                            <Setter TargetName="Message" Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                        </Trigger>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="PART_Root" Property="Opacity" Value="{StaticResource S.Opacity.Disable}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="S.DatePicker.Single" TargetType="{x:Type DatePicker}" BasedOn="{StaticResource S.DatePicker.Sample}">
+        <Setter Property="Template" Value="{DynamicResource  S.DatePick.Template.Single}"/>
     </Style>
 
     <!--DatePicker包含清除Text按钮的样式 ClearButtonDatePicker -->
-    <Style TargetType="{x:Type DatePicker}" x:Key="S.DatePicker.Sample.Clear" BasedOn="{StaticResource S.DatePicker.Sample}">
+    <Style TargetType="{x:Type DatePicker}" x:Key="S.DatePicker.Sample.Clear" BasedOn="{StaticResource S.DatePicker.Sample}"> 
         <Setter Property="base:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton FIcon="&#xe72c;" Style="{DynamicResource S.FButton.Style.Transparent}" 
+                    <local:FButton FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0"
                                    base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
                                    Command="base:ControlAttachProperty.ClearTextCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type DatePicker}}}"
-                               Margin="1,3,0,4" FIconSize="14" 
-                                   Foreground="{DynamicResource S.Brush.Accent}" 
+                                   Margin="1,3,0,4" FIconSize="14" 
+                                   Foreground="{TemplateBinding Foreground}" 
                                    Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -124,14 +233,12 @@
 
     <!--DatePicker包含附加属性Label的样式 LabelDatePicker -->
     <Style TargetType="{x:Type DatePicker}" x:Key="S.DatePicker.Sample.Label" BasedOn="{StaticResource S.DatePicker.Sample}">
-        <Setter Property="Width" Value="260"></Setter>
+        <Setter Property="Width" Value="300"></Setter>
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" 
-                                   Foreground="{DynamicResource S.Brush.Accent}" 
-                                   Text="{TemplateBinding Content}"></TextBlock>
+                    <Border MinWidth="70" Background="{DynamicResource S.Brush.Accent}">
+                        <TextBlock   Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{DynamicResource S.Brush.TextForeground.White}" Text="{TemplateBinding Content}"></TextBlock>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -139,27 +246,70 @@
     </Style>
 
     <!--DatePicker包含附加属性Label，以及ClearText按钮的样式 LabelClearButtonDatePicker -->
-    <Style TargetType="{x:Type DatePicker}" x:Key="S.DatePicker.Sample.LabelClear" BasedOn="{StaticResource S.DatePicker.Sample}">
-        <Setter Property="Width" Value="280"></Setter>
+    <Style TargetType="{x:Type DatePicker}" x:Key="S.DatePicker.Sample.LabelClear" BasedOn="{StaticResource S.DatePicker.Sample.Label}">
+        <Setter Property="base:ControlAttachProperty.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:FButton FIcon="&#xe6f4;" 
+                                   Style="{DynamicResource S.FButton.Style.Transparent}" 
+                                   IsTabStop="False" FIconMargin="0"
+                                   base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
+                                   Command="base:ControlAttachProperty.ClearTextCommand" 
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type DatePicker}}}"
+                                   Margin="0,3,0,4" FIconSize="14"  Foreground="{TemplateBinding Foreground}"   Cursor="Arrow"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--DatePicker包含附加属性Label的样式 LabelDatePicker -->
+    <Style TargetType="{x:Type DatePicker}" x:Key="S.DatePicker.Single.Label" BasedOn="{StaticResource S.DatePicker.Single}">
+        <Setter Property="Width" Value="300"></Setter>
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="60" Background="{DynamicResource S.Brush.Accent}">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" Foreground="{DynamicResource S.Brush.TextForeground.White}" Text="{TemplateBinding Content}"></TextBlock>
+                    <Border MinWidth="70"  Margin="3">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <!--DatePicker包含附加属性Label，以及ClearText按钮的样式 LabelClearButtonDatePicker -->
+    <Style TargetType="{x:Type DatePicker}" x:Key="S.DatePicker.Single.LabelClear" BasedOn="{StaticResource S.DatePicker.Single.Label}">
         <Setter Property="base:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton FIcon="&#xe72c;" 
+                    <local:FButton FIcon="&#xe6f4;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0"
-                               base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
+                                   base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
                                    Command="base:ControlAttachProperty.ClearTextCommand" 
-                               CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type DatePicker}}}"
-                               Margin="0,3,0,4" FIconSize="14" Foreground="{DynamicResource S.Brush.Accent}" Cursor="Arrow"/>
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type DatePicker}}}"
+                                   Margin="0,3,0,4" FIconSize="14"  Foreground="{TemplateBinding Foreground}"   Cursor="Arrow"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type DatePicker}" x:Key="S.DatePicker.Circle" BasedOn="{StaticResource S.DatePicker.Sample}">
+        <Setter Property="Padding" Value="30,0,0,0"/>
+        <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,10,0" />
+        <Setter Property="Width" Value="180"/>
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+    </Style>
+
+    <Style TargetType="{x:Type DatePicker}" x:Key="S.DatePicker.Circle.Label" BasedOn="{StaticResource S.DatePicker.Sample.Label}">
+        <Setter Property="Padding" Value="10,0,0,0"/>
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,10,0" />
+        <Setter Property="base:ControlAttachProperty.LabelTemplate" >
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border MinWidth="90" Background="Transparent">
+                        <TextBlock  Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"></TextBlock>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -19,6 +19,7 @@
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="IsTabStop" Value="False" />
+       
         <Setter Property="ClipToBounds" Value="{Binding RelativeSource={RelativeSource Self}, Path=(local:RippleAssist.ClipToBounds)}" />
         <!--<Setter Property="Feedback" Value="{Binding RelativeSource={RelativeSource Self}, Path=(local:RippleAssist.Feedback)}" />-->
         <!--<Setter Property="Feedback" Value="Red" />-->
@@ -158,7 +159,7 @@
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.TextForeground.Default}"/>
         <Setter Property="Padding" Value="1"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
@@ -425,14 +426,14 @@
                                 Opacity="0"
                                 Background="{TemplateBinding Foreground}"/>
 
-                        <Grid Grid.Column="1" Grid.ColumnSpan="2" x:Name="ContentGrid" Background="Transparent">
+                        <Grid Grid.Column="1" Grid.ColumnSpan="2" x:Name="ContentGrid" Background="Transparent" Height="{DynamicResource S.Window.Item.Height}">
                             <local:Ripple Feedback="{TemplateBinding Foreground, Converter={x:Static base:XConverter.BrushRoundConverter}}"
                                         Focusable="False"
                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
                                         VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                         Padding="{TemplateBinding Padding}">
-                                <ContentPresenter x:Name="PART_Header" ContentSource="Header"/>
+                                <ContentPresenter x:Name="PART_Header" ContentSource="Header" VerticalAlignment="Center"/>
                             </local:Ripple>
                         </Grid>
 
@@ -454,10 +455,7 @@
                                     <Binding ElementName="ScaleHost" Path="Scale"/>
                                 </MultiBinding>
                             </StackPanel.Height>
-                            <ItemsPresenter x:Name="ItemsHost"
-                                            VerticalAlignment="Top"
-                                            Opacity="0"
-                                            Visibility="Collapsed"/>
+                            <ItemsPresenter x:Name="ItemsHost" VerticalAlignment="Top"  Opacity="0" Visibility="Collapsed"/>
                         </StackPanel>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -494,17 +492,14 @@
 
 
     <Style x:Key="Style.TreeView.Default" TargetType="{x:Type TreeView}">
-
         <Setter Property="ItemContainerStyle"  Value="{StaticResource MaterialDesignTreeViewItem}"/>
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="base:ControlAttachProperty.MouseOverBackground" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="base:ControlAttachProperty.SelectBackground" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="base:ControlAttachProperty.SelectForeground" Value="{DynamicResource S.Brush.Accent}"/>
-
     </Style>
 
     <Style TargetType="TreeView" BasedOn="{StaticResource Style.TreeView.Default}"/>
-
 
 </ResourceDictionary>

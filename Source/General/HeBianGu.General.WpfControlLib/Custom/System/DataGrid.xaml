@@ -25,17 +25,17 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="MinWidth" Value="5" />
         <Setter Property="MinHeight" Value="35" />
-        <Setter Property="Height" Value="35" />
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}" />
+        <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=ColumnHeaderHeight}" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="10,4,4,7" />
         <Setter Property="Margin" Value="0,0,0,0" />
         <!--<Setter Property="FontWeight" Value="SemiBold"></Setter>-->
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}" />
-        <Setter Property="BorderThickness" Value="0,0,0,2" />
-        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent.Opacity.2}" />
-        <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.2}" />
+        <Setter Property="BorderThickness" Value="1,0,1,2" />
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
@@ -57,7 +57,7 @@
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         <TextBlock x:Name="SortArrow" Style="{DynamicResource FIcon}" Text="&#xe66f;" Grid.Column="1" Width="20"
-                                       Visibility="Collapsed" FontSize="16" Margin="1,1,3,1" />
+                                       Visibility="Collapsed" FontSize="12" Margin="1,1,3,1" />
 
                         <Thumb x:Name="PART_LeftHeaderGripper" HorizontalAlignment="Left" HorizontalContentAlignment="Left"
                                Style="{StaticResource S.DataGrid.HeaderGripper.Default}" />
@@ -102,13 +102,12 @@
     <!--行样式-->
     <Style x:Key="S.DataGrid.DataGridRow.Default" TargetType="{x:Type DataGridRow}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
-        <Setter Property="Height" Value="35" />
+        <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=RowHeight}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Margin" Value="0,0,0,0" />
-
         <Style.Triggers>
             <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                <Setter Property="Background" Value="{DynamicResource S.Brush.RowIndex.BackGround}" />
+                <Setter Property="Background" Value="{DynamicResource  S.Brush.RowIndex.BackGround}" /> <!--#FFE4EFF9-->
             </Trigger>
             <Trigger Property="IsSelected" Value="True">
                 <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent}" />
@@ -116,13 +115,29 @@
             </Trigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.3}" />
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation  Storyboard.TargetProperty="Opacity" To="0.6" Duration="0:0:0" />
+                            <DoubleAnimation  Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.4" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsSelected" Value="True" />
                     <Condition Property="Selector.IsSelectionActive" Value="True" />
                 </MultiTrigger.Conditions>
-                <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent}" />
+                <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent}"/>
             </MultiTrigger>
 
             <MultiTrigger>
@@ -130,7 +145,22 @@
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="ItemsControl.AlternationIndex" Value="1" />
                 </MultiTrigger.Conditions>
-                <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.5}" />
+                <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.3}"/>
+                <MultiTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation  Storyboard.TargetProperty="Opacity" To="0.6" Duration="0:0:0" />
+                            <DoubleAnimation  Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.4" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </MultiTrigger.EnterActions>
+                <MultiTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </MultiTrigger.ExitActions> 
             </MultiTrigger>
 
             <MultiTrigger>
@@ -138,9 +168,8 @@
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsSelected" Value="True" />
                 </MultiTrigger.Conditions>
-                <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.8}" />
+                <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.8}" /> 
             </MultiTrigger>
-
         </Style.Triggers>
     </Style>
 
@@ -226,7 +255,9 @@
     <!--表格DataGrid样式-->
     <Style x:Key="S.DataGrid.Default" TargetType="{x:Type DataGrid}">
         <Setter Property="MinRowHeight" Value="25" />
-        <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}" />
+        <Setter Property="RowHeight" Value="{DynamicResource S.Window.Item.Height}" />
+        <Setter Property="ColumnHeaderHeight" Value="{DynamicResource S.Window.Item.Height}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackgroud.Default}" />
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="HorizontalGridLinesBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
@@ -337,6 +368,22 @@
                 <Setter Property="ScrollViewer.CanContentScroll" Value="false" />
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+
+    <Style x:Key="S.DataGrid.Single" TargetType="DataGrid" BasedOn="{StaticResource S.DataGrid.Default}">
+        <Setter Property="RowHeight" Value="{DynamicResource S.Window.Item.Height}" />
+        <Setter Property="ColumnHeaderHeight" Value="{DynamicResource S.Window.Item.Height}" />
+        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource S.DataGrid.DataGridColumnHeader.Default}">
+                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent.Opacity.2}" />
+                    <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.2}" />
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

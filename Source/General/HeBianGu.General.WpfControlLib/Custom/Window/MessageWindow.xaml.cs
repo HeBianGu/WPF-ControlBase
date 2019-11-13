@@ -186,7 +186,6 @@ namespace HeBianGu.General.WpfControlLib
 
         #endregion
 
-
         #region - 带蒙版的消息 -
 
         /// <summary>
@@ -252,7 +251,6 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 确定 </summary>
         private void sumitBtn_Click(object sender, RoutedEventArgs e)
         {
-            this.DialogResult = true;
             _result = true;
             this.CloseAnimation(this);
         }

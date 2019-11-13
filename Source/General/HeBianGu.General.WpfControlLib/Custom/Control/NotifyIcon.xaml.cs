@@ -154,7 +154,7 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary>
         ///     Occurs when the user double-clicks the <see cref="NotifyIcon" /> with the mouse.
         /// </summary>
-        public new event MouseButtonEventHandler MouseDoubleClick
+        public event MouseButtonEventHandler MouseDoubleClick
         {
             add { AddHandler(MouseDoubleClickEvent, value); }
             remove { RemoveHandler(MouseDoubleClickEvent, value); }

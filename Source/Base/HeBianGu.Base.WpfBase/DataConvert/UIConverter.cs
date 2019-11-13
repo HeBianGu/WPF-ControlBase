@@ -613,7 +613,7 @@ namespace HeBianGu.Base.WpfBase
 
             if (Math.Abs(v2) < 1E-06) return 100.0;
 
-            return v1 / v2 * 100;
+            return Math.Round(v1 / v2 * 100,0);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -641,4 +641,134 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+    public class CircleProgressBarConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            double v = double.Parse(value.ToString());
+
+            return 182 - v * (182 - 172.5) / 100;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class DoubleRoundConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            parameter = parameter ?? 0;
+
+            int param = int.Parse(parameter.ToString());
+
+            double v = double.Parse(value.ToString());
+
+            return Math.Round(v, param);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class OpacityProgressBarConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            parameter = parameter ?? "0.1-1";
+            double param1 = double.Parse(parameter.ToString().Split('-')[0]);
+            double param2 = double.Parse(parameter.ToString().Split('-')[1]);
+
+            double v =100- double.Parse(value.ToString());
+
+            return param2 - v * (param2 - param1) / 100;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// 区间范围筛选
+    /// </summary>
+    public class MultiComboboxSelectConverter : IMultiValueConverter
+    {
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null) return null;
+
+            //  Message：起始杆号可选项删选
+            if (values.Length != 2) return null;
+
+            if (values[1]==null) return null;
+
+            int selectIndex = (int)values[0];
+
+            IEnumerable<object> enumerable = values[1] as IEnumerable<object>;
+
+            return enumerable.Skip(selectIndex).ToList();
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary> 匹配文本本不可用 </summary>
+    public class VisibilityContainWithOutStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null) return Visibility.Collapsed;
+
+            if (parameter == null) return Visibility.Visible;
+
+            IList collection = parameter as IList;
+
+            if (collection.Contains(value.ToString().Trim()))
+            {
+                return Visibility.Collapsed;
+            }
+
+            return Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new Exception();
+        }
+    }
+
+    /// <summary> 匹配文本本不可用 </summary>
+    public class VisibilityContainWithStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if (value == null) return Visibility.Collapsed;
+
+            if (parameter == null) return Visibility.Visible;
+
+            IList collection = parameter as IList;
+
+            if (collection.Contains(value.ToString().Trim()))
+            {
+                return Visibility.Visible;
+            }
+
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new Exception();
+        }
+    }
 }

@@ -1,0 +1,310 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--右向左渐显示动画-->
+    <Storyboard x:Key="S.Storyboard.MessageLoad.OpacityRightToLeft">
+        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
+            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+            <SplineDoubleKeyFrame KeyTime="00:00:00.5" Value="1"/>
+        </DoubleAnimationUsingKeyFrames>
+
+        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="200"/>
+            <SplineDoubleKeyFrame KeyTime="00:00:00.5" Value="0"/>
+        </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <!--右向左渐显示动画-->
+    <Storyboard x:Key="S.Storyboard.MessageHide.OpacityLeftToRight">
+        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
+            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0"/>
+            <SplineDoubleKeyFrame KeyTime="00:00:00.5" Value="1"/>
+            <SplineDoubleKeyFrame KeyTime="00:00:04.7" Value="1"/>
+            <SplineDoubleKeyFrame KeyTime="00:00:05" Value="0"/>
+        </DoubleAnimationUsingKeyFrames>
+
+        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)">
+            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="200"/>
+            <SplineDoubleKeyFrame KeyTime="00:00:00.5" Value="0"/>
+            <SplineDoubleKeyFrame KeyTime="00:00:04.7" Value="0"/>
+            <SplineDoubleKeyFrame KeyTime="00:00:05" Value="200"/>
+        </DoubleAnimationUsingKeyFrames>
+
+        <ObjectAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Visibility)">
+            <DiscreteObjectKeyFrame KeyTime="0:0:5" >
+                <DiscreteObjectKeyFrame.Value>
+                    <Visibility>Collapsed</Visibility>
+                </DiscreteObjectKeyFrame.Value>
+            </DiscreteObjectKeyFrame>
+        </ObjectAnimationUsingKeyFrames>
+    </Storyboard>
+
+    <DataTemplate DataType="{x:Type local:ErrorMessage}">
+        <Grid Height="60" Width="350" Margin="0,0,5,5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                    CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
+
+            <TextBlock Text="&#xe701;" Style="{DynamicResource FIcon}" FontSize="30" Foreground="{DynamicResource S.Brush.Red.Notice}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
+                <TextBlock Text="{Binding Message}"/>
+                <TextBlock Text="{Binding Time}"/>
+            </StackPanel>
+
+            <local:FButton Width="38" VerticalAlignment="Center" CornerRadius="0" HorizontalAlignment="Right" Grid.ColumnSpan="2"
+                           MouseOverForeground="Red" PressedForeground="LightGray"
+                           AllowsAnimation="True" Style="{DynamicResource S.FButton.Style.Transparent}"  FIcon="&#xe6f4;" FIconSize="16"
+                           FIconMargin="0" Command="{x:Static local:CommandService.CollapsedOfOpacityCommand}"
+                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Grid}}"/> 
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageLoad.OpacityRightToLeft}"/> 
+                </EventTrigger>
+            </Grid.Triggers>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:InfoMessage}">
+        <Grid Height="60" Width="350"  Margin="0,0,5,5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageHide.OpacityLeftToRight}"/>
+                </EventTrigger>
+            </Grid.Triggers>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                    CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
+
+            <TextBlock Text="&#xe70a;" Style="{DynamicResource FIcon}"  FontSize="30"  Foreground="{DynamicResource S.Brush.Accent}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
+                <TextBlock Text="{Binding Message}"/>
+                <TextBlock Text="{Binding Time}"/>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SuccessMessage}">
+        <Grid Height="60" Width="350"  Margin="0,0,5,5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageHide.OpacityLeftToRight}"/>
+                </EventTrigger>
+            </Grid.Triggers>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                    CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
+
+            <TextBlock Text="&#xe76c;" Style="{DynamicResource FIcon}"  FontSize="30"  Foreground="{DynamicResource S.Brush.Green.Notice}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
+                <TextBlock Text="{Binding Message}"/>
+                <TextBlock Text="{Binding Time}"/>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type local:WarnMessage}">
+        <Grid Height="60" Width="350"  Margin="0,0,5,5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageLoad.OpacityRightToLeft}"/>
+                </EventTrigger>
+            </Grid.Triggers>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                    CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
+
+            <TextBlock Text="&#xe62e;" Style="{DynamicResource FIcon}"  FontSize="30"  Foreground="{DynamicResource S.Brush.Orange.Notice}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
+                <TextBlock Text="{Binding Message}"/>
+                <TextBlock Text="{Binding Time}"/>
+            </StackPanel>
+
+            <local:FButton Width="38" VerticalAlignment="Center" CornerRadius="0" HorizontalAlignment="Right" Grid.ColumnSpan="2"
+                           MouseOverForeground="Red" PressedForeground="LightGray"
+                           AllowsAnimation="True" Style="{DynamicResource S.FButton.Style.Transparent}"  FIcon="&#xe6f4;" FIconSize="16"
+                           FIconMargin="0" Command="{x:Static local:CommandService.CollapsedOfOpacityCommand}"
+                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Grid}}"/>
+        </Grid>
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type local:FatalMessage}">
+        <Grid Height="60" Width="350"  Margin="0,0,5,5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageLoad.OpacityRightToLeft}"/>
+                </EventTrigger>
+            </Grid.Triggers>
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.ColumnSpan="2" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                    CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
+
+            <TextBlock Text="&#xe718;" Style="{DynamicResource FIcon}"  FontSize="30"  Foreground="{DynamicResource S.Brush.Black.Notice}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
+                <TextBlock Text="{Binding Message}"/>
+                <TextBlock Text="{Binding Time}"/>
+            </StackPanel>
+
+            <local:FButton Width="38" VerticalAlignment="Center" CornerRadius="0" HorizontalAlignment="Right" Grid.ColumnSpan="2"
+                           MouseOverForeground="Red" PressedForeground="LightGray"
+                           AllowsAnimation="True" Style="{DynamicResource S.FButton.Style.Transparent}"  FIcon="&#xe6f4;" FIconSize="16"
+                           FIconMargin="0" Command="{x:Static local:CommandService.CollapsedOfOpacityCommand}"
+                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Grid}}"/>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:DailogMessage}">
+        <Grid Height="100" Width="350"  Margin="0,0,5,5">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageLoad.OpacityRightToLeft}"/>
+                </EventTrigger>
+            </Grid.Triggers>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/> 
+            </Grid.RowDefinitions>
+
+            <Border Grid.ColumnSpan="2" Grid.RowSpan="5" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                    CornerRadius="5" Effect="{DynamicResource S.EffectShadow.3}"/>
+
+            <TextBlock Text="&#xe713;" Style="{DynamicResource FIcon}"  FontSize="30" Grid.RowSpan="3" Foreground="{DynamicResource S.Brush.Accent}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <TextBlock Grid.Row="0" Grid.Column="1"  Text="{Binding Message}" VerticalAlignment="Center"  Margin="0,10,0,0" />
+
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Time}" VerticalAlignment="Center"  Margin="0,0,0,-5"/>
+
+            <StackPanel  Grid.Column="1" Grid.Row="2" Height="{DynamicResource S.Window.Row.Height}" Margin="0,0,0,5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Stretch" 
+                         TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
+                
+                <local:FButton Content="忽略" Style="{DynamicResource S.FButton.Style.Link}" Margin="10,0" Command="{x:Static local:CommandService.CollapsedOfOpacityCommand}"
+                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Grid}}"/>
+                
+                <local:FButton Content="确定" Style="{DynamicResource S.FButton.Style.Link}"/>
+            </StackPanel>
+
+        </Grid>
+    </DataTemplate>
+
+    <Style  TargetType="{x:Type local:MessageContainer}">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <!--<Setter Property="BorderBrush" Value="{x:Null}"/>-->
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <!--<Setter Property="FocusVisualStyle" Value="{x:Null}"/>-->
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="ItemsSource" Value="{Binding Source,RelativeSource={RelativeSource Mode=Self}}" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Bottom"/> 
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:MessageContainer">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <ItemsPresenter/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>

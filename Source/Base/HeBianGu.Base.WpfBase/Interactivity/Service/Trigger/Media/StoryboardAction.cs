@@ -58,7 +58,7 @@ namespace HeBianGu.Base.WpfBase
     /// <summary>
     /// An action that will change the state of a targeted storyboard when invoked.
     /// </summary>
-    [CLSCompliant(false)]
+    //[CLSCompliant(false)]
     public class ControlStoryboardAction : StoryboardAction
     {
         public static readonly DependencyProperty ControlStoryboardProperty = DependencyProperty.Register("ControlStoryboardOption", typeof(ControlStoryboardOption), typeof(ControlStoryboardAction));

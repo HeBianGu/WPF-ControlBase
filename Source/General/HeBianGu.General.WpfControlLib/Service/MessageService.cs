@@ -12,8 +12,7 @@ namespace HeBianGu.General.WpfControlLib
 {
     public static class MessageService
     {
-
-        public static MessageCloseLayerCommand CloseLayer { get; } = new MessageCloseLayerCommand();
+        #region - 提示消息 -
 
         public static void ShowSnackMessage(string message)
         {
@@ -28,6 +27,7 @@ namespace HeBianGu.General.WpfControlLib
             });
         }
 
+
         public static void ShowSnackMessageWithNotice(string message)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -36,7 +36,9 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (window != null)
                 {
-                    window.AddSnackMessage($"友情提示：[" + DateTime.Now.ToString("HH:mm:ss]  " + message));
+                    string info = $"{LanguageService.Instance.GetConfigByKey("Notice")}：[" + DateTime.Now.ToString("HH:mm:ss]  " + message);
+
+                    window.AddSnackMessage(info);
                 }
             });
         }
@@ -72,6 +74,11 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
+
+        #endregion
+
+        #region - 窗口消息 -
+
         public static async Task ShowWaittingMessge(Action action, Action closeAction = null)
         {
             await Application.Current.Dispatcher.Invoke(async () =>
@@ -96,21 +103,92 @@ namespace HeBianGu.General.WpfControlLib
              });
         }
 
+        /// <summary> 带有返回结果的等待消息窗口 </summary>
+        public static async Task<object> ShowWaittingResultMessge(Func<object> action)
+        {
+            if (CheckOpen()) return null;
+
+            object result = null;
+
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
+                var view = new WaittingMessageDialog();
+
+                //show the dialog
+                await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
+                 {
+                     Task.Run(() => result = action?.Invoke()).ContinueWith(m =>
+                          {
+                              Application.Current.Dispatcher.Invoke(() =>
+                              {
+                                  e.Session.Close(false);
+                              });
+                          });
+                 });
+            });
+
+            return result;
+        }
+
+        /// <summary> 带有返回结果的等待消息窗口 </summary>
+        public static async Task<T> ShowWaittingResultMessge<T>(Func<object> action)
+        {
+            var result = await ShowWaittingResultMessge(action);
+
+            if (result == null) return default(T);
+
+            return (T)result;
+        }
+
         public static async Task ShowPercentProgress(Action<IPercentProgress> action, Action closeAction = null)
         {
-            await ShowProgressMessge<PercentProgressDialog>(action, closeAction);
+            Func<PercentProgressDialog, object> func = l =>
+            {
+                action(l);
+                return null;
+            };
+
+            await ShowProgressMessge(func, closeAction);
         }
 
-        public static async Task ShowStringProgress(Action<StringProgressDialog> action, Action closeAction = null)
+        public static async Task<T> ShowPercentProgress<T>(Func<IPercentProgress, T> action, Action closeAction = null)
         {
-            await ShowProgressMessge(action, closeAction);
+            Func<PercentProgressDialog, T> func = l =>
+            {
+                return action(l);
+            };
+
+            return await ShowProgressMessge(func, closeAction);
         }
 
-        public static async Task ShowProgressMessge<T>(Action<T> action, Action closeAction = null) where T : new()
+        /// <summary> 带有结果的进度消息 </summary>
+        public static async Task<T> ShowStringProgress<T>(Func<IStringProgress, T> action, Action closeAction = null)
         {
+            Func<StringProgressDialog, T> func = l =>
+            {
+                return action(l);
+            };
 
-            if (CheckOpen()) return;
+            return await ShowProgressMessge(func, closeAction);
+        }
 
+        /// <summary> 进度消息 </summary>
+        public static async Task ShowStringProgress(Action<IStringProgress> action, Action closeAction = null)
+        {
+            Func<StringProgressDialog, object> func = l =>
+               {
+                   action(l);
+                   return null;
+               };
+
+            await ShowProgressMessge(func, closeAction);
+        }
+
+        public static async Task<R> ShowProgressMessge<T, R>(Func<T, R> action, Action closeAction = null) where T : new()
+        {
+            if (CheckOpen()) return default(R);
+
+            R result = default(R);
 
             await Application.Current.Dispatcher.Invoke(async () =>
             {
@@ -119,22 +197,25 @@ namespace HeBianGu.General.WpfControlLib
                 //show the dialog
                 return await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
                 {
-                    Task.Run(() => action.Invoke(view)).ContinueWith(m =>
-                    {
-                        Application.Current.Dispatcher.Invoke(() =>
-                        {
-                            e.Session.Close(false);
+                    Task.Run(() => result = action.Invoke(view)).ContinueWith(m =>
+                     {
+                         Application.Current.Dispatcher.Invoke(() =>
+                         {
+                             e.Session.Close(false);
 
-                            closeAction?.Invoke();
-                        });
-                    });
+                             closeAction?.Invoke();
+                         });
+                     });
                 });
             });
+
+            return result;
         }
 
-        public static async Task ShowSumitMessge(string message)
+        public static async Task ShowSumitMessge(string message, bool isLog = true)
         {
             if (CheckOpen()) return;
+
             await Application.Current.Dispatcher.Invoke(async () =>
              {
                  var view = new SampleMessageDialog();
@@ -145,11 +226,28 @@ namespace HeBianGu.General.WpfControlLib
              });
         }
 
+        /// <summary> 显示自定义窗口 </summary>
+        public static async Task<object> ShowCustomDialog(UIElement element, Action<object, DialogClosingEventArgs> action = null)
+        {
+            if (CheckOpen()) return null;
+
+            return await Application.Current.Dispatcher.Invoke(async () =>
+             {
+                 //show the dialog
+                 return await DialogHost.ShowWithClose(element, "windowDialog", (l, e) =>
+                  {
+                      action?.Invoke(l, e);
+                  });
+             });
+        }
+
         static bool CheckOpen()
         {
             if (IsOpened())
             {
-                ShowSnackMessageWithNotice("存在未关闭的窗口，请等待或关闭窗口再执行此操作");
+                string message = LanguageService.Instance.GetMessageByCode("M00002");
+
+                ShowSnackMessageWithNotice(message);
                 return true;
             }
 
@@ -212,6 +310,11 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
+        #endregion
+
+        #region - 蒙版消息 -
+
+        public static MessageCloseLayerCommand CloseLayer { get; } = new MessageCloseLayerCommand();
 
 
         /// <summary> 显示蒙版 </summary>
@@ -231,9 +334,22 @@ namespace HeBianGu.General.WpfControlLib
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if(Application.Current.MainWindow is IWindowBase window)
+                if (Application.Current.MainWindow is IWindowBase window)
                 {
                     window.ShowWithLayer(link);
+                }
+            });
+        }
+
+
+        /// <summary> 显示蒙版 </summary>
+        public static void ShowWithLayer(FrameworkElement element, int layerIndex = 0)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                if (Application.Current.MainWindow is IWindowBase window)
+                {
+                    window.ShowWithLayer(element);
                 }
             });
         }
@@ -242,7 +358,7 @@ namespace HeBianGu.General.WpfControlLib
         public static void CloseWithLayer(int layerIndex = 0)
         {
             Application.Current.Dispatcher.Invoke(() =>
-            {  
+            {
                 if (Application.Current.MainWindow is IWindowBase window)
                 {
                     window.CloseWithLayer();
@@ -250,6 +366,9 @@ namespace HeBianGu.General.WpfControlLib
             });
         }
 
+        #endregion
+
+        #region - 气泡消息 -
 
         /// <summary> 显示气泡消息 </summary>
         public static void ShowNotifyMessage(string message, string title = null, NotifyBalloonIcon tipIcon = NotifyBalloonIcon.Info, int timeout = 1000)
@@ -266,13 +385,136 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
-    } 
+        /// <summary> 显示自定义气泡消息 </summary>
+        public static void ShowNotifyDialogMessage(string message, string title = null, int closeTime = -1)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                NotifyDialogWindow.ShowMessage(message, title, closeTime);
+            });
+        }
+
+        #endregion
+
+        #region - 列表消息 -
+
+        static NotifyMessageWindow _notifyMessage;
+
+        /// <summary> 显示自定义气泡消息 </summary>
+        public static void ShowSystemNotifyMessage(MessageBase message)
+        {
+            if (_notifyMessage == null)
+            {
+                _notifyMessage = new NotifyMessageWindow();
+
+                _notifyMessage.Show();
+            }
+
+            _notifyMessage.Source.Add(message);
+        }
+
+        /// <summary> 输出消息、按钮和参数 </summary>
+        public static void ShowWindowNotifyMessage(MessageBase message)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                IWindowBase window = Application.Current.MainWindow as IWindowBase;
+
+                if (window != null)
+                {
+                    window.ShowWindowNotifyMessage(message);
+                }
+            });
+        }
+
+        public static void ShowSystemNotifyMessageWithSuccess(string message)
+        {
+            ShowSystemNotifyMessage(new SuccessMessage
+            {
+                Message = message
+            });
+        }
+
+        public static void ShowSystemNotifyMessageWithInfo(string message)
+        {
+            ShowSystemNotifyMessage(new InfoMessage
+            {
+                Message = message
+            });
+        }
+
+        public static void ShowSystemNotifyMessageWithError(string message)
+        {
+            ShowSystemNotifyMessage(new ErrorMessage
+            {
+                Message = message
+            });
+        }
+
+        public static void ShowSystemNotifyMessageWithWarn(string message)
+        {
+            ShowSystemNotifyMessage(new WarnMessage
+            {
+                Message = message
+            });
+        }
+
+        public static void ShowSystemNotifyMessageWithFatal(string message)
+        {
+            ShowSystemNotifyMessage(new FatalMessage
+            {
+                Message = message
+            });
+        }
+
+        public static void ShowWindowNotifyMessageWithSuccess(string message)
+        {
+            ShowWindowNotifyMessage(new SuccessMessage
+            {
+                Message = message
+            });
+        }
+
+        public static void ShowWindowNotifyMessageWithInfo(string message)
+        {
+            ShowWindowNotifyMessage(new InfoMessage
+            {
+                Message = message
+            });
+        }
+
+        public static void ShowWindowNotifyMessageWithError(string message)
+        {
+            ShowWindowNotifyMessage(new ErrorMessage
+            {
+                Message = message
+            });
+        }
+
+        public static void ShowWindowNotifyMessageWithWarn(string message)
+        {
+            ShowWindowNotifyMessage(new WarnMessage
+            {
+                Message = message
+            });
+        }
+
+        public static void ShowWindowNotifyMessageWithFatal(string message)
+        {
+            ShowWindowNotifyMessage(new FatalMessage
+            {
+                Message = message
+            });
+        }
+
+        #endregion
+    }
 
     public class MessageCloseLayerCommand : ICommand
-    { 
+    {
 
         public bool CanExecute(object parameter)
-        { 
+        {
             return true;
         }
 

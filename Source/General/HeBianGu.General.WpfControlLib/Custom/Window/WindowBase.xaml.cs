@@ -241,10 +241,10 @@ namespace HeBianGu.General.WpfControlLib
         #region - 绑定命令 -
         public ICommand CloseWindowCommand { get; protected set; }
         public ICommand MaximizeWindowCommand { get; protected set; }
-        public ICommand MinimizeWindowCommand { get; protected set; } 
+        public ICommand MinimizeWindowCommand { get; protected set; }
 
 
-        private void CloseCommand_Execute(object sender, ExecutedRoutedEventArgs e)
+        private async void CloseCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             Action<object, DialogClosingEventArgs> action = (l, k) =>
             {
@@ -256,7 +256,9 @@ namespace HeBianGu.General.WpfControlLib
 
             if (Application.Current.MainWindow == this)
             {
-                MessageService.ShowResultMessge("确认要退出系统?", action);
+                string message = LanguageService.Instance.GetMessageByCode("M00001");
+
+                await MessageService.ShowResultMessge(message, action);
             }
             else
             {
@@ -305,15 +307,13 @@ namespace HeBianGu.General.WpfControlLib
             group.Children.Add(skew);
             group.Children.Add(rotate);
             group.Children.Add(translate);
-            this.RenderTransform = group; 
+            this.RenderTransform = group;
 
             this.MaxHeight = SystemParameters.WorkArea.Height + 12 + 2;
             //bind command
             this.CloseWindowCommand = new RoutedUICommand();
             this.MaximizeWindowCommand = new RoutedUICommand();
             this.MinimizeWindowCommand = new RoutedUICommand();
-       
-      
 
             this.BindCommand(CloseWindowCommand, this.CloseCommand_Execute);
             this.BindCommand(MaximizeWindowCommand, this.MaxCommand_Execute);
@@ -330,14 +330,15 @@ namespace HeBianGu.General.WpfControlLib
             // {
             //     this.BegionStoryClose();
             // };
-
         }
+
+
 
         public new bool? ShowDialog()
         {
             this.ShowAnimation?.Invoke(this);
 
-           return base.ShowDialog();
+            return base.ShowDialog();
         }
 
         public new void Show()
@@ -345,8 +346,7 @@ namespace HeBianGu.General.WpfControlLib
             this.ShowAnimation?.Invoke(this);
 
             base.Show();
-             
-        }
 
+        }
     }
 }

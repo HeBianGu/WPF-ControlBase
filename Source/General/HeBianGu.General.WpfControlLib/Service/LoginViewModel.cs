@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.General.WpfControlLib
 {
-   public class LoginViewModel : NotifyPropertyChanged
+    public class LoginViewModel : WindowBaseNotifyPropertyChanged
     {
         private string _loginUseName;
         /// <summary> 说明  </summary>
@@ -49,7 +49,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
 
-        private string _loginMessage="登录";
+        private string _loginMessage = "登录";
         /// <summary> 说明  </summary>
         public string LoginMessage
         {
@@ -87,7 +87,7 @@ namespace HeBianGu.General.WpfControlLib
 
 
 
-        private bool _isEnbled=true;
+        private bool _isEnbled = true;
         /// <summary> 说明  </summary>
         public bool IsEnbled
         {
@@ -101,4 +101,7 @@ namespace HeBianGu.General.WpfControlLib
 
 
     }
+
+
+
 }

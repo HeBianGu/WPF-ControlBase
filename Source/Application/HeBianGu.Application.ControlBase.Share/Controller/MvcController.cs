@@ -16,7 +16,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
     {
         public async Task<IActionResult> MvcCenter()
         {
-            return View();
+            return await ViewAsync();
         }
     }
 }

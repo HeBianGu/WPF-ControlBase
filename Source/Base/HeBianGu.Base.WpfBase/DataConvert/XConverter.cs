@@ -161,7 +161,38 @@ namespace HeBianGu.Base.WpfBase
         }
 
 
-        
+        public static CircleProgressBarConverter CircleProgressBarConverter
+        {
+            get { return new CircleProgressBarConverter(); }
+        }
+
+        public static DoubleRoundConverter DoubleRoundConverter
+        {
+            get { return new DoubleRoundConverter(); }
+        }
+
+        public static OpacityProgressBarConverter OpacityProgressBarConverter
+        {
+            get { return new OpacityProgressBarConverter(); }
+        }
+
+
+        public static MultiComboboxSelectConverter MultiComboboxSelectConverter
+        {
+            get { return new MultiComboboxSelectConverter(); }
+        }
+
+        public static VisibilityContainWithOutStringConverter VisibilityContainWithOutStringConverter
+        {
+            get { return new VisibilityContainWithOutStringConverter(); }
+        }
+        public static VisibilityContainWithStringConverter VisibilityContainWithStringConverter
+        {
+            get { return new VisibilityContainWithStringConverter(); }
+        }
+
+
+
 
         //public static SelectTextConverter SelectTextConverter
         //{

@@ -27,9 +27,9 @@ namespace HeBianGu.General.WpfControlLib
             {
                 MessageService.ShowSnackMessageWithNotice("窗口即将隐藏至右下角，双击右下角图标显示窗口");
 
-                this._notifyIcon.ShowBalloonTip(1000, "sssss", "sssss", NotifyBalloonIcon.Info);
+                this._notifyIcon.ShowBalloonTip(1000, "提示！", "窗口即将隐藏至右下角，双击右下角图标显示窗口", NotifyBalloonIcon.Info);
 
-                Task.Delay(1000).ContinueWith(t =>
+                Task.Delay(100).ContinueWith(t =>
                 {
                     this.Dispatcher.Invoke(() =>
                     {
@@ -131,11 +131,11 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 用于重写关闭到那个花 </summary>
         public virtual void BegionStoryClose()
         {
-            if (this._notifyIcon == null) return;
-
-            this._notifyIcon.Visibility = Visibility.Collapsed;
-            this._notifyIcon.Dispose();
-
+            if (this._notifyIcon != null)
+            {
+                this._notifyIcon.Visibility = Visibility.Collapsed;
+                this._notifyIcon.Dispose();
+            }
             this.CloseDownToUpOps();
 
         }
@@ -145,9 +145,9 @@ namespace HeBianGu.General.WpfControlLib
     [TemplatePart(Name = "PART_SettingFrame", Type = typeof(ModernFrame))]
     [TemplatePart(Name = "PART_NotifyIcon", Type = typeof(NotifyIcon))]
     [TemplatePart(Name = "PART_LinkActionFrame", Type = typeof(LinkActionFrame))]
-
     [TemplatePart(Name = "PART_SwtichTransitioner", Type = typeof(SwtichTransitioner))]
-    
+    [TemplatePart(Name = "PART_Message", Type = typeof(MessageContainer))]
+
     partial class MainWindowBase : IWindowBase
     {
         Snackbar _snackbar;
@@ -155,6 +155,8 @@ namespace HeBianGu.General.WpfControlLib
         NotifyIcon _notifyIcon;
         LinkActionFrame _linkActionFrame;
         SwtichTransitioner _swtichTransitioner;
+
+        MessageContainer _messageContainer;
 
         public override void OnApplyTemplate()
         {
@@ -164,19 +166,17 @@ namespace HeBianGu.General.WpfControlLib
             this._snackbar = Template.FindName("PART_SnackBar", this) as Snackbar;
             this._settingFrame = Template.FindName("PART_SettingFrame", this) as ModernFrame;
             this._notifyIcon = Template.FindName("PART_NotifyIcon", this) as NotifyIcon;
-            this._linkActionFrame= Template.FindName("PART_LinkActionFrame", this) as LinkActionFrame;
+            this._linkActionFrame = Template.FindName("PART_LinkActionFrame", this) as LinkActionFrame;
             this._swtichTransitioner = Template.FindName("PART_SwtichTransitioner", this) as SwtichTransitioner;
+            this._messageContainer = Template.FindName("PART_Message", this) as MessageContainer;
 
             if (this._notifyIcon != null)
             {
                 this._notifyIcon.MouseDoubleClick += (l, k) =>
                 {
                     this.ShowWindow = !this.ShowWindow;
-
                 };
-
             }
-
         }
         /// <summary> 输出消息 </summary>
         public void AddSnackMessage(string message)
@@ -223,14 +223,42 @@ namespace HeBianGu.General.WpfControlLib
             this._swtichTransitioner.CurrentContent = link.View;
             this._swtichTransitioner.Visibility = Visibility.Visible;
         }
-         
+
+        public void ShowWithLayer(FrameworkElement element, int layerIndex = 0)
+        {
+            if(this._swtichTransitioner.CurrentContent == element)
+            {
+                this._swtichTransitioner.CurrentContent = new FButton();
+                this._swtichTransitioner.CurrentContent = element;
+            }
+            else
+            {
+                this._swtichTransitioner.CurrentContent = element;
+            }
+            
+            this._swtichTransitioner.Visibility = Visibility.Visible;
+
+            var story = DoubleStoryboardEngine.Create(0, 1, 0.3, "Opacity");
+            story.Start(this._swtichTransitioner);
+            story.Dispose();
+
+        }
+
 
         public void CloseWithLayer(int layerIndex = 0)
         {
-            this._settingFrame.Visibility = Visibility.Collapsed;
-            this._linkActionFrame.Visibility = Visibility.Collapsed;
-            this._swtichTransitioner.Visibility = Visibility.Collapsed;
+            var story = DoubleStoryboardEngine.Create(1, 0, 0.2, "Opacity");
 
+            story.CompletedEvent += (l, k) =>
+            {
+                this._settingFrame.Visibility = Visibility.Collapsed;
+                this._linkActionFrame.Visibility = Visibility.Collapsed;
+                this._swtichTransitioner.Visibility = Visibility.Collapsed;
+
+                story.Dispose();
+            };
+
+            story.Start(this._swtichTransitioner);
 
         }
 
@@ -240,6 +268,15 @@ namespace HeBianGu.General.WpfControlLib
             this.Dispatcher.Invoke(() =>
             {
                 _notifyIcon.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon);
+
+            });
+        }
+
+        public void ShowWindowNotifyMessage(MessageBase message)
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                _messageContainer.Source.Add(message);
 
             });
         }
@@ -261,15 +298,18 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 显示蒙版 </summary>
         void ShowWithLayer(Uri uri, int layerIndex = 0);
 
-
         void ShowWithLayer(IActionResult link, int layerIndex = 0);
+
+        void ShowWithLayer(FrameworkElement element, int layerIndex = 0);
 
         /// <summary> 关闭蒙版 </summary>
         void CloseWithLayer(int layerIndex = 0);
 
-
         /// <summary> 显示气泡消息 </summary>
         void ShowNotifyMessage(string tipTitle, string tipText, NotifyBalloonIcon tipIcon = NotifyBalloonIcon.Info, int timeout = 1000);
+
+        /// <summary> 显示气泡消息 </summary>
+        void ShowWindowNotifyMessage(MessageBase message);
 
     }
 

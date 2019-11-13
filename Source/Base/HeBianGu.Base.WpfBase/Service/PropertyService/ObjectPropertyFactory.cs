@@ -9,6 +9,7 @@ namespace HeBianGu.Base.WpfBase
 {
     public class ObjectPropertyFactory
     {
+        /// <summary> 根据属性创建实体类型 </summary>
         public static ObjectPropertyItem Create(PropertyInfo info, object obj)
         {
             if (info.PropertyType == typeof(int))
@@ -35,6 +36,7 @@ namespace HeBianGu.Base.WpfBase
             return null;
         }
 
+        /// <summary> 模型有效信息验证 </summary>
         public static List<string> ModelState(object obj)
         {
             List<string> results = new List<string>();

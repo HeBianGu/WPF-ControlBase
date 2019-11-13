@@ -67,6 +67,24 @@
                 <ListBox ItemsSource="{Binding RunLogs}"/>
             </TabItem>
             <TabItem Header="错误列表" MinWidth="100">
+                <TabItem.Resources>
+                    <DataTemplate DataType="{x:Type mvc:Log}">
+                        <Grid IsHitTestVisible="False">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Text="{Binding Flag}" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Style="{DynamicResource FIcon}" Foreground="{DynamicResource S.Brush.Red.Notice}"/>
+                            <TextBlock Text="{Binding Time}"  VerticalAlignment="Center"  Grid.Column="1"/>
+                            <TextBlock Text="{Binding Title}"  VerticalAlignment="Center"  Grid.Column="2"/>
+                            <TextBlock Text="{Binding Message}"  VerticalAlignment="Center"  Grid.Column="3"/>
+
+                        </Grid>
+                    </DataTemplate>
+                </TabItem.Resources>
                 <ListBox ItemsSource="{Binding ErrorLogs}"/>
             </TabItem>
             <TabItem Header="输出" MinWidth="100">

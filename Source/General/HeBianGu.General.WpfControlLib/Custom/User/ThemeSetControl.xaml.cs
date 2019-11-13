@@ -79,8 +79,11 @@ namespace HeBianGu.General.WpfControlLib
         private string selectedPalette = PaletteWP;
 
         private Color selectedAccentColor;
+
         private ObservableCollection<ColorLink> themes = new ObservableCollection<ColorLink>();
+
         private Link selectedTheme;
+
         private string selectedFontSize;
 
         public SettingsAppearanceViewModel()
@@ -90,12 +93,6 @@ namespace HeBianGu.General.WpfControlLib
             this.themes.Add(new ColorLink { DisplayName = "Dark", Source = ThemeService.DarkThemeSource, Color = Brushes.Black, Text = Brushes.White });
             this.themes.Add(new ColorLink { DisplayName = "Gray", Source = ThemeService.GrayThemeSource, Color = Brushes.Gray, Text = Brushes.White });
             this.themes.Add(new ColorLink { DisplayName = "Accent", Source = ThemeService.AccentThemeSource, Color = Brushes.White, Text = Brushes.Black });
-
-
-            //this.themes.Add(new Link { DisplayName = "bing image", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.BingImage.xaml", UriKind.Relative) });
-            //this.themes.Add(new Link { DisplayName = "hello kitty", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.HelloKitty.xaml", UriKind.Relative) });
-            //this.themes.Add(new Link { DisplayName = "love", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.Love.xaml", UriKind.Relative) });
-            //this.themes.Add(new Link { DisplayName = "snowflakes", Source = new Uri("/ModernUIDemo;component/Assets/ModernUI.Snowflakes.xaml", UriKind.Relative) });
 
             this.SelectedFontSize = ThemeService.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
 
@@ -107,11 +104,8 @@ namespace HeBianGu.General.WpfControlLib
 
         private void SyncThemeAndColor()
         {
-            // synchronizes the selected viewmodel theme with the actual theme used by the appearance manager.
             this.SelectedTheme = this.themes.FirstOrDefault(l => l.Source.Equals(ThemeService.Current.ThemeSource));
 
-            //this.SelectedTheme = this.themes.FirstOrDefault();
-            // and make sure accent color is up-to-date
             this.SelectedAccentColor = ThemeService.Current.AccentColor;
         }
 

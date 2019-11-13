@@ -17,21 +17,17 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
     /// <summary>
     /// App.xaml 的交互逻辑
     /// </summary>
-    public partial class App : Application
+    public partial class App : ApplicationBase
     {
-
         protected override void OnStartup(StartupEventArgs e)
-        {
-            ServiceRegistry.Instance.UseMvc();
-
-            //  Do：设置默认主题
-            ThemeService.Current.AccentColor =Color.FromRgb(0x1b, 0xa1, 0xe2);
-
-            ThemeService.Current.StartAnimationTheme(1000 * 30);
+        { 
+            base.OnStartup(e);
 
             MainWindow shellWindow = new MainWindow();
 
             LoginWindow loginWindow = new LoginWindow();
+
+            loginWindow.Title = this.GetWpfControlLibVersonInfo();
 
             var result = loginWindow.ShowDialog();
 
@@ -44,35 +40,46 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 shellWindow.Close();
             }
 
-            base.OnStartup(e);
+      
+
         }
 
-        protected override void OnExit(ExitEventArgs e)
+        protected override void ConfigureServices(IServiceCollection services)
         {
-            base.OnExit(e);
+            //  Do：注册Mvc模式
+            services.UseMvc();
+
+            //  Do ：注册本地化配置读写服务
+            services.AddSingleton<IThemeLocalizeService, AssemblyDomain>();
+
+            ////  Do ：注册日志服务
+            //services.AddSingleton<ILogService, AssemblyDomain>();
+
+
         }
 
-
-        public App()
+        protected override void Configure(IApplicationBuilder app)
         {
-            DispatcherUnhandledException += App_DispatcherUnhandledException;
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            //  Do：设置默认主题
+            app.UseLocalTheme(l =>
+            {
+                l.AccentColor = Color.FromRgb(0x64, 0x76, 0x87);
+                l.SmallFontSize = 15D;
+                l.LargeFontSize = 18D;
+                l.FontSize = FontSize.Small;
+
+                l.ItemHeight = 35;
+                //l.ItemWidth = 120;
+                l.ItemCornerRadius = new CornerRadius(17.5);
+
+                l.AnimalSpeed = 1000;
+                l.AccentColorSelectType = 0;
+                l.IsUseAnimal=true;
+
+                l.ThemeType = ThemeType.Dark;
+
+                l.Language = Language.Chinese;
+            });
         }
-
-        void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
-        {
-            Current.Dispatcher.Invoke(() => MessageWindow.ShowSumit(e.Exception.Message, "系统异常",5));
-
-            e.Handled = true;
-        }
-
-
-        void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Exception error = (Exception)e.ExceptionObject;
-
-            Current.Dispatcher.Invoke(() => MessageBox.Show("当前应用程序遇到一些问题，该操作已经终止，请进行重试，如果问题继续存在，请联系管理员", "意外的操作"));
-        }
-
     }
 }

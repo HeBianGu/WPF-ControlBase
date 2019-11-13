@@ -37,6 +37,14 @@ namespace HeBianGu.General.WpfControlLib
             set { SetValue(PressedForegroundProperty, value); }
         }
 
+        public static readonly DependencyProperty PressedBorderBrushProperty = DependencyProperty.Register("PressedBorderBrush", typeof(Brush), typeof(FButton), new PropertyMetadata(Brushes.Transparent));
+        /// <summary> 鼠标按下边框样式 </summary>
+        public Brush PressedBorderBrush
+        {
+            get { return (Brush)GetValue(PressedBorderBrushProperty); }
+            set { SetValue(PressedBorderBrushProperty, value); }
+        } 
+
         public static readonly DependencyProperty MouseOverBackgroundProperty =
             DependencyProperty.Register("MouseOverBackground", typeof(Brush), typeof(FButton), new PropertyMetadata(Brushes.RoyalBlue));
         /// <summary> 鼠标进入背景样式 </summary>
@@ -53,6 +61,15 @@ namespace HeBianGu.General.WpfControlLib
         {
             get { return (Brush)GetValue(MouseOverForegroundProperty); }
             set { SetValue(MouseOverForegroundProperty, value); }
+        }
+
+        public static readonly DependencyProperty MouseOverBorderBrushProperty =
+    DependencyProperty.Register("MouseOverBorderBrush", typeof(Brush), typeof(FButton), new PropertyMetadata(Brushes.Transparent));
+        /// <summary> 鼠标进入边框样式 </summary>
+        public Brush MouseOverBorderBrush
+        {
+            get { return (Brush)GetValue(MouseOverBorderBrushProperty); }
+            set { SetValue(MouseOverBorderBrushProperty, value); }
         }
 
         public static readonly DependencyProperty FIconProperty =

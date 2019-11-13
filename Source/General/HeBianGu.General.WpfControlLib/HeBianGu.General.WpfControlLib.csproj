@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
@@ -62,6 +63,9 @@
     <Compile Include="Custom\Control\Book\PageStatus.cs" />
     <Compile Include="Custom\Control\DateDisplay.xaml.cs">
       <DependentUpon>DateDisplay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Control\Row.xaml.cs">
+      <DependentUpon>Row.xaml</DependentUpon>
     </Compile>
     <Compile Include="Custom\Control\Gif\ExternDllHelper.cs" />
     <Compile Include="Custom\Control\Gif\GifImage.cs" />
@@ -184,6 +188,9 @@
     <Compile Include="Custom\Control\Mvc\MvcNavigationBar.xaml.cs">
       <DependentUpon>MvcNavigationBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Custom\Control\MessageContainer.xaml.cs">
+      <DependentUpon>MessageContainer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Custom\Control\PreviewSlider.xaml.cs">
       <DependentUpon>PreviewSlider.xaml</DependentUpon>
     </Compile>
@@ -193,6 +200,7 @@
     <Compile Include="Custom\Control\Sprocket.xaml.cs">
       <DependentUpon>Sprocket.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Custom\Control\Transitioner\ITransitionWipe\SlideOutScale.cs" />
     <Compile Include="Custom\Control\WaveProgressBar.xaml.cs">
       <DependentUpon>WaveProgressBar.xaml</DependentUpon>
     </Compile>
@@ -282,11 +290,23 @@
     <Compile Include="Custom\Control\Transitioner\ITransitionWipe\TransitionerSlideState.cs" />
     <Compile Include="Custom\Control\Transitioner\TransitioningContent.cs" />
     <Compile Include="Custom\Control\Transitioner\TransitioningContentBase.cs" />
+    <Compile Include="Custom\Window\NotifyMessageWindow.xaml.cs">
+      <DependentUpon>NotifyMessageWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Custom\Window\NotifyWindow.cs" />
+    <Compile Include="Custom\Window\NotifyDialogWindow.xaml.cs">
+      <DependentUpon>NotifyDialogWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Provider\CalendarDateCoalesceConverter.cs" />
+    <Compile Include="Provider\Command\MessageLayerCloseCommand.cs" />
+    <Compile Include="Provider\Command\CommandService.cs" />
     <Compile Include="Provider\CustomPopupPlacementCallbackHelper.cs" />
+    <Compile Include="Provider\GridAttachProperty.cs" />
+    <Compile Include="Service\ApplicationBase.cs" />
     <Compile Include="Service\LoginViewModel.cs" />
     <Compile Include="Service\MessageService.cs" />
     <Compile Include="Service\LinkAction.cs" />
+    <Compile Include="Service\WindowBaseNotifyPropertyChanged.cs" />
     <Compile Include="Service\WindowLinkViewModel.cs" />
     <Compile Include="Custom\User\BufferPlayControl.xaml.cs">
       <DependentUpon>BufferPlayControl.xaml</DependentUpon>
@@ -529,6 +549,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Custom\Control\Row.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Custom\Control\FGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -550,6 +574,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Custom\Control\Mvc\MvcNavigationBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Custom\Control\MessageContainer.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -637,7 +665,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Custom\System\Boder.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Custom\System\Label.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Custom\System\PasswordBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -789,6 +825,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Custom\Window\NotifyMessageWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Custom\Window\NotifyDialogWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Properties\DesignTimeResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -908,12 +952,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Base\HeBianGu.Base.WpfBase\HeBianGu.Base.WpfBase.csproj">
-      <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
-      <Name>HeBianGu.Base.WpfBase</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Provider\Effect\Blend.fx" />
     <Resource Include="Provider\Effect\PointLight.fx" />
   </ItemGroup>
@@ -994,6 +1032,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Applications Internet Explorer.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Base\HeBianGu.Base.WpfBase\HeBianGu.Base.WpfBase.csproj">
+      <Project>{435feb82-599f-48e3-8891-755acf8e4117}</Project>
+      <Name>HeBianGu.Base.WpfBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

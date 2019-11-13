@@ -25,6 +25,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout
             InitializeComponent();
         }
 
+
+    
+
         private void AutoNextClick(object sender, RoutedEventArgs e)
         {
             myBook.AnimateToNextPage(cbFromTop.SelectedIndex == 0, 700);
