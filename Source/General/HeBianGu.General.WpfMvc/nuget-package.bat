@@ -1,6 +1,6 @@
 cd  %~dp0
 
-nuget spec -force
+nuget spec
 
 nuget pack -force
 
