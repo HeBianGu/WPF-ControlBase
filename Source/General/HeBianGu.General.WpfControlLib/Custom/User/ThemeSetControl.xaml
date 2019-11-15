@@ -14,9 +14,7 @@
 
                 <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=SetScene,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Margin="0,0,0,8" />
 
-                <ListBox ItemsSource="{Binding AccentColors}"
-                         SelectedItem="{Binding SelectedAccentColor, Mode=TwoWay}"
-                         Margin="0,0,0,16">
+                <ListBox ItemsSource="{Binding AccentColors}"  SelectedItem="{Binding SelectedAccentColor, Mode=TwoWay}" Margin="0,0,0,16">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=Panel}" />
@@ -24,11 +22,25 @@
                     </ListBox.ItemsPanel>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Rectangle Width="40" Height="40" Margin="2" >
-                                <Rectangle.Fill>
-                                    <SolidColorBrush x:Name="Brush" Color="{Binding}" />
-                                </Rectangle.Fill>
-                            </Rectangle>
+                            <Grid>
+                                <Rectangle Width="40" Height="40" Margin="2" >
+                                    <Rectangle.Fill>
+                                        <SolidColorBrush x:Name="Brush" Color="{Binding}" />
+                                    </Rectangle.Fill>
+                                </Rectangle>
+
+                                <TextBlock Style="{DynamicResource FIcon}" x:Name="flag" Text="&#xe858;" Visibility="Collapsed"/>
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="true">
+                                    <Setter Property="Visibility" Value="Visible" TargetName="flag"/>
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsMouseOver}" Value="true">
+                                    <Setter Property="Visibility" Value="Visible" TargetName="flag"/>
+                                    <Setter Property="Opacity" Value="0.6" TargetName="flag"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
