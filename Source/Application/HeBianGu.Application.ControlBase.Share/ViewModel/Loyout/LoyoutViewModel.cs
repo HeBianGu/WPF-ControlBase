@@ -96,7 +96,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                         {
                             l.Value = i;
 
-                            Thread.Sleep(50);
+                            Thread.Sleep(10);
                         }
 
                         Thread.Sleep(1000);
@@ -115,7 +115,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                     {
                         l.MessageStr = $"正在提交当前页第{i}份数据,共100份";
 
-                        Thread.Sleep(50);
+                        Thread.Sleep(10);
                     }
 
                     Thread.Sleep(1000);

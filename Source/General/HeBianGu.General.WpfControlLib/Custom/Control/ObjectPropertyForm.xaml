@@ -6,7 +6,7 @@
 
     <DataTemplate DataType="{x:Type base:StringPropertyItem}">
         <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" 
-              Height="35" Margin="5,0" Visibility="{Binding Visibility}">
+              Height="{DynamicResource S.Window.Row.Height}" Margin="5,0" Visibility="{Binding Visibility}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -19,13 +19,12 @@
                        VerticalAlignment="Center"/>
 
             <TextBlock Text="{Binding Flag}" 
-                       Grid.Column="1" Margin="5,0"
-                       FontSize="14"  Foreground="{DynamicResource S.Brush.Red.Notice}" 
+                       Grid.Column="1" Margin="5,0" Foreground="{DynamicResource S.Brush.Red.Notice}" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center"/>
 
             <local:FTextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" 
-                            Style="{DynamicResource S.FTextBox.Default}"  Width="Auto" CaretBrush="Black" IsEnabled="{Binding ReadOnly}"
+                            Style="{DynamicResource S.FTextBox.Default}"  Width="Auto"  IsEnabled="{Binding ReadOnly}"
                      Grid.Column="2" Height="30" base:ControlAttachProperty.FIcon=""
                      VerticalContentAlignment="Center" 
                      HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
@@ -40,7 +39,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type base:BoolPropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="35" Margin="5,0">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -71,7 +70,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type base:DateTimePropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="35" Margin="5,0">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -102,7 +101,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type base:IntPropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="35" Margin="5,0">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -133,7 +132,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type base:DoublePropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="35" Margin="5,0">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -163,7 +162,7 @@
         </Grid>
     </DataTemplate>
 
-    <Style TargetType="local:ObjectPropertyForm">
+    <Style x:Key="S.ObjectPropertyForm.Default" TargetType="local:ObjectPropertyForm">
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackgroud.Default}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <!--<Setter Property="BorderBrush" Value="{x:Null}"/>-->
@@ -213,5 +212,31 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="S.ObjectPropertyForm.Single" TargetType="local:ObjectPropertyForm" BasedOn="{StaticResource S.ObjectPropertyForm.Default}">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ObjectPropertyForm">
+                    <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <ItemsPresenter/>
+                            <ContentPresenter Grid.Row="1" Content="{TemplateBinding BottomContent}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource S.ObjectPropertyForm.Default}" TargetType="local:ObjectPropertyForm"/>
 
 </ResourceDictionary>

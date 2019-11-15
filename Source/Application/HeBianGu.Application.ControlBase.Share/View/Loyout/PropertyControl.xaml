@@ -9,22 +9,76 @@
              xmlns:local1="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow.View.Mvc"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
-    <Grid>
-        <Grid.Resources>
+    <ScrollViewer> 
+    <StackPanel>
+            <StackPanel.Resources>
             <local1:Student x:Key="S.Student.HeBianGu" 
                        Name="河边骨" 
                        Address="四川省成都市高新区" 
                        Class="四年级" 
                        Emall="7777777777@QQ.com" Age="33" Score="99.99" IsEnbled="True" time="2019-09-09"/>
-        </Grid.Resources>
-        <Viewbox Width="1100">
-            <wpfcontrollib:ObjectPropertyForm Grid.Row="1" Title="学生信息"  SelectObject="{StaticResource S.Student.HeBianGu}" >
-                <base:Interaction.Behaviors>
-                    <base:MouseDragElementBehavior ConstrainToParentBounds="True"/>
-                    <base:SelectZIndexElementBehavior/>
-                </base:Interaction.Behaviors> 
-            </wpfcontrollib:ObjectPropertyForm>
-        </Viewbox>
-    </Grid>
+        </StackPanel.Resources>
+            <GroupBox Header="S.ObjectPropertyForm.Default">
+            <Viewbox Width="600">
+                <wpfcontrollib:ObjectPropertyForm Grid.Row="1" Title="学生信息"  SelectObject="{StaticResource S.Student.HeBianGu}" >
+                    <base:Interaction.Behaviors>
+                        <base:MouseDragElementBehavior ConstrainToParentBounds="True"/>
+                        <base:SelectZIndexElementBehavior/>
+                    </base:Interaction.Behaviors>
+                </wpfcontrollib:ObjectPropertyForm>
+            </Viewbox>
+        </GroupBox>
+        
+            <GroupBox Header="S.ObjectPropertyForm.Single">
+                <Viewbox Width="600">
+                    <wpfcontrollib:ObjectPropertyForm Grid.Row="1" Title="学生信息" Style="{DynamicResource S.ObjectPropertyForm.Single}"  SelectObject="{StaticResource S.Student.HeBianGu}"/>
+                </Viewbox>
+        </GroupBox>
+
+            <GroupBox Header="S.ObjectPropertyForm.Single 自定义子项样式">
+                <Viewbox Width="600">
+
+                    <wpfcontrollib:ObjectPropertyForm Grid.Row="1" Title="学生信息"  SelectObject="{StaticResource S.Student.HeBianGu}" >
+                        <wpfcontrollib:ObjectPropertyForm.Resources>
+                            <DataTemplate DataType="{x:Type base:StringPropertyItem}">
+                                <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=wpfcontrollib:ObjectPropertyForm},Path=Width-5}" 
+              Height="35" Margin="5,0" Visibility="{Binding Visibility}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="30"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Text="{Binding Name}"  Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"/>
+
+                                    <TextBlock Text="{Binding Flag}" 
+                       Grid.Column="1" Margin="5,0"
+                       FontSize="14"  Foreground="{DynamicResource S.Brush.Red.Notice}" 
+                       HorizontalAlignment="Right" 
+                       VerticalAlignment="Center"/>
+
+                                    <wpfcontrollib:FTextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" 
+                            Style="{DynamicResource S.FTextBox.UnderLine.Clear}"  Width="Auto" IsEnabled="{Binding ReadOnly}"
+                     Grid.Column="2" Height="30" base:ControlAttachProperty.FIcon=""
+                     VerticalContentAlignment="Center" 
+                     HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+
+                                    <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource FIcon }"
+                       Foreground="{DynamicResource S.Brush.Red.Notice}" 
+                       Visibility="{Binding Message,Converter={x:Static base:XConverter.VisibilityWithOutStringConverter},ConverterParameter={x:Null},Mode=TwoWay}"
+                       FontSize="14" TextTrimming="CharacterEllipsis" ToolTip="{Binding Message}"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </wpfcontrollib:ObjectPropertyForm.Resources>
+                    </wpfcontrollib:ObjectPropertyForm>
+                </Viewbox>
+            </GroupBox>
+        </StackPanel>
+
+    </ScrollViewer>
 </UserControl>

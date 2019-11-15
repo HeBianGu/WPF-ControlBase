@@ -85,10 +85,12 @@ namespace HeBianGu.Base.WpfBase
 
         public ObjectPropertyItem(PropertyInfo property, object obj) : base(property, obj)
         {
-        
+
+            var required  = property.GetCustomAttributes<RequiredAttribute>()?.ToList();
+
             Validations = property.GetCustomAttributes<ValidationAttribute>()?.ToList();
 
-            if(Validations!=null&& Validations.Count>0)
+            if (required != null&& required.Count>0)
             {
                 this.Flag = "*";
             }
