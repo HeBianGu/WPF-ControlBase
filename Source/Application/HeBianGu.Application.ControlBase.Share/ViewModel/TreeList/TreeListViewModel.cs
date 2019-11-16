@@ -449,9 +449,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 await MessageService.ShowWaittingMessge(() =>
                 {
                     //  Do：加载TreeList数据源
-                    string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data.json");
+                    string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "data.json");
 
-                    string txt = System.IO.File.ReadAllText(url, Encoding.Default);
+                    string txt = System.IO.File.ReadAllText(url, Encoding.UTF8);
 
                     var collecion = JsonConvert.DeserializeObject<List<TreeNodeEntity>>(txt);
 
@@ -462,12 +462,14 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                     //Random random = new Random();
 
+                    //string ss = "一场刀尖上的舞蹈何必纠结何处看秋童年拾柴火的乐趣不食烟火的爱情食尽烟火的婚姻浅淡芦花野果的滋养书的魅力我们虽然有梦想要做自己喜欢的事情但也要学会放弃我可能不会对你负责聆听甜蜜的报复想像另一个自己一个人的坚持世事易被时光抛情留心底不再道深浅最佳距离的镜子最好现实的窗子漂亮的猫暖暖的冬阳花自飘零水自流浓浓川粤情小城故事重庆印象读戏从生活中提炼的艺术美神猫故事含笑对浮生岁之前买车买房娶媳妇寻找自己每一种你的路值得你打磨光每个致力于写作的人都需要干的两件事斯蒂芬做一个安静的人秋日私语记忆不能取暖只会让人消沉贵帽山光阴的故事喜鹊声声落月人间需要爱青年一个人的现实有一个人的理想一个理想一个世界竹的心声归宿奶的丫丫农民艺术家的杰作观文友拍摄向巷村美图随想俗人既见君子云胡不喜浮生散心公交车的变迁窗户外面的植物";
+
                     //var arr = ss.ToArray();
 
                     //foreach (var item in collecion)
                     //{
                     //    item.Name = string.Empty;
-                    //    for (int i = 0; i < random.Next(5,15); i++)
+                    //    for (int i = 0; i < random.Next(5, 15); i++)
                     //    {
                     //        item.Name += arr[random.Next(ss.Length)].ToString();
                     //    }
@@ -476,7 +478,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                     //string ss2 = JsonConvert.SerializeObject(collecion);
 
 
-                    //File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data2.json"),ss2);
+                    //File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data2.json"), ss2);
                 });
 
                 MessageService.ShowSnackMessageWithNotice("加载完成！");
