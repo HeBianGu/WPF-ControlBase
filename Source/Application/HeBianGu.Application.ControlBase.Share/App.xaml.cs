@@ -72,7 +72,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 //l.ItemWidth = 120;
                 l.ItemCornerRadius = new CornerRadius(17.5);
 
-                l.AnimalSpeed = 1000;
+                l.AnimalSpeed = 5000;
                 l.AccentColorSelectType = 0;
                 l.IsUseAnimal=true;
 

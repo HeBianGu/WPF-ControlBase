@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
@@ -80,9 +81,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         public List<TreeNodeEntity> GetTreeListData()
         {
-            string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "data.json");
+            string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "data.json");
 
-            string txt = System.IO.File.ReadAllText(url, Encoding.Default);
+            string txt = System.IO.File.ReadAllText(url, Encoding.UTF8);
 
             return JsonConvert.DeserializeObject<List<TreeNodeEntity>>(txt);
         }
