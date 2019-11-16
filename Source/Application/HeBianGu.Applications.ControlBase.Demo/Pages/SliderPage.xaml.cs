@@ -97,7 +97,7 @@ namespace WpfControlDemo.View
 
                         bool result = false;
 
-                        Application.Current.Dispatcher.Invoke(() =>
+                        Application.Current?.Dispatcher.Invoke(() =>
                         {
                             result = this.btn_play.Content.ToString() == "暂停";
                         });
@@ -123,7 +123,7 @@ namespace WpfControlDemo.View
                 {
                     Thread.Sleep(100);
 
-                    Application.Current.Dispatcher.Invoke(() =>
+                    Application.Current?.Dispatcher.Invoke(() =>
                     {
                         this.control_bufferPlay.BufferValue = bufferPlayEngine.GetBufferSize((int)this.control_bufferPlay.Value);
                     });
