@@ -10,24 +10,26 @@
         CaptionForeground="{DynamicResource S.Brush.TextForeground.White}"
         Style="{DynamicResource S.Window.Dialog.Default}" Height="300" Width="600">
 
-    <Grid TextBlock.FontSize="18" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.White}">
+    <Grid TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.White}">
         <Grid.RowDefinitions>
             <RowDefinition Height="1.5*"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
         <StackPanel>
-            
+
             <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:DownLoadWindow},Path=TitleMessage}" FontSize="25" Margin="10" HorizontalAlignment="Center"/>
 
-            <ItemsControl HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:DownLoadWindow},Path=Message}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel IsItemsHost="True"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-            
+            <ScrollViewer Height="100" VerticalScrollBarVisibility="Auto">
+                <ItemsControl TextBlock.FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:DownLoadWindow},Path=Message}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+
         </StackPanel>
 
         <Border Background="{DynamicResource S.Brush.TextBackground.Default}" Grid.Row="1" Margin="-3" CornerRadius="0,0,4,4"/>
@@ -38,13 +40,13 @@
 
         <TextBlock  Grid.Row="1" VerticalAlignment="Bottom" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
                     Text="{Binding RelativeSource={RelativeSource AncestorType=local:DownLoadWindow},Path=Log}"
-                  Margin="15,10" HorizontalAlignment="Right"> 
+                  Margin="15,10" HorizontalAlignment="Right">
             <TextBlock.Triggers>
                 <EventTrigger RoutedEvent="Loaded">
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetProperty="Opacity"  BeginTime="00:00:00" 
-                                     From="1" To="0" 
+                                     From="1" To="0.3" 
                                      Duration="00:00:01" 
                                      AutoReverse="True"   
                                      RepeatBehavior="Forever"/>

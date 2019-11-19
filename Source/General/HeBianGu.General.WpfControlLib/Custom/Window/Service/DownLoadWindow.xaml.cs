@@ -88,7 +88,7 @@ namespace HeBianGu.General.WpfControlLib
                {
                    this.Dispatcher.Invoke(() =>
                    {
-                       this.Log = $"正在下载...{FormatBytes(long.Parse(current))},共计{FormatBytes(long.Parse(total))}";
+                       this.Log = $"正在下载...{FormatBytes(long.Parse(current)).PadLeft(10,' ')},共计{FormatBytes(long.Parse(total))}";
 
                        this.progress.Value = (int)((double.Parse(current) / double.Parse(total)) * 100);
 

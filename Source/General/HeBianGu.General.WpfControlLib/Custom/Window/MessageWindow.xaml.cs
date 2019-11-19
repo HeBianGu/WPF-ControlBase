@@ -67,7 +67,7 @@ namespace HeBianGu.General.WpfControlLib
                     f.Content = item.Item1;
                     f.Margin = new Thickness(0, 0, 0, 0);
                     //f.Style = f.FindResource("S.FButton.Default") as Style;
-
+                    f.Style = Application.Current.FindResource("S.FButton.Style.Default") as Style;
                     f.Click += (object sender, RoutedEventArgs e) =>
                     {
                         m.CloseAnimation(m);
@@ -152,6 +152,8 @@ namespace HeBianGu.General.WpfControlLib
                     //f.FIcon = "";
                     //f.SetPressed(false);
 
+                    f.Style = Application.Current.FindResource("S.FButton.Style.Default") as Style;
+
                     f.Click += (object sender, RoutedEventArgs e) =>
                     {
                         if (item.Item2 != null)
@@ -213,6 +215,8 @@ namespace HeBianGu.General.WpfControlLib
             //f.Style = f.FindResource("S.FButton.Default") as Style;
 
             //f.Style = myResourceDictionary["FButton_LinkButton"] as Style;
+
+            f.Style = Application.Current.FindResource("S.FButton.Style.Default") as Style;
 
             f.Click += (object sender, RoutedEventArgs e) =>
             {

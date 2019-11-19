@@ -37,11 +37,21 @@ namespace HeBianGu.General.WpfControlLib
 
         protected override void OnExit(ExitEventArgs e)
         {
-            this.IApplicationBuilder.SaveLocalTheme();
+            try
+            {
+                this.IApplicationBuilder.SaveLocalTheme();
 
-            this.ILogger?.Info("系统退出");
-
-            base.OnExit(e);
+                this.ILogger?.Info("系统退出");
+            }
+            catch (Exception ex)
+            {
+                this.ILogger?.Error(ex);
+            }
+            finally
+            {
+                base.OnExit(e);
+            }
+           
         }
 
 
@@ -85,8 +95,8 @@ namespace HeBianGu.General.WpfControlLib
 
         protected abstract void Configure(IApplicationBuilder app);
 
-        public ILogService ILogger 
-        { 
+        public ILogService ILogger
+        {
             get
             {
                 return ServiceRegistry.Instance.GetInstance<ILogService>();
@@ -108,7 +118,7 @@ namespace HeBianGu.General.WpfControlLib
                 return ServiceRegistry.Instance.GetInstance<IServiceCollection>();
             }
         }
-        
+
     }
 
 }
