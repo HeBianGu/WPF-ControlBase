@@ -40,7 +40,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 shellWindow.Close();
             }
 
-      
+
 
         }
 

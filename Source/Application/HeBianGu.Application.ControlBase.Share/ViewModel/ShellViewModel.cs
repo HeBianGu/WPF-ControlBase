@@ -101,6 +101,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                     this.LoginUseName = result.LoginUseName;
 
                 }
+
+                //this.CurrentLink = this.TabLinks.FirstOrDefault();
             }
         }
     }

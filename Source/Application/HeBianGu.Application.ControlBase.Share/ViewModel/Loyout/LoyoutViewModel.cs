@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
@@ -53,7 +54,18 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             }
         }
 
-        
+
+        private StoryBoardPlayerViewModel _storyBoardPlayerViewModel = new StoryBoardPlayerViewModel();
+        /// <summary> 说明  </summary>
+        public StoryBoardPlayerViewModel StoryBoardPlayerViewModel
+        {
+            get { return _storyBoardPlayerViewModel; }
+            set
+            {
+                _storyBoardPlayerViewModel = value;
+                RaisePropertyChanged("StoryBoardPlayerViewModel");
+            }
+        }
 
         protected override void Init()
         {
@@ -286,8 +298,18 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 MessageService.ShowWithLayer(setting);
 
             }
+            else if (command == "Button.Add")
+            {
 
-           
+                if (this.StoryBoardPlayerViewModel.PlayMode)
+                {
+                    MessageService.ShowSnackMessageWithNotice("请先停止播放再进行添加！");
+                    return;
+                }
+                this.StoryBoardPlayerViewModel.Create();
+            }
+
+
         }
 
         void AddMessage(MessageBase message,string command)
@@ -308,5 +330,393 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         }
 
 
+    }
+
+
+    public partial class StoryBoardPlayerViewModel : NotifyPropertyChanged
+    {
+        public StoryBoardPlayerViewModel()
+        {
+            this.IndexChanged += l =>
+            {
+                //  Do ：触发子项进度
+                foreach (var item in this.Collection)
+                {
+                    item.OnIndexChanged(l);
+                }
+            };
+        }
+        private ObservableCollection<StoryBoardItemViewModel> _collection = new ObservableCollection<StoryBoardItemViewModel>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<StoryBoardItemViewModel> Collection
+        {
+            get { return _collection; }
+            set
+            {
+                _collection = value;
+                RaisePropertyChanged("Collection");
+            }
+        }
+
+        public StoryBoardItemViewModel Create()
+        {
+            StoryBoardItemViewModel item = new StoryBoardItemViewModel(this);
+
+            //  Do ：注册子项进度
+            item.IndexChanged += l =>
+            {
+                //  Do ：触发子项进度外部事件
+                ItemIndexChanged?.Invoke(item, l);
+            };
+
+            this.Collection.Add(item);
+
+            return item;
+        }
+
+
+        private double _maxValue = 100.0;
+        /// <summary> 说明  </summary>
+        public double MaxValue
+        {
+            get { return _maxValue; }
+            set
+            {
+                _maxValue = value;
+                RaisePropertyChanged("MaxValue");
+            }
+        }
+
+
+        private double _minValue = 0.0;
+        /// <summary> 说明  </summary>
+        public double MinValue
+        {
+            get { return _minValue; }
+            set
+            {
+                _minValue = value;
+                RaisePropertyChanged("MinValue");
+            }
+        }
+
+
+        private double _value = 0.0;
+        /// <summary> 说明  </summary>
+        public double Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                RaisePropertyChanged("Value");
+            }
+        }
+
+
+        private int _speed = 0;
+        /// <summary> 说明  </summary>
+        public int Speed
+        {
+            get { return _speed; }
+            set
+            {
+                _speed = value;
+                RaisePropertyChanged("Speed");
+            }
+        }
+
+
+        System.Timers.Timer timer = new System.Timers.Timer();
+
+        public void Start()
+        {
+            this.Stop();
+
+            timer = new System.Timers.Timer();
+
+            //timer.Interval = 1000 - Speed;
+
+            timer.Elapsed += (l, k) =>
+            {
+                timer.Interval = Speed == 0 ? 1000 : 1010 - 125 * Speed;
+
+                if (this.Value < MaxValue)
+                {
+                    this.Value++;
+                }
+                else
+                {
+                    this.Value = 0;
+                }
+
+                IndexChanged?.Invoke(this.Value);
+            };
+
+            timer.Start();
+        }
+
+        public void StartWith(StoryBoardItemViewModel item)
+        {
+            this.Stop();
+
+            this.Collection.Foreach(l =>
+            {
+                if (l != item)
+                    l.PlayMode = false;
+
+                l.IsEnbled = l != item;
+            });
+
+
+            timer = new System.Timers.Timer();
+
+            this.Value = MaxValue * item.LeftPercent;
+
+            timer.Interval = Speed == 0 ? 1000 : 1010 - 125 * Speed;
+
+            timer.Elapsed += (l, k) =>
+            {
+                timer.Interval = Speed == 0 ? 1000 : 1010 - 125 * Speed;
+
+
+
+                if (this.Value < (int)MaxValue * item.RightPercent && this.Value >= MaxValue * item.LeftPercent)
+                {
+                    this.Value++;
+                }
+                else
+                {
+                    this.Value = MaxValue * item.LeftPercent;
+                }
+
+
+                IndexChanged?.Invoke(this.Value);
+            };
+
+            timer.Start();
+
+
+        }
+
+        public void Stop()
+        {
+            timer.Stop();
+        }
+
+
+        private bool _playMode;
+        /// <summary> 说明  </summary>
+        public bool PlayMode
+        {
+            get { return _playMode; }
+            set
+            {
+                this._playMode = value;
+                RaisePropertyChanged("PlayMode");
+            }
+        }
+
+
+
+        protected override async void RelayMethod(object obj)
+        {
+            string command = obj.ToString();
+
+            //  Do：应用
+            if (command == "Sumit")
+            {
+
+
+            }
+            //  Do：取消
+            else if (command == "Cancel")
+            {
+
+
+            }
+            else if (command == "ToggleButton.Click.Play")
+            {
+                if (this.Collection.Count == 0)
+                {
+                    this.PlayMode = false;
+
+                    MessageService.ShowSnackMessageWithNotice("请至少添加一个条目！");
+
+                    return;
+                }
+
+                this.Collection.Foreach(l => l.PlayMode = true);
+
+                this.Collection.Foreach(l => l.IsEnbled = false);
+
+                this.Start();
+
+
+            }
+
+            else if (command == "ToggleButton.Click.Stop")
+            {
+                this.Collection.Foreach(l => l.PlayMode = false);
+
+                this.Collection.Foreach(l => l.IsEnbled = true);
+
+                this.Stop();
+            }
+        }
+
+        public event Action<double> IndexChanged;
+
+        public event Action<StoryBoardItemViewModel, double> ItemIndexChanged;
+
+    }
+
+    public partial class StoryBoardItemViewModel : NotifyPropertyChanged
+    {
+        static int Index = 0;
+
+        private string _name;
+        /// <summary> 说明  </summary>
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                RaisePropertyChanged("Name");
+            }
+        }
+
+        public StoryBoardItemViewModel()
+        {
+
+        }
+
+        StoryBoardPlayerViewModel _parent;
+
+        public StoryBoardItemViewModel(StoryBoardPlayerViewModel parent)
+        {
+            _parent = parent;
+
+            this.Name = (Index++).ToString();
+        }
+
+        public event Action<double> IndexChanged;
+
+        private bool _isEnbled = false;
+        /// <summary> 说明  </summary>
+        public bool IsEnbled
+        {
+            get { return _isEnbled; }
+            set
+            {
+                _isEnbled = value;
+                RaisePropertyChanged("IsEnbled");
+            }
+        }
+
+
+        private double _leftPercent = 0.0;
+        /// <summary> 说明  </summary>
+        public double LeftPercent
+        {
+            get { return _leftPercent; }
+            set
+            {
+                _leftPercent = value;
+                RaisePropertyChanged("LeftPercent");
+            }
+        }
+
+
+        private double _rightPercent = 1.0;
+        /// <summary> 说明  </summary>
+        public double RightPercent
+        {
+            get { return _rightPercent; }
+            set
+            {
+                _rightPercent = value;
+                RaisePropertyChanged("RightPercent");
+            }
+        }
+
+        private bool _playMode;
+        /// <summary> 说明  </summary>
+        public bool PlayMode
+        {
+            get { return _playMode; }
+            set
+            {
+                _playMode = value;
+
+                RaisePropertyChanged("PlayMode");
+            }
+        }
+
+
+        private double _value = 0;
+        /// <summary> 说明  </summary>
+        public double Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                RaisePropertyChanged("Value");
+            }
+        }
+
+
+        public void OnIndexChanged(double value)
+        {
+            if (this.IsEnbled == false && this.PlayMode)
+            {
+                this.IndexChanged?.Invoke(value);
+
+                this.Value = value;
+            }
+        }
+
+        public RelayCommand<ToggleButton> ToggleButtonCheckChangedCommand => new Lazy<RelayCommand<ToggleButton>>(() => new RelayCommand<ToggleButton>(async l => await ToggleButtonCheckedChanged(l))).Value;
+
+        internal async Task ToggleButtonCheckedChanged(ToggleButton commandParamer)
+        {
+            //  Do ：避免通过属性修改触发此事件
+            if (!commandParamer.IsFocused) return;
+
+            if (this.PlayMode)
+            {
+                this._parent.StartWith(this);
+            }
+            else
+            {
+                this._parent.Stop();
+            }
+        }
+
+
+        protected override async void RelayMethod(object obj)
+        {
+            string command = obj.ToString();
+
+            //  Do：应用
+            if (command == "StoryBoardItem.Button.Delelte")
+            {
+                if (this._parent.PlayMode)
+                {
+                    MessageService.ShowSnackMessageWithNotice("请先停止播放再进行此操作！");
+                    return;
+                }
+
+                var result = await MessageService.ShowResultMessge("确定要删除当前项目？");
+
+                if (!result) return;
+
+                this._parent.Collection.Remove(this);
+
+                this.IndexChanged = null;
+            }
+        }
     }
 }

@@ -43,6 +43,8 @@ namespace HeBianGu.Base.WpfBase
         public int AccentColorSelectType { get; set; }
 
         public bool IsUseAnimal { get; set; }
+
+        public int Version { get; set; }
     }
 
     public interface IThemeService
@@ -72,6 +74,8 @@ namespace HeBianGu.Base.WpfBase
         int AccentColorSelectType { get; set; }
 
         bool IsUseAnimal { get; set; }
+
+        int Version { get; set; }
     }
 
     /// <summary> 主题颜色管理器 </summary>
@@ -474,7 +478,7 @@ namespace HeBianGu.Base.WpfBase
             themeLocalize.AnimalSpeed = this.AnimalSpeed;
             themeLocalize.AccentColorSelectType = this.AccentColorSelectType;
             themeLocalize.IsUseAnimal = this.IsUseAnimal;
-
+            themeLocalize.Version = this.Version;
             return themeLocalize;
         }
 
@@ -494,8 +498,10 @@ namespace HeBianGu.Base.WpfBase
             this.AnimalSpeed = config.AnimalSpeed;
             this.AccentColorSelectType = config.AccentColorSelectType;
             this.IsUseAnimal = config.IsUseAnimal;
+            this.Version = config.Version;
         }
 
+        public int Version { get; set; }
 
     }
 

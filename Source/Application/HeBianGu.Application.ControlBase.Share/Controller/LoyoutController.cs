@@ -255,7 +255,12 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
         {
             return await ViewAsync();
         }
-        
 
+
+        [Route("OverView/StoryBoardPlayer")]
+        public async Task<IActionResult> StoryBoardPlayer()
+        {
+            return await ViewAsync();
+        }
     }
 }

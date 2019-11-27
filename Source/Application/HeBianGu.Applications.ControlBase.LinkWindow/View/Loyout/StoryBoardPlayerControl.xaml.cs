@@ -1,5 +1,4 @@
-﻿using HeBianGu.General.WpfControlLib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,23 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout
 {
     /// <summary>
-    /// MainWindow.xaml 的交互逻辑
+    /// StoryBoardPlayerControl.xaml 的交互逻辑
     /// </summary>
-    public partial class MainWindow : LinkWindowBase
+    public partial class StoryBoardPlayerControl : UserControl
     {
-        public MainWindow()
+        public StoryBoardPlayerControl()
         {
             InitializeComponent();
-
-            this.Loaded += MainWindow_Loaded; 
-        }
-
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
         }
     }
 }
