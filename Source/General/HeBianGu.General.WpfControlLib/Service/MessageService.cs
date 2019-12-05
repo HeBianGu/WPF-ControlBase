@@ -106,11 +106,11 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 带有返回结果的等待消息窗口 </summary>
-        public static async Task<object> ShowWaittingResultMessge(Func<object> action)
+        public static async Task<T> ShowWaittingResultMessge<T>(Func<T> action)
         {
-            if (CheckOpen()) return null;
+            if (CheckOpen() || action == null) return default(T);
 
-            object result = null;
+            T result = default(T);
 
             await Application.Current.Dispatcher.Invoke(async () =>
             {
@@ -119,7 +119,7 @@ namespace HeBianGu.General.WpfControlLib
                 //show the dialog
                 await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
                  {
-                     Task.Run(() => result = action?.Invoke()).ContinueWith(m =>
+                     Task.Run(() => result = action.Invoke()).ContinueWith(m =>
                           {
                               Application.Current.Dispatcher.Invoke(() =>
                               {
@@ -132,15 +132,15 @@ namespace HeBianGu.General.WpfControlLib
             return result;
         }
 
-        /// <summary> 带有返回结果的等待消息窗口 </summary>
-        public static async Task<T> ShowWaittingResultMessge<T>(Func<object> action)
-        {
-            var result = await ShowWaittingResultMessge(action);
+        ///// <summary> 带有返回结果的等待消息窗口 </summary>
+        //public static async Task<T> ShowWaittingResultMessge<T>(Func<object> action)
+        //{
+        //    var result = await ShowWaittingResultMessge(action);
 
-            if (result == null) return default(T);
+        //    if (result == null) return default(T);
 
-            return (T)result;
-        }
+        //    return (T)result;
+        //}
 
         public static async Task ShowPercentProgress(Action<IPercentProgress> action, Action closeAction = null)
         {
@@ -229,16 +229,16 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 显示自定义窗口 </summary>
-        public static async Task<object> ShowCustomDialog(UIElement element, Action<object, DialogClosingEventArgs> action = null)
+        public static async Task<T> ShowCustomDialog<T>(UIElement element, Action<object, DialogClosingEventArgs> action = null)
         {
-            if (CheckOpen()) return null;
+            if (CheckOpen()) return default(T);
 
-            object result = null;
+            T result = default(T);
 
             await Application.Current.Dispatcher.Invoke(async () =>
             {
                 //show the dialog
-                result = await DialogHost.ShowWithClose(element, "windowDialog", (l, e) =>
+                result = (T)await DialogHost.ShowWithClose(element, "windowDialog", (l, e) =>
                   {
                       action?.Invoke(l, e);
                   });

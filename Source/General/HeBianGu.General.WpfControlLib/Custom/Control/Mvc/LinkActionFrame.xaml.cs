@@ -83,7 +83,7 @@ namespace HeBianGu.General.WpfControlLib
                 });
 
 
-                await this.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                await this.Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
                   {
                       if (this.Content == result?.View)
                       {
@@ -96,6 +96,19 @@ namespace HeBianGu.General.WpfControlLib
                       }
 
                   }));
+
+                // this.Dispatcher.Invoke(() =>
+                //{
+                //    if (this.Content == result?.View)
+                //    {
+                //        this.Content = new Button() { Visibility = Visibility.Collapsed };
+                //        this.Content = result?.View;
+                //    }
+                //    else
+                //    {
+                //        this.Content = result?.View;
+                //    }
+                //});
             }
             catch (Exception ex)
             {
