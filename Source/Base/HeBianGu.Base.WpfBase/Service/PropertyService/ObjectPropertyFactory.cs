@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -56,7 +57,7 @@ namespace HeBianGu.Base.WpfBase
                 {
                     if (!r.IsValid(value))
                     {
-                        results.Add(r.ErrorMessage);
+                        results.Add(r.ErrorMessage??r.FormatErrorMessage(item.Name));
                     }
                 } 
             }

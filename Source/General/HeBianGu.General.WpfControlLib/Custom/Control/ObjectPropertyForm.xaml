@@ -181,14 +181,13 @@
             <Setter.Value>
                 <ItemsPanelTemplate>
                     <StackPanel/>
-
                 </ItemsPanelTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ObjectPropertyForm">
-                    <GroupBox Header="{TemplateBinding Title}">
+                    <GroupBox Header="{TemplateBinding Title}" Style="{DynamicResource S.GroupBox.Default.WithClose}">
                         <Border HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalAlignment}"
                             Background="{TemplateBinding Background}"
@@ -199,13 +198,10 @@
                                     <RowDefinition/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-
+                                
                                 <ItemsPresenter/>
-
-                                <ContentPresenter Grid.Row="1" Content="{TemplateBinding BottomContent}" />
-
+                                <ContentPresenter Grid.Row="1" Content="{TemplateBinding BottomContent}"/>
                             </Grid>
-                          
                         </Border>
                     </GroupBox>
                 </ControlTemplate>
@@ -237,6 +233,32 @@
         </Setter>
     </Style>
 
+    <Style x:Key="S.ObjectPropertyForm.Default.WithSumit" TargetType="local:ObjectPropertyForm" BasedOn="{StaticResource S.ObjectPropertyForm.Default}">
+        <Setter Property="BottomContent">
+            <Setter.Value>
+                <StackPanel>
+                    <local:FButton  Content="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Sumit,Mode=TwoWay}"
+                                   Command="{x:Static local:CommandService.Sure}"/>
+                </StackPanel>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.ObjectPropertyForm.Default.WithSumitClose" TargetType="local:ObjectPropertyForm" BasedOn="{StaticResource S.ObjectPropertyForm.Default}">
+        <Setter Property="BottomContent">
+            <Setter.Value>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <local:FButton  Content="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Sumit,Mode=TwoWay}"
+                                   Command="{x:Static local:CommandService.Sure}"/>
+
+                    <local:FButton  Content="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Cancel,Mode=TwoWay}" Margin="20,0,0,0"
+                                   Command="{x:Static local:CommandService.Close}"/>
+                </StackPanel>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style BasedOn="{StaticResource S.ObjectPropertyForm.Default}" TargetType="local:ObjectPropertyForm"/>
 
 </ResourceDictionary>
+ 

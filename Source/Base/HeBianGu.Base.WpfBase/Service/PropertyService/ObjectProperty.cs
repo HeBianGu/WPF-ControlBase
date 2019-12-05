@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -14,7 +16,7 @@ namespace HeBianGu.Base.WpfBase
         public string Name { get; set; }
         public PropertyInfo PropertyInfo { get; set; }
 
-        public bool ReadOnly { get; set; } 
+        public bool ReadOnly { get; set; }
 
         public Visibility Visibility { get; set; }
 
@@ -31,9 +33,9 @@ namespace HeBianGu.Base.WpfBase
             Obj = obj;
 
 
-            var hidden = property.GetCustomAttribute<HiddenAttribute>();
+            var hidden = property.GetCustomAttribute<ReadOnlyAttribute>();
 
-            var readyOnly = property.GetCustomAttribute<ReadOnlyAttribute>();
+            var readyOnly = property.GetCustomAttribute<EditableAttribute>();
 
             this.ReadOnly = readyOnly == null ? true : false;
 
@@ -63,12 +65,20 @@ namespace HeBianGu.Base.WpfBase
                     {
                         if (!item.IsValid(value))
                         {
-                            this.Message = item.ErrorMessage;  
+                            if (item is RequiredAttribute required)
+                            {
+                                this.Message = item.ErrorMessage ?? this.Name + "数据不能为空";
+                            }
+                            else
+                            {
+                                this.Message = item.ErrorMessage ?? this.Name + "数据校验失败";
+                            }
+
                         }
                     }
                 }
 
-                _value = value; 
+                _value = value;
 
                 RaisePropertyChanged("Value");
 
@@ -86,11 +96,11 @@ namespace HeBianGu.Base.WpfBase
         public ObjectPropertyItem(PropertyInfo property, object obj) : base(property, obj)
         {
 
-            var required  = property.GetCustomAttributes<RequiredAttribute>()?.ToList();
+            var required = property.GetCustomAttributes<RequiredAttribute>()?.ToList();
 
             Validations = property.GetCustomAttributes<ValidationAttribute>()?.ToList();
 
-            if (required != null&& required.Count>0)
+            if (required != null && required.Count > 0)
             {
                 this.Flag = "*";
             }

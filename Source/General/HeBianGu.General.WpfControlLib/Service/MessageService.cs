@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -82,7 +83,7 @@ namespace HeBianGu.General.WpfControlLib
 
         public static async Task ShowWaittingMessge(Action action, Action closeAction = null)
         {
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(async () =>
+            await Application.Current.Dispatcher.Invoke(async () =>
              {
                  if (CheckOpen()) return;
 
@@ -101,7 +102,7 @@ namespace HeBianGu.General.WpfControlLib
                          });
                      });
                  });
-             }));
+             });
         }
 
         /// <summary> 带有返回结果的等待消息窗口 </summary>
@@ -191,7 +192,7 @@ namespace HeBianGu.General.WpfControlLib
 
             R result = default(R);
 
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(async () =>
+            await Application.Current.Dispatcher.Invoke(async () =>
               {
                   var view = new T();
 
@@ -208,7 +209,7 @@ namespace HeBianGu.General.WpfControlLib
                              });
                          });
                     });
-              }));
+              });
 
             return result;
         }
@@ -217,14 +218,14 @@ namespace HeBianGu.General.WpfControlLib
         {
             if (CheckOpen()) return;
 
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(async () =>
+            await Application.Current.Dispatcher.Invoke(async () =>
              {
                  var view = new SampleMessageDialog();
 
                  view.MessageStr = message;
 
                  await DialogHost.Show(view, "windowDialog");
-             }));
+             });
         }
 
         /// <summary> 显示自定义窗口 </summary>
@@ -234,14 +235,14 @@ namespace HeBianGu.General.WpfControlLib
 
             object result = null;
 
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(async () =>
+            await Application.Current.Dispatcher.Invoke(async () =>
             {
-                 //show the dialog
-                 result = await DialogHost.ShowWithClose(element, "windowDialog", (l, e) =>
-                   {
-                     action?.Invoke(l, e);
-                 });
-            }));
+                //show the dialog
+                result = await DialogHost.ShowWithClose(element, "windowDialog", (l, e) =>
+                  {
+                      action?.Invoke(l, e);
+                  });
+            });
 
             return result;
         }
@@ -272,18 +273,18 @@ namespace HeBianGu.General.WpfControlLib
         {
             if (CheckOpen()) return;
 
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(async () =>
+            await Application.Current.Dispatcher.Invoke(async () =>
              {
                  var view = new ResultMessageDialog();
 
                  view.MessageStr = message;
 
                  //show the dialog
-                  await DialogHost.ShowWithClose(view, "windowDialog", (l, e) =>
-                  {
-                      action?.Invoke(l, e);
-                  });
-             }));
+                 await DialogHost.ShowWithClose(view, "windowDialog", (l, e) =>
+                 {
+                     action?.Invoke(l, e);
+                 });
+             });
 
         }
 
@@ -298,18 +299,18 @@ namespace HeBianGu.General.WpfControlLib
                  result = (bool)k.Parameter;
              };
 
-            await Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(async () =>
+            await Application.Current.Dispatcher.Invoke(async () =>
             {
                 var view = new ResultMessageDialog();
 
                 view.MessageStr = message;
 
                 //show the dialog
-                 await DialogHost.ShowWithClose(view, "windowDialog", (l, e) =>
+                await DialogHost.ShowWithClose(view, "windowDialog", (l, e) =>
                 {
                     action?.Invoke(l, e);
                 });
-            }));
+            });
 
             return result;
 
@@ -370,6 +371,58 @@ namespace HeBianGu.General.WpfControlLib
                 }
             }));
         }
+
+        static ManualResetEvent _asyncShowWaitHandle = new ManualResetEvent(false);
+
+        /// <summary> 显示蒙版 </summary>
+        public static async Task<bool> ShowWithObject(object value, string title = null)
+        {
+            bool result = false;
+            await Application.Current.Dispatcher.Invoke(async () =>
+             {
+                 if (Application.Current.MainWindow is IWindowBase window)
+                 {
+                     ObjectPropertyForm form = new ObjectPropertyForm();
+
+                     form.Title = title;
+
+                     form.Style = Application.Current.FindResource("S.ObjectPropertyForm.Default.WithSumit") as Style;
+
+                     form.SelectObject = value;
+
+                     form.Close += (l, k) =>
+                     {
+                         CloseWithLayer();
+                         _asyncShowWaitHandle.Set();
+                         result = false;
+                     };
+
+                     form.Sumit += (l, k) =>
+                     {
+                         CloseWithLayer();
+                         _asyncShowWaitHandle.Set();
+                         result = true;
+                     };
+
+                     window.ShowWithLayer(form);
+
+                     _asyncShowWaitHandle.Reset();
+
+                     var task = new Task(() =>
+                     {
+                         _asyncShowWaitHandle.WaitOne();
+                     });
+
+                     task.Start();
+
+                     await task;
+                 }
+             });
+
+            return result;
+
+        }
+
 
         #endregion
 
