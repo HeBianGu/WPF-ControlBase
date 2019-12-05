@@ -10,9 +10,9 @@ namespace HeBianGu.General.WpfControlLib
     {
         public TimeSpan StartTime { get; set; } = TimeSpan.Zero;
 
-        public TimeSpan MidTime { get; set; } = TimeSpan.FromMilliseconds(200);
+        public TimeSpan MidTime { get; set; } = TimeSpan.FromMilliseconds(400);
 
-        public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(500);
+        public TimeSpan Duration { get; set; } = TimeSpan.FromMilliseconds(1000);
 
         public void Wipe(TransitionerSlide fromSlide, TransitionerSlide toSlide, Point origin, IZIndexController zIndexController)
         {

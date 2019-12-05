@@ -83,7 +83,7 @@ namespace HeBianGu.General.WpfControlLib
                 });
 
 
-                await this.Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+                await this.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
                   {
                       if (this.Content == result?.View)
                       {
