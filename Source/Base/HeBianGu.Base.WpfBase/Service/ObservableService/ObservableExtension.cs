@@ -45,24 +45,28 @@ namespace HeBianGu.Base.WpfBase
         public static ObservableCollection<T> ToObservable<T>(this IEnumerable<T> collection)
         {
 
-            ObservableCollection<T> result = new ObservableCollection<T>();
-            foreach (var item in collection)
-            {
-                result.Add(item);
-            }
-            return result;
+            //ObservableCollection<T> result = new ObservableCollection<T>();
+            //foreach (var item in collection)
+            //{
+            //    result.Add(item);
+            //}
+            return new ObservableCollection<T>(collection);
 
         }
 
         public static void Refresh<T>(this ObservableCollection<T> collection)
         {
 
-            ObservableCollection<T> result = new ObservableCollection<T>();
-            foreach (var item in collection)
-            {
-                result.Add(item);
-            }
-            collection = result;
+            //ObservableCollection<T> result = new ObservableCollection<T>();
+
+            //foreach (var item in collection)
+            //{
+            //    result.Add(item);
+            //}
+
+            //collection = result;
+
+            collection = new ObservableCollection<T>(collection);
         }
 
 

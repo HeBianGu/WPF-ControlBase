@@ -8,6 +8,8 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="0"/>
+        <!--<Setter Property="base:ControlAttachProperty.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
+        <Setter Property="base:ControlAttachProperty.PressBackground" Value="0"/>-->
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -40,7 +42,7 @@
         <Setter Property="MinHeight" Value="32"/>
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType=ItemsControl}}"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Template">
@@ -54,19 +56,19 @@
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="true">
-                <Setter Property="Background" Value="{DynamicResource SecondaryRegionBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
             </Trigger>
             <Trigger Property="IsSelected" Value="true">
-                <Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource TextIconBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
             </Trigger>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsSelected" Value="true"/>
                     <Condition Property="Selector.IsSelectionActive" Value="false"/>
                 </MultiTrigger.Conditions>
-                <Setter Property="Background" Value="{DynamicResource DarkDefaultBrush}"/>
-                <Setter Property="Foreground" Value="{DynamicResource PrimaryTextBrush}"/>
+                <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+                <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
             </MultiTrigger>
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Opacity" Value=".4"/>
@@ -75,9 +77,9 @@
     </Style>
 
     <Style x:Key="S.CarourselControl.ListBoxBaseStyle" TargetType="ListBox">
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="BorderThickness" Value="1"/> 
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
@@ -154,14 +156,14 @@
                         <ItemsPresenter x:Name="PART_ItemsControl" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" HorizontalAlignment="Left"/>
                         <Grid Name="GridTop" Opacity="0">
                             <local:FButton  Command="local:CommandService.Next" FIcon="&#xe9bf;"
-                                            Style="{DynamicResource S.FButton.Style.Transparent}"
-                                            HorizontalAlignment="Right"  FIconSize="25"
-                                            VerticalAlignment="Center" Margin="30,0,0,0"/>
+                                            Style="{DynamicResource S.FButton.Style.MouseOverOpacity}"
+                                            HorizontalAlignment="Right" Width="50" Height="50" CornerRadius="25"
+                                            VerticalAlignment="Center" Margin="0,0,20,0"/>
 
                             <local:FButton  FIcon="&#xe9be;" 
-                                            Style="{DynamicResource S.FButton.Style.Transparent}"
-                                            HorizontalAlignment="Left"   FIconSize="25"
-                                            Command="local:CommandService.Prev" VerticalAlignment="Center" Margin="0,0,30,0"/> 
+                                            Style="{DynamicResource S.FButton.Style.MouseOverOpacity}"
+                                            HorizontalAlignment="Left"  Width="50" Height="50" CornerRadius="25"
+                                            Command="local:CommandService.Prev" VerticalAlignment="Center" Margin="20,0,0,0"/> 
                         </Grid>
                         <StackPanel Name="PART_PanelPage" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,20"/>
                     </Grid>

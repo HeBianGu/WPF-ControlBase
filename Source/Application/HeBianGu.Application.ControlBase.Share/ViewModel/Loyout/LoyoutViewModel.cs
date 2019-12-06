@@ -80,6 +80,14 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         }
 
+
+        public ObservableCollection<PUComboBoxItemModel> ComboBoxItems
+        {
+            get { return _comboBoxItems; }
+            set { _comboBoxItems = value; RaisePropertyChanged("ComboBoxItems"); }
+        }
+        private ObservableCollection<PUComboBoxItemModel> _comboBoxItems = new ObservableCollection<PUComboBoxItemModel>();
+
         /// <summary> 命令通用方法 </summary>
         protected override async void RelayMethod(object obj)
 
@@ -201,8 +209,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                 MessageWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒", acts.ToArray());
             }
-
-
             //  Do：气泡消息
             else if (command == "Button.Upgrade")
             {
@@ -228,7 +234,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 //UpgradeWindow.BeginUpgrade("发现新版本：V3.0.1", @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
                 //   message.ToArray());
             }
-
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Error"))
             {
@@ -279,7 +284,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 this.AddMessage(message, command);
 
             }
-
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Dailog"))
             {
@@ -289,7 +293,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                 this.AddMessage(message, command);
             }
-
             //  Do：气泡消息
             else if (command.StartsWith("Button.ShowCoverMessge"))
             {
@@ -307,6 +310,18 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                     return;
                 }
                 this.StoryBoardPlayerViewModel.Create();
+            }
+            else if(command == "init")
+            {
+                for (int i = 0; i < 6; i++)
+                {
+                    ComboBoxItems.Add(new PUComboBoxItemModel()
+                    {
+                        Header = "Item" + (ComboBoxItems.Count + 1),
+                        Value = (ComboBoxItems.Count + 1),
+                        CanDelete = true
+                    }) ;
+                }
             }
 
 
@@ -516,6 +531,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 RaisePropertyChanged("PlayMode");
             }
         }
+
 
 
 
