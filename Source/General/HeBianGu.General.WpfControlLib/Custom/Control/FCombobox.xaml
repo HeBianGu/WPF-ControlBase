@@ -1,12 +1,19 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
-    xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
-   >
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+                    xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase">
     <Style TargetType="{x:Type local:FComboBox}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"></Setter>
         <Setter Property="Background"  Value="{DynamicResource S.Brush.TextBackground.Default}"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"></Setter>
+        <Setter Property="base:ControlAttachProperty.SelectBackground" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"></Setter>
+        <Setter Property="base:ControlAttachProperty.SelectForeground" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"></Setter>
+        <Setter Property="base:ControlAttachProperty.MouseOverBackground" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"></Setter>
+        <Setter Property="base:ControlAttachProperty.MouseOverForeground" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"></Setter>
+        <Setter Property="base:ControlAttachProperty.FocusBackground" Value="{DynamicResource S.Brush.Dark.4}" />
+        <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="2" />
         <Setter Property="BorderThickness"  Value="1"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
@@ -37,64 +44,14 @@
                         </VisualStateManager.VisualStateGroups>
 
                         <Border x:Name="bdrMain" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}"
-                                BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=ComboBox}}">
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}">
                         </Border>
 
                         <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           Margin="{TemplateBinding Padding}" x:Name="ContentSite"
                                           VerticalAlignment="Center" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                           ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" IsHitTestVisible="False" Opacity="0.8" />
-
-                        <!--<ToggleButton x:Name="ToggleButton" Focusable="false"
-                                      IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                      ClickMode="Press" Foreground="{TemplateBinding Foreground}" Background="Transparent" BorderBrush="Transparent" BorderThickness="0">
-                            <ToggleButton.Style>
-                                <Style TargetType="ToggleButton">
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ToggleButton">
-                                                <Grid Background="Transparent">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="30" />
-                                                    </Grid.ColumnDefinitions>
-
-                                                    <Path x:Name="arrow1"  Opacity="1" VerticalAlignment="Center" Grid.Column="1"
-                                                          HorizontalAlignment="Center" Data="M5,4 H14 L9.5,10 Z" Width="15"  Height="15"
-                                                          Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5" />
-
-                                                    <Path x:Name="arrow2" Opacity="0" VerticalAlignment="Center" Grid.Column="1"
-                                                          HorizontalAlignment="Center" Data="M5,10 H14 L9.5,4.5 Z" Width="15" Height="15"
-                                                          Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5" />
-                                                </Grid>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsChecked"
-                                                             Value="True">
-                                                        <Trigger.EnterActions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="arrow1" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.2"></DoubleAnimation>
-                                                                    <DoubleAnimation Storyboard.TargetName="arrow2" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"></DoubleAnimation>
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </Trigger.EnterActions>
-                                                        <Trigger.ExitActions>
-                                                            <BeginStoryboard>
-                                                                <Storyboard>
-                                                                    <DoubleAnimation Storyboard.TargetName="arrow1" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.2"></DoubleAnimation>
-                                                                    <DoubleAnimation Storyboard.TargetName="arrow2" Storyboard.TargetProperty="Opacity"  To="0" Duration="0:0:0.2"></DoubleAnimation>
-                                                                </Storyboard>
-                                                            </BeginStoryboard>
-                                                        </Trigger.ExitActions>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ToggleButton.Style>
-                        </ToggleButton>-->
-
                         <!--下拉按钮-->
                         <ToggleButton x:Name="ToggleButton" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" base:ControlAttachProperty.FIconSize="15"
                               base:ControlAttachProperty.FIconMargin="{TemplateBinding base:ControlAttachProperty.FIconMargin}"
@@ -112,8 +69,8 @@
                                            VerticalAlignment="Center" Margin="5,2,5,2" />
 
                         <local:FTextBox BorderThickness="0" Margin="0,0,25,0" Padding="{TemplateBinding Padding}" x:Name="PART_EditableTextBox"
-                                         VerticalAlignment="Center" Focusable="True" Visibility="Hidden" Background="Transparent"
-                                         BorderBrush="Transparent"  Foreground="{TemplateBinding Foreground}" IsReadOnly="{TemplateBinding IsReadOnly}" />
+                                        VerticalAlignment="Center" Focusable="True" Visibility="Hidden" Background="Transparent"
+                                        BorderBrush="Transparent"  Foreground="{TemplateBinding Foreground}" IsReadOnly="{TemplateBinding IsReadOnly}" />
 
                         <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="Popup" Focusable="False" AllowsTransparency="True" PopupAnimation="Slide">
                             <Grid MinWidth="{TemplateBinding ActualWidth}" x:Name="DropDown">
@@ -129,11 +86,11 @@
                                         <RowDefinition Height="*" />
                                     </Grid.RowDefinitions>
 
-                                    <local:FTextBox x:Name="tbSearch" Padding="5,0,0,0" Tag="Search"
-                                                     Visibility="{Binding SearchBoxVisibility,RelativeSource={RelativeSource AncestorType=ComboBox}}"
-                                                     BorderBrush="Transparent" BorderThickness="0"
-                                                     Style="{DynamicResource S.FTextBox.Clear}" base:ControlAttachProperty.Watermark="请输入搜索条件"
-                                                     Foreground="{TemplateBinding Foreground}" FontFamily="{DynamicResource IconFont}" Margin="1,5,1,0" />
+                                    <local:FTextBox x:Name="tbSearch"  Tag="Search" Width="Auto"
+                                                     Visibility="{Binding SearchBoxVisibility,RelativeSource={RelativeSource AncestorType=ComboBox}}" 
+                                                     base:ControlAttachProperty.Watermark="请输入搜索条件" Style="{DynamicResource S.FTextBox.Clear}"
+                                                     Foreground="{TemplateBinding Foreground}" FontFamily="{DynamicResource IconFont}" Margin="7,5,7.5,2">
+                                    </local:FTextBox>
 
                                     <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Style="{DynamicResource MiniScrollViewer}" Margin="1,5,1,15" MaxHeight="250">
                                         <ItemsPresenter />
@@ -160,6 +117,24 @@
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
                             <Setter TargetName="Message" Property="Visibility" Value="Visible" />
                         </DataTrigger>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                            <!--<Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                            <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                            <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                            <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>-->
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <!--<Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>-->
+                            <Setter  Property="BorderBrush"  Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                        </Trigger>
+                        <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                            <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                            <!--<Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
+                            <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
+                            <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>-->
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -183,28 +158,24 @@
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           x:Name="txtContent" Opacity="0.8" ContentSource="Content" />
 
-                        <local:FButton x:Name="btnDelete" Opacity="0.7" Style="{DynamicResource S.FButton.Style.Transparent}"
+                        <local:FButton x:Name="btnDelete" Opacity="0.7" Style="{DynamicResource S.FButton.Style.Transparent}" Foreground="{TemplateBinding Foreground}"
                                         Command="{Binding DeleteCommand,RelativeSource={RelativeSource AncestorType=ComboBoxItem}}"
                                         CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}" Width="35"
-                                        Cursor="Arrow" Foreground="{Binding Foreground,RelativeSource={RelativeSource AncestorType=ComboBox}}" VerticalAlignment="Top"
+                                        Cursor="Arrow" VerticalAlignment="Top"
                                         HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Content="×"></local:FButton>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="CanDelete" Value="False">
                             <Setter TargetName="btnDelete" Property="Visibility" Value="Collapsed" />
                         </Trigger>
-                        <Trigger Property="IsSelected" Value="true">
-                            <Setter TargetName="bdrMain" Property="Background" Value="{Binding SelectedBrush,RelativeSource={RelativeSource AncestorType=ComboBox}}" />
-                            <Setter TargetName="txtContent"  Property="Opacity" Value="1" />
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="bdrMain" Property="Background"  Value="{DynamicResource S.Brush.Accent}" />
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}" />
                         </Trigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="false" />
-                                <Condition Property="IsMouseOver" Value="true" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="bdrMain" Property="Background" Value="{Binding CoverBrush,RelativeSource={RelativeSource AncestorType=ComboBox}}" />
-                            <Setter TargetName="txtContent" Property="Opacity" Value="0.7" />
-                        </MultiTrigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bdrMain" Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}" />
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

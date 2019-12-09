@@ -4,11 +4,14 @@ using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace HeBianGu.Applications.ControlBase.LinkWindow
@@ -81,12 +84,12 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         }
 
 
-        public ObservableCollection<PUComboBoxItemModel> ComboBoxItems
+        public ObservableCollection<FComboBoxItemModel> ComboBoxItems
         {
             get { return _comboBoxItems; }
             set { _comboBoxItems = value; RaisePropertyChanged("ComboBoxItems"); }
         }
-        private ObservableCollection<PUComboBoxItemModel> _comboBoxItems = new ObservableCollection<PUComboBoxItemModel>();
+        private ObservableCollection<FComboBoxItemModel> _comboBoxItems = new ObservableCollection<FComboBoxItemModel>();
 
         /// <summary> 命令通用方法 </summary>
         protected override async void RelayMethod(object obj)
@@ -98,15 +101,14 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             if (command == "Button.ShowDialogMessage")
             {
                 await MessageService.ShowSumitMessge("这是消息对话框？");
-
             }
+
             //  Do：等待消息
             else if (command == "Button.ShowWaittingMessge")
             {
-
                 await MessageService.ShowWaittingMessge(() => Thread.Sleep(2000));
-
             }
+
             //  Do：百分比进度对话框
             else if (command == "Button.ShowPercentProgress")
             {
@@ -126,6 +128,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 await MessageService.ShowPercentProgress(action);
 
             }
+
             //  Do：文本进度对话框
             else if (command == "Button.ShowStringProgress")
             {
@@ -146,6 +149,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 await MessageService.ShowStringProgress(action);
 
             }
+
             //  Do：确认取消对话框
             else if (command == "Button.ShowResultMessge")
             {
@@ -160,20 +164,23 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                     MessageService.ShowSnackMessageWithNotice("你点击了确定");
                 }
             }
+
             //  Do：提示消息
             else if (command == "Button.ShowSnackMessage")
             {
                 MessageService.ShowSnackMessageWithNotice("这是提示消息？");
             }
+
             //  Do：气泡消息
             else if (command == "Button.ShowNotifyMessage")
             {
                 MessageService.ShowNotifyMessage("你有一条报警信息需要处理，请检查", "Notify By HeBianGu");
             }
+
             //  Do：气泡消息
             else if (command == "Button.ShowIdentifyNotifyMessage")
             {
-                MessageService.ShowNotifyDialogMessage("自定义气泡消息" + DateTime.Now.ToString("yyyy-mm-dd HH:mm:ss"),"友情提示",5);
+                MessageService.ShowNotifyDialogMessage("自定义气泡消息" + DateTime.Now.ToString("yyyy-mm-dd HH:mm:ss"), "友情提示", 5);
             }
 
             //  Do：气泡消息
@@ -187,6 +194,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             {
                 MessageWindow.ShowDialog("这是窗口提示消息");
             }
+
             //  Do：气泡消息
             else if (command == "Button.ShowWindowIndentifyMessage")
             {
@@ -209,6 +217,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                 MessageWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒", acts.ToArray());
             }
+
             //  Do：气泡消息
             else if (command == "Button.Upgrade")
             {
@@ -234,6 +243,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 //UpgradeWindow.BeginUpgrade("发现新版本：V3.0.1", @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
                 //   message.ToArray());
             }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Error"))
             {
@@ -243,6 +253,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                 this.AddMessage(message, command);
             }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Info"))
             {
@@ -253,6 +264,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 this.AddMessage(message, command);
 
             }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Success"))
             {
@@ -263,6 +275,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 this.AddMessage(message, command);
 
             }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Fatal"))
             {
@@ -274,6 +287,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
 
             }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Warn"))
             {
@@ -284,6 +298,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 this.AddMessage(message, command);
 
             }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Dailog"))
             {
@@ -293,6 +308,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                 this.AddMessage(message, command);
             }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.ShowCoverMessge"))
             {
@@ -301,6 +317,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 MessageService.ShowWithLayer(setting);
 
             }
+
             else if (command == "Button.Add")
             {
 
@@ -311,29 +328,29 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 }
                 this.StoryBoardPlayerViewModel.Create();
             }
-            else if(command == "init")
+            else if (command == "init")
             {
-                for (int i = 0; i < 6; i++)
+                for (int i = 0; i < 60; i++)
                 {
-                    ComboBoxItems.Add(new PUComboBoxItemModel()
+                    ComboBoxItems.Add(new FComboBoxItemModel()
                     {
-                        Header = "Item" + (ComboBoxItems.Count + 1),
+                        Header = "ComboBoxItem" + (ComboBoxItems.Count + 1),
                         Value = (ComboBoxItems.Count + 1),
                         CanDelete = true
-                    }) ;
+                    });
                 }
             }
 
 
         }
 
-        void AddMessage(MessageBase message,string command)
+        void AddMessage(MessageBase message, string command)
         {
-            if(command.EndsWith("System"))
+            if (command.EndsWith("System"))
             {
                 MessageService.ShowSystemNotifyMessage(message);
             }
-            else if(command.EndsWith("Window"))
+            else if (command.EndsWith("Window"))
             {
 
                 MessageService.ShowWindowNotifyMessage(message);
@@ -343,6 +360,20 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 this.MessageSource.Add(message);
             }
         }
+
+
+        private TextBoxViewModel _textBoxViewModel = new TextBoxViewModel();
+        /// <summary> 说明  </summary>
+        public TextBoxViewModel TextBoxViewModel
+        {
+            get { return _textBoxViewModel; }
+            set
+            {
+                _textBoxViewModel = value;
+                RaisePropertyChanged("TextBoxViewModel");
+            }
+        }
+
 
 
     }
@@ -735,4 +766,154 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             }
         }
     }
+
+
+    /// <summary> 文本输入验证</summary>
+    internal class TextBoxViewModel : NotifyPropertyChanged
+    {
+
+        private string _name;
+        /// <summary> 说明  </summary>
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+
+                RaisePropertyChanged("Name");
+            }
+        }
+
+
+        private string _age;
+        /// <summary> 说明  </summary>
+        public string Age
+        {
+            get { return _age; }
+            set
+            {
+                _age = value;
+                RaisePropertyChanged("Age");
+            }
+        }
+
+
+        private string _email;
+        /// <summary> 说明  </summary>
+        public string Email
+        {
+            get { return _email; }
+            set
+            {
+                _email = value;
+                RaisePropertyChanged("Email");
+            }
+        }
+
+
+        private string _phone;
+        /// <summary> 说明  </summary>
+        public string Phone
+        {
+            get { return _phone; }
+            set
+            {
+                _phone = value;
+                RaisePropertyChanged("Phone");
+            }
+        }
+
+
+        private string _account;
+        /// <summary> 说明  </summary>
+        public string Accont
+        {
+            get { return _account; }
+            set
+            {
+                _account = value;
+                RaisePropertyChanged("Accont");
+            }
+        }
+
+
+        private string _passWord;
+        /// <summary> 说明  </summary>
+        public string PassWord
+        {
+            get { return _passWord; }
+            set
+            {
+                _passWord = value;
+                RaisePropertyChanged("PassWord");
+            }
+        }
+
+
+        private string _regin;
+        /// <summary> 说明  </summary>
+        public string Regin
+        {
+            get { return _regin; }
+            set
+            {
+                _regin = value;
+                RaisePropertyChanged("Regin");
+            }
+        }
+
+
+        private string _limit;
+        /// <summary> 说明  </summary>
+        public string Limit
+        {
+            get { return _limit; }
+            set
+            {
+                _limit = value;
+                RaisePropertyChanged("Limit");
+            }
+        }
+
+
+        private string _cardID;
+        /// <summary> 说明  </summary>
+        public string CardID
+        {
+            get { return _cardID; }
+            set
+            {
+                _cardID = value;
+                RaisePropertyChanged("CardID");
+            }
+        }
+
+
+
+    }
+    public class RegularExpressionValidationRule : ValidationRule
+    {
+        public string Pattern { get; set; }
+
+        public string ErrorMessage { get; set; }
+
+        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        {
+            if(value==null) return new ValidationResult(false, "数据不能为空");
+
+            if(Regex.IsMatch(value.ToString(), Pattern))
+            {
+                return new ValidationResult(true, null);
+            }
+            else
+            {
+                return new ValidationResult(false, ErrorMessage);
+            }
+           
+        }
+    }
+
+
+
 }

@@ -170,14 +170,12 @@ namespace HeBianGu.General.WpfControlLib
 
         private static void SetStarRows(Grid grid)
         {
-            string[] starRows =
-                GetStarRows(grid).Split(',');
+            string[] starRows =GetStarRows(grid).Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             for (int i = 0; i < grid.RowDefinitions.Count; i++)
             {
-                if (starRows.Contains(i.ToString()))
-                    grid.RowDefinitions[i].Height =
-                        new GridLength(1, GridUnitType.Star);
+                if (starRows.Contains(i.ToString())||starRows.Length==0)  
+                    grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
             }
         }
     }

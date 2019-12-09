@@ -1,4 +1,6 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -112,13 +114,13 @@ namespace HeBianGu.General.WpfControlLib
         #endregion
 
         #region Property
-        //[EditorBrowsable(EditorBrowsableState.Never)]
-        //[Obsolete("该属性对此控件无效。请使用BindingItems属性替代。", true)]
-        //public new IEnumerable ItemsSource
-        //{
-        //    get { return base.ItemsSource; }
-        //    private set { base.ItemsSource = value; }
-        //}
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        [Obsolete("该属性对此控件无效。请使用BindingItems属性替代。", true)]
+        public new IEnumerable ItemsSource
+        {
+            get { return base.ItemsSource; }
+            private set { base.ItemsSource = value; }
+        }
 
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Obsolete("该属性对此控件无效。BindingItems属性中的Header属性即为要显示的内容。", true)]
@@ -127,51 +129,6 @@ namespace HeBianGu.General.WpfControlLib
             get { return base.DisplayMemberPath; }
             private set { base.DisplayMemberPath = value; }
         }
-
-        /// <summary>
-        /// 获取或设置鼠标悬浮时子项的背景颜色。默认值为浅灰色(#EEEEEE)。
-        /// </summary>
-        public Brush CoverBrush
-        {
-            get { return (Brush)GetValue(CoverBrushProperty); }
-            set { SetValue(CoverBrushProperty, value); }
-        }
-        public static readonly DependencyProperty CoverBrushProperty =
-            DependencyProperty.Register("CoverBrush", typeof(Brush), typeof(FComboBox), new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"))));
-
-        /// <summary>
-        /// 获取或设置子项被选中时的背景颜色。默认值为浅灰色(#DDDDDD)。
-        /// </summary>
-        public Brush SelectedBrush
-        {
-            get { return (Brush)GetValue(SelectedBrushProperty); }
-            set { SetValue(SelectedBrushProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for SelectedBrush.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedBrushProperty =
-            DependencyProperty.Register("SelectedBrush", typeof(Brush), typeof(FComboBox), new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#DDDDDD"))));
-
-        /// <summary>
-        /// 获取或设置显示框和下拉框的圆角大小。默认值为0。
-        /// </summary>
-        public CornerRadius BorderCornerRadius
-        {
-            get { return (CornerRadius)GetValue(BorderCornerRadiusProperty); }
-            set { SetValue(BorderCornerRadiusProperty, value); }
-        }
-        public static readonly DependencyProperty BorderCornerRadiusProperty =
-            DependencyProperty.Register("BorderCornerRadius", typeof(CornerRadius), typeof(FComboBox), new PropertyMetadata(new CornerRadius(0)));
-
-        /// <summary>
-        ///  获取或设置下拉框激活时阴影的颜色，默认值为#888888。
-        /// </summary>
-        public Color ShadowColor
-        {
-            get { return (Color)GetValue(ShadowColorProperty); }
-            set { SetValue(ShadowColorProperty, value); }
-        }
-        public static readonly DependencyProperty ShadowColorProperty = DependencyProperty.Register("ShadowColor", typeof(Color), typeof(FComboBox), new PropertyMetadata((Color)ColorConverter.ConvertFromString("#888888")));
 
         /// <summary>
         /// 获取或设置当子项目可删除时，用户点击删除按钮后的操作。默认为删除项目并触发DeleteItem路由事件。
@@ -188,14 +145,14 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary>
         /// 若使用MVVM绑定，请使用此依赖属性。
         /// </summary>
-        public ObservableCollection<PUComboBoxItemModel> BindingItems
+        public ObservableCollection<FComboBoxItemModel> BindingItems
         {
-            get { return (ObservableCollection<PUComboBoxItemModel>)GetValue(BindingItemsProperty); }
+            get { return (ObservableCollection<FComboBoxItemModel>)GetValue(BindingItemsProperty); }
             set { SetValue(BindingItemsProperty, value); }
         }
 
         public static readonly DependencyProperty BindingItemsProperty =
-            DependencyProperty.Register("BindingItems", typeof(ObservableCollection<PUComboBoxItemModel>), typeof(FComboBox), new PropertyMetadata(null, OnBindingItemsChanged));
+            DependencyProperty.Register("BindingItems", typeof(ObservableCollection<FComboBoxItemModel>), typeof(FComboBox), new PropertyMetadata(null, OnBindingItemsChanged));
 
         private static void OnBindingItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -324,8 +281,7 @@ namespace HeBianGu.General.WpfControlLib
         public void SelectItemByContent(object content)
         {
             var comboItem = GetItemByContent(content);
-            if (comboItem != null)
-                comboItem.IsSelected = true;
+            if (comboItem != null) comboItem.IsSelected = true;
         }
 
         /// <summary>
@@ -336,8 +292,7 @@ namespace HeBianGu.General.WpfControlLib
         public void SelectItemByValue(object value)
         {
             var comboItem = GetItemByValue(value);
-            if (comboItem != null)
-                comboItem.IsSelected = true;
+            if (comboItem != null) comboItem.IsSelected = true;
         }
 
 
@@ -353,6 +308,7 @@ namespace HeBianGu.General.WpfControlLib
                     var value = SelectedValue;
                     SelectedValue = null;
                     Items.Clear();
+
                     if (BindingItems == null)
                         break;
                     foreach (var item in BindingItems)
@@ -365,7 +321,7 @@ namespace HeBianGu.General.WpfControlLib
                 case NotifyCollectionChangedAction.Add:
                     foreach (var item in e.NewItems)
                     {
-                        var comboBoxItem = GenerateComboBoxItem(item as PUComboBoxItemModel);
+                        var comboBoxItem = GenerateComboBoxItem(item as FComboBoxItemModel);
                         Items.Insert(e.NewStartingIndex, comboBoxItem);
                     }
                     break;
@@ -378,7 +334,7 @@ namespace HeBianGu.General.WpfControlLib
                 case NotifyCollectionChangedAction.Replace:
                     foreach (var item in e.NewItems)
                     {
-                        var comboBoxItem = GenerateComboBoxItem(item as PUComboBoxItemModel);
+                        var comboBoxItem = GenerateComboBoxItem(item as FComboBoxItemModel);
                         Items[e.OldStartingIndex] = comboBoxItem;
                     }
                     break;
@@ -399,7 +355,7 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        private FComboBoxItem GenerateComboBoxItem(PUComboBoxItemModel model)
+        private FComboBoxItem GenerateComboBoxItem(FComboBoxItemModel model)
         {
             var comboBoxItem = new FComboBoxItem()
             {
@@ -425,12 +381,12 @@ namespace HeBianGu.General.WpfControlLib
             {
                 var comboItem = item as FComboBoxItem;
                 if (comboItem == null)
-                    throw new Exception("PUComboBox的子项必须是PUComboBoxItem。");
+                    throw new Exception("FComboBox的子项必须是FComboBoxItem。");
+
                 //if (comboItem.Content.IsEqual(content))
                 //    return comboItem;
 
-                if (comboItem.Content== content)
-                    return comboItem;
+                if (comboItem.Content== content)  return comboItem;
             }
             return null;
         }
@@ -441,12 +397,12 @@ namespace HeBianGu.General.WpfControlLib
             {
                 var comboItem = item as FComboBoxItem;
                 if (comboItem == null)
-                    throw new Exception("PUComboBox的子项必须是PUComboBoxItem。");
+                    throw new Exception("FComboBox的子项必须是FComboBoxItem。");
+
                 //if (comboItem.Value.IsEqual(value))
                 //    return comboItem;
 
-                if (comboItem.Value== value)
-                    return comboItem;
+                if (comboItem.Value== value) return comboItem;
             }
             return null;
         }
@@ -504,10 +460,10 @@ namespace HeBianGu.General.WpfControlLib
             get
             { return _deleteCommand; }
         }
-        private ICommand _deleteCommand = new PUComboBoxDeleteCommand();
+        private ICommand _deleteCommand = new FComboBoxDeleteCommand();
     }
 
-    internal sealed class PUComboBoxDeleteCommand : ICommand
+    internal sealed class FComboBoxDeleteCommand : ICommand
     {
         event EventHandler ICommand.CanExecuteChanged
         {
@@ -543,20 +499,12 @@ namespace HeBianGu.General.WpfControlLib
         }
     }
 
-    public class PUComboBoxItemModel : INotifyPropertyChanged
+    public class FComboBoxItemModel : NotifyPropertyChanged
     {
-        protected internal virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        #region Constructor
-        public PUComboBoxItemModel()
+        public FComboBoxItemModel()
         {
             Uid = Guid.NewGuid().ToString("N");
         }
-        #endregion
 
         #region Property
         /// <summary>
@@ -565,7 +513,7 @@ namespace HeBianGu.General.WpfControlLib
         public string Header
         {
             get { return _header; }
-            set { _header = value; OnPropertyChanged("Header"); }
+            set { _header = value; RaisePropertyChanged("Header"); }
         }
         private string _header = "";
 
@@ -576,7 +524,7 @@ namespace HeBianGu.General.WpfControlLib
         public object Value
         {
             get { return _value; }
-            set { _value = value; OnPropertyChanged("Value"); }
+            set { _value = value; RaisePropertyChanged("Value"); }
         }
         private object _value;
 
@@ -586,7 +534,7 @@ namespace HeBianGu.General.WpfControlLib
         public bool CanDelete
         {
             get { return _canDelete; }
-            set { _canDelete = value; OnPropertyChanged("CanDelete"); }
+            set { _canDelete = value; RaisePropertyChanged("CanDelete"); }
         }
         private bool _canDelete = false;
 

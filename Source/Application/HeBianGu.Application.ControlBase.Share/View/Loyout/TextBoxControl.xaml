@@ -14,39 +14,221 @@
 
             <GroupBox Header="标题文本输入框">
                 <StackPanel>
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入姓名" Style="{StaticResource S.FTextBox.Label}" base:ControlAttachProperty.Label="姓名：">
+                    </wpfcontrollib:FTextBox>
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入爱好" Style="{StaticResource S.FTextBox.LabelClear}" base:ControlAttachProperty.Label="爱好："></wpfcontrollib:FTextBox>
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入爱好" IsReadOnly="True" Style="{StaticResource S.FTextBox.LabelClear}" base:ControlAttachProperty.Label="爱好：">IsReadOnly="True"</wpfcontrollib:FTextBox>
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入爱好" IsEnabled="False" Style="{StaticResource S.FTextBox.LabelClear}" base:ControlAttachProperty.Label="爱好：">IsEnabled="False"</wpfcontrollib:FTextBox>
 
-                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入姓名" 
-                         Style="{StaticResource S.FTextBox.Label}" base:ControlAttachProperty.Label="姓名："></wpfcontrollib:FTextBox>
-                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入爱好" 
-                         Style="{StaticResource S.FTextBox.LabelClear}" base:ControlAttachProperty.Label="爱好："></wpfcontrollib:FTextBox>
-                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入爱好" IsReadOnly="True"
-                         Style="{StaticResource S.FTextBox.LabelClear}" base:ControlAttachProperty.Label="爱好：">IsReadOnly="True"</wpfcontrollib:FTextBox>
-                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入爱好" IsEnabled="False"
-                         Style="{StaticResource S.FTextBox.LabelClear}" base:ControlAttachProperty.Label="爱好：">IsEnabled="False"</wpfcontrollib:FTextBox>
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" Style="{StaticResource S.FTextBox.Single.Label}" base:ControlAttachProperty.Label="户口地址："/>
 
-                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" 
-                         Style="{StaticResource S.FTextBox.Single.Label}" base:ControlAttachProperty.Label="户口地址："/>
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="户口地址："/>
 
-                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" 
-                         Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="户口地址："/>
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="户口地址："/>
 
-                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" 
-                         Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="户口地址："/>
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" Style="{StaticResource S.FTextBox.Circle}"/>
 
-                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" 
-                         Style="{StaticResource S.FTextBox.Circle}"/>
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" Style="{StaticResource S.FTextBox.Circle.Label}" base:ControlAttachProperty.Label="户口地址："/>
 
-                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" 
-                         Style="{StaticResource S.FTextBox.Circle.Label}" base:ControlAttachProperty.Label="户口地址："/>
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" Style="{StaticResource S.FTextBox.UnderLine.LabelClear}" base:ControlAttachProperty.Label="户口地址："/>
 
-                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" 
-                         Style="{StaticResource S.FTextBox.UnderLine.LabelClear}" base:ControlAttachProperty.Label="户口地址："/>
-
-                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" 
-                         Style="{StaticResource S.FTextBox.UnderLine.LabelClear.Alarm}" base:ControlAttachProperty.Label="户口地址"/>
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入户口地址" Style="{StaticResource S.FTextBox.UnderLine.LabelClear.Alarm}" base:ControlAttachProperty.Label="户口地址"/>
 
 
                 </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="输入信息验证">
+                <UniformGrid Columns="5">
+                    
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="姓名：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <base:RequiredValidationRule ErrorMessage="数据不能为空"/>
+                                    <base:RegularExpressionValidationRule ErrorMessage="只能输入汉字" Pattern="^[\u4e00-\u9fa5]{0,}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="密码：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.PassWord" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="以字母开头，长度在6~18之间，只能包含字母、数字和下划线" Pattern="^[a-zA-Z]\w{5,17}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+                    
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="手机号：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Phone" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="手机号码不合法" Pattern="^1[3|4|5|7|8][0-9]{9}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="年龄：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Age" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="只能输入数字" Pattern="^^[0-9]*$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="区划：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Regin" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="只能5位的数字" Pattern="^\d{5}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="数字范围：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Limit" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="只能5-8位的数字" Pattern="^^\d{5,8}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="Email地址：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Email" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="邮箱地址不合法" Pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="身份证号：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.CardID" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="身份证号不合法" Pattern="^^\d{15}|\d{18}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="账号：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Accont" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="字母开头，允许5-16字节，允许字母数字下划线" Pattern="^[a-zA-Z][a-zA-Z0-9_]{4,15}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+                </UniformGrid>
+            </GroupBox>
+
+            <GroupBox Header="输入信息验证">
+                <UniformGrid Columns="5">
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="姓名：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Name" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <base:RequiredValidationRule ErrorMessage="数据不能为空"/>
+                                    <base:RegularExpressionValidationRule ErrorMessage="只能输入汉字" Pattern="^[\u4e00-\u9fa5]{0,}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="密码：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.PassWord" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="以字母开头，长度在6~18之间，只能包含字母、数字和下划线" Pattern="^[a-zA-Z]\w{5,17}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="手机号：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Phone" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="手机号码不合法" Pattern="^1[3|4|5|7|8][0-9]{9}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="年龄：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Age" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="只能输入数字" Pattern="^^[0-9]*$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="区划：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Regin" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="只能5位的数字" Pattern="^\d{5}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="数字范围：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Limit" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="只能5-8位的数字" Pattern="^^\d{5,8}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="Email地址：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Email" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="邮箱地址不合法" Pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="身份证号：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.CardID" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="身份证号不合法" Pattern="^^\d{15}|\d{18}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+
+                    <wpfcontrollib:FTextBox  Margin="3" base:ControlAttachProperty.Watermark="请输入数据" Style="{StaticResource S.FTextBox.Single.LabelClear}" base:ControlAttachProperty.Label="账号：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.Accont" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" >
+                                <Binding.ValidationRules>
+                                    <base:RegularExpressionValidationRule ErrorMessage="字母开头，允许5-16字节，允许字母数字下划线" Pattern="^[a-zA-Z][a-zA-Z0-9_]{4,15}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </wpfcontrollib:FTextBox>
+                </UniformGrid>
             </GroupBox>
 
             <GroupBox Header="资源文本输入框">
