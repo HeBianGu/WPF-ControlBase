@@ -169,6 +169,9 @@
                 <Setter TargetName="PART_ContentHost" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
                 <Setter TargetName="Label" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
             </Trigger>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip" Value="{Binding RelativeSource= {x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
     
@@ -204,8 +207,8 @@
                 <ControlTemplate>
                     <StackPanel Orientation="Horizontal">
                         <AdornedElementPlaceholder x:Name="textBox"/>
-                        
-                        <TextBlock Style="{DynamicResource FIcon}" Text="&#xe626;" Margin="12,0,0,0" FontSize="{DynamicResource S.IconFontSize.Default}" ToolTip="{Binding [0].ErrorContent}" 
+                        <TextBlock Style="{DynamicResource FIcon}" Text="&#xe626;" Margin="12,0,0,0" 
+                                   FontSize="{DynamicResource S.IconFontSize.Default}" ToolTip="{Binding [0].ErrorContent}" 
                                    Foreground="Red" VerticalAlignment="Center"/>
                     </StackPanel>
                 </ControlTemplate>

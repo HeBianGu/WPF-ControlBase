@@ -4,6 +4,8 @@ using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -769,11 +771,13 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
 
     /// <summary> 文本输入验证</summary>
-    internal class TextBoxViewModel : NotifyPropertyChanged
+    internal class TextBoxViewModel : ValidationPropertyChanged
     {
 
         private string _name;
         /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^[\u4e00-\u9fa5]{0,}$", ErrorMessage = "只能输入汉字！")]
         public string Name
         {
             get { return _name; }
@@ -788,6 +792,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         private string _age;
         /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "只能输入数字")]
         public string Age
         {
             get { return _age; }
@@ -801,6 +807,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         private string _email;
         /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "邮箱地址不合法！")]
         public string Email
         {
             get { return _email; }
@@ -814,6 +822,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         private string _phone;
         /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^1[3|4|5|7|8][0-9]{9}$", ErrorMessage = "手机号码不合法！")]
         public string Phone
         {
             get { return _phone; }
@@ -827,6 +837,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         private string _account;
         /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^[a-zA-Z][a-zA-Z0-9_]{4,15}$", ErrorMessage = "字母开头，允许5-16字节，允许字母数字下划线！")]
         public string Accont
         {
             get { return _account; }
@@ -840,6 +852,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         private string _passWord;
         /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^[a-zA-Z]\w{5,17}$", ErrorMessage = "以字母开头，长度在6~18之间，只能包含字母、数字和下划线！！")]
         public string PassWord
         {
             get { return _passWord; }
@@ -853,6 +867,9 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         private string _regin;
         /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^\d{5}$", ErrorMessage = "只能5位的数字")]
+
         public string Regin
         {
             get { return _regin; }
@@ -866,6 +883,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         private string _limit;
         /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^\d{5,8}$", ErrorMessage = "只能5-8位的数字")]
         public string Limit
         {
             get { return _limit; }
@@ -879,6 +898,8 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         private string _cardID;
         /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^\d{15}|\d{18}$", ErrorMessage = "身份证号码不合法！")]
         public string CardID
         {
             get { return _cardID; }
@@ -889,30 +910,37 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             }
         }
 
+        #region - 方法 -
 
-
-    }
-    public class RegularExpressionValidationRule : ValidationRule
-    {
-        public string Pattern { get; set; }
-
-        public string ErrorMessage { get; set; }
-
-        public override ValidationResult Validate(object value, CultureInfo cultureInfo)
+        protected override void RelayMethod(object obj)
         {
-            if(value==null) return new ValidationResult(false, "数据不能为空");
+            string command = obj.ToString();
 
-            if(Regex.IsMatch(value.ToString(), Pattern))
+            //  Do：应用
+            if (command == "Button.Click.CheckDataSumit")
             {
-                return new ValidationResult(true, null);
+                if (this.IsValid())
+                {
+                    MessageService.ShowSnackMessageWithNotice("数据校验成功！");
+                }
+                else
+                {
+                    MessageService.ShowSnackMessageWithNotice("数据校验错误 - " + this.Error);
+                }
+
             }
-            else
+            //  Do：取消
+            else if (command == "Cancel")
             {
-                return new ValidationResult(false, ErrorMessage);
+
+
             }
-           
         }
+
+        #endregion
+
     }
+
 
 
 
