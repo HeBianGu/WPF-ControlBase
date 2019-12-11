@@ -5,6 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow"
              xmlns:echart="clr-namespace:HeBianGu.WPF.EChart;assembly=HeBianGu.General.WpfChart"
+             xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
+             xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <ScrollViewer>
@@ -12,19 +14,13 @@
             <GroupBox Header="动态心电图">
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="188*"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition Height="20"/>
                     </Grid.RowDefinitions>
-                    <Viewbox>
+                    <Viewbox Grid.Row="1" >
                         <Grid x:Name="grid_all">
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
-                                <!--<RowDefinition Height="10"/>-->
                             </Grid.RowDefinitions>
                             <echart:CardiogramCurveChartPlotter Style="{StaticResource CardiogramPlotterStyle}" IsShowCursorLine="False" 
                                                             DataSource="{Binding CardiogramCollection}"  DataSourceChangeBegionStory="False"
@@ -241,24 +237,14 @@
                         </Grid>
                     </Viewbox>
 
-                    <StackPanel Orientation="Horizontal" Grid.Row="1">
-                        <TextBlock Text="刷新时间：" FontSize="15"/>
-                        <TextBox Text="{Binding RefreshTime}" FontSize="15" Width="200"/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" Grid.Row="2">
-                        <TextBlock Text="每次更新数量：" FontSize="15"/>
-                        <TextBox Text="{Binding RefreshCount}"  FontSize="15" Width="200"/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Horizontal" Grid.Row="3">
-                        <TextBlock Text="显示个数数量：" FontSize="15"/>
-                        <TextBox Text="{Binding ShowCount}"  FontSize="15" Width="200"/>
-                    </StackPanel>
-
-                    <Button Content="开始播放" x:Name="btn_start" Grid.Row="4" Command="{Binding RelayCommand}" CommandParameter="RefreshCardiogramCurve"/>
-                    <Button Content="停止播放" x:Name="btn_stop" Grid.Row="5"  Command="{Binding RelayCommand}" CommandParameter="StopCardiogramCurve"/>
-
+                    <wpfcontrollib:Row  Style="{DynamicResource S.Row.Column.4}">
+                        <wpfcontrollib:FTextBox Height="{DynamicResource S.Window.Item.Height}"  Grid.Column="0" Style="{DynamicResource S.FTextBox.Single.Label}" base:ControlAttachProperty.Label="刷新时间：" Text="{Binding RefreshTime}"  Width="Auto"/>
+                        <wpfcontrollib:FTextBox Height="{DynamicResource S.Window.Item.Height}"  Grid.Column="1" Style="{DynamicResource S.FTextBox.Single.Label}" base:ControlAttachProperty.Label="更新数量：" Text="{Binding RefreshCount}" Width="Auto"/>
+                        <wpfcontrollib:FTextBox Height="{DynamicResource S.Window.Item.Height}" Grid.Column="2" Style="{DynamicResource S.FTextBox.Single.Label}" base:ControlAttachProperty.Label="显示个数：" Text="{Binding ShowCount}" Width="Auto"/>
+                            <wpfcontrollib:FButton Content="开始播放" x:Name="btn_start" Grid.Column="3" HorizontalAlignment="Right" Command="{Binding RelayCommand}" CommandParameter="RefreshCardiogramCurve"/>
+                            <wpfcontrollib:FButton Content="停止播放" x:Name="btn_stop"  Grid.Column="4" Command="{Binding RelayCommand}" CommandParameter="StopCardiogramCurve"/>
+                        </wpfcontrollib:Row>
+                  
                 </Grid>
             </GroupBox>
         </StackPanel>

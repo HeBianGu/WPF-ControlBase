@@ -4,11 +4,17 @@ using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 
 namespace HeBianGu.Applications.ControlBase.LinkWindow
 {
@@ -53,7 +59,18 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             }
         }
 
-        
+
+        private StoryBoardPlayerViewModel _storyBoardPlayerViewModel = new StoryBoardPlayerViewModel();
+        /// <summary> 说明  </summary>
+        public StoryBoardPlayerViewModel StoryBoardPlayerViewModel
+        {
+            get { return _storyBoardPlayerViewModel; }
+            set
+            {
+                _storyBoardPlayerViewModel = value;
+                RaisePropertyChanged("StoryBoardPlayerViewModel");
+            }
+        }
 
         protected override void Init()
         {
@@ -68,6 +85,14 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         }
 
+
+        public ObservableCollection<FComboBoxItemModel> ComboBoxItems
+        {
+            get { return _comboBoxItems; }
+            set { _comboBoxItems = value; RaisePropertyChanged("ComboBoxItems"); }
+        }
+        private ObservableCollection<FComboBoxItemModel> _comboBoxItems = new ObservableCollection<FComboBoxItemModel>();
+
         /// <summary> 命令通用方法 </summary>
         protected override async void RelayMethod(object obj)
 
@@ -78,15 +103,14 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             if (command == "Button.ShowDialogMessage")
             {
                 await MessageService.ShowSumitMessge("这是消息对话框？");
-
             }
+
             //  Do：等待消息
             else if (command == "Button.ShowWaittingMessge")
             {
-
                 await MessageService.ShowWaittingMessge(() => Thread.Sleep(2000));
-
             }
+
             //  Do：百分比进度对话框
             else if (command == "Button.ShowPercentProgress")
             {
@@ -106,6 +130,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 await MessageService.ShowPercentProgress(action);
 
             }
+
             //  Do：文本进度对话框
             else if (command == "Button.ShowStringProgress")
             {
@@ -126,6 +151,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 await MessageService.ShowStringProgress(action);
 
             }
+
             //  Do：确认取消对话框
             else if (command == "Button.ShowResultMessge")
             {
@@ -140,20 +166,23 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                     MessageService.ShowSnackMessageWithNotice("你点击了确定");
                 }
             }
+
             //  Do：提示消息
             else if (command == "Button.ShowSnackMessage")
             {
                 MessageService.ShowSnackMessageWithNotice("这是提示消息？");
             }
+
             //  Do：气泡消息
             else if (command == "Button.ShowNotifyMessage")
             {
                 MessageService.ShowNotifyMessage("你有一条报警信息需要处理，请检查", "Notify By HeBianGu");
             }
+
             //  Do：气泡消息
             else if (command == "Button.ShowIdentifyNotifyMessage")
             {
-                MessageService.ShowNotifyDialogMessage("自定义气泡消息" + DateTime.Now.ToString("yyyy-mm-dd HH:mm:ss"),"友情提示",5);
+                MessageService.ShowNotifyDialogMessage("自定义气泡消息" + DateTime.Now.ToString("yyyy-mm-dd HH:mm:ss"), "友情提示", 5);
             }
 
             //  Do：气泡消息
@@ -167,6 +196,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             {
                 MessageWindow.ShowDialog("这是窗口提示消息");
             }
+
             //  Do：气泡消息
             else if (command == "Button.ShowWindowIndentifyMessage")
             {
@@ -189,7 +219,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                 MessageWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒", acts.ToArray());
             }
-
 
             //  Do：气泡消息
             else if (command == "Button.Upgrade")
@@ -226,6 +255,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
                 this.AddMessage(message, command);
             }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Info"))
             {
@@ -236,6 +266,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 this.AddMessage(message, command);
 
             }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Success"))
             {
@@ -246,6 +277,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 this.AddMessage(message, command);
 
             }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Fatal"))
             {
@@ -257,6 +289,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
 
             }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Warn"))
             {
@@ -287,16 +320,39 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
             }
 
-           
+            else if (command == "Button.Add")
+            {
+
+                if (this.StoryBoardPlayerViewModel.PlayMode)
+                {
+                    MessageService.ShowSnackMessageWithNotice("请先停止播放再进行添加！");
+                    return;
+                }
+                this.StoryBoardPlayerViewModel.Create();
+            }
+            else if (command == "init")
+            {
+                for (int i = 0; i < 60; i++)
+                {
+                    ComboBoxItems.Add(new FComboBoxItemModel()
+                    {
+                        Header = "ComboBoxItem" + (ComboBoxItems.Count + 1),
+                        Value = (ComboBoxItems.Count + 1),
+                        CanDelete = true
+                    });
+                }
+            }
+
+
         }
 
-        void AddMessage(MessageBase message,string command)
+        void AddMessage(MessageBase message, string command)
         {
-            if(command.EndsWith("System"))
+            if (command.EndsWith("System"))
             {
                 MessageService.ShowSystemNotifyMessage(message);
             }
-            else if(command.EndsWith("Window"))
+            else if (command.EndsWith("Window"))
             {
 
                 MessageService.ShowWindowNotifyMessage(message);
@@ -308,5 +364,705 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         }
 
 
+        private TextBoxViewModel _textBoxViewModel = new TextBoxViewModel();
+        /// <summary> 说明  </summary>
+        public TextBoxViewModel TextBoxViewModel
+        {
+            get { return _textBoxViewModel; }
+            set
+            {
+                _textBoxViewModel = value;
+                RaisePropertyChanged("TextBoxViewModel");
+            }
+        }
+
+
+
     }
+
+
+    public partial class StoryBoardPlayerViewModel : NotifyPropertyChanged
+    {
+        public StoryBoardPlayerViewModel()
+        {
+            this.IndexChanged += l =>
+            {
+                //  Do ：触发子项进度
+                foreach (var item in this.Collection)
+                {
+                    item.OnIndexChanged(l);
+                }
+            };
+        }
+        private ObservableCollection<StoryBoardItemViewModel> _collection = new ObservableCollection<StoryBoardItemViewModel>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<StoryBoardItemViewModel> Collection
+        {
+            get { return _collection; }
+            set
+            {
+                _collection = value;
+                RaisePropertyChanged("Collection");
+            }
+        }
+
+        public StoryBoardItemViewModel Create()
+        {
+            StoryBoardItemViewModel item = new StoryBoardItemViewModel(this);
+
+            //  Do ：注册子项进度
+            item.IndexChanged += l =>
+            {
+                //  Do ：触发子项进度外部事件
+                ItemIndexChanged?.Invoke(item, l);
+            };
+
+            this.Collection.Add(item);
+
+            return item;
+        }
+
+
+        private double _maxValue = 100.0;
+        /// <summary> 说明  </summary>
+        public double MaxValue
+        {
+            get { return _maxValue; }
+            set
+            {
+                _maxValue = value;
+                RaisePropertyChanged("MaxValue");
+            }
+        }
+
+
+        private double _minValue = 0.0;
+        /// <summary> 说明  </summary>
+        public double MinValue
+        {
+            get { return _minValue; }
+            set
+            {
+                _minValue = value;
+                RaisePropertyChanged("MinValue");
+            }
+        }
+
+
+        private double _value = 0.0;
+        /// <summary> 说明  </summary>
+        public double Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                RaisePropertyChanged("Value");
+            }
+        }
+
+
+        private int _speed = 0;
+        /// <summary> 说明  </summary>
+        public int Speed
+        {
+            get { return _speed; }
+            set
+            {
+                _speed = value;
+                RaisePropertyChanged("Speed");
+            }
+        }
+
+
+        System.Timers.Timer timer = new System.Timers.Timer();
+
+        public void Start()
+        {
+            this.Stop();
+
+            timer = new System.Timers.Timer();
+
+            //timer.Interval = 1000 - Speed;
+
+            timer.Elapsed += (l, k) =>
+            {
+                timer.Interval = Speed == 0 ? 1000 : 1010 - 125 * Speed;
+
+                if (this.Value < MaxValue)
+                {
+                    this.Value++;
+                }
+                else
+                {
+                    this.Value = 0;
+                }
+
+                IndexChanged?.Invoke(this.Value);
+            };
+
+            timer.Start();
+        }
+
+        public void StartWith(StoryBoardItemViewModel item)
+        {
+            this.Stop();
+
+            this.Collection.Foreach(l =>
+            {
+                if (l != item)
+                    l.PlayMode = false;
+
+                l.IsEnbled = l != item;
+            });
+
+
+            timer = new System.Timers.Timer();
+
+            this.Value = MaxValue * item.LeftPercent;
+
+            timer.Interval = Speed == 0 ? 1000 : 1010 - 125 * Speed;
+
+            timer.Elapsed += (l, k) =>
+            {
+                timer.Interval = Speed == 0 ? 1000 : 1010 - 125 * Speed;
+
+
+
+                if (this.Value < (int)MaxValue * item.RightPercent && this.Value >= MaxValue * item.LeftPercent)
+                {
+                    this.Value++;
+                }
+                else
+                {
+                    this.Value = MaxValue * item.LeftPercent;
+                }
+
+
+                IndexChanged?.Invoke(this.Value);
+            };
+
+            timer.Start();
+
+
+        }
+
+        public void Stop()
+        {
+            timer.Stop();
+        }
+
+
+        private bool _playMode;
+        /// <summary> 说明  </summary>
+        public bool PlayMode
+        {
+            get { return _playMode; }
+            set
+            {
+                this._playMode = value;
+                RaisePropertyChanged("PlayMode");
+            }
+        }
+
+
+
+
+        protected override async void RelayMethod(object obj)
+        {
+            string command = obj.ToString();
+
+            //  Do：应用
+            if (command == "Sumit")
+            {
+
+
+            }
+            //  Do：取消
+            else if (command == "Cancel")
+            {
+
+
+            }
+            else if (command == "ToggleButton.Click.Play")
+            {
+                if (this.Collection.Count == 0)
+                {
+                    this.PlayMode = false;
+
+                    MessageService.ShowSnackMessageWithNotice("请至少添加一个条目！");
+
+                    return;
+                }
+
+                this.Collection.Foreach(l => l.PlayMode = true);
+
+                this.Collection.Foreach(l => l.IsEnbled = false);
+
+                this.Start();
+
+
+            }
+
+            else if (command == "ToggleButton.Click.Stop")
+            {
+                this.Collection.Foreach(l => l.PlayMode = false);
+
+                this.Collection.Foreach(l => l.IsEnbled = true);
+
+                this.Stop();
+            }
+        }
+
+        public event Action<double> IndexChanged;
+
+        public event Action<StoryBoardItemViewModel, double> ItemIndexChanged;
+
+    }
+
+    public partial class StoryBoardItemViewModel : NotifyPropertyChanged
+    {
+        static int Index = 0;
+
+        private string _name;
+        /// <summary> 说明  </summary>
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                RaisePropertyChanged("Name");
+            }
+        }
+
+        public StoryBoardItemViewModel()
+        {
+
+        }
+
+        StoryBoardPlayerViewModel _parent;
+
+        public StoryBoardItemViewModel(StoryBoardPlayerViewModel parent)
+        {
+            _parent = parent;
+
+            this.Name = (Index++).ToString();
+        }
+
+        public event Action<double> IndexChanged;
+
+        private bool _isEnbled = false;
+        /// <summary> 说明  </summary>
+        public bool IsEnbled
+        {
+            get { return _isEnbled; }
+            set
+            {
+                _isEnbled = value;
+                RaisePropertyChanged("IsEnbled");
+            }
+        }
+
+
+        private double _leftPercent = 0.0;
+        /// <summary> 说明  </summary>
+        public double LeftPercent
+        {
+            get { return _leftPercent; }
+            set
+            {
+                _leftPercent = value;
+                RaisePropertyChanged("LeftPercent");
+            }
+        }
+
+
+        private double _rightPercent = 1.0;
+        /// <summary> 说明  </summary>
+        public double RightPercent
+        {
+            get { return _rightPercent; }
+            set
+            {
+                _rightPercent = value;
+                RaisePropertyChanged("RightPercent");
+            }
+        }
+
+        private bool _playMode;
+        /// <summary> 说明  </summary>
+        public bool PlayMode
+        {
+            get { return _playMode; }
+            set
+            {
+                _playMode = value;
+
+                RaisePropertyChanged("PlayMode");
+            }
+        }
+
+
+        private double _value = 0;
+        /// <summary> 说明  </summary>
+        public double Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                RaisePropertyChanged("Value");
+            }
+        }
+
+
+        public void OnIndexChanged(double value)
+        {
+            if (this.IsEnbled == false && this.PlayMode)
+            {
+                this.IndexChanged?.Invoke(value);
+
+                this.Value = value;
+            }
+        }
+
+        public RelayCommand<ToggleButton> ToggleButtonCheckChangedCommand => new Lazy<RelayCommand<ToggleButton>>(() => new RelayCommand<ToggleButton>(async l => await ToggleButtonCheckedChanged(l))).Value;
+
+        internal async Task ToggleButtonCheckedChanged(ToggleButton commandParamer)
+        {
+            //  Do ：避免通过属性修改触发此事件
+            if (!commandParamer.IsFocused) return;
+
+            if (this.PlayMode)
+            {
+                this._parent.StartWith(this);
+            }
+            else
+            {
+                this._parent.Stop();
+            }
+        }
+
+
+        protected override async void RelayMethod(object obj)
+        {
+            string command = obj.ToString();
+
+            //  Do：应用
+            if (command == "StoryBoardItem.Button.Delelte")
+            {
+                if (this._parent.PlayMode)
+                {
+                    MessageService.ShowSnackMessageWithNotice("请先停止播放再进行此操作！");
+                    return;
+                }
+
+                var result = await MessageService.ShowResultMessge("确定要删除当前项目？");
+
+                if (!result) return;
+
+                this._parent.Collection.Remove(this);
+
+                this.IndexChanged = null;
+            }
+        }
+    }
+
+
+    /// <summary> 文本输入验证</summary>
+    [MetadataType(typeof(BindDataAnnotationsViewModel))]
+    internal class TextBoxViewModel : ValidationPropertyChanged
+    {
+        public TextBoxViewModel():base()
+        {
+           
+        }
+        private string _name;
+        /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^[\u4e00-\u9fa5]{0,}$", ErrorMessage = "只能输入汉字！")]
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+
+                RaisePropertyChanged("Name");
+            }
+        }
+
+
+        private string _age;
+        /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "只能输入数字")]
+        public string Age
+        {
+            get { return _age; }
+            set
+            {
+                _age = value;
+                RaisePropertyChanged("Age");
+            }
+        }
+
+
+        private string _email;
+        /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$", ErrorMessage = "邮箱地址不合法！")]
+        public string Email
+        {
+            get { return _email; }
+            set
+            {
+                _email = value;
+                RaisePropertyChanged("Email");
+            }
+        }
+
+
+        private string _phone;
+        /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^1[3|4|5|7|8][0-9]{9}$", ErrorMessage = "手机号码不合法！")]
+        public string Phone
+        {
+            get { return _phone; }
+            set
+            {
+                _phone = value;
+                RaisePropertyChanged("Phone");
+            }
+        }
+
+
+        private string _account;
+        /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^[a-zA-Z][a-zA-Z0-9_]{4,15}$", ErrorMessage = "字母开头，允许5-16字节，允许字母数字下划线！")]
+        public string Accont
+        {
+            get { return _account; }
+            set
+            {
+                _account = value;
+                RaisePropertyChanged("Accont");
+            }
+        }
+
+
+        private string _passWord;
+        /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^[a-zA-Z]\w{5,17}$", ErrorMessage = "以字母开头，长度在6~18之间，只能包含字母、数字和下划线！！")]
+        public string PassWord
+        {
+            get { return _passWord; }
+            set
+            {
+                _passWord = value;
+                RaisePropertyChanged("PassWord");
+            }
+        }
+
+
+        private string _regin;
+        /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^\d{5}$", ErrorMessage = "只能5位的数字")]
+
+        public string Regin
+        {
+            get { return _regin; }
+            set
+            {
+                _regin = value;
+                RaisePropertyChanged("Regin");
+            }
+        }
+
+
+        private string _limit;
+        /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^\d{5,8}$", ErrorMessage = "只能5-8位的数字")]
+        public string Limit
+        {
+            get { return _limit; }
+            set
+            {
+                _limit = value;
+                RaisePropertyChanged("Limit");
+            }
+        }
+
+
+        private string _cardID;
+        /// <summary> 说明  </summary>
+        [Required(ErrorMessage = "数据不能为空")]
+        [RegularExpression(@"^\d{15}|\d{18}$", ErrorMessage = "身份证号码不合法！")]
+        public string CardID
+        {
+            get { return _cardID; }
+            set
+            {
+                _cardID = value;
+                RaisePropertyChanged("CardID");
+            }
+        }
+
+        #region - 方法 -
+
+        protected override void RelayMethod(object obj)
+        {
+            string command = obj.ToString();
+
+            //  Do：应用
+            if (command == "Button.Click.CheckDataSumit")
+            {
+                if (this.IsValid())
+                {
+                    MessageService.ShowSnackMessageWithNotice("数据校验成功！");
+                }
+                else
+                {
+                    MessageService.ShowSnackMessageWithNotice("数据校验错误 - " + this.Error);
+                }
+
+            }
+            //  Do：取消
+            else if (command == "Cancel")
+            {
+
+
+            }
+        }
+
+        #endregion
+
+    }
+
+    [MetadataType(typeof(BindDataAnnotationsViewModel))]
+    public class BindDataAnnotationsViewModel : NotifyPropertyChanged, IDataErrorInfo
+    {
+
+        public BindDataAnnotationsViewModel()
+        {
+
+        }
+
+        #region 属性 
+        /// <summary>
+        /// 表当验证错误集合
+        /// </summary>
+        private Dictionary<String, String> dataErrors = new Dictionary<String, String>();
+
+
+        private String userName;
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        [Required]
+        public String UserName
+        {
+            get { return userName; }
+            set { userName = value; }
+        }
+
+
+
+        private String userPhone;
+        /// <summary>
+        /// 用户电话
+        /// </summary>
+        [Required]
+        [RegularExpression(@"^[-]?[1-9]{8,11}\d*$|^[0]{1}$", ErrorMessage = "用户电话必须为8-11位的数值.")]
+        public String UserPhone
+        {
+            get { return userPhone; }
+            set { userPhone = value; }
+        }
+
+
+
+        private String userEmail;
+        /// <summary>
+        /// 用户邮件
+        /// </summary>
+        [Required]
+        [StringLength(100, MinimumLength = 2)]
+        [RegularExpression("^\\s*([A-Za-z0-9_-]+(\\.\\w+)*@(\\w+\\.)+\\w{2,5})\\s*$", ErrorMessage = "请填写正确的邮箱地址.")]
+        public String UserEmail
+        {
+            get { return userEmail; }
+            set { userEmail = value; }
+        }
+        #endregion
+
+
+        #region 命令
+
+        
+
+        #endregion
+
+
+        public string this[string columnName]
+        {
+            get
+            {
+                ValidationContext vc = new ValidationContext(this, null, null);
+                vc.MemberName = columnName;
+                var res = new List<System.ComponentModel.DataAnnotations.ValidationResult>();
+                var result = Validator.TryValidateProperty(this.GetType().GetProperty(columnName).GetValue(this, null), vc, res);
+                if (res.Count > 0)
+                {
+                    AddDic(dataErrors, vc.MemberName);
+                    return string.Join(Environment.NewLine, res.Select(r => r.ErrorMessage).ToArray());
+                }
+                RemoveDic(dataErrors, vc.MemberName);
+                return null;
+            }
+        }
+
+        public string Error
+        {
+            get
+            {
+                return null;
+            }
+        }
+
+
+        #region 附属方法
+
+        /// <summary>
+        /// 移除字典
+        /// </summary>
+        /// <param name="dics"></param>
+        /// <param name="dicKey"></param>
+        private void RemoveDic(Dictionary<String, String> dics, String dicKey)
+        {
+            dics.Remove(dicKey);
+        }
+
+        /// <summary>
+        /// 添加字典
+        /// </summary>
+        /// <param name="dics"></param>
+        /// <param name="dicKey"></param>
+        private void AddDic(Dictionary<String, String> dics, String dicKey)
+        {
+            if (!dics.ContainsKey(dicKey)) dics.Add(dicKey, "");
+        }
+        #endregion
+
+    }
+
+
+
+
 }

@@ -83,19 +83,32 @@ namespace HeBianGu.General.WpfControlLib
                 });
 
 
-                this.Dispatcher.Invoke(() =>
-                {
-                    if(this.Content==result?.View)
-                    {
-                        this.Content = new Button() { Visibility=Visibility.Collapsed};
-                        this.Content = result?.View;
-                    }
-                    else
-                    {
-                        this.Content = result?.View;
-                    }
-                    
-                });
+                await this.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+                  {
+                      if (this.Content == result?.View)
+                      {
+                          this.Content = new Button() { Visibility = Visibility.Collapsed };
+                          this.Content = result?.View;
+                      }
+                      else
+                      {
+                          this.Content = result?.View;
+                      }
+
+                  }));
+
+                // this.Dispatcher.Invoke(() =>
+                //{
+                //    if (this.Content == result?.View)
+                //    {
+                //        this.Content = new Button() { Visibility = Visibility.Collapsed };
+                //        this.Content = result?.View;
+                //    }
+                //    else
+                //    {
+                //        this.Content = result?.View;
+                //    }
+                //});
             }
             catch (Exception ex)
             {

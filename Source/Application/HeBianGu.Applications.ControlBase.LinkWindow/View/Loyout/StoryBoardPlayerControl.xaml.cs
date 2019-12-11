@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace HeBianGu.Applications.ControlBase.LinkWindow.View.Loyout
 {
     /// <summary>
-    /// ChartLeftControl.xaml 的交互逻辑
+    /// StoryBoardPlayerControl.xaml 的交互逻辑
     /// </summary>
-    public partial class ChartLeftControl : UserControl
+    public partial class StoryBoardPlayerControl : UserControl
     {
-        public ChartLeftControl()
+        public StoryBoardPlayerControl()
         {
             InitializeComponent();
         }

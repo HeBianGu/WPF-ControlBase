@@ -25,11 +25,67 @@ namespace HeBianGu.General.WpfControlLib
 
     /// <summary> 自定义导航框架 </summary> 
     public class ObjectPropertyForm : ItemsControl
-    { 
+    {
         static ObjectPropertyForm()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ObjectPropertyForm), new FrameworkPropertyMetadata(typeof(ObjectPropertyForm)));
         }
+
+        public ObjectPropertyForm()
+        {
+            this.BindCommand(CommandService.Sure, (l, k) =>
+             {
+                 this.Result = true;
+
+                 this.OnSumit();
+             });
+
+            this.BindCommand(CommandService.Close, (l, k) =>
+            {
+                this.OnClose();
+            });
+        }
+
+        public bool Result { get; set; }
+
+
+        //声明和注册路由事件
+        public static readonly RoutedEvent SumitRoutedEvent =
+            EventManager.RegisterRoutedEvent("Sumit", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(ObjectPropertyForm));
+        //CLR事件包装
+        public event RoutedEventHandler Sumit
+        {
+            add { this.AddHandler(SumitRoutedEvent, value); }
+            remove { this.RemoveHandler(SumitRoutedEvent, value); }
+        }
+
+        //激发路由事件,借用Click事件的激发方法
+
+        protected void OnSumit()
+        {
+            RoutedEventArgs args = new RoutedEventArgs(SumitRoutedEvent, this);
+            this.RaiseEvent(args);
+        }
+
+
+        //声明和注册路由事件
+        public static readonly RoutedEvent CloseRoutedEvent =
+            EventManager.RegisterRoutedEvent("Close", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(ObjectPropertyForm));
+        //CLR事件包装
+        public event RoutedEventHandler Close
+        {
+            add { this.AddHandler(CloseRoutedEvent, value); }
+            remove { this.RemoveHandler(CloseRoutedEvent, value); }
+        }
+
+        //激发路由事件,借用Click事件的激发方法
+
+        protected void OnClose()
+        {
+            RoutedEventArgs args = new RoutedEventArgs(CloseRoutedEvent, this);
+            this.RaiseEvent(args);
+        }
+
 
 
         public string Title

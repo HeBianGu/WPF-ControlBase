@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -568,27 +569,27 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
     public class TreeNodeEntity
     {
-        [Display("编号")]
+        [Display(Name ="编号")]
         [Required]
         public string Code { get; set; }
 
-        [Display("跟节点")]
+        [Display(Name = "跟节点")]
         [Required]
         public string RootCode { get; set; }
 
-        [Display("拼音")]
+        [Display(Name = "拼音")]
         [Required]
         public string NamePY { get; set; }
 
-        [Display("名称")]
+        [Display(Name = "名称")]
         [Required]
         public string Name { get; set; }
 
-        [Display("父节点ID")]
+        [Display(Name = "父节点ID")]
         [Required]
         public string ParentID { get; set; }
 
-        [Display("当前ID")]
+        [Display(Name = "当前ID")]
         [Required]
         public string ID { get; set; }
     }

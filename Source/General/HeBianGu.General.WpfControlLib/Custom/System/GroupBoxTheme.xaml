@@ -3,13 +3,13 @@
                     xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
 
-  
+
     <Style x:Key="S.GroupBox.Default" TargetType="{x:Type GroupBox}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/> 
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
         <Setter Property="Margin" Value="5"/>
         <Setter Property="Padding" Value="15"/>
         <Setter Property="base:ControlAttachProperty.FIcon" Value="&#xea5e;"/>
@@ -44,21 +44,10 @@
                                            FIcon="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(base:ControlAttachProperty.FIcon)}"
                                            FIconMargin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(base:ControlAttachProperty.FIconMargin)}"
                                            FIconSize="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(base:ControlAttachProperty.FIconSize)}"/>
-
-
                         <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}"/>
 
-
-
-                        <local:FButton  Width="35" Height="35" HorizontalAlignment="Right"
-                                        MouseOverForeground="{DynamicResource S.Brush.TextForeground.White}"  PressedForeground="{DynamicResource S.Brush.TextForeground.White}"
-                                        AllowsAnimation="True" 
-                                        Style="{DynamicResource S.FButton.Style.Transparent}"  
-                                        FIcon="&#xe6f4;" FIconSize="15" Command="{x:Static local:CommandService.CollapsedOfOpacityCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}}"
-                                        Foreground="{DynamicResource S.Brush.TextForeground.White}">
-                        </local:FButton>
-
+                        <ContentControl Template="{TemplateBinding base:ControlAttachProperty.AttachContent}" HorizontalAlignment="Right"/>
+                        
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -70,13 +59,29 @@
         </Setter>
     </Style>
 
+    <Style x:Key="S.GroupBox.Default.WithClose" TargetType="{x:Type GroupBox}" BasedOn="{StaticResource S.GroupBox.Default}">
+        <Setter Property="base:ControlAttachProperty.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:FButton  Width="35" Height="35" 
+                                        MouseOverForeground="{DynamicResource S.Brush.TextForeground.White}"  PressedForeground="{DynamicResource S.Brush.TextForeground.White}"
+                                        AllowsAnimation="True" 
+                                        Style="{DynamicResource S.FButton.Style.Transparent}"  
+                                        FIcon="&#xe6f4;" FIconSize="15" Command="{x:Static local:CommandService.Close}"
+                                        Foreground="{DynamicResource S.Brush.TextForeground.White}">
+                    </local:FButton>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
 
     <Style x:Key="S.GroupBox.Single" TargetType="{x:Type GroupBox}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/> 
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
         <Setter Property="Margin" Value="5"/>
         <Setter Property="Padding" Value="15"/>
         <Setter Property="base:ControlAttachProperty.FIcon" Value="&#xea5e;"/>
@@ -95,7 +100,6 @@
                         </Border>
 
                         <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}"/>
-
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -108,7 +112,5 @@
     </Style>
 
     <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource S.GroupBox.Default}"/>
-
-
 
 </ResourceDictionary>

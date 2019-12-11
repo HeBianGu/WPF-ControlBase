@@ -8,12 +8,12 @@ namespace HeBianGu.Base.WpfBase
 {
     public class ApplicationBuilder : IApplicationBuilder
     {
-   
+
     }
 
     public interface IApplicationBuilder
     {
-       
+
     }
 
     public static class ApplicationBuilderExtention
@@ -37,27 +37,31 @@ namespace HeBianGu.Base.WpfBase
         /// <param name="builder"> 主程序构建对象 </param>
         /// <param name="useDefaultTheme">  默认主题 </param>
         /// <returns></returns>
-        public static IApplicationBuilder UseLocalTheme(this IApplicationBuilder builder, Action<ThemeService> useDefaultTheme)
+        public static IApplicationBuilder UseLocalTheme(this IApplicationBuilder builder, Action<ThemeService> useDefaultTheme, int version=0)
         {
 
             IThemeLocalizeService localConfig = ServiceRegistry.Instance.GetInstance<IThemeLocalizeService>();
 
             ThemeLocalizeConfig local = localConfig?.LoadTheme();
 
-            if (local == null)
+            if (local != null && local.Version == version)
             {
-                useDefaultTheme?.Invoke(ThemeService.Current);
+                //  Do：设置默认主题
+                builder.UseTheme(l =>
+                { 
+                    l.LoadFrom(local);
+
+                    l.Version = version;
+                });
 
                 return builder;
             }
 
-            //  Do：设置默认主题
-            builder.UseTheme(l =>
-            {
-                l.LoadFrom(local);
-            });
+            useDefaultTheme?.Invoke(ThemeService.Current);
 
             return builder;
+
+
         }
 
         /// <summary>

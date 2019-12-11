@@ -84,6 +84,10 @@
                 <Setter TargetName="PART_ContentHost" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
                 <Setter TargetName="Label" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
             </Trigger>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip" Value="{Binding RelativeSource= {x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+                <Setter Property="BorderBrush" Value="Red"/>
+            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
@@ -166,6 +170,10 @@
                 <Setter TargetName="PART_ContentHost" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
                 <Setter TargetName="Label" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
             </Trigger>
+            <Trigger Property="Validation.HasError" Value="true">
+                <Setter Property="ToolTip" Value="{Binding RelativeSource= {x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"/>
+                <Setter Property="BorderBrush" Value="Red"/>
+            </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
     
@@ -195,6 +203,18 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <!--英 ['kærət]  美 ['kærət]  插入符号-->
         <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <AdornedElementPlaceholder x:Name="textBox"/>
+                        <TextBlock Style="{DynamicResource FIcon}" Text="&#xe626;" Margin="12,0,0,0" 
+                                   FontSize="{DynamicResource S.IconFontSize.Default}" ToolTip="{Binding [0].ErrorContent}" 
+                                   Foreground="Red" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template" Value="{StaticResource S.FTextBox.Template.Default}"/>
     </Style>
 

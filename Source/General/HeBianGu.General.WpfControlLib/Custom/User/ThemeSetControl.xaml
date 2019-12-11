@@ -29,7 +29,7 @@
                                     </Rectangle.Fill>
                                 </Rectangle>
 
-                                <TextBlock Style="{DynamicResource FIcon}" x:Name="flag" Text="&#xe858;" Visibility="Collapsed"/>
+                                <TextBlock Style="{DynamicResource FIcon}" x:Name="flag" Text="&#xe858;" Visibility="Collapsed" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
                             </Grid>
                             <DataTemplate.Triggers>
                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="true">
@@ -38,7 +38,7 @@
 
                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsMouseOver}" Value="true">
                                     <Setter Property="Visibility" Value="Visible" TargetName="flag"/>
-                                    <Setter Property="Opacity" Value="0.6" TargetName="flag"/>
+                                    <Setter Property="Opacity" Value="0.8" TargetName="flag"/>
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
@@ -84,15 +84,19 @@
                     </ComboBox>
 
                     <TextBlock Grid.Row="1" Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=ApplyTheme,Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,16,4" />
-                    
-                    <ComboBox Grid.Row="1" Grid.Column="1" IsEnabled="True" ItemsSource="{Binding Themes}" 
+
+                    <ComboBox Grid.Row="1" Grid.Column="1" IsEnabled="True"  ItemsSource="{Binding Themes}"
                               SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
                               ItemTemplate="{StaticResource D.ColorLink.Default}"
-                              VerticalAlignment="Center" Margin="0,4" />
+                              VerticalAlignment="Center" Margin="0,4">
+                    </ComboBox>
 
                     <TextBlock Grid.Row="2" Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=FontSize,Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,16,4" />
 
-                    <ComboBox Grid.Row="2" Grid.Column="1"   HorizontalContentAlignment="Center"   ItemsSource="{Binding FontSizes}" SelectedItem="{Binding SelectedFontSize, Mode=TwoWay}" VerticalAlignment="Center"  Margin="0,4"/>
+                    <ComboBox Grid.Row="2" Grid.Column="1"  HorizontalContentAlignment="Center" DisplayMemberPath="Text" SelectedIndex="{Binding SelectIndex,Mode=TwoWay}" VerticalAlignment="Center"  Margin="0,4">
+                        <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Small,Mode=TwoWay}"/>
+                        <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Large,Mode=TwoWay}"/>
+                    </ComboBox>
 
                     <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=FollowSystem,Mode=TwoWay}" Grid.Row="3"  VerticalAlignment="Center" Margin="0,0,16,4" />
 

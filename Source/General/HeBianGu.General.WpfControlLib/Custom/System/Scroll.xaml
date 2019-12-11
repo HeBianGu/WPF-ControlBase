@@ -3,19 +3,8 @@
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                       xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
-
-    <!--<ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../SystemControls/FIcon.xaml"/>
-    </ResourceDictionary.MergedDictionaries>-->
-
+    
     <sys:Double x:Key="ScrollBarSize">12</sys:Double>
-    <!--ScrollBar--><!--
-    <SolidColorBrush x:Key="ScrollBarForeround" Color="#BFBFBF"></SolidColorBrush>
-    <SolidColorBrush x:Key="ScrollBarBackground" Color="#BFBFBF"></SolidColorBrush>
-
-    <SolidColorBrush x:Key="MouseOverForeground" Color="#007ACC"></SolidColorBrush>
-    <SolidColorBrush x:Key="PressedForeground" Color="#007ACC"></SolidColorBrush>-->
-
     <!--滚动两边按钮样式-->
     <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="Background" Value="Transparent"></Setter>
@@ -65,14 +54,6 @@
                      Margin="2" 
                      SnapsToDevicePixels="True" 
                      Background="{DynamicResource S.Brush.Accent.Opacity.8}">
-                <!--<Border.Background>
-                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                        <GradientStop Color="#C7C0C0" Offset="0.15"/>
-                        <GradientStop Color="#AFA9A9" Offset=".5"/>
-                        <GradientStop Color="#989494" Offset=".5"/>
-                        <GradientStop Color="#858585" Offset="1"/>
-                    </LinearGradientBrush>
-                </Border.Background>-->
             </Border>
         </Grid>
         <ControlTemplate.Triggers>
@@ -106,10 +87,10 @@
             <!--左按钮-->
 
             <Border Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <RepeatButton  base:ControlAttachProperty.FIcon="&#xe65e;"  
+                <RepeatButton  base:ControlAttachProperty.FIcon="&#xe684;"  
                                Style="{StaticResource ScrollBarButton}" 
                                x:Name="HorizontalSmallDecrease"
-                                 IsTabStop="False" Interval="50" Margin="0,1,0,0" Command="ScrollBar.LineLeftCommand"/>
+                                 IsTabStop="False" Interval="50" Margin="0,0,0,0" Command="ScrollBar.LineLeftCommand"/>
             </Border>
             
             <!--中间滑动区域-->
@@ -137,11 +118,11 @@
             </Track>
             <!--右按钮-->
             <Border Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <RepeatButton base:ControlAttachProperty.FIcon="&#xe605;"  
+                <RepeatButton base:ControlAttachProperty.FIcon="&#xe687;"  
                               Style="{StaticResource ScrollBarButton}"
                               IsTabStop="False" 
                               Interval="50" 
-                              Margin="0,1,0,0" 
+                              Margin="0,0,0,0" 
                               Command="ScrollBar.LineRightCommand"/>
             </Border>
         </Grid>
@@ -256,11 +237,11 @@
                     <Grid x:Name="Grid" Background="{TemplateBinding Background}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" x:Name="leftColumn" />
-                            <ColumnDefinition Width="Auto" x:Name="rightColumn" />
+                            <!--<ColumnDefinition Width="Auto" x:Name="rightColumn" />-->
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
+                            <!--<RowDefinition Height="Auto" />-->
                         </Grid.RowDefinitions>
                         
                         <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" 
@@ -270,7 +251,7 @@
                                                 Grid.Row="0" Grid.Column="0" />
                         <!--垂直滚动条 -->
                         <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar"
-                                   ViewportSize="{TemplateBinding ViewportHeight}" Opacity="0"
+                                   ViewportSize="{TemplateBinding ViewportHeight}" Opacity="0" HorizontalAlignment="Right"
                                    Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}"
                                    Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                    Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"/>
@@ -278,7 +259,7 @@
                         <!--水平底部滚动条-->
                         <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar"
                                    Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}"
-                                   Minimum="0" Orientation="Horizontal" Grid.Row="1" Opacity="0"
+                                   Minimum="0" Orientation="Horizontal" Grid.Row="1" Opacity="0" VerticalAlignment="Bottom"
                                    Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
                                    Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
                                    ViewportSize="{TemplateBinding ViewportWidth}" />

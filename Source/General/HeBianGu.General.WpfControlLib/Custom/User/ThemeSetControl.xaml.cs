@@ -32,11 +32,29 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary> 主题设置模型 </summary>
     public class SettingsAppearanceViewModel : NotifyPropertyChanged
     {
-        private const string FontSmall = "Small";
-        private const string FontLarge = "Large";
+        //private const string FontSmall = "Small";
+        //private const string FontLarge = "Large";
 
         private const string PaletteMetro = "Custom";
         private const string PaletteWP = "Window";
+
+
+        private int _selectIndex;
+        /// <summary> 说明  </summary>
+        public int SelectIndex
+        {
+            get { return _selectIndex; }
+            set
+            {
+                _selectIndex = value;
+
+                RaisePropertyChanged("SelectIndex");
+
+
+                ThemeService.Current.FontSize = value == 1 ? FontSize.Large : FontSize.Small;
+            }
+        }
+
 
         //  Message：主题颜色
         private Color[] metroAccentColors = new Color[]{
@@ -89,12 +107,14 @@ namespace HeBianGu.General.WpfControlLib
         public SettingsAppearanceViewModel()
         {
             //  Message：主题
-            this.themes.Add(new ColorLink { DisplayName = "Light", Source = ThemeService.LightThemeSource, Color = Brushes.White,Text=Brushes.Black });
+            this.themes.Add(new ColorLink { DisplayName = "Light", Source = ThemeService.LightThemeSource, Color = Brushes.White, Text = Brushes.Black });
             this.themes.Add(new ColorLink { DisplayName = "Dark", Source = ThemeService.DarkThemeSource, Color = Brushes.Black, Text = Brushes.White });
             this.themes.Add(new ColorLink { DisplayName = "Gray", Source = ThemeService.GrayThemeSource, Color = Brushes.Gray, Text = Brushes.White });
             this.themes.Add(new ColorLink { DisplayName = "Accent", Source = ThemeService.AccentThemeSource, Color = Brushes.White, Text = Brushes.Black });
 
-            this.SelectedFontSize = ThemeService.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
+            //this.SelectedFontSize = ThemeService.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
+
+            this.SelectIndex = ThemeService.Current.FontSize == FontSize.Large ? 1 : 0;
 
             SyncThemeAndColor();
 
@@ -123,10 +143,10 @@ namespace HeBianGu.General.WpfControlLib
             get { return this.themes; }
         }
 
-        public string[] FontSizes
-        {
-            get { return new string[] { FontSmall, FontLarge }; }
-        }
+        //public string[] FontSizes
+        //{
+        //    get { return new string[] { FontSmall, FontLarge }; }
+        //}
 
         public string[] Palettes
         {
@@ -170,20 +190,20 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        public string SelectedFontSize
-        {
-            get { return this.selectedFontSize; }
-            set
-            {
-                if (this.selectedFontSize != value)
-                {
-                    this.selectedFontSize = value;
-                    RaisePropertyChanged("SelectedFontSize");
+        //public string SelectedFontSize
+        //{
+        //    get { return this.selectedFontSize; }
+        //    set
+        //    {
+        //        if (this.selectedFontSize != value)
+        //        {
+        //            this.selectedFontSize = value;
+        //            RaisePropertyChanged("SelectedFontSize");
 
-                    ThemeService.Current.FontSize = value == FontLarge ? FontSize.Large : FontSize.Small;
-                }
-            }
-        }
+        //            ThemeService.Current.FontSize = value == FontLarge ? FontSize.Large : FontSize.Small;
+        //        }
+        //    }
+        //}
 
         public Color SelectedAccentColor
         {
@@ -230,7 +250,7 @@ namespace HeBianGu.General.WpfControlLib
 
     }
 
-   public class ColorLink : Link
+    public class ColorLink : Link
     {
         public Brush Color { get; set; }
         public Brush Text { get; set; }

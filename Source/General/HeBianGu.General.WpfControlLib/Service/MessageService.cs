@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace HeBianGu.General.WpfControlLib
 {
@@ -83,12 +85,12 @@ namespace HeBianGu.General.WpfControlLib
         {
             await Application.Current.Dispatcher.Invoke(async () =>
              {
-                 if (CheckOpen()) return null;
+                 if (CheckOpen()) return;
 
                  var view = new WaittingMessageDialog();
 
                  //show the dialog
-                 return await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
+                 await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
                  {
                      Task.Run(action).ContinueWith(m =>
                      {
@@ -104,11 +106,11 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 带有返回结果的等待消息窗口 </summary>
-        public static async Task<object> ShowWaittingResultMessge(Func<object> action)
+        public static async Task<T> ShowWaittingResultMessge<T>(Func<T> action)
         {
-            if (CheckOpen()) return null;
+            if (CheckOpen() || action == null) return default(T);
 
-            object result = null;
+            T result = default(T);
 
             await Application.Current.Dispatcher.Invoke(async () =>
             {
@@ -117,7 +119,7 @@ namespace HeBianGu.General.WpfControlLib
                 //show the dialog
                 await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
                  {
-                     Task.Run(() => result = action?.Invoke()).ContinueWith(m =>
+                     Task.Run(() => result = action.Invoke()).ContinueWith(m =>
                           {
                               Application.Current.Dispatcher.Invoke(() =>
                               {
@@ -130,15 +132,15 @@ namespace HeBianGu.General.WpfControlLib
             return result;
         }
 
-        /// <summary> 带有返回结果的等待消息窗口 </summary>
-        public static async Task<T> ShowWaittingResultMessge<T>(Func<object> action)
-        {
-            var result = await ShowWaittingResultMessge(action);
+        ///// <summary> 带有返回结果的等待消息窗口 </summary>
+        //public static async Task<T> ShowWaittingResultMessge<T>(Func<object> action)
+        //{
+        //    var result = await ShowWaittingResultMessge(action);
 
-            if (result == null) return default(T);
+        //    if (result == null) return default(T);
 
-            return (T)result;
-        }
+        //    return (T)result;
+        //}
 
         public static async Task ShowPercentProgress(Action<IPercentProgress> action, Action closeAction = null)
         {
@@ -191,23 +193,23 @@ namespace HeBianGu.General.WpfControlLib
             R result = default(R);
 
             await Application.Current.Dispatcher.Invoke(async () =>
-            {
-                var view = new T();
+              {
+                  var view = new T();
 
-                //show the dialog
-                return await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
-                {
-                    Task.Run(() => result = action.Invoke(view)).ContinueWith(m =>
-                     {
-                         Application.Current.Dispatcher.Invoke(() =>
+                  //show the dialog
+                  await DialogHost.ShowWithOpen(view, "windowDialog", (l, e) =>
+                    {
+                        Task.Run(() => result = action.Invoke(view)).ContinueWith(m =>
                          {
-                             e.Session.Close(false);
+                             Application.Current.Dispatcher.Invoke(() =>
+                             {
+                                 e.Session.Close(false);
 
-                             closeAction?.Invoke();
+                                 closeAction?.Invoke();
+                             });
                          });
-                     });
-                });
-            });
+                    });
+              });
 
             return result;
         }
@@ -222,23 +224,27 @@ namespace HeBianGu.General.WpfControlLib
 
                  view.MessageStr = message;
 
-                 return await DialogHost.Show(view, "windowDialog");
+                 await DialogHost.Show(view, "windowDialog");
              });
         }
 
         /// <summary> 显示自定义窗口 </summary>
-        public static async Task<object> ShowCustomDialog(UIElement element, Action<object, DialogClosingEventArgs> action = null)
+        public static async Task<T> ShowCustomDialog<T>(UIElement element, Action<object, DialogClosingEventArgs> action = null)
         {
-            if (CheckOpen()) return null;
+            if (CheckOpen()) return default(T);
 
-            return await Application.Current.Dispatcher.Invoke(async () =>
-             {
-                 //show the dialog
-                 return await DialogHost.ShowWithClose(element, "windowDialog", (l, e) =>
+            T result = default(T);
+
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
+                //show the dialog
+                result = (T)await DialogHost.ShowWithClose(element, "windowDialog", (l, e) =>
                   {
                       action?.Invoke(l, e);
                   });
-             });
+            });
+
+            return result;
         }
 
         static bool CheckOpen()
@@ -274,10 +280,10 @@ namespace HeBianGu.General.WpfControlLib
                  view.MessageStr = message;
 
                  //show the dialog
-                 return await DialogHost.ShowWithClose(view, "windowDialog", (l, e) =>
-                  {
-                      action?.Invoke(l, e);
-                  });
+                 await DialogHost.ShowWithClose(view, "windowDialog", (l, e) =>
+                 {
+                     action?.Invoke(l, e);
+                 });
              });
 
         }
@@ -300,7 +306,7 @@ namespace HeBianGu.General.WpfControlLib
                 view.MessageStr = message;
 
                 //show the dialog
-                return await DialogHost.ShowWithClose(view, "windowDialog", (l, e) =>
+                await DialogHost.ShowWithClose(view, "windowDialog", (l, e) =>
                 {
                     action?.Invoke(l, e);
                 });
@@ -320,51 +326,103 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 显示蒙版 </summary>
         public static void ShowWithLayer(Uri uri, int layerIndex = 0)
         {
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                if (Application.Current.MainWindow is IWindowBase window)
-                {
-                    window.ShowWithLayer(uri);
-                }
-            });
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+             {
+                 if (Application.Current.MainWindow is IWindowBase window)
+                 {
+                     window.ShowWithLayer(uri);
+                 }
+             }));
         }
 
         /// <summary> 显示蒙版 </summary>
         public static void ShowWithLayer(IActionResult link, int layerIndex = 0)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
             {
                 if (Application.Current.MainWindow is IWindowBase window)
                 {
                     window.ShowWithLayer(link);
                 }
-            });
+            }));
         }
 
 
         /// <summary> 显示蒙版 </summary>
         public static void ShowWithLayer(FrameworkElement element, int layerIndex = 0)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
             {
                 if (Application.Current.MainWindow is IWindowBase window)
                 {
                     window.ShowWithLayer(element);
                 }
-            });
+            }));
         }
 
         /// <summary> 关闭蒙版 </summary>
         public static void CloseWithLayer(int layerIndex = 0)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
             {
                 if (Application.Current.MainWindow is IWindowBase window)
                 {
                     window.CloseWithLayer();
                 }
-            });
+            }));
         }
+
+        static ManualResetEvent _asyncShowWaitHandle = new ManualResetEvent(false);
+
+        /// <summary> 显示蒙版 </summary>
+        public static async Task<bool> ShowWithObject(object value, string title = null)
+        {
+            bool result = false;
+            await Application.Current.Dispatcher.Invoke(async () =>
+             {
+                 if (Application.Current.MainWindow is IWindowBase window)
+                 {
+                     ObjectPropertyForm form = new ObjectPropertyForm();
+
+                     form.Title = title;
+
+                     form.Style = Application.Current.FindResource("S.ObjectPropertyForm.Default.WithSumit") as Style;
+
+                     form.SelectObject = value;
+
+                     form.Close += (l, k) =>
+                     {
+                         CloseWithLayer();
+                         _asyncShowWaitHandle.Set();
+                         result = false;
+                     };
+
+                     form.Sumit += (l, k) =>
+                     {
+                         CloseWithLayer();
+                         _asyncShowWaitHandle.Set();
+                         result = true;
+                     };
+
+                     window.ShowWithLayer(form);
+
+                     _asyncShowWaitHandle.Reset();
+
+                     var task = new Task(() =>
+                     {
+                         _asyncShowWaitHandle.WaitOne();
+                     });
+
+                     task.Start();
+
+                     await task;
+                 }
+             });
+
+            return result;
+
+        }
+
 
         #endregion
 
