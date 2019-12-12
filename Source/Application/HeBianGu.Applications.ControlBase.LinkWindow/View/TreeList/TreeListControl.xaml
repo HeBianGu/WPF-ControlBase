@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.LinkWindow"
-             xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
-             xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+             xmlns:h="QQ:908293466"
+
              mc:Ignorable="d" Foreground="{DynamicResource S.Brush.TextForeground.Default}" 
              FontSize="{DynamicResource S.FontSize.Default}"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -19,7 +19,7 @@
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
 
-        <wpfcontrollib:FButton Content="加载..." 
+        <h:FButton Content="加载..." 
                                Grid.Row="0" Style="{DynamicResource S.FButton.Style.Default}" 
                                HorizontalAlignment="Left"
                                Command="{Binding RelayCommand}" 
@@ -84,19 +84,19 @@
                        HorizontalAlignment="Left" 
                        VerticalAlignment="Center"/>
 
-            <wpfcontrollib:FTextBox  Height="30" Grid.Column="1"
+            <h:FTextBox  Height="30" Grid.Column="1"
                                  Width="Auto"  TextChanged="Txt_filter_TextChanged"
                                  Style="{DynamicResource S.FTextBox.Clear}"/>
         </Grid>
 
 
-        <wpfcontrollib:TreeListView x:Name="treeList" Grid.Row="3"  FontSize="{DynamicResource S.FontSize.Default}"
+        <h:TreeListView x:Name="treeList" Grid.Row="3"  FontSize="{DynamicResource S.FontSize.Default}"
                                     SelectItem="{Binding SelectTreeEntityNode,Mode=TwoWay}" 
                                     ItemsSource="{Binding Nodes}">
-            <wpfcontrollib:TreeListView.ItemTemplate>
+            <h:TreeListView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Nodes}"/>
-            </wpfcontrollib:TreeListView.ItemTemplate>
-            <wpfcontrollib:TreeListView.Columns>
+            </h:TreeListView.ItemTemplate>
+            <h:TreeListView.Columns>
                 <GridViewColumnCollection>
                     <GridViewColumn Header="列头"  Width="500">
                         <GridViewColumn.CellTemplate>
@@ -104,8 +104,8 @@
                                 <DockPanel>
                                     <ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}" 
                                                   Margin="{Binding Path=Level, Converter={StaticResource LevelIndentConverter}, 
-                                                            RelativeSource={RelativeSource AncestorType={x:Type wpfcontrollib:TreeListViewItem}}}"
-                                                  IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type wpfcontrollib:TreeListViewItem}}}"
+                                                            RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}"
+                                                  IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}"
                                                   ClickMode="Press"/>
                                     <!--首列绑定值-->
                                     <TextBlock Margin="5,0">
@@ -114,7 +114,7 @@
                                     </TextBlock>
                                 </DockPanel>
                                 <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding Path=HasItems,RelativeSource={RelativeSource AncestorType={x:Type wpfcontrollib:TreeListViewItem}}}" Value="False">
+                                    <DataTrigger Binding="{Binding Path=HasItems,RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}" Value="False">
                                         <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
@@ -126,7 +126,7 @@
                     <GridViewColumn Header="类型"   DisplayMemberBinding="{Binding RootCode}" Width="200" />
                     <GridViewColumn Header="父节点" DisplayMemberBinding="{Binding ParentID}" Width="200" />
                 </GridViewColumnCollection>
-            </wpfcontrollib:TreeListView.Columns>
-        </wpfcontrollib:TreeListView>
+            </h:TreeListView.Columns>
+        </h:TreeListView>
     </Grid> 
 </UserControl>

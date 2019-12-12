@@ -1,5 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Common.LocalConfig;
 using HeBianGu.General.WpfControlLib;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,30 +81,24 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         public List<TreeNodeEntity> GetTreeListData()
         {
-            //string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "data.json");
+            string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "data.json");
 
-            //string txt = System.IO.File.ReadAllText(url, Encoding.UTF8);
+            string txt = System.IO.File.ReadAllText(url, Encoding.UTF8);
 
-            //return JsonConvert.DeserializeObject<List<TreeNodeEntity>>(txt);
-
-            return new List<TreeNodeEntity>();
+            return JsonConvert.DeserializeObject<List<TreeNodeEntity>>(txt);
         }
 
 
-        //LocalConfigService _localConfigService = new LocalConfigService();
+        LocalConfigService _localConfigService = new LocalConfigService();
 
         public ThemeLocalizeConfig LoadTheme()
         {
-            //return _localConfigService.LoadConfig<ThemeLocalizeConfig>();
-
-            return new ThemeLocalizeConfig();
+            return _localConfigService.LoadConfig<ThemeLocalizeConfig>(); 
         }
 
         public bool SaveTheme(ThemeLocalizeConfig theme)
         {
-            //return _localConfigService.SaveConfig(theme);
-
-            return false;
+            return _localConfigService.SaveConfig(theme); 
         }
 
         public void Debug(params string[] messages)

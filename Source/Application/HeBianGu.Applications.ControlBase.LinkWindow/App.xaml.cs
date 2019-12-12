@@ -26,7 +26,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
             LoginWindow loginWindow = new LoginWindow();
 
-            //loginWindow.Title = this.GetWpfControlLibVersonInfo();
+            loginWindow.Title = this.GetWpfControlLibVersonInfo();
 
             var result = loginWindow.ShowDialog();
 
@@ -37,9 +37,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             else
             {
                 shellWindow.Close();
-            }
-
-
+            } 
 
         }
 
@@ -75,7 +73,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
                 l.AccentColorSelectType = 0;
                 l.IsUseAnimal = true;
 
-                l.ThemeType = ThemeType.Dark;
+                l.ThemeType = ThemeType.Light;
 
                 l.Language = Language.Chinese;
             });

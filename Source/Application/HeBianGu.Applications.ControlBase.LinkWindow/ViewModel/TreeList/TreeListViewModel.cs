@@ -1,6 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.General.WpfMvc;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -446,21 +447,21 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             //  Do：取消
             else if (command == "TreeList.Load")
             {
-                //await MessageService.ShowWaittingMessge(() =>
-                //{
-                //    //  Do：加载TreeList数据源
-                //    string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "data.json");
+                await MessageService.ShowWaittingMessge(() =>
+                {
+                    //  Do：加载TreeList数据源
+                    string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "data.json");
 
-                //    string txt = System.IO.File.ReadAllText(url, Encoding.UTF8);
+                    string txt = System.IO.File.ReadAllText(url, Encoding.UTF8);
 
-                //    var collecion = JsonConvert.DeserializeObject<List<TreeNodeEntity>>(txt);
+                    var collecion = JsonConvert.DeserializeObject<List<TreeNodeEntity>>(txt);
 
-                //    //  Message：初始化树形控件（只需初始化一遍）
-                //    this.InitTyeEncodeDevice(collecion);
+                    //  Message：初始化树形控件（只需初始化一遍）
+                    this.InitTyeEncodeDevice(collecion);
 
-                //    this.LoadTyeEncodeCheckDevice(collecion.Where(l => l.Code.Length == 2).ToList());
-                    
-                //});
+                    this.LoadTyeEncodeCheckDevice(collecion.Where(l => l.Code.Length == 2).ToList());
+
+                });
 
                 MessageService.ShowSnackMessageWithNotice("加载完成！");
             }

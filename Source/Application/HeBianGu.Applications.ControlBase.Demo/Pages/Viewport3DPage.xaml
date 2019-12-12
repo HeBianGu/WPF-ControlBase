@@ -1,0 +1,242 @@
+﻿<Page x:Class="WpfControlDemo.View.Viewport3DPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:WpfControlDemo.View"
+      mc:Ignorable="d"  d:DesignHeight="1000" d:DesignWidth="1000"
+      Title="Viewport3DPage"  Background="{StaticResource S.Brush.LightGray.Notice}">
+    <Page.Resources>
+        <DiffuseMaterial x:Key="CubeSideMaterial" Viewport2DVisual3D.IsVisualHostMaterial="True" Brush="White"/>
+        <LinearGradientBrush x:Key="BlackBackground" EndPoint="1,1" StartPoint="0.25,0.25">
+            <GradientStop Color="#fff" />
+        </LinearGradientBrush>
+        <Style x:Key="C.TextBlock.Default" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="@微软雅黑"></Setter>
+            <Setter Property="FontSize" Value="14"></Setter>
+            <Setter Property="TextAlignment" Value="Center"></Setter>
+            <Setter Property="Foreground" Value="Black"></Setter>
+        </Style>
+        <Style TargetType="Border">
+            <Setter Property="BorderThickness" Value="0,0,1,1"></Setter>
+            <Setter Property="BorderBrush" Value="Black"></Setter>
+        </Style>
+
+        <Style x:Key="CloseRadialButton" TargetType="Button">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="MinHeight" Value="13" />
+            <Setter Property="MinWidth" Value="13" />
+            <Setter Property="Opacity" Value=".75"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Ellipse x:Name="borderBtn" Width="18" Height="18" StrokeThickness="2" Fill="#FFE52B2B" Stroke="White"></Ellipse>
+
+                            <!--按钮内容-->
+                            <Grid>
+                                <Canvas HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5">
+                                    <Line StrokeThickness="2" Stroke="White" X1="0" Y1="0" X2="8" Y2="8"></Line>
+                                    <Line StrokeThickness="2" Stroke="White" X1="0" Y1="8" X2="8" Y2="0"></Line>
+                                </Canvas>
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Button.IsMouseOver"  Value="True">
+                                <Setter Property="Opacity" Value="1" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Page.Resources>
+    <Grid>
+        <Viewport3D x:Name="view" ClipToBounds="True" RenderOptions.EdgeMode="Aliased">
+            <!--3D Scene-->
+            <Viewport3D.Camera>
+                <PerspectiveCamera x:Name="camera" FieldOfView="59" Position="0.5,0.5,2" LookDirection="0,0,-1">
+                    <PerspectiveCamera.Transform>
+                        <RotateTransform3D x:Name="rot" CenterY="0.5" CenterX="0.5" CenterZ="-0.5">
+                            <RotateTransform3D.Rotation>
+                                <!-- rotation -->
+                                <AxisAngleRotation3D x:Name="camRotation" Axis="0,1,0" Angle="0"/>
+                            </RotateTransform3D.Rotation>
+                        </RotateTransform3D>
+                    </PerspectiveCamera.Transform>
+                </PerspectiveCamera>
+            </Viewport3D.Camera>
+            <!--Light-->
+            <ModelVisual3D>
+                <ModelVisual3D.Content>
+                    <AmbientLight Color="White" />
+                </ModelVisual3D.Content>
+            </ModelVisual3D>
+
+            <!-- front side-->
+            <Viewport2DVisual3D Material="{StaticResource  CubeSideMaterial }">
+                <Viewport2DVisual3D.Geometry>
+                    <MeshGeometry3D Positions="0,1,0 0,0,0 1,0,0 1,1,0"
+                                    TextureCoordinates="0,0 0,1 1,1 1,0"
+                                    TriangleIndices="0 1 2  0 2 3"/>
+                </Viewport2DVisual3D.Geometry>
+                <Border BorderThickness="1" x:Name="FrontSide" BorderBrush="White" CornerRadius="4"  PreviewMouseDown="FrontSide_PreviewMouseDown" >
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black"  />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <StackPanel  Height="450" Width="450" OpacityMask="White" >
+                        <Button Style="{StaticResource CloseRadialButton}" HorizontalAlignment="Right" Margin="0,2,2,0"></Button>
+                        <Border Margin="15,0,15,15" BorderThickness="1" CornerRadius="8" Height="30" VerticalAlignment="Top">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF333333" Offset=".1"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="16" Margin="3" Text="天气信息"/>
+                        </Border>
+                        <Border Margin="15,0,15,0" HorizontalAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="White"  >
+                            <TextBlock Style="{StaticResource C.TextBlock.Default}" Foreground="White"  Margin="0,3,0,0" >
+                                直辖市:上海
+                            </TextBlock>
+                        </Border>
+                        <Border Margin="15,0,15,0" HorizontalAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="White"  >
+                            <TextBlock Style="{StaticResource C.TextBlock.Default}" Foreground="White"  Margin="0,3,0,0">
+                                2012-8-10 23:58:13 最低气温:27℃/最高气温:33℃
+                            </TextBlock>
+                        </Border>
+                        <Border Margin="15,0,15,0" HorizontalAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="White" >
+                            <TextBlock Style="{StaticResource C.TextBlock.Default}" Foreground="White"  Margin="0,3,0,0" TextWrapping="Wrap" TextAlignment="Left">
+                                今日天气实况：气温：28℃；风向/风力：北风 1级；湿度：80%；空气质量：良；紫外线强度：中等 穿衣指数：天气炎热，建议着短衫、短裙、短裤、薄型T恤衫、敞领短袖棉衫等清凉夏季服装。
+                            </TextBlock>
+                        </Border>
+                        <Border Margin="15,0,15,0" HorizontalAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="White" >
+                            <TextBlock Style="{StaticResource C.TextBlock.Default}" Foreground="White"  Margin="0,3,0,0" TextWrapping="Wrap"  TextAlignment="Left">
+                                感冒指数：暂无。 运动指数：有降水，风力较强，较适宜在户内开展低强度运动，若坚持户外运动，请选择避雨防风地点。 洗车指数：不宜洗车，未来24小时内有雨，如果在此期间洗车，雨水和路上的泥水可能会再次弄脏您的爱车。 晾晒指数：有降水，可能会淋湿晾晒的衣物，不太适宜晾晒。请随时注意天气变化。 旅游指数：有阵雨，气温较高，但风较大，能缓解湿热的感觉，还是适宜旅游，您仍可陶醉于大自然的美丽风光中。 路况指数：有降水，路面潮湿，车辆易打滑，请小心驾驶。 舒适度指数：天气较热，虽然有降水，但仍然无法削弱较高气温给人们带来的暑意，这种天气会让您感到不很舒适。
+                            </TextBlock>
+                        </Border>
+                        <Border Margin="15,0,15,0" HorizontalAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="White" >
+                            <TextBlock Foreground="White"  Margin="0,3,0,0" TextWrapping="Wrap" TextAlignment="Left">
+                                空气污染指数：气象条件有利于空气污染物稀释、扩散和清除，可在室外正常活动。 紫外线指数：属中等强度紫外线辐射天气，外出时建议涂擦SPF高于15、PA+的防晒护肤品，戴帽子、太阳镜。
+                            </TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Viewport2DVisual3D>
+
+            <!--  left side -->
+            <Viewport2DVisual3D Material="{StaticResource CubeSideMaterial}">
+                <Viewport2DVisual3D.Geometry>
+                    <MeshGeometry3D Positions="1,1,0 1,0,0 1,0,-1 1,1,-1"
+                                    TextureCoordinates="0,0 0,1 1,1 1,0"
+                                    TriangleIndices="0 1 2  0 2 3"/>
+                </Viewport2DVisual3D.Geometry>
+                <Border BorderThickness="1" x:Name="LeftSide" BorderBrush="White" CornerRadius="4" PreviewMouseDown="LeftSide_PreviewMouseDown"  >
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <StackPanel  Height="450" Width="450" OpacityMask="White">
+                        <Button Style="{StaticResource CloseRadialButton}" HorizontalAlignment="Right" Margin="0,2,2,0"></Button>
+                        <Border Margin="15,0,15,15" BorderThickness="1" CornerRadius="8" Height="30" VerticalAlignment="Top">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF333333" Offset=".1"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="16" Margin="3">未来天气信息</TextBlock>
+                        </Border>
+                        <Border Margin="15,0,15,0" HorizontalAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="White"  >
+                            <TextBlock Style="{StaticResource C.TextBlock.Default}" Foreground="White"  Margin="0,3,0,0" >
+                                8月11日 阵雨转多云 东南风4-5级 27℃/34℃
+                            </TextBlock>
+                        </Border>
+                        <Border Margin="15,0,15,0" HorizontalAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="White"  >
+                            <TextBlock Style="{StaticResource C.TextBlock.Default}" Foreground="White"  Margin="0,3,0,0">
+                                 8月12日 多云 南风3-4级 28℃/34℃
+                            </TextBlock>
+                        </Border>
+                        <Border Margin="15,0,15,0" HorizontalAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="White" >
+                            <TextBlock Style="{StaticResource C.TextBlock.Default}" Foreground="White"  Margin="0,3,0,0" TextWrapping="Wrap" TextAlignment="Left">
+                                8月13日 阵雨 南风3-4级
+                            </TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Viewport2DVisual3D>
+
+            <!--Back side-->
+            <Viewport2DVisual3D Material="{StaticResource CubeSideMaterial}">
+                <Viewport2DVisual3D.Geometry>
+                    <MeshGeometry3D Positions="1,1,-1 1,0,-1 0,0,-1 0,1,-1"
+                                    TextureCoordinates="0,0 0,1 1,1 1,0"
+                                    TriangleIndices="0 1 2  0 2 3"/>
+                </Viewport2DVisual3D.Geometry>
+                <Border BorderThickness="1" x:Name="BackSide" BorderBrush="White" CornerRadius="4" PreviewMouseDown="BackSide_PreviewMouseDown" >
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <StackPanel  Height="450" Width="450" OpacityMask="White">
+                        <Button Style="{StaticResource CloseRadialButton}" HorizontalAlignment="Right" Margin="0,2,2,0"></Button>
+                        <Border Margin="15,0,15,15" BorderThickness="1" CornerRadius="8" Height="30" VerticalAlignment="Top">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF333333" Offset=".1"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="16" Margin="3">城市简介</TextBlock>
+                        </Border>
+                        <Border Margin="15,0,15,0" HorizontalAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="White"  >
+                            <TextBlock Style="{StaticResource C.TextBlock.Default}" Foreground="White"  Margin="0,3,0,0" TextWrapping="Wrap" TextAlignment="Left" >
+                                上海简称：沪，位置：上海地处长江三角洲前缘，东濒东海，南临杭州湾，西接江苏，浙江两省，北界长江入海，正当我国南北岸线的中部，北纬31°14′，东经121°29′。面积：总面积7823.5平方公里。人口：人口1000多万。上海丰富的人文资源、迷人的城市风貌、繁华的商业街市和欢乐的节庆活动形成了独特的都市景观。游览上海，不仅能体验到大都市中西合壁、商儒交融、八方来风的氛围，而且能感受到这个城市人流熙攘、车水马龙、灯火璀璨的活力。上海在中国现代史上占有着十分重要的地位，她是中国**党的诞生地。许多震动中外的历史事件在这里发生，留下了众多的革命遗迹，处处为您讲述着一个个使人永不忘怀的可歌可泣的故事，成为包含民俗的人文景观和纪念地。在上海，每到秋祭，纷至沓来的人们在这里祭祀先烈、缅怀革命历史,已成为了一种风俗。大上海在中国近代历史中，曾是风起云涌可歌可泣的地方。在这里荟萃多少风云人物，散落在上海各处的不同住宅建筑，由于其主人的非同寻常，蕴含了耐人寻味的历史意义。这里曾留下许多革命先烈的足迹。瞻仰孙中山、宋庆龄、鲁迅等故居，会使您产生抚今追昔的深沉遐思，这里还有无数个达官贵人的住宅，探访一下李鸿章、蒋介石等人的公馆，可以联想起主人那段显赫的发迹史。
+                            </TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Viewport2DVisual3D>
+
+            <!--Right side-->
+            <Viewport2DVisual3D Material="{StaticResource CubeSideMaterial}">
+                <Viewport2DVisual3D.Geometry>
+                    <MeshGeometry3D Positions="0,1,-1 0,0,-1 0,0,0 0,1,0"
+                                    TextureCoordinates="0,0 0,1 1,1 1,0"
+                                    TriangleIndices="0 1 2  0 2 3"/>
+                </Viewport2DVisual3D.Geometry>
+                <Border BorderThickness="1" x:Name="RightSide" BorderBrush="White" CornerRadius="4" PreviewMouseDown="RightSide_PreviewMouseDown" >
+                    <Border.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="Black" />
+                        </LinearGradientBrush>
+                    </Border.Background>
+                    <StackPanel  Height="450" Width="450" OpacityMask="White">
+                        <Button Style="{StaticResource CloseRadialButton}" HorizontalAlignment="Right" Margin="0,2,2,0"></Button>
+                        <Border Margin="15,0,15,15" BorderThickness="1" CornerRadius="8" Height="30" VerticalAlignment="Top">
+                            <Border.Background>
+                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                    <GradientStop Color="#FF333333" Offset=".1"/>
+                                    <GradientStop Color="Red" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <TextBlock Foreground="White" HorizontalAlignment="Center" FontSize="16" Margin="3">图表显示</TextBlock>
+                        </Border>
+                        <Border Margin="15,0,15,0" HorizontalAlignment="Left" BorderThickness="0,0,0,1" BorderBrush="White"  >
+                            <TextBlock Style="{StaticResource C.TextBlock.Default}" Foreground="White"  Margin="0,3,0,0" TextWrapping="Wrap" TextAlignment="Left" >
+                                这个地方是图表显示温度
+                            </TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Border>
+            </Viewport2DVisual3D>
+
+        </Viewport3D>
+    </Grid>
+</Page>
