@@ -270,6 +270,11 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
             return await ViewAsync();
         }
 
-        
+        [Route("OverView/Zoom")]
+        public async Task<IActionResult> Zoom()
+        {
+            return await ViewAsync();
+        }
+
     }
 }
