@@ -30,8 +30,6 @@ namespace HeBianGu.General.WpfControlLib
             DefaultStyleKeyProperty.OverrideMetadata(typeof(LinkActionFrame), new FrameworkPropertyMetadata(typeof(LinkActionFrame)));
         }
 
-
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();

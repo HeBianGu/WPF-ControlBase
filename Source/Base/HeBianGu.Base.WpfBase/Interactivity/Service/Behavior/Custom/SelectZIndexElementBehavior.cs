@@ -6,6 +6,7 @@ using System.Windows.Media;
 
 namespace HeBianGu.Base.WpfBase
 {
+    /// <summary> 当点击容器中一项时，将该项目置于容器最顶端 </summary>
     public class SelectZIndexElementBehavior : Behavior<FrameworkElement>
     {
 

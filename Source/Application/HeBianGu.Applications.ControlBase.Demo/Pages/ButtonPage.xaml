@@ -7,168 +7,146 @@
       xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
       xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
       mc:Ignorable="d"  x:Name="button"
+      xmlns:h="QQ:908293466"
       Title="ButtonPage"  d:DesignHeight="1000" d:DesignWidth="1000">
 
-    <Grid Name="grid_all">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <h:Interaction.Behaviors>
+                    <h:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>
+                </h:Interaction.Behaviors>
 
-        <wpfcontrollib:AnimatedTabControl>
-            <TabItem Header="带图标的按钮">
-                <ScrollViewer>
+                <GroupBox Header="系统按钮">
+                    <UniformGrid Columns="5" Height="100">
+                        <Button Content="默认按钮"/>
+                        <Button Content="默认按钮" Width="120"/>
+
+                        <Button Content="主题按钮" Style="{DynamicResource S.Button.Accent}"/>
+                        <Button h:ControlAttachProperty.FIcon="&#xe909;"/>
+                        <Button h:ControlAttachProperty.FIcon="&#xe909;" Style="{DynamicResource S.Button.Accent}"/>
+                        <Button h:ControlAttachProperty.FIcon="&#xe6f2;" Style="{DynamicResource S.Button.Accent}" Content="组合按钮"/>
+                        <Button h:ControlAttachProperty.FIcon="&#xe754;"  Style="{DynamicResource S.Button.Accent}" h:ControlAttachProperty.CornerRadius="20"/>
+                        <Button Content="组合按钮" Width="120" Style="{DynamicResource S.Button.Accent}"/>
+
+                        <Button Style="{DynamicResource S.Button.Accent}">
+                            <Image Source="/Resources/logo.png"/>
+                        </Button>
+
+
+                    </UniformGrid>
+                </GroupBox>
+
+                <GroupBox Header="默认按钮">
+                    <UniformGrid>
+                        <h:FButton Content="默认按钮"/>
+
+                        <h:FButton>
+                            <Image Source="/Resources/logo.png"/>
+                        </h:FButton>
+                    </UniformGrid>
+                </GroupBox>
+                <GroupBox Header="等待按钮">
                     <StackPanel>
-
-                        <GroupBox Header="带图标按钮">
-                            <StackPanel>
-                                <wpfcontrollib:FButton Content="默认按钮" />
-                                <wpfcontrollib:FButton Content="弹出消息" Margin="5,5,5,0" Click="FButton_Click_1"/>
-                                <wpfcontrollib:FButton Content="显示消息"  Margin="5,5,5,0"  Click="FButton_Click_2"/>
-                            </StackPanel>
-                        </GroupBox>
-
-                        <GroupBox Header="等待按钮">
-                            <StackPanel>
-                                <wpfcontrollib:FButton Content="等待的按钮" Command="{Binding BusyCommand,ElementName=button}" 
-                               base:ControlAttachProperty.IsBuzy="{Binding IsBuzy}" 
+                        <CheckBox x:Name="cb" IsChecked="True" Content="选我"/>
+                        <h:FButton Content="等待的按钮" Margin="10" 
+                               h:ControlAttachProperty.IsBuzy="{Binding IsChecked,ElementName=cb}" 
                                />
-                                <wpfcontrollib:FButton Content="保存的按钮" Command="{Binding BusyCommand,ElementName=button}" 
+                        <h:FButton Content="保存的按钮"
                                Grid.Column="1"  Grid.Row="1"
-                               base:ControlAttachProperty.IsBuzy="{Binding IsBuzy}" Margin="293,2,293,3"
-                                base:ControlAttachProperty.BuzyText="正在保存"
+                               h:ControlAttachProperty.IsBuzy="{Binding IsChecked,ElementName=cb}"
+                                h:ControlAttachProperty.BuzyText="正在保存"
                                />
-                            </StackPanel>
-                        </GroupBox>
-
-
-                        <GroupBox Header="透明背景按钮">
-                            <StackPanel>
-                                <wpfcontrollib:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
-                                base:ControlAttachProperty.BuzyText="正在保存"
-                               />
-
-                                <wpfcontrollib:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
-                                base:ControlAttachProperty.BuzyText="正在保存"
-                               />
-                                <wpfcontrollib:FButton Content="弹出蒙版消息框" Click="FButton_Click"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
-                               />
-
-                                <wpfcontrollib:FButton  Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"/>
-
-
-                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                    <wpfcontrollib:FButton Content="首页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
-                                                       BorderThickness="1,1,0,1" Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
-                               />
-
-                                    <wpfcontrollib:FButton Content="上一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
-                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
-                               />
-
-
-                                    <wpfcontrollib:FButton Content="下一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
-                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
-                               />
-
-                                    <wpfcontrollib:FButton Content="末页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
-                                                     BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
-                               />
-
-                                    <wpfcontrollib:FButton Content="导出Excel" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
-                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
-                               />
-
-                                    <wpfcontrollib:FButton Content="打印" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
-                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
-                               />
-
-                                    <wpfcontrollib:FButton Content="复制" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
-                                                       BorderThickness="1" Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
-                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
-                               />
-                                </StackPanel>
-
-
-
-                            </StackPanel>
-                        </GroupBox>
-
-
-                        <GroupBox Header="超链接按钮">
-                            <StackPanel>
-                                <wpfcontrollib:FButton Margin="3" Style="{StaticResource S.FButton.Style.Link}">百度网盘</wpfcontrollib:FButton>
-                                <wpfcontrollib:FButton FIcon="&#xe617;" Margin="3" Style="{StaticResource S.FButton.Style.Link}">设备检测</wpfcontrollib:FButton>
-
-                            </StackPanel>
-                        </GroupBox>
-
-
-                        <GroupBox Header="组合按钮">
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-
-                                <wpfcontrollib:FButton FIcon="&#xe619;" Margin="5,0,0,0" CornerRadius="16,0,0,16" AllowsAnimation="True">Info</wpfcontrollib:FButton>
-                                <wpfcontrollib:FButton FIcon="&#xe628;" CornerRadius="0" >Question</wpfcontrollib:FButton>
-                                <wpfcontrollib:FButton FIcon="&#xe628;" CornerRadius="0" >Warining</wpfcontrollib:FButton>
-                                <wpfcontrollib:FButton FIcon="&#xe629;" CornerRadius="0,16,16,0" AllowsAnimation="True" >Error</wpfcontrollib:FButton>
-
-                            </StackPanel>
-                        </GroupBox>
-
-                        <GroupBox Header="自定义形状按钮">
-                            <StackPanel HorizontalAlignment="Center">
-
-                                <wpfcontrollib:FButton FIcon="&#xe756;" Style="{DynamicResource S.FButton.Style.Circle}" Margin="4"/>
-
-                                <wpfcontrollib:FButton FIcon="&#xe756;" Style="{DynamicResource S.FButton.Style.CircleTransparent}"  Margin="4"/>
-
-                                <wpfcontrollib:FButton FIcon="&#xe756;" Content="圆角按钮" Style="{DynamicResource S.FButton.Style.CornerRadius}"  Margin="4"/>
-
-                            </StackPanel>
-                        </GroupBox>
-
-                        <GroupBox Header="自定义形状按钮">
-                            <StackPanel HorizontalAlignment="Center">
-
-                                <wpfcontrollib:FButton FIcon="&#xe756;" Style="{DynamicResource  S.FButton.Style.MouseOverOpacity}" Margin="4"/>
-
-                            </StackPanel>
-                        </GroupBox> 
-
-                    </StackPanel>
-                </ScrollViewer>
-            </TabItem>
-
-            <TabItem Header="特殊按钮">
-
-                <GroupBox Header="提示数量按钮">
-                    <StackPanel HorizontalAlignment="Center">
-
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-                            <Grid x:Name="container">
-                                <wpfcontrollib:PromptableButton x:Name="Prompbutton" CoverImageSource="../Resources/001.png" Grid.Row="1" Background="Blue" Width="128" Height="128" SnapsToDevicePixels="True"/>
-                            </Grid>
-                            <Button Grid.Row="1" x:Name="btnPlus" Content="+" Click="btnPlus_Click"/>
-                            <Button  Grid.Row="2" x:Name="btnReduce" Content="-" Click="btnReduce_Click"/>
-
-
-                        </Grid>
                     </StackPanel>
                 </GroupBox>
 
-            </TabItem>
-        </wpfcontrollib:AnimatedTabControl>
+                <GroupBox Header="透明背景按钮">
+                    <StackPanel>
+                        <h:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                                h:ControlAttachProperty.BuzyText="正在保存"
+                               />
+
+                        <h:FButton Content="透明的按钮" Command="{Binding BusyCommand,ElementName=button}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                                h:ControlAttachProperty.BuzyText="正在保存"
+                               />
+                        <h:FButton Content="弹出蒙版消息框"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"
+                               />
+
+                        <h:FButton  Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <h:FButton Content="首页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                   BorderThickness="1,1,0,1" Width="100" 
+                                                   Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+                                                   MouseOverBorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                   PressedBorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+
+                            <h:FButton Content="上一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+                                                    MouseOverBorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                   PressedBorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
 
 
+                            <h:FButton Content="下一页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                      BorderThickness="1,1,0,1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                                                    MouseOverBorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                   PressedBorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                               />
+
+                            <h:FButton Content="末页" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                     BorderThickness="1"  Width="100" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+                                                    MouseOverBorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                   PressedBorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                               Grid.Column="1" Grid.Row="1" Style="{StaticResource S.FButton.Style.Transparent}" 
+                               />
+                        </StackPanel>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="超链接按钮">
+                    <StackPanel>
+                        <h:FButton Margin="3" Style="{StaticResource S.FButton.Style.Link}">百度网盘</h:FButton>
+                        <h:FButton FIcon="&#xe617;" Margin="3" Style="{StaticResource S.FButton.Style.Link}">设备检测</h:FButton>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="组合按钮">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+
+                        <h:FButton FIcon="&#xe619;" Margin="0,0,0,0" CornerRadius="16,0,0,16" >放大</h:FButton>
+                        <h:FButton FIcon="&#xe619;" Margin="0,0,0,0" CornerRadius="0" >缩小</h:FButton>
+                        <h:FButton FIcon="&#xe619;" Margin="0,0,0,0" CornerRadius="0,16,16,0" >还原</h:FButton>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="自定义形状按钮">
+                    <StackPanel HorizontalAlignment="Center">
+
+                        <h:FButton FIcon="&#xe756;" Style="{StaticResource S.FButton.Style.Circle}" Margin="4"/>
+
+                        <h:FButton FIcon="&#xe756;" Style="{StaticResource S.FButton.Style.CircleTransparent}"  Margin="4"/>
+
+                        <h:FButton FIcon="&#xe756;" Content="圆角按钮" Style="{StaticResource S.FButton.Circle.CornerRadius}"  Margin="4"/>
+
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="自定义形状按钮">
+                    <StackPanel HorizontalAlignment="Center">
+                        <h:FButton FIcon="&#xe756;" Style="{StaticResource   S.FButton.Style.MouseOverOpacity}" Margin="4"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

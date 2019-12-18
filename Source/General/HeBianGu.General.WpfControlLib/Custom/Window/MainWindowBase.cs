@@ -226,7 +226,7 @@ namespace HeBianGu.General.WpfControlLib
 
         public void ShowWithLayer(FrameworkElement element, int layerIndex = 0)
         {
-            if(this._swtichTransitioner.CurrentContent == element)
+            if (this._swtichTransitioner.CurrentContent == element)
             {
                 this._swtichTransitioner.CurrentContent = new FButton();
                 this._swtichTransitioner.CurrentContent = element;
@@ -235,7 +235,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 this._swtichTransitioner.CurrentContent = element;
             }
-            
+
             this._swtichTransitioner.Visibility = Visibility.Visible;
 
             var story = DoubleStoryboardEngine.Create(0, 1, 0.3, "Opacity");
@@ -252,7 +252,10 @@ namespace HeBianGu.General.WpfControlLib
             story.CompletedEvent += (l, k) =>
             {
                 this._settingFrame.Visibility = Visibility.Collapsed;
-                this._linkActionFrame.Visibility = Visibility.Collapsed;
+
+                if (this._linkActionFrame != null)
+                    this._linkActionFrame.Visibility = Visibility.Collapsed;
+
                 this._swtichTransitioner.Visibility = Visibility.Collapsed;
 
                 story.Dispose();
@@ -267,6 +270,8 @@ namespace HeBianGu.General.WpfControlLib
         {
             this.Dispatcher.Invoke(() =>
             {
+                if (_notifyIcon == null) return;
+
                 _notifyIcon.ShowBalloonTip(timeout, tipTitle, tipText, tipIcon);
 
             });

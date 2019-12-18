@@ -205,7 +205,7 @@
     </Style>
 
     <!--默认WindowBase的样式-->
-    <Style x:Key="DefaultWindowStyle" TargetType="{x:Type local:WindowBase}">
+    <Style x:Key="S.Window.Main.Default" TargetType="{x:Type local:WindowBase}">
         <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}"/>
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
@@ -239,7 +239,6 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:WindowBase}">
                     <Grid Name="g_all">
-                      
                         <!--背景-->
                         <Border x:Name="Bg" 
                                 CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
@@ -260,7 +259,7 @@
                                 <RowDefinition MinHeight="20" Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            
+
                             <!--Caption标题部分-->
                             <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}">
                                 <Grid Margin="2,1,2,0">
@@ -303,9 +302,25 @@
                                     </StackPanel>
                                 </Grid>
                             </Border>
+                            
                             <!--窗体内容区域-->
                             <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
                                 <Grid>
+                                    <!--托盘图标-->
+                                    <local:NotifyIcon x:Name="PART_NotifyIcon" 
+                                                          Icon="{Binding Path=NotifyIconSource,RelativeSource={RelativeSource TemplatedParent}}" 
+                                                          Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"
+                                                          Text="{TemplateBinding Title}"
+                                                          IconVisibility="Visible">
+
+                                        <FrameworkElement.ContextMenu>
+                                            <ContextMenu Style="{DynamicResource DefaultContextMenu}">
+                                                <MenuItem Header="显示面板" />
+                                                <MenuItem Header="退出" />
+                                            </ContextMenu>
+                                        </FrameworkElement.ContextMenu>
+                                    </local:NotifyIcon>
+
                                     <!--整体消息弹出-->
                                     <local:DialogHost Identifier="windowDialog" Margin="-3,0,-3,-3">
                                         <Grid>
@@ -313,20 +328,28 @@
                                             <ContentPresenter Content="{TemplateBinding Content}" />
 
                                             <!--第一次蒙版-->
-                                            <local:ModernFrame  Visibility="Collapsed"
-                                                               x:Name="PART_SettingFrame">
+                                            <local:ModernFrame Visibility="Collapsed" x:Name="PART_SettingFrame">
                                                 <local:ModernFrame.Background>
                                                     <SolidColorBrush Color="Black" Opacity="0.5"/>
                                                 </local:ModernFrame.Background>
                                             </local:ModernFrame>
 
+                                            <local:SwtichTransitioner  x:Name="PART_SwtichTransitioner"  Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                <local:SwtichTransitioner.Background>
+                                                    <SolidColorBrush Color="#000000" Opacity="0.5"/>
+                                                </local:SwtichTransitioner.Background>
+                                                <local:SwtichTransitioner.ITransitionWipe>
+                                                    <!--<local:SlideWipe Direction="Up"/>-->
+                                                    <local:SlideOutScale/>
+                                                </local:SwtichTransitioner.ITransitionWipe>
+                                            </local:SwtichTransitioner>
+
+                                            <local:MessageContainer  x:Name="PART_Message"  Grid.Row="1" Source="{Binding MessageSource,Mode=TwoWay}"/>
                                         </Grid>
-                                    </local:DialogHost>
-
+                                    </local:DialogHost> 
+                                    
                                     <local:Snackbar MessageQueue="{local:MessageQueue}" x:Name="PART_SnackBar" />
-                                </Grid>
-                                <!--<ContentPresenter Content="{TemplateBinding Content}" />-->
-
+                                </Grid> 
                             </AdornerDecorator>
                             <Popup x:Name="Pop" PopupAnimation="Slide" IsOpen="{Binding ElementName=btnTheme,Path=IsChecked}"  PlacementTarget="{Binding ElementName=btnTheme}" Placement="Top" AllowsTransparency="True" StaysOpen="False" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                                 <Border Background="{DynamicResource S.Brush.Accent.Opacity.5}" CornerRadius="5" BorderBrush="{DynamicResource S.Brush.Accent}" BorderThickness="1">
@@ -477,7 +500,7 @@
         <Setter Property="FIcon" Value="&#xe79c;"/>
         <Setter Property="MaxboxEnable" Value="True"/>
         <Setter Property="MinboxEnable" Value="True"/>
-        <Setter Property="NotifyIconSource" Value="/HeBianGu.General.WpfControlLib;component/Resources/gothic drive.ico"/>
+        <Setter Property="NotifyIconSource" Value="/HeBianGu.General.WpfControlLib;component/Resources/iBook.ico"/>
         <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
         <Setter Property="Padding" Value="3"/>
         <Setter Property="WindowStyle" Value="None"/>
@@ -493,7 +516,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:LinkWindowBase}">
                     <Viewbox>
-                        <Grid Name="g_all" Width="1920" Height="1040"  Margin="10"><!--Margin="2,0,2,2"-->
+                        <Grid Name="g_all" Width="1920" Height="1040"  Margin="10">
+                            <!--Margin="2,0,2,2"-->
                             <!--背景-->
                             <Border x:Name="Bg" 
                                 CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
@@ -625,10 +649,10 @@
                                                         <Trigger Property="IsMouseOver" Value="True">
                                                             <Setter Property="Opacity" Value="0.6"/>
                                                         </Trigger>
-                                                        </Style.Triggers>
+                                                    </Style.Triggers>
                                                 </Style>
                                             </StackPanel.Resources>
-                                            
+
                                             <ToggleButton x:Name="btnTheme"  Width="{DynamicResource S.Window.ItemHeight}"  VerticalAlignment="Center" Margin="5,0"   ToolTip="更换主题颜色"
                                                Visibility="{Binding Path=SetboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"
                                               Style="{DynamicResource S.ToggleButton.BrushFIconChecked}" base:ControlAttachProperty.FIcon="&#xe6d2;"  base:ControlAttachProperty.FIconSize="25"
@@ -691,6 +715,7 @@
                                                     <local:LinkActionFrame Grid.Row="1" Style="{DynamicResource S.LinkActonFrame.Single}"
                                                                            LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.LeftLink}"/>
 
+ 
                                                     <local:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
                                                                FIcon="&#xe9cd;" AllowsAnimation="True" Command="{x:Static local:DrawerHost.CloseDrawerCommand}" 
                                                                CommandParameter="{x:Static Dock.Left}" 
@@ -810,7 +835,7 @@
                                 <Popup x:Name="Pop" PopupAnimation="Slide" IsOpen="{Binding ElementName=btnTheme,Path=IsChecked}"  
                                        PlacementTarget="{Binding ElementName=btnTheme}" Placement="Top" 
                                        AllowsTransparency="True" StaysOpen="False" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-                                    
+
                                     <Border Background="{DynamicResource S.Brush.Accent.Opacity.5}" 
                                             CornerRadius="5" BorderBrush="{DynamicResource S.Brush.Accent}"
                                             BorderThickness="1">
@@ -1069,7 +1094,7 @@
                                 <TranslateTransform/>
                             </TransformGroup>
                         </Grid.RenderTransform>
-                        
+
                         <!--背景-->
                         <Border x:Name="Bg" 
                                 CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
@@ -1078,7 +1103,7 @@
                                 Effect="{StaticResource S.EffectShadow.3}"
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
-                        
+
                         <Border  x:Name="BgInner" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}" 
                             Background="{TemplateBinding Background}" 
                             BorderThickness="{TemplateBinding BorderThickness}" 

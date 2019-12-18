@@ -5,16 +5,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.Demo"
-        mc:Ignorable="d"  Style="{DynamicResource DefaultWindowStyle}" Loaded="WindowBase_Loaded"
-        Title="WpfControlLib For WPF  - Copyright ©  2019  By HeBianGu  控件库示例" 
-                               Height="760" Width="1200" 
-                               CaptionHeight="50" FIconSize="30">
+        mc:Ignorable="d"  Style="{DynamicResource S.Window.Main.Default}"
+        Title="WpfControlLib For WPF  - Copyright ©  2019  By HeBianGu  控件库示例"
+        DataContext="{Binding Source={StaticResource S.DataSource.Locator},Path=ShellViewModel}"   
+        NotifyIconSource="/HeBianGu.General.WpfControlLib;component/Resources/iBook.ico"
+        Height="760" Width="1200" CaptionHeight="50" FIconSize="30">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition MinWidth="220"  Width="*"/>
+            <ColumnDefinition Width="230"/>
             <ColumnDefinition Width="2"/>
-            <ColumnDefinition Width="263*" MinWidth="600"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
@@ -22,10 +22,10 @@
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
 
-        <GridSplitter Grid.Column="1" Width="5"  Background="Transparent"/> 
+        <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="Transparent"/> 
 
-        <TreeView  Grid.Column="0" HorizontalAlignment="Stretch" Background="Transparent" Foreground="{DynamicResource S.Brush.TextForeground.White}"
-                   ItemsSource="{Binding Source={StaticResource xdp}}" 
+        <TreeView  Grid.Column="0" HorizontalAlignment="Stretch" Foreground="{DynamicResource S.Brush.TextForeground.White}"
+                   ItemsSource="{Binding Source={StaticResource xdp}}" Background="Transparent" BorderThickness="0"
                    x:Name="TreeRoot" >
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding XPath=Folder}">
@@ -35,15 +35,9 @@
                     </StackPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
+        </TreeView> 
 
-        </TreeView>
-        
-        <Frame x:Name="PageContext"
-                                   Grid.Column="2" 
-                                   Background="Transparent" 
-                                   BorderThickness="1" 
-                                   NavigationUIVisibility="Hidden"  
-                                   Source="{Binding ElementName=TreeRoot, Path=SelectedItem.Attributes[Value].Value}"/>
-
+        <Frame x:Name="PageContext" Grid.Column="2" Background="Transparent" BorderThickness="1"  
+               NavigationUIVisibility="Hidden" Source="{Binding ElementName=TreeRoot, Path=SelectedItem.Attributes[Value].Value}"/>
     </Grid>
 </wpfcontrollib:BlurWindowBase>

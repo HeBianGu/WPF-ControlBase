@@ -24,10 +24,5 @@ namespace HeBianGu.Applications.ControlBase.Demo
         {
             InitializeComponent(); 
         }
-
-        private void WindowBase_Loaded(object sender, RoutedEventArgs e)
-        {
-            //ThemeService.Current.AccentColor = Colors.Black;
-        }
     }
 }

@@ -4,68 +4,46 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:WpfControlDemo.View"
-      xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
+      xmlns:h="QQ:908293466"
       mc:Ignorable="d" 
       d:DesignHeight="1000" d:DesignWidth="1000"
       Title="SliderPage">
-
-    <Grid>
+    <ScrollViewer>
         <StackPanel>
-
-            <GroupBox Header="系统滚动条">
-                <Slider
-                                    Margin="5"
-                                    LargeChange="0.1"
-                                    Maximum="1"
-                                    SmallChange="0.1" />
-
-            </GroupBox>
-
-            <!--<GroupBox Header="自定义滚动条">
-                <Slider
-                                    Margin="5"
-                                    LargeChange="0.1"
-                                    Maximum="1"
-                                    SmallChange="0.1" Style="{StaticResource DefaultSliderStyle}" />
-            </GroupBox>
-            <GroupBox Header="透明滚动条">
-                <Slider
-                                    Margin="5"
-                                    LargeChange="0.1"
-                                    Maximum="1"
-                                    SmallChange="0.1" Style="{StaticResource OpacitySliderStyle}" />
-            </GroupBox>
-
-            <GroupBox Header="进度条样式的拖动条">
-                <Slider
-                                    Margin="5"
-                                    LargeChange="0.1"
-                                    Maximum="1"
-                                    SmallChange="0.1" Style="{StaticResource Slider_CustomStyle}" />
-            </GroupBox>-->
-
-
-
+            <h:Interaction.Behaviors>
+                <h:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>
+            </h:Interaction.Behaviors>
             
-            <GroupBox Header="实心滚动条">
-                <Slider Style="{DynamicResource SliderStyle1}" 
-                        Minimum="12" 
-                        Maximum="20"  
-                        VerticalAlignment="Center" 
-                        Value="{Binding FontSize ,ElementName=RichTextBoxLogs}"
-                        Width="100"/>
+            <GroupBox Header="默认">
+                <Slider x:Name="slider1" Margin="5" Maximum="100" Value="50" SmallChange="1" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}" />
             </GroupBox>
+
+            <GroupBox Header="空心">
+                <Slider Value="{Binding ElementName=slider1,Path=Value}" Margin="20" Style="{StaticResource S.Slider.Default}"/>
+            </GroupBox>
+            <GroupBox Header="实心">
+                <Slider Value="{Binding ElementName=slider1,Path=Value}"  Margin="20" Style="{StaticResource S.Slider.Circle}"/>
+            </GroupBox>
+
+            <GroupBox Header="自定义">
+                <h:PreviewSlider Name="PreviewSlider" Width="300" Value="500" Maximum="1000" VerticalAlignment="Center">
+
+                    <h:PreviewSlider.PreviewContent>
+                        <Label Background="{DynamicResource S.Brush.Accent}" Foreground="White" Content="{Binding PreviewPosition,ElementName=PreviewSlider}" ContentStringFormat="{}{0:#0.0}"/>
+                    </h:PreviewSlider.PreviewContent>
+                </h:PreviewSlider>
+            </GroupBox>
+
             <GroupBox Header="区间滚动条">
                 <StackPanel  Margin="10">
+                    <h:SpaceSpliterUserControl Background="Red" LeftPercent="{Binding Left,Mode=TwoWay}" RightPercent="{Binding Right,Mode=TwoWay}" Margin="10"/>
+                    <h:SpaceSpliterUserControl  Background="Red" LeftPercent="0.1" RightPercent="0.9"  Margin="10"/>
 
-                    <wpfcontrollib:SpaceSpliterUserControl Background="Red" LeftPercent="{Binding Left,Mode=TwoWay}" RightPercent="{Binding Right,Mode=TwoWay}" Margin="10"/>
-                    <wpfcontrollib:SpaceSpliterUserControl  Background="Red" LeftPercent="0.1" RightPercent="0.9"  Margin="10"/>
-
-                    <TextBlock>
+                    <TextBlock Foreground="{DynamicResource S.Brush.TextForeground.Default}">
                 <Run Text="左侧值："/>
                  <Run x:Name="txt_left" Text="{Binding Left}"/>
                     </TextBlock>
-                    <TextBlock>
+                    <TextBlock  Foreground="{DynamicResource S.Brush.TextForeground.Default}">
                 <Run Text="右侧值："/>
                  <Run x:Name="txt_right" Text="{Binding Right}"/>
                     </TextBlock>
@@ -75,7 +53,7 @@
 
             <GroupBox Header="缓冲播放进度条">
                 <StackPanel>
-                    <wpfcontrollib:BufferPlayControl x:Name="control_bufferPlay"/>
+                    <h:BufferPlayControl x:Name="control_bufferPlay"/>
                     <TextBlock x:Name="txt_persent"/>
                     <TextBlock Text="{Binding ElementName=control_bufferPlay,Path=Value}"/>
                     <Button Content="开始" Click="Button_Click"/>
@@ -83,5 +61,5 @@
                 </StackPanel>
             </GroupBox>
         </StackPanel>
-    </Grid>
+    </ScrollViewer>
 </Page>

@@ -1,4 +1,5 @@
-﻿using HeBianGu.Base.WpfBase;
+﻿using HeBianGu.Applications.ControlBase.Demo;
+using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using System;
 using System.Collections.Generic;
