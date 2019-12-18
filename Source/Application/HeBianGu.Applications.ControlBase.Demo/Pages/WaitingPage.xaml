@@ -7,146 +7,75 @@
       mc:Ignorable="d" d:DesignHeight="1000" d:DesignWidth="1000"
       xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
       xmlns:controls="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
-      Title="WaitingPage" Background="{StaticResource S.Brush.LightGray.Notice}" >
+      xmlns:h="QQ:908293466"
+      Title="WaitingPage">
 
     <Grid>
-        <controls:AnimatedTabControl >
-            <TabItem Header="等待控件">
-                <ScrollViewer>
-                    <StackPanel>
+        <ScrollViewer>
+            <StackPanel>
+                <h:Interaction.Behaviors>
+                    <h:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>
+                </h:Interaction.Behaviors>
 
-                        <controls:FCheckBox VerticalAlignment="Center" x:Name="cbActive" Margin="5" IsChecked="True">IsActive</controls:FCheckBox>
-                        <controls:RingBox Width="80" Height="80" Margin="5"  IsActive="{Binding IsChecked ,ElementName=cbActive}" />
-                        <controls:FCheckBox VerticalAlignment="Center" x:Name="cbActive2" IsChecked="True" Margin="5">IsActive</controls:FCheckBox>
-                        <controls:WaitingBox Width="80" Height="80" Foreground="White" Background="Red"  Margin="5"  IsBusy="{Binding IsChecked ,ElementName=cbActive2}" />
-                        <controls:WaitingBox Width="30" Height="30" Foreground="White" Background="Red"  Margin="5"  IsBusy="{Binding IsChecked ,ElementName=cbActive2}" />
+                <GroupBox Header="进度条">
+                    <UniformGrid  Columns="1">
+                        <Slider x:Name="slide" Minimum="0" Maximum="100" SmallChange="1" LargeChange="2" Value="50" Margin="5"/>
 
-                        <controls:ProgressBarControl  CanvasSize="100" EllipseCount="15" EllipseSize="10" StepAngle="10" TimeSpan="50"></controls:ProgressBarControl>
+                        <ProgressBar Margin="15" Value="{Binding Percent,Mode=OneWay}"  h:ControlAttachProperty.CornerRadius="28" Style="{StaticResource BaseProgressBar}" IsIndeterminate="True"></ProgressBar>
 
-                        <ProgressBar Minimum="0" Maximum="1" Height="50" Width="500" IsIndeterminate="True" Margin="5"   Style="{StaticResource RunningPointProgressBar}"/>
-                        
-                        
-                        <ProgressBar Margin="5" Value="{Binding Percent,Mode=OneWay}" Style="{StaticResource SimpleProgressBar}" x:Name="pro4"></ProgressBar>
-                        <ProgressBar Margin="5" Value="{Binding Percent,Mode=OneWay}" Height="15" x:Name="pro5" Background="LightSteelBlue" Foreground="OrangeRed" Style="{StaticResource SimpleProgressBar}"></ProgressBar>
-                        <TextBlock x:Name="proValue"  Text="{Binding Percent,Mode=OneWay,StringFormat={}{0:p1}}" HorizontalAlignment="Center"></TextBlock>
-                        <ProgressBar Margin="5" Value="{Binding Percent,Mode=OneWay}"  base:ControlAttachProperty.CornerRadius="28" Height="50" Style="{StaticResource BaseProgressBar}" IsIndeterminate="True"></ProgressBar>
+                        <ProgressBar Style="{DynamicResource S.Progessbar.WaittingPercent}" Width="300" Value="{Binding ElementName=slide,Path=Value}"/>
 
-                        <Grid Background="White" Height="50" Width="500">
-                            <Grid.Clip>
-                                <RectangleGeometry RadiusX="28" RadiusY="28">
-                                    <RectangleGeometry.Rect>
-                                        <Rect Width="500" Height="50"/>
-                                    </RectangleGeometry.Rect>
-                                </RectangleGeometry>
-                            </Grid.Clip>
+                        <ProgressBar Style="{DynamicResource S.Progessbar.CriclePercent}" Value="{Binding ElementName=slide,Path=Value}"/>
 
-                            <ProgressBar Value="50" 
-                                         Maximum="100" 
-                                         Minimum="0" 
-                                         Style="{StaticResource FRunningWaittingProgressBar}"/>
+                        <h:MetroProgressBar Value="{Binding ElementName=slide,Path=Value}" Style="{DynamicResource S.MetroProgressBar.CornerRadius.30}"/>
 
+                        <h:MetroProgressBar Value="{Binding ElementName=slide,Path=Value}" Style="{DynamicResource S.MetroProgressBar.CornerRadius.30}"  CornerRadius="15"/>
 
-                            <ProgressBar Value="100" 
-                                         Background="Transparent"
-                                         Opacity="0.5" 
-                                         Foreground="{StaticResource S.Brush.Orange.Notice}" 
-                                         Maximum="100"   Minimum="0"  IsIndeterminate="True"/>
+                        <h:MetroProgressBar Value="{Binding ElementName=slide,Path=Value}"/>
 
-                            <TextBlock Text="当前进度 50%" HorizontalAlignment="Center" Foreground="Black" VerticalAlignment="Center" FontSize="22">
-                                <TextBlock.Triggers>
-                                    <EventTrigger RoutedEvent="Loaded">
-                                        <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.OpacityForever}"/>
-                                    </EventTrigger>
-                                </TextBlock.Triggers>
-                            </TextBlock>
+                        <h:WaveProgressBar  Value="{Binding ElementName=slide,Path=Value}" Style="{DynamicResource ProgressBarWaveBaseStyle}"  />
 
-                        </Grid>
+                        <ProgressBar Style="{DynamicResource S.ProgressBar.Handy.Default}" Height="30" Value="{Binding ElementName=slide,Path=Value}" />
+
+                        <ProgressBar Style="{DynamicResource S.ProgressBar.Handy.Stripe}"  Height="30"  Value="{Binding ElementName=slide,Path=Value}" />
+
+                    </UniformGrid>
+                </GroupBox>
+
+                <GroupBox Header="加载控件 - ModernProgressRing">
+                    <UniformGrid Columns="1">
+                        <h:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="15" Style="{StaticResource FChasingDotsProgressRingStyle}" />
+                        <h:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="15"  Style="{StaticResource FCircleProgressRingStyle}" />
+                        <h:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="15"  Style="{StaticResource FDoubleBounceProgressRingStyle}" />
+                        <h:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="15"  Style="{StaticResource FPulseProgressRingStyle}" />
+                        <h:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="15"  Style="{StaticResource FRotatingPlaneProgressRingStyle}" />
+                        <h:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="15"  Style="{StaticResource FThreeBounceProgressRingStyle}" />
+                        <h:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="15"  Style="{StaticResource FWanderingCubesProgressRingStyle}" />
+                        <h:ModernProgressRing IsActive="True" Width="80" Height="80" Margin="15"  Style="{StaticResource FWaveProgressRingStyle}" />
 
 
-                        <ProgressBar Style="{DynamicResource S.Progessbar.WaittingPercent}" Value="80"/>
-                    </StackPanel>
-                </ScrollViewer>
-            </TabItem>
+                        <h:RingBox Width="80" Height="80"  Margin="25" IsActive="True"/>
 
-            <!--<TabItem Header="圆形控件">
-                <ScrollViewer>
-                    <StackPanel>
+                        <h:ProgressBarControl CanvasSize="100" Margin="25" EllipseCount="15" EllipseSize="10" StepAngle="10" TimeSpan="50"/>
 
-                        --><!--<ProgressBar Margin="5" Orientation="Vertical" Width="12" Height="auto" Value="{Binding Percent,Mode=OneWay}" 
-                                 Style="{StaticResource SimpleProgressBar}" x:Name="pro6"></ProgressBar>
-                        <ProgressBar Style="{StaticResource LoopProcessBar}" Value="{Binding Percent,Mode=OneWay}"  x:Name="pro1" ></ProgressBar>
-
-                        <Grid Width="200" Height="200">
-                            <ProgressBar Style="{StaticResource LoopProcessBar}" Value="{Binding Percent,Mode=OneWay}" 
-                                     x:Name="pro2" Margin="0" Width="200" Height="200" BorderThickness="20" 
-                                     BorderBrush="#EF436F"/>
-                            <TextBlock FontSize="30" Text="{Binding Value,Mode=OneWay,ElementName=pro2,StringFormat={}{0:p1}}" 
-                                   VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Grid>
-
-                        <ProgressBar Style="{StaticResource LoopProcessBar}" x:Name="pro3" Value="{Binding Percent,Mode=OneWay}" 
-                                 Width="100" Height="100" BorderThickness="10" BorderBrush="#EFBF0E"></ProgressBar>-->
-
-                        <!--<controls:FButton x:Name="btn_success" Content="成功" Margin="3" Click="btn_success_Click" />
-                        <controls:FButton x:Name="btn_faled" Content="失败" Margin="3" Click="btn_faled_Click"/>
-                        <controls:FButton x:Name="btn_repeat" Content="重置" Margin="3" Click="btn_repeat_Click"/>--><!--
-                        <controls:FButton x:Name="btn_showwindow" Content="弹窗" Margin="3" Click="btn_showwindow_Click"/>
+                        <ProgressBar Minimum="0" Maximum="1" Height="50"  Width="500"  IsIndeterminate="True"  Margin="25" Style="{StaticResource RunningPointProgressBar}"/>
 
 
-                    </StackPanel>
-                </ScrollViewer>
-            </TabItem>-->
+                    </UniformGrid>
+                </GroupBox>
 
-            <TabItem Header="MetroProgressBar">
-                <ScrollViewer>
-                    <StackPanel>
-                        <GroupBox Header="进度条">
-                            <Grid>
-                                <StackPanel Background="#00000000">
-                                    <controls:MetroProgressBar Margin="5" Value="15" ProgressBarHeight="30" CornerRadius="0" ProgressBarState="None" IsEnabled="False" />
-                                    <controls:MetroProgressBar x:Name="pb1" Title="MetroProgressBar 调整" Margin="5" Value="20" ProgressBarHeight="20" CornerRadius="0" ProgressBarState="None" TextHorizontalAlignment="Center" />
-                                    <controls:MetroProgressBar x:Name="pb2" Title="MetroProgressBar 正常" Margin="5" Value="0" TextHorizontalAlignment="Right" Maximum="50" />
-                                    <controls:MetroProgressBar Title="MetroProgressBar 错误" Margin="5" Value="40" ProgressBarState="Error" />
-                                </StackPanel>
-                            </Grid>
-                        </GroupBox>
-                    </StackPanel>
-                </ScrollViewer>
-            </TabItem>
 
-            <TabItem Header="ModernProgressRing">
-                <ScrollViewer>
-                    <StackPanel>
-                        <GroupBox Header="进度条">
-                            <Grid>
-                                <StackPanel MinWidth="200" HorizontalAlignment="Left">
-                                    <TextBlock Text="MODERNPROGRESSRING" Margin="0,0,0,8" />
-                                    <!--<mui:BBCodeBlock BBCode="Represents a control that indicates that an operation is ongoing. The control comes with 8 built-in spinner styles, ported from [url=https://github.com/nigel-sampson/spinkit-xaml]SpinKit.Xaml[/url]." Margin="0,0,0,8" />-->
-                                    <!--<mui:BBCodeBlock BBCode="Note: the styles automatically fill the given control size, except for [i]Wandering Cubes[/i] which is hard coded for 80 x 80." Margin="0,0,0,16" />-->
+                <GroupBox Header="加载控件 - Sprocket">
+                    <UniformGrid  Columns="1">
+                        <Slider x:Name="slide1" Minimum="0" Maximum="100" SmallChange="1" LargeChange="2" Value="50" Margin="15"/>
 
-                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,32">
-                                        <TextBlock Text="Style:" VerticalAlignment="Center" />
-                                        <ComboBox x:Name="CmbRingStyle" Margin="8,0,0,0">
-                                            <ComboBoxItem Content="Chasing Dots" Tag="{StaticResource FChasingDotsProgressRingStyle}" />
-                                            <ComboBoxItem Content="Circle (default style)" IsSelected="True" Tag="{StaticResource FCircleProgressRingStyle}" />
-                                            <ComboBoxItem Content="Double Bounce" Tag="{StaticResource FDoubleBounceProgressRingStyle}" />
-                                            <ComboBoxItem Content="Pulse" Tag="{StaticResource FPulseProgressRingStyle}" />
-                                            <ComboBoxItem Content="Rotating Plane" Tag="{StaticResource FRotatingPlaneProgressRingStyle}" />
-                                            <ComboBoxItem Content="Three Bounce" Tag="{StaticResource FThreeBounceProgressRingStyle}" />
-                                            <ComboBoxItem Content="Wandering Cubes" Tag="{StaticResource FWanderingCubesProgressRingStyle}" />
-                                            <ComboBoxItem Content="Wave" Tag="{StaticResource FWaveProgressRingStyle}" />
-                                        </ComboBox>
-                                    </StackPanel>
-
-                                    <controls:ModernProgressRing IsActive="True" Width="80" Height="80" Style="{Binding SelectedItem.Tag, ElementName=CmbRingStyle}" />
-                                </StackPanel>
-                            </Grid>
-                        </GroupBox>
-                    </StackPanel>
-                </ScrollViewer>
-            </TabItem>
-        </controls:AnimatedTabControl>
-     
-
+                        <h:Sprocket Margin="0,10,0,0" Interval="60" IsIndeterminate="True" />
+                        <h:Sprocket Margin="0,10,0,0" Width="50" Height="50" TickWidth="3" TickCount="40" Interval="30" IsIndeterminate="True"/>
+                        <h:Sprocket Margin="0,10,0,0" Progress="{Binding ElementName=slide1,Path=Value}"/>
+                        <h:Sprocket Margin="0,10,0,0" Progress="{Binding ElementName=slide1,Path=Value}" TickCount="120"  />
+                    </UniformGrid>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

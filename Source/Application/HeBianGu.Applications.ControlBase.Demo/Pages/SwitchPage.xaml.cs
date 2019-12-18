@@ -1,21 +1,35 @@
 ﻿using HeBianGu.Base.WpfBase;
-using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace HeBianGu.Applications.ControlBase.Demo.Pages
 {
-    [ViewModel("Switch")]
-    public class SwitchViewModel : MvcViewModelBase
+    /// <summary>
+    /// SwitchPage.xaml 的交互逻辑
+    /// </summary>
+    public partial class SwitchPage : Page
+    {
+        public SwitchPage()
+        {
+            InitializeComponent();
+        }
+    }
+     
+
+
+    public class SwitchViewModel : NotifyPropertyChanged
     {
 
         private object _currentContent;
@@ -33,7 +47,6 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         List<UIElement> controls = new List<UIElement>();
 
         int value = 1;
-
 
         protected override void RelayMethod(object obj)
         {
@@ -55,10 +68,15 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         }
 
+        public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() => new RelayCommand<string>(Loaded, CanLoaded)).Value; 
+       
 
-        public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() => new RelayCommand<string>(Loaded, CanLoaded)).Value;
+        protected virtual bool CanLoaded(string args)
+        {
+            return true;
+        }
 
-        protected override void Loaded(string args)
+        protected void Loaded(string args)
         {
             SolidColorBrush[] solids = new SolidColorBrush[] {
                 new SolidColorBrush(Colors.Red),
@@ -74,15 +92,13 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
             Random random = new Random();
 
-
-
             Application.Current.Dispatcher.Invoke(() =>
             {
                 for (int i = 0; i < 30; i++)
                 {
                     Grid grid = new Grid();
-                    grid.Width = 2000;
-                    grid.Height = 2000;
+                    grid.Width = 1000;
+                    grid.Height = 1000;
                     grid.HorizontalAlignment = HorizontalAlignment.Stretch;
                     grid.VerticalAlignment = VerticalAlignment.Stretch;
                     grid.Background = solids[i % 9];
@@ -112,5 +128,4 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             return true;
         }
     }
-
 }

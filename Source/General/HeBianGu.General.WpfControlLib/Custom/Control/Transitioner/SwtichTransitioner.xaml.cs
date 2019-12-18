@@ -13,7 +13,7 @@ namespace HeBianGu.General.WpfControlLib
     [TemplatePart(Name = "PART_TransitionerSlide_New")]
     public partial class SwtichTransitioner : ContentControl, IZIndexController
     {
-        private Point? _nextTransitionOrigin=null;
+        private Point? _nextTransitionOrigin = null;
 
         static SwtichTransitioner()
         {
@@ -96,7 +96,6 @@ namespace HeBianGu.General.WpfControlLib
 
     public partial class SwtichTransitioner
     {
-
         public object OldContent
         {
             get { return (object)GetValue(OldContentProperty); }
@@ -183,12 +182,12 @@ namespace HeBianGu.General.WpfControlLib
 
             FrameworkElement control = NewContent as FrameworkElement;
 
-            if (control == null|| control.IsLoaded)
+            if (control == null || control.IsLoaded)
             {
                 this.RefreshSwitch(); return;
             }
 
-            
+
             control.Loaded += (l, k) =>
               {
                   this.RefreshSwitch();
