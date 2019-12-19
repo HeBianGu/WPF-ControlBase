@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace HeBianGu.Applications.ControlBase.Demo
+namespace HeBianGu.Application.BlurWindow
 {
     public class AssemblyDomain : IThemeLocalizeService,ILogService
     {

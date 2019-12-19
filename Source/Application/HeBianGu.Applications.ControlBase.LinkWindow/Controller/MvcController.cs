@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow.Control
+namespace HeBianGu.Application.LinkWindow
 {
     [Route("Mvc")]
     class MvcController : Controller<MvcViewModel>

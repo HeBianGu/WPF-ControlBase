@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace HeBianGu.Application.LinkWindow
 {
    public class SettingViewModel : NotifyPropertyChanged
     {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 
-namespace HeBianGu.Applications.ControlBase.Demo
+namespace HeBianGu.Application.BlurWindow
 {
     class DataSourceLocator
     {

@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace HeBianGu.Application.LinkWindow
 {
     [ViewModel("Image")]
     public class ImageViewModel : MvcViewModelBase

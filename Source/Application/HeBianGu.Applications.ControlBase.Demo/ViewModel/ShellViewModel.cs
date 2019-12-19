@@ -16,7 +16,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace HeBianGu.Applications.ControlBase.Demo
+namespace HeBianGu.Application.BlurWindow
 {
     class ShellViewModel : NotifyPropertyChanged
     {

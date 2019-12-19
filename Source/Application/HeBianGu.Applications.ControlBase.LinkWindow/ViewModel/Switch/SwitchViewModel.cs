@@ -12,7 +12,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace HeBianGu.Application.LinkWindow
 {
     [ViewModel("Switch")]
     public class SwitchViewModel : MvcViewModelBase
@@ -76,7 +76,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
 
 
-            Application.Current.Dispatcher.Invoke(() =>
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
                 for (int i = 0; i < 30; i++)
                 {
@@ -96,7 +96,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
 
         private void SelectChanged(string args)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
                 value = value >= controls.Count ? 1 : value;
 

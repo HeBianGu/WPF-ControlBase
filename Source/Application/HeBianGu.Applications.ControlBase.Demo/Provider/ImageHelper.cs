@@ -6,7 +6,7 @@ using System.Security;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-namespace HeBianGu.Applications.ControlBase.Demo
+namespace HeBianGu.Application.BlurWindow
 {
     public static class ImageHelper
     {

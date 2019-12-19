@@ -1,4 +1,5 @@
-﻿using HeBianGu.Base.WpfBase;
+﻿using HeBianGu.Applications.ControlBase.LinkWindow;
+using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.General.WpfMvc;
 using System;
@@ -16,7 +17,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace HeBianGu.Application.LinkWindow
 {
     [ViewModel("Loyout")]
     class LoyoutViewModel : MvcViewModelBase
@@ -315,9 +316,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             else if (command.StartsWith("Button.ShowCoverMessge"))
             {
                 SettingControl setting = new SettingControl();
-
                 MessageService.ShowWithLayer(setting);
-
             }
 
             else if (command == "Button.Add")

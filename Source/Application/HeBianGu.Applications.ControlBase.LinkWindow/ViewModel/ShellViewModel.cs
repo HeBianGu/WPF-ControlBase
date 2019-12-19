@@ -10,7 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace HeBianGu.Application.LinkWindow
 {
     [ViewModel("Shell")]
     class ShellViewModel : WindowLinkViewModel

@@ -7,7 +7,7 @@ using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.General.WpfMvc;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow
+namespace HeBianGu.Application.LinkWindow
 {
     class DataSourceLocator
     {

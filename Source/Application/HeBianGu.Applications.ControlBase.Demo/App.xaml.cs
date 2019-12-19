@@ -1,5 +1,6 @@
 ﻿
 
+using HeBianGu.Applications.ControlBase.Demo;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using System;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace HeBianGu.Applications.ControlBase.Demo
+namespace HeBianGu.Application.BlurWindow
 {
     /// <summary>
     /// App.xaml 的交互逻辑

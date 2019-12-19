@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow.Controler
+namespace HeBianGu.Application.LinkWindow
 {
     [Route("Chart")]
     class ChartController : Controller

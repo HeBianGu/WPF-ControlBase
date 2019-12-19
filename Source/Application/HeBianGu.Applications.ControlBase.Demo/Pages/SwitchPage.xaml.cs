@@ -92,7 +92,7 @@ namespace HeBianGu.Applications.ControlBase.Demo.Pages
 
             Random random = new Random();
 
-            Application.Current.Dispatcher.Invoke(() =>
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
                 for (int i = 0; i < 30; i++)
                 {
@@ -112,7 +112,7 @@ namespace HeBianGu.Applications.ControlBase.Demo.Pages
 
         private void SelectChanged(string args)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            System.Windows.Application.Current.Dispatcher.Invoke(() =>
             {
                 value = value >= controls.Count ? 1 : value;
 

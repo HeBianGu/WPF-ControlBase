@@ -7,11 +7,11 @@ using System.Windows;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("HeBianGu.Applications.ControlBase.Demo")]
+[assembly: AssemblyTitle("HeBianGu.Application.BlurWindow")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("HeBianGu.Applications.ControlBase.Demo")]
+[assembly: AssemblyProduct("HeBianGu.Application.BlurWindow")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

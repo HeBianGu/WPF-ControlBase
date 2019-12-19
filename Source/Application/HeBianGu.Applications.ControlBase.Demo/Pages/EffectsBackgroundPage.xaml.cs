@@ -1,4 +1,5 @@
-﻿using HeBianGu.Applications.ControlBase.Demo;
+﻿using HeBianGu.Application.BlurWindow;
+using HeBianGu.Applications.ControlBase.Demo;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using System;

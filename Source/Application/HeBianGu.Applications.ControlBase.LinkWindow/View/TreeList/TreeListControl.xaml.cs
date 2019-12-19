@@ -1,4 +1,5 @@
-﻿using HeBianGu.Base.WpfBase;
+﻿using HeBianGu.Application.LinkWindow;
+using HeBianGu.Base.WpfBase;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

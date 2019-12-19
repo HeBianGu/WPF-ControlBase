@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace HeBianGu.Applications.ControlBase.LinkWindow.Controler
+namespace HeBianGu.Application.LinkWindow
 {
     [Route("TreeList")]
     public class TreeListController : Controller
