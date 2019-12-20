@@ -12,10 +12,10 @@
 
     <Page.Resources>
         <DataTemplate DataType="{x:Type h:CircleWipe}">
-            <Grid Height="30">
+            <Grid Height="30" RenderTransform="{StaticResource S.TransformGroup.Default}">
                 <TextBlock VerticalAlignment="Center"  Foreground="{DynamicResource S.Brush.TextForeground.Default}">
                          <Run Text="CircleWip:"/>
-                          <Run Text="过度(秒) = "/>
+                         <Run Text="过度(秒) = "/>
                          <Run Text="{Binding MidTime.Seconds,Mode=OneWay}"/>
                          <Run Text="时间(秒) = "/>
                          <Run Text="{Binding Duration.Seconds,Mode=OneWay}"/>
@@ -25,7 +25,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type h:SlideWipe}">
-            <Grid Height="30">
+            <Grid Height="30"  RenderTransform="{StaticResource S.TransformGroup.Default}">
                 <TextBlock VerticalAlignment="Center"  Foreground="{DynamicResource S.Brush.TextForeground.Default}">
                          <Run Text="SlideWipe:"/>
                          <Run Text="方向 = "/>
@@ -37,7 +37,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type h:SlideOutWipe}">
-            <Grid Height="30">
+            <Grid Height="30"  RenderTransform="{StaticResource S.TransformGroup.Default}">
                 <TextBlock VerticalAlignment="Center"  Foreground="{DynamicResource S.Brush.TextForeground.Default}">
                          <Run Text="SlideOutWipe:"/>
                 </TextBlock>
@@ -45,7 +45,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type h:FadeWipe}">
-            <Grid Height="30">
+            <Grid Height="30"  RenderTransform="{StaticResource S.TransformGroup.Default}">
                 <TextBlock VerticalAlignment="Center"  Foreground="{DynamicResource S.Brush.TextForeground.Default}">
                          <Run Text="SlideWipe:"/>
                          <Run Text="时间(秒) = "/>
@@ -56,16 +56,21 @@
     </Page.Resources>
 
     <Grid >
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-
+        
         <h:SwtichTransitioner Grid.Column="0" Background="Black" x:Name="transitioner" CurrentContent="{Binding CurrentContent }"
                                           ITransitionWipe="{Binding ElementName=selectwipe,Path=SelectItem}"/>
 
         <Border  Grid.Column="1" Background="{DynamicResource S.Brush.TextBackground.Default}">
             <h:GroupExpander x:Name="selectwipe" Command="{Binding SelectChangedCommand}" VerticalAlignment="Stretch">
+                <h:Interaction.Behaviors>
+                    <h:FountainAnimationBehavior IsUseAll="True"/>
+                </h:Interaction.Behaviors>
+                
                 <h:GroupObject DisplayName="CircleWipe" Logo="&#xe69f;">
                     <h:CircleWipe/>
                     <h:CircleWipe Duration="00:00:04"/>

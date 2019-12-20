@@ -16,14 +16,14 @@ namespace HeBianGu.Base.WpfBase
         /// <summary>  喷泉效果  </summary>
         /// <param name="cav">画布</param>
         /// <param name="uclist">展示集合</param>
-        /// <param name="pL">喷出点左</param>
-        /// <param name="pT">喷出点上</param>
+        /// <param name="pL">左侧范围</param>
+        /// <param name="pT">右侧范围</param>
         /// <param name="Mul">放大倍数</param>
         /// <param name="middle_value">放大时间点</param>
         /// <param name="end_value">还原时间点</param>
-        public static void FountainAnimation(List<DependencyObject> uclist, double pL = 0, double pT = 0, double Mul = 10, double middle_value = 0.5, double end_value = 1)
+        public static void FountainAnimation(IEnumerable<DependencyObject> uclist, int pL = -1000, int pT = 1000, double Mul = 10, double middle_value = 0.5, double end_value = 1)
         {
-            if (uclist.Count <= 0)
+            if (uclist.Count() <= 0)
             {
                 return;
             }
@@ -34,13 +34,19 @@ namespace HeBianGu.Base.WpfBase
             double first_value = 0;
             Random r2 = new Random();
 
-            for (int i = 0; i < uclist.Count; i++)
-            {
-                double first = i * 0.05 + first_value;
-                double middle = i * 0.05 + middle_value;
-                double end = i * 0.05 + end_value;
+            //for (int i = 0; i < uclist.Count(); i++)
+            //{
 
-                var c = uclist[i];
+            int i = 0;
+            //  Do ：间隔时间
+            double split = 0.05;
+            foreach (var c in uclist)
+            {
+                double first = i * split + first_value;
+                double middle = i * split + middle_value;
+                double end = i * split + end_value;
+
+                i++;
 
                 EasingDoubleKeyFrame edf0 = new EasingDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)));//所有元素起点都是0
                 EasingDoubleKeyFrame edf1 = new EasingDoubleKeyFrame(Init, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(first)));
@@ -66,8 +72,8 @@ namespace HeBianGu.Base.WpfBase
                 Storyboard.SetTargetProperty(daukf2, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"));
 
                 DoubleAnimationUsingKeyFrames daukf3 = new DoubleAnimationUsingKeyFrames();
-                EasingDoubleKeyFrame edf31 = new EasingDoubleKeyFrame(r2.Next(-1000, 1000), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)));
-                //EasingDoubleKeyFrame edf31 = new EasingDoubleKeyFrame(r.Next(200, 1000), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(middle)));
+                //EasingDoubleKeyFrame edf31 = new EasingDoubleKeyFrame(r2.Next(-1000, 2000), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)));
+                EasingDoubleKeyFrame edf31 = new EasingDoubleKeyFrame(r2.Next(pL, pT), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(middle)));
                 EasingDoubleKeyFrame edf32 = new EasingDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(end)));
                 daukf3.KeyFrames.Add(edf31);
                 daukf3.KeyFrames.Add(edf32);
@@ -76,8 +82,8 @@ namespace HeBianGu.Base.WpfBase
                 Storyboard.SetTargetProperty(daukf3, new PropertyPath("(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"));
 
                 DoubleAnimationUsingKeyFrames daukf4 = new DoubleAnimationUsingKeyFrames();
-                EasingDoubleKeyFrame edf41 = new EasingDoubleKeyFrame(r2.Next(-1000, 1000), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)));
-                //EasingDoubleKeyFrame edf41 = new EasingDoubleKeyFrame(r2.Next(200, 1000), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(middle)));
+                //EasingDoubleKeyFrame edf41 = new EasingDoubleKeyFrame(r2.Next(-2000, 2000), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(0)));
+                EasingDoubleKeyFrame edf41 = new EasingDoubleKeyFrame(r2.Next(pL, pT), KeyTime.FromTimeSpan(TimeSpan.FromSeconds(middle)));
                 EasingDoubleKeyFrame edf42 = new EasingDoubleKeyFrame(0, KeyTime.FromTimeSpan(TimeSpan.FromSeconds(end)));
                 daukf4.KeyFrames.Add(edf41);
                 daukf4.KeyFrames.Add(edf42);
@@ -133,7 +139,7 @@ namespace HeBianGu.Base.WpfBase
         {
             if (property.PropertyType != typeof(double))
             {
-                throw new ArgumentException( "property");
+                throw new ArgumentException("property");
             }
             if (!(target is IAnimatable))
             {
@@ -655,6 +661,6 @@ namespace HeBianGu.Base.WpfBase
             return prop;
         }
 
- 
+
     }
 }

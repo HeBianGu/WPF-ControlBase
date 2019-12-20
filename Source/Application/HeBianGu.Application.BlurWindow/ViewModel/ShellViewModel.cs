@@ -83,6 +83,18 @@ namespace HeBianGu.Application.BlurWindow
             }
         }
 
+        private List<TreeNodeEntityViewModel> _nodes = new List<TreeNodeEntityViewModel>();
+        /// <summary> 说明  </summary>
+        public List<TreeNodeEntityViewModel> Nodes
+        {
+            get { return _nodes; }
+            set
+            {
+                _nodes = value;
+                RaisePropertyChanged("Nodes");
+            }
+        }
+
         protected override void Init()
         {
 
@@ -102,8 +114,68 @@ namespace HeBianGu.Application.BlurWindow
                 this.Collection.Add(item);
             }
 
+            data = data.Take(200).ToList();
+
+            List<TreeNodeEntityViewModel> collection = new List<TreeNodeEntityViewModel>();
+
+            foreach (var item in data)
+            {
+                collection.Add(new TreeNodeEntityViewModel(item) { IsExpanded=true});
+            }
+
+            this.Nodes = this.Bind(collection);
         }
 
+        /// <summary>
+        /// 绑定树
+        /// </summary>
+        List<TreeNodeEntityViewModel> Bind(List<TreeNodeEntityViewModel> nodes)
+        {
+            List<TreeNodeEntityViewModel> outputList = new List<TreeNodeEntityViewModel>(); 
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (string.IsNullOrEmpty(nodes[i].ParentID))
+                {
+                    outputList.Add(nodes[i]);
+                }
+                else
+                {
+                    var result = FindDownward(nodes, nodes[i].ParentID);
+
+                    if (result != null)
+                    {
+                        nodes[i].Parent = result;
+
+                        result.Nodes.Add(nodes[i]);
+                    }
+                }
+            }
+            return outputList;
+        }
+
+        /// <summary>
+        /// 递归向下查找
+        /// </summary>
+        TreeNodeEntityViewModel FindDownward(List<TreeNodeEntityViewModel> nodes, string id)
+        {
+            if (nodes == null) return null;
+
+            for (int i = 0; i < nodes.Count; i++)
+            {
+                if (nodes[i].ID == id)
+                {
+                    return nodes[i];
+                }
+                TreeNodeEntityViewModel node = FindDownward(nodes[i].Nodes, id);
+
+                if (node != null)
+                {
+                    return node;
+                }
+            }
+            return null;
+        }
 
         public ObservableCollection<FComboBoxItemModel> ComboBoxItems
         {
@@ -412,6 +484,11 @@ namespace HeBianGu.Application.BlurWindow
                     item.OnIndexChanged(l);
                 }
             };
+
+            for (int i = 0; i < 5; i++)
+            {
+                this.Create();
+            }
         }
         private ObservableCollection<StoryBoardItemViewModel> _collection = new ObservableCollection<StoryBoardItemViewModel>();
         /// <summary> 说明  </summary>

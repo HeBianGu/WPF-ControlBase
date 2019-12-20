@@ -16,6 +16,7 @@ namespace HeBianGu.Base.WpfBase
         /// <remarks>Internal, because this should not be inherited outside this assembly.</remarks>
         internal BehaviorCollection()
         {
+           
         }
 
         /// <summary>

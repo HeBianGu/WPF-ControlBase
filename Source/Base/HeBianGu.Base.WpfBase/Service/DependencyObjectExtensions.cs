@@ -66,9 +66,15 @@ namespace HeBianGu.Base.WpfBase
                 if (child is T)
                 {
                     var t = (T)child;
+
                     if (p_func != null && !p_func(t))
                     {
                         continue;
+                    }
+
+                    foreach (var c in child.GetChildren(p_func))
+                    {
+                        yield return c;
                     }
 
                     yield return t;

@@ -88,10 +88,7 @@ namespace HeBianGu.General.WpfControlLib
                 control.Command?.Execute(control.CommandParameter); 
 
              }));
-
-
     }
-
 
     public class GroupObject : ObservableCollection<object>
     {
