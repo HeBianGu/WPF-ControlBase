@@ -25,7 +25,7 @@ namespace HeBianGu.Base.WpfBase
 
                 items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
 
-                StoryBoardService.FountainAnimation(items, PointLeft, PointTop, Mul, MiddleValue, EndValue);
+                StoryBoardService.FountainAnimation(items, PointLeft, PointTop, Mul, MiddleValue, EndValue, Split);
             }
             else
             {
@@ -35,7 +35,7 @@ namespace HeBianGu.Base.WpfBase
 
                     items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
 
-                    StoryBoardService.FountainAnimation(items, PointLeft, PointTop, Mul, MiddleValue, EndValue);
+                    StoryBoardService.FountainAnimation(items, PointLeft, PointTop, Mul, MiddleValue, EndValue, Split);
                 }
                
             }
@@ -61,13 +61,10 @@ namespace HeBianGu.Base.WpfBase
                  FountainAnimationBehavior control = d as FountainAnimationBehavior;
 
                  if (control == null) return;
-
-                 //bool config = e.NewValue as bool;
-
              }));
 
 
-        /// <summary> 喷出点左 </summary>
+        /// <summary> 左右范围 </summary>
         public int PointLeft
         {
             get { return (int)GetValue(PointLeftProperty); }
@@ -82,11 +79,9 @@ namespace HeBianGu.Base.WpfBase
 
                  if (control == null) return;
 
-                 //double config = e.NewValue as double;
-
              }));
 
-        /// <summary> 喷出点上 </summary>
+        /// <summary> 上下范围 </summary>
         public int PointTop
         {
             get { return (int)GetValue(PointTopProperty); }
@@ -100,9 +95,6 @@ namespace HeBianGu.Base.WpfBase
                  FountainAnimationBehavior control = d as FountainAnimationBehavior;
 
                  if (control == null) return;
-
-                 //double config = e.NewValue as double;
-
              }));
 
         /// <summary> 放大倍数 </summary>
@@ -119,9 +111,6 @@ namespace HeBianGu.Base.WpfBase
                  FountainAnimationBehavior control = d as FountainAnimationBehavior;
 
                  if (control == null) return;
-
-                 //double config = e.NewValue as double;
-
              }));
 
         /// <summary> 放大时间点 </summary>
@@ -138,9 +127,6 @@ namespace HeBianGu.Base.WpfBase
                  FountainAnimationBehavior control = d as FountainAnimationBehavior;
 
                  if (control == null) return;
-
-                 //double config = e.NewValue as double;
-
              }));
 
         /// <summary> 还原时间点 </summary>
@@ -157,11 +143,23 @@ namespace HeBianGu.Base.WpfBase
                  FountainAnimationBehavior control = d as FountainAnimationBehavior;
 
                  if (control == null) return;
-
-                 //double config = e.NewValue as double;
-
              }));
 
+
+        public double Split
+        {
+            get { return (double)GetValue(SplitProperty); }
+            set { SetValue(SplitProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SplitProperty =
+            DependencyProperty.Register("Split", typeof(double), typeof(FountainAnimationBehavior), new PropertyMetadata(0.05, (d, e) =>
+             {
+                 FountainAnimationBehavior control = d as FountainAnimationBehavior;
+
+                 if (control == null) return;
+             }));
 
     }
 }

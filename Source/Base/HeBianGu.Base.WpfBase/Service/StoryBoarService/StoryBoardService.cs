@@ -21,25 +21,20 @@ namespace HeBianGu.Base.WpfBase
         /// <param name="Mul">放大倍数</param>
         /// <param name="middle_value">放大时间点</param>
         /// <param name="end_value">还原时间点</param>
-        public static void FountainAnimation(IEnumerable<DependencyObject> uclist, int pL = -1000, int pT = 1000, double Mul = 10, double middle_value = 0.5, double end_value = 1)
+        /// /// <param name="split">时间间隔</param>
+        public static void FountainAnimation(IEnumerable<DependencyObject> uclist, int pL = -1000, int pT = 1000, double Mul = 10, double middle_value = 0.5, double end_value = 1,double split = 0.05)
         {
-            if (uclist.Count() <= 0)
-            {
-                return;
-            }
+            if (uclist.Count() <= 0) return;
+
             Storyboard storyboard = new Storyboard();
 
             double Init = 0;
             double Org = 1;
             double first_value = 0;
             Random r2 = new Random();
-
-            //for (int i = 0; i < uclist.Count(); i++)
-            //{
-
+         
             int i = 0;
-            //  Do ：间隔时间
-            double split = 0.05;
+            //  Do ：间隔时间 
             foreach (var c in uclist)
             {
                 double first = i * split + first_value;
