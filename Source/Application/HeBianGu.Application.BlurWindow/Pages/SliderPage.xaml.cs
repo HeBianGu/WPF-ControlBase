@@ -142,7 +142,7 @@ namespace WpfControlDemo.View
 
     public class BufferPlayEntity : BufferPlayEntityBase
     {
-        public int IsLoaded { get; set; }
+        //public int IsLoaded { get; set; }
 
         Random random = new Random();
 

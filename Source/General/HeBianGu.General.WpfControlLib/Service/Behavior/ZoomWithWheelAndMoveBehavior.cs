@@ -9,7 +9,6 @@ using System.Windows.Input;
 namespace HeBianGu.General.WpfControlLib
 {
     /// <summary> Zoom带有鼠标移动平移和滚轮定点放大效果 </summary>
-    /// <summary> Zoom带有鼠标移动平移和滚轮定点放大效果 </summary>
     public class ZoomWithWheelAndMoveBehavior : Behavior<FrameworkElement>
     {
         //  Message：外部需要嵌套Grid

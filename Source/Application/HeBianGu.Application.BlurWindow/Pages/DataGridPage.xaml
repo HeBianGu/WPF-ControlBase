@@ -16,10 +16,36 @@
         
         <h:PagedDataGrid Style="{DynamicResource S.PageDataGrid.Single}" PageCount="16" Background="{DynamicResource S.Brush.TextBackground.Default}" DataSource="{Binding Collection,Mode=TwoWay}">
             <h:PagedDataGrid.Columns>
-                <DataGridTextColumn Header="序号" Binding="{Binding ID}" Width="*"/>
-                <DataGridTextColumn Header="名称" Binding="{Binding Name}" Width="*" />
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.Header>
+                        <h:FCheckBox Content="全选"/>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <h:FCheckBox HorizontalAlignment="Center" Margin="9,0,0,0" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell},Path=Foreground}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="序号" Binding="{Binding ID}" Width="0.5*"/>
+                <DataGridTextColumn Header="名称" Binding="{Binding Name}" Width="2*" />
                 <DataGridTextColumn Header="编码" Binding="{Binding Code}" Width="*" />
                 <DataGridTextColumn Header="父节点" Binding="{Binding ParentID}" Width="*" />
+                <DataGridTemplateColumn Width="Auto">
+                    <DataGridTemplateColumn.Header>
+                        <TextBlock Text="操作"/>
+                    </DataGridTemplateColumn.Header>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <h:FButton Content="详情" Style="{DynamicResource S.FButton.Style.Transparent}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell},Path=Foreground}"/>
+                                <h:FButton Content="编辑" Margin="2,0"  Style="{DynamicResource S.FButton.Style.Transparent}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell},Path=Foreground}"/>
+                                <h:FButton Content="删除"  Style="{DynamicResource S.FButton.Style.Transparent}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell},Path=Foreground}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
             </h:PagedDataGrid.Columns>
         </h:PagedDataGrid>
     </Grid>

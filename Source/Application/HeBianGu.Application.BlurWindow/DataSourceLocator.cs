@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 
@@ -15,11 +16,23 @@ namespace HeBianGu.Application.BlurWindow
         {
             ServiceRegistry.Instance.Register<ShellViewModel>(); 
         }
-        public ShellViewModel ShellViewModel => ServiceRegistry.Instance.GetInstance<ShellViewModel>(); 
-        
+        public ShellViewModel ShellViewModel => ServiceRegistry.Instance.GetInstance<ShellViewModel>();
+
+
     }
 
-    public class Student
+        public enum Rainbow
+        {
+            Red,
+            Orange,
+            Yellow,
+            Green,
+            Blue,
+            Indigo,
+            Violet
+        }
+
+        public class Student
     {
         [Display(Name = "姓名")]
         [Required()]
