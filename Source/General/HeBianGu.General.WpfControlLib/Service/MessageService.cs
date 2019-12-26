@@ -465,7 +465,13 @@ namespace HeBianGu.General.WpfControlLib
             {
                 _notifyMessage = new NotifyMessageWindow();
 
+                Application.Current.MainWindow.Closed += (l, k) =>
+              {
+                  _notifyMessage.Close();
+              };
+
                 _notifyMessage.Show();
+
             }
 
             _notifyMessage.Source.Add(message);
