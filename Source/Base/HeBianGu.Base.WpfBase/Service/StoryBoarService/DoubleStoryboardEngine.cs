@@ -21,6 +21,15 @@ namespace HeBianGu.Base.WpfBase
         {
             return new DoubleStoryboardEngine(from, to, second, property);
         }
+
+        public static void StartAll(UIElement element, params DoubleStoryboardEngine[] engines)
+        {
+            foreach (var item in engines)
+            {
+                item.Start(element);
+            }
+        }
+
         /// <summary> 构造函数 </summary>
         /// <param name="from"> 起始值</param>
         /// <param name="to"> 结束值  </param>

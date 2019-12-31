@@ -17,7 +17,7 @@ namespace HeBianGu.Base.WpfBase
             {
                 element.Visibility = Visibility.Visible;
 
-                var engine = DoubleStoryboardEngine.Create(0, 1, 0.4, "Opacity");
+                var engine = DoubleStoryboardEngine.Create(0, 1, 0.4, UIElement.OpacityProperty.Name);
 
                 engine.Start(element);
             }

@@ -1,11 +1,14 @@
 ﻿using HeBianGu.Base.WpfBase;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace HeBianGu.General.WpfControlLib
@@ -40,6 +43,7 @@ namespace HeBianGu.General.WpfControlLib
             });
 
             this.SettimgWindowCommand = new RoutedUICommand();
+
             this.BindCommand(SettimgWindowCommand, (s, e) =>
             {
                 this.ShowWithLayer(e.Parameter as Uri);
@@ -288,6 +292,56 @@ namespace HeBianGu.General.WpfControlLib
     }
 
 
+    partial class MainWindowBase
+    {
+        private int WM_SYSCOMMAND = 0x112;
+        private long SC_MAXIMIZE = 0xF030;
+        private long SC_MINIMIZE = 0xF020;
+        private long SC_CLOSE = 0xF060;
+        private long SC_DESMINIMIZE = 0x0000f120;
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            source.AddHook(WndProc);
+        }
+
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (msg == WM_SYSCOMMAND)
+            {
+                if (wParam.ToInt64() == SC_DESMINIMIZE)
+                {
+
+                    DoubleStoryboardEngine.Create(this.Top, this.Top - 200, 0.3, Window.TopProperty.Name).Start(this);
+                    DoubleStoryboardEngine.Create(0, 1, 0.3, UIElement.OpacityProperty.Name).Start(this);
+
+                    return hwnd;
+                }
+                if (wParam.ToInt64() == SC_MINIMIZE)
+                {
+                    //  Do ：当点击任务栏，最小化时发生
+                    var engine = DoubleStoryboardEngine.Create(this.Top, this.Top + 200, 0.2, Window.TopProperty.Name);
+                    engine.CompletedEvent += (l, k) => this.WindowState = WindowState.Minimized;
+                    DoubleStoryboardEngine.Create(1, 0, 0.3, UIElement.OpacityProperty.Name).Start(this);
+                    engine.Start(this);
+                    handled = true;
+
+                    return IntPtr.Zero;
+                }
+                if (wParam.ToInt64() == SC_CLOSE)
+                {
+                    MessageBox.Show("CLOSE ");
+                    return hwnd;
+                }
+            }
+
+            return hwnd;
+        }
+    }
+
+
     public interface IWindowBase
     {
         /// <summary> 输出消息 </summary>
@@ -297,8 +351,7 @@ namespace HeBianGu.General.WpfControlLib
         void AddSnackMessage(string message, object actionContent, Action actionHandler);
 
         /// <summary> 输出消息、按钮和参数 </summary>
-        void AddSnackMessage<TArgument>(string message, object actionContent, Action<TArgument> actionHandler,
-           TArgument actionArgument);
+        void AddSnackMessage<TArgument>(string message, object actionContent, Action<TArgument> actionHandler, TArgument actionArgument);
 
         /// <summary> 显示蒙版 </summary>
         void ShowWithLayer(Uri uri, int layerIndex = 0);

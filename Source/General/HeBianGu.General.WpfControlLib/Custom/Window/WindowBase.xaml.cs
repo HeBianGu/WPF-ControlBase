@@ -292,6 +292,10 @@ namespace HeBianGu.General.WpfControlLib
 
         #endregion
 
+        public double TopTemp { get; set; }
+
+        public double LeftTemp { get; set; }
+
         public WindowBase()
         {
             this.WindowStyle = WindowStyle.None;

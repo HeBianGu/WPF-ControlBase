@@ -16,7 +16,7 @@ namespace HeBianGu.Base.WpfBase
         {
             if (parameter is UIElement element)
             {
-                var engine = DoubleStoryboardEngine.Create(1, 0, 0.2, "Opacity");
+                var engine = DoubleStoryboardEngine.Create(1, 0, 0.2, UIElement.OpacityProperty.Name);
 
                 engine.CompletedEvent += (l, k) =>
               {
@@ -54,9 +54,9 @@ namespace HeBianGu.Base.WpfBase
 
             //}
 
-            if (parameter is UIElement element)
+            if (parameter is FrameworkElement element)
             {
-                var engine = DoubleStoryboardEngine.Create(400, 0, 0.5, "Width");
+                var engine = DoubleStoryboardEngine.Create(400, 0, 0.5, FrameworkElement.WidthProperty.Name);
 
                 engine.CompletedEvent += (l, k) =>
                 {
@@ -95,7 +95,7 @@ namespace HeBianGu.Base.WpfBase
             {
 
                 element.Visibility = Visibility.Visible;
-                var engine = DoubleStoryboardEngine.Create(0, 400, 0.5, "Width"); 
+                var engine = DoubleStoryboardEngine.Create(0, 400, 0.5, FrameworkElement.WidthProperty.Name); 
 
                 engine.Start(element);
             }
