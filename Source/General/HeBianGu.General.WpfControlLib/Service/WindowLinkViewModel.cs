@@ -22,9 +22,9 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        private ObservableCollection<Link> _tabLinks = new ObservableCollection<Link>();
+        private ObservableCollection<TabLink> _tabLinks = new ObservableCollection<TabLink>();
         /// <summary> 说明  </summary>
-        public ObservableCollection<Link> TabLinks
+        public ObservableCollection<TabLink> TabLinks
         {
             get { return _tabLinks; }
             set
@@ -34,6 +34,23 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
+
+        private TabLink _currentLink;
+        /// <summary> 说明  </summary>
+        public TabLink CurrentLink
+        {
+            get { return _currentLink; }
+            set
+            {
+                _currentLink = value;
+                RaisePropertyChanged("CurrentLink");
+            }
+        }
+
+        public void GoLinkAction(string controller, string action)
+        {
+            CurrentLink = this.TabLinks.FirstOrDefault(l => l.Controller == controller && l.Action == action);
+        }
 
     }
 }
