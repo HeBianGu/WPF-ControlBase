@@ -102,6 +102,7 @@ namespace HeBianGu.General.WpfControlLib
                          });
                      });
                  });
+
              });
         }
 
@@ -209,6 +210,7 @@ namespace HeBianGu.General.WpfControlLib
                              });
                          });
                     });
+
               });
 
             return result;
@@ -288,6 +290,28 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
+        /// <summary> 检查显示主窗口模糊效果 </summary>
+       public static void BeginDefaultBlurEffect(bool isuse)
+        {
+            if(isuse)
+            {
+                if (Application.Current.MainWindow is WindowBase window)
+                {
+                    window.AdornerDecoratorEffect = window.DefaultBlurEffect;
+                }
+            }
+            else
+            {
+                if (Application.Current.MainWindow is WindowBase window)
+                {
+                    window.AdornerDecoratorEffect = null;
+                }
+            }
+           
+
+        }
+  
+
         public static async Task<bool> ShowResultMessge(string message)
         {
             if (CheckOpen()) return false;
@@ -321,7 +345,6 @@ namespace HeBianGu.General.WpfControlLib
         #region - 蒙版消息 -
 
         public static MessageCloseLayerCommand CloseLayer { get; } = new MessageCloseLayerCommand();
-
 
         /// <summary> 显示蒙版 </summary>
         public static void ShowWithLayer(Uri uri, int layerIndex = 0)

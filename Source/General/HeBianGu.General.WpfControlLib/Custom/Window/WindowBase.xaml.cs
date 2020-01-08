@@ -197,8 +197,47 @@ namespace HeBianGu.General.WpfControlLib
 
         #endregion
 
-        /// <summary> 显示时的动画效果 </summary>
+        #region - 窗体内容区域Effect效果 -
 
+        public Effect AdornerDecoratorEffect
+        {
+            get { return (Effect)GetValue(AdornerDecoratorEffectProperty); }
+            set { SetValue(AdornerDecoratorEffectProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AdornerDecoratorEffectProperty =
+            DependencyProperty.Register("AdornerDecoratorEffect", typeof(Effect), typeof(WindowBase), new PropertyMetadata(default(Effect), (d, e) =>
+            {
+                WindowBase control = d as WindowBase;
+
+                if (control == null) return;
+
+                Effect config = e.NewValue as Effect;
+
+            }));
+
+        /// <summary> 默认磨砂效果 </summary>
+        public BlurEffect DefaultBlurEffect
+        {
+            get { return (BlurEffect)GetValue(DefaultBlurEffectProperty); }
+            set { SetValue(DefaultBlurEffectProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DefaultBlurEffectProperty =
+            DependencyProperty.Register("DefaultBlurEffect", typeof(BlurEffect), typeof(WindowBase), new PropertyMetadata(new BlurEffect(), (d, e) =>
+            {
+                MainWindowBase control = d as MainWindowBase;
+
+                if (control == null) return;
+
+                BlurEffect config = e.NewValue as BlurEffect;
+
+            }));
+        #endregion
+
+        /// <summary> 显示时的动画效果 </summary>
         public Action<WindowBase> ShowAnimation
         {
             get { return (Action<WindowBase>)GetValue(ShowAnimationProperty); }

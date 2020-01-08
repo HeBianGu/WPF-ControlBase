@@ -37,7 +37,7 @@ namespace HeBianGu.Application.LinkWindow
             else
             {
                 shellWindow.Close();
-            } 
+            }
 
         }
 
@@ -76,7 +76,12 @@ namespace HeBianGu.Application.LinkWindow
                 l.ThemeType = ThemeType.Light;
 
                 l.Language = Language.Chinese;
+
+                l.DialogCoverBrush = new SolidColorBrush(Colors.Black) { Opacity = 0.6 };
+
             });
+
+            //app.UseTheme(l => l.DialogCoverBrush = new SolidColorBrush(Colors.Black) { Opacity = 0.6 });
         }
     }
 }

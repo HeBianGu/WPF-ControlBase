@@ -459,6 +459,19 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
+        /// <summary> 消息弹窗背景色 </summary>
+        public SolidColorBrush DialogCoverBrush
+        {
+            set
+            {
+                Application.Current.Resources["S.Brush.Dialog.Cover"] = value;
+            }
+            get
+            {
+                return (SolidColorBrush)Application.Current.Resources["S.Brush.Dialog.Cover"];
+            }
+        }
+
 
         public ThemeLocalizeConfig ConvertTo()
         {

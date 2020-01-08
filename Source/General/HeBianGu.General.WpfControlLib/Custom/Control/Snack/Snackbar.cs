@@ -78,8 +78,7 @@ namespace HeBianGu.General.WpfControlLib
                 typeof(RoutedPropertyChangedEventHandler<bool>),
                 typeof(Snackbar));
 
-        private static void OnIsActiveChanged(
-            DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var instance = d as Snackbar;
             var args = new RoutedPropertyChangedEventArgs<bool>(

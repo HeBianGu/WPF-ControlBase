@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace HeBianGu.General.WpfControlLib
 {
@@ -140,9 +141,8 @@ namespace HeBianGu.General.WpfControlLib
                 this._notifyIcon.Visibility = Visibility.Collapsed;
                 this._notifyIcon.Dispose();
             }
-            this.CloseDownToUpOps();
-
-        }
+            this.CloseDownToUpOps(); 
+        } 
     }
 
     [TemplatePart(Name = "PART_SnackBar", Type = typeof(Snackbar))]

@@ -308,7 +308,7 @@ namespace HeBianGu.Application.BlurWindow
                 acts.Add(Tuple.Create("按钮二", action));
                 acts.Add(Tuple.Create("按钮三", action));
 
-                MessageWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒", acts.ToArray());
+                MessageWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒",false, acts.ToArray());
             }
 
             //  Do：气泡消息

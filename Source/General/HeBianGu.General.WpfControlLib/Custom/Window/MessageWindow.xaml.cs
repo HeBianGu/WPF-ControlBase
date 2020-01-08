@@ -37,11 +37,17 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 显示窗口 </summary>
-        public static bool ShowDialog(string messge, string title = null, int closeTime = -1, params Tuple<string, Action>[] acts)
+        public static bool ShowDialog(string messge, string title = null, int closeTime = -1, bool isuseBlur = false, params Tuple<string, Action>[] acts)
         {
+            if (isuseBlur)
+            {
+                MessageService.BeginDefaultBlurEffect(true);
+
+            }
+
             MessageWindow m = new MessageWindow();
 
-            m.messageText.Text = messge; 
+            m.messageText.Text = messge;
             var array = messge.ToArray();
 
             var c = array.ToList().Count(l => l == '\r');
@@ -104,16 +110,25 @@ namespace HeBianGu.General.WpfControlLib
 
             m.ShowDialog();
 
+            if (isuseBlur)
+            {
+                MessageService.BeginDefaultBlurEffect(false);
 
-
+            }
 
 
             return m._result;
         }
 
         /// <summary> 显示窗口 </summary>
-        public static int ShowDialogWith(string messge, string title = null, params Tuple<string, Action<MessageWindow>>[] acts)
+        public static int ShowDialogWith(string messge, string title = null, bool isuseBlur = false, params Tuple<string, Action<MessageWindow>>[] acts)
         {
+            if (isuseBlur)
+            {
+                MessageService.BeginDefaultBlurEffect(true);
+
+            }
+
             int result = -1;
 
             MessageWindow m = new MessageWindow();
@@ -170,7 +185,14 @@ namespace HeBianGu.General.WpfControlLib
                 }
             }
 
+
             m.ShowDialog();
+
+            if (isuseBlur)
+            {
+                MessageService.BeginDefaultBlurEffect(false);
+
+            }
 
 
             return result;
@@ -181,7 +203,7 @@ namespace HeBianGu.General.WpfControlLib
         {
             Tuple<string, Action> act = new Tuple<string, Action>("确定", null);
 
-            ShowDialog(messge, title, closeTime, act);
+            ShowDialog(messge, title, closeTime, false, act);
 
             return true;
         }

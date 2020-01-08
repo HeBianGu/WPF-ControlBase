@@ -17,7 +17,7 @@ namespace HeBianGu.General.WpfControlLib
         
         public ObservableCollection<TabLink> TabLinks
         {
-            get { return (List<TabLink>)GetValue(TabLinksProperty); }
+            get { return (ObservableCollection<TabLink>)GetValue(TabLinksProperty); }
             set { SetValue(TabLinksProperty, value); }
         }
 
