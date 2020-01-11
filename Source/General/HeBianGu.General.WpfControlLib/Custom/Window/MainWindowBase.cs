@@ -80,6 +80,7 @@ namespace HeBianGu.General.WpfControlLib
                     this.CloseAnimation?.Invoke(this);
                 }
             });
+
         }
 
         /// <summary> 托盘图标按钮图标 </summary>
@@ -141,8 +142,8 @@ namespace HeBianGu.General.WpfControlLib
                 this._notifyIcon.Visibility = Visibility.Collapsed;
                 this._notifyIcon.Dispose();
             }
-            this.CloseDownToUpOps(); 
-        } 
+            this.CloseDownToUpOps();
+        }
     }
 
     [TemplatePart(Name = "PART_SnackBar", Type = typeof(Snackbar))]
@@ -292,54 +293,7 @@ namespace HeBianGu.General.WpfControlLib
     }
 
 
-    partial class MainWindowBase
-    {
-        private int WM_SYSCOMMAND = 0x112;
-        private long SC_MAXIMIZE = 0xF030;
-        private long SC_MINIMIZE = 0xF020;
-        private long SC_CLOSE = 0xF060;
-        private long SC_DESMINIMIZE = 0x0000f120;
-
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            base.OnSourceInitialized(e);
-            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
-            source.AddHook(WndProc);
-        }
-
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            if (msg == WM_SYSCOMMAND)
-            {
-                if (wParam.ToInt64() == SC_DESMINIMIZE)
-                {
-
-                    DoubleStoryboardEngine.Create(this.Top, this.Top - 200, 0.3, Window.TopProperty.Name).Start(this);
-                    DoubleStoryboardEngine.Create(0, 1, 0.3, UIElement.OpacityProperty.Name).Start(this);
-
-                    return hwnd;
-                }
-                if (wParam.ToInt64() == SC_MINIMIZE)
-                {
-                    //  Do ：当点击任务栏，最小化时发生
-                    var engine = DoubleStoryboardEngine.Create(this.Top, this.Top + 200, 0.2, Window.TopProperty.Name);
-                    engine.CompletedEvent += (l, k) => this.WindowState = WindowState.Minimized;
-                    DoubleStoryboardEngine.Create(1, 0, 0.3, UIElement.OpacityProperty.Name).Start(this);
-                    engine.Start(this);
-                    handled = true;
-
-                    return IntPtr.Zero;
-                }
-                if (wParam.ToInt64() == SC_CLOSE)
-                {
-                    MessageBox.Show("CLOSE ");
-                    return hwnd;
-                }
-            }
-
-            return hwnd;
-        }
-    }
+  
 
 
     public interface IWindowBase

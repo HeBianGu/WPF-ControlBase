@@ -1,5 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -316,7 +317,14 @@ namespace HeBianGu.General.WpfControlLib
 
         private void MinCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
-            this.WindowState = WindowState.Minimized;
+            //this.WindowState = WindowState.Minimized;
+            //e.Handled = true;
+
+            //  Do ：当点击任务栏，最小化时发生
+            var engine = DoubleStoryboardEngine.Create(this.Top, this.Top + 200, 0.2, Window.TopProperty.Name);
+            engine.CompletedEvent += (l, k) => this.WindowState = WindowState.Minimized;
+            DoubleStoryboardEngine.Create(1, 0, 0.3, UIElement.OpacityProperty.Name).Start(this);
+            engine.Start(this);
             e.Handled = true;
         }
 
@@ -391,6 +399,62 @@ namespace HeBianGu.General.WpfControlLib
 
             base.Show();
 
+        }
+    }
+
+
+    partial class WindowBase
+    {
+        private int WM_SYSCOMMAND = 0x112;
+        private long SC_MAXIMIZE = 0xF030;
+        private long SC_MINIMIZE = 0xF020;
+        private long SC_CLOSE = 0xF060;
+        private long SC_DESMINIMIZE = 0x0000f120;
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            source.AddHook(WndProc);
+        }
+
+
+
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            Debug.WriteLine(WM_SYSCOMMAND + " - " + wParam.ToInt64());
+
+            if (msg == WM_SYSCOMMAND)
+            {
+                Debug.WriteLine(WM_SYSCOMMAND + " = " + wParam.ToInt64());
+
+                if (wParam.ToInt64() == SC_DESMINIMIZE)
+                {
+
+                    DoubleStoryboardEngine.Create(this.Top, this.Top - 200, 0.3, Window.TopProperty.Name).Start(this);
+                    DoubleStoryboardEngine.Create(0, 1, 0.3, UIElement.OpacityProperty.Name).Start(this);
+
+                    return hwnd;
+                }
+                if (wParam.ToInt64() == SC_MINIMIZE)
+                {
+                    //  Do ：当点击任务栏，最小化时发生
+                    var engine = DoubleStoryboardEngine.Create(this.Top, this.Top + 200, 0.2, Window.TopProperty.Name);
+                    engine.CompletedEvent += (l, k) => this.WindowState = WindowState.Minimized;
+                    DoubleStoryboardEngine.Create(1, 0, 0.3, UIElement.OpacityProperty.Name).Start(this);
+                    engine.Start(this);
+                    handled = true;
+
+                    return IntPtr.Zero;
+                }
+                if (wParam.ToInt64() == SC_CLOSE)
+                {
+                    MessageBox.Show("CLOSE ");
+                    return hwnd;
+                }
+            }
+
+            return hwnd;
         }
     }
 }
