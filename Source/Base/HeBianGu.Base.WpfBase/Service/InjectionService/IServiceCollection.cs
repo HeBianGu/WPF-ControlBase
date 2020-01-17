@@ -48,5 +48,11 @@ namespace HeBianGu.Base.WpfBase
 
             return service;
         }
+
+        /// <summary> 获取服务 </summary>
+        public static T GetService<T>(this IServiceCollection service) where T : class
+        {
+          return  ServiceRegistry.Instance.GetInstance<T>();
+        }
     }
 }

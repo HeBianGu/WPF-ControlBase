@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="HeBianGu.Application.TouchWindow.View.Login.LoginControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.Application.TouchWindow.View.Login"
+             xmlns:h="QQ:908293466"
+             xmlns:local1="clr-namespace:HeBianGu.Application.TouchWindow"
+             xmlns:local2="clr-namespace:HeBianGu.Application.TouchWindow.View.Share"
+             mc:Ignorable="d" 
+             
+             d:DesignHeight="800" d:DesignWidth="1280">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="500*"/>
+                <ColumnDefinition Width="780*"/>
+            </Grid.ColumnDefinitions>
+
+            <Border Background="{DynamicResource S.Brush.Accent.Opacity.3}">
+                <Image Source="/HeBianGu.Application.TouchWindow;component/Resources/女医生.png" Width="250" Margin="60,0,0,0"/>
+            </Border>
+
+
+            <Border Background="{DynamicResource S.Brush.Accent.Opacity.6}" Grid.Column="1">
+                <Grid Margin="0,60">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition Height="4*"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="HeBianGu - 自助体检机" Style="{StaticResource C.TextBlock.Title}" HorizontalAlignment="Center" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+
+
+                    <h:BindPassWordBox x:Name="bpw_bindpassword"  Grid.Row="1" Height="56" Width="520" BorderBrush="Transparent"
+                                       FontSize="{StaticResource C.FontSize.Default}" HorizontalContentAlignment="Center" Padding="20,0"
+                                       h:ControlAttachProperty.Watermark="请输入身份证号"  PassWord="{Binding PassWord,Mode=TwoWay}"
+                                       Style="{StaticResource S.BindPasswordBox.Circle}" h:ControlAttachProperty.FIconSize="30"
+                                       Margin="3"  h:ControlAttachProperty.CornerRadius="28"/>
+
+                    <local2:KeyBoardControl Grid.Row="2" Width="560"/>
+                    
+                    <local1:FButtonCountDown Grid.Row="3" Content="登录" Style="{StaticResource C.FButton.Default}" IsActive="{Binding IsActive,Mode=TwoWay}" 
+                                   Count="11" Command="{Binding RelayCommand}"  
+                                  CommandParameter="Button.Click.Login"  CornerRadius="33"
+                                  HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+
+                    </Grid>
+            </Border>
+        </Grid>
+
+
+        <h:FButton Content="设置" Command="{Binding RelayCommand}" CommandParameter="Button.Click.Setting" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10"/>
+
+        <h:FButton Content="退出" Command="{x:Static h:CommandService.Close}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,50"/>
+
+        <h:FButton Content="待机" Command="{Binding RelayCommand}"  CommandParameter="Button.Click.Awaitting" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,90"/>
+    </Grid>
+</UserControl>

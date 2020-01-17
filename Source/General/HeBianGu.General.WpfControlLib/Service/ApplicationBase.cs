@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -28,9 +29,12 @@ namespace HeBianGu.General.WpfControlLib
 
         protected override void OnStartup(StartupEventArgs e)
         {
+        
             this.ILogger?.Info("系统启动");
 
             this.Configure(this.IApplicationBuilder);
+
+            this.UseSingleInstance();
 
             base.OnStartup(e);
         }
@@ -51,7 +55,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 base.OnExit(e);
             }
-           
+
         }
 
 
@@ -116,6 +120,21 @@ namespace HeBianGu.General.WpfControlLib
             get
             {
                 return ServiceRegistry.Instance.GetInstance<IServiceCollection>();
+            }
+        }
+
+        /// <summary> 只创建一个实例 </summary>
+        public void UseSingleInstance()
+        {
+            Process thisProc = Process.GetCurrentProcess();
+
+            var p = Process.GetProcessesByName(thisProc.ProcessName);
+
+            if (p.Length > 1)
+            {
+                MessageWindow.ShowSumit("当前程序已经运行！");
+
+                this.Shutdown();
             }
         }
 

@@ -385,7 +385,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
 
-
+        /// <summary> 按照动画方式显示 </summary>
         public new bool? ShowDialog()
         {
             this.ShowAnimation?.Invoke(this);
@@ -393,12 +393,19 @@ namespace HeBianGu.General.WpfControlLib
             return base.ShowDialog();
         }
 
+        /// <summary> 按照动画方式显示 </summary>
         public new void Show()
         {
             this.ShowAnimation?.Invoke(this);
 
             base.Show();
 
+        }
+
+        /// <summary> 按照动画方式管理 </summary>
+        public void BeginClose()
+        {
+            this.CloseAnimation?.Invoke(this);
         }
     }
 
@@ -422,11 +429,11 @@ namespace HeBianGu.General.WpfControlLib
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
-            Debug.WriteLine(WM_SYSCOMMAND + " - " + wParam.ToInt64());
+            //Debug.WriteLine(WM_SYSCOMMAND + " - " + wParam.ToInt64());
 
             if (msg == WM_SYSCOMMAND)
             {
-                Debug.WriteLine(WM_SYSCOMMAND + " = " + wParam.ToInt64());
+                //Debug.WriteLine(WM_SYSCOMMAND + " = " + wParam.ToInt64());
 
                 if (wParam.ToInt64() == SC_DESMINIMIZE)
                 {

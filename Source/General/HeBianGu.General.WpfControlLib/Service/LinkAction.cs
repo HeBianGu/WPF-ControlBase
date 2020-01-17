@@ -46,9 +46,21 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
+        private object[] _parameter;
+        /// <summary> 传递的参数  </summary>
+        public object[] Parameter
+        {
+            get { return _parameter; }
+            set
+            {
+                _parameter = value;
+                RaisePropertyChanged("Parameter");
+            }
+        }
+
         public Task<IActionResult> ActionResult()
-        { 
-            return ControllerService.CreateActionResult(this.Controller, this.Action);
+        {
+            return ControllerService.CreateActionResult(this.Controller, this.Action, this.Parameter);
 
         }
 

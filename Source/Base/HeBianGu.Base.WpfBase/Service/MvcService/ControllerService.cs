@@ -10,14 +10,14 @@ namespace HeBianGu.Base.WpfBase
 {
     public class ControllerService
     {
-        public static Task<IActionResult> CreateActionResult(string controlName, string name)
+        public static Task<IActionResult> CreateActionResult(string controlName, string name, object[] args = null)
         {
-            IController control = GetController(controlName);
+            IController control = GetController(controlName, args);
 
-            return GetActionResult(control, name) as Task<IActionResult>;
+            return GetActionResult(control, name, args) as Task<IActionResult>;
         }
 
-        public static IController GetController(string controlName)
+        public static IController GetController(string controlName, object[] args = null)
         {
             //  Do：通过反射获取指定名称的Controller
             Type type = Assembly.GetEntryAssembly().GetTypeOfMatch<IController>(l => l.Name == controlName + "Controller");
@@ -27,10 +27,12 @@ namespace HeBianGu.Base.WpfBase
 
         public static object GetActionResult(IController controller, string action, object[] args = null)
         {
-            MethodInfo method = controller.GetType().GetMethod(action);
+            Type[] types = args == null ? new Type[] { } : args.Select(l => l.GetType()).ToArray();
+
+            MethodInfo method = controller.GetType().GetMethod(action, types);
 
             //  Do：通过反射调用指定名称的方法
-            return controller.GetType().GetMethod(action).Invoke(controller, args);
+            return method.Invoke(controller, args);
 
         }
 

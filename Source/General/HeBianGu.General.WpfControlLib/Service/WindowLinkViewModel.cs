@@ -52,5 +52,20 @@ namespace HeBianGu.General.WpfControlLib
             CurrentLink = this.TabLinks.FirstOrDefault(l => l.Controller == controller && l.Action == action);
         }
 
+        public void GoLinkAction(string controller, string action, object[] parameter)
+        {
+            var link = this.TabLinks.FirstOrDefault(l => l.Controller == controller && l.Action == action);
+
+            if (link != null) link.Parameter = parameter;
+
+            //  Do ：如果指向的Link相同则使用刷新
+            if (CurrentLink == link)
+            {
+                CurrentLink = null;
+            } 
+
+            CurrentLink = link;
+        }
+
     }
 }
