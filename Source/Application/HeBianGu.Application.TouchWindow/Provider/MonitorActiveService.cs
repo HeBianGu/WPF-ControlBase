@@ -15,8 +15,8 @@ namespace HeBianGu.Application.TouchWindow
         public static MonitorActiveService Instance = new MonitorActiveService();
 
         private DispatcherTimer mouseOrKeyboardOpTimer;
-        public int defaultCheckCount = 30; // 设置默认时间是30s
-        public int checkCount = 30; // 可以在其他页面也获取计数，显示跳转倒计时
+        public int defaultCheckCount = 120; // 设置默认时间是30s
+        public int checkCount = 3120; // 可以在其他页面也获取计数，显示跳转倒计时
 
 
         public void StartMonitor()

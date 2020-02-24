@@ -12,21 +12,22 @@
         <StackPanel>
             <h:Interaction.Behaviors>
                 <h:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>
+                <h:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="HorizontalAlignment" StartValue="1000" EndValue="0" End="1" Split="0.2"/>
             </h:Interaction.Behaviors>
             
             <GroupBox Header="默认">
-                <Slider x:Name="slider1" Margin="5" Maximum="100" Value="50" SmallChange="1" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}" />
+                <Slider RenderTransform="{StaticResource S.TransformGroup.Default}" x:Name="slider1" Margin="5" Maximum="100" Value="50" SmallChange="1" ToolTip="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}" />
             </GroupBox>
 
             <GroupBox Header="空心">
-                <Slider Value="{Binding ElementName=slider1,Path=Value}" Margin="20" Style="{StaticResource S.Slider.Default}"/>
+                <Slider  RenderTransform="{StaticResource S.TransformGroup.Default}" Value="{Binding ElementName=slider1,Path=Value}" Margin="20" Style="{StaticResource S.Slider.Default}"/>
             </GroupBox>
             <GroupBox Header="实心">
-                <Slider Value="{Binding ElementName=slider1,Path=Value}"  Margin="20" Style="{StaticResource S.Slider.Circle}"/>
+                <Slider  RenderTransform="{StaticResource S.TransformGroup.Default}" Value="{Binding ElementName=slider1,Path=Value}"  Margin="20" Style="{StaticResource S.Slider.Circle}"/>
             </GroupBox>
 
             <GroupBox Header="自定义">
-                <h:PreviewSlider Name="PreviewSlider" Width="300" Value="500" Maximum="1000" VerticalAlignment="Center">
+                <h:PreviewSlider Name="PreviewSlider"  RenderTransform="{StaticResource S.TransformGroup.Default}" Width="300" Value="500" Maximum="1000" VerticalAlignment="Center">
 
                     <h:PreviewSlider.PreviewContent>
                         <Label Background="{DynamicResource S.Brush.Accent}" Foreground="White" Content="{Binding PreviewPosition,ElementName=PreviewSlider}" ContentStringFormat="{}{0:#0.0}"/>
@@ -36,8 +37,8 @@
 
             <GroupBox Header="区间滚动条">
                 <StackPanel  Margin="10">
-                    <h:SpaceSpliterUserControl Background="Red" LeftPercent="{Binding Left,Mode=TwoWay}" RightPercent="{Binding Right,Mode=TwoWay}" Margin="10"/>
-                    <h:SpaceSpliterUserControl  Background="Red" LeftPercent="0.1" RightPercent="0.9"  Margin="10"/>
+                    <h:SpaceSpliterUserControl  RenderTransform="{StaticResource S.TransformGroup.Default}" Background="Red" LeftPercent="{Binding Left,Mode=TwoWay}" RightPercent="{Binding Right,Mode=TwoWay}" Margin="10"/>
+                    <h:SpaceSpliterUserControl  RenderTransform="{StaticResource S.TransformGroup.Default}"  Background="Red" LeftPercent="0.1" RightPercent="0.9"  Margin="10"/>
 
                     <TextBlock Foreground="{DynamicResource S.Brush.TextForeground.Default}">
                 <Run Text="左侧值："/>
@@ -53,7 +54,7 @@
 
             <GroupBox Header="缓冲播放进度条">
                 <StackPanel>
-                    <h:BufferPlayControl x:Name="control_bufferPlay"/>
+                    <h:BufferPlayControl  RenderTransform="{StaticResource S.TransformGroup.Default}" x:Name="control_bufferPlay"/>
                     <TextBlock x:Name="txt_persent"/>
                     <TextBlock Text="{Binding ElementName=control_bufferPlay,Path=Value}"/>
                     <Button Content="开始" Click="Button_Click"/>
