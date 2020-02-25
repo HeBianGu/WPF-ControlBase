@@ -1,0 +1,159 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+
+    <DataTemplate x:Key="D.LinkAction.Default"  DataType="base:ILinkActionBase">
+        <RadioButton Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:LinkGroupExpander},Path=Foreground}" 
+                     FontSize="{DynamicResource S.FontSize.Fixed}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected,Mode=OneWayToSource}" 
+                     GroupName="sss">
+            <RadioButton.Template>
+                <ControlTemplate TargetType="RadioButton">
+                    <Grid>
+                        <Border x:Name="border" Background="Transparent"/>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="60,0">
+                            <TextBlock Text="{Binding Logo}"  Foreground="{TemplateBinding Foreground}"
+                                       HorizontalAlignment="Left" Margin="10,0" 
+                                       VerticalAlignment="Center" Style="{DynamicResource FIcon}"/>
+                            <TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}"/>
+                        </StackPanel>
+
+                        <Border x:Name="left" HorizontalAlignment="Left" Visibility="Collapsed" Background="{DynamicResource S.Brush.Accent}" Width="5"/>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" To="0.1" Duration="0:0:0" />
+                                        <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.4" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="border" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+
+                        </Trigger>
+
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=local:LinkGroupExpander},Path=SelectItemBackground}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+                            <Setter TargetName="left" Property="Visibility" Value="Visible"/>
+                            <Setter Property="FontWeight" Value="Bold"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </RadioButton.Template>
+
+        </RadioButton>
+    </DataTemplate>
+
+    <Style x:Key="S.LinkGrouExpander.ListBoxItem.Default" TargetType="ListBoxItem">
+        <Setter Property="Height" Value="{DynamicResource S.Window.Item.Height}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Grid>
+                        <Border x:Name="border" Background="Transparent"/>
+                        <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
+                        <Border x:Name="left" HorizontalAlignment="Left" 
+                                Visibility="Collapsed" 
+                                Background="{DynamicResource S.Brush.Accent}" 
+                                Width="5"/>
+
+                    </Grid>
+                    <!--<ControlTemplate.Triggers>
+                        --><!--<Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Transparent"/>
+                        </Trigger>
+
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="Transparent"/> 
+                        </Trigger>--><!--
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity"  Value="{DynamicResource S.Opacity.Disable}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>-->
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <DataTemplate x:Key="D.LinkActionGroup.Default" DataType="base:LinkActionGroup">
+        <Grid>
+            <local:FExpander Header="{Binding DisplayName}" 
+                             base:ControlAttachProperty.FIconSize="16" 
+                             base:ControlAttachProperty.FIconMargin="10,0,0,0"
+                             IsExpanded="True"
+                             Style="{DynamicResource S.FExpander.Default}"
+                             IconFont="{Binding Logo}" 
+                             Hint="{Binding Links.Count}">
+                <ListBox ItemsSource="{Binding Links}"
+                         SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:LinkGroupExpander},Path=SelectedLink,Mode=TwoWay}" 
+                         Style="{DynamicResource S.ListBox.Default}"
+                         ItemContainerStyle="{StaticResource S.LinkGrouExpander.ListBoxItem.Default}" 
+                         ItemTemplate="{StaticResource D.LinkAction.Default}"
+                         Background="Transparent" BorderThickness="0">
+                </ListBox>
+            </local:FExpander>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="D.LinkActionGroup.Accent" DataType="base:LinkActionGroup">
+        <Grid>
+            <local:FExpander Header="{Binding DisplayName}" 
+                             base:ControlAttachProperty.FIconSize="16" 
+                             base:ControlAttachProperty.FIconMargin="10,0,0,0"
+                             IsExpanded="True" Style="{DynamicResource S.FExpander.Accent}"
+                             IconFont="{Binding Logo}" 
+                             Hint="{Binding Links.Count}">
+                
+                <ListBox ItemsSource="{Binding Links}"
+                         SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:LinkGroupExpander},Path=SelectedLink,Mode=TwoWay}" 
+                         Style="{DynamicResource S.ListBox.Default}"
+                         ItemContainerStyle="{StaticResource S.LinkGrouExpander.ListBoxItem.Default}" 
+                         ItemTemplate="{StaticResource D.LinkAction.Default}"
+                         Background="Transparent" BorderThickness="0">
+                </ListBox>
+            </local:FExpander>
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="S.LinkGroupExpander.Default" TargetType="local:LinkGroupExpander">
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ItemTemplate" Value="{StaticResource D.LinkActionGroup.Default}"/>
+        <Setter Property="SelectItemBackground" Value="{DynamicResource S.Brush.Dark.2}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style  x:Key="S.LinkGroupExpander.Accent"  TargetType="local:LinkGroupExpander" BasedOn="{StaticResource S.LinkGroupExpander.Default}">
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackgroud.Default}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+        <Setter Property="ItemTemplate" Value="{StaticResource D.LinkActionGroup.Accent}"/>
+        <Setter Property="SelectItemBackground" Value="{DynamicResource S.Brush.White.Opactiy.2}"/>
+    </Style>
+
+    <Style TargetType="local:LinkGroupExpander" BasedOn="{StaticResource S.LinkGroupExpander.Default}"/>
+
+</ResourceDictionary>
