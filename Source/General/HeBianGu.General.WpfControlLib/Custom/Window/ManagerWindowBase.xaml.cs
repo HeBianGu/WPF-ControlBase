@@ -25,6 +25,7 @@ namespace HeBianGu.General.WpfControlLib
     public partial class ManagerWindowBase : MainWindowBase
     {
         Grid _titleGrid = null;
+
         public override void OnApplyTemplate()
         {
 
@@ -49,6 +50,14 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
+        public ManagerWindowBase()
+        {
+            this.Loaded +=(l, k) =>
+             {
+                 this.CurrentLink = this.LinkActionGroups.FirstOrDefault()?.Links?.FirstOrDefault();
+             };
+        }
+
         public ObservableCollection<LinkActionGroup> LinkActionGroups
         {
             get { return (ObservableCollection<LinkActionGroup>)GetValue(LinkActionGroupsProperty); }
@@ -64,6 +73,8 @@ namespace HeBianGu.General.WpfControlLib
                 if (control == null) return;
 
                 ObservableCollection<LinkActionGroup> config = e.NewValue as ObservableCollection<LinkActionGroup>;
+
+                if (config == null) return;
 
             }));
 
@@ -94,6 +105,26 @@ namespace HeBianGu.General.WpfControlLib
                 ILinkActionBase config = e.NewValue as ILinkActionBase;
 
             }));
+
+
+        public object CustomContent
+        {
+            get { return (object)GetValue(CustomContentProperty); }
+            set { SetValue(CustomContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CustomContentProperty =
+            DependencyProperty.Register("CustomContent", typeof(object), typeof(ManagerWindowBase), new PropertyMetadata(default(object), (d, e) =>
+             {
+                 ManagerWindowBase control = d as ManagerWindowBase;
+
+                 if (control == null) return;
+
+                 object config = e.NewValue as object;
+
+             }));
+
     }
 
 

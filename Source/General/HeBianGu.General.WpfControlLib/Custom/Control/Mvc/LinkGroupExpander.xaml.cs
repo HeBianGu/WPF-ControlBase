@@ -83,6 +83,26 @@ namespace HeBianGu.General.WpfControlLib
 
              }));
 
+
+        public Brush SelectItemFlagForeground
+        {
+            get { return (Brush)GetValue(SelectItemFlagForegroundProperty); }
+            set { SetValue(SelectItemFlagForegroundProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectItemFlagForegroundProperty =
+            DependencyProperty.Register("SelectItemFlagForeground", typeof(Brush), typeof(LinkGroupExpander), new PropertyMetadata(default(Brush), (d, e) =>
+             {
+                 LinkGroupExpander control = d as LinkGroupExpander;
+
+                 if (control == null) return;
+
+                 Brush config = e.NewValue as Brush;
+
+             }));
+
+
     }
 
 }
