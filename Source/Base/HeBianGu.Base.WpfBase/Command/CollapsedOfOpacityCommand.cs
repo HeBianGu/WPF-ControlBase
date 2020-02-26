@@ -31,6 +31,7 @@ namespace HeBianGu.Base.WpfBase
         public event EventHandler CanExecuteChanged;
     }
 
+    /// <summary> 向左侧隐藏区域 </summary>
     public class CollapsedOfMarginLeftCommand : ICommand
     {
         public bool CanExecute(object parameter)
@@ -40,36 +41,25 @@ namespace HeBianGu.Base.WpfBase
 
         public void Execute(object parameter)
         {
-            //if (parameter is FrameworkElement element)
-            //{ 
-            //    ThicknessAnimation marginAnimation = new ThicknessAnimation();
-            //    marginAnimation.From = new Thickness(0, 0, 0, 0);
-            //    marginAnimation.To = new Thickness(-element.ActualWidth, 0, 0, 0);
-            //    marginAnimation.Duration = TimeSpan.FromSeconds(0.5);
-            //    marginAnimation.Completed+= (l, k) =>
-            //     {
-            //         element.Visibility = Visibility.Hidden;
-            //     };
-            //    element.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
-
-            //}
-
             if (parameter is FrameworkElement element)
             {
-                var engine = DoubleStoryboardEngine.Create(400, 0, 0.5, FrameworkElement.WidthProperty.Name);
+                ThicknessAnimation marginAnimation = new ThicknessAnimation();
+                marginAnimation.From = new Thickness(0, 0, 0, 0);
+                marginAnimation.To = new Thickness(-element.ActualWidth, 0, 0, 0);
+                marginAnimation.Duration = TimeSpan.FromSeconds(0.5);
+                //marginAnimation.Completed += (l, k) =>
+                //  {
+                //      element.Visibility = Visibility.Hidden;
+                //  };
+                element.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
 
-                engine.CompletedEvent += (l, k) =>
-                {
-                    element.Visibility = Visibility.Collapsed;
-                };
-
-
-                engine.Start(element);
             }
         }
 
         public event EventHandler CanExecuteChanged;
     }
+
+    /// <summary> 向右侧显示区域 </summary>
 
     public class VisibleOfMarginLeftCommand : ICommand
     {
@@ -80,24 +70,15 @@ namespace HeBianGu.Base.WpfBase
 
         public void Execute(object parameter)
         {
-            //if (parameter is FrameworkElement element)
-            //{
-            //    element.Visibility = Visibility.Visible;
-            //    ThicknessAnimation marginAnimation = new ThicknessAnimation();
-            //    marginAnimation.From = new Thickness(-element.ActualWidth, 0, 0, 0);
-            //    marginAnimation.To = new Thickness(0, 0, 0, 0);
-            //    marginAnimation.Duration = TimeSpan.FromSeconds(0.5); 
-            //    element.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
-
-            //}
-
-            if (parameter is UIElement element)
+            if (parameter is FrameworkElement element)
             {
+                //element.Visibility = Visibility.Visible;
+                ThicknessAnimation marginAnimation = new ThicknessAnimation();
+                marginAnimation.From = new Thickness(-element.ActualWidth, 0, 0, 0);
+                marginAnimation.To = new Thickness(0, 0, 0, 0);
+                marginAnimation.Duration = TimeSpan.FromSeconds(0.5);
+                element.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);
 
-                element.Visibility = Visibility.Visible;
-                var engine = DoubleStoryboardEngine.Create(0, 400, 0.5, FrameworkElement.WidthProperty.Name); 
-
-                engine.Start(element);
             }
         }
 

@@ -2,11 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace HeBianGu.General.WpfControlLib
 {
@@ -14,7 +24,7 @@ namespace HeBianGu.General.WpfControlLib
     public partial class LinkWindowBase : MainWindowBase
     {
 
-        
+
         public ObservableCollection<TabLink> TabLinks
         {
             get { return (ObservableCollection<TabLink>)GetValue(TabLinksProperty); }
@@ -72,14 +82,14 @@ namespace HeBianGu.General.WpfControlLib
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CurrentLinkProperty =
             DependencyProperty.Register("CurrentLink", typeof(TabLink), typeof(LinkWindowBase), new PropertyMetadata(default(TabLink), (d, e) =>
-             {
-                 LinkWindowBase control = d as LinkWindowBase;
+            {
+                LinkWindowBase control = d as LinkWindowBase;
 
-                 if (control == null) return;
+                if (control == null) return;
 
-                 TabLink config = e.NewValue as TabLink;
+                TabLink config = e.NewValue as TabLink;
 
-             }));
+            }));
     }
 
     /// <summary> 连接绑定对象 </summary>
@@ -152,4 +162,6 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
     }
+
+
 }

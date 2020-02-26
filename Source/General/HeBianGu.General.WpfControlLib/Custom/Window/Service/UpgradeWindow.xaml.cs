@@ -17,7 +17,7 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary>
     /// UpgradeWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class UpgradeWindow : DialogWindow
+    public partial class UpgradeWindow 
     {
         public UpgradeWindow()
         {

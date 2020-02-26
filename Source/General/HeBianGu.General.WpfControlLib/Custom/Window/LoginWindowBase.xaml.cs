@@ -1,15 +1,25 @@
 ﻿using HeBianGu.Base.WpfBase;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace HeBianGu.General.WpfControlLib
 {
-    public partial class LoginWindowBase : DialogWindow
+    public partial class LoginWindowBase : DialogWindowBase
     {
         public LoginWindowBase()
         {
@@ -44,40 +54,42 @@ namespace HeBianGu.General.WpfControlLib
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsLoginedProperty =
             DependencyProperty.Register("IsLogined", typeof(bool), typeof(LoginWindowBase), new PropertyMetadata(default(bool), (d, e) =>
-             {
-                 LoginWindowBase control = d as LoginWindowBase;
+            {
+                LoginWindowBase control = d as LoginWindowBase;
 
-                 if (control == null) return;
+                if (control == null) return;
 
-                 bool config = (bool)e.NewValue;
+                bool config = (bool)e.NewValue;
 
-                 if (config)
-                 {
-                     //control.ScaleReduceWithAction(new Point(0.5, 0.5), 0.5, 5, () =>
-                     //{
-                     //    control.DialogResult = true;
-                     //    control.Close();
-                     //}); 
+                if (config)
+                {
+                    //control.ScaleReduceWithAction(new Point(0.5, 0.5), 0.5, 5, () =>
+                    //{
+                    //    control.DialogResult = true;
+                    //    control.Close();
+                    //}); 
 
 
-                     control.RenderTransformOrigin = new Point(0.5, 0.5);
+                    control.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                     var engine2 = DoubleStoryboardEngine.Create(1, 0.5, 0.5, "Opacity");
-                     var engine = DoubleStoryboardEngine.Create(1, 0.3, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
-                     var engine1 = DoubleStoryboardEngine.Create(1, 0.3, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
+                    var engine2 = DoubleStoryboardEngine.Create(1, 0.5, 0.5, "Opacity");
+                    var engine = DoubleStoryboardEngine.Create(1, 0.3, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
+                    var engine1 = DoubleStoryboardEngine.Create(1, 0.3, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
 
-                     engine.CompletedEvent += (s, k) =>
-                     {
-                         control.DialogResult = true;
-                         control.Close();
-                     };
+                    engine.CompletedEvent += (s, k) =>
+                    {
+                        control.DialogResult = true;
+                        control.Close();
+                    };
 
-                     engine.Start(control);
-                     engine1.Start(control);
-                     engine2.Start(control);
-                 }
+                    engine.Start(control);
+                    engine1.Start(control);
+                    engine2.Start(control);
+                }
 
-             }));
+            }));
 
     }
+
+
 }

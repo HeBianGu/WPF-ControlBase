@@ -65,6 +65,24 @@ namespace HeBianGu.General.WpfControlLib
              }));
 
 
+        public Brush MouseOverBackground
+        {
+            get { return (Brush)GetValue(MouseOverBackgroundProperty); }
+            set { SetValue(MouseOverBackgroundProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MouseOverBackgroundProperty =
+            DependencyProperty.Register("MouseOverBackground", typeof(Brush), typeof(LinkGroupExpander), new PropertyMetadata(default(Brush), (d, e) =>
+             {
+                 LinkGroupExpander control = d as LinkGroupExpander;
+
+                 if (control == null) return;
+
+                 Brush config = e.NewValue as Brush;
+
+             }));
+
     }
 
 }

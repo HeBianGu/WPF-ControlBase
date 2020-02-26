@@ -22,7 +22,7 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary>
     /// DownLoadWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class DownLoadWindow : DialogWindow
+    public partial class DownLoadWindow 
     {
         public DownLoadWindow()
         {

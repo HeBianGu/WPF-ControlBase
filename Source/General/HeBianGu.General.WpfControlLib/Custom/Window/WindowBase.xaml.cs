@@ -247,7 +247,7 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ShowAnimationProperty =
-            DependencyProperty.Register("ShowAnimation", typeof(Action<WindowBase>), typeof(WindowBase), new PropertyMetadata(default(Action<DialogWindow>), (d, e) =>
+            DependencyProperty.Register("ShowAnimation", typeof(Action<WindowBase>), typeof(WindowBase), new PropertyMetadata(default(Action<WindowBase>), (d, e) =>
              {
                  WindowBase control = d as WindowBase;
 
@@ -267,7 +267,7 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CloseAnimationProperty =
-            DependencyProperty.Register("CloseAnimation", typeof(Action<WindowBase>), typeof(WindowBase), new PropertyMetadata(default(Action<DialogWindow>), (d, e) =>
+            DependencyProperty.Register("CloseAnimation", typeof(Action<WindowBase>), typeof(WindowBase), new PropertyMetadata(default(Action<WindowBase>), (d, e) =>
              {
                  WindowBase control = d as WindowBase;
 
