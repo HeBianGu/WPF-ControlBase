@@ -17,7 +17,7 @@ using System.Windows.Threading;
 
 namespace HeBianGu.General.WpfControlLib
 {
-    public class MetroTabItem : TabItem
+    public class MetroTabItem : FTabItem
     {
 
         public HorizontalAlignment TextHorizontalAlignment

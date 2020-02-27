@@ -19,7 +19,7 @@ namespace HeBianGu.General.WpfControlLib
 
         public override Style SelectStyle(object item, DependencyObject container)
         {
-            if (item is TabItem) return _defaultHeaderItemStyle;
+            if (item is FTabItem) return _defaultHeaderItemStyle;
 
             return _customHeaderItemStyle;
         }

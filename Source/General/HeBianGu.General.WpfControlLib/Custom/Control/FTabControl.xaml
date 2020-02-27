@@ -3,13 +3,13 @@
                     xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
 
-    <!--<ContextMenu x:Key="TabItemMenu" x:Shared="False">
-        <MenuItem Command="interactivity:ControlCommands.Close" Header="{x:Static langs:Lang.Close}"/>
-        <MenuItem Command="interactivity:ControlCommands.CloseAll" Header="{x:Static langs:Lang.CloseAll}"/>
-        <MenuItem Command="interactivity:ControlCommands.CloseOther" Header="{x:Static langs:Lang.CloseOther}"/>
-    </ContextMenu>-->
+    <ContextMenu x:Key="S.FTabItemMenu.Default" x:Shared="False">
+        <MenuItem Command="local:CommandService.Close"  Header="关闭"/>
+        <MenuItem Command="local:CommandService.CloseAll"  Header="全部关闭"/>
+        <MenuItem Command="local:CommandService.CloseOther"  Header="除此之外全部关闭"/>
+    </ContextMenu>
 
-    <Style TargetType="local:TabItem">
+    <Style x:Key="S.FTabItem.Default" TargetType="local:FTabItem">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
@@ -19,25 +19,27 @@
         <Setter Property="Padding" Value="16,0"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        <Setter Property="Menu" Value="{StaticResource TabItemMenu}"/>
+        <Setter Property="Menu" Value="{StaticResource S.FTabItemMenu.Default}"/>
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Background="Transparent" Text="{Binding Header,RelativeSource={RelativeSource AncestorType=local:TabItem}}"/>
+                    <TextBlock Background="Transparent" Text="{Binding Header,RelativeSource={RelativeSource AncestorType=local:FTabItem}}"/>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="local:TabItem">
+                <ControlTemplate TargetType="local:FTabItem">
                     <Grid x:Name="templateRoot" SnapsToDevicePixels="true" ContextMenu="{TemplateBinding Menu}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
+                        
                         <Border Grid.ColumnSpan="2" BorderThickness="{TemplateBinding BorderThickness}" x:Name="mainBorder" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}" Margin="0">
-                            <Border Margin="0,0,0,-1" x:Name="innerBorder" Background="{DynamicResource RegionBrush}" Opacity="0"/>
+                            <Border Margin="0,0,0,-1" x:Name="innerBorder" Background="{DynamicResource S.Brush.TextBackground.Default}" Opacity="0"/>
                         </Border>
+                        
                         <ContentPresenter Grid.Column="0" x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="Stretch" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="Center">
                             <ContentPresenter.OpacityMask>
                                 <LinearGradientBrush EndPoint="1,0" StartPoint="0,0">
@@ -46,15 +48,14 @@
                                 </LinearGradientBrush>
                             </ContentPresenter.OpacityMask>
                         </ContentPresenter>
-                        <!--Command="interactivity:ControlCommands.Close"-->
-                        <Button Grid.Column="1" Focusable="False" Visibility="{TemplateBinding ShowCloseButton,Converter={StaticResource Boolean2VisibilityConverter}}" Background="Transparent" Style="{StaticResource ButtonCustom}" Width="28">
-                            <Path Fill="{DynamicResource PrimaryTextBrush}" Width="8" Height="8" Style="{StaticResource ClosePathStyle}"/>
-                        </Button>
+
+                        <local:FButton Grid.Column="1" FIconSize="12" AllowsAnimation="True"  Style="{DynamicResource S.FButton.Style.Transparent}" Command="local:CommandService.Close" FIcon="&#xe6f4;" Visibility="{TemplateBinding ShowCloseButton,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
                             <Setter Property="Panel.ZIndex" Value="1"/>
                             <Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -62,7 +63,9 @@
         </Setter>
     </Style>
 
-    <ControlTemplate x:Key="TabControlPlusTemplate" TargetType="local:TabControl">
+    <Style TargetType="local:FTabItem" BasedOn="{StaticResource S.FTabItem.Default}"/>
+
+    <ControlTemplate x:Key="S.TabControlTemplate.Plus" TargetType="local:FTabControl">
         <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
             <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
                 <Grid.ColumnDefinitions>
@@ -73,8 +76,10 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Border Background="{TemplateBinding Background}" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}">
-                    <local:TabPanel MinHeight="{TemplateBinding TabItemHeight}" TabItemHeight="{TemplateBinding TabItemHeight}" TabItemWidth="{TemplateBinding TabItemWidth}" IsEnableTabFill="{TemplateBinding IsEnableTabFill}" Margin="0,0,-1,-1" x:Name="PART_HeaderPanel" HorizontalAlignment="Left" Background="{DynamicResource SecondaryTextBrush}" IsItemsHost="true" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1">
+
+                <Border Background="{TemplateBinding Background}" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}">
+                    <local:TabPanel MinHeight="{TemplateBinding TabItemHeight}" TabItemHeight="{TemplateBinding TabItemHeight}" TabItemWidth="{TemplateBinding TabItemWidth}" IsEnableTabFill="{TemplateBinding IsEnableTabFill}" Margin="0,0,-1,-1" x:Name="PART_HeaderPanel" HorizontalAlignment="Left" 
+                                    Background="{DynamicResource S.Brush.TextBorderBrush.Default}" IsItemsHost="true" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1">
                         <base:Interaction.Behaviors>
                             <base:FluidMoveBehavior AppliesTo="Children" Duration="{Binding FluidMoveDuration,ElementName=PART_HeaderPanel}">
                                 <base:FluidMoveBehavior.EaseX>
@@ -84,17 +89,20 @@
                         </base:Interaction.Behaviors>
                     </local:TabPanel>
                 </Border>
-                <Border x:Name="contentPanel" Background="{DynamicResource SecondaryRegionBrush}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                <Border x:Name="contentPanel" Background="{DynamicResource S.Brush.TextBackground.Default}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
                     <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                 </Border>
-                <Border Visibility="{Binding Visibility,ElementName=PART_OverflowButton}" Margin="0,-1,0,0" Grid.Row="0" Grid.Column="0" BorderThickness="1,0,0,1" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}" HorizontalAlignment="Right">
-                    <local:ContextMenuToggleButton x:Name="PART_OverflowButton" Visibility="Collapsed" Style="{StaticResource ToggleButtonIconTransparent}"  />
+                <Border Visibility="{Binding Visibility,ElementName=PART_OverflowButton}" Margin="0,-1,0,0"  Grid.Row="0" Grid.Column="0" BorderThickness="1,0,0,1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Background="{DynamicResource S.Brush.TextBackground.Default}" HorizontalAlignment="Right">
+                    <local:ContextMenuToggleButton  x:Name="PART_OverflowButton" Width="{DynamicResource S.Window.ItemHeight}" Visibility="Collapsed"  VerticalAlignment="Center" Margin="5,0"
+                        Style="{DynamicResource S.ToggleButton.BrushFIconChecked}"  
+                        base:ControlAttachProperty.AllowsAnimation="{Binding ElementName=PART_OverflowButton,Path=IsChecked}"                            
+                        base:ControlAttachProperty.FIcon="&#xe9bb;"  base:ControlAttachProperty.FIconSize="15"/>
                 </Border>
             </Grid>
         </Border>
     </ControlTemplate>
 
-    <ControlTemplate x:Key="TabControlPlusScrollableTemplate" TargetType="local:TabControl">
+    <ControlTemplate x:Key="S.TabControlTemplate.PlusScrollable" TargetType="local:FTabControl">
         <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
             <Grid x:Name="templateRoot" ClipToBounds="true" SnapsToDevicePixels="true" KeyboardNavigation.TabNavigation="Local">
                 <Grid.ColumnDefinitions>
@@ -106,14 +114,14 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Border Visibility="{TemplateBinding ShowScrollButton,Converter={StaticResource Boolean2VisibilityConverter}}" Margin="0,-1,0,0" Grid.Row="0" Grid.Column="0" BorderThickness="0,0,1,1" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}" HorizontalAlignment="Left" Panel.ZIndex="2">
+                <Border Visibility="{TemplateBinding ShowScrollButton,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}" Margin="0,-1,0,0" Grid.Row="0" Grid.Column="0" BorderThickness="0,0,1,1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Background="{DynamicResource S.Brush.TextBackground.Default}" HorizontalAlignment="Left" Panel.ZIndex="2">
                     <Border.CacheMode>
                         <BitmapCache SnapsToDevicePixels="True"/>
                     </Border.CacheMode>
-                    <RepeatButton Focusable="False" Style="{StaticResource RepeatButtonIcon}" Padding="8"  Foreground="{DynamicResource PrimaryTextBrush}" Background="{DynamicResource SecondaryRegionBrush}" x:Name="PART_ScrollButtonLeft"/>
+                    <RepeatButton Focusable="False" Padding="8" x:Name="PART_ScrollButtonLeft"/>
                 </Border>
-                <ScrollViewer HorizontalScrollBarVisibility="Hidden" Grid.Row="0" Grid.Column="1" IsDeferredScrollingEnabled="True" x:Name="PART_OverflowScrollviewer">
-                    <Border Background="{TemplateBinding Background}" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource BorderBrush}" Name="PART_HeaderBorder">
+                <local:FScrollViewer Style="{x:Null}" HorizontalScrollBarVisibility="Hidden" Grid.Row="0" Grid.Column="1" IsDeferredScrollingEnabled="True" x:Name="PART_OverflowScrollviewer">
+                    <Border Background="{TemplateBinding Background}" BorderThickness="0,0,0,1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Name="PART_HeaderBorder">
                         <local:TabPanel MinHeight="{TemplateBinding TabItemHeight}" TabItemHeight="{TemplateBinding TabItemHeight}" TabItemWidth="{TemplateBinding TabItemWidth}" IsEnableTabFill="{TemplateBinding IsEnableTabFill}" Margin="0,0,-1,-1" x:Name="PART_HeaderPanel" HorizontalAlignment="Left" Background="{DynamicResource SecondaryTextBrush}" IsItemsHost="true" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1">
                             <base:Interaction.Behaviors>
                                 <base:FluidMoveBehavior AppliesTo="Children" Duration="{Binding FluidMoveDuration,ElementName=PART_HeaderPanel}">
@@ -124,44 +132,46 @@
                             </base:Interaction.Behaviors>
                         </local:TabPanel>
                     </Border>
-                </ScrollViewer>
-                <Border Margin="0,-1,0,0" Grid.Row="0" Grid.Column="2" BorderThickness="1,0,0,1" BorderBrush="{DynamicResource BorderBrush}" Background="{DynamicResource RegionBrush}" HorizontalAlignment="Right">
+                </local:FScrollViewer>
+                <Border Margin="0,-1,0,0" Grid.Row="0" Grid.Column="2" BorderThickness="1,0,0,1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Background="{DynamicResource S.Brush.TextBackground.Default}" HorizontalAlignment="Right">
                     <Border.CacheMode>
                         <BitmapCache SnapsToDevicePixels="True"/>
                     </Border.CacheMode>
                     <StackPanel Orientation="Horizontal">
-                        <RepeatButton Focusable="False" Visibility="{TemplateBinding ShowScrollButton,Converter={StaticResource Boolean2VisibilityConverter}}" Style="{StaticResource RepeatButtonIcon}" BorderBrush="{DynamicResource BorderBrush}" Padding="8" Foreground="{DynamicResource PrimaryTextBrush}" Background="{DynamicResource SecondaryRegionBrush}" x:Name="PART_ScrollButtonRight"/>
-                        <Border Visibility="{Binding Visibility,ElementName=PART_OverflowButton}" Width="1" Background="{DynamicResource BorderBrush}"/>
-                        <local:ContextMenuToggleButton x:Name="PART_OverflowButton" Visibility="Collapsed" Style="{StaticResource ToggleButtonIconTransparent}"/>
+                        <RepeatButton Focusable="False" Visibility="{TemplateBinding ShowScrollButton,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}"  Padding="8"  x:Name="PART_ScrollButtonRight"/>
+                        <Border Visibility="{Binding Visibility,ElementName=PART_OverflowButton}" Width="1" Background="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+                        <local:ContextMenuToggleButton x:Name="PART_OverflowButton" Visibility="Collapsed"/>
+                        <!--Style="{StaticResource ToggleButtonIconTransparent}"-->
                     </StackPanel>
                 </Border>
-                <Border x:Name="contentPanel" Background="{DynamicResource SecondaryRegionBrush}" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                <Border x:Name="contentPanel" Background="{DynamicResource S.Brush.TextBackground.Default}" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
                     <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                 </Border>
             </Grid>
         </Border>
     </ControlTemplate>
 
-    <Style TargetType="local:TabControl">
+    <Style TargetType="local:FTabControl">
         <Setter Property="Padding" Value="0"/>
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource BorderBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="TabItemHeight" Value="{DynamicResource S.Window.Item.Height}"/>
         <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Template" Value="{StaticResource TabControlPlusTemplate}"/>
+        <Setter Property="Template" Value="{StaticResource S.TabControlTemplate.Plus}"/>
         <Style.Triggers>
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsScrollable" Value="True"/>
                     <Condition Property="IsEnableTabFill" Value="False"/>
                 </MultiTrigger.Conditions>
-                <Setter Property="Template" Value="{StaticResource TabControlPlusScrollableTemplate}"/>
+                <Setter Property="Template" Value="{StaticResource S.TabControlTemplate.PlusScrollable}"/>
             </MultiTrigger>
         </Style.Triggers>
     </Style>
 
-    <Style BasedOn="{StaticResource TabControlBaseStyle}" TargetType="TabControl"/>
+    <!--<Style BasedOn="{StaticResource TabControlBaseStyle}" TargetType="Local:FTabControl"/>-->
 
     <Style x:Key="TabItemInLine" BasedOn="{StaticResource TabItemStyle}" TargetType="TabItem">
         <Setter Property="MinWidth" Value="0"/>
@@ -183,7 +193,7 @@
                                 <RowDefinition x:Name="RowDefinition1" Height="*"/>
                             </Grid.RowDefinitions>
                             <UniformGrid Rows="1" x:Name="headerPanel" Background="Transparent" Grid.Column="0" IsItemsHost="true" Margin="0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
-                            <Border x:Name="contentPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource BorderBrush}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                            <Border x:Name="contentPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
                                 <ContentPresenter x:Name="PART_SelectedContentHost"  ContentSource="SelectedContent" Margin="0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </Border>
                         </Grid>
@@ -253,9 +263,9 @@
     </Style>-->
 
     <Style x:Key="TabControlCapsule"  TargetType="TabControl">
-        <Setter Property="Background" Value="{DynamicResource RegionBrush}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <!--<Setter Property="local:TitleElement.BorderBrush" Value="{DynamicResource PrimaryBrush}"/>
-        <Setter Property="local:TitleElement.Background" Value="{DynamicResource RegionBrush}"/>
+        <Setter Property="local:TitleElement.Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <Setter Property="local:TitleElement.Foreground" Value="{DynamicResource PrimaryBrush}"/>-->
         <!--<Setter Property="ItemContainerStyleSelector">
             <Setter.Value>
@@ -275,7 +285,7 @@
                             <RowDefinition x:Name="RowDefinition1" Height="*"/>
                         </Grid.RowDefinitions>
                         <UniformGrid Rows="1" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="headerPanel" Background="Transparent" Grid.Column="0" IsItemsHost="true" Margin="0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1"/>
-                        <Border x:Name="contentPanel" Margin="0,6,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="{DynamicResource BorderBrush}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                        <Border x:Name="contentPanel" Margin="0,6,0,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" BorderThickness="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
                             <ContentPresenter x:Name="PART_SelectedContentHost"  ContentSource="SelectedContent" Margin="0" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                     </Grid>

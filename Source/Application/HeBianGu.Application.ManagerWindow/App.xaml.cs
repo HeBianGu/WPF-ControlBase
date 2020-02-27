@@ -54,7 +54,7 @@ namespace HeBianGu.Application.ManagerWindow
                 l.FontSize = FontSize.Small;
 
                 l.ItemHeight = 36;
-                l.RowHeight = 42;
+                l.RowHeight = 40;
                 //l.ItemWidth = 120;
                 l.ItemCornerRadius = new CornerRadius(18);
 

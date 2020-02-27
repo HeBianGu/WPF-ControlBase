@@ -17,7 +17,7 @@ using System.Windows.Threading;
 
 namespace HeBianGu.General.WpfControlLib
 {
-    public class DTabItem : TabItem
+    public class DTabItem : FTabItem
     {
 
         public SolidColorBrush SelectedColor

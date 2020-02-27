@@ -14,14 +14,13 @@ namespace HeBianGu.Application.ManagerWindow
 {
     [Route("Loyout")]
     internal class LoyoutController : Controller<LoyoutViewModel>
-    {
-        [Route("数据分析/实施数据")]
+    { 
         public async Task<IActionResult> RealData()
         {
             return await ViewAsync();
         }
 
-        public async Task<IActionResult> HistoryData()
+        public async Task<IActionResult> History()
         {
             return await ViewAsync();
         }

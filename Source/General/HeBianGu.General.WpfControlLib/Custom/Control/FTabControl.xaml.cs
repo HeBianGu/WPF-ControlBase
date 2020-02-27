@@ -19,16 +19,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HeBianGu.Base.WpfBase;
 
 namespace HeBianGu.General.WpfControlLib
 {
     [TemplatePart(Name = OverflowButtonKey, Type = typeof(ContextMenuToggleButton))]
     [TemplatePart(Name = HeaderPanelKey, Type = typeof(TabPanel))]
-    [TemplatePart(Name = OverflowScrollviewer, Type = typeof(ScrollViewer))]
+    [TemplatePart(Name = OverflowScrollviewer, Type = typeof(FScrollViewer))]
     [TemplatePart(Name = ScrollButtonLeft, Type = typeof(System.Windows.Controls.Primitives.ButtonBase))]
     [TemplatePart(Name = ScrollButtonRight, Type = typeof(System.Windows.Controls.Primitives.ButtonBase))]
     [TemplatePart(Name = HeaderBorder, Type = typeof(Border))]
-    public class TabControl : System.Windows.Controls.TabControl
+    public class FTabControl : System.Windows.Controls.TabControl
     {
         private const string OverflowButtonKey = "PART_OverflowButton";
 
@@ -46,7 +47,7 @@ namespace HeBianGu.General.WpfControlLib
 
         internal TabPanel HeaderPanel { get; private set; }
 
-        private ScrollViewer _scrollViewerOverflow;
+        private FScrollViewer _scrollViewerOverflow;
 
         private System.Windows.Controls.Primitives.ButtonBase _buttonScrollLeft;
 
@@ -63,7 +64,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     是否启用动画
         /// </summary>
         public static readonly DependencyProperty IsEnableAnimationProperty = DependencyProperty.Register(
-            "IsEnableAnimation", typeof(bool), typeof(TabControl), new PropertyMetadata(false));
+            "IsEnableAnimation", typeof(bool), typeof(FTabControl), new PropertyMetadata(false));
 
         /// <summary>
         ///     是否启用动画
@@ -78,7 +79,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     是否可以拖动
         /// </summary>
         public static readonly DependencyProperty IsDraggableProperty = DependencyProperty.Register(
-            "IsDraggable", typeof(bool), typeof(TabControl), new PropertyMetadata(false));
+            "IsDraggable", typeof(bool), typeof(FTabControl), new PropertyMetadata(false));
 
         /// <summary>
         ///     是否可以拖动
@@ -93,7 +94,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     是否显示关闭按钮
         /// </summary>
         public static readonly DependencyProperty ShowCloseButtonProperty = DependencyProperty.RegisterAttached(
-            "ShowCloseButton", typeof(bool), typeof(TabControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits));
+            "ShowCloseButton", typeof(bool), typeof(FTabControl), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.Inherits));
 
         public static void SetShowCloseButton(DependencyObject element, bool value)
             => element.SetValue(ShowCloseButtonProperty, value);
@@ -114,7 +115,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     是否显示上下文菜单
         /// </summary>
         public static readonly DependencyProperty ShowContextMenuProperty = DependencyProperty.RegisterAttached(
-            "ShowContextMenu", typeof(bool), typeof(TabControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.Inherits));
+            "ShowContextMenu", typeof(bool), typeof(FTabControl), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.Inherits));
 
         public static void SetShowContextMenu(DependencyObject element, bool value)
             => element.SetValue(ShowContextMenuProperty, value);
@@ -135,7 +136,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     是否将标签填充
         /// </summary>
         public static readonly DependencyProperty IsEnableTabFillProperty = DependencyProperty.Register(
-            "IsEnableTabFill", typeof(bool), typeof(TabControl), new PropertyMetadata(false));
+            "IsEnableTabFill", typeof(bool), typeof(FTabControl), new PropertyMetadata(false));
 
         /// <summary>
         ///     是否将标签填充
@@ -150,7 +151,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     标签宽度
         /// </summary>
         public static readonly DependencyProperty TabItemWidthProperty = DependencyProperty.Register(
-            "TabItemWidth", typeof(double), typeof(TabControl), new PropertyMetadata(200.0));
+            "TabItemWidth", typeof(double), typeof(FTabControl), new PropertyMetadata(200.0));
 
         /// <summary>
         ///     标签宽度
@@ -165,7 +166,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     标签高度
         /// </summary>
         public static readonly DependencyProperty TabItemHeightProperty = DependencyProperty.Register(
-            "TabItemHeight", typeof(double), typeof(TabControl), new PropertyMetadata(30.0));
+            "TabItemHeight", typeof(double), typeof(FTabControl), new PropertyMetadata(30.0));
 
         /// <summary>
         ///     标签高度
@@ -180,7 +181,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     是否可以滚动
         /// </summary>
         public static readonly DependencyProperty IsScrollableProperty = DependencyProperty.Register(
-            "IsScrollable", typeof(bool), typeof(TabControl), new PropertyMetadata(false));
+            "IsScrollable", typeof(bool), typeof(FTabControl), new PropertyMetadata(false));
 
         /// <summary>
         ///     是否可以滚动
@@ -195,7 +196,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     是否显示溢出按钮
         /// </summary>
         public static readonly DependencyProperty ShowOverflowButtonProperty = DependencyProperty.Register(
-            "ShowOverflowButton", typeof(bool), typeof(TabControl), new PropertyMetadata(true));
+            "ShowOverflowButton", typeof(bool), typeof(FTabControl), new PropertyMetadata(true));
 
         /// <summary>
         ///     是否显示溢出按钮
@@ -210,7 +211,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     是否显示滚动按钮
         /// </summary>
         public static readonly DependencyProperty ShowScrollButtonProperty = DependencyProperty.Register(
-            "ShowScrollButton", typeof(bool), typeof(TabControl), new PropertyMetadata(false));
+            "ShowScrollButton", typeof(bool), typeof(FTabControl), new PropertyMetadata(false));
 
         /// <summary>
         ///     是否显示滚动按钮
@@ -261,7 +262,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 for (var i = 0; i < Items.Count; i++)
                 {
-                    if (!(ItemContainerGenerator.ContainerFromIndex(i) is TabItem item)) return;
+                    if (!(ItemContainerGenerator.ContainerFromIndex(i) is FTabItem item)) return;
                     item.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
                     item.TabPanel = HeaderPanel;
                 }
@@ -296,7 +297,7 @@ namespace HeBianGu.General.WpfControlLib
             if (IsEnableTabFill) return;
 
             _buttonOverflow = GetTemplateChild(OverflowButtonKey) as ContextMenuToggleButton;
-            _scrollViewerOverflow = GetTemplateChild(OverflowScrollviewer) as ScrollViewer;
+            _scrollViewerOverflow = GetTemplateChild(OverflowScrollviewer) as FScrollViewer;
             _buttonScrollLeft = GetTemplateChild(ScrollButtonLeft) as System.Windows.Controls.Primitives.ButtonBase;
             _buttonScrollRight = GetTemplateChild(ScrollButtonRight) as ButtonBase;
             _headerBorder = GetTemplateChild(HeaderBorder) as Border;
@@ -345,7 +346,7 @@ namespace HeBianGu.General.WpfControlLib
                 _buttonOverflow.Menu.Items.Clear();
                 for (var i = 0; i < Items.Count; i++)
                 {
-                    if (!(ItemContainerGenerator.ContainerFromIndex(i) is TabItem item)) continue;
+                    if (!(ItemContainerGenerator.ContainerFromIndex(i) is FTabItem item)) continue;
 
                     var menuItem = new MenuItem
                     {
@@ -394,7 +395,7 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        //internal double GetHorizontalOffset() => _scrollViewerOverflow?.CurrentHorizontalOffset ?? 0;
+        internal double GetHorizontalOffset() => _scrollViewerOverflow?.CurrentHorizontalOffset ?? 0;
 
         internal void UpdateScroll() => _scrollViewerOverflow?.RaiseEvent(new MouseWheelEventArgs(Mouse.PrimaryDevice, Environment.TickCount, 0)
         {
@@ -403,7 +404,7 @@ namespace HeBianGu.General.WpfControlLib
 
         internal void CloseAllItems() => CloseOtherItems(null);
 
-        internal void CloseOtherItems(TabItem currentItem)
+        internal void CloseOtherItems(FTabItem currentItem)
         {
             var actualItem = currentItem != null ? ItemContainerGenerator.ItemFromContainer(currentItem) : null;
 
@@ -417,14 +418,14 @@ namespace HeBianGu.General.WpfControlLib
                 var item = list[i];
                 if (!Equals(item, actualItem) && item != null)
                 {
-                    var argsClosing = new CancelRoutedEventArgs(TabItem.ClosingEvent, item);
+                    var argsClosing = new CancelRoutedEventArgs(FTabItem.ClosingEvent, item);
 
-                    if (!(ItemContainerGenerator.ContainerFromItem(item) is TabItem tabItem)) continue;
+                    if (!(ItemContainerGenerator.ContainerFromItem(item) is FTabItem tabItem)) continue;
 
                     tabItem.RaiseEvent(argsClosing);
                     if (argsClosing.Cancel) return;
 
-                    tabItem.RaiseEvent(new RoutedEventArgs(TabItem.ClosedEvent, item));
+                    tabItem.RaiseEvent(new RoutedEventArgs(FTabItem.ClosedEvent, item));
                     list.Remove(item);
 
                     i--;
@@ -449,13 +450,13 @@ namespace HeBianGu.General.WpfControlLib
             return list;
         }
 
-        protected override bool IsItemItsOwnContainerOverride(object item) => item is TabItem;
+        protected override bool IsItemItsOwnContainerOverride(object item) => item is FTabItem;
 
-        protected override DependencyObject GetContainerForItemOverride() => new TabItem();
+        protected override DependencyObject GetContainerForItemOverride() => new FTabItem();
     }
 
 
-    public class TabItem : System.Windows.Controls.TabItem
+    public class FTabItem : System.Windows.Controls.TabItem
     {
         /// <summary>
         ///     动画速度
@@ -538,14 +539,26 @@ namespace HeBianGu.General.WpfControlLib
         private double _scrollHorizontalOffset;
 
         private TabPanel _tabPanel;
-
+ 
         /// <summary>
         ///     标签容器
         /// </summary>
         internal TabPanel TabPanel
         {
-            get => _tabPanel ?? TabControlParent.HeaderPanel;
-            set => _tabPanel = value;
+            //get => _tabPanel ??= TabControlParent.HeaderPanel;
+            get
+            {
+                if(_tabPanel==null)
+                {
+                    _tabPanel = TabControlParent.HeaderPanel;
+                }
+
+                return _tabPanel;
+            }
+            set
+            {
+                _tabPanel = value;
+            }
         }
 
         /// <summary>
@@ -567,7 +580,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     是否显示关闭按钮
         /// </summary>
         public static readonly DependencyProperty ShowCloseButtonProperty =
-            TabControl.ShowCloseButtonProperty.AddOwner(typeof(TabItem));
+            FTabControl.ShowCloseButtonProperty.AddOwner(typeof(FTabItem));
 
         /// <summary>
         ///     是否显示关闭按钮
@@ -588,11 +601,11 @@ namespace HeBianGu.General.WpfControlLib
         ///     是否显示上下文菜单
         /// </summary>
         public static readonly DependencyProperty ShowContextMenuProperty =
-            TabControl.ShowContextMenuProperty.AddOwner(typeof(TabItem), new FrameworkPropertyMetadata(OnShowContextMenuChanged));
+            FTabControl.ShowContextMenuProperty.AddOwner(typeof(FTabItem), new FrameworkPropertyMetadata(OnShowContextMenuChanged));
 
         private static void OnShowContextMenuChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var ctl = (TabItem)d;
+            var ctl = (FTabItem)d;
             if (ctl.Menu != null)
             {
                 var show = (bool)e.NewValue;
@@ -617,11 +630,11 @@ namespace HeBianGu.General.WpfControlLib
             => (bool)element.GetValue(ShowContextMenuProperty);
 
         public static readonly DependencyProperty MenuProperty = DependencyProperty.Register(
-            "Menu", typeof(ContextMenu), typeof(TabItem), new PropertyMetadata(default(ContextMenu), OnMenuChanged));
+            "Menu", typeof(ContextMenu), typeof(FTabItem), new PropertyMetadata(default(ContextMenu), OnMenuChanged));
 
         private static void OnMenuChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var ctl = (TabItem)d;
+            var ctl = (FTabItem)d;
             ctl.OnMenuChanged(e.NewValue as ContextMenu);
         }
 
@@ -642,8 +655,8 @@ namespace HeBianGu.General.WpfControlLib
                 menu.SetBinding(VisibilityProperty, new Binding(ShowContextMenuProperty.Name)
                 {
                     Source = this,
-                    Converter = Application.Current.FindResource("Boolean2VisibilityConverter") as IValueConverter
-
+                    //Converter = Application.Current.FindResource("Boolean2VisibilityConverter") as IValueConverter
+                    Converter = XConverter.BooleanToVisibilityConverter
 
                 });
             }
@@ -671,18 +684,19 @@ namespace HeBianGu.General.WpfControlLib
             moveItem.CreateAnimation(offsetX, resultX);
         }
 
-        public TabItem()
+        public FTabItem()
         {
-            //CommandBindings.Add(new CommandBinding(ControlCommands.Close, (s, e) => Close()));
-            //CommandBindings.Add(new CommandBinding(ControlCommands.CloseAll,
-            //    (s, e) => { TabControlParent.CloseAllItems(); }));
-            //CommandBindings.Add(new CommandBinding(ControlCommands.CloseOther,
-            //    (s, e) => { TabControlParent.CloseOtherItems(this); }));
+
+            CommandBindings.Add(new CommandBinding(CommandService.Close, (s, e) => Close()));
+            CommandBindings.Add(new CommandBinding(CommandService.CloseAll,
+                (s, e) => { TabControlParent.CloseAllItems(); }));
+            CommandBindings.Add(new CommandBinding(CommandService.CloseOther,
+                (s, e) => { TabControlParent.CloseOtherItems(this); }));
 
             Loaded += (s, e) => OnMenuChanged(Menu);
         }
 
-        private TabControl TabControlParent => ItemsControl.ItemsControlFromItemContainer(this) as TabControl;
+        private FTabControl TabControlParent => ItemsControl.ItemsControlFromItemContainer(this) as FTabControl;
 
         protected override void OnMouseRightButtonDown(MouseButtonEventArgs e)
         {
@@ -706,12 +720,15 @@ namespace HeBianGu.General.WpfControlLib
         internal void Close()
         {
             var parent = TabControlParent;
+
             if (parent == null) return;
 
             var item = parent.ItemContainerGenerator.ItemFromContainer(this);
 
             var argsClosing = new CancelRoutedEventArgs(ClosingEvent, item);
+
             RaiseEvent(argsClosing);
+
             if (argsClosing.Cancel) return;
 
             TabPanel.SetCurrentValue(TabPanel.FluidMoveDurationProperty, parent.IsEnableAnimation
@@ -719,9 +736,11 @@ namespace HeBianGu.General.WpfControlLib
                     : new Duration(TimeSpan.FromMilliseconds(1)));
 
             parent.IsInternalAction = true;
+
             RaiseEvent(new RoutedEventArgs(ClosedEvent, item));
 
             var list = parent.GetActuaList();
+
             list?.Remove(item);
         }
 
@@ -737,7 +756,7 @@ namespace HeBianGu.General.WpfControlLib
                 parent.UpdateScroll();
                 TabPanel.FluidMoveDuration = new Duration(TimeSpan.FromSeconds(0));
                 _mouseDownOffsetX = RenderTransform.Value.OffsetX;
-                //_scrollHorizontalOffset = parent.GetHorizontalOffset();
+                _scrollHorizontalOffset = parent.GetHorizontalOffset();
                 var mx = TranslatePoint(new Point(), parent).X + _scrollHorizontalOffset;
                 _mouseDownIndex = CalLocationIndex(mx);
                 var subIndex = _mouseDownIndex - CalLocationIndex(_scrollHorizontalOffset);
@@ -884,7 +903,7 @@ namespace HeBianGu.General.WpfControlLib
             return result > maxIndex ? maxIndex : result;
         }
 
-        public static readonly RoutedEvent ClosingEvent = EventManager.RegisterRoutedEvent("Closing", RoutingStrategy.Bubble, typeof(EventHandler), typeof(TabItem));
+        public static readonly RoutedEvent ClosingEvent = EventManager.RegisterRoutedEvent("Closing", RoutingStrategy.Bubble, typeof(EventHandler), typeof(FTabItem));
 
         public event EventHandler Closing
         {
@@ -892,7 +911,7 @@ namespace HeBianGu.General.WpfControlLib
             remove => RemoveHandler(ClosingEvent, value);
         }
 
-        public static readonly RoutedEvent ClosedEvent = EventManager.RegisterRoutedEvent("Closed", RoutingStrategy.Bubble, typeof(EventHandler), typeof(TabItem));
+        public static readonly RoutedEvent ClosedEvent = EventManager.RegisterRoutedEvent("Closed", RoutingStrategy.Bubble, typeof(EventHandler), typeof(FTabItem));
 
         public event EventHandler Closed
         {
@@ -938,7 +957,7 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary>
         ///     选项卡字典
         /// </summary>
-        internal Dictionary<int, TabItem> ItemDic = new Dictionary<int, TabItem>();
+        internal Dictionary<int, FTabItem> ItemDic = new Dictionary<int, FTabItem>();
 
         /// <summary>
         ///     流式行为持续时间
@@ -1039,7 +1058,7 @@ namespace HeBianGu.General.WpfControlLib
             }
             else
             {
-                if (TemplatedParent is TabControl tabControl)
+                if (TemplatedParent is FTabControl tabControl)
                 {
                     arr = ArithmeticHelper.DivideInt2Arr((int)tabControl.ActualWidth + InternalChildren.Count, count);
                 }
@@ -1051,7 +1070,7 @@ namespace HeBianGu.General.WpfControlLib
                 {
                     itemWidth = arr[index];
                 }
-                if (InternalChildren[index] is TabItem tabItem)
+                if (InternalChildren[index] is FTabItem tabItem)
                 {
                     tabItem.RenderTransform = new TranslateTransform();
                     tabItem.MaxWidth = itemWidth;
@@ -1303,6 +1322,235 @@ namespace HeBianGu.General.WpfControlLib
             }
 
             return accumulated;
+        }
+    }
+
+    public class FScrollViewer : System.Windows.Controls.ScrollViewer
+    {
+        private double _totalVerticalOffset;
+
+        private double _totalHorizontalOffset;
+
+        private bool _isRunning;
+
+        /// <summary>
+        ///     滚动方向
+        /// </summary>
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.Register(
+            "Orientation", typeof(Orientation), typeof(FScrollViewer), new PropertyMetadata(Orientation.Vertical));
+
+        /// <summary>
+        ///     滚动方向
+        /// </summary>
+        public Orientation Orientation
+        {
+            get => (Orientation)GetValue(OrientationProperty);
+            set => SetValue(OrientationProperty, value);
+        }
+
+        /// <summary>
+        ///     是否响应鼠标滚轮操作
+        /// </summary>
+        public static readonly DependencyProperty CanMouseWheelProperty = DependencyProperty.Register(
+            "CanMouseWheel", typeof(bool), typeof(FScrollViewer), new PropertyMetadata(true));
+
+        /// <summary>
+        ///     是否响应鼠标滚轮操作
+        /// </summary>
+        public bool CanMouseWheel
+        {
+            get => (bool)GetValue(CanMouseWheelProperty);
+            set => SetValue(CanMouseWheelProperty, value);
+        }
+
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            if (!CanMouseWheel) return;
+
+            if (!IsEnableInertia)
+            {
+                if (Orientation == Orientation.Vertical)
+                {
+                    base.OnMouseWheel(e);
+                }
+                else
+                {
+                    _totalHorizontalOffset = HorizontalOffset;
+                    CurrentHorizontalOffset = HorizontalOffset;
+                    _totalHorizontalOffset = Math.Min(Math.Max(0, _totalHorizontalOffset - e.Delta), ScrollableWidth);
+                    CurrentHorizontalOffset = _totalHorizontalOffset;
+                }
+                return;
+            }
+            e.Handled = true;
+
+            if (Orientation == Orientation.Vertical)
+            {
+                if (!_isRunning)
+                {
+                    _totalVerticalOffset = VerticalOffset;
+                    CurrentVerticalOffset = VerticalOffset;
+                }
+                _totalVerticalOffset = Math.Min(Math.Max(0, _totalVerticalOffset - e.Delta), ScrollableHeight);
+                ScrollToVerticalOffsetInternal(_totalVerticalOffset);
+            }
+            else
+            {
+                if (!_isRunning)
+                {
+                    _totalHorizontalOffset = HorizontalOffset;
+                    CurrentHorizontalOffset = HorizontalOffset;
+                }
+                _totalHorizontalOffset = Math.Min(Math.Max(0, _totalHorizontalOffset - e.Delta), ScrollableWidth);
+                ScrollToHorizontalOffsetInternal(_totalHorizontalOffset);
+            }
+        }
+
+        internal void ScrollToTopInternal(double milliseconds = 500)
+        {
+            if (!_isRunning)
+            {
+                _totalVerticalOffset = VerticalOffset;
+                CurrentVerticalOffset = VerticalOffset;
+            }
+            ScrollToVerticalOffsetInternal(0, milliseconds);
+        }
+
+        internal void ScrollToVerticalOffsetInternal(double offset, double milliseconds = 500)
+        {
+            var animation = AnimationHelper.CreateAnimation(offset, milliseconds);
+            animation.EasingFunction = new CubicEase
+            {
+                EasingMode = EasingMode.EaseOut
+            };
+            animation.FillBehavior = FillBehavior.Stop;
+            animation.Completed += (s, e1) =>
+            {
+                CurrentVerticalOffset = offset;
+                _isRunning = false;
+            };
+            _isRunning = true;
+
+            BeginAnimation(CurrentVerticalOffsetProperty, animation, HandoffBehavior.Compose);
+        }
+
+        internal void ScrollToHorizontalOffsetInternal(double offset, double milliseconds = 500)
+        {
+            var animation = AnimationHelper.CreateAnimation(offset, milliseconds);
+
+            animation.EasingFunction = new CubicEase
+            {
+                EasingMode = EasingMode.EaseOut
+            };
+            animation.FillBehavior = FillBehavior.Stop;
+            animation.Completed += (s, e1) =>
+            {
+                CurrentHorizontalOffset = offset;
+                _isRunning = false;
+            };
+            _isRunning = true;
+
+            BeginAnimation(CurrentHorizontalOffsetProperty, animation, HandoffBehavior.Compose);
+        }
+
+        protected override HitTestResult HitTestCore(PointHitTestParameters hitTestParameters) =>
+            IsPenetrating ? null : base.HitTestCore(hitTestParameters);
+
+        /// <summary>
+        ///     是否支持惯性
+        /// </summary>
+        public static readonly DependencyProperty IsEnableInertiaProperty = DependencyProperty.RegisterAttached(
+            "IsEnableInertia", typeof(bool), typeof(FScrollViewer), new PropertyMetadata(false));
+
+        public static void SetIsEnableInertia(DependencyObject element, bool value)
+        {
+            element.SetValue(IsEnableInertiaProperty, value);
+        }
+
+        public static bool GetIsEnableInertia(DependencyObject element)
+        {
+            return (bool)element.GetValue(IsEnableInertiaProperty);
+        }
+
+        /// <summary>
+        ///     是否支持惯性
+        /// </summary>
+        public bool IsEnableInertia
+        {
+            get => (bool)GetValue(IsEnableInertiaProperty);
+            set => SetValue(IsEnableInertiaProperty, value);
+        }
+
+        /// <summary>
+        ///     控件是否可以穿透点击
+        /// </summary>
+        public static readonly DependencyProperty IsPenetratingProperty = DependencyProperty.RegisterAttached(
+            "IsPenetrating", typeof(bool), typeof(FScrollViewer), new PropertyMetadata(false));
+
+        /// <summary>
+        ///     控件是否可以穿透点击
+        /// </summary>
+        public bool IsPenetrating
+        {
+            get => (bool)GetValue(IsPenetratingProperty);
+            set => SetValue(IsPenetratingProperty, value);
+        }
+
+        public static void SetIsPenetrating(DependencyObject element, bool value)
+        {
+            element.SetValue(IsPenetratingProperty, value);
+        }
+
+        public static bool GetIsPenetrating(DependencyObject element)
+        {
+            return (bool)element.GetValue(IsPenetratingProperty);
+        }
+
+        /// <summary>
+        ///     当前垂直滚动偏移
+        /// </summary>
+        internal static readonly DependencyProperty CurrentVerticalOffsetProperty = DependencyProperty.Register(
+            "CurrentVerticalOffset", typeof(double), typeof(FScrollViewer), new PropertyMetadata(0.0, OnCurrentVerticalOffsetChanged));
+
+        private static void OnCurrentVerticalOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FScrollViewer ctl && e.NewValue is double v)
+            {
+                ctl.ScrollToVerticalOffset(v);
+            }
+        }
+
+        /// <summary>
+        ///     当前垂直滚动偏移
+        /// </summary>
+        internal double CurrentVerticalOffset
+        {
+            // ReSharper disable once UnusedMember.Local
+            get => (double)GetValue(CurrentVerticalOffsetProperty);
+            set => SetValue(CurrentVerticalOffsetProperty, value);
+        }
+
+        /// <summary>
+        ///     当前水平滚动偏移
+        /// </summary>
+        internal static readonly DependencyProperty CurrentHorizontalOffsetProperty = DependencyProperty.Register(
+            "CurrentHorizontalOffset", typeof(double), typeof(FScrollViewer), new PropertyMetadata(0.0, OnCurrentHorizontalOffsetChanged));
+
+        private static void OnCurrentHorizontalOffsetChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is FScrollViewer ctl && e.NewValue is double v)
+            {
+                ctl.ScrollToHorizontalOffset(v);
+            }
+        }
+
+        /// <summary>
+        ///     当前水平滚动偏移
+        /// </summary>
+        internal double CurrentHorizontalOffset
+        {
+            get => (double)GetValue(CurrentHorizontalOffsetProperty);
+            set => SetValue(CurrentHorizontalOffsetProperty, value);
         }
     }
 }

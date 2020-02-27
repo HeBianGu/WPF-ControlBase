@@ -160,7 +160,7 @@ namespace HeBianGu.General.WpfControlLib
         }        
 
         /// <summary>
-        /// Style to apply to header items which are not their own item container (<see cref="TabItem"/>).  Typically items bound via the <see cref="ItemsSource"/> will use this style.
+        /// Style to apply to header items which are not their own item container (<see cref="FTabItem"/>).  Typically items bound via the <see cref="ItemsSource"/> will use this style.
         /// </summary>
         [Obsolete]
         public Style CustomHeaderItemStyle
@@ -721,7 +721,7 @@ namespace HeBianGu.General.WpfControlLib
             Func<IList, IEnumerable<DragablzItem>> notTabItems =
                 l =>
                     l.Cast<object>()
-                        .Where(o => !(o is TabItem))
+                        .Where(o => !(o is FTabItem))
                         .Select(o => _dragablzItemsControl.ItemContainerGenerator.ContainerFromItem(o))
                         .OfType<DragablzItem>();            
             foreach (var addedItem in notTabItems(e.AddedItems))
@@ -734,12 +734,12 @@ namespace HeBianGu.General.WpfControlLib
                 removedItem.IsSelected = false;
             }
 
-            foreach (var tabItem in e.AddedItems.OfType<TabItem>().Select(t => _dragablzItemsControl.ItemContainerGenerator.ContainerFromItem(t)).OfType<DragablzItem>())
+            foreach (var tabItem in e.AddedItems.OfType<FTabItem>().Select(t => _dragablzItemsControl.ItemContainerGenerator.ContainerFromItem(t)).OfType<DragablzItem>())
             {                
                 tabItem.IsSelected = true;
                 tabItem.BringIntoView();
             }            
-            foreach (var tabItem in e.RemovedItems.OfType<TabItem>().Select(t => _dragablzItemsControl.ItemContainerGenerator.ContainerFromItem(t)).OfType<DragablzItem>())
+            foreach (var tabItem in e.RemovedItems.OfType<FTabItem>().Select(t => _dragablzItemsControl.ItemContainerGenerator.ContainerFromItem(t)).OfType<DragablzItem>())
             {
                 tabItem.IsSelected = false;                
             }                           
@@ -925,7 +925,7 @@ namespace HeBianGu.General.WpfControlLib
         {
             if (_dragablzItemsControl == null) return;
 
-            foreach (var pair in _dragablzItemsControl.Items.OfType<TabItem>().Select(tabItem =>
+            foreach (var pair in _dragablzItemsControl.Items.OfType<FTabItem>().Select(tabItem =>
                 new
                 {
                     tabItem,
@@ -945,7 +945,7 @@ namespace HeBianGu.General.WpfControlLib
 
             if (_dragablzItemsControl == null || SelectedItem == null) return;
 
-            var tabItem = SelectedItem as TabItem;
+            var tabItem = SelectedItem as FTabItem;
             tabItem?.SetCurrentValue(IsSelectedProperty, true);
 
             var containerFromItem =
@@ -975,7 +975,7 @@ namespace HeBianGu.General.WpfControlLib
             e.DragablzItem.IsSelected = true;
             e.DragablzItem.PartitionAtDragStart = InterTabController?.Partition;
             var item = _dragablzItemsControl.ItemContainerGenerator.ItemFromContainer(e.DragablzItem);
-            var tabItem = item as TabItem;
+            var tabItem = item as FTabItem;
             if (tabItem != null)
                 tabItem.IsSelected = true;
             SelectedItem = item;
@@ -1400,7 +1400,7 @@ namespace HeBianGu.General.WpfControlLib
 
         private static object GetContent(object item)
         {
-            return (item is TabItem) ? ((TabItem) item).Content : item;
+            return (item is FTabItem) ? ((FTabItem) item).Content : item;
         }
 
         /// <summary>
@@ -1434,8 +1434,8 @@ namespace HeBianGu.General.WpfControlLib
         /// <returns></returns>
         private ContentPresenter FindChildContentPresenter(object data)
         {
-            if (data is TabItem)
-                data = ((TabItem) data).Content;
+            if (data is FTabItem)
+                data = ((FTabItem) data).Content;
 
             return data == null
                 ? null
@@ -1532,7 +1532,7 @@ namespace HeBianGu.General.WpfControlLib
                 dragablzItem.UnderlyingContent = o;
             }
 
-            SetIsWrappingTabItem(dependencyObject, o is TabItem);            
+            SetIsWrappingTabItem(dependencyObject, o is FTabItem);            
         }
     }
 }
