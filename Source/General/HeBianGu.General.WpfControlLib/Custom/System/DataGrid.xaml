@@ -173,6 +173,76 @@
         </Style.Triggers> 
     </Style>
 
+    <!--行样式-->
+    <Style x:Key="S.DataGrid.DataGridRow.Clear" TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource S.DataGrid.DataGridRow.Default}">
+        <Style.Triggers>
+            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                <Setter Property="Background" Value="Transparent" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent}" />
+                <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.3}" />
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation  Storyboard.TargetProperty="Opacity" To="0.6" Duration="0:0:0" />
+                            <DoubleAnimation  Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.4" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsSelected" Value="True" />
+                    <Condition Property="Selector.IsSelectionActive" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent}"/>
+            </MultiTrigger>
+
+            <!--<MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="ItemsControl.AlternationIndex" Value="1" />
+                </MultiTrigger.Conditions>
+                <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.3}"/>
+                <MultiTrigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation  Storyboard.TargetProperty="Opacity" To="0.6" Duration="0:0:0" />
+                            <DoubleAnimation  Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.4" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </MultiTrigger.EnterActions>
+                <MultiTrigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </MultiTrigger.ExitActions>
+            </MultiTrigger>-->
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                    <Condition Property="IsSelected" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.8}" />
+            </MultiTrigger>
+        </Style.Triggers>
+    </Style>
+
     <!--行头调整高度样式 -->
     <Style x:Key="S.DataGrid.RowHeaderGripper.Default" TargetType="{x:Type Thumb}">
         <Setter Property="Height" Value="6" />
@@ -380,11 +450,10 @@
         </Style.Triggers>
     </Style>
 
-
     <Style x:Key="S.DataGrid.Single" TargetType="DataGrid" BasedOn="{StaticResource S.DataGrid.Default}">
         <Setter Property="RowHeight" Value="{DynamicResource S.Window.Row.Height}" />
         <Setter Property="ColumnHeaderHeight" Value="{DynamicResource S.Window.Row.Height}" />
-        <Setter Property="GridLinesVisibility" Value="Horizontal" />
+        <Setter Property="GridLinesVisibility" Value="None" />
         <Setter Property="ColumnHeaderStyle">
             <Setter.Value>
                 <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource S.DataGrid.DataGridColumnHeader.Default}">
@@ -394,6 +463,12 @@
                 </Style>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="S.DataGrid.Clear" TargetType="DataGrid" BasedOn="{StaticResource S.DataGrid.Single}">
+        <Setter Property="HorizontalGridLinesBrush" Value="Transparent" />
+        <Setter Property="VerticalGridLinesBrush" Value="Transparent" />
+        <Setter Property="RowStyle" Value="{StaticResource S.DataGrid.DataGridRow.Clear}" />
     </Style>
 
 </ResourceDictionary>
