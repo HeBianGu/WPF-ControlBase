@@ -24,7 +24,7 @@ namespace HeBianGu.Application.ManagerWindow
 
         protected override void Init()
         {
-
+            
         }
 
         protected override void Loaded(string args)

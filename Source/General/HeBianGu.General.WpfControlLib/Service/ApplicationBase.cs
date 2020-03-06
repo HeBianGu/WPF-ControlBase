@@ -21,15 +21,36 @@ namespace HeBianGu.General.WpfControlLib
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+
             ServiceRegistry.Instance.Register<IServiceCollection, ServiceCollection>();
             ServiceRegistry.Instance.Register<IApplicationBuilder, ApplicationBuilder>();
 
             this.ConfigureServices(this.IServiceCollection);
         }
 
+        private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (Exception item in e.Exception.InnerExceptions)
+            {
+                sb.AppendLine($@"异常类型：{item.GetType()}
+异常内容：{item.Message}
+来自：{item.Source}
+{item.StackTrace}");
+            }
+
+            e.SetObserved();
+
+            this.ILogger?.Error("Task Exception");
+            this.ILogger?.Error(sb.ToString());
+
+            Current.Dispatcher.Invoke(() => MessageWindow.ShowSumit(sb.ToString(), "系统异常", 5));
+        }
+
         protected override void OnStartup(StartupEventArgs e)
         {
-        
+
             this.ILogger?.Info("系统启动");
 
             this.Configure(this.IApplicationBuilder);

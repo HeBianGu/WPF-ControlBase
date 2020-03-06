@@ -6,141 +6,269 @@
       xmlns:local="clr-namespace:WpfControlDemo.View"
       xmlns:wpfcontrollib="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
       mc:Ignorable="d" 
-            xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+      xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
       xmlns:system="clr-namespace:System;assembly=mscorlib"
-
       xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase" d:DesignHeight="1000" d:DesignWidth="1000"
       Title="StoryBoardPage">
-    <Page.Triggers>
-        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-        </EventTrigger>
-    </Page.Triggers>
-
-    <Page.Resources>
-        <collections:ArrayList x:Key="items">
-            <system:String >1111</system:String>
-            <system:String>2222</system:String>
-            <system:String>44444</system:String>
-            <system:String>555555</system:String>
-            <system:String>555555</system:String>
-            <system:String>包含附包含附加属性包含附加属性加属性</system:String>
-            <system:String>按钮的样式</system:String>
-            <system:String>21211313</system:String>
-        </collections:ArrayList>
-    </Page.Resources>
-
     <Grid>
-        <StackPanel Name="sp_all">
-            <wpfcontrollib:FButton Content="放大给你看" Width="200" Margin="10">
-                <wpfcontrollib:FButton.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </wpfcontrollib:FButton.RenderTransform>
+        <Grid.Resources>
+            <Style TargetType="wpfcontrollib:FButton" BasedOn="{StaticResource S.FButton.Style.Default}">
+                <Setter Property="Width" Value="400"/>
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+        </Grid.Resources>
+        
+        <ScrollViewer>
+            <StackPanel>
+                <base:Interaction.Behaviors>
+                    <base:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>
+                    <base:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="HorizontalAlignment" StartValue="-1000" EndValue="0" End="1" Split="0.2"/>
+                </base:Interaction.Behaviors>
+                
+                
+                <GroupBox Header="ColorAnimation">
+                    <wpfcontrollib:FButton Content="颜色渐变" Background="#ED4646">
+                        <wpfcontrollib:FButton.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <ColorAnimation  Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" RepeatBehavior="Forever" 
+                                                From="Green" To="#ED4646" Duration="0:0:2" AutoReverse="True"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </wpfcontrollib:FButton.Triggers>
+                    </wpfcontrollib:FButton>
+                </GroupBox>
 
-                <wpfcontrollib:FButton.Triggers>
-                    <EventTrigger RoutedEvent="FrameworkElement.Loaded">
-                        <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.Fountain}" />
-                    </EventTrigger>
-                </wpfcontrollib:FButton.Triggers>
-            </wpfcontrollib:FButton>
+                <GroupBox Header="DoubleAnimation">
+                    <StackPanel>
+                        <wpfcontrollib:FButton Content="点击执行一次">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+                        <wpfcontrollib:FButton Content="循环执行 RepeatBehavior=Forever">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)" RepeatBehavior="Forever"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+                        <wpfcontrollib:FButton Content="自动恢复循环执行 RepeatBehavior=Forever  AutoReverse=True">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)" RepeatBehavior="Forever"  AutoReverse="True"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="EasingFunction">
+                    <StackPanel>
+                        <wpfcontrollib:FButton Content="ElasticEase：创建类似于弹簧来回直到静止的动画">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <ElasticEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+                        <wpfcontrollib:FButton Content="PowerEase：创建加速和/或减速使用的公式的动画f(t) = tp其中 p 等于Power属性。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <PowerEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+                        <wpfcontrollib:FButton Content="BackEase：略微收回动画的动作，然后再开始进行动画处理指示的路径中。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <BackEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
 
 
-            <wpfcontrollib:FButton Content="别点我小心会乱" Width="200" Margin="10" Name="btn_sumit" Click="btn_sumit_Click" >
-                <wpfcontrollib:FButton.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </wpfcontrollib:FButton.RenderTransform>
-            </wpfcontrollib:FButton>
+                        <wpfcontrollib:FButton Content="BounceEase：创建弹跳效果。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <BounceEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
 
 
-            <wpfcontrollib:FButton  Content="放大给你看" Width="200" Margin="10">
-                <wpfcontrollib:FButton.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </wpfcontrollib:FButton.RenderTransform>
-            </wpfcontrollib:FButton>
-
-            <wpfcontrollib:FButton  Content="放大给你看" Width="200" Margin="10">
-                <wpfcontrollib:FButton.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </wpfcontrollib:FButton.RenderTransform>
-            </wpfcontrollib:FButton>
-
-            <wpfcontrollib:FButton  Content="放大给你看" Width="200" Margin="10">
-                <wpfcontrollib:FButton.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </wpfcontrollib:FButton.RenderTransform>
-            </wpfcontrollib:FButton>
-
-            <wpfcontrollib:FButton  Content="放大给你看" Width="200" Margin="10">
-                <wpfcontrollib:FButton.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </wpfcontrollib:FButton.RenderTransform>
-            </wpfcontrollib:FButton>
+                        <wpfcontrollib:FButton Content="CircleEase：创建加速和/或减速使用循环函数的动画。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CircleEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
 
 
+                        <wpfcontrollib:FButton Content="QuadraticEase：创建加速和/或减速使用的公式的动画f(t) = t2。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuadraticEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
 
-            <ComboBox Margin="5" ItemsSource="{StaticResource items}" base:ControlAttachProperty.Label="选择性别" 
-                      Style="{StaticResource S.ComboBox.Label}"  base:ControlAttachProperty.Watermark="水印" >
-                <ComboBox.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </ComboBox.RenderTransform>
-            </ComboBox>
-            <ComboBox Margin="5" IsEditable="True" ItemsSource="{StaticResource items}" base:ControlAttachProperty.Label="选择性别" 
-                      Style="{StaticResource S.ComboBox.Label}" base:ControlAttachProperty.Watermark="我收水3333333333333333333333印" >
-                <ComboBox.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </ComboBox.RenderTransform>
-            </ComboBox>
-            <ComboBox Margin="5" IsEnabled="False" ItemsSource="{StaticResource items}" base:ControlAttachProperty.Label="选择性别" 
-                      Style="{StaticResource S.ComboBox.Label}" SelectedIndex="3" >
-                <ComboBox.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </ComboBox.RenderTransform>
-            </ComboBox>
 
-        </StackPanel>
+                        <wpfcontrollib:FButton Content="CubicEase：创建加速和/或减速使用的公式的动画f(t) = t3。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="QuarticEase：创建加速和/或减速使用的公式的动画f(t) = t4。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="QuinticEase：创建加速和/或减速使用的公式的动画f(t) = t5。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuinticEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="ExponentialEase：创建加速和/或减速使用指数公式的动画。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <ExponentialEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="SineEase：创建加速和/或减速使用正弦公式的动画。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <SineEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Page>

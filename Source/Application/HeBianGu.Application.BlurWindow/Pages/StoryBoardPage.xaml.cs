@@ -27,17 +27,5 @@ namespace WpfControlDemo.View
         {
             InitializeComponent();
         }
-
-        private void btn_sumit_Click(object sender, RoutedEventArgs e)
-        {
-            List<DependencyObject> fs = new List<DependencyObject>();
-
-            foreach (var item in this.sp_all.Children)
-            {
-                fs.Add(item as DependencyObject);
-            }
-
-            StoryBoardService.FountainAnimation(fs);
-        }
     }
 }
