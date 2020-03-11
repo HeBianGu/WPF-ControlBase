@@ -24,7 +24,7 @@ using HeBianGu.Base.WpfBase;
 namespace HeBianGu.General.WpfControlLib
 {
     [TemplatePart(Name = OverflowButtonKey, Type = typeof(ContextMenuToggleButton))]
-    [TemplatePart(Name = HeaderPanelKey, Type = typeof(TabPanel))]
+    [TemplatePart(Name = HeaderPanelKey, Type = typeof(FTabPanel))]
     [TemplatePart(Name = OverflowScrollviewer, Type = typeof(FScrollViewer))]
     [TemplatePart(Name = ScrollButtonLeft, Type = typeof(System.Windows.Controls.Primitives.ButtonBase))]
     [TemplatePart(Name = ScrollButtonRight, Type = typeof(System.Windows.Controls.Primitives.ButtonBase))]
@@ -45,7 +45,7 @@ namespace HeBianGu.General.WpfControlLib
 
         private ContextMenuToggleButton _buttonOverflow;
 
-        internal TabPanel HeaderPanel { get; private set; }
+        internal FTabPanel HeaderPanel { get; private set; }
 
         private FScrollViewer _scrollViewerOverflow;
 
@@ -251,7 +251,7 @@ namespace HeBianGu.General.WpfControlLib
 
             if (IsEnableAnimation)
             {
-                HeaderPanel.SetCurrentValue(TabPanel.FluidMoveDurationProperty, new Duration(TimeSpan.FromMilliseconds(200)));
+                HeaderPanel.SetCurrentValue(FTabPanel.FluidMoveDurationProperty, new Duration(TimeSpan.FromMilliseconds(200)));
             }
             else
             {
@@ -264,7 +264,7 @@ namespace HeBianGu.General.WpfControlLib
                 {
                     if (!(ItemContainerGenerator.ContainerFromIndex(i) is FTabItem item)) return;
                     item.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-                    item.TabPanel = HeaderPanel;
+                    item.FTabPanel = HeaderPanel;
                 }
             }
 
@@ -292,7 +292,7 @@ namespace HeBianGu.General.WpfControlLib
             //if (_buttonScrollRight != null) _buttonScrollRight.Click -= ButtonScrollRight_Click;
 
             base.OnApplyTemplate();
-            HeaderPanel = GetTemplateChild(HeaderPanelKey) as TabPanel;
+            HeaderPanel = GetTemplateChild(HeaderPanelKey) as FTabPanel;
 
             if (IsEnableTabFill) return;
 
@@ -376,7 +376,7 @@ namespace HeBianGu.General.WpfControlLib
                             list.Insert(0, actualItem);
                             if (IsEnableAnimation)
                             {
-                                HeaderPanel.SetCurrentValue(TabPanel.FluidMoveDurationProperty, new Duration(TimeSpan.FromMilliseconds(200)));
+                                HeaderPanel.SetCurrentValue(FTabPanel.FluidMoveDurationProperty, new Duration(TimeSpan.FromMilliseconds(200)));
                             }
                             else
                             {
@@ -538,26 +538,26 @@ namespace HeBianGu.General.WpfControlLib
         /// </summary>
         private double _scrollHorizontalOffset;
 
-        private TabPanel _tabPanel;
+        private FTabPanel _FTabPanel;
  
         /// <summary>
         ///     标签容器
         /// </summary>
-        internal TabPanel TabPanel
+        internal FTabPanel FTabPanel
         {
-            //get => _tabPanel ??= TabControlParent.HeaderPanel;
+            //get => _FTabPanel ??= TabControlParent.HeaderPanel;
             get
             {
-                if(_tabPanel==null)
+                if(_FTabPanel==null)
                 {
-                    _tabPanel = TabControlParent.HeaderPanel;
+                    _FTabPanel = TabControlParent.HeaderPanel;
                 }
 
-                return _tabPanel;
+                return _FTabPanel;
             }
             set
             {
-                _tabPanel = value;
+                _FTabPanel = value;
             }
         }
 
@@ -675,12 +675,12 @@ namespace HeBianGu.General.WpfControlLib
         private void UpdateItemOffsetX(int oldIndex)
         {
             if (!_isDragging) return;
-            var moveItem = TabPanel.ItemDic[CurrentIndex];
+            var moveItem = FTabPanel.ItemDic[CurrentIndex];
             moveItem.CurrentIndex -= CurrentIndex - oldIndex;
             var offsetX = moveItem.TargetOffsetX;
             var resultX = offsetX + (oldIndex - CurrentIndex) * ItemWidth;
-            TabPanel.ItemDic[CurrentIndex] = this;
-            TabPanel.ItemDic[moveItem.CurrentIndex] = moveItem;
+            FTabPanel.ItemDic[CurrentIndex] = this;
+            FTabPanel.ItemDic[moveItem.CurrentIndex] = moveItem;
             moveItem.CreateAnimation(offsetX, resultX);
         }
 
@@ -709,11 +709,11 @@ namespace HeBianGu.General.WpfControlLib
         {
             base.OnHeaderChanged(oldHeader, newHeader);
 
-            if (TabPanel != null)
+            if (FTabPanel != null)
             {
-                TabPanel.ForceUpdate = true;
+                FTabPanel.ForceUpdate = true;
                 InvalidateMeasure();
-                TabPanel.ForceUpdate = true;
+                FTabPanel.ForceUpdate = true;
             }
         }
 
@@ -731,7 +731,7 @@ namespace HeBianGu.General.WpfControlLib
 
             if (argsClosing.Cancel) return;
 
-            TabPanel.SetCurrentValue(TabPanel.FluidMoveDurationProperty, parent.IsEnableAnimation
+            FTabPanel.SetCurrentValue(FTabPanel.FluidMoveDurationProperty, parent.IsEnableAnimation
                     ? new Duration(TimeSpan.FromMilliseconds(200))
                     : new Duration(TimeSpan.FromMilliseconds(1)));
 
@@ -754,7 +754,7 @@ namespace HeBianGu.General.WpfControlLib
             if (parent.IsDraggable && !ItemIsDragging && !_isDragging)
             {
                 parent.UpdateScroll();
-                TabPanel.FluidMoveDuration = new Duration(TimeSpan.FromSeconds(0));
+                FTabPanel.FluidMoveDuration = new Duration(TimeSpan.FromSeconds(0));
                 _mouseDownOffsetX = RenderTransform.Value.OffsetX;
                 _scrollHorizontalOffset = parent.GetHorizontalOffset();
                 var mx = TranslatePoint(new Point(), parent).X + _scrollHorizontalOffset;
@@ -853,16 +853,16 @@ namespace HeBianGu.General.WpfControlLib
                 var item = parent.ItemContainerGenerator.ItemFromContainer(this);
                 if (item == null) return;
 
-                TabPanel.CanUpdate = false;
+                FTabPanel.CanUpdate = false;
                 parent.IsInternalAction = true;
 
                 list.Remove(item);
                 parent.IsInternalAction = true;
                 list.Insert(index, item);
-                TabPanel.CanUpdate = true;
-                TabPanel.ForceUpdate = true;
-                TabPanel.Measure(new Size(TabPanel.DesiredSize.Width, ActualHeight));
-                TabPanel.ForceUpdate = false;
+                FTabPanel.CanUpdate = true;
+                FTabPanel.ForceUpdate = true;
+                FTabPanel.Measure(new Size(FTabPanel.DesiredSize.Width, ActualHeight));
+                FTabPanel.ForceUpdate = false;
 
                 Focus();
                 IsSelected = true;
@@ -945,7 +945,7 @@ namespace HeBianGu.General.WpfControlLib
         }
     }
 
-    public class TabPanel : Panel
+    public class FTabPanel : Panel
     {
         private int _itemCount;
 
@@ -963,7 +963,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     流式行为持续时间
         /// </summary>
         public static readonly DependencyProperty FluidMoveDurationProperty = DependencyProperty.Register(
-            "FluidMoveDuration", typeof(Duration), typeof(TabPanel), new PropertyMetadata(new Duration(TimeSpan.FromMilliseconds(200))));
+            "FluidMoveDuration", typeof(Duration), typeof(FTabPanel), new PropertyMetadata(new Duration(TimeSpan.FromMilliseconds(200))));
 
         /// <summary>
         ///     流式行为持续时间
@@ -978,7 +978,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     是否将标签填充
         /// </summary>
         public static readonly DependencyProperty IsEnableTabFillProperty = DependencyProperty.Register(
-            "IsEnableTabFill", typeof(bool), typeof(TabPanel), new PropertyMetadata(false));
+            "IsEnableTabFill", typeof(bool), typeof(FTabPanel), new PropertyMetadata(false));
 
         /// <summary>
         ///     是否将标签填充
@@ -993,7 +993,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     标签宽度
         /// </summary>
         public static readonly DependencyProperty TabItemWidthProperty = DependencyProperty.Register(
-            "TabItemWidth", typeof(double), typeof(TabPanel), new PropertyMetadata(200.0));
+            "TabItemWidth", typeof(double), typeof(FTabPanel), new PropertyMetadata(200.0));
 
         /// <summary>
         ///     标签宽度
@@ -1008,7 +1008,7 @@ namespace HeBianGu.General.WpfControlLib
         ///     标签高度
         /// </summary>
         public static readonly DependencyProperty TabItemHeightProperty = DependencyProperty.Register(
-            "TabItemHeight", typeof(double), typeof(TabPanel), new PropertyMetadata(30.0));
+            "TabItemHeight", typeof(double), typeof(FTabPanel), new PropertyMetadata(30.0));
 
         /// <summary>
         ///     标签高度
@@ -1093,7 +1093,7 @@ namespace HeBianGu.General.WpfControlLib
             return _oldSize;
         }
 
-        public TabPanel()
+        public FTabPanel()
         {
             Loaded += (s, e) =>
             {
@@ -1103,7 +1103,7 @@ namespace HeBianGu.General.WpfControlLib
                 ForceUpdate = false;
                 foreach (var item in ItemDic.Values)
                 {
-                    item.TabPanel = this;
+                    item.FTabPanel = this;
                 }
                 _isLoaded = true;
             };
