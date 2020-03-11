@@ -1,0 +1,376 @@
+﻿<Page x:Class="HeBianGu.Application.BlurWindow.Pages.StoryBoardFromToPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:HeBianGu.Application.BlurWindow.Pages"
+      xmlns:wpfcontrollib="QQ:908293466"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="StoryBoardFromToPage">
+
+    <Grid>
+        <Grid.Resources>
+            <Style TargetType="wpfcontrollib:FButton" BasedOn="{StaticResource S.FButton.Style.Default}">
+                <Setter Property="Width" Value="400"/>
+                <Setter Property="Margin" Value="5"/>
+                <!--<Setter Property="RenderTransform" Value="{StaticResource }"-->
+            </Style>
+        </Grid.Resources>
+
+        <ScrollViewer>
+            <StackPanel>
+                <wpfcontrollib:Interaction.Behaviors>
+                    <wpfcontrollib:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>
+                    <wpfcontrollib:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="HorizontalAlignment" StartValue="-1000" EndValue="0" End="1" Split="0.2"/>
+                </wpfcontrollib:Interaction.Behaviors>
+
+                <GroupBox Header="From/To/By 动画类型">
+
+                    <StackPanel>
+                        <GroupBox Header="ColorAnimation">
+                            <wpfcontrollib:FButton Content="颜色渐变" Background="#ED4646">
+                                <wpfcontrollib:FButton.Triggers>
+                                    <EventTrigger RoutedEvent="Loaded">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ColorAnimation  Storyboard.TargetProperty="(Button.Background).(SolidColorBrush.Color)" RepeatBehavior="Forever" 
+                                                From="Green" To="#ED4646" Duration="0:0:2" AutoReverse="True"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </wpfcontrollib:FButton.Triggers>
+                            </wpfcontrollib:FButton>
+                        </GroupBox>
+
+                        <GroupBox Header="DoubleAnimation">
+                            <StackPanel>
+                                <wpfcontrollib:FButton Content="点击执行一次">
+                                    <wpfcontrollib:FButton.Triggers>
+                                        <EventTrigger RoutedEvent="Button.Click">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </wpfcontrollib:FButton.Triggers>
+                                </wpfcontrollib:FButton>
+
+                                <wpfcontrollib:FButton Content="循环执行 RepeatBehavior=Forever">
+                                    <wpfcontrollib:FButton.Triggers>
+                                        <EventTrigger RoutedEvent="Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)" RepeatBehavior="Forever"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </wpfcontrollib:FButton.Triggers>
+                                </wpfcontrollib:FButton>
+
+                                <wpfcontrollib:FButton Content="自动恢复循环执行 RepeatBehavior=Forever  AutoReverse=True">
+                                    <wpfcontrollib:FButton.Triggers>
+                                        <EventTrigger RoutedEvent="Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)" RepeatBehavior="Forever"  AutoReverse="True"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </wpfcontrollib:FButton.Triggers>
+                                </wpfcontrollib:FButton>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="ByteAnimation">
+
+                        </GroupBox>
+
+                        <GroupBox Header="DecimalAnimation">
+
+                        </GroupBox>
+
+                        <GroupBox Header="Int16Animation">
+
+                        </GroupBox>
+
+                        <GroupBox Header="Int32Animation">
+
+                        </GroupBox>
+
+                        <GroupBox Header="Int64Animation">
+
+                        </GroupBox>
+
+                        <GroupBox Header="PointAnimation">
+
+                        </GroupBox>
+
+                        
+                        <GroupBox Header="QuaternionAnimation 三维旋转">
+                            
+                        </GroupBox>
+
+                        <GroupBox Header="RectAnimation" Height="300">
+
+                            <StackPanel>
+                                <wpfcontrollib:FButton  Content="点击执行一次">
+                                    <wpfcontrollib:FButton.Triggers>
+                                        <EventTrigger RoutedEvent="Button.Click">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <RectAnimation From="0,0,10,10" To="500,50,100,100" Duration="0:0:5" Storyboard.TargetProperty="(RectangleGeometry.Rect)"  AutoReverse="True" Storyboard.TargetName="rect"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </wpfcontrollib:FButton.Triggers>
+                                </wpfcontrollib:FButton>
+
+                                <Canvas>
+                                    <Path Stroke="Red" StrokeThickness="5">
+                                        <Path.Data>
+                                            <RectangleGeometry x:Name="rect">
+                                                <RectangleGeometry.Rect>
+                                                    <Rect>0,0,150,80</Rect>
+                                                </RectangleGeometry.Rect>
+                                            </RectangleGeometry>
+                                        </Path.Data>
+                                    </Path>
+                                </Canvas>
+                            </StackPanel>
+                 
+                         
+                        </GroupBox>
+
+                        <GroupBox Header="Rotation3DAnimation">
+
+                        </GroupBox>
+
+                        <GroupBox Header="SingleAnimation">
+
+                   
+                        </GroupBox>
+
+                        <GroupBox Header="SizeAnimation">
+                       
+                        </GroupBox>
+
+                        <GroupBox Header="ThicknessAnimation">
+                            <wpfcontrollib:FButton Content="点击执行一次" >
+                                <wpfcontrollib:FButton.Triggers>
+                                    <EventTrigger RoutedEvent="Button.Click">
+                                        <BeginStoryboard>
+                                            <Storyboard>
+                                                <ThicknessAnimation From="000,0,0,0" To="400,0,0,0" Duration="0:0:0.3" AutoReverse="True" Storyboard.TargetProperty="(Button.Margin)"/>
+                                            </Storyboard>
+                                        </BeginStoryboard>
+                                    </EventTrigger>
+                                </wpfcontrollib:FButton.Triggers>
+                            </wpfcontrollib:FButton>
+                        </GroupBox>
+
+                        <GroupBox Header="Vector3DAnimation">
+
+                        </GroupBox>
+
+                        <GroupBox Header="VectorAnimation">
+
+                        </GroupBox>
+
+
+                   
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="EasingFunction 缓动函数">
+                    <StackPanel>
+                        <wpfcontrollib:FButton Content="ElasticEase：创建类似于弹簧来回直到静止的动画">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <ElasticEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+                        <wpfcontrollib:FButton Content="PowerEase：创建加速和/或减速使用的公式的动画f(t) = tp其中 p 等于Power属性。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <PowerEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+                        <wpfcontrollib:FButton Content="BackEase：略微收回动画的动作，然后再开始进行动画处理指示的路径中。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <BackEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="BounceEase：创建弹跳效果。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <BounceEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="CircleEase：创建加速和/或减速使用循环函数的动画。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CircleEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="QuadraticEase：创建加速和/或减速使用的公式的动画f(t) = t2。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuadraticEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="CubicEase：创建加速和/或减速使用的公式的动画f(t) = t3。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <CubicEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="QuarticEase：创建加速和/或减速使用的公式的动画f(t) = t4。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="QuinticEase：创建加速和/或减速使用的公式的动画f(t) = t5。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuinticEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="ExponentialEase：创建加速和/或减速使用指数公式的动画。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <ExponentialEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+
+
+                        <wpfcontrollib:FButton Content="SineEase：创建加速和/或减速使用正弦公式的动画。">
+                            <wpfcontrollib:FButton.Triggers>
+                                <EventTrigger RoutedEvent="Button.Click">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <SineEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </wpfcontrollib:FButton.Triggers>
+                        </wpfcontrollib:FButton>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>

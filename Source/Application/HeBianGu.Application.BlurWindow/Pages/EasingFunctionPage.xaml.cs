@@ -13,22 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Application.TouchWindow.View.Share
+namespace HeBianGu.Application.BlurWindow.Pages
 {
     /// <summary>
-    /// SexControl.xaml 的交互逻辑
+    /// EasingFunctionPage.xaml 的交互逻辑
     /// </summary>
-    public partial class SexControl : UserControl
+    public partial class EasingFunctionPage : Page
     {
-        public SexControl()
+        public EasingFunctionPage()
         {
             InitializeComponent();
-        }
-
-        /// <summary> 1 男 2 女 </summary>
-        public int GetResult()
-        {
-           return this.r_man.IsChecked.Value ? 1 : 2;
         }
     }
 }

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Application.TouchWindow.View.Loyout
+namespace HeBianGu.Application.BlurWindow.Pages
 {
     /// <summary>
-    /// BmiControl.xaml 的交互逻辑
+    /// StoryBoardFromToPage.xaml 的交互逻辑
     /// </summary>
-    public partial class BmiControl : UserControl
+    public partial class StoryBoardFromToPage : Page
     {
-        public BmiControl()
+        public StoryBoardFromToPage()
         {
             InitializeComponent();
         }

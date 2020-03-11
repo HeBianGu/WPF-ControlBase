@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Application.TouchWindow.View.Loyout
+namespace HeBianGu.Application.BlurWindow.Pages
 {
     /// <summary>
-    /// PressureControl.xaml 的交互逻辑
+    /// StoryBoardPathPage.xaml 的交互逻辑
     /// </summary>
-    public partial class PressureControl : UserControl
+    public partial class StoryBoardPathPage : Page
     {
-        public PressureControl()
+        public StoryBoardPathPage()
         {
             InitializeComponent();
         }
