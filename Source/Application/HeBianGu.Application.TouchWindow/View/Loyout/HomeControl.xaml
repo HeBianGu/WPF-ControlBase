@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="HeBianGu.Application.TouchWindow.View.Loyout.HomeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.Application.TouchWindow.View.Loyout"
+             xmlns:local1="clr-namespace:HeBianGu.Application.TouchWindow"
+             xmlns:h="QQ:908293466"
+             mc:Ignorable="d" Background="{DynamicResource S.Brush.Accent.Opacity.2}"
+             d:DesignHeight="450" d:DesignWidth="800">
+ 
+    
+    <Grid Margin="40,35">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="1*"/> 
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Text="{Binding SelectLink.Message,Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource C.FontSize.Small}"/>
+
+        <!--第一行-->
+        <StackPanel  HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" >
+            <local1:FButtonCountDown Content="重测"  Style="{StaticResource C.FButton.Tranparent}" IsActive="{Binding RunReMeasureEngine,Mode=TwoWay}" Command="{Binding RelayCommand}" CommandParameter="Button.Click.ReMeasure"/>
+            <local1:FButtonCountDown Content="下一项"  Style="{StaticResource C.FButton.Tranparent}" Command="{Binding RelayCommand}"  CommandParameter="Button.Click.Next" 
+                       Visibility="{Binding SelectLink.VisbleNext}" Width="150"
+                       IsActive="{Binding RunNextEngine,Mode=TwoWay}"/>
+
+            <local1:FButtonCountDown Content="提交" IsActive="{Binding RunSumitEngine,Mode=TwoWay}" Style="{StaticResource C.FButton.Tranparent}" Command="{Binding RelayCommand}" CommandParameter="Button.Click.Sumit"/>
+        </StackPanel>
+
+        <TextBlock Style="{StaticResource C.TextBlock.Title}"  Text="{Binding SelectLink.DisplayName,StringFormat={}{0:C}测量}" Foreground="{DynamicResource S.Brush.Accent}" FontWeight="Bold" VerticalAlignment="Top" Width="Auto"/>
+        
+        <!--第二行-->
+        <h:LinkActionFrame LinkAction="{Binding SelectLink}" Grid.Row="1"/>
+
+        <!--第三行-->
+        <ListBox ItemsSource="{Binding LinkActions}" Grid.Row="2"  SelectedItem="{Binding SelectLink}"  BorderBrush="Transparent">
+            <ItemsControl.Resources>
+                <DataTemplate DataType="{x:Type local1:LinkActionEntity}">
+                    <Grid  Margin="0,0,84,0">
+                        <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                            <TextBlock x:Name="txt_icon" Text="{Binding Logo}" Style="{StaticResource C.TextBlock.FIcon}" Margin="0,0,10,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="{StaticResource C.FontSize.Accent}"/>
+                            <TextBlock x:Name="txt_text"  Text="{Binding DisplayName}"  Style="{StaticResource C.TextBlock.Accent}"/>
+                        </StackPanel>
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Success}" Value="true">
+                            <Setter Property="TextBlock.Foreground" Value="{DynamicResource S.Brush.Accent}" TargetName="txt_icon"/>
+                            <Setter Property="TextBlock.Foreground" Value="{DynamicResource S.Brush.Accent}" TargetName="txt_text"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ItemsControl.Resources>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource S.ListBoxItem.Default}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="boder">
+                                    <ContentPresenter/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+            </ListBox.ItemContainerStyle>
+
+            <!--<h:Interaction.Triggers>
+                <h:EventTrigger EventName="SelectionChanged">
+                    <h:InvokeCommandAction Command="{Binding RelayCommand}" PassEventArgsToCommand="True" />
+                </h:EventTrigger>
+            </h:Interaction.Triggers>-->
+            
+        </ListBox>
+
+        <h:Interaction.Triggers>
+            <h:EventTrigger EventName="Loaded">
+                <h:InvokeCommandAction Command="{Binding LoadedCommand}" CommandParameter="Loaded"/>
+            </h:EventTrigger>
+        </h:Interaction.Triggers>
+    </Grid>
+</UserControl>

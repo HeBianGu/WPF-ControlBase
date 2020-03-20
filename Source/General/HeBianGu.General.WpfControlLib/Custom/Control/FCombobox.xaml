@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
                     xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase">
-    <Style TargetType="{x:Type local:FComboBox}">
+    <Style x:Key="S.FComboBox.Single" TargetType="{x:Type local:FComboBox}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"></Setter>
         <Setter Property="Background"  Value="{DynamicResource S.Brush.TextBackground.Default}"></Setter>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"></Setter>
@@ -16,20 +16,28 @@
         <Setter Property="base:ControlAttachProperty.CornerRadius" Value="2" />
         <Setter Property="BorderThickness"  Value="1"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
-        <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
-        <Setter Property="Padding" Value="5,0,0,0"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+        <Setter Property="Padding" Value="6,0,0,0"></Setter>
         <Setter Property="UseLayoutRounding" Value="True"></Setter>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"></Setter>
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontFamily" Value="{DynamicResource  S.FontFamily.Default}" />
+        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}" />
         <Setter Property="Opacity" Value="0.8" />
-        <Setter Property="Width" Value="Auto" />
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Width" Value="300" />
+        <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+        <Setter Property="Height" Value="{DynamicResource S.Window.Item.Height}" />
         <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,7,0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:FComboBox}">
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="25" />
+                        </Grid.ColumnDefinitions>
+
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="EditStates">
                                 <VisualState x:Name="Editable">
@@ -46,34 +54,66 @@
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
 
-                        <Border x:Name="bdrMain" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}">
+                        <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}"
+                                BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="3"
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" />
+
+                        <!--Label区域-->
+                        <ContentControl x:Name="Label" 
+                                            Template="{TemplateBinding base:ControlAttachProperty.LabelTemplate}" 
+                                            IsTabStop="False" IsHitTestVisible="False" 
+                                            Background="{TemplateBinding BorderBrush}"
+                                            Content="{TemplateBinding base:ControlAttachProperty.Label}" 
+                                            Margin="1,1,0,1"/>
+
+                        <!--下拉按钮-->
+                        <ToggleButton x:Name="PART_DropDownToggle" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" base:ControlAttachProperty.FIconSize="15"
+                                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                         base:ControlAttachProperty.FIconMargin="{TemplateBinding base:ControlAttachProperty.FIconMargin}"
+                                         Grid.Column="1"  Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent},
+                                         Converter={x:Static base:XConverter.TrueToFalseConverter},Mode=OneWay}"
+                                        Foreground="{TemplateBinding Foreground}" 
+                                         Background="{TemplateBinding base:ControlAttachProperty.FocusBackground}"/>
+
+                        <!--水印-->
+                        <Border Grid.Column="1">
+                            <TextBlock x:Name="Message"  Padding="0" Visibility="Collapsed" 
+                                       Text="{TemplateBinding base:ControlAttachProperty.Watermark}" 
+                                       Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" 
+                                       Opacity="{DynamicResource S.Opacity.Watermark}" HorizontalAlignment="Left" 
+                                       TextAlignment="Center" 
+                                       VerticalAlignment="Center" Margin="5,2,5,2" />
                         </Border>
 
-                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                          Margin="{TemplateBinding Padding}" x:Name="ContentSite"
-                                          VerticalAlignment="Center" Content="{TemplateBinding SelectionBoxItem}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                          ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" IsHitTestVisible="False" Opacity="0.8" />
-                        <!--下拉按钮-->
-                        <ToggleButton x:Name="ToggleButton" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" base:ControlAttachProperty.FIconSize="15"
-                              base:ControlAttachProperty.FIconMargin="{TemplateBinding base:ControlAttachProperty.FIconMargin}"
-                                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                         Grid.Column="1" Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent},
-                                          Converter={x:Static base:XConverter.TrueToFalseConverter},Mode=OneWay}"
-                                          Foreground="{TemplateBinding Foreground}" 
-                                          Background="{TemplateBinding base:ControlAttachProperty.FocusBackground}"/>
-
-                        <TextBlock x:Name="Message"  Padding="0" Visibility="Collapsed" 
-                                           Text="{TemplateBinding base:ControlAttachProperty.Watermark}" 
-                                           Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" 
-                                           Opacity="{DynamicResource S.Opacity.Watermark}" HorizontalAlignment="Left" 
-                                           TextAlignment="Center" 
-                                           VerticalAlignment="Center" Margin="5,2,5,2" />
-
-                        <local:FTextBox BorderThickness="0" Margin="0,0,25,0" Padding="{TemplateBinding Padding}" x:Name="PART_EditableTextBox"
-                                        VerticalAlignment="Center" Focusable="True" Visibility="Hidden" Background="Transparent"
-                                        BorderBrush="Transparent"  Foreground="{TemplateBinding Foreground}" IsReadOnly="{TemplateBinding IsReadOnly}" />
+                        <!--主内容区域-->
+                        <Grid Grid.Column="1" x:Name="ContentSite" Margin="{TemplateBinding Padding}" >
+                            <ContentPresenter x:Name="PART_SelectedItem" 
+                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                                  Content="{TemplateBinding SelectionBoxItem}" 
+                                                  ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                                  HorizontalAlignment="Stretch" Margin="2,0,2,0" 
+                                                  IsHitTestVisible="False" 
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <!--文本编辑-->
+                            <TextBox  x:Name="PART_EditableTextBox" 
+                                          Style="{DynamicResource EditableTextBoxStyle}" 
+                                          Visibility="Collapsed" 
+                                          HorizontalAlignment="Stretch" 
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                          IsHitTestVisible="True"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          IsReadOnly="{TemplateBinding IsReadOnly}" 
+                                          FontFamily="{TemplateBinding FontFamily}" 
+                                          Foreground="{TemplateBinding Foreground}"
+                                          Background="{TemplateBinding Background}"
+                                          Text="{TemplateBinding Text}" 
+                                          FontSize="{TemplateBinding FontSize}" />
+                        </Grid>
 
                         <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="Popup" Focusable="False" AllowsTransparency="True" PopupAnimation="Slide">
                             <Grid MinWidth="{TemplateBinding ActualWidth}" x:Name="DropDown">
@@ -107,14 +147,15 @@
                         </Popup>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Opacity"  Value="1"></Setter>
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="False">
-                            <Setter Property="Opacity" Value="0.9"></Setter>
-                        </Trigger>
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter Property="Opacity" Value="1"></Setter>
+                        <!--编辑模式-->
+                        <Trigger Property="IsEditable" Value="True">
+                            <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="PART_SelectedItem" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="PART_DropDownToggle" Property="Grid.Column" Value="3" />
+                            <Setter TargetName="PART_DropDownToggle" Property="Grid.ColumnSpan" Value="1" />
+                            <Setter TargetName="PART_DropDownToggle" Property="Background" Value="Transparent" />
+                            <Setter Property="IsTabStop" Value="false" />
+                            <Setter TargetName="PART_DropDownToggle" Property="Focusable" Value="False" />
                         </Trigger>
                         <!--1.显示水印-->
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
@@ -123,26 +164,25 @@
 
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                            <!--<Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                            <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                            <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
                             <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                            <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>-->
+                            <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <!--<Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>-->
+                            <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
                             <Setter  Property="BorderBrush"  Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
                         </Trigger>
                         <Trigger Property="IsKeyboardFocusWithin" Value="True">
                             <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                            <!--<Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
-                            <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
-                            <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>-->
+                            <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
+                            <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>
+
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
     </Style>
 
     <Style TargetType="{x:Type local:FComboBoxItem}">
@@ -185,4 +225,18 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="{x:Type local:FComboBox}" x:Key="S.FComboBox.Single.Label" BasedOn="{StaticResource S.FComboBox.Single}">
+        <Setter Property="Width" Value="300"></Setter>
+        <Setter Property="base:ControlAttachProperty.LabelTemplate" >
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border MinWidth="70" Margin="3">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:FComboBox}"  BasedOn="{StaticResource S.FComboBox.Single}"/>
 </ResourceDictionary>

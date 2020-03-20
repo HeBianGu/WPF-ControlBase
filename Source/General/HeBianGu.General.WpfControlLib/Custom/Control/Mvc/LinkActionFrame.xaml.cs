@@ -93,6 +93,7 @@ namespace HeBianGu.General.WpfControlLib
                           this.Content = result?.View;
                       }
 
+                      //this.Content = result?.View;
                   }));
 
                 // this.Dispatcher.Invoke(() =>

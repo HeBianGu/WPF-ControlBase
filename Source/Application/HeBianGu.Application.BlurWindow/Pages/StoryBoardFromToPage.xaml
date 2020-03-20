@@ -104,12 +104,108 @@
                         </GroupBox>
 
                         <GroupBox Header="PointAnimation">
+                            <StackPanel>
+                                <UniformGrid Columns="1">
+                                    <Path Fill="Red" Stroke="Yellow" Height="300">
+                                        <Path.Data>
+                                            <EllipseGeometry x:Name="geo" RadiusX="100" RadiusY="50">
+                                                <EllipseGeometry.Center>
+                                                    <Point X="150" Y="50"/>
+                                                </EllipseGeometry.Center>
+                                            </EllipseGeometry>
+                                        </Path.Data>
 
+                                        <Path.Triggers>
+                                            <EventTrigger RoutedEvent="Loaded">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <PointAnimation From="150,50" To="800,150" Duration="0:0:2" Storyboard.TargetProperty="Center"  
+                                                                        AutoReverse="True" RepeatBehavior="Forever" Storyboard.TargetName="geo"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Path.Triggers>
+                                    </Path>
+
+                                    <Ellipse  Stroke="Black">
+                                        <Ellipse.Fill>
+                                            <LinearGradientBrush x:Name="linear" StartPoint="1,1" EndPoint="0,0">
+                                                <GradientStop Color="Black" Offset="0" />
+                                                <GradientStop Color="Green" Offset="1" />
+                                            </LinearGradientBrush>
+                                        </Ellipse.Fill>
+
+                                        <Ellipse.Triggers>
+                                            <EventTrigger RoutedEvent="Loaded">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <PointAnimation From="1,1" To="0.5,0.5" Duration="0:0:2" Storyboard.TargetProperty="StartPoint"  
+                                                                        AutoReverse="True" RepeatBehavior="Forever" Storyboard.TargetName="linear"/>
+
+                                                        <!--<PointAnimation From="0,0" To="0.5,0.5" Duration="0:0:2" Storyboard.TargetProperty="EndPoint"  
+                                                                        AutoReverse="True" RepeatBehavior="Forever" Storyboard.TargetName="linear"/>-->
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Ellipse.Triggers>
+                                    </Ellipse>
+
+                                    <Ellipse>
+                                        <Ellipse.Fill>
+                                            <RadialGradientBrush x:Name="radial" GradientOrigin="0.5,0.5">
+                                                <GradientStop Color="Green" Offset="-0.2"/>
+                                                <GradientStop Color="Black" Offset="1" />
+                                            </RadialGradientBrush>
+                                        </Ellipse.Fill>
+
+                                        <Ellipse.Triggers>
+                                            <EventTrigger RoutedEvent="Loaded">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <PointAnimation From="-0.2,-0.2" To="1.2,1.2" Duration="0:0:5" Storyboard.TargetProperty="GradientOrigin"  
+                                                                        AutoReverse="True" RepeatBehavior="Forever" Storyboard.TargetName="radial"/>
+
+                                                        <PointAnimation From="-0.2,-0.2" To="1.2,1.2" Duration="0:0:5" Storyboard.TargetProperty="Center"  
+                                                                        AutoReverse="True" RepeatBehavior="Forever" Storyboard.TargetName="radial"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Ellipse.Triggers>
+                                    </Ellipse>
+
+                                    <Ellipse x:Name="eclipse"  Fill="Green" Width="100" Height="300">
+                                        <Ellipse.RenderTransform>
+                                            <RotateTransform x:Name="rotate" CenterX="0.5" CenterY="0.5" Angle="55"/>
+                                        </Ellipse.RenderTransform>
+                                        <Ellipse.RenderTransformOrigin>
+                                            <Point X="0.5" Y="0.5"/>
+                                        </Ellipse.RenderTransformOrigin>
+
+                                        <Ellipse.Triggers>
+                                            <EventTrigger RoutedEvent="Loaded">
+                                                <BeginStoryboard>
+                                                    <Storyboard>
+                                                        <!--<PointAnimation From="-0.2,-0.2" To="1.2,1.2" Duration="0:0:5" Storyboard.TargetProperty="GradientOrigin"  
+                                                                        AutoReverse="True" RepeatBehavior="Forever" Storyboard.TargetName="radial"/>-->
+
+                                                        <DoubleAnimation From="0" To="360" Duration="0:0:5" Storyboard.TargetProperty="Angle"  
+                                                                        AutoReverse="True" RepeatBehavior="Forever" Storyboard.TargetName="rotate"/>
+
+                                                        <PointAnimation From="0,0" To="1,1" Duration="0:0:5" Storyboard.TargetProperty="RenderTransformOrigin"  
+                                                                        AutoReverse="True" RepeatBehavior="Forever" Storyboard.TargetName="eclipse"/>
+                                                    </Storyboard>
+                                                </BeginStoryboard>
+                                            </EventTrigger>
+                                        </Ellipse.Triggers>
+                                    </Ellipse>
+
+                                </UniformGrid>
+                            </StackPanel>
                         </GroupBox>
 
-                        
+
                         <GroupBox Header="QuaternionAnimation 三维旋转">
-                            
+
                         </GroupBox>
 
                         <GroupBox Header="RectAnimation" Height="300">
@@ -139,8 +235,8 @@
                                     </Path>
                                 </Canvas>
                             </StackPanel>
-                 
-                         
+
+
                         </GroupBox>
 
                         <GroupBox Header="Rotation3DAnimation">
@@ -149,11 +245,11 @@
 
                         <GroupBox Header="SingleAnimation">
 
-                   
+
                         </GroupBox>
 
                         <GroupBox Header="SizeAnimation">
-                       
+
                         </GroupBox>
 
                         <GroupBox Header="ThicknessAnimation">
@@ -178,196 +274,6 @@
 
                         </GroupBox>
 
-
-                   
-                    </StackPanel>
-                </GroupBox>
-
-                <GroupBox Header="EasingFunction 缓动函数">
-                    <StackPanel>
-                        <wpfcontrollib:FButton Content="ElasticEase：创建类似于弹簧来回直到静止的动画">
-                            <wpfcontrollib:FButton.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <ElasticEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </wpfcontrollib:FButton.Triggers>
-                        </wpfcontrollib:FButton>
-
-                        <wpfcontrollib:FButton Content="PowerEase：创建加速和/或减速使用的公式的动画f(t) = tp其中 p 等于Power属性。">
-                            <wpfcontrollib:FButton.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <PowerEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </wpfcontrollib:FButton.Triggers>
-                        </wpfcontrollib:FButton>
-
-                        <wpfcontrollib:FButton Content="BackEase：略微收回动画的动作，然后再开始进行动画处理指示的路径中。">
-                            <wpfcontrollib:FButton.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <BackEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </wpfcontrollib:FButton.Triggers>
-                        </wpfcontrollib:FButton>
-
-
-                        <wpfcontrollib:FButton Content="BounceEase：创建弹跳效果。">
-                            <wpfcontrollib:FButton.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <BounceEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </wpfcontrollib:FButton.Triggers>
-                        </wpfcontrollib:FButton>
-
-
-                        <wpfcontrollib:FButton Content="CircleEase：创建加速和/或减速使用循环函数的动画。">
-                            <wpfcontrollib:FButton.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <CircleEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </wpfcontrollib:FButton.Triggers>
-                        </wpfcontrollib:FButton>
-
-
-                        <wpfcontrollib:FButton Content="QuadraticEase：创建加速和/或减速使用的公式的动画f(t) = t2。">
-                            <wpfcontrollib:FButton.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <QuadraticEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </wpfcontrollib:FButton.Triggers>
-                        </wpfcontrollib:FButton>
-
-
-                        <wpfcontrollib:FButton Content="CubicEase：创建加速和/或减速使用的公式的动画f(t) = t3。">
-                            <wpfcontrollib:FButton.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <CubicEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </wpfcontrollib:FButton.Triggers>
-                        </wpfcontrollib:FButton>
-
-
-                        <wpfcontrollib:FButton Content="QuarticEase：创建加速和/或减速使用的公式的动画f(t) = t4。">
-                            <wpfcontrollib:FButton.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <QuarticEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </wpfcontrollib:FButton.Triggers>
-                        </wpfcontrollib:FButton>
-
-
-                        <wpfcontrollib:FButton Content="QuinticEase：创建加速和/或减速使用的公式的动画f(t) = t5。">
-                            <wpfcontrollib:FButton.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <QuinticEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </wpfcontrollib:FButton.Triggers>
-                        </wpfcontrollib:FButton>
-
-
-                        <wpfcontrollib:FButton Content="ExponentialEase：创建加速和/或减速使用指数公式的动画。">
-                            <wpfcontrollib:FButton.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <ExponentialEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </wpfcontrollib:FButton.Triggers>
-                        </wpfcontrollib:FButton>
-
-
-                        <wpfcontrollib:FButton Content="SineEase：创建加速和/或减速使用正弦公式的动画。">
-                            <wpfcontrollib:FButton.Triggers>
-                                <EventTrigger RoutedEvent="Button.Click">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="400" To="800" Duration="0:0:5" Storyboard.TargetProperty="(Button.Width)">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <SineEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
-                                </EventTrigger>
-                            </wpfcontrollib:FButton.Triggers>
-                        </wpfcontrollib:FButton>
                     </StackPanel>
                 </GroupBox>
             </StackPanel>

@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="HeBianGu.Application.TouchWindow.View.Share.SexControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.Application.TouchWindow.View.Share"
+             xmlns:h="QQ:908293466"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800" Height="580">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition  Height="6*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="0" Text="请点击选择您的性别，便于准确测量" TextWrapping="Wrap" Foreground="{DynamicResource S.Brush.TextForeground.White}" FontSize="{StaticResource C.FontSize.Title}"/>
+
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+            <RadioButton x:Name="r_man" Width="Auto" Height="Auto" IsChecked="True">
+                <RadioButton.Template>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Image Source="/HeBianGu.Application.TouchWindow;component/Resources/男.png" Width="160" Height="250"/>
+                            <TextBlock Text="男" Grid.Row="1" Style="{StaticResource C.TextBlock.Title}" HorizontalAlignment="Center" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+                            <Image Source="/HeBianGu.Application.TouchWindow;component/Resources/勾1.png" Visibility="{TemplateBinding IsChecked,Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" Width="30" Height="30" Grid.Row="1" Margin="50,50,0,0"/>
+                        </Grid> 
+                    </ControlTemplate>
+                </RadioButton.Template>
+            </RadioButton>
+
+            <RadioButton Width="Auto" Height="Auto" Margin="180,0,0,0">
+                <RadioButton.Template>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Image Source="/HeBianGu.Application.TouchWindow;component/Resources/女.png" Width="160" Height="250"/>
+                            <TextBlock Text="女" Grid.Row="1" Style="{StaticResource C.TextBlock.Title}" Foreground="{DynamicResource S.Brush.TextForeground.White}" HorizontalAlignment="Center"/>
+                            <Image Source="/HeBianGu.Application.TouchWindow;component/Resources/勾1.png" Visibility="{TemplateBinding IsChecked,Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" Width="30" Height="30" Grid.Row="1" Margin="50,50,0,0"/>
+                        </Grid>
+                    </ControlTemplate>
+                </RadioButton.Template>
+            </RadioButton>
+        </StackPanel>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3">
+            <h:FButton Content="跳过测量" Margin="0,0,130,0"  Style="{StaticResource C.FButton.Cancel}" Command="{x:Static h:DialogHost.CloseDialogCommand}">
+                <h:FButton.CommandParameter>
+                    <system:Boolean>false</system:Boolean>
+                </h:FButton.CommandParameter>
+            </h:FButton>
+            <h:FButton Content="确定" Style="{StaticResource C.FButton.Default}" Command="{x:Static h:DialogHost.CloseDialogCommand}">
+                <h:FButton.CommandParameter>
+                    <system:Boolean>true</system:Boolean>
+                </h:FButton.CommandParameter>
+            </h:FButton>
+        </StackPanel>
+    </Grid>
+</UserControl>
