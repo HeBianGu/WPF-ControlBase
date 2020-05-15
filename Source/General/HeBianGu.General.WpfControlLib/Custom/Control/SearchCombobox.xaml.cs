@@ -190,6 +190,7 @@ namespace HeBianGu.General.WpfControlLib
 
             foreach (var item in enumerable)
             {
+                
                 temp1 = item.GetType().GetProperty(displayPath).GetValue(item, null).ToString();
 
                 if (string.IsNullOrEmpty(selectPath))
