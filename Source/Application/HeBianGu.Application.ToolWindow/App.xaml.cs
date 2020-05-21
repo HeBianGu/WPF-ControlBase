@@ -29,14 +29,16 @@ namespace HeBianGu.Application.ToolWindow
 
         protected override void ConfigureServices(IServiceCollection services)
         {
+            //  Do ：注入领域模型服务
+            services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
+
             //  Do：注册Mvc模式
             services.UseMvc();
 
             //  Do ：注册本地化配置读写服务
             services.AddSingleton<IThemeLocalizeService, LocalizeService>();
 
-            //  Do ：注入领域模型服务
-            services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
+
 
             ////  Do ：注册日志服务
             //services.AddSingleton<ILogService, AssemblyDomain>();

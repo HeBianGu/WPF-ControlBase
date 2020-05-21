@@ -118,5 +118,10 @@ namespace HeBianGu.General.WpfControlLib
         public string DisplayName { get; set; }
 
         public Action Action { get; set; }
+
+        public void DoAction()
+        {
+            this.Action?.Invoke();
+        }
     }
 }

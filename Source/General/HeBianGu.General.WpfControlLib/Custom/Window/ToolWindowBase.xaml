@@ -12,7 +12,7 @@
     <Style x:Key="S.Window.Tool.Default" TargetType="{x:Type local:ToolWindowBase}">
         <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.2}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="FontSize" Value="8"/>
+        <Setter Property="FontSize" Value="{DynamicResource S.FIcon.Size.Default}"/>
         <Setter Property="FontFamily" Value="{DynamicResource S.FontFamily.Default}"/>
         <Setter Property="Width" Value="480"/>
         <Setter Property="Height" Value="320"/>
@@ -117,7 +117,7 @@
 
                                         <local:FButton x:Name="btnClose" Width="{DynamicResource S.Window.Item.Height}" Margin="2,0" FIconSize="15" Foreground="{DynamicResource S.Brush.TextForeground.White}"
                          MouseOverBackground="Red" MouseOverForeground="{DynamicResource S.Brush.TextForeground.White}"  PressedForeground="{DynamicResource S.Brush.TextForeground.White}"
-                         AllowsAnimation="True"  FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}"
+                         AllowsAnimation="True"  FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}" 
                          Command="{Binding Path=CloseWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
                                     </StackPanel>
 
@@ -125,8 +125,27 @@
                                         <Image Margin="5,20" Source="{TemplateBinding Logo}" />
                                     </StackPanel>
 
-                                    <ListBox Height="{DynamicResource S.Window.Row.Height}" Grid.Row="2" BorderThickness="0" Background="{DynamicResource S.Brush.Accent.Opacity.5}" ItemsSource="{TemplateBinding ClickActions}">
-
+                                    <!--工具菜单栏-->
+                                    <ListBox Height="{DynamicResource S.Window.Row.Height}" Grid.Row="2"  WindowChrome.IsHitTestVisibleInChrome="True" BorderThickness="0" Background="{DynamicResource S.Brush.Accent.Opacity.5}" ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=ClickActions}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type local:ClickAction}">
+                                                <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}" 
+                                                               Foreground="{DynamicResource S.Brush.TextForeground.White.Opacity.4}" 
+                                                               MouseOverForeground="{DynamicResource S.Brush.TextForeground.White}" 
+                                                               FIcon="{Binding Logo}" ToolTip="{Binding DisplayName}">
+                                                    <base:Interaction.Triggers>
+                                                        <base:EventTrigger EventName="Click">
+                                                            <base:CallMethodAction MethodName="DoAction" TargetObject="{Binding}"/>
+                                                        </base:EventTrigger>
+                                                    </base:Interaction.Triggers>
+                                                </local:FButton>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center"/>
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
                                     </ListBox>
                                 </Grid>
                             </Border>
@@ -152,24 +171,19 @@
                                         </FrameworkElement.ContextMenu>
                                     </local:NotifyIcon>
 
-
-
-
                                     <ListBox x:Name="list"  Grid.Column="0" Background="{DynamicResource S.Brush.White.Opactiy.6}"
-                        BorderBrush="Transparent" SelectedIndex="0" Style="{DynamicResource S.ListBox.Sinple}" 
+                        BorderBrush="Transparent" SelectedIndex="0" Style="{DynamicResource S.ListBox.Sinple}" Foreground="{DynamicResource S.Brush.TextForeground.Title}"
                         SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}"
-                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks}" Margin="2,1,0,1"
-                        WindowChrome.IsHitTestVisibleInChrome="True" >
-
-
+                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks}" Margin="2,1,2,1"
+                        WindowChrome.IsHitTestVisibleInChrome="True">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate DataType="{x:Type local:LinkAction}">
                                                 <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=Width}">
-                                                    <Border x:Name="border" CornerRadius="5" Margin="5">
-                                                        <Grid Margin="10">
+                                                    <Border x:Name="border" CornerRadius="5" Margin="2">
+                                                        <Grid Margin="2,10">
                                                             <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                                 <TextBlock x:Name="icon" Style="{DynamicResource FIcon}" Text="{Binding Logo}" HorizontalAlignment="Center" Margin="-10,0" VerticalAlignment="Center"/>
-                                                                <TextBlock x:Name="txt" Text="{Binding DisplayName}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-10,0"/>
+                                                                <TextBlock x:Name="txt" Text="{Binding DisplayName}" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="-10,0"/>
                                                             </StackPanel>
                                                         </Grid>
                                                     </Border>
@@ -194,9 +208,9 @@
                                     <local:DrawerHost HorizontalContentAlignment="Stretch" Grid.Column="1">
                                         <Grid>
                                             <!--整体消息弹出-->
-                                            <local:DialogHost Identifier="windowDialog" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-3,0,-3,-3">
+                                            <local:DialogHost Identifier="windowDialog" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,1,2,1">
                                                 <Grid>
-                                                    <local:LinkActionFrame UseRandomWipe="False" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}"/>
+                                                    <local:LinkActionFrame UseRandomWipe="False" Background="{DynamicResource S.Brush.White.Opactiy.4}" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}"/>
 
                                                     <!--第一次蒙版-->
                                                     <local:ModernFrame  Visibility="Collapsed"  x:Name="PART_SettingFrame">

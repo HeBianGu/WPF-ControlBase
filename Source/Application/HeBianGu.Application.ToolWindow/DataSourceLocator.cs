@@ -17,5 +17,6 @@ namespace HeBianGu.Application.ToolWindow
         }
 
         public ShellViewModel ShellViewModel => ServiceRegistry.Instance.GetInstance<ShellViewModel>();
+
     }
 }

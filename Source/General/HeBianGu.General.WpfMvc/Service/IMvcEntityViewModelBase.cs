@@ -6,6 +6,6 @@ namespace HeBianGu.General.WpfMvc
     {
         M AddItem { get; set; }
         ObservableCollection<M> Collection { get; set; }
-        M SeletItem { get; set; }
+        M SelectedItem { get; set; }
     }
 }

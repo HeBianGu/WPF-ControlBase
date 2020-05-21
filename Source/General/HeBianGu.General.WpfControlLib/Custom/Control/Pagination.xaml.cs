@@ -397,4 +397,104 @@ namespace HeBianGu.General.WpfControlLib
 
         public T Info { get; set; }
     }
+
+    /// <summary> 翻页控件绑定项 </summary>
+    public class DataPageViewModel : NotifyPropertyChanged
+    {
+        private int _minValue = 0;
+        /// <summary> 当前页最小值  </summary>
+        public int MinValue
+        {
+            get { return _minValue; }
+            set
+            {
+                _minValue = value;
+                RaisePropertyChanged("MinValue");
+            }
+        }
+
+        private int _maxValue = 0;
+        /// <summary> 当前页最大值  </summary>
+        public int MaxValue
+        {
+            get { return _maxValue; }
+            set
+            {
+                _maxValue = value;
+                RaisePropertyChanged("MaxValue");
+            }
+        }
+
+
+        private int _total = 0;
+        /// <summary> 总数  </summary>
+        public int Total
+        {
+            get { return _total; }
+            set
+            {
+                _total = value;
+                RaisePropertyChanged("Total");
+            }
+        }
+
+        private int _totalPage = 0;
+        /// <summary> 总页数  </summary>
+        public int TotalPage
+        {
+            get { return _totalPage; }
+            set
+            {
+                _totalPage = value;
+                RaisePropertyChanged("TotalPage");
+            }
+        }
+
+
+        private int _pageIndex = 0;
+        /// <summary> 当前页索引  </summary>
+        public int PageIndex
+        {
+            get { return _pageIndex; }
+            set
+            {
+                _pageIndex = value;
+
+                RaisePropertyChanged("PageIndex");
+
+                this.Refresh();
+            }
+        }
+
+        /// <summary> 每页的容量 </summary>
+        public int Capacity { get; set; } = 10;
+
+        /// <summary> 初始化 </summary>
+        public void Init(int total)
+        {
+            this.Total = total;
+
+            this.TotalPage = total / Capacity + (total % Capacity > 0 ? 1 : 0);
+
+            this.PageIndex = 1;
+        }
+
+        /// <summary> 刷新页 </summary>
+        void Refresh()
+        {
+            this.MinValue = this.PageIndex * this.Capacity - this.Capacity + 1;
+
+            this.MaxValue = (this.MinValue + this.Capacity) > this.Total ? this.Total : this.MinValue + this.Capacity - 1;
+        }
+
+        /// <summary> 清理数据 </summary>
+        public void Clear()
+        {
+            this.Total = 0;
+            this.PageIndex = 0;
+            this.MaxValue = 0;
+            this.MinValue = 0;
+            this.TotalPage = 0;
+        }
+    }
 }

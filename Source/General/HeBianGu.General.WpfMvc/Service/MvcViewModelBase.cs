@@ -164,15 +164,15 @@ namespace HeBianGu.General.WpfMvc
             }
         }
 
-        private M _seletItem;
+        private M _selectedItem;
         /// <summary> 选中的实体  </summary>
-        public M SeletItem
+        public M SelectedItem
         {
-            get { return _seletItem; }
+            get { return _selectedItem; }
             set
             {
-                _seletItem = value;
-                RaisePropertyChanged("SeletItem");
+                _selectedItem = value;
+                RaisePropertyChanged("SelectedItem");
             }
         }
     }
