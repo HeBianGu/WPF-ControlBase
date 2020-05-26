@@ -346,7 +346,7 @@ namespace HeBianGu.General.WpfControlLib
         public WindowBase()
         {
             this.WindowStyle = WindowStyle.None;
-            this.AllowsTransparency = true;
+            //this.AllowsTransparency = true;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             // Todo ：初始化动画变量 
