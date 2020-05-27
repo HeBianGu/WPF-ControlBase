@@ -76,11 +76,11 @@ namespace HeBianGu.Domain.MvcRespository
 
         public virtual async Task<IActionResult> Delete()
         {
-            await this.Respository.DeleteAsync(this.ViewModel.SeletItem?.Model.ID);
+            await this.Respository.DeleteAsync(this.ViewModel.SelectedItem?.Model.ID);
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this.ViewModel.Collection.Remove(this.ViewModel.SeletItem);
+                this.ViewModel.Collection.Remove(this.ViewModel.SelectedItem);
             });
 
             return await List();
@@ -90,12 +90,12 @@ namespace HeBianGu.Domain.MvcRespository
         {
             string message;
 
-            if (!this.ModelState(this.ViewModel.SeletItem, out message))
+            if (!this.ModelState(this.ViewModel.SelectedItem, out message))
             {
                 return await Edit();
             }
 
-            await this.Respository.UpdateAsync(this.ViewModel.SeletItem?.Model);
+            await this.Respository.UpdateAsync(this.ViewModel.SelectedItem?.Model);
 
             return await List();
         }
@@ -169,11 +169,11 @@ namespace HeBianGu.Domain.MvcRespository
 
         public virtual async Task<IActionResult> Delete()
         {
-            await this.Respository.DeleteAsync(this.ViewModel.SeletItem?.ID);
+            await this.Respository.DeleteAsync(this.ViewModel.SelectedItem?.ID);
 
             Application.Current.Dispatcher.Invoke(() =>
             {
-                this.ViewModel.Collection.Remove(this.ViewModel.SeletItem);
+                this.ViewModel.Collection.Remove(this.ViewModel.SelectedItem);
             });
 
             return await List();
@@ -183,12 +183,12 @@ namespace HeBianGu.Domain.MvcRespository
         {
             string message;
 
-            if (!this.ModelState(this.ViewModel.SeletItem, out message))
+            if (!this.ModelState(this.ViewModel.SelectedItem, out message))
             {
                 return await Edit();
             }
 
-            await this.Respository.UpdateAsync(this.ViewModel.SeletItem);
+            await this.Respository.UpdateAsync(this.ViewModel.SelectedItem);
 
             return await List();
         }

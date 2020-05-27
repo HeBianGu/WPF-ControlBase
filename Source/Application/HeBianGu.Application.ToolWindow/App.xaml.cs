@@ -60,7 +60,7 @@ namespace HeBianGu.Application.ToolWindow
                 l.RowHeight = 40;
                 l.ItemCornerRadius = new CornerRadius(17.5);
 
-                l.AnimalSpeed = 1000;
+                l.AnimalSpeed = 500;
                 l.AccentColorSelectType = 0;
                 l.IsUseAnimal = true;
 
