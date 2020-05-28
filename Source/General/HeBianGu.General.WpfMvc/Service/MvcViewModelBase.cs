@@ -135,6 +135,18 @@ namespace HeBianGu.General.WpfMvc
                 RaisePropertyChanged("Navigation");
             }
         }
+
+        /// <summary> 异步运行 </summary>
+        public async void RunAsync(Action action)
+        {
+           await Task.Run(action);
+        }
+
+        /// <summary> 使用主线程运行 </summary>
+        public void Invoke(Action action)
+        {
+            Application.Current.Dispatcher.Invoke(action);
+        }
     }
 
     /// <summary> 带有封装好集合实体的基类 </summary>
@@ -181,6 +193,24 @@ namespace HeBianGu.General.WpfMvc
     public class MvcViewModelBase<R, M> : MvcEntityViewModelBase<M> where M : new()
     {
         public R Respository { get; set; } = ServiceRegistry.Instance.GetInstance<R>();
+    }
+
+    /// <summary> 带有依赖注入Respository的基类 </summary>
+    public class MvcViewModelBase<R1, R2, M> : MvcViewModelBase<R1, M> where M : new()
+    {
+        public R2 Respository2 { get; set; } = ServiceRegistry.Instance.GetInstance<R2>();
+    }
+
+    /// <summary> 带有依赖注入Respository的基类 </summary>
+    public class MvcViewModelBase<R1, R2, R3, M> : MvcViewModelBase<R1, R2, M> where M : new()
+    {
+        public R3 Respository3 { get; set; } = ServiceRegistry.Instance.GetInstance<R3>();
+    }
+
+    /// <summary> 带有依赖注入Respository的基类 </summary>
+    public class MvcViewModelBase<R1, R2,R3,R4, M> : MvcViewModelBase<R1, R2, R3, M> where M : new()
+    {
+        public R4 Respository4 { get; set; } = ServiceRegistry.Instance.GetInstance<R4>();
     }
 
 }

@@ -29,6 +29,7 @@ namespace HeBianGu.General.WpfControlLib
             this.ConfigureServices(this.IServiceCollection);
         }
 
+        /// <summary> 异步线程抛出没有补货的异常 </summary>
         private void TaskScheduler_UnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs e)
         {
             StringBuilder sb = new StringBuilder();
@@ -45,7 +46,7 @@ namespace HeBianGu.General.WpfControlLib
             this.ILogger?.Error("Task Exception");
             this.ILogger?.Error(sb.ToString());
 
-            Current.Dispatcher.Invoke(() => MessageWindow.ShowSumit(sb.ToString(), "系统异常", 5));
+            Current.Dispatcher.Invoke(() => MessageWindow.ShowSumit(sb.ToString(), "系统任务异常", 5));
         }
 
         protected override void OnStartup(StartupEventArgs e)

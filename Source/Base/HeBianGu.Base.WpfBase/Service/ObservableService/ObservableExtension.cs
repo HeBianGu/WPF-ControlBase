@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace HeBianGu.Base.WpfBase
 {
@@ -25,6 +27,7 @@ namespace HeBianGu.Base.WpfBase
                 source.Add(sortedItem);
         }
 
+        
         public static void SortDesc<TSource, TKey>(this Collection<TSource> source, Func<TSource, TKey> keySelector)
         {
             List<TSource> sortedList = source.OrderByDescending(keySelector).ToList();
@@ -33,6 +36,7 @@ namespace HeBianGu.Base.WpfBase
                 source.Add(sortedItem);
         }
 
+        /// <summary> 排序 </summary>
         public static void Sort<T>(this ObservableCollection<T> collection) where T : IComparable
         {
             List<T> sortedList = collection.OrderBy(x => x).ToList();
@@ -42,6 +46,7 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
+        /// <summary> 转成 ObservableCollection 集合 </summary>
         public static ObservableCollection<T> ToObservable<T>(this IEnumerable<T> collection)
         {
 
@@ -53,7 +58,20 @@ namespace HeBianGu.Base.WpfBase
             return new ObservableCollection<T>(collection);
 
         }
+        /// <summary> 调用主线程执行Action </summary>
+        public static void Invoke<T>(this ObservableCollection<T> collection, Action<ObservableCollection<T>> action)
+        {
+            Application.Current.Dispatcher.Invoke(() => action(collection));
 
+        }
+        /// <summary> 调用主线程执行Action </summary>
+        public static void BeginInvoke<T>(this ObservableCollection<T> collection, Action<ObservableCollection<T>> action)
+        {
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle,new Action(() => action(collection)));
+
+        }
+
+        /// <summary> 更新集合 通知UI </summary>
         public static void Refresh<T>(this ObservableCollection<T> collection)
         {
 
@@ -69,7 +87,7 @@ namespace HeBianGu.Base.WpfBase
             collection = new ObservableCollection<T>(collection);
         }
 
-
+        /// <summary> 对集合中的 每一项执行Action </summary>
         public static void Foreach<T>(this ObservableCollection<T> collection, Action<T> action)
         {
             foreach (var item in collection)

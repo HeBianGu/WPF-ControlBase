@@ -80,6 +80,11 @@ namespace HeBianGu.General.WpfControlLib
                     return linkActionBase?.ActionResult();
                 });
 
+                //var result = await MessageService.ShowWaittingResultMessge(() =>
+                // {
+                //     return linkActionBase?.ActionResult().Result;
+                // });
+
 
                 await this.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
                   {

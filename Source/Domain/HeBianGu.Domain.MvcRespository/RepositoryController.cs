@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -114,20 +115,22 @@ namespace HeBianGu.Domain.MvcRespository
         /// <summary> 跳转列表页面 </summary>
         public virtual async Task<IActionResult> List()
         {
-            var models = await this.Respository.GetListAsync();
+            var source = await this.Respository.GetListAsync();
 
-            if (models == null)
+            if (source == null)
             {
                 return View();
             }
 
-            Application.Current.Dispatcher.Invoke(() =>
+            this.ViewModel.RunAsync(()=>
             {
-                this.ViewModel.Collection.Clear();
+                this.ViewModel.Collection.Invoke(l => l.Clear());
 
-                foreach (var item in models)
+                foreach (var item in source)
                 {
-                    this.ViewModel.Collection.Add(item);
+                    this.ViewModel.Collection.Invoke(l => l.Add(item));
+
+                    Thread.Sleep(10);
                 }
             });
 

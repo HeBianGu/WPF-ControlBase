@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,16 +45,39 @@ namespace HeBianGu.General.WpfControlLib
 
                  if (control == null) return;
 
-                 IEnumerable config = e.NewValue as IEnumerable;
+                 if (e.OldValue != null)
+                 {
+                     var coll = (INotifyCollectionChanged)e.OldValue;
+                     // Unsubscribe from CollectionChanged on the old collection of the DP-instance (!)
+                     coll.CollectionChanged -= control.CollectionChanged;
+                 }
 
-                 control.ItemsSource = config;
+                 if (e.NewValue != null)
+                 {
+                     var coll = (INotifyCollectionChanged)e.NewValue; 
 
-                 control.InitData();
+                     //calendar.DayTemplateSelector = new SpecialDaySelector(coll, GetSpecialDayTemplate(d));
+                     // Subscribe to CollectionChanged on the new collection of the DP-instance (!)
+                     coll.CollectionChanged += control.CollectionChanged;
+                 }
+
+               
 
 
              
 
              }));
+
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            // handle CollectionChanged on instance-level
+
+            IEnumerable config = sender as IEnumerable;
+
+            this.ItemsSource = config;
+
+            this.InitData();
+        }
 
 
         /// <summary> 数据总条数 </summary>
