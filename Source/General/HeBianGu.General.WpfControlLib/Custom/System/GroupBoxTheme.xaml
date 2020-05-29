@@ -15,6 +15,7 @@
         <Setter Property="base:ControlAttachProperty.FIcon" Value="&#xea5e;"/>
         <Setter Property="base:ControlAttachProperty.FIconSize" Value="14"/>
         <Setter Property="base:ControlAttachProperty.FIconMargin" Value="5"/>
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         <Setter Property="local:ShadowAssist.ShadowDepth" Value="{DynamicResource S.EffectShadow.5}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -29,13 +30,14 @@
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 Background="{TemplateBinding Background}" 
                                 Effect="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(local:ShadowAssist.ShadowDepth)}"
-                                BorderThickness="1" CornerRadius="3" Opacity="1">
+                                BorderThickness="1" CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(base:ControlAttachProperty.CornerRadius)}" Opacity="1">
                         </Border>
 
                         <Border Margin="0,0,0,0" x:Name="borderheader"
                                 BorderBrush="{TemplateBinding BorderBrush}" 
                                 Background="{TemplateBinding BorderBrush}"  Height="{DynamicResource S.Window.Row.Height}"
-                                BorderThickness="1" CornerRadius="3,3,0,0"/>
+                                BorderThickness="1" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Top}">
+                        </Border>
 
                         <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}"
                                            Margin="10,0,0,0" HorizontalAlignment="Left" Content="{TemplateBinding Header}"
@@ -44,6 +46,7 @@
                                            FIcon="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(base:ControlAttachProperty.FIcon)}"
                                            FIconMargin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(base:ControlAttachProperty.FIconMargin)}"
                                            FIconSize="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(base:ControlAttachProperty.FIconSize)}"/>
+                        
                         <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}"/>
 
                         <ContentControl Template="{TemplateBinding base:ControlAttachProperty.AttachContent}" HorizontalAlignment="Right"/>

@@ -56,7 +56,7 @@ namespace HeBianGu.Application.ManagerWindow
                 l.ItemHeight = 36;
                 l.RowHeight = 40;
                 //l.ItemWidth = 120;
-                l.ItemCornerRadius = new CornerRadius(18);
+                l.ItemCornerRadius = 5;
 
                 l.AnimalSpeed = 5000;
                 l.AccentColorSelectType = 0;

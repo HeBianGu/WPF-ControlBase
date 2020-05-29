@@ -13,7 +13,7 @@
         <Setter Property="base:ControlAttachProperty.FocusBackground" Value="{DynamicResource S.Brush.Dark.4}" />
         <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
-        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="2" />
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}" />
         <Setter Property="BorderThickness"  Value="1"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
@@ -115,33 +115,55 @@
                                           FontSize="{TemplateBinding FontSize}" />
                         </Grid>
 
-                        <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="Popup" Focusable="False" AllowsTransparency="True" PopupAnimation="Slide">
+                        <Popup IsOpen="{TemplateBinding IsDropDownOpen}" Placement="Bottom" x:Name="Popup" Focusable="False" AllowsTransparency="True" PopupAnimation="Slide" VerticalOffset="2">
                             <Grid MinWidth="{TemplateBinding ActualWidth}" x:Name="DropDown">
-                                <Border x:Name="DropDownBorder" Margin="0,0,0,10" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="1" CornerRadius="{Binding BorderCornerRadius,RelativeSource={RelativeSource AncestorType=ComboBox}}">
-                                    <Border.Effect>
-                                        <DropShadowEffect ShadowDepth="0" BlurRadius="10" Opacity="1" Color="{Binding ShadowColor,RelativeSource={RelativeSource AncestorType=ComboBox}}"></DropShadowEffect>
-                                    </Border.Effect>
-                                </Border>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
+                   
+                                <Grid Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    <Path Stroke="{DynamicResource S.Brush.Accent}" Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Stretch="Fill">
+                                        <Path.Data>
+                                            <PathGeometry>
+                                                <PathFigure StartPoint="1,2">
 
-                                    <local:FTextBox x:Name="tbSearch"  Tag="Search" Width="Auto"
+                                                    <PolyLineSegment Points="95,2 96,1.5 97,2 99,2"></PolyLineSegment>
+
+                                                    <ArcSegment Point="100,3" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                                    <LineSegment Point="100,49"></LineSegment>
+
+                                                    <ArcSegment Point="99,50" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                                    <LineSegment Point="1,50"></LineSegment>
+
+                                                    <ArcSegment Point="0,49" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                                    <LineSegment Point="0,3"></LineSegment>
+
+                                                    <ArcSegment Point="1,2" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+                                                </PathFigure>
+                                            </PathGeometry>
+                                        </Path.Data>
+                                    </Path>
+
+                                    <Grid Margin="0,10,2,0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <local:FTextBox x:Name="tbSearch"  Tag="Search" Width="Auto"
                                                      Visibility="{Binding SearchBoxVisibility,RelativeSource={RelativeSource AncestorType=ComboBox}}" 
                                                      base:ControlAttachProperty.Watermark="请输入搜索条件" Style="{DynamicResource S.FTextBox.Clear}"
                                                      Foreground="{TemplateBinding Foreground}" FontFamily="{DynamicResource IconFont}" Margin="7,5,7.5,2">
-                                    </local:FTextBox>
+                                        </local:FTextBox>
 
-                                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Style="{DynamicResource MiniScrollViewer}" Margin="1,5,1,15" MaxHeight="250">
-                                        <ItemsPresenter />
-                                    </ScrollViewer>
+                                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Style="{DynamicResource MiniScrollViewer}" Margin="1,5,1,15" MaxHeight="250">
+                                            <ItemsPresenter />
+                                        </ScrollViewer>
 
-                                    <local:FButton x:Name="btnClear" Grid.Row="1" Visibility="Collapsed"
+                                        <local:FButton x:Name="btnClear" Grid.Row="1" Visibility="Collapsed"
                                                     Content="×" Tag="Clear" Margin="0,0,3,0"
                                                     Foreground="{TemplateBinding Foreground}" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Right" />
+                                    </Grid> 
                                 </Grid>
                             </Grid>
                         </Popup>

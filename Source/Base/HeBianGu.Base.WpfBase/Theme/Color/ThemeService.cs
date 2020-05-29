@@ -22,7 +22,7 @@ namespace HeBianGu.Base.WpfBase
 
         public FontSize FontSize { get; set; }
 
-        public CornerRadius ItemCornerRadius { get; set; }
+        public double ItemCornerRadius { get; set; }
 
         public double ItemHeight { get; set; }
 
@@ -53,7 +53,7 @@ namespace HeBianGu.Base.WpfBase
 
         FontSize FontSize { get; set; }
 
-        CornerRadius ItemCornerRadius { get; set; }
+        double ItemCornerRadius { get; set; }
 
         double ItemHeight { get; set; }
 
@@ -378,18 +378,18 @@ namespace HeBianGu.Base.WpfBase
 
         public bool IsUseAnimal
         {
-          
-            get 
-            { 
-                return _isUseAnimal; 
-            }
-            set 
-            { 
-                _isUseAnimal = value; 
 
-                if(value)
+            get
+            {
+                return _isUseAnimal;
+            }
+            set
+            {
+                _isUseAnimal = value;
+
+                if (value)
                 {
-                    this.StartAnimationTheme(AnimalSpeed,this.AccentColorSelectType);
+                    this.StartAnimationTheme(AnimalSpeed, this.AccentColorSelectType);
                 }
                 else
                 {
@@ -434,15 +434,27 @@ namespace HeBianGu.Base.WpfBase
         }
 
         /// <summary> 项的边角 </summary>
-        public CornerRadius ItemCornerRadius
+        public double ItemCornerRadius
         {
             set
             {
-                Application.Current.Resources["S.Window.Item.CornerRadius"] = value;
+                Application.Current.Resources["S.Window.Item.CornerRadius.Value"] = value;
+
+                Application.Current.Resources["S.Window.Item.CornerRadius"] = new CornerRadius(value, value, value, value);
+
+                Application.Current.Resources["S.Window.Item.CornerRadius.Left"] = new CornerRadius(value, 0, 0, value);
+                Application.Current.Resources["S.Window.Item.CornerRadius.Right"] = new CornerRadius(0, value, value, 0);
+                Application.Current.Resources["S.Window.Item.CornerRadius.Top"] = new CornerRadius(value, value, 0, 0);
+                Application.Current.Resources["S.Window.Item.CornerRadius.Bottom"] = new CornerRadius(0, 0, value, value);
+
+                Application.Current.Resources["S.Window.Item.CornerRadius.LeftTop"] = new CornerRadius(value, 0, 0, 0);
+                Application.Current.Resources["S.Window.Item.CornerRadius.RightTop"] = new CornerRadius(0, value, 0, 0);
+                Application.Current.Resources["S.Window.Item.CornerRadius.LeftBottom"] = new CornerRadius(0, 0, value, 0);
+                Application.Current.Resources["S.Window.Item.CornerRadius.RightBottom"] = new CornerRadius(0, 0, 0, value);
             }
             get
             {
-                return (CornerRadius)Application.Current.Resources["S.Window.Item.CornerRadius"];
+                return (double)Application.Current.Resources["S.Window.Item.CornerRadius"];
             }
         }
 
@@ -503,7 +515,7 @@ namespace HeBianGu.Base.WpfBase
             this.FontSize = config.FontSize;
             this.ItemHeight = config.ItemHeight == default(double) ? this.ItemHeight : config.ItemHeight;
             this.ItemWidth = config.ItemWidth == default(double) ? this.ItemWidth : config.ItemWidth;
-            this.ItemCornerRadius = config.ItemCornerRadius == default(CornerRadius) ? this.ItemCornerRadius : config.ItemCornerRadius;
+            this.ItemCornerRadius = config.ItemCornerRadius == default(double) ? this.ItemCornerRadius : config.ItemCornerRadius;
             this.RowHeight = config.RowHeight == default(double) ? this.RowHeight : config.RowHeight;
             this.Language = config.Language;
             this.ThemeType = config.ThemeType;

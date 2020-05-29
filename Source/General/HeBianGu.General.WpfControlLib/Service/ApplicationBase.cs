@@ -46,7 +46,7 @@ namespace HeBianGu.General.WpfControlLib
             this.ILogger?.Error("Task Exception");
             this.ILogger?.Error(sb.ToString());
 
-            Current.Dispatcher.Invoke(() => MessageWindow.ShowSumit(sb.ToString(), "系统任务异常", 5));
+            Current.Dispatcher.Invoke(() => MessageWindow.ShowSumit(sb.ToString(), "系统任务异常", false, 5));
         }
 
         protected override void OnStartup(StartupEventArgs e)
@@ -84,7 +84,7 @@ namespace HeBianGu.General.WpfControlLib
 
         void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            Current.Dispatcher.Invoke(() => MessageWindow.ShowSumit(e.Exception.Message, "系统异常", 5));
+            Current.Dispatcher.Invoke(() => MessageWindow.ShowSumit(e.Exception.Message, "系统异常", false,5));
 
             e.Handled = true;
 

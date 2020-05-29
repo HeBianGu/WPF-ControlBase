@@ -120,7 +120,7 @@ namespace HeBianGu.Application.BlurWindow
 
             foreach (var item in data)
             {
-                collection.Add(new TreeNodeEntityViewModel(item) { IsExpanded=true});
+                collection.Add(new TreeNodeEntityViewModel(item) { IsExpanded = true });
             }
 
             this.Nodes = this.Bind(collection);
@@ -131,7 +131,7 @@ namespace HeBianGu.Application.BlurWindow
         /// </summary>
         List<TreeNodeEntityViewModel> Bind(List<TreeNodeEntityViewModel> nodes)
         {
-            List<TreeNodeEntityViewModel> outputList = new List<TreeNodeEntityViewModel>(); 
+            List<TreeNodeEntityViewModel> outputList = new List<TreeNodeEntityViewModel>();
 
             for (int i = 0; i < nodes.Count; i++)
             {
@@ -279,13 +279,13 @@ namespace HeBianGu.Application.BlurWindow
             //  Do：气泡消息
             else if (command == "Button.ShowWindowSumitMessage")
             {
-                MessageWindow.ShowSumit("这是窗口提示消息");
+                MessageWindow.ShowSumit("这是窗口提示消息", "提示", true);
             }
 
             //  Do：气泡消息
             else if (command == "Button.ShowWindowResultMessage")
             {
-                MessageWindow.ShowDialog("这是窗口提示消息");
+                MessageWindow.ShowDialog("这是窗口提示消息", "提示", -1, true);
             }
 
             //  Do：气泡消息
@@ -308,7 +308,7 @@ namespace HeBianGu.Application.BlurWindow
                 acts.Add(Tuple.Create("按钮二", action));
                 acts.Add(Tuple.Create("按钮三", action));
 
-                MessageWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒",false, acts.ToArray());
+                MessageWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒", true, acts.ToArray());
             }
 
             //  Do：气泡消息

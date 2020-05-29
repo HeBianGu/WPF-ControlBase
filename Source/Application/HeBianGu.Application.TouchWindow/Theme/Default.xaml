@@ -35,14 +35,6 @@
         <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
         <Setter Property="Padding" Value="3"/>
         <Setter Property="WindowStyle" Value="None"/>
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="0"/>
-        <!--窗体基本设置 WindowChrome--><!--
-        <Setter Property="WindowChrome.WindowChrome">
-            <Setter.Value>
-                <WindowChrome CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type h:WindowBase}}}" 
-                                     ResizeBorderThickness="8"/>
-            </Setter.Value>
-        </Setter>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type h:LinkWindowBase}">
@@ -70,150 +62,7 @@
                                     <RowDefinition MinHeight="0" Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                
-                                <!--Caption标题部分-->
-                                <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}" Height="{TemplateBinding CaptionHeight}">
-                                    <Grid Margin="2,1,2,0">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="250"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                        </Grid.ColumnDefinitions>
 
-                                        <Border Grid.ColumnSpan="3" Grid.RowSpan="2"/>
-                                        <!--Header部分-->
-                                        <StackPanel x:Name="PART_Header" Height="{TemplateBinding CaptionHeight}" HorizontalAlignment="Left" Margin="15,1,15,1" Orientation="Horizontal" VerticalAlignment="Center">
-                                            <Image Margin="5,20" Source="{TemplateBinding Logo}" />
-                                        </StackPanel>
-
-                                        <!--菜单页部分-->
-
-                                        <ScrollViewer Grid.Column="1" Style="{DynamicResource S.ScrollView.Center.Default}" FontSize="20"  WindowChrome.IsHitTestVisibleInChrome="True"
-                                                      h:ControlAttachProperty.MouseOverForeground="{DynamicResource S.Brush.TextForeground.White}" HorizontalAlignment="Left"
-                                                      h:ControlAttachProperty.PressForeground="{DynamicResource S.Brush.TextForeground.White}"
-                                                      Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:LinkWindowBase},Path=CaptionForeground}" Padding="20,0">
-                                            <ListBox x:Name="list"  Grid.Column="1" Background="Transparent" 
-                                              BorderBrush="Transparent" SelectedIndex="0"
-                                              SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}"
-                                              ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks}" Margin="-2"
-                                              WindowChrome.IsHitTestVisibleInChrome="True" >
-
-                                                <ListBox.ItemsPanel>
-                                                    <ItemsPanelTemplate>
-                                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"/>
-                                                    </ItemsPanelTemplate>
-                                                </ListBox.ItemsPanel>
-                                                <ListBox.ItemContainerStyle>
-                                                    <Style TargetType="{x:Type ListBoxItem}">
-                                                        <Setter Property="Template">
-                                                            <Setter.Value>
-                                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                                                    <Grid Width="218">
-                                                                        <Border x:Name="border" Background="Transparent">
-                                                                            <Grid>
-                                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                                                    <TextBlock Style="{DynamicResource FIcon}" 
-                                                                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:LinkWindowBase},Path=CaptionForeground}"
-                                                                                       FontSize="30" 
-                                                                                       Text="{Binding Logo}" 
-                                                                                       HorizontalAlignment="Center" 
-                                                                                       VerticalAlignment="Center"/>
-
-                                                                                    <TextBlock Text="{Binding DisplayName}" 
-                                                                                       Margin="8,0,0,0" FontSize="18" VerticalAlignment="Center"
-                                                                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:LinkWindowBase},Path=CaptionForeground}"/>
-                                                                                </StackPanel>
-
-                                                                                <Border x:Name="bord_selected"  Visibility="Collapsed" VerticalAlignment="Top" Background="{Binding RelativeSource={RelativeSource AncestorType=h:LinkWindowBase},Path=CaptionForeground}" Height="5"/>
-
-                                                                            </Grid>
-                                                                        </Border>
-                                                                    </Grid>
-                                                                    <ControlTemplate.Triggers>
-                                                                        <Trigger Property="IsSelected" Value="true">
-                                                                            <Setter Property="Background" Value="{DynamicResource S.Brush.TextForeground.White.Opacity.4}" TargetName="border"/>
-                                                                            <Setter Property="Visibility" Value="Visible" TargetName="bord_selected"/>
-                                                                        </Trigger>
-                                                                        <Trigger Property="IsMouseOver" Value="true">
-                                                                            <Setter Property="Background" Value="{DynamicResource S.Brush.TextForeground.White.Opacity.2}" TargetName="border"/>
-                                                                        </Trigger>
-                                                                    </ControlTemplate.Triggers>
-                                                                </ControlTemplate>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </Style>
-                                                </ListBox.ItemContainerStyle>
-                                            </ListBox>
-                                        </ScrollViewer>
-
-                                        <ItemsControl Grid.Column="2" Margin="57,0" Background="Purple"
-                                                  HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                  WindowChrome.IsHitTestVisibleInChrome="True"
-                                                  ItemsSource="{TemplateBinding SettingLinks}">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel>
-                                                    </StackPanel>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <ItemContainerTemplate>
-                                                    <h:FButton Style="{DynamicResource S.FButton.Style.Transparent}" 
-                                                               HorizontalAlignment="Center" FIcon="{Binding Logo}"
-                                                               VerticalAlignment="Center" FIconMargin="0,2,5,0"
-                                                               Width="100" FontSize="18" Foreground="{DynamicResource S.Brush.White.Notice}"
-                                                               Command="{Binding Path=SettimgWindowCommand,RelativeSource={ RelativeSource AncestorType=h:WindowBase}}"
-                                                               CommandParameter="{Binding Source}"
-                                                               Content="{Binding DisplayName}"/>
-
-                                                </ItemContainerTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-
-                                        <!--窗体功能按钮：最小、最大、关闭-->
-                                        <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Margin="10,0"  HorizontalAlignment="Right" Height="{TemplateBinding CaptionHeight}">
-                                            <StackPanel.Resources>
-                                                <Style TargetType="{x:Type h:FButton}" BasedOn="{StaticResource S.FButton.Style.Transparent}">
-                                                    <Setter  Property="Margin" Value="10,0"/>
-                                                    <Setter  Property="Width" Value="{DynamicResource S.Window.ItemHeight}"/>
-                                                    <Setter  Property="MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
-                                                    <Setter  Property="PressedForeground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
-                                                    <Setter  Property="FIconSize" Value="15"/>
-                                                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CaptionForeground}"/>
-                                                    <Style.Triggers>
-                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                            <Setter Property="Opacity" Value="0.6"/>
-                                                        </Trigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </StackPanel.Resources>
-
-                                            <ToggleButton x:Name="btnTheme"  Width="{DynamicResource S.Window.ItemHeight}"  VerticalAlignment="Center" Margin="5,0"   ToolTip="更换主题颜色"
-                                               Visibility="{Binding Path=SetboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
-                                              Style="{DynamicResource S.ToggleButton.BrushFIconChecked}" h:ControlAttachProperty.FIcon="&#xe6d2;"  h:ControlAttachProperty.FIconSize="25"
-                                               WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"/>
-
-
-                                            <h:FButton x:Name="btnNotify"   FIcon="&#xe659;" ToolTip="隐藏到托盘"  Command="{Binding Path=NotifyWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
-
-                                            <h:FButton x:Name="btnMin"  Visibility="{Binding Path=MinboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
-                                              FIcon="&#xe61d;"   Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
-
-                                            <h:FButton x:Name="btnMax" 
-                                                Visibility="{Binding Path=MaxboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
-                                               Command="{Binding Path=MaximizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
-
-                                            <h:FButton x:Name="btnClose" Width="{DynamicResource S.Window.Item.Height}" Margin="10,0" FIconSize="15" Foreground="{DynamicResource S.Brush.TextForeground.White}" 
-                                               MouseOverBackground="Red" MouseOverForeground="{DynamicResource S.Brush.TextForeground.White}"  PressedForeground="{DynamicResource S.Brush.TextForeground.White}"
-                                               AllowsAnimation="True"  FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}"
-                                               Command="{Binding Path=CloseWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
-                                        </StackPanel>
-
-
-                                    </Grid>
-                                </Border>
-                                
                                 <!--窗体内容区域-->
                                 <AdornerDecorator Grid.Row="1" Margin="1,0,1,1" WindowChrome.IsHitTestVisibleInChrome="True">
                                     <Grid>
@@ -233,102 +82,6 @@
                                         </h:NotifyIcon>
 
                                         <h:DrawerHost HorizontalContentAlignment="Stretch">
-                                            <h:DrawerHost.LeftDrawerContent>
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="35"/>
-                                                        <RowDefinition/>
-                                                    </Grid.RowDefinitions>
-
-                                                    <Border Background="{DynamicResource S.Brush.Dark.Notice}" BorderThickness="0,0,0,0"/>
-
-                                                    <h:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.LeftLink.Logo}"
-                                                               HorizontalAlignment="Left" Margin="8,0" FIconSize="12"
-                                                               Command="{x:Static h:DrawerHost.CloseDrawerCommand}" 
-                                                               CommandParameter="{x:Static Dock.Left}" 
-                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.LeftLink.DisplayName}"
-                                                               Style="{DynamicResource S.FButton.Style.Transparent}"/>
-
-                                                    <h:LinkActionFrame Grid.Row="1" Style="{DynamicResource S.LinkActonFrame.Single}"
-                                                                           LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.LeftLink}"/>
-
-                                                    <h:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
-                                                               FIcon="&#xe9cd;" AllowsAnimation="True" Command="{x:Static h:DrawerHost.CloseDrawerCommand}" 
-                                                               CommandParameter="{x:Static Dock.Left}" 
-                                                               FIconSize="14" Margin="5,0"
-                                                               HorizontalAlignment="Right"  VerticalAlignment="Center"/>
-                                                </Grid>
-                                            </h:DrawerHost.LeftDrawerContent>
-                                            <h:DrawerHost.TopDrawerContent>
-                                                <Grid>
-                                                    <Border Background="{DynamicResource S.Brush.Gray.Notice}" BorderThickness="0,0,0,0"/>
-
-                                                    <!--<ContentPresenter Grid.Row="1"  Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink.ActionResult.View}"/>-->
-
-                                                    <h:LinkActionFrame Grid.Row="1" Style="{DynamicResource S.LinkActonFrame.Single}" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink}"/>
-
-                                                    <!--<h:ModernFrame Grid.Row="1" Margin="0,0" BorderBrush="Transparent" BorderThickness="0"
-                                                                   Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink.Source}"/>-->
-
-                                                    <h:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
-                                                               FIcon="&#xe9d3;" AllowsAnimation="True" Command="{x:Static h:DrawerHost.CloseDrawerCommand}" 
-                                                               CommandParameter="{x:Static Dock.Top}" 
-                                                               FIconSize="14" Margin="5,5"
-                                                               HorizontalAlignment="Right"  VerticalAlignment="Bottom"/>
-
-                                                    <h:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink.Logo}"
-                                                               HorizontalAlignment="Right" Margin="30,0" FIconSize="12"
-                                                                Command="{x:Static h:DrawerHost.CloseDrawerCommand}" 
-                                                               CommandParameter="{x:Static Dock.Top}" 
-                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink.DisplayName}"
-                                                    Style="{DynamicResource S.FButton.Style.Transparent}"/>
-                                                </Grid>
-                                            </h:DrawerHost.TopDrawerContent>
-                                            <h:DrawerHost.BottomDrawerContent>
-                                                <Grid>
-                                                    <Border Background="{DynamicResource S.Brush.Dark.2}" BorderThickness="0,0,0,0"/>
-
-                                                    <h:LinkActionFrame Grid.Row="1" Style="{DynamicResource S.LinkActonFrame.Single}"  LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.BottomLink}"/>
-
-                                                    <h:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
-                                                               FIcon="&#xe9cc;" AllowsAnimation="True" Command="{x:Static h:DrawerHost.CloseDrawerCommand}" 
-                                                               CommandParameter="{x:Static Dock.Bottom}" 
-                                                               FIconSize="14" Margin="5,5"
-                                                               HorizontalAlignment="Right"  VerticalAlignment="Top"/>
-
-                                                    <h:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.BottomLink.Logo}"
-                                                               HorizontalAlignment="Right" Margin="8,3" FIconSize="12" VerticalAlignment="Bottom"
-                                                                Command="{x:Static h:DrawerHost.CloseDrawerCommand}" 
-                                                               CommandParameter="{x:Static Dock.Bottom}" 
-                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.BottomLink.DisplayName}"
-                                                    Style="{DynamicResource S.FButton.Style.Transparent}"/>
-                                                </Grid>
-                                            </h:DrawerHost.BottomDrawerContent>
-                                            <h:DrawerHost.RightDrawerContent>
-                                                <Grid>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="35"/>
-                                                        <RowDefinition/>
-                                                    </Grid.RowDefinitions>
-
-                                                    <Border Background="{DynamicResource S.Brush.Gray.Notice}" BorderThickness="0,0,0,0"/>
-
-                                                    <h:FButton FIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.RightLink.Logo}"
-                                                               HorizontalAlignment="Right" Margin="8,0" FIconSize="12"
-                                                                Command="{x:Static h:DrawerHost.CloseDrawerCommand}" 
-                                                               CommandParameter="{x:Static Dock.Right}" 
-                                                               Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.RightLink.DisplayName}"
-                                                    Style="{DynamicResource S.FButton.Style.Transparent}"/>
-
-                                                    <h:LinkActionFrame Grid.Row="1" Style="{DynamicResource S.LinkActonFrame.Single}"  LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.RightLink}"/>
-
-                                                    <h:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"   
-                                                               FIcon="&#xe9ce;" AllowsAnimation="True" Command="{x:Static h:DrawerHost.CloseDrawerCommand}" 
-                                                               CommandParameter="{x:Static Dock.Right}" 
-                                                               FIconSize="14" Margin="5,0"
-                                                               HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-                                                </Grid>
-                                            </h:DrawerHost.RightDrawerContent>
 
                                             <Grid>
                                                 <!--整体消息弹出-->
@@ -336,9 +89,9 @@
                                                     <!--<h:DialogHost.Effect>
                                                         <BlurEffect Radius="10" RenderingBias="Performance"></BlurEffect>
                                                     </h:DialogHost.Effect>-->
-                                                    <Grid> 
+                                                    <Grid>
                                                         <h:LinkActionFrame UseRandomWipe="False" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}">
-                                                            
+
                                                             <h:LinkActionFrame.CurrentWipe>
                                                                 <h:CircleWipe PointOriginType="MousePosition" MidTime="00:00:00.05" Duration="00:00:00.4"/>
                                                             </h:LinkActionFrame.CurrentWipe>
@@ -375,29 +128,10 @@
                                     </Grid>
                                 </AdornerDecorator>
 
-                                <Popup x:Name="Pop" PopupAnimation="Slide" IsOpen="{Binding ElementName=btnTheme,Path=IsChecked}"  
-                                       PlacementTarget="{Binding ElementName=btnTheme}" Placement="Top" 
-                                       AllowsTransparency="True" StaysOpen="False" HorizontalAlignment="Left" VerticalAlignment="Bottom">
-
-                                    <Border Background="{DynamicResource S.Brush.Accent.Opacity.5}" 
-                                            CornerRadius="5" BorderBrush="{DynamicResource S.Brush.Accent}"
-                                            BorderThickness="1">
-                                        <StackPanel Margin="10">
-                                            <h:ThemeSetControl Foreground="{TemplateBinding CaptionForeground}"/>
-                                        </StackPanel>
-                                    </Border>
-                                </Popup>
                             </Grid>
                         </Grid>
                     </Viewbox>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="WindowState" Value="Maximized">
-                            <Setter Property="FIcon" TargetName="btnMax" Value="&#xe665;"></Setter>
-                        </Trigger>
-                        <Trigger Property="WindowState" Value="Normal">
-                            <Setter Property="FIcon" TargetName="btnMax" Value="&#xe615;"></Setter>
-                        </Trigger>
-
                         <!--淡出动画-->
                         <EventTrigger RoutedEvent="Window.Loaded">
                             <EventTrigger.Actions>

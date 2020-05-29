@@ -29,7 +29,7 @@
         <Setter Property="NotifyIconSource" Value="/HeBianGu.General.WpfControlLib;component/Resources/iBook.ico"/>
         <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
         <Setter Property="Padding" Value="10"/>
-        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="0"/>
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
 
         <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="ResizeMode" Value="CanMinimize"/>
@@ -97,7 +97,8 @@
                                                         </Border>
 
                                                         <!--左侧菜单-->
-                                                        <StackPanel x:Name="sp_left"  Width="278" Background="{DynamicResource S.Brush.Accent}">
+                                                        <Border Background="{DynamicResource S.Brush.Accent}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Left}">
+                                                                      <StackPanel x:Name="sp_left"  Width="278">
                                                             <base:Interaction.Behaviors>
                                                                 <!--<base:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>-->
                                                                 <!--<base:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="Opactiy" StartValue="0" EndValue="1" Split="0.05" End="0.2"/>-->
@@ -107,11 +108,13 @@
                                                             <Image Width="150" Height="{TemplateBinding CaptionHeight}" Source="{TemplateBinding Logo}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                                                             <local:LinkGroupExpander Style="{DynamicResource S.LinkGroupExpander.Accent}"
-                                                        ItemsSource="{TemplateBinding LinkActionGroups}"
+                                                        ItemsSource="{TemplateBinding LinkActionGroups}" 
                                                         SelectedLink="{Binding RelativeSource={RelativeSource
                                                                 Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}"/>
-                                                        </StackPanel>
+                                                            </StackPanel>
 
+                                                        </Border>
+                                              
                                                         <!--右侧区域-->
                                                         <Grid Grid.Column="1">
                                                             <Grid.RowDefinitions>
@@ -120,7 +123,7 @@
                                                                 <!--<RowDefinition Height="Auto"/>-->
                                                             </Grid.RowDefinitions>
 
-                                                            <Border BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="0,0,0,1">
+                                                            <Border BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="0,0,0,1" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.RightTop}">
                                                                 <!--<Border.Effect>
                                                                     <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"></DropShadowEffect>
                                                                 </Border.Effect>-->
@@ -144,8 +147,6 @@
                                                                         </base:EventTrigger>
                                                                     </base:Interaction.Triggers>
                                                                 </ToggleButton>
-
-
 
                                                                 <!--工具按钮-->
                                                                 <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0"  HorizontalAlignment="Right">
@@ -202,12 +203,13 @@
                                                                 <Border.Effect>
                                                                     <DropShadowEffect Color="{Binding Source={StaticResource  S.Brush.TextBorderBrush.Default},Path=Color}" BlurRadius="20" Direction="270"></DropShadowEffect>
                                                                 </Border.Effect>
-
-                                                                <local:LinkActionFrame UseRandomWipe="True"  LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}"/>
-
-                                                                <!--<local:LinkActionTabFrame Margin="15,10" BorderThickness="0,0,0,0" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}"/>-->
-
                                                             </Border>
+
+                                                            <local:LinkActionFrame Margin="25,15,25,25" Grid.Row="1" UseRandomWipe="True"  LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}"/>
+
+                                                            <!--<local:LinkActionTabFrame Grid.Row="1" Margin="15,10" BorderThickness="0,0,0,0" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}"/>-->
+
+                                                  
 
 
 

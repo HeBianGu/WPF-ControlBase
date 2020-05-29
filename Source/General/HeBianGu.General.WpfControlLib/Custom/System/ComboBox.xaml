@@ -10,6 +10,7 @@
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="MinHeight" Value="28" />
+        <Setter Property="Padding" Value="10,0" />
         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=ComboBox},Path=Height}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
@@ -38,7 +39,7 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter> 
+        </Setter>
     </Style>
 
     <!--默认样式-->
@@ -89,7 +90,7 @@
                                            TextAlignment="Center" 
                                            VerticalAlignment="Center" Margin="5,2,5,2" />
                 </Border>
-                
+
                 <!--主内容区域-->
                 <Border Grid.Column="1">
                     <Grid  x:Name="ContentSite" Margin="{TemplateBinding Padding}">
@@ -123,29 +124,54 @@
             <!--弹出下拉控件-->
             <Popup x:Name="PART_Popup"
                                AllowsTransparency="True" 
-                               Focusable="False"
+                               Focusable="False" VerticalOffset="2"
                                IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                Placement="Bottom">
                 <Grid Width="{Binding  ActualWidth,RelativeSource={RelativeSource TemplatedParent}}"
                                   MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
 
-                    <Border x:Name="PopupBorder"
-                                        BorderThickness="{TemplateBinding BorderThickness}" 
-                                        HorizontalAlignment="Stretch"
-                                        Height="Auto" BorderBrush="{TemplateBinding BorderBrush}"
-                                        Background="{TemplateBinding Background}">
-                    </Border>
 
-                    <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" Margin="1">
-                        <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" />
+
+                    <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0">
+                        <Grid Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Path Stroke="{DynamicResource S.Brush.Accent}" Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Stretch="Fill">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure StartPoint="1,2">
+
+                                            <PolyLineSegment Points="95,2 96,1 97,2 99,2"></PolyLineSegment>
+
+                                            <ArcSegment Point="100,3" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                            <LineSegment Point="100,49"></LineSegment>
+
+                                            <ArcSegment Point="99,50" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                            <LineSegment Point="1,50"></LineSegment>
+
+                                            <ArcSegment Point="0,49" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                            <LineSegment Point="0,3"></LineSegment>
+
+                                            <ArcSegment Point="1,2" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+
+
+                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained"  Margin="0,10,2,0" />
+                        </Grid>
                     </ScrollViewer>
+
+
                 </Grid>
             </Popup>
         </Grid>
         <!--触发器-->
         <ControlTemplate.Triggers>
-      
+
             <!--编辑模式-->
             <Trigger Property="IsEditable" Value="True">
                 <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
@@ -269,29 +295,51 @@
             <!--弹出下拉控件-->
             <Popup x:Name="PART_Popup"
                                AllowsTransparency="True" 
-                               Focusable="False"
+                               Focusable="False" VerticalOffset="2"
                                IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                Placement="Bottom">
-                <Grid Width="{Binding  ActualWidth,RelativeSource={RelativeSource TemplatedParent}}"
+
+                <Grid Width="{Binding  ActualWidth,RelativeSource={RelativeSource TemplatedParent}}" Margin="0,10,0,0"
                                   MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
 
-                    <Border x:Name="PopupBorder"
-                                        BorderThickness="{TemplateBinding BorderThickness}" 
-                                        HorizontalAlignment="Stretch"
-                                        Height="Auto" BorderBrush="{TemplateBinding BorderBrush}"
-                                        Background="{TemplateBinding Background}">
-                    </Border>
+                    <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0">
+                        <Grid Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <Path Stroke="{DynamicResource S.Brush.Accent}" Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Stretch="Fill">
+                                <Path.Data>
+                                    <PathGeometry>
+                                        <PathFigure StartPoint="1,2">
 
-                    <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" Margin="1">
-                        <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" />
+                                            <PolyLineSegment Points="95,2 96,1 97,2 99,2"></PolyLineSegment>
+
+                                            <ArcSegment Point="100,3" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                            <LineSegment Point="100,49"></LineSegment>
+
+                                            <ArcSegment Point="99,50" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                            <LineSegment Point="1,50"></LineSegment>
+
+                                            <ArcSegment Point="0,49" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                            <LineSegment Point="0,3"></LineSegment>
+
+                                            <ArcSegment Point="1,2" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+                                        </PathFigure>
+                                    </PathGeometry>
+                                </Path.Data>
+                            </Path>
+
+
+                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained"  Margin="0,10,2,0" />
+                        </Grid>
                     </ScrollViewer>
                 </Grid>
             </Popup>
         </Grid>
         <!--触发器-->
         <ControlTemplate.Triggers>
-   
+
             <!--编辑模式-->
             <Trigger Property="IsEditable" Value="True">
                 <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible" />
@@ -330,7 +378,7 @@
                 <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>
 
             </Trigger>
-       
+
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
@@ -348,7 +396,7 @@
         <Setter Property="base:ControlAttachProperty.FocusBackground" Value="{DynamicResource S.Brush.Dark.4}" />
         <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
-        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="2" />
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}" />
         <Setter Property="FontFamily" Value="{DynamicResource  S.FontFamily.Default}" />
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}" />
         <Setter Property="ItemContainerStyle" Value="{DynamicResource S.ComboBoxItem.Default}" />
@@ -387,7 +435,7 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border MinWidth="70"  Background="{DynamicResource S.Brush.Accent}">
+                    <Border MinWidth="70"  Background="{DynamicResource S.Brush.Accent}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Left}">
                         <TextBlock Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right"  Foreground="{DynamicResource S.Brush.TextForeground.White}" Text="{TemplateBinding Content}"></TextBlock>
                     </Border>
                 </ControlTemplate>
@@ -447,14 +495,14 @@
     </Style>
 
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Circle" BasedOn="{StaticResource S.ComboBox.Default}">
-        <Setter Property="Padding" Value="15,0,0,0"/> 
+        <Setter Property="Padding" Value="15,0,0,0"/>
         <Setter Property="IsEditable" Value="False"/>
         <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,22,0"/>
         <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
     </Style>
 
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Circle.Label" BasedOn="{StaticResource S.ComboBox.Label}">
-        <Setter Property="Padding" Value="0,0,20,0"/> 
+        <Setter Property="Padding" Value="0,0,20,0"/>
         <Setter Property="IsEditable" Value="False"/>
         <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,13,0"/>

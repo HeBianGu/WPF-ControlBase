@@ -18,7 +18,7 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary>
     /// MessageWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class MessageWindow 
+    public partial class MessageWindow
     {
         public MessageWindow()
         {
@@ -37,9 +37,9 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 显示窗口 </summary>
-        public static bool ShowDialog(string messge, string title = null, int closeTime = -1, bool isuseBlur = false, params Tuple<string, Action>[] acts)
+        public static bool ShowDialog(string messge, string title = null, int closeTime = -1, bool showEffect = true, params Tuple<string, Action>[] acts)
         {
-            if (isuseBlur)
+            if (showEffect)
             {
                 MessageService.BeginDefaultBlurEffect(true);
 
@@ -110,7 +110,7 @@ namespace HeBianGu.General.WpfControlLib
 
             m.ShowDialog();
 
-            if (isuseBlur)
+            if (showEffect)
             {
                 MessageService.BeginDefaultBlurEffect(false);
 
@@ -121,9 +121,9 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 显示窗口 </summary>
-        public static int ShowDialogWith(string messge, string title = null, bool isuseBlur = false, params Tuple<string, Action<MessageWindow>>[] acts)
+        public static int ShowDialogWith(string messge, string title = null, bool showEffect = false, params Tuple<string, Action<MessageWindow>>[] acts)
         {
-            if (isuseBlur)
+            if (showEffect)
             {
                 MessageService.BeginDefaultBlurEffect(true);
 
@@ -188,7 +188,7 @@ namespace HeBianGu.General.WpfControlLib
 
             m.ShowDialog();
 
-            if (isuseBlur)
+            if (showEffect)
             {
                 MessageService.BeginDefaultBlurEffect(false);
 
@@ -199,11 +199,11 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 只有确定的按钮 </summary>
-        public static bool ShowSumit(string messge, string title = null, int closeTime = -1)
+        public static bool ShowSumit(string messge, string title = null, bool showEffect = false, int closeTime = -1)
         {
             Tuple<string, Action> act = new Tuple<string, Action>("确定", null);
 
-            ShowDialog(messge, title, closeTime, false, act);
+            ShowDialog(messge, title, closeTime, showEffect, act);
 
             return true;
         }

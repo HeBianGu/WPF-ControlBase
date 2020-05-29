@@ -6,7 +6,7 @@
 
     <DataTemplate DataType="{x:Type base:StringPropertyItem}">
         <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" 
-              Height="{DynamicResource S.Window.Row.Height}" Margin="5,0" Visibility="{Binding Visibility}">
+              Height="{DynamicResource S.Window.Row.Height}" Margin="5,0,5,15" Visibility="{Binding Visibility}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -25,7 +25,7 @@
 
             <local:FTextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" 
                             Style="{DynamicResource S.FTextBox.Default}"  Width="Auto"  IsEnabled="{Binding ReadOnly}"
-                     Grid.Column="2" Height="30" base:ControlAttachProperty.FIcon=""
+                     Grid.Column="2" base:ControlAttachProperty.FIcon=""
                      VerticalContentAlignment="Center" 
                      HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
@@ -39,7 +39,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type base:BoolPropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5,0">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -70,7 +70,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type base:DateTimePropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5,0">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -87,6 +87,7 @@
                        FontSize="14"  Foreground="{DynamicResource S.Brush.Red.Notice}" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center"/>
+            
             <DatePicker SelectedDate="{Binding Value}"  Grid.Column="2" Height="30" 
                      VerticalContentAlignment="Center"  Width="Auto" IsEnabled="{Binding ReadOnly}"
                      HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
@@ -101,7 +102,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type base:IntPropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5,0">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -118,7 +119,8 @@
                        FontSize="14"  Foreground="{DynamicResource S.Brush.Red.Notice}" 
                        HorizontalAlignment="Right" 
                        VerticalAlignment="Center"/>
-            <Slider Value="{Binding Value}"  FontSize="14" Grid.Column="2" Height="8" SmallChange="1"
+
+            <Slider Value="{Binding Value}"  FontSize="14" Grid.Column="2" Height="8" SmallChange="1" Margin="5,0"
                      VerticalContentAlignment="Center"  IsEnabled="{Binding ReadOnly}"
                      HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
@@ -132,7 +134,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type base:DoublePropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5,0">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -172,7 +174,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <!--<Setter Property="FocusVisualStyle" Value="{x:Null}"/>-->
         <Setter Property="Padding" Value="0" />
-        <Setter Property="Width" Value="500" />
+        <Setter Property="Width" Value="600" />
         <Setter Property="Height" Value="Auto" />
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}" />
         <Setter Property="ItemsSource" Value="{Binding PropertyItemSource,Mode=TwoWay}" />
@@ -198,8 +200,11 @@
                                     <RowDefinition/>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
-                                
+
                                 <ItemsPresenter/>
+
+                                <Border Grid.Row="0" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="0,0,0,1"/>
+
                                 <ContentPresenter Grid.Row="1" Content="{TemplateBinding BottomContent}"/>
                             </Grid>
                         </Border>
@@ -207,6 +212,13 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <!--<Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ContentPresenter}">
+                    <Setter Property="Margin" Value="0,5"/>
+                </Style>
+            </Setter.Value>
+        </Setter>-->
     </Style>
 
     <Style x:Key="S.ObjectPropertyForm.Single" TargetType="local:ObjectPropertyForm" BasedOn="{StaticResource S.ObjectPropertyForm.Default}">
@@ -236,7 +248,7 @@
     <Style x:Key="S.ObjectPropertyForm.Default.WithSumit" TargetType="local:ObjectPropertyForm" BasedOn="{StaticResource S.ObjectPropertyForm.Default}">
         <Setter Property="BottomContent">
             <Setter.Value>
-                <StackPanel>
+                <StackPanel Margin="0,10,0,0">
                     <local:FButton  Content="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Sumit,Mode=TwoWay}"
                                    Command="{x:Static local:CommandService.Sure}"/>
                 </StackPanel>

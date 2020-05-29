@@ -29,7 +29,7 @@
         <Setter Property="NotifyIconSource" Value="/HeBianGu.General.WpfControlLib;component/Resources/iBook.ico"/>
         <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
         <Setter Property="Padding" Value="10"/>
-        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="0"/>
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="ResizeMode" Value="CanMinimize"/>
         <!--窗体基本设置 WindowChrome-->
@@ -53,19 +53,15 @@
                   Effect="{DynamicResource S.DropShadowEffect.Window}"
                   BorderThickness="{TemplateBinding BorderThickness}"
                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
-                            
-                            <Border x:Name="BgInner" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}"
-                    Background="{TemplateBinding Background}"
-                    BorderThickness="{TemplateBinding BorderThickness}"
-                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
-                            
+
+
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition MinHeight="20" Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <!--Caption标题部分-->
-                                <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}">
+                                <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Top}">
                                     <Grid Margin="2,1,2,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="250"/>
@@ -210,8 +206,13 @@
 
                                     </Grid>
                                 </Border>
+
+                                <Border x:Name="BgInner" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Bottom}"
+                    Background="{TemplateBinding Background}" Grid.Row="1" Margin="1,0,1,1" 
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" >
+                                    
                                 <!--窗体内容区域-->
-                                <AdornerDecorator Grid.Row="1" Margin="1,0,1,1" WindowChrome.IsHitTestVisibleInChrome="True">
+                                <AdornerDecorator  WindowChrome.IsHitTestVisibleInChrome="True">
                                     <Grid>
                                         <!--托盘图标-->
                                         <local:NotifyIcon x:Name="PART_NotifyIcon"
@@ -329,7 +330,7 @@
 
                                             <Grid>
                                                 <!--整体消息弹出-->
-                                                <local:DialogHost Identifier="windowDialog" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-3,0,-3,-3">
+                                                    <local:DialogHost Identifier="windowDialog" HorizontalAlignment="Stretch" Effect="{TemplateBinding AdornerDecoratorEffect}"  VerticalAlignment="Stretch" Margin="-3,0,-3,-3">
                                                     <Grid>
                                                         <local:LinkActionFrame UseRandomWipe="False" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}"/>
 
@@ -365,6 +366,7 @@
                                     </Grid>
                                 </AdornerDecorator>
 
+                                </Border>
                                 <Popup x:Name="Pop" PopupAnimation="Slide" IsOpen="{Binding ElementName=btnTheme,Path=IsChecked}"
                        PlacementTarget="{Binding ElementName=btnTheme}" Placement="Top"
                        AllowsTransparency="True" StaysOpen="False" HorizontalAlignment="Left" VerticalAlignment="Bottom">

@@ -59,12 +59,16 @@ namespace HeBianGu.General.WpfControlLib
                      //calendar.DayTemplateSelector = new SpecialDaySelector(coll, GetSpecialDayTemplate(d));
                      // Subscribe to CollectionChanged on the new collection of the DP-instance (!)
                      coll.CollectionChanged += control.CollectionChanged;
+
+                     control.ItemsSource = e.NewValue as IEnumerable;
+
+                     control.InitData();
                  }
 
-               
+
+          
 
 
-             
 
              }));
 

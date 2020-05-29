@@ -311,7 +311,8 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <local:Card UniformCornerRadius="2" Background="{TemplateBinding Background}" local:ShadowAssist.ShadowDepth="{DynamicResource S.EffectShadow.1}">
+
+                        <local:Card UniformCornerRadius="{DynamicResource S.Window.Item.CornerRadius.Value}" Background="{TemplateBinding Background}" local:ShadowAssist.ShadowDepth="{DynamicResource S.EffectShadow.1}">
                             <Grid>
                                 <Grid.Resources>
                                     <ControlTemplate x:Key="PreviousButtonTemplate" TargetType="{x:Type Button}">
@@ -391,14 +392,14 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
-                                <Border Grid.ColumnSpan="10" Grid.RowSpan="10" BorderThickness="1.5"
+                                <Border Grid.ColumnSpan="10" Grid.RowSpan="10" BorderThickness="1.5"  CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Bottom}"
                                         BorderBrush="{DynamicResource S.Brush.Accent}" >
                                     <!--<Border.Effect>
                                         <DropShadowEffect Color="Red" ShadowDepth="10"/>
                                     </Border.Effect>-->
                                 </Border>
 
-                                <Border Grid.ColumnSpan="3" Grid.Row="0" Background="{DynamicResource S.Brush.Accent}" />
+                                <Border Grid.ColumnSpan="3" Grid.Row="0" Background="{DynamicResource S.Brush.Accent}"/>
                                 
                                 <Button x:Name="PART_HeaderButton"
                                         Grid.Row="0"
@@ -408,8 +409,10 @@
                                         Template="{StaticResource HeaderButtonTemplate}"
                                         Height="Auto"
                                         Margin="20 15"/>
+                                
                                 <Button x:Name="PART_PreviousButton" Grid.Row="1" Grid.Column="0" Focusable="False" HorizontalAlignment="Left" Height="36" Template="{StaticResource PreviousButtonTemplate}" Width="32"
                                             Margin="6 0 0 0" Foreground="{TemplateBinding Foreground}" />
+                              
                                 <TextBlock x:Name="CurrentDateTextBlock"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"
                                            Margin="8"
@@ -422,6 +425,7 @@
                                         <TranslateTransform X="0" Y="0"/>
                                     </TextBlock.RenderTransform>
                                 </TextBlock>
+                                
                                 <Button x:Name="PART_NextButton" Grid.Row="1" Grid.Column="2" Focusable="False" HorizontalAlignment="Right" Height="36" Template="{StaticResource NextButtonTemplate}" Width="32"
                                             Margin="0 0 6 0" Foreground="{TemplateBinding Foreground}" />
 
@@ -432,8 +436,7 @@
                                       VerticalAlignment="Top"
                                       Margin="6 -1 6 6"
                                       Visibility="Visible">
-                                    <Border x:Name="PART_MonthViewCopy" RenderTransformOrigin="0, 0.5"
-                                            Opacity="0" Margin="4 7 4 3">
+                                    <Border x:Name="PART_MonthViewCopy" RenderTransformOrigin="0, 0.5" Opacity="0" Margin="4 7 4 3">
                                         <Border.Background>
                                             <VisualBrush Visual="{Binding ElementName=PART_MonthView}" Stretch="UniformToFill"/>
                                         </Border.Background>
@@ -502,6 +505,7 @@
                                 </Grid>
                             </Grid>
                         </local:Card>
+                        
                         <Rectangle x:Name="PART_DisabledVisual" Fill="{StaticResource DisabledColor}" Opacity="0" RadiusY="2" RadiusX="2" Stretch="Fill" Stroke="{StaticResource DisabledColor}" StrokeThickness="1" Visibility="Collapsed"/>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -611,7 +615,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Calendar}">
                     <CalendarItem x:Name="PART_CalendarItem" BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="2" Background="{TemplateBinding Background}" 
+                                  BorderThickness="2" Background="{TemplateBinding Background}"
                                   Style="{DynamicResource S.CalendarItem.Default}"/>
                 </ControlTemplate>
             </Setter.Value>

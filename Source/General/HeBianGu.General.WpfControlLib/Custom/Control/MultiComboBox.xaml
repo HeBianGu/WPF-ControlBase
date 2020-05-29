@@ -7,12 +7,13 @@
         <Setter Property="Height"  Value="{DynamicResource S.Window.Item.Height}" />
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Padding" Value="10,0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}" >
                     <Border x:Name="Border" Background="{TemplateBinding Background}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  Margin="{TemplateBinding Padding}">
                             <local:FCheckBox x:Name="cbx" IsChecked="{Binding Path=IsSelected,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}"
                                       >
                                 <ContentPresenter Margin="{TemplateBinding Padding}"
@@ -54,9 +55,11 @@
         <Setter Property="base:ControlAttachProperty.FocusBackground" Value="{DynamicResource S.Brush.White.Notice}" />
         <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         <Setter Property="FontFamily" Value="{DynamicResource  S.FontFamily.Default}" />
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,7,0" />
         <Setter Property="MaxDropDownHeight" Value="400" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
         <Setter Property="Template">
@@ -64,7 +67,7 @@
                 <ControlTemplate TargetType="{x:Type local:MultiComboBox}">
                     <Grid x:Name="PART_Root">
                         <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}" />
                         <Grid x:Name="PART_InnerGrid" Margin="0">
@@ -72,7 +75,7 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="25" />
                             </Grid.ColumnDefinitions>
                             
                             <!--Label区域-->
@@ -91,14 +94,24 @@
                                                 Template="{TemplateBinding base:ControlAttachProperty.AttachContent}" />
                             </Border>
                             
-                            <!--下拉按钮-->
+                            <!--下拉按钮--><!--
                             <ToggleButton x:Name="PART_DropDownToggle" Panel.ZIndex="1" IsTabStop="False" 
                                           Style="{DynamicResource S.ToggleButton.Combobox}" 
                                           IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           Grid.Column="3"  
                                           IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent},
                                           Converter={x:Static base:XConverter.TrueToFalseConverter},Mode=OneWay}" 
-                                          Margin="0,0,0,1" Background="Transparent" Foreground="{DynamicResource S.Brush.TextForeground.Assist}"/>
+                                          Margin="0,0,0,1" Background="Transparent" Foreground="{DynamicResource S.Brush.TextForeground.Assist}"/>-->
+
+                            <!--下拉按钮-->
+                            <ToggleButton x:Name="PART_DropDownToggle" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" base:ControlAttachProperty.FIconSize="15"
+                                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                         base:ControlAttachProperty.FIconMargin="{TemplateBinding base:ControlAttachProperty.FIconMargin}"
+                                         Grid.Column="1"  Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent},
+                                         Converter={x:Static base:XConverter.TrueToFalseConverter},Mode=OneWay}"
+                                        Foreground="{TemplateBinding Foreground}" 
+                                         Background="{TemplateBinding base:ControlAttachProperty.FocusBackground}"/>
+                            
                             <!--水印-->
                             <Border Grid.Column="1">
                                 <TextBlock x:Name="Message"  Padding="0" Visibility="Collapsed" 
@@ -126,19 +139,45 @@
                             <!--弹出多选列表-->
                             <Popup x:Name="PART_Popup" AllowsTransparency="True" Focusable="False" StaysOpen="False"
                                IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
-                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" 
+                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}" VerticalOffset="2"
                                    Placement="Bottom">
                                 <Grid Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}" 
                                       MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
-                                    <Border x:Name="PopupBorder" BorderThickness="{TemplateBinding BorderThickness}" 
-                                            HorizontalAlignment="Stretch"
-                                            Height="Auto" BorderBrush="{TemplateBinding BorderBrush}" 
-                                            Background="{TemplateBinding Background}"/>
-                                    <ListBox x:Name="PART_ListBox" SelectionMode="Multiple"
+
+                                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                        <Grid Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                            <Path Stroke="{DynamicResource S.Brush.Accent}" Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Stretch="Fill">
+                                                <Path.Data>
+                                                    <PathGeometry>
+                                                        <PathFigure StartPoint="1,2">
+
+                                                            <PolyLineSegment Points="95,2 96,1.5 97,2 99,2"></PolyLineSegment>
+
+                                                            <ArcSegment Point="100,3" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                                            <LineSegment Point="100,49"></LineSegment>
+
+                                                            <ArcSegment Point="99,50" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                                            <LineSegment Point="1,50"></LineSegment>
+
+                                                            <ArcSegment Point="0,49" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+
+                                                            <LineSegment Point="0,3"></LineSegment>
+
+                                                            <ArcSegment Point="1,2" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
+                                                        </PathFigure>
+                                                    </PathGeometry>
+                                                </Path.Data>
+                                            </Path>
+
+                                            <ListBox x:Name="PART_ListBox" SelectionMode="Multiple" Margin="0,10,2,0"
                                              ItemsSource="{Binding ItemsSource,RelativeSource={RelativeSource TemplatedParent}}"
                                              ItemTemplate="{TemplateBinding ItemTemplate}"
                                              MaxHeight="{TemplateBinding MaxDropDownHeight}" 
                                              ItemContainerStyle="{DynamicResource CheckItemStyle}"/>
+                                        </Grid>
+                                    </ScrollViewer>
                                 </Grid>
                             </Popup>
                         </Grid>
@@ -204,7 +243,7 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border MinWidth="90" Background="{DynamicResource S.Brush.Accent}">
+                    <Border MinWidth="90" Background="{DynamicResource S.Brush.Accent}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Left}">
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" Foreground="{DynamicResource S.Brush.TextForeground.White}"
                                    Text="{TemplateBinding Content}"></TextBlock>
                     </Border>
@@ -218,7 +257,7 @@
         <Setter Property="base:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border MinWidth="90" Background="{DynamicResource S.Brush.Accent}">
+                    <Border MinWidth="90" Background="{DynamicResource S.Brush.Accent}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Left}">
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Margin="2" Foreground="{DynamicResource S.Brush.TextForeground.White}"
                                    Text="{TemplateBinding Content}"></TextBlock>
                     </Border>

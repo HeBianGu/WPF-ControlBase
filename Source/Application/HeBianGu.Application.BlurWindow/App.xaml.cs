@@ -52,7 +52,7 @@ namespace HeBianGu.Application.BlurWindow
 
                 l.ItemHeight = 35;
                 //l.ItemWidth = 120;
-                l.ItemCornerRadius = new CornerRadius(17.5);
+                l.ItemCornerRadius = 5;
 
                 l.AnimalSpeed = 5000;
                 l.AccentColorSelectType = 0;

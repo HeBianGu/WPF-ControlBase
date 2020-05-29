@@ -61,7 +61,7 @@ namespace HeBianGu.Application.TouchWindow
 
                 l.ItemHeight = 35;
                 //l.ItemWidth = 120;
-                l.ItemCornerRadius = new CornerRadius(17.5);
+                l.ItemCornerRadius = 17;
 
                 l.AnimalSpeed = 5000;
                 l.AccentColorSelectType = 0;

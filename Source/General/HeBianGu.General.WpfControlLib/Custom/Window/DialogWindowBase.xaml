@@ -24,7 +24,7 @@
         <Setter Property="MinboxEnable" Value="True"/>
         <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
         <Setter Property="Padding" Value="10"/>
-        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="5"/>
+        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
 
         <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="ResizeMode" Value="CanMinimize"/>
@@ -68,17 +68,19 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <!--Caption标题部分-->
-                            <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}"  CornerRadius="5,5,0,0" >
+                            <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}"  CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Top}" >
                                 <Grid Margin="2,1,2,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
+                                    
                                     <!--Header部分-->
                                     <StackPanel  x:Name="PART_Header" Height="{TemplateBinding CaptionHeight}" Margin="5,1,5,1" Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock   Style="{DynamicResource FIcon}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:WindowBase},Path=CaptionForeground}" FontSize="{TemplateBinding FIconSize}" FontWeight="Bold" Text="{TemplateBinding FIcon}"/>
                                         <TextBlock   VerticalAlignment="Center" Margin="5" FontSize="{DynamicResource S.FontSize.Header}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:WindowBase},Path=CaptionForeground}" Text="{TemplateBinding Title}"/>
                                     </StackPanel>
+                                    
                                     <!--窗体功能按钮：最小、最大、关闭-->
                                     <StackPanel   Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top" Margin="1" HorizontalAlignment="Right" Height="{TemplateBinding CaptionHeight}">
                                         <local:FButton   x:Name="btnClose"  Width="35" VerticalAlignment="Center" Margin="1" CornerRadius="0" Padding="1 2 1 2"
