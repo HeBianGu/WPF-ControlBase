@@ -141,7 +141,7 @@ namespace HeBianGu.General.WpfControlLib
 
             this.IsUseAnimal = ThemeService.Current.IsUseAnimal;
 
-            this.AnimalSpeed = (int)(ThemeService.Current.AnimalSpeed / 1000);
+            this.AnimalSpeed = (int)(ThemeService.Current.AnimalSpeed);
 
             this.ItemCornerRadius = (int)ThemeService.Current.ItemCornerRadius;
         }
@@ -294,7 +294,7 @@ namespace HeBianGu.General.WpfControlLib
                 _animalSpeed = value;
                 RaisePropertyChanged("AnimalSpeed");
 
-                ThemeService.Current.AnimalSpeed = value * 1000;
+                ThemeService.Current.AnimalSpeed = value;
             }
         }
 
