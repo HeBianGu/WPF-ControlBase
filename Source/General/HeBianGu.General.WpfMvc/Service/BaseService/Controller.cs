@@ -20,11 +20,11 @@ namespace HeBianGu.General.WpfMvc
         /// <summary> 验证实体模型是否可用 </summary>
         public bool ModelState(object obj, out string message)
         {
-            var results = ObjectPropertyFactory.ModelState(obj);
+            var result = ObjectPropertyFactory.ModelState(obj,out List<string> errors);
 
-            message = results.FirstOrDefault();
+            message = errors.FirstOrDefault();
 
-            return results.Count == 0;
+            return result;
         }
 
         /// <summary> 验证实体模型是否可用 </summary>

@@ -11,6 +11,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using System.Xml;
 
 namespace HeBianGu.Base.WpfBase
@@ -83,7 +84,13 @@ namespace HeBianGu.Base.WpfBase
     {
         private ThemeService()
         {
-
+            _timer.Elapsed += (l, k) =>
+            {
+                Application.Current?.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                 {
+                     this.AccentColor = _type == 0 ? wpAccentColors[_random.Next(wpAccentColors.Length)] : metroAccentColors[_random.Next(metroAccentColors.Length)];
+                 }));
+            };
         }
 
         /// <summary> 深颜色主题 </summary> 
@@ -349,20 +356,15 @@ namespace HeBianGu.Base.WpfBase
 
         Timer _timer = new Timer();
 
+        int _type;
+
         Random _random = new Random();
 
         private void StartAnimationTheme(int timespan = 5000, int type = 0)
         {
             _timer.Interval = timespan;
 
-            _timer.Elapsed += (l, k) =>
-            {
-                Application.Current?.Dispatcher.Invoke(() =>
-                {
-                    this.AccentColor = type == 0 ? wpAccentColors[_random.Next(wpAccentColors.Length)] : metroAccentColors[_random.Next(metroAccentColors.Length)];
-                });
-
-            };
+            _type = type;
 
             _timer.Start();
 
@@ -385,6 +387,8 @@ namespace HeBianGu.Base.WpfBase
             }
             set
             {
+                if (_isUseAnimal == value) return;
+
                 _isUseAnimal = value;
 
                 if (value)
@@ -399,7 +403,17 @@ namespace HeBianGu.Base.WpfBase
         }
 
 
-        public int AnimalSpeed { get; set; } = 1000;
+        public int AnimalSpeed
+        {
+            get
+            {
+                return (int)_timer.Interval;
+            }
+            set
+            {
+                _timer.Interval = value;
+            }
+        }
 
 
         public int AccentColorSelectType { get; set; } = 0;
@@ -454,7 +468,7 @@ namespace HeBianGu.Base.WpfBase
             }
             get
             {
-                return (double)Application.Current.Resources["S.Window.Item.CornerRadius"];
+                return (double)Application.Current.Resources["S.Window.Item.CornerRadius.Value"];
             }
         }
 

@@ -45,30 +45,22 @@ namespace HeBianGu.General.WpfControlLib
 
                  if (control == null) return;
 
-                 if (e.OldValue != null)
+                 if (e.OldValue is INotifyCollectionChanged notify)
                  {
-                     var coll = (INotifyCollectionChanged)e.OldValue;
-                     // Unsubscribe from CollectionChanged on the old collection of the DP-instance (!)
-                     coll.CollectionChanged -= control.CollectionChanged;
+                     if (notify != null)
+                         notify.CollectionChanged -= control.CollectionChanged;
                  }
 
-                 if (e.NewValue != null)
+                 if (e.NewValue is INotifyCollectionChanged notify1)
                  {
-                     var coll = (INotifyCollectionChanged)e.NewValue; 
-
-                     //calendar.DayTemplateSelector = new SpecialDaySelector(coll, GetSpecialDayTemplate(d));
-                     // Subscribe to CollectionChanged on the new collection of the DP-instance (!)
-                     coll.CollectionChanged += control.CollectionChanged;
-
-                     control.ItemsSource = e.NewValue as IEnumerable;
-
-                     control.InitData();
+                     if (notify1 != null)
+                         notify1.CollectionChanged += control.CollectionChanged;
+                    
                  }
 
+                 control.ItemsSource = e.NewValue as IEnumerable;
 
-          
-
-
+                 control.InitData();
 
              }));
 
@@ -376,7 +368,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         void InitData()
-        { 
+        {
 
             this.PageIndex = 1;
 

@@ -133,25 +133,29 @@ namespace HeBianGu.Base.WpfBase
         /// <summary> 刷新当前显示Source </summary>
         public void RefreshSource()
         {
-            //var where = this.Where(l => Fileter(l));
 
             if (this.Cache.Count == 0) return;
 
-            this.Total = this.Cache.Count;
+            var where = this.Cache.Where(l => Fileter(l))?.ToList(); 
 
-            int min = (this.PageIndex - 1) * this.PageCount;
+            Task.Run(()=>
+            {
+                this.Total = where.Count;
 
-            int max = min + this.PageCount;
+                int min = (this.PageIndex - 1) * this.PageCount;
 
-            this.MinValue = this.Total == 0 ? 0 : (min + 1);
+                int max = min + this.PageCount;
 
-            this.MaxValue = max < this.Total ? max : this.Total;
+                this.MinValue = this.Total == 0 ? 0 : (min + 1);
 
-            this.TotalPage = this.Total % this.PageCount == 0 ? this.Total / this.PageCount : this.Total / this.PageCount + 1;
+                this.MaxValue = max < this.Total ? max : this.Total;
 
-            var collection = this.Cache.Skip(this.MinValue).Take(this.PageCount);
+                this.TotalPage = this.Total % this.PageCount == 0 ? this.Total / this.PageCount : this.Total / this.PageCount + 1;
 
-            this.Source = collection.ToObservable();
+                var collection = where.Skip(this.MinValue).Take(this.PageCount);
+
+                this.Source = collection.ToObservable();
+            });
         }
 
         public void Add(params T[] value)
@@ -164,9 +168,33 @@ namespace HeBianGu.Base.WpfBase
             this.RefreshSource();
         }
 
+        public void Remove(params T[] value)
+        {
+            foreach (var item in value)
+            {
+                this.Cache.Remove(item);
+            }
+
+            this.RefreshSource();
+        }
+
         public void Clear()
         {
             this.Cache.Clear();
+
+            this.RefreshSource();
+        }
+
+        public  void Sort<TKey>(Func<T, TKey> keySelector, bool isdesc)
+        {
+            if(isdesc)
+            {
+                this.Cache.Sort(keySelector); 
+            }
+            else
+            {
+                this.Cache.SortDesc(keySelector);
+            }
 
             this.RefreshSource();
         }

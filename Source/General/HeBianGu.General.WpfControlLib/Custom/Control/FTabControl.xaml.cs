@@ -550,7 +550,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 if(_FTabPanel==null)
                 {
-                    _FTabPanel = TabControlParent.HeaderPanel;
+                    _FTabPanel = TabControlParent?.HeaderPanel;
                 }
 
                 return _FTabPanel;

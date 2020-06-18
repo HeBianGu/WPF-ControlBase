@@ -38,9 +38,9 @@ namespace HeBianGu.Base.WpfBase
         }
 
         /// <summary> 模型有效信息验证 </summary>
-        public static List<string> ModelState(object obj)
+        public static bool ModelState(object obj, out List<string> errors)
         {
-            List<string> results = new List<string>();
+            errors = new List<string>();
 
             var propertys = obj.GetType().GetProperties();
 
@@ -50,19 +50,18 @@ namespace HeBianGu.Base.WpfBase
 
                 var value = item.GetValue(obj);
 
-                //  Do：检验数据有效性
-                if (results == null) continue;
-
                 foreach (var r in collection)
                 {
                     if (!r.IsValid(value))
                     {
-                        results.Add(r.ErrorMessage??r.FormatErrorMessage(item.Name));
+                        string display = item.GetCustomAttributes<DisplayAttribute>()?.FirstOrDefault()?.Name;
+
+                        errors.Add(r.ErrorMessage ?? r.FormatErrorMessage(display??item.Name));
                     }
-                } 
+                }
             }
 
-            return results;
+            return errors.Count == 0;
         }
     }
 }

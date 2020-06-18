@@ -64,7 +64,7 @@ namespace HeBianGu.Application.TouchWindow
 
                     Thread.Sleep(1000);
 
-                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    System.Windows.Application.Current?.Dispatcher.Invoke(() =>
                     {
                         this.Content = this.Content?.ToString().Split('(')[0] + $"({count = count - 1})";
 

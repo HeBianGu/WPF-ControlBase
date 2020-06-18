@@ -196,6 +196,11 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
+       public bool ModelState(out List<string> errors)
+        {
+            return ObjectPropertyFactory.ModelState(this.SelectObject, out errors);
+        }
+
     }
 
 

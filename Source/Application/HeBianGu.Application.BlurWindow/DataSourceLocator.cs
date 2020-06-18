@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
+using System.Reflection;
 
 namespace HeBianGu.Application.BlurWindow
 {
@@ -14,25 +16,25 @@ namespace HeBianGu.Application.BlurWindow
     {
         public DataSourceLocator()
         {
-            ServiceRegistry.Instance.Register<ShellViewModel>(); 
+            ServiceRegistry.Instance.Register<ShellViewModel>();
         }
         public ShellViewModel ShellViewModel => ServiceRegistry.Instance.GetInstance<ShellViewModel>();
 
 
     }
 
-        public enum Rainbow
-        {
-            Red,
-            Orange,
-            Yellow,
-            Green,
-            Blue,
-            Indigo,
-            Violet
-        }
+    public enum Rainbow
+    {
+        Red,
+        Orange,
+        Yellow,
+        Green,
+        Blue,
+        Indigo,
+        Violet
+    }
 
-        public class Student
+    public class Student
     {
         [Display(Name = "姓名")]
         [Required()]
@@ -70,4 +72,27 @@ namespace HeBianGu.Application.BlurWindow
         [RegularExpression(@"^1[3|4|5|7|8][0-9]{9}$", ErrorMessage = "手机号码不合法！")]
         public string Tel { get; set; }
     }
+
+    class StudentViewModel : ValidationModelViewModel<Student>
+    {
+        private ValidationProperty<string> _tel;
+
+        public ValidationProperty<string> Tel
+        {
+            get
+            {
+                //  Do ：只有第一遍从实体里面加载数据
+                return _tel = _tel ?? this.CreateModelProperty<string>();
+            }
+            set
+            {
+                _tel = value;
+                RaisePropertyChanged();
+            }
+        }
+    }
+
+
+
+
 }

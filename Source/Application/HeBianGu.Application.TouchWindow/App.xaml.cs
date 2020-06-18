@@ -60,11 +60,15 @@ namespace HeBianGu.Application.TouchWindow
                 l.FontSize = FontSize.Small;
 
                 l.ItemHeight = 35;
-                //l.ItemWidth = 120;
-                l.ItemCornerRadius = 17;
+
+                l.RowHeight = 60;
+
+                l.ItemCornerRadius = 5;
 
                 l.AnimalSpeed = 5000;
+
                 l.AccentColorSelectType = 0;
+
                 l.IsUseAnimal = false;
 
                 l.ThemeType = ThemeType.Light;

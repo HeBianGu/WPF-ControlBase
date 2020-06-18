@@ -291,9 +291,9 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 检查显示主窗口模糊效果 </summary>
-       public static void BeginDefaultBlurEffect(bool isuse)
+        public static void BeginDefaultBlurEffect(bool isuse)
         {
-            if(isuse)
+            if (isuse)
             {
                 if (Application.Current.MainWindow is WindowBase window)
                 {
@@ -307,10 +307,10 @@ namespace HeBianGu.General.WpfControlLib
                     window.AdornerDecoratorEffect = null;
                 }
             }
-           
+
 
         }
-  
+
 
         public static async Task<bool> ShowResultMessge(string message)
         {
@@ -398,9 +398,10 @@ namespace HeBianGu.General.WpfControlLib
         static ManualResetEvent _asyncShowWaitHandle = new ManualResetEvent(false);
 
         /// <summary> 显示蒙版 </summary>
-        public static async Task<bool> ShowWithObject(object value, string title = null)
+        public static async Task<bool> ShowObjectWithPropertyForm<T>(T value, Predicate<T> match = null, string title = null)
         {
             bool result = false;
+
             await Application.Current.Dispatcher.Invoke(async () =>
              {
                  if (Application.Current.MainWindow is IWindowBase window)
@@ -422,9 +423,23 @@ namespace HeBianGu.General.WpfControlLib
 
                      form.Sumit += (l, k) =>
                      {
+                         var check = form.ModelState(out List<string> errors);
+
+                         if (!check)
+                         {
+                             MessageService.ShowSnackMessageWithNotice(errors.FirstOrDefault());
+                             return;
+                         }
+
+                         if (match != null && !match(value))
+                         {
+                             return;
+                         }
+
                          CloseWithLayer();
                          _asyncShowWaitHandle.Set();
                          result = true;
+
                      };
 
                      window.ShowWithLayer(form);
@@ -446,7 +461,60 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
+        /// <summary> 显示蒙版 </summary>
+        public static async Task<bool> ShowObjectWithContent<T>(T value, Predicate<T> match = null, string title = null)
 
+        {
+            bool result = false;
+
+            await Application.Current.Dispatcher.Invoke(async () =>
+            {
+                if (Application.Current.MainWindow is IWindowBase window)
+                {
+                    ObjectContentDialog content = new ObjectContentDialog();
+
+                    content.Content = value;
+
+                    content.Title = title;
+
+                    //content.Style = Application.Current.FindResource("S.ObjectPropertyForm.Default.WithSumit") as Style;
+
+                    //content.SelectObject = value;
+
+                    //content.Close += (l, k) =>
+                    //{
+                    //    CloseWithLayer();
+                    //    _asyncShowWaitHandle.Set();
+                    //    result = false;
+                    //};
+
+                    content.Sumited += (l, k) =>
+                    {
+                        if (match != null && !match(value)) return;
+
+                        CloseWithLayer();
+                        _asyncShowWaitHandle.Set();
+                        result = true;
+                    };
+
+                    window.ShowWithLayer(content);
+
+                    _asyncShowWaitHandle.Reset();
+
+                    var task = new Task(() =>
+                    {
+                        _asyncShowWaitHandle.WaitOne();
+                    });
+
+                    task.Start();
+
+                    await task;
+                }
+            });
+
+            return result;
+
+        }
         #endregion
 
         #region - 气泡消息 -

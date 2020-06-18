@@ -45,8 +45,8 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
 
-                <Grid>
-                    <Grid.Resources>
+                <StackPanel>
+                    <StackPanel.Resources>
                         <DataTemplate x:Key="D.ColorLink.Default" DataType="{x:Type local:ColorLink}">
                             <Grid Height="30">
                                 <Border x:Name="border" Background="{Binding Color}">
@@ -58,55 +58,98 @@
                                     <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" TargetName="border"/>
                                     <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}" TargetName="text"/>
                                 </DataTrigger>
-                            </DataTemplate.Triggers> 
+                            </DataTemplate.Triggers>
                         </DataTemplate>
 
                         <Style x:Key="S.ComboBoxItem.Current" TargetType="ComboBoxItem" BasedOn="{StaticResource S.ComboBoxItem.Default}">
                             <Setter Property="HorizontalContentAlignment" Value="Center"/>
                             <Setter Property="HorizontalAlignment" Value="Stretch"/>
                         </Style>
-                    </Grid.Resources>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition MinWidth="120"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*" />
-                        <RowDefinition  Height="*"/>
-                        <RowDefinition  Height="*"/>
-                        <RowDefinition  Height="*"/>
-                    </Grid.RowDefinitions>
+                    </StackPanel.Resources>
 
-                    <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=ApplyScene,Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,16,4" /> 
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding Palettes}" SelectedItem="{Binding SelectedPalette, Mode=TwoWay}" 
-                              VerticalAlignment="Center" Margin="0,4" ItemContainerStyle="{StaticResource S.ComboBoxItem.Current}" > 
-                    </ComboBox>
+                    <local:Row Style="{DynamicResource S.Row.Column.4}">
+                        <TextBlock  Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=ApplyScene,Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,16,4" />
+                        <ComboBox Grid.Column="1" Grid.ColumnSpan="3" ItemsSource="{Binding Palettes}" SelectedItem="{Binding SelectedPalette, Mode=TwoWay}" 
+                              VerticalAlignment="Center" Margin="0,4" ItemContainerStyle="{StaticResource S.ComboBoxItem.Current}" >
+                        </ComboBox>
+                    </local:Row>
 
-                    <TextBlock Grid.Row="1" Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=ApplyTheme,Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,16,4" />
+                    <local:Row  Style="{DynamicResource S.Row.Column.4}">
+                        <TextBlock Grid.Row="1" Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=ApplyTheme,Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,16,4" />
 
-                    <ComboBox Grid.Row="1" Grid.Column="1" IsEnabled="True"  ItemsSource="{Binding Themes}"
+                        <ComboBox Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="3" IsEnabled="True"  ItemsSource="{Binding Themes}"
                               SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
                               ItemTemplate="{StaticResource D.ColorLink.Default}"
                               VerticalAlignment="Center" Margin="0,4">
-                    </ComboBox>
+                        </ComboBox>
+                    </local:Row>
 
-                    <TextBlock Grid.Row="2" Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=FontSize,Mode=TwoWay}" VerticalAlignment="Center" Margin="0,0,16,4" />
 
-                    <ComboBox Grid.Row="2" Grid.Column="1"  HorizontalContentAlignment="Center" DisplayMemberPath="Text" SelectedIndex="{Binding SelectIndex,Mode=TwoWay}" VerticalAlignment="Center"  Margin="0,4">
-                        <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Small,Mode=TwoWay}"/>
-                        <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Large,Mode=TwoWay}"/>
-                    </ComboBox>
+                    <local:Row  Style="{DynamicResource S.Row.Column.4}">
+                        <TextBlock Grid.Row="2" Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=FontSize,Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,16,4" />
 
-                    <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=FollowSystem,Mode=TwoWay}" Grid.Row="3"  VerticalAlignment="Center" Margin="0,0,16,4" />
+                        <ComboBox Grid.Row="2" Grid.Column="1"  Grid.ColumnSpan="3"  HorizontalContentAlignment="Center" DisplayMemberPath="Text" SelectedIndex="{Binding SelectIndex,Mode=TwoWay}" VerticalAlignment="Center"  Margin="0,4">
+                            <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Small,Mode=TwoWay}"/>
+                            <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Large,Mode=TwoWay}"/>
+                        </ComboBox>
+                    </local:Row>
 
-                    <local:FCheckBox Grid.Row="3"  Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" base:ControlAttachProperty.FIconSize="22"   Margin="0,4"
+                    <local:Row  Style="{DynamicResource S.Row.Column.4}">
+
+                        <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=FollowSystem,Mode=TwoWay}" HorizontalAlignment="Right" Grid.Row="3"  VerticalAlignment="Center" Margin="0,0,16,4" />
+
+                        <local:FCheckBox Grid.Row="3"  Grid.Column="1"  Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" base:ControlAttachProperty.FIconSize="22"   Margin="0,4"
                                      IsChecked="{Binding IsFollowSystemSystem}"/>
+                    </local:Row>
 
-                    <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=CustomColor,Mode=TwoWay}" Grid.Row="4"  VerticalAlignment="Center" Margin="0,0,16,4" />
 
-                    <local:MetroColorPicker Grid.Row="4" Grid.Column="1" Background="{Binding SelectedAccentColor,Converter={x:Static base:XConverter.ColorToBrushConverter},Mode=TwoWay}" Height="30" Width="30" Margin="5"/>
-                </Grid>
+                    <local:Row  Style="{DynamicResource S.Row.Column.4}">
+
+                        <TextBlock Text="动态主题" Grid.Row="3" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,16,4" />
+
+                        <local:FCheckBox x:Name="cb_isUseAnimal" Grid.Row="3"  Grid.Column="1"  Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" base:ControlAttachProperty.FIconSize="22"   Margin="0,4"
+                                     IsChecked="{Binding IsUseAnimal}"/>
+                    </local:Row>
+
+                    <local:Row  Style="{DynamicResource S.Row.Column.4}" Visibility="{Binding ElementName=cb_isUseAnimal,Path=IsChecked,Converter={x:Static base:XConverter.BooleanToVisibilityConverter}}">
+
+                        <TextBlock Text="动态间隔" Grid.Row="3" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,16,4" />
+
+                        <Slider Grid.Column="1" Minimum="1" Maximum="60"  Value="{Binding AnimalSpeed}" Grid.ColumnSpan="3" IsSnapToTickEnabled="True" Background="{DynamicResource S.Brush.TextForeground.White}"/>
+
+                    </local:Row>
+
+                    <local:Row  Style="{DynamicResource S.Row.Column.4}">
+
+                        <TextBlock Text="行高度" Grid.Row="3" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,16,4" />
+
+                        <Slider Grid.Column="1" Value="{Binding ItemHeight}" Minimum="20" Maximum="50" Grid.ColumnSpan="3" IsSnapToTickEnabled="True" Background="{DynamicResource S.Brush.TextForeground.White}"/>
+                        
+                    </local:Row>
+
+
+                    <local:Row  Style="{DynamicResource S.Row.Column.4}">
+
+                        <TextBlock Text="项高度" Grid.Row="3"  HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,16,4" />
+
+                        <Slider Grid.Column="1" Minimum="20"  Value="{Binding RowHeight}" Maximum="80" IsSnapToTickEnabled="True" Grid.ColumnSpan="3"  Background="{DynamicResource S.Brush.TextForeground.White}"/>
+                    
+                    </local:Row>
+
+                    <local:Row  Style="{DynamicResource S.Row.Column.4}">
+
+                        <TextBlock Text="项圆角" Grid.Row="3"  HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,16,4" />
+
+                        <Slider Grid.Column="1" Minimum="0"  Value="{Binding ItemCornerRadius}" Maximum="80" IsSnapToTickEnabled="True" Grid.ColumnSpan="3"  Background="{DynamicResource S.Brush.TextForeground.White}"/>
+                    </local:Row>
+
+                    <local:Row  Style="{DynamicResource S.Row.Column.4}">
+                        <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=CustomColor,Mode=TwoWay}" Grid.Row="4" HorizontalAlignment="Right"  VerticalAlignment="Center" Margin="0,0,16,4" />
+
+                        <local:MetroColorPicker Grid.Row="4" Grid.Column="1"  Grid.ColumnSpan="3" Background="{Binding SelectedAccentColor,Converter={x:Static base:XConverter.ColorToBrushConverter},Mode=TwoWay}" Height="30" Width="30"/>
+
+                    </local:Row>
+               </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -116,7 +116,10 @@ namespace HeBianGu.General.WpfMvc
 
         protected virtual void Loaded(string args)
         {
-            this.GoToLink(args ?? "List");
+            if(!string.IsNullOrEmpty(args))
+            {
+                this.GoToLink(args);
+            }
         }
 
         protected virtual bool CanLoaded(string args)
@@ -139,13 +142,23 @@ namespace HeBianGu.General.WpfMvc
         /// <summary> 异步运行 </summary>
         public async void RunAsync(Action action)
         {
-           await Task.Run(action);
+            await Task.Run(action);
         }
 
         /// <summary> 使用主线程运行 </summary>
         public void Invoke(Action action)
         {
             Application.Current.Dispatcher.Invoke(action);
+        }
+
+        /// <summary> 验证实体模型是否可用 </summary>
+        protected bool ModelState(object obj, out string message)
+        {
+            var result = ObjectPropertyFactory.ModelState(obj,out List<string> errors);
+
+            message = errors.FirstOrDefault();
+
+            return result;
         }
     }
 
@@ -198,19 +211,24 @@ namespace HeBianGu.General.WpfMvc
     /// <summary> 带有依赖注入Respository的基类 </summary>
     public class MvcViewModelBase<R1, R2, M> : MvcViewModelBase<R1, M> where M : new()
     {
-        public R2 Respository2 { get; set; } = ServiceRegistry.Instance.GetInstance<R2>();
+        public R2 Service1 { get; set; } = ServiceRegistry.Instance.GetInstance<R2>();
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
     public class MvcViewModelBase<R1, R2, R3, M> : MvcViewModelBase<R1, R2, M> where M : new()
     {
-        public R3 Respository3 { get; set; } = ServiceRegistry.Instance.GetInstance<R3>();
+        public R3 Service2 { get; set; } = ServiceRegistry.Instance.GetInstance<R3>();
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
-    public class MvcViewModelBase<R1, R2,R3,R4, M> : MvcViewModelBase<R1, R2, R3, M> where M : new()
+    public class MvcViewModelBase<R1, R2, R3, R4, M> : MvcViewModelBase<R1, R2, R3, M> where M : new()
     {
-        public R4 Respository4 { get; set; } = ServiceRegistry.Instance.GetInstance<R4>();
+        public R4 Service3 { get; set; } = ServiceRegistry.Instance.GetInstance<R4>();
     }
 
+    /// <summary> 带有依赖注入Respository的基类 </summary>
+    public class MvcViewModelBase<R1, R2, R3, R4, R5, M> : MvcViewModelBase<R1, R2, R3, R4, M> where M : new()
+    {
+        public R5 Service4 { get; set; } = ServiceRegistry.Instance.GetInstance<R5>();
+    }
 }

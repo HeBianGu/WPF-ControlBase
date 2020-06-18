@@ -115,26 +115,29 @@ namespace HeBianGu.Domain.MvcRespository
         /// <summary> 跳转列表页面 </summary>
         public virtual async Task<IActionResult> List()
         {
-            var source = await this.Respository.GetListAsync();
-
-            if (source == null)
-            {
-                return View();
-            }
-
+            //  Do ：异步加载数据
             this.ViewModel.RunAsync(()=>
             {
-                this.ViewModel.Collection.Invoke(l => l.Clear());
+                var source = this.Respository.GetListAsync();
 
-                foreach (var item in source)
-                {
-                    this.ViewModel.Collection.Invoke(l => l.Add(item));
-
-                    Thread.Sleep(10);
-                }
+                this.ViewModel.Collection = source?.Result?.ToObservable();
             });
 
-            return View();
+       
+
+            //this.ViewModel.RunAsync(()=>
+            //{
+            //    this.ViewModel.Collection.Invoke(l => l.Clear());
+
+            //    foreach (var item in source)
+            //    {
+            //        this.ViewModel.Collection.Invoke(l => l.Add(item));
+
+            //        Thread.Sleep(10);
+            //    }
+            //});
+
+            return await ViewAsync();
         }
 
         /// <summary> 跳转到中心 </summary>

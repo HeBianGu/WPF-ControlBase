@@ -55,7 +55,9 @@ namespace HeBianGu.Application.BlurWindow
                 l.ItemCornerRadius = 5;
 
                 l.AnimalSpeed = 5000;
+
                 l.AccentColorSelectType = 0;
+
                 l.IsUseAnimal = true;
 
                 l.ThemeType = ThemeType.Light;

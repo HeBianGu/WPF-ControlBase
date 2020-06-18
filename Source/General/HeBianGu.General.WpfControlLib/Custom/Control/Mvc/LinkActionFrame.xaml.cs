@@ -90,7 +90,7 @@ namespace HeBianGu.General.WpfControlLib
                   {
                       if (this.Content == result?.View)
                       {
-                          this.Content = new Button() { Visibility = Visibility.Collapsed };
+                          //this.Content = new Button() { Visibility = Visibility.Collapsed };
                           this.Content = result?.View;
                       }
                       else

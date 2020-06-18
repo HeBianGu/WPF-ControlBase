@@ -21,11 +21,20 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary> 主题设置页面 </summary>
     public partial class ThemeSetControl : UserControl
     {
+
+        SettingsAppearanceViewModel _context = new SettingsAppearanceViewModel();
+
         public ThemeSetControl()
         {
             InitializeComponent();
 
-            this.DataContext = new SettingsAppearanceViewModel();
+            this.DataContext = _context;
+
+            this.Loaded +=(l, k) =>
+             {
+                 _context.Load();
+             };
+
         }
     }
 
@@ -114,12 +123,27 @@ namespace HeBianGu.General.WpfControlLib
 
             //this.SelectedFontSize = ThemeService.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
 
-            this.SelectIndex = ThemeService.Current.FontSize == FontSize.Large ? 1 : 0;
 
             SyncThemeAndColor();
 
             ThemeService.Current.PropertyChanged += OnAppearanceManagerPropertyChanged;
 
+        }
+
+        public void Load()
+        {
+
+            this.SelectIndex = ThemeService.Current.FontSize == FontSize.Large ? 1 : 0;
+
+            this.ItemHeight = (int)ThemeService.Current.ItemHeight;
+
+            this.RowHeight = (int)ThemeService.Current.RowHeight;
+
+            this.IsUseAnimal = ThemeService.Current.IsUseAnimal;
+
+            this.AnimalSpeed = (int)(ThemeService.Current.AnimalSpeed / 1000);
+
+            this.ItemCornerRadius = (int)ThemeService.Current.ItemCornerRadius;
         }
 
         private void SyncThemeAndColor()
@@ -190,21 +214,6 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        //public string SelectedFontSize
-        //{
-        //    get { return this.selectedFontSize; }
-        //    set
-        //    {
-        //        if (this.selectedFontSize != value)
-        //        {
-        //            this.selectedFontSize = value;
-        //            RaisePropertyChanged("SelectedFontSize");
-
-        //            ThemeService.Current.FontSize = value == FontLarge ? FontSize.Large : FontSize.Small;
-        //        }
-        //    }
-        //}
-
         public Color SelectedAccentColor
         {
             get { return this.selectedAccentColor; }
@@ -220,8 +229,6 @@ namespace HeBianGu.General.WpfControlLib
                 }
             }
         }
-
-
 
         private bool _isFollowSystemSystem;
         /// <summary> 说明  </summary>
@@ -248,6 +255,77 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
+        private int _itemHeight;
+        /// <summary> 说明  </summary>
+        public int ItemHeight
+        {
+            get { return _itemHeight; }
+            set
+            {
+                _itemHeight = value;
+
+                RaisePropertyChanged("ItemHeight");
+
+                ThemeService.Current.ItemHeight = value;
+            }
+        }
+
+        private int _rowHeight;
+        /// <summary> 说明  </summary>
+        public int RowHeight
+        {
+            get { return _rowHeight; }
+            set
+            {
+                _rowHeight = value;
+                RaisePropertyChanged("RowHeight");
+
+                ThemeService.Current.RowHeight = value;
+            }
+        }
+
+        private int _animalSpeed;
+        /// <summary> 说明  </summary>
+        public int AnimalSpeed
+        {
+            get { return _animalSpeed; }
+            set
+            {
+                _animalSpeed = value;
+                RaisePropertyChanged("AnimalSpeed");
+
+                ThemeService.Current.AnimalSpeed = value * 1000;
+            }
+        }
+
+        private bool _isUseAnimal;
+        /// <summary> 说明  </summary>
+        public bool IsUseAnimal
+        {
+            get { return _isUseAnimal; }
+            set
+            {
+                _isUseAnimal = value;
+                RaisePropertyChanged("IsUseAnimal");
+
+                ThemeService.Current.IsUseAnimal = value;
+            }
+        }
+
+        private int _itemCornerRadius;
+        /// <summary> 说明  </summary>
+        public int ItemCornerRadius
+        {
+            get { return _itemCornerRadius; }
+            set
+            {
+                _itemCornerRadius = value;
+
+                RaisePropertyChanged("ItemCornerRadius");
+
+                ThemeService.Current.ItemCornerRadius = value;
+            }
+        }
     }
 
     public class ColorLink : Link

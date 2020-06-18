@@ -180,24 +180,35 @@ namespace HeBianGu.General.WpfControlLib
             this.OldContent = oldControl ?? this.OldContent;
             this.NewContent = newControl;
 
-            FrameworkElement control = NewContent as FrameworkElement;
+            FrameworkElement control_old = NewContent as FrameworkElement;
+            FrameworkElement control_new = NewContent as FrameworkElement;
 
-            if (control == null || control.IsLoaded)
+            if (control_new == null || control_new.IsLoaded)
             {
-                this.RefreshSwitch(); return;
+                this.RefreshSwitch();
+                return;
             }
 
+            //  Do ：第一次加载完控件在刷新
+            if (control_old != null)
+            {
+                control_old.Loaded -= Control_Loaded;
+            }
 
-            control.Loaded += (l, k) =>
-              {
-                  this.RefreshSwitch();
-              };
+            control_new.Loaded += Control_Loaded;
 
 
         }
 
+        private void Control_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.RefreshSwitch();
+        }
+
         void RefreshSwitch()
         {
+            if (_transitionerSlide_Old == null || _transitionerSlide_New == null) return;
+
             TransitionerSlide oldSlide = null, newSlide = null;
 
             List<TransitionerSlide> Items = new List<TransitionerSlide>();

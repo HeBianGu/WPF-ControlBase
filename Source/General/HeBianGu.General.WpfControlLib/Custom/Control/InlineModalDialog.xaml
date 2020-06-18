@@ -3,30 +3,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="local:InlineModalDialog">
-
-        <Setter Property="HorizontalAlignment"
-                Value="Center" />
-        <Setter Property="VerticalAlignment"
-                Value="Center" />
-
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <!--<controls:NineGridBorder Style="{StaticResource ShadowBorder}">-->
-                    <Grid Background="Red">
-                        
-                        <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
-                                          Content="{TemplateBinding Content}" />
+                    <Grid>
+                        <Border Background="{DynamicResource S.Brush.TextBackground.Default}" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" 
+                                BorderThickness="1" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
+                            <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" />
+                        </Border>
 
-
+                        <local:FButton x:Name="btnClose" Command="local:InlineModalDialog.CloseCommand" Style="{DynamicResource S.FButton.Instance.Close}"/>
                     </Grid>
                     <!--</controls:NineGridBorder>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
 
-        <Setter Property="RenderTransformOrigin"
-                Value=".5,.5" />
+        <Setter Property="RenderTransformOrigin" Value=".5,.5" />
+        
         <Setter Property="RenderTransform">
             <Setter.Value>
                 <ScaleTransform ScaleX="1"

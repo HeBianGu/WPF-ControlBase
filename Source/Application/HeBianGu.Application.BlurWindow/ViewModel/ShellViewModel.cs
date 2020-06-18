@@ -184,6 +184,9 @@ namespace HeBianGu.Application.BlurWindow
         }
         private ObservableCollection<FComboBoxItemModel> _comboBoxItems = new ObservableCollection<FComboBoxItemModel>();
 
+
+        Random random = new Random();
+
         /// <summary> 命令通用方法 </summary>
         protected override async void RelayMethod(object obj)
 
@@ -411,6 +414,61 @@ namespace HeBianGu.Application.BlurWindow
 
             }
 
+            //  Do：气泡消息
+            else if (command.StartsWith("Button.ShowObjectWithPropertyForm"))
+            {
+                Student student = new Student();
+
+                await MessageService.ShowObjectWithPropertyForm(student, l => true, "修改学生信息");
+
+            }
+
+            //  Do：气泡消息
+            else if (command=="Button.ShowObjectWithContent")
+            {
+                Student student = new Student();
+
+                Predicate<Student> match = l =>
+                     {
+                         if (this.random.Next(3) == 1)
+                         {
+                             MessageService.ShowSnackMessageWithNotice("随机测试提交失败，请再试几次");
+                             return false;
+                         }
+                         else
+                         {
+                             MessageService.ShowSnackMessageWithNotice("随机测试提交成功，请再试几次");
+                             return true;
+                         }
+                     };
+
+                await MessageService.ShowObjectWithContent(student, match, "修改学生信息");
+
+            }
+
+            //  Do：气泡消息
+            else if (command=="Button.ShowObjectWithContent.WithValidation")
+            {
+                StudentViewModel student = new StudentViewModel();
+
+                Predicate<StudentViewModel> match = l =>
+                {
+                    //if (ObjectPropertyFactory.ModelState(student.Model,out List<string> errors))
+                    if (student.ModelState(out List<string> errors))
+                    {
+                        MessageService.ShowSnackMessageWithNotice("提交成功");
+                        return true;
+                    }
+                    else
+                    {
+                        MessageService.ShowSnackMessageWithNotice(errors?.FirstOrDefault());
+                        return false;
+                    }
+                };
+
+                await MessageService.ShowObjectWithContent(student, match, "修改学生信息");
+
+            }
             else if (command == "Button.Add")
             {
 

@@ -3,14 +3,20 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.Demo.Pages"
+      xmlns:local="clr-namespace:HeBianGu.Application.BlurWindow"
       xmlns:h="QQ:908293466" mc:Ignorable="d"  d:DesignHeight="450" d:DesignWidth="800" Title="MessagePage"
       DataContext="{Binding Source={StaticResource S.DataSource.Locator},Path=ShellViewModel}" >
+    <Page.Resources>
+        <DataTemplate DataType="{x:Type local:Student}">
+            <Grid Height="300">
+                <TextBlock Text="我是定义的Student模板"/>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
     <ScrollViewer>
         <h:Interaction.Behaviors>
             <h:ScrollViewMouseDragBehavior/>
         </h:Interaction.Behaviors>
-
         <StackPanel>
             <h:Interaction.Behaviors>
                 <h:FountainAnimationBehavior IsUseAll="True" PointLeft="-2000" PointTop="2000" Split="0.2"/>
@@ -34,6 +40,12 @@
                     <h:FButton Content="百分比进度提示" Command="{Binding RelayCommand}" CommandParameter="Button.ShowPercentProgress"/>
                     <h:FButton Content="等待消息" Command="{Binding RelayCommand}" CommandParameter="Button.ShowWaittingMessge"/>
 
+                    <h:FButton Content="显示属性" Command="{Binding RelayCommand}" CommandParameter="Button.ShowObjectWithPropertyForm"/>
+                    <h:FButton Content="显示自定义模板" Command="{Binding RelayCommand}" CommandParameter="Button.ShowObjectWithContent"/>
+                    <h:FButton Content="显示带验证模板" Command="{Binding RelayCommand}" CommandParameter="Button.ShowObjectWithContent.WithValidation"/>
+
+
+                    
                     <h:FButton Content="提示消息" Command="{Binding RelayCommand}" CommandParameter="Button.ShowSnackMessage"/>
                     <h:FButton Content="气泡消息"  Command="{Binding RelayCommand}" CommandParameter="Button.ShowNotifyMessage"/>
                     <h:FButton Content="自定义气泡消息"  Command="{Binding RelayCommand}" CommandParameter="Button.ShowIdentifyNotifyMessage"/>
