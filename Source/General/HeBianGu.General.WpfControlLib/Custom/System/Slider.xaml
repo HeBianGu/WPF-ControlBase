@@ -24,7 +24,7 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        
+
                         <Border Grid.ColumnSpan="2" CornerRadius="4" Background="{TemplateBinding Foreground}" Width="8" Height="8" Margin="-8"/>
                     </Grid>
 
@@ -47,11 +47,11 @@
         <Setter Property="Minimum" Value="0"/>
         <Setter Property="SmallChange" Value="1"/>
         <Setter Property="Margin" Value="{DynamicResource S.Thickness.Margin.10.0}" />
-        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}"/> 
+        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Slider">
-                    <Grid>  
+                    <Grid>
                         <Border Grid.Column="1"  BorderBrush="Transparent" BorderThickness="1" CornerRadius="8,0,0,8">
 
                             <Track Grid.Column="1" Name="PART_Track">
@@ -98,7 +98,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Slider">
-                    <Grid>  
+                    <Grid>
                         <Border Grid.Column="1"  BorderBrush="Transparent" BorderThickness="1" CornerRadius="8,0,0,8">
 
                             <Track Grid.Column="1" Name="PART_Track">
@@ -144,5 +144,73 @@
         </Setter>
 
     </Style>
+
+
+    <Style x:Key="S.Slider.WithValue" TargetType="Slider">
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Height" Value="5" />
+        <Setter Property="Margin" Value="2,0" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Dark.4}"/>
+        <Setter Property="Maximum" Value="100"/>
+        <Setter Property="Minimum" Value="0"/>
+        <Setter Property="SmallChange" Value="1"/>
+        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition MinWidth="15" Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0"  BorderBrush="Transparent" BorderThickness="1" CornerRadius="8,0,0,8">
+
+                            <Track Grid.Column="1" Name="PART_Track">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource S.Slider.Repeat.Default}"   
+                                                  Foreground="{TemplateBinding Background}" 
+                                                  Background="{TemplateBinding Foreground}"
+                                                  Command="Slider.DecreaseLarge"/>
+                                </Track.DecreaseRepeatButton>
+
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Style="{StaticResource S.Slider.Repeat.Default}" 
+                                                  Foreground="{TemplateBinding Foreground}" 
+                                                  Background="{TemplateBinding Background}"
+                                                  Command="Slider.IncreaseLarge"/>
+                                </Track.IncreaseRepeatButton>
+
+                                <Track.Thumb>
+                                    <Thumb  VerticalAlignment="Center" Focusable="False" Margin="-8"
+                                               Foreground="{TemplateBinding Background}" 
+                                               Background="{TemplateBinding Foreground}">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Grid>
+                                                    <Ellipse Grid.ColumnSpan="2" Fill="{TemplateBinding Foreground}"  Stroke="{TemplateBinding Background}" StrokeThickness="2" Width="8" Height="8" Margin="-8"/>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="Effect" Value="{DynamicResource S.EffectShadow.2}"/>
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Border>
+
+                        <TextBlock Grid.Column="1" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Value,StringFormat=0}" Margin="5,-5" Style="{DynamicResource S.TextBlock.FontSize.14}" HorizontalAlignment="Right"/>
+                    </Grid>
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+
+    </Style>
+
     <!--#endregion-->
 </ResourceDictionary>
