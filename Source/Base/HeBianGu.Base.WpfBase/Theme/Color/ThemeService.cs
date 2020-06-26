@@ -354,7 +354,7 @@ namespace HeBianGu.Base.WpfBase
 
         #region - 设置随机播放颜色 -
 
-        Timer _timer = new Timer();
+        Timer _timer = new Timer(1000);
 
         int _type;
 

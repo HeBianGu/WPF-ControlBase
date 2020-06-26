@@ -106,7 +106,7 @@
                         <!--文本编辑-->
                         <TextBox  x:Name="PART_EditableTextBox" 
                                          Style="{DynamicResource EditableTextBoxStyle}" 
-                                         Visibility="Collapsed" 
+                                         Visibility="Collapsed"
                                          HorizontalAlignment="Stretch" 
                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
                                          IsHitTestVisible="True" Margin="{TemplateBinding Padding}"
@@ -123,48 +123,21 @@
             </Grid>
             <!--弹出下拉控件-->
             <Popup x:Name="PART_Popup"
-                               AllowsTransparency="True" 
+                               AllowsTransparency="True"
                                Focusable="False" VerticalOffset="2"
                                IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                Placement="Bottom">
                 <Grid Width="{Binding  ActualWidth,RelativeSource={RelativeSource TemplatedParent}}"
                                   MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
+                    <Grid Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                        
+                        <Path Data="{TemplateBinding base:ControlAttachProperty.Path}" ClipToBounds="True" Stroke="{DynamicResource S.Brush.Accent}" Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Stretch="Fill"/>
 
-
-
-                    <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0">
-                        <Grid Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <Path Stroke="{DynamicResource S.Brush.Accent}" Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Stretch="Fill">
-                                <Path.Data>
-                                    <PathGeometry>
-                                        <PathFigure StartPoint="1,2">
-
-                                            <PolyLineSegment Points="95,2 96,1 97,2 99,2"></PolyLineSegment>
-
-                                            <ArcSegment Point="100,3" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
-
-                                            <LineSegment Point="100,49"></LineSegment>
-
-                                            <ArcSegment Point="99,50" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
-
-                                            <LineSegment Point="1,50"></LineSegment>
-
-                                            <ArcSegment Point="0,49" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
-
-                                            <LineSegment Point="0,3"></LineSegment>
-
-                                            <ArcSegment Point="1,2" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
-                                        </PathFigure>
-                                    </PathGeometry>
-                                </Path.Data>
-                            </Path>
-
-
-                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained"  Margin="0,10,2,0" />
-                        </Grid>
-                    </ScrollViewer>
-
+                        <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" Margin="0,10,0,5">
+                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                        </ScrollViewer>
+                    </Grid>
 
                 </Grid>
             </Popup>
@@ -305,33 +278,9 @@
 
                     <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0">
                         <Grid Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <Path Stroke="{DynamicResource S.Brush.Accent}" Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Stretch="Fill">
-                                <Path.Data>
-                                    <PathGeometry>
-                                        <PathFigure StartPoint="1,2">
+                            <Path Data="{TemplateBinding base:ControlAttachProperty.Path}" Stroke="{DynamicResource S.Brush.Accent}" Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Stretch="Fill"/>
 
-                                            <PolyLineSegment Points="95,2 96,1 97,2 99,2"></PolyLineSegment>
-
-                                            <ArcSegment Point="100,3" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
-
-                                            <LineSegment Point="100,49"></LineSegment>
-
-                                            <ArcSegment Point="99,50" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
-
-                                            <LineSegment Point="1,50"></LineSegment>
-
-                                            <ArcSegment Point="0,49" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
-
-                                            <LineSegment Point="0,3"></LineSegment>
-
-                                            <ArcSegment Point="1,2" Size="1,1" SweepDirection="Clockwise"></ArcSegment>
-                                        </PathFigure>
-                                    </PathGeometry>
-                                </Path.Data>
-                            </Path>
-
-
-                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained"  Margin="0,10,2,0" />
+                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained"  Margin="0,10,0,5" />
                         </Grid>
                     </ScrollViewer>
                 </Grid>
@@ -403,8 +352,11 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="MaxDropDownHeight" Value="400" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+        <Setter Property="base:ControlAttachProperty.Path" Value="{StaticResource S.Geometry.Rectangle.Rounded.TopRight}"/>
         <Setter Property="Template" Value="{StaticResource S.Combobox.Tempalte.Default}"/>
         <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+
+
     </Style>
 
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Single" BasedOn="{StaticResource S.ComboBox.Default}">

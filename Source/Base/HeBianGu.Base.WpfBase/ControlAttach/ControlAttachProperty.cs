@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Shapes;
 
 namespace HeBianGu.Base.WpfBase
 {
@@ -865,23 +866,15 @@ namespace HeBianGu.Base.WpfBase
 
         #region - ListBox - 
 
-
         public static IList GetSelectedItems(DependencyObject obj)
-
         {
-
             return (IList)obj.GetValue(SelectedItemsProperty);
-
         }
-
-
 
         public static void SetSelectedItems(DependencyObject obj, IList value)
         {
             obj.SetValue(SelectedItemsProperty, value);
         }
-
-
 
         //Using a DependencyProperty as the backing store for SelectedItems.  This enables animation, styling, binding, etc...
 
@@ -960,6 +953,8 @@ namespace HeBianGu.Base.WpfBase
     static partial class ControlAttachProperty
     {
 
+        #region - 等待效果 -
+
         public static bool GetIsBuzy(DependencyObject obj)
         {
             return (bool)obj.GetValue(IsBuzyProperty);
@@ -973,9 +968,6 @@ namespace HeBianGu.Base.WpfBase
         /// <summary> 是否等待 </summary>
         public static readonly DependencyProperty IsBuzyProperty =
             DependencyProperty.RegisterAttached("IsBuzy", typeof(bool), typeof(ControlAttachProperty), new PropertyMetadata(false));
-
-
-
 
         public static string GetBuzyText(DependencyObject obj)
         {
@@ -991,6 +983,26 @@ namespace HeBianGu.Base.WpfBase
         public static readonly DependencyProperty BuzyTextProperty =
             DependencyProperty.RegisterAttached("BuzyText", typeof(string), typeof(ControlAttachProperty), new PropertyMetadata("请等待"));
 
+        #endregion
+
+
+        #region - Path -
+
+        public static Geometry GetPath(DependencyObject obj)
+        {
+            return (Geometry)obj.GetValue(PathProperty);
+        }
+
+        public static void SetPath(DependencyObject obj, Geometry value)
+        {
+            obj.SetValue(PathProperty, value);
+        }
+
+        /// <summary> 是否等待 </summary>
+        public static readonly DependencyProperty PathProperty =
+            DependencyProperty.RegisterAttached("Path", typeof(Geometry), typeof(ControlAttachProperty), new PropertyMetadata(default(Geometry)));
+
+        #endregion
 
     }
 }
