@@ -128,17 +128,16 @@
                                IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                Placement="Bottom">
-                <Grid Width="{Binding  ActualWidth,RelativeSource={RelativeSource TemplatedParent}}"
-                                  MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
-                    <Grid Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                        
-                        <Path Data="{TemplateBinding base:ControlAttachProperty.Path}" ClipToBounds="True" Stroke="{DynamicResource S.Brush.Accent}" Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Stretch="Fill"/>
+                <Grid Width="{Binding  ActualWidth,RelativeSource={RelativeSource TemplatedParent}}" MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
 
-                        <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" Margin="0,10,0,5">
-                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                    <Grid x:Name="grid_auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Path Data="{TemplateBinding base:ControlAttachProperty.Path}" Stroke="{DynamicResource S.Brush.Accent}" 
+                          Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Height="{Binding ElementName=grid_auto,Path=ActualHeight}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill"/>
+
+                        <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" VerticalAlignment="Top" Margin="0,10,0,5">
+                            <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" Height="Auto"/>
                         </ScrollViewer>
                     </Grid>
-
                 </Grid>
             </Popup>
         </Grid>
@@ -276,13 +275,16 @@
                 <Grid Width="{Binding  ActualWidth,RelativeSource={RelativeSource TemplatedParent}}" Margin="0,10,0,0"
                                   MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
 
-                    <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0">
-                        <Grid Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <Path Data="{TemplateBinding base:ControlAttachProperty.Path}" Stroke="{DynamicResource S.Brush.Accent}" Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Stretch="Fill"/>
 
+                    <Grid x:Name="grid_auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <Path Data="{TemplateBinding base:ControlAttachProperty.Path}" Stroke="{DynamicResource S.Brush.Accent}" 
+                          Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Height="{Binding ElementName=grid_auto,Path=ActualHeight}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill"/>
+
+                        <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0">
                             <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained"  Margin="0,10,0,5" />
-                        </Grid>
-                    </ScrollViewer>
+                        </ScrollViewer>
+                    </Grid>
+
                 </Grid>
             </Popup>
         </Grid>

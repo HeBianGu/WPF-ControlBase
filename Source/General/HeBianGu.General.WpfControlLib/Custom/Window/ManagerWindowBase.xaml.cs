@@ -52,31 +52,31 @@ namespace HeBianGu.General.WpfControlLib
 
         public ManagerWindowBase()
         {
-            this.Loaded +=(l, k) =>
-             {
-                 this.CurrentLink = this.LinkActionGroups.FirstOrDefault()?.Links?.FirstOrDefault();
-             };
+            this.Loaded += (l, k) =>
+              {
+                  this.CurrentLink = this.LinkActionGroups.FirstOrDefault()?.Links?.FirstOrDefault();
+              };
         }
 
-        public ObservableCollection<LinkActionGroup> LinkActionGroups
+        public LinkActionGroups LinkActionGroups
         {
-            get { return (ObservableCollection<LinkActionGroup>)GetValue(LinkActionGroupsProperty); }
+            get { return (LinkActionGroups)GetValue(LinkActionGroupsProperty); }
             set { SetValue(LinkActionGroupsProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LinkActionGroupsProperty =
-            DependencyProperty.Register("LinkActionGroups", typeof(ObservableCollection<LinkActionGroup>), typeof(ManagerWindowBase), new PropertyMetadata(new ObservableCollection<LinkActionGroup>(), (d, e) =>
-            {
-                ManagerWindowBase control = d as ManagerWindowBase;
+            DependencyProperty.Register("LinkActionGroups", typeof(LinkActionGroups), typeof(ManagerWindowBase), new PropertyMetadata(new LinkActionGroups(true), (d, e) =>
+               {
+                   ManagerWindowBase control = d as ManagerWindowBase;
 
-                if (control == null) return;
+                   if (control == null) return;
 
-                ObservableCollection<LinkActionGroup> config = e.NewValue as ObservableCollection<LinkActionGroup>;
+                   LinkActionGroups config = e.NewValue as LinkActionGroups;
 
-                if (config == null) return;
+                   if (config == null) return;
 
-            }));
+               }));
 
         public static readonly DependencyProperty LogoProperty = DependencyProperty.Register("Logo", typeof(ImageSource), typeof(ManagerWindowBase), new PropertyMetadata(null));
 
