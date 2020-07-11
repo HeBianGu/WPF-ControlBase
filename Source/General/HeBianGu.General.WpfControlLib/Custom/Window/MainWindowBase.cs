@@ -151,6 +151,7 @@ namespace HeBianGu.General.WpfControlLib
     [TemplatePart(Name = "PART_NotifyIcon", Type = typeof(NotifyIcon))]
     [TemplatePart(Name = "PART_LinkActionFrame", Type = typeof(LinkActionFrame))]
     [TemplatePart(Name = "PART_SwtichTransitioner", Type = typeof(SwtichTransitioner))]
+    [TemplatePart(Name = "PART_SwtichTransitioner_2", Type = typeof(SwtichTransitioner))]
     [TemplatePart(Name = "PART_Message", Type = typeof(MessageContainer))]
 
     partial class MainWindowBase : IWindowBase
@@ -160,6 +161,8 @@ namespace HeBianGu.General.WpfControlLib
         NotifyIcon _notifyIcon;
         LinkActionFrame _linkActionFrame;
         SwtichTransitioner _swtichTransitioner;
+
+        SwtichTransitioner _swtichTransitioner_2;
 
         MessageContainer _messageContainer;
 
@@ -173,6 +176,8 @@ namespace HeBianGu.General.WpfControlLib
             this._notifyIcon = Template.FindName("PART_NotifyIcon", this) as NotifyIcon;
             this._linkActionFrame = Template.FindName("PART_LinkActionFrame", this) as LinkActionFrame;
             this._swtichTransitioner = Template.FindName("PART_SwtichTransitioner", this) as SwtichTransitioner;
+            this._swtichTransitioner_2 = Template.FindName("PART_SwtichTransitioner_2", this) as SwtichTransitioner;
+
             this._messageContainer = Template.FindName("PART_Message", this) as MessageContainer;
 
             if (this._notifyIcon != null)
@@ -218,34 +223,59 @@ namespace HeBianGu.General.WpfControlLib
 
         public void ShowWithLayer(IActionResult link, int layerIndex = 0)
         {
-            //_linkActionFrame.LinkAction = link; 
+            if (layerIndex == 0)
+            {
+                this._swtichTransitioner.CurrentContent = link.View;
+                this._swtichTransitioner.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                this._swtichTransitioner_2.CurrentContent = link.View;
+                this._swtichTransitioner_2.Visibility = Visibility.Visible;
+            }
 
-            //_linkActionFrame.Visibility = Visibility.Visible;
-
-            //this.ShowWithLayer(link.Uri);
-
-
-            this._swtichTransitioner.CurrentContent = link.View;
-            this._swtichTransitioner.Visibility = Visibility.Visible;
         }
 
         public void ShowWithLayer(FrameworkElement element, int layerIndex = 0)
         {
-            if (this._swtichTransitioner.CurrentContent == element)
+            if (layerIndex == 0)
             {
-                this._swtichTransitioner.CurrentContent = new FButton();
-                this._swtichTransitioner.CurrentContent = element;
+                if (this._swtichTransitioner.CurrentContent == element)
+                {
+                    this._swtichTransitioner.CurrentContent = new FButton();
+                    this._swtichTransitioner.CurrentContent = element;
+                }
+                else
+                {
+                    this._swtichTransitioner.CurrentContent = element;
+                }
+
+                this._swtichTransitioner.Visibility = Visibility.Visible;
+
+                var story = DoubleStoryboardEngine.Create(0, 1, 0.3, "Opacity");
+                story.Start(this._swtichTransitioner);
+                story.Dispose();
             }
             else
             {
-                this._swtichTransitioner.CurrentContent = element;
+                if (this._swtichTransitioner_2.CurrentContent == element)
+                {
+                    this._swtichTransitioner_2.CurrentContent = new FButton();
+                    this._swtichTransitioner_2.CurrentContent = element;
+                }
+                else
+                {
+                    this._swtichTransitioner_2.CurrentContent = element;
+                }
+
+                this._swtichTransitioner_2.Visibility = Visibility.Visible;
+
+                var story = DoubleStoryboardEngine.Create(0, 1, 0.3, "Opacity");
+                story.Start(this._swtichTransitioner_2);
+                story.Dispose();
             }
 
-            this._swtichTransitioner.Visibility = Visibility.Visible;
-
-            var story = DoubleStoryboardEngine.Create(0, 1, 0.3, "Opacity");
-            story.Start(this._swtichTransitioner);
-            story.Dispose();
+           
 
         }
 
@@ -261,12 +291,28 @@ namespace HeBianGu.General.WpfControlLib
                 if (this._linkActionFrame != null)
                     this._linkActionFrame.Visibility = Visibility.Collapsed;
 
-                this._swtichTransitioner.Visibility = Visibility.Collapsed;
+                if(layerIndex==0)
+                {
+                    this._swtichTransitioner.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    this._swtichTransitioner_2.Visibility = Visibility.Collapsed;
+                }
+                
 
                 story.Dispose();
             };
 
-            story.Start(this._swtichTransitioner);
+            if (layerIndex == 0)
+            {
+                story.Start(this._swtichTransitioner);
+            }
+            else
+            {
+                story.Start(this._swtichTransitioner_2);
+            }
+           
 
         }
 
@@ -293,7 +339,7 @@ namespace HeBianGu.General.WpfControlLib
     }
 
 
-  
+
 
 
     public interface IWindowBase

@@ -84,5 +84,8 @@ namespace HeBianGu.Base.WpfBase
         {
             return Convert.ToBase64String(ConvertToBytes(bmp));
         }
+
+    
+
     }
 }

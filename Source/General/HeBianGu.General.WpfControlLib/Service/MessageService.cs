@@ -378,7 +378,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 if (Application.Current.MainWindow is IWindowBase window)
                 {
-                    window.ShowWithLayer(element);
+                    window.ShowWithLayer(element, layerIndex);
                 }
             }));
         }
@@ -390,7 +390,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 if (Application.Current.MainWindow is IWindowBase window)
                 {
-                    window.CloseWithLayer();
+                    window.CloseWithLayer(layerIndex);
                 }
             }));
         }
@@ -398,7 +398,7 @@ namespace HeBianGu.General.WpfControlLib
         static ManualResetEvent _asyncShowWaitHandle = new ManualResetEvent(false);
 
         /// <summary> 显示蒙版 </summary>
-        public static async Task<bool> ShowObjectWithPropertyForm<T>(T value, Predicate<T> match = null, string title = null)
+        public static async Task<bool> ShowObjectWithPropertyForm<T>(T value, Predicate<T> match = null, string title = null,int layerIndex=0)
         {
             bool result = false;
 
@@ -416,7 +416,7 @@ namespace HeBianGu.General.WpfControlLib
 
                      form.Close += (l, k) =>
                      {
-                         CloseWithLayer();
+                         CloseWithLayer(layerIndex);
                          _asyncShowWaitHandle.Set();
                          result = false;
                      };
@@ -436,13 +436,13 @@ namespace HeBianGu.General.WpfControlLib
                              return;
                          }
 
-                         CloseWithLayer();
+                         CloseWithLayer(layerIndex);
                          _asyncShowWaitHandle.Set();
                          result = true;
 
                      };
 
-                     window.ShowWithLayer(form);
+                     window.ShowWithLayer(form, layerIndex);
 
                      _asyncShowWaitHandle.Reset();
 
@@ -462,7 +462,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 显示蒙版 </summary>
-        public static async Task<bool> ShowObjectWithContent<T>(T value, Predicate<T> match = null, string title = null)
+        public static async Task<bool> ShowObjectWithContent<T>(T value, Predicate<T> match = null, string title = null,int layerIndex=0)
 
         {
             bool result = false;
@@ -492,12 +492,12 @@ namespace HeBianGu.General.WpfControlLib
                     {
                         if (match != null && !match(value)) return;
 
-                        CloseWithLayer();
+                        CloseWithLayer(layerIndex);
                         _asyncShowWaitHandle.Set();
                         result = true;
                     };
 
-                    window.ShowWithLayer(content);
+                    window.ShowWithLayer(content, layerIndex);
 
                     _asyncShowWaitHandle.Reset();
 
@@ -675,6 +675,7 @@ namespace HeBianGu.General.WpfControlLib
 
         public void Execute(object parameter)
         {
+            int index = parameter == null ? 0 : int.Parse(parameter.ToString());
             MessageService.CloseWithLayer();
         }
 

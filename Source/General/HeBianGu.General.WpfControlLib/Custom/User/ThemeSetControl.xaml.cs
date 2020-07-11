@@ -30,10 +30,10 @@ namespace HeBianGu.General.WpfControlLib
 
             this.DataContext = _context;
 
-            this.Loaded +=(l, k) =>
-             {
-                 _context.Load();
-             };
+            this.Loaded += (l, k) =>
+              {
+                  _context.Load();
+              };
 
         }
     }
@@ -141,7 +141,7 @@ namespace HeBianGu.General.WpfControlLib
 
             this.IsUseAnimal = ThemeService.Current.IsUseAnimal;
 
-            this.AnimalSpeed = (int)(ThemeService.Current.AnimalSpeed);
+            this.AnimalSpeed = (int)(ThemeService.Current.AnimalSpeed/1000);
 
             this.ItemCornerRadius = (int)ThemeService.Current.ItemCornerRadius;
         }
@@ -292,9 +292,10 @@ namespace HeBianGu.General.WpfControlLib
             set
             {
                 _animalSpeed = value;
+
                 RaisePropertyChanged("AnimalSpeed");
 
-                ThemeService.Current.AnimalSpeed = value;
+                ThemeService.Current.AnimalSpeed = value * 1000;
             }
         }
 

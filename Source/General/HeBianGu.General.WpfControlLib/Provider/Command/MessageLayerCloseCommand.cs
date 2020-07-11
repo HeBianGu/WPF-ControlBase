@@ -12,9 +12,10 @@ namespace HeBianGu.Base.WpfBase
             return true;
         }
 
-        public  void Execute(object parameter)
+        public void Execute(object parameter)
         {
-            MessageService.CloseWithLayer();
+            int index = parameter == null ? 0 : int.Parse(parameter.ToString());
+            MessageService.CloseWithLayer(index);
         }
 
         public event EventHandler CanExecuteChanged;
