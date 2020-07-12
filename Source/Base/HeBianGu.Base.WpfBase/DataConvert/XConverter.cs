@@ -201,9 +201,16 @@ namespace HeBianGu.Base.WpfBase
             get { return new MathAdditionConverter(); }
         }
 
+        public static TimeSpanConverter TimeSpanConverter
+        {
+            get { return new TimeSpanConverter(); }
+        }
+        public static TimeSpanSplitPointConverter TimeSpanSplitPointConverter
+        {
+            get { return new TimeSpanSplitPointConverter(); }
+        }
+
         
-
-
         //public static SelectTextConverter SelectTextConverter
         //{
         //    get { return Singleton<SelectTextConverter>.GetInstance(); }
