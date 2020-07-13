@@ -115,15 +115,22 @@ namespace HeBianGu.Domain.MvcRespository
         /// <summary> 跳转列表页面 </summary>
         public virtual async Task<IActionResult> List()
         {
-            //  Do ：异步加载数据
-            this.ViewModel.RunAsync(()=>
-            {
-                var source = this.Respository.GetListAsync();
+            ////  Do ：异步加载数据
+            // this.ViewModel.RunAsync(() =>
+            // {
+            //     var source = this.Respository.GetListAsync();
 
-                this.ViewModel.Collection = source?.Result?.ToObservable();
-            });
+            //     this.ViewModel.Collection = source?.Result?.ToObservable();
+            // });
 
-       
+            await Task.Run(async () =>
+             {
+                 var source = await this.Respository.GetListAsync();
+
+                 var sss = source?.ToObservable();
+
+                 this.ViewModel.Collection = sss;
+             });
 
             //this.ViewModel.RunAsync(()=>
             //{

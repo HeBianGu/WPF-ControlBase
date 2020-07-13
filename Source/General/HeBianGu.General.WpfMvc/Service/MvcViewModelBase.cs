@@ -140,9 +140,9 @@ namespace HeBianGu.General.WpfMvc
         }
 
         /// <summary> 异步运行 </summary>
-        public async void RunAsync(Action action)
+        public void RunAsync(Action action)
         {
-            await Task.Run(action);
+             Task.Run(action);
         }
 
         /// <summary> 使用主线程运行 </summary>
