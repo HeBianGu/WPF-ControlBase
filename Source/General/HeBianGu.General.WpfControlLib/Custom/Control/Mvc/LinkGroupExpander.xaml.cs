@@ -1,21 +1,22 @@
 ﻿using HeBianGu.Base.WpfBase;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
 namespace HeBianGu.General.WpfControlLib
 {
 
-    public class LinkGroupExpander : ItemsControl, ICommandSource
+    public class LinkGroupExpander : Selector, ICommandSource
     {
 
         //static LinkGroupExpander()
         //{
         //    DefaultStyleKeyProperty.OverrideMetadata(typeof(LinkGroupExpander), new FrameworkPropertyMetadata(typeof(LinkGroupExpander)));
         //} 
-
 
         public ICommand Command { get; set; }
 
@@ -31,20 +32,27 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedLinkProperty =
-            DependencyProperty.Register("SelectedLink", typeof(LinkAction), typeof(LinkGroupExpander), new PropertyMetadata(default(LinkAction), (d, e) =>
+            DependencyProperty.Register("SelectedLink", typeof(LinkAction), typeof(LinkGroupExpander), new PropertyMetadata(new LinkAction(), (d, e) =>
              {
                  LinkGroupExpander control = d as LinkGroupExpander;
+
                  if (control == null) return;
 
-                 if(e.NewValue ==null)
-                 {
-                     control.SelectedLink = e.OldValue as LinkAction;
-                 }
+                 control.SelectedItem = e.NewValue;
 
                  control.Command?.Execute(control.CommandParameter);
 
-             }));
+             }), ValidateValue);
 
+
+
+        //验证
+        static bool ValidateValue(object obj)
+        {
+            if (obj == null) return false;
+
+            return true;
+        }
 
         public Brush SelectItemBackground
         {

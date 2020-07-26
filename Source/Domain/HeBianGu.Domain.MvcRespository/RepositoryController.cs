@@ -3,7 +3,9 @@ using HeBianGu.Common.DataBase;
 using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -115,34 +117,23 @@ namespace HeBianGu.Domain.MvcRespository
         /// <summary> 跳转列表页面 </summary>
         public virtual async Task<IActionResult> List()
         {
-            ////  Do ：异步加载数据
-            // this.ViewModel.RunAsync(() =>
-            // {
-            //     var source = this.Respository.GetListAsync();
+            //  Do ：加载列表只运行一次,第二次不在读取数据库
+            this.RunOnlyInitailizing(() =>
+            {
+                this.ViewModel.RunAsync(() =>
+                {
+                    this.ViewModel.Collection.Invoke(l => l.Clear());
 
-            //     this.ViewModel.Collection = source?.Result?.ToObservable();
-            // });
+                    var source = this.Respository.GetListAsync().Result;
 
-            await Task.Run(async () =>
-             {
-                 var source = await this.Respository.GetListAsync();
+                    foreach (var item in source)
+                    {
+                        this.ViewModel.Collection.Invoke(l => l.Add(item));
 
-                 var sss = source?.ToObservable();
-
-                 this.ViewModel.Collection = sss;
-             });
-
-            //this.ViewModel.RunAsync(()=>
-            //{
-            //    this.ViewModel.Collection.Invoke(l => l.Clear());
-
-            //    foreach (var item in source)
-            //    {
-            //        this.ViewModel.Collection.Invoke(l => l.Add(item));
-
-            //        Thread.Sleep(10);
-            //    }
-            //});
+                        Thread.Sleep(10);
+                    }
+                });
+            });
 
             return await ViewAsync();
         }

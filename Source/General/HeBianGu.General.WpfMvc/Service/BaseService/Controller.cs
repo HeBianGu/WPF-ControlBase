@@ -20,7 +20,7 @@ namespace HeBianGu.General.WpfMvc
         /// <summary> 验证实体模型是否可用 </summary>
         public bool ModelState(object obj, out string message)
         {
-            var result = ObjectPropertyFactory.ModelState(obj,out List<string> errors);
+            var result = ObjectPropertyFactory.ModelState(obj, out List<string> errors);
 
             message = errors.FirstOrDefault();
 
@@ -47,14 +47,47 @@ namespace HeBianGu.General.WpfMvc
             }
         }
 
+        /// <summary> 应用主线程运行 </summary>
         public T Invoke<T>(Func<T> func)
         {
             return this.Dispatcher.Invoke(func);
         }
 
+        /// <summary> 应用主线程运行 </summary>
         public void Invoke(Action action)
         {
             this.Dispatcher.Invoke(action);
+        }
+
+        /// <summary> 系统空闲时运行 </summary>
+        public void BeginInvoke(Action action)
+        {
+            this.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, action);
+        }
+
+        /// <summary> 异步运行 </summary>
+        public void RunAsync(Action action)
+        {
+            Task.Run(action);
+        }
+
+        Dictionary<string, bool> _isInitailized = new Dictionary<string, bool>();
+        /// <summary> 只运行一次的方法 </summary>
+        public void RunOnlyInitailizing(Action action, [CallerMemberName] string name = "")
+        {
+            if (!_isInitailized.ContainsKey(name))
+            {
+                _isInitailized.Add(name, false);
+            }
+
+            bool isInitailized = _isInitailized[name];
+
+            if (!isInitailized)
+            {
+                action?.Invoke();
+
+                _isInitailized[name] = true;
+            }
         }
     }
 

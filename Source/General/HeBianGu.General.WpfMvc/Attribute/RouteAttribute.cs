@@ -17,4 +17,10 @@ namespace HeBianGu.General.WpfMvc
             this.Name = path;
         }
     }
+
+    /// <summary> 设置只加载一次 </summary>
+    public sealed class InitializeOperationAttribute : Attribute
+    {
+      
+    }
 }
