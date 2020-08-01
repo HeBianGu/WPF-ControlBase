@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
-                     xmlns:base="clr-namespace:HeBianGu.Base.WpfBase;assembly=HeBianGu.Base.WpfBase"
+                     xmlns:h="QQ:908293466"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--下拉条目样式-->
@@ -46,7 +46,7 @@
     <ControlTemplate x:Key="S.Combobox.Tempalte.Default" TargetType="{x:Type ComboBox}">
         <Grid x:Name="PART_Root">
             <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}"
+                                CornerRadius="{TemplateBinding h:ControlAttachProperty.CornerRadius}"
                                 BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}"
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="{TemplateBinding Background}" />
@@ -59,10 +59,10 @@
                 </Grid.ColumnDefinitions>
                 <!--Label区域-->
                 <ContentControl x:Name="Label" Foreground="{TemplateBinding Foreground}"
-                                            Template="{TemplateBinding base:ControlAttachProperty.LabelTemplate}" 
+                                            Template="{TemplateBinding h:ControlAttachProperty.LabelTemplate}" 
                                             IsTabStop="False" IsHitTestVisible="False" 
                                             Background="{TemplateBinding BorderBrush}"
-                                            Content="{TemplateBinding base:ControlAttachProperty.Label}" 
+                                            Content="{TemplateBinding h:ControlAttachProperty.Label}" 
                                             Margin="1,1,0,1"/>
 
                 <!--附加内容区域-->
@@ -70,21 +70,21 @@
                                     VerticalAlignment="Center" HorizontalAlignment="Center" >
                     <ContentControl VerticalAlignment="Center" x:Name="PART_AttachContent"  Foreground="{DynamicResource S.Brush.TextForeground.Assist}"
                                                 VerticalContentAlignment="Center" 
-                                                Template="{TemplateBinding base:ControlAttachProperty.AttachContent}" />
+                                                Template="{TemplateBinding h:ControlAttachProperty.AttachContent}" />
                 </Border>
 
                 <!--下拉按钮-->
-                <ToggleButton x:Name="PART_DropDownToggle" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" base:ControlAttachProperty.FIconSize="15"
-                              base:ControlAttachProperty.FIconMargin="{TemplateBinding base:ControlAttachProperty.FIconMargin}"
+                <ToggleButton x:Name="PART_DropDownToggle" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" h:ControlAttachProperty.FIconSize="15"
+                              h:ControlAttachProperty.FIconMargin="{TemplateBinding h:ControlAttachProperty.FIconMargin}"
                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
                                          Grid.Column="1" Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent},
-                                          Converter={x:Static base:XConverter.TrueToFalseConverter},Mode=OneWay}"
+                                          Converter={x:Static h:XConverter.TrueToFalseConverter},Mode=OneWay}"
                                           Foreground="{TemplateBinding Foreground}" 
-                                          Background="{TemplateBinding base:ControlAttachProperty.FocusBackground}"/>
+                                          Background="{TemplateBinding h:ControlAttachProperty.FocusBackground}"/>
                 <!--水印-->
                 <Border Grid.Column="1">
                     <TextBlock x:Name="Message"  Padding="0" Visibility="Collapsed" 
-                                           Text="{TemplateBinding base:ControlAttachProperty.Watermark}" 
+                                           Text="{TemplateBinding h:ControlAttachProperty.Watermark}" 
                                            Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" 
                                            Opacity="{DynamicResource S.Opacity.Watermark}" HorizontalAlignment="Left" 
                                            TextAlignment="Center" 
@@ -131,7 +131,7 @@
                 <Grid Width="{Binding  ActualWidth,RelativeSource={RelativeSource TemplatedParent}}" MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
 
                     <Grid x:Name="grid_auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                        <Path Data="{TemplateBinding base:ControlAttachProperty.Path}" Stroke="{DynamicResource S.Brush.Accent}" 
+                        <Path Data="{TemplateBinding h:ControlAttachProperty.Path}" Stroke="{DynamicResource S.Brush.Accent}" 
                           Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Height="{Binding ElementName=grid_auto,Path=ActualHeight}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill"/>
 
                         <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" VerticalAlignment="Top" Margin="0,10,0,5">
@@ -164,18 +164,18 @@
             </DataTrigger>
 
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="BorderBrush" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
-                <Setter  Property="BorderBrush"  Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="BorderBrush"  Value="{Binding Path=(h:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="BorderBrush" Value="{Binding Path=(h:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>
@@ -197,17 +197,17 @@
                 </Grid.ColumnDefinitions>
 
                 <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                CornerRadius="{TemplateBinding base:ControlAttachProperty.CornerRadius}"
+                                CornerRadius="{TemplateBinding h:ControlAttachProperty.CornerRadius}"
                                 BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="3"
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="{TemplateBinding Background}" />
 
                 <!--Label区域-->
                 <ContentControl x:Name="Label" 
-                                            Template="{TemplateBinding base:ControlAttachProperty.LabelTemplate}" 
+                                            Template="{TemplateBinding h:ControlAttachProperty.LabelTemplate}" 
                                             IsTabStop="False" IsHitTestVisible="False" 
                                             Background="{TemplateBinding BorderBrush}"
-                                            Content="{TemplateBinding base:ControlAttachProperty.Label}" 
+                                            Content="{TemplateBinding h:ControlAttachProperty.Label}" 
                                             Margin="1,1,0,1"/>
 
                 <!--附加内容区域-->
@@ -215,21 +215,21 @@
                                     VerticalAlignment="Center" HorizontalAlignment="Center" >
                     <ContentControl VerticalAlignment="Center" x:Name="PART_AttachContent" Foreground="{DynamicResource S.Brush.TextForeground.Assist}"
                                                 VerticalContentAlignment="Center" 
-                                                Template="{TemplateBinding base:ControlAttachProperty.AttachContent}" />
+                                                Template="{TemplateBinding h:ControlAttachProperty.AttachContent}" />
                 </Border>
 
                 <!--下拉按钮-->
-                <ToggleButton x:Name="PART_DropDownToggle" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" base:ControlAttachProperty.FIconSize="15"
+                <ToggleButton x:Name="PART_DropDownToggle" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" h:ControlAttachProperty.FIconSize="15"
                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                         base:ControlAttachProperty.FIconMargin="{TemplateBinding base:ControlAttachProperty.FIconMargin}"
+                                         h:ControlAttachProperty.FIconMargin="{TemplateBinding h:ControlAttachProperty.FIconMargin}"
                                          Grid.Column="1"  Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent},
-                                         Converter={x:Static base:XConverter.TrueToFalseConverter},Mode=OneWay}"
+                                         Converter={x:Static h:XConverter.TrueToFalseConverter},Mode=OneWay}"
                                         Foreground="{TemplateBinding Foreground}" 
-                                         Background="{TemplateBinding base:ControlAttachProperty.FocusBackground}"/>
+                                         Background="{TemplateBinding h:ControlAttachProperty.FocusBackground}"/>
                 <!--水印-->
                 <Border Grid.Column="1">
                     <TextBlock x:Name="Message"  Padding="0" Visibility="Collapsed" 
-                                       Text="{TemplateBinding base:ControlAttachProperty.Watermark}" 
+                                       Text="{TemplateBinding h:ControlAttachProperty.Watermark}" 
                                        Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" 
                                        Opacity="{DynamicResource S.Opacity.Watermark}" HorizontalAlignment="Left" 
                                        TextAlignment="Center" 
@@ -277,7 +277,7 @@
 
 
                     <Grid x:Name="grid_auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                        <Path Data="{TemplateBinding base:ControlAttachProperty.Path}" Stroke="{DynamicResource S.Brush.Accent}" 
+                        <Path Data="{TemplateBinding h:ControlAttachProperty.Path}" Stroke="{DynamicResource S.Brush.Accent}" 
                           Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Height="{Binding ElementName=grid_auto,Path=ActualHeight}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill"/>
 
                         <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0">
@@ -311,19 +311,19 @@
             </DataTrigger>
 
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(base:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="BorderBrush" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
 
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
-                <Setter  Property="BorderBrush"  Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="BorderBrush"  Value="{Binding Path=(h:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter  Property="BorderBrush" Value="{Binding Path=(base:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="BorderBrush" Value="{Binding Path=(h:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>
@@ -337,24 +337,24 @@
         <Setter Property="Height" Value="{DynamicResource S.Window.Item.Height}" />
         <Setter Property="Width" Value="Auto" />
         <Setter Property="Margin" Value="{DynamicResource S.Thickness.Margin.10.0}" />
-        <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,7,0" />
+        <Setter Property="h:ControlAttachProperty.FIconMargin" Value="0,0,7,0" />
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
-        <Setter Property="base:ControlAttachProperty.FocusBackground" Value="{DynamicResource S.Brush.Dark.4}" />
-        <Setter Property="base:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
-        <Setter Property="base:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
-        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}" />
+        <Setter Property="h:ControlAttachProperty.FocusBackground" Value="{DynamicResource S.Brush.Dark.4}" />
+        <Setter Property="h:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="h:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
+        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}" />
         <Setter Property="FontFamily" Value="{DynamicResource  S.FontFamily.Default}" />
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}" />
         <Setter Property="ItemContainerStyle" Value="{DynamicResource S.ComboBoxItem.Default}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="MaxDropDownHeight" Value="400" />
         <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
-        <Setter Property="base:ControlAttachProperty.Path" Value="{StaticResource S.Geometry.Rectangle.Rounded.TopRight}"/>
+        <Setter Property="h:ControlAttachProperty.Path" Value="{StaticResource S.Geometry.Rectangle.Rounded.TopRight}"/>
         <Setter Property="Template" Value="{StaticResource S.Combobox.Tempalte.Default}"/>
         <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
 
@@ -367,16 +367,16 @@
 
     <!--ComboBox包含清除Text按钮的样式 S.ComboBox.Clear -->
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Clear" BasedOn="{StaticResource S.ComboBox.Default}">
-        <Setter Property="base:ControlAttachProperty.AttachContent">
+        <Setter Property="h:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0" AllowsAnimation="True" 
-                                   base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
-                                   Command="base:ControlAttachProperty.ClearTextCommand" 
+                                   h:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
+                                   Command="h:ControlAttachProperty.ClearTextCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type ComboBox}}}"
                                    IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type ComboBox}},
-                                   Converter={x:Static base:XConverter.TrueToFalseConverter},Mode=OneWay}"
+                                   Converter={x:Static h:XConverter.TrueToFalseConverter},Mode=OneWay}"
                                    Margin="-10,0" FIconSize="14" Foreground="{TemplateBinding Foreground}"  Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -385,7 +385,7 @@
 
     <!--ComboBox包含附加属性Label的样式 S.ComboBox.Label -->
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Label" BasedOn="{StaticResource S.ComboBox.Default}">
-        <Setter Property="base:ControlAttachProperty.LabelTemplate" >
+        <Setter Property="h:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <Border MinWidth="70"  Background="{DynamicResource S.Brush.Accent}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Left}">
@@ -398,15 +398,15 @@
 
     <!--ComboBox包含附加属性Label，以及ClearText按钮的样式 S.ComboBox.LabelClear -->
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.LabelClear" BasedOn="{StaticResource S.ComboBox.Label}">
-        <Setter Property="base:ControlAttachProperty.AttachContent">
+        <Setter Property="h:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}" IsTabStop="False" FIconMargin="0"
-                               base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
-                                   Command="base:ControlAttachProperty.ClearTextCommand" 
+                               h:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
+                                   Command="h:ControlAttachProperty.ClearTextCommand" 
                                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type ComboBox}}}"
                                    IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type ComboBox}},
-                        Converter={x:Static base:XConverter.TrueToFalseConverter},Mode=OneWay}"  HorizontalAlignment="Center"
+                        Converter={x:Static h:XConverter.TrueToFalseConverter},Mode=OneWay}"  HorizontalAlignment="Center"
                                Margin="0,0,-2,0" FIconSize="14" Foreground="{TemplateBinding Foreground}"  Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -416,7 +416,7 @@
 
     <!--ComboBox包含附加属性Label的样式 S.ComboBox.Label -->
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Single.Label" BasedOn="{StaticResource S.ComboBox.Single}">
-        <Setter Property="base:ControlAttachProperty.LabelTemplate" >
+        <Setter Property="h:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <Border MinWidth="70" Margin="3">
@@ -429,15 +429,15 @@
 
     <!--ComboBox包含附加属性Label，以及ClearText按钮的样式 S.ComboBox.LabelClear -->
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Single.LabelClear" BasedOn="{StaticResource S.ComboBox.Single.Label}">
-        <Setter Property="base:ControlAttachProperty.AttachContent">
+        <Setter Property="h:ControlAttachProperty.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}" IsTabStop="False" FIconMargin="0"
-                               base:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
-                               Command="base:ControlAttachProperty.ClearTextCommand" 
+                               h:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
+                               Command="h:ControlAttachProperty.ClearTextCommand" 
                                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type ComboBox}}}"
                                IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type ComboBox}},
-                               Converter={x:Static base:XConverter.TrueToFalseConverter},Mode=OneWay}" HorizontalAlignment="Center"
+                               Converter={x:Static h:XConverter.TrueToFalseConverter},Mode=OneWay}" HorizontalAlignment="Center"
                                Margin="0,0,-2,0" FIconSize="14" Foreground="{TemplateBinding Foreground}" Cursor="Arrow"/>
                 </ControlTemplate>
             </Setter.Value>
@@ -447,16 +447,16 @@
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Circle" BasedOn="{StaticResource S.ComboBox.Default}">
         <Setter Property="Padding" Value="15,0,0,0"/>
         <Setter Property="IsEditable" Value="False"/>
-        <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,22,0"/>
-        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="h:ControlAttachProperty.FIconMargin" Value="0,0,22,0"/>
+        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
     </Style>
 
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Circle.Label" BasedOn="{StaticResource S.ComboBox.Label}">
         <Setter Property="Padding" Value="0,0,20,0"/>
         <Setter Property="IsEditable" Value="False"/>
-        <Setter Property="base:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
-        <Setter Property="base:ControlAttachProperty.FIconMargin" Value="0,0,13,0"/>
-        <Setter Property="base:ControlAttachProperty.LabelTemplate" >
+        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="h:ControlAttachProperty.FIconMargin" Value="0,0,13,0"/>
+        <Setter Property="h:ControlAttachProperty.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <Border MinWidth="90" Background="Transparent">

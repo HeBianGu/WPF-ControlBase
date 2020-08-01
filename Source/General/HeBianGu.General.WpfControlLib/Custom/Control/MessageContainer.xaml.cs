@@ -59,7 +59,7 @@ namespace HeBianGu.General.WpfControlLib
         public string Time { get; set; } = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
     }
 
-    public abstract class DailogMessageBase: MessageBase
+    public abstract class DailogMessageh: MessageBase
     {
 
         public Action Cancel { get; set; }
@@ -95,7 +95,7 @@ namespace HeBianGu.General.WpfControlLib
 
     }
 
-    public class DailogMessage : DailogMessageBase
+    public class DailogMessage : MessageBase
     {
 
     }
