@@ -40,6 +40,33 @@ namespace HeBianGu.General.WpfControlLib
               });
 
             this.CommandBindings.Add(sumit);
+
+            //  Do ：设置绑定命令
+            CommandBinding close = new CommandBinding(ObjectContentDialog.Close, (l, k) =>
+            {
+                this.OnClosed();
+            });
+
+            this.CommandBindings.Add(close);
+        }
+
+
+        //声明和注册路由事件
+        public static readonly RoutedEvent ClosedRoutedEvent =
+            EventManager.RegisterRoutedEvent("Closed", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(ObjectContentDialog));
+        //CLR事件包装
+        public event RoutedEventHandler Closed
+        {
+            add { this.AddHandler(ClosedRoutedEvent, value); }
+            remove { this.RemoveHandler(ClosedRoutedEvent, value); }
+        }
+
+        //激发路由事件,借用Click事件的激发方法
+
+        protected void OnClosed()
+        {
+            RoutedEventArgs args = new RoutedEventArgs(ClosedRoutedEvent, this);
+            this.RaiseEvent(args);
         }
 
 
@@ -82,5 +109,7 @@ namespace HeBianGu.General.WpfControlLib
 
 
         public static RoutedUICommand Sumit = new RoutedUICommand() { Text = "确定" };
+
+        public static RoutedUICommand Close = new RoutedUICommand() { Text = "关闭" };
     }
 }

@@ -1,4 +1,5 @@
 ﻿using HeBianGu.Base.WpfBase;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -43,8 +44,6 @@ namespace HeBianGu.General.WpfControlLib
                  control.Command?.Execute(control.CommandParameter);
 
              }), ValidateValue);
-
-
 
         //验证
         static bool ValidateValue(object obj)

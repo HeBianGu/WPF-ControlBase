@@ -98,24 +98,276 @@
 
                                                         <!--左侧菜单-->
                                                         <Border Background="{DynamicResource S.Brush.Accent}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Left}">
-                                                                      <StackPanel x:Name="sp_left"  Width="278">
-                                                            <h:Interaction.Behaviors>
+                                                           <StackPanel x:Name="sp_left"  Width="278">
+                                                               <h:Interaction.Behaviors>
                                                                 <!--<h:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>-->
                                                                 <!--<h:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="Opactiy" StartValue="0" EndValue="1" Split="0.05" End="0.2"/>-->
-                                                                <h:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="VerticalAlignment" StartValue="1000" EndValue="0" End="1" Split="0.2"/>
-                                                            </h:Interaction.Behaviors>
+                                                                  <h:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="VerticalAlignment" StartValue="1000" EndValue="0" End="1" Split="0.2"/>
+                                                               </h:Interaction.Behaviors>
 
                                                             <Image Width="150" Height="{TemplateBinding CaptionHeight}" Source="{TemplateBinding Logo}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 
                                                             <local:LinkGroupExpander Style="{DynamicResource S.LinkGroupExpander.Accent}"
                                                         ItemsSource="{TemplateBinding LinkActionGroups}" SelectedLink="{Binding RelativeSource={RelativeSource
                                                                 Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}"/>
-                                                                          
-                                                                 
                                                             </StackPanel>
 
                                                         </Border>
                                               
+                                                        <!--右侧区域-->
+                                                        <Grid Grid.Column="1">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto"/>
+                                                                <RowDefinition/>
+                                                                <!--<RowDefinition Height="Auto"/>-->
+                                                            </Grid.RowDefinitions>
+
+                                                            <Border BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Background="{DynamicResource S.Brush.TextBackground.Default}" BorderThickness="0,0,0,1" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.RightTop}">
+                                                                <!--<Border.Effect>
+                                                                    <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"></DropShadowEffect>
+                                                                </Border.Effect>-->
+                                                            </Border>
+
+                                                            <!--右侧抬头-->
+                                                            <Grid  x:Name="PART_TITLEGRID" Background="Transparent" Height="{TemplateBinding CaptionHeight}" Margin="0,2,2,0">
+
+                                                                <!--隐藏菜单按钮-->
+                                                                <ToggleButton  Content="&#xeb3a;"  Style="{DynamicResource S.ToggleButton.DoubleFIconChecked}" 
+                                              IsTabStop="False" h:ControlAttachProperty.FIconSize="35" IsChecked="true"
+                                                          h:ControlAttachProperty.FIcon="&#xe9ce;" HorizontalAlignment="Left" Margin="10,0"     
+                                              h:ControlAttachProperty.AllowsAnimation="{Binding RelativeSource={RelativeSource Mode=Self},Path=IsChecked}">
+                                                                    <h:Interaction.Triggers>
+                                                                        <h:EventTrigger EventName="Checked">
+                                                                            <h:InvokeCommandAction Command="{x:Static local:CommandService.VisibleOfMarginLeftCommand}" CommandParameter="{Binding ElementName=sp_left}"/>
+                                                                        </h:EventTrigger>
+
+                                                                        <h:EventTrigger EventName="Unchecked">
+                                                                            <h:InvokeCommandAction Command="{x:Static local:CommandService.CollapsedOfMarginLeftCommand}" CommandParameter="{Binding ElementName=sp_left}"/>
+                                                                        </h:EventTrigger>
+                                                                    </h:Interaction.Triggers>
+                                                                </ToggleButton>
+
+                                                                <!--工具按钮-->
+                                                                <StackPanel  Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0"  HorizontalAlignment="Right">
+                                                                    <StackPanel.Resources>
+                                                                        <Style TargetType="{x:Type local:FButton}" BasedOn="{StaticResource S.FButton.Style.Transparent}">
+                                                                            <Setter  Property="Margin" Value="10,0"/>
+                                                                            <Setter  Property="Width" Value="{DynamicResource S.Window.ItemHeight}"/>
+                                                                            <Setter  Property="FIconSize" Value="15"/>
+                                                                            <Style.Triggers>
+                                                                                <Trigger Property="IsMouseOver" Value="True">
+                                                                                    <Setter Property="Opacity" Value="0.6"/>
+                                                                                </Trigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </StackPanel.Resources>
+                                                                    
+                                                                    <ToggleButton x:Name="btn_custom"  Width="{DynamicResource S.Window.ItemHeight}"  
+                                                                                  VerticalAlignment="Center" Margin="5,0"   ToolTip="用户工具" Foreground="{DynamicResource S.Brush.Orange.Notice}"
+                                                                                  Visibility="{Binding Path=SetboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
+                                                                                  Style="{DynamicResource S.ToggleButton.BrushFIconChecked}" h:ControlAttachProperty.FIcon="&#xe8d4;" 
+                                                                                  h:ControlAttachProperty.FIconSize="25"  h:ControlAttachProperty.CheckedForegroundBrush="{DynamicResource S.Brush.Accent}"
+                                                                                  WindowChrome.IsHitTestVisibleInChrome="True"/>
+
+                                                                    <TextBlock Text="WelCome HeBianGu !" Style="{DynamicResource S.TextBlock.Default}" />
+
+                                                                    <ToggleButton x:Name="btnTheme"  Width="{DynamicResource S.Window.ItemHeight}" 
+                                                                                  VerticalAlignment="Center" Margin="15,0"   ToolTip="更换主题颜色" Foreground="{DynamicResource  S.Brush.TextForeground.Default}"
+                                                                                  Visibility="{Binding Path=SetboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
+                                                                                  Style="{DynamicResource S.ToggleButton.BrushFIconChecked}" h:ControlAttachProperty.FIcon="&#xe6d2;"  h:ControlAttachProperty.FIconSize="25"
+                                                                                  WindowChrome.IsHitTestVisibleInChrome="True"/>
+
+                                                                    <Line X1="0" X2="0" Y1="0" Y2="25" Height="25" Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+
+                                                                    <local:FButton x:Name="btnMin"  Visibility="{Binding Path=MinboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" FIcon="&#xe61d;"  Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                                                    <local:FButton x:Name="btnMax" Command="{Binding Path=MaximizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+
+                                                                    <local:FButton x:Name="btnClose" Width="{DynamicResource S.Window.Item.Height}" Margin="10,0" FIconSize="15"
+                                                                                   MouseOverBackground="Red" MouseOverForeground="{DynamicResource S.Brush.TextForeground.White}"  
+                                                                                   PressedForeground="{DynamicResource S.Brush.TextForeground.White}"
+                                                                                   AllowsAnimation="True"  FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}"
+                                                                                   Command="{Binding Path=CloseWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
+                                                                </StackPanel>
+
+                                                            </Grid>
+
+                                                            <!--<local:Row Grid.Row="2" Style="{DynamicResource S.Row.Column.1}" Background="{DynamicResource S.Brush.Dark.2}">
+                                                                <TextBlock Text="Copyright ©  2019 By HeBianGu" Foreground="{DynamicResource S.Brush.TextForeground.Default}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                                            </local:Row>-->
+
+                                                            <Border Margin="15,10,15,20" Grid.Row="1" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" Background="{DynamicResource S.Brush.TextBackground.Default}" CornerRadius="5">
+                                                                <Border.Effect>
+                                                                    <DropShadowEffect Color="{Binding Source={StaticResource  S.Brush.TextBorderBrush.Default},Path=Color}" BlurRadius="20" Direction="270"></DropShadowEffect>
+                                                                </Border.Effect>
+                                                            </Border>
+
+                                                            <local:LinkActionFrame Grid.Row="1" Margin="15,10" BorderThickness="0,0,0,0" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}"/>
+
+                                                            <!--<local:LinkActionTabFrame Grid.Row="1" Margin="15,10" BorderThickness="0,0,0,0" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}"/>-->
+
+                                                            <!--第一次蒙版-->
+                                                            <local:ModernFrame  Visibility="Collapsed" Grid.Row="1" Grid.RowSpan="2"  x:Name="PART_SettingFrame">
+                                                                <local:ModernFrame.Background>
+                                                                    <SolidColorBrush Color="#000000" Opacity="0.5"/>
+                                                                </local:ModernFrame.Background>
+                                                            </local:ModernFrame>
+
+                                                            <local:LinkActionFrame x:Name="PART_LinkActionFrame"  Visibility="Collapsed"  UseRandomWipe="True" Grid.Row="1" Grid.RowSpan="2"/>
+
+                                                            <local:SwtichTransitioner  x:Name="PART_SwtichTransitioner"  Visibility="Collapsed" Grid.Row="1" Grid.RowSpan="2"
+                                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                                <local:SwtichTransitioner.Background>
+                                                                    <SolidColorBrush Color="#000000" Opacity="0.5"/>
+                                                                </local:SwtichTransitioner.Background>
+                                                                <local:SwtichTransitioner.ITransitionWipe>
+                                                                    <local:SlideOutScale/>
+                                                                </local:SwtichTransitioner.ITransitionWipe>
+                                                            </local:SwtichTransitioner>
+
+                                                            <local:SwtichTransitioner  x:Name="PART_SwtichTransitioner_2"  Visibility="Collapsed" Grid.Row="1" Grid.RowSpan="2"
+                                                       HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                                <local:SwtichTransitioner.Background>
+                                                                    <SolidColorBrush Color="#000000" Opacity="0.5"/>
+                                                                </local:SwtichTransitioner.Background>
+                                                                <local:SwtichTransitioner.ITransitionWipe>
+                                                                    <local:SlideOutScale/>
+                                                                </local:SwtichTransitioner.ITransitionWipe>
+                                                            </local:SwtichTransitioner>
+
+
+                                                        </Grid>
+
+                                                    </Grid>
+                                                </local:DialogHost>
+
+                                                <local:MessageContainer  x:Name="PART_Message"  Grid.Row="1" Source="{Binding MessageSource,Mode=TwoWay}"/>
+
+                                                <local:Snackbar MessageQueue="{local:MessageQueue}" x:Name="PART_SnackBar" />
+                                            </Grid>
+                                        </local:DrawerHost>
+                                    </Grid>
+                                </AdornerDecorator>
+
+                                <Popup x:Name="Pop" PopupAnimation="Slide" IsOpen="{Binding ElementName=btnTheme,Path=IsChecked}"
+                       PlacementTarget="{Binding ElementName=btnTheme}" Placement="Bottom"
+                       AllowsTransparency="True" StaysOpen="False" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+
+                                    <Border Background="{DynamicResource S.Brush.Accent.Opacity.5}" CornerRadius="5" BorderBrush="{DynamicResource S.Brush.Accent}" BorderThickness="1">
+                                        <StackPanel Margin="10">
+                                            <local:ThemeSetControl Foreground="{TemplateBinding CaptionForeground}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+
+                                <Popup x:Name="ppp_custom" PopupAnimation="Slide" IsOpen="{Binding ElementName=btn_custom,Path=IsChecked}" PlacementTarget="{Binding ElementName=btn_custom}" Placement="Bottom" AllowsTransparency="True" StaysOpen="False" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+
+                                    <Border Background="{DynamicResource S.Brush.TextBackground.Default}" CornerRadius="5" BorderBrush="{DynamicResource S.Brush.Accent}" BorderThickness="1">
+                                        <StackPanel Margin="10">
+                                            <ContentControl Content="{TemplateBinding CustomContent}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Grid>
+                    </Viewbox>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter Property="FIcon" TargetName="btnMax" Value="&#xe665;"></Setter>
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter Property="FIcon" TargetName="btnMax" Value="&#xe615;"></Setter>
+                        </Trigger>
+
+                        <!--淡出动画-->
+                        <EventTrigger RoutedEvent="Window.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard Storyboard="{DynamicResource Story.WindowLoad}"/>
+                            </EventTrigger.Actions>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.Window.Manager.Custom" TargetType="{x:Type local:ManagerWindowBase}" BasedOn="{StaticResource S.Window.Manager.Default}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ManagerWindowBase}">
+                    <Viewbox >
+                        <Grid Name="g_all" Width="1920" Height="1055"  Margin="2,0,2,2">
+                            <!--背景-->
+                            <Border x:Name="Bg"
+                  CornerRadius="{TemplateBinding h:ControlAttachProperty.CornerRadius}"
+                  Background="{TemplateBinding Background}"
+                  BorderBrush="{TemplateBinding BorderBrush}"
+                  Effect="{DynamicResource S.DropShadowEffect.Window}"
+                  BorderThickness="{TemplateBinding BorderThickness}"
+                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
+
+                            <Border x:Name="BgInner" CornerRadius="{TemplateBinding h:ControlAttachProperty.CornerRadius}"
+                    Background="{TemplateBinding Background}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+
+                            <Grid>
+                                <!--窗体内容区域-->
+                                <AdornerDecorator Grid.Row="1" Margin="1,1,1,1" WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Grid>
+                                        <!--托盘图标-->
+                                        <local:NotifyIcon x:Name="PART_NotifyIcon"
+                                      Icon="{Binding Path=NotifyIconSource,RelativeSource={RelativeSource TemplatedParent}}"
+                                      Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"
+                                      Text="{TemplateBinding Title}"
+                                      IconVisibility="Visible">
+
+                                            <FrameworkElement.ContextMenu>
+                                                <ContextMenu Style="{DynamicResource DefaultContextMenu}">
+                                                    <MenuItem Header="显示面板" />
+                                                    <MenuItem Header="退出" />
+                                                </ContextMenu>
+                                            </FrameworkElement.ContextMenu>
+                                        </local:NotifyIcon>
+
+                                        <local:DrawerHost HorizontalContentAlignment="Stretch">
+                                            <Grid>
+                                                <!--整体消息弹出-->
+                                                <local:DialogHost Identifier="windowDialog" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="-3,0,-3,-3">
+                                                    <Grid>
+
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+
+
+                                                        <Border>
+                                                            <Border.Background>
+                                                                <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/Cover.png"/>
+                                                            </Border.Background>
+                                                        </Border>
+
+                                                        <!--左侧菜单-->
+                                                        <Border Background="{DynamicResource S.Brush.Accent}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Left}">
+                                                            <StackPanel x:Name="sp_left"  Width="278">
+                                                                <h:Interaction.Behaviors>
+                                                                    <!--<h:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>-->
+                                                                    <!--<h:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="Opactiy" StartValue="0" EndValue="1" Split="0.05" End="0.2"/>-->
+                                                                    <h:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="VerticalAlignment" StartValue="1000" EndValue="0" End="1" Split="0.2"/>
+                                                                </h:Interaction.Behaviors>
+
+                                                                <Image Width="150" Height="{TemplateBinding CaptionHeight}" Source="{TemplateBinding Logo}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+
+                                                                <!--<local:LinkGroupExpander Style="{DynamicResource S.LinkGroupExpander.Accent}"
+                                                        ItemsSource="{TemplateBinding LinkActionGroups}" SelectedLink="{Binding RelativeSource={RelativeSource
+                                                                Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}"/>-->
+
+                                                                <ContentControl Content="{TemplateBinding LeftContent}" Background="Green" VerticalAlignment="Stretch"/>
+                                                            </StackPanel>
+
+                                                        </Border>
+
                                                         <!--右侧区域-->
                                                         <Grid Grid.Column="1">
                                                             <Grid.RowDefinitions>
@@ -205,8 +457,6 @@
                                                                     <DropShadowEffect Color="{Binding Source={StaticResource  S.Brush.TextBorderBrush.Default},Path=Color}" BlurRadius="20" Direction="270"></DropShadowEffect>
                                                                 </Border.Effect>
                                                             </Border>
-
-                                                            <local:LinkActionFrame Margin="25,15,25,25" Grid.Row="1" UseRandomWipe="True"  LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}"/>
 
                                                             <!--<local:LinkActionTabFrame Grid.Row="1" Margin="15,10" BorderThickness="0,0,0,0" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}"/>-->
 

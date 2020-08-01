@@ -125,6 +125,27 @@ namespace HeBianGu.General.WpfControlLib
 
              }));
 
+
+
+        public object LeftContent
+        {
+            get { return (object)GetValue(LeftContentProperty); }
+            set { SetValue(LeftContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LeftContentProperty =
+            DependencyProperty.Register("LeftContent", typeof(object), typeof(ManagerWindowBase), new PropertyMetadata(default(object), (d, e) =>
+             {
+                 ManagerWindowBase control = d as ManagerWindowBase;
+
+                 if (control == null) return;
+
+                 object config = e.NewValue as object;
+
+             }));
+
+
     }
 
 

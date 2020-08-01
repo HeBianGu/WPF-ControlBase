@@ -398,7 +398,7 @@ namespace HeBianGu.General.WpfControlLib
         static ManualResetEvent _asyncShowWaitHandle = new ManualResetEvent(false);
 
         /// <summary> 显示蒙版 </summary>
-        public static async Task<bool> ShowObjectWithPropertyForm<T>(T value, Predicate<T> match = null, string title = null,int layerIndex=0)
+        public static async Task<bool> ShowObjectWithPropertyForm<T>(T value, Predicate<T> match = null, string title = null, int layerIndex = 0)
         {
             bool result = false;
 
@@ -462,7 +462,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 显示蒙版 </summary>
-        public static async Task<bool> ShowObjectWithContent<T>(T value, Predicate<T> match = null, string title = null,int layerIndex=0)
+        public static async Task<bool> ShowObjectWithContent<T>(T value, Predicate<T> match = null, string title = null, int layerIndex = 0)
 
         {
             bool result = false;
@@ -497,6 +497,13 @@ namespace HeBianGu.General.WpfControlLib
                         result = true;
                     };
 
+                    content.Closed += (l, k) =>
+                   {
+                       CloseWithLayer(layerIndex);
+                       _asyncShowWaitHandle.Set();
+                       result = false;
+                   };
+
                     window.ShowWithLayer(content, layerIndex);
 
                     _asyncShowWaitHandle.Reset();
@@ -515,6 +522,8 @@ namespace HeBianGu.General.WpfControlLib
             return result;
 
         }
+
+
         #endregion
 
         #region - 气泡消息 -
@@ -675,8 +684,18 @@ namespace HeBianGu.General.WpfControlLib
 
         public void Execute(object parameter)
         {
-            int index = parameter == null ? 0 : int.Parse(parameter.ToString());
-            MessageService.CloseWithLayer();
+
+            bool result = int.TryParse(parameter?.ToString(), out int value);
+
+            if(result)
+            {
+                MessageService.CloseWithLayer(value);
+            }
+            else
+            {
+                MessageService.CloseWithLayer();
+            }
+          
         }
 
         public event EventHandler CanExecuteChanged;
