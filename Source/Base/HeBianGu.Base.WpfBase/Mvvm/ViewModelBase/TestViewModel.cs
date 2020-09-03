@@ -11,19 +11,8 @@ using System.Threading.Tasks;
 namespace HeBianGu.Base.WpfBase
 {
     /// <summary> 开发原型用的模型 </summary>
-    public partial class TestViewModel<T> : SelectViewModel<T> where T : new()
+    public partial class TestViewModel : SelectViewModel<DateTime> 
     {
-
-        public TestViewModel():base()
-        {
-
-        }
-
-        public TestViewModel(T t) : base(t)
-        {
-
-        }
-
 
         private string _value;
         /// <summary> 说明  </summary>

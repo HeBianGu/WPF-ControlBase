@@ -1,12 +1,13 @@
 ﻿using System;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media; 
+using System.Windows.Media;
 
 namespace HeBianGu.Base.WpfBase
 {
-    class ListDragBlendBehavior : Behavior<ListBox>
+    public class ListDragBlendBehavior : Behavior<ListBox>
     {
         private ListBox _dragSource;
         private object _dragData;
@@ -40,8 +41,14 @@ namespace HeBianGu.Base.WpfBase
                  (Math.Abs(difference.Y) > SystemParameters.MinimumVerticalDragDistance)))
             {
                 var data = new DataObject("Custom", _dragData);
-                DragDrop.DoDragDrop(_dragSource, data, DragDropEffects.Copy);
+                //DragDrop.DoDragDrop(_dragSource, data, DragDropEffects.Copy);
+                var result = DragDrop.DoDragDrop(_dragSource, data, DragDropEffects.Move);
 
+                //  Do ：移动成功清理数据
+                if(result==DragDropEffects.Move)
+                {
+                    (_dragSource.ItemsSource as IList).Remove(_dragData);
+                }
                 _dragData = null;
             }
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -15,7 +16,7 @@ namespace HeBianGu.Base.WpfBase
     //              <behaviors:ListDropBlendBehavior/>
     //          </e:Interaction.Behaviors>
     //      </ListBox>
-    class ListDropBlendBehavior : Behavior<ListBox>
+   public class ListDropBlendBehavior : Behavior<ListBox>
     {
         protected override void OnAttached()
         {
@@ -28,7 +29,9 @@ namespace HeBianGu.Base.WpfBase
             var dropTarget = sender as ListBox;
             if ((dropTarget != null) && (dragEventArgs.Data.GetDataPresent("Custom")))
             {
-                dropTarget.Items.Add(dragEventArgs.Data.GetData("Custom"));
+                //dropTarget.Items.Add(dragEventArgs.Data.GetData("Custom"));
+
+                (dropTarget.ItemsSource as IList).Add(dragEventArgs.Data.GetData("Custom"));
             }
         }
     }
