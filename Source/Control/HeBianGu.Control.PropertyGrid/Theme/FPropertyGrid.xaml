@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:local="clr-namespace:HeBianGu.Control.PropertyGrid"
+    xmlns:s="clr-namespace:System;assembly=mscorlib"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:h="QQ:908293466">
+
+    <DataTemplate DataType="{x:Type local:ValidationPropertyGroup}">
+        <Grid Margin="0,0.2">
+            <h:FExpander Header="{Binding Name}" TitleBackground="{DynamicResource S.Brush.TextBorderBrush.Default}" 
+                                 HintForeground="{DynamicResource S.Brush.TextForeground.Title}" IsExpanded="True" 
+                                 Style="{DynamicResource S.FExpander.Default}"
+                                 HeaderHeight="{DynamicResource S.Window.Item.Height}">
+                <ItemsControl ItemsSource="{Binding}"/>
+            </h:FExpander>
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="S.FPropertyGrid.Default" TargetType="{x:Type local:FPropertyGrid}"> 
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:FPropertyGrid}">
+                    <Grid>
+                        <ItemsPresenter SnapsToDevicePixels="True"/>
+                    </Grid> 
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter> 
+    </Style>
+
+    <Style x:Key="S.FPropertyGrid.Single" TargetType="{x:Type local:FPropertyGrid}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:FPropertyGrid}">
+                    <Grid>
+                        <GroupBox Header="{TemplateBinding Header}">
+                            <ItemsPresenter SnapsToDevicePixels="True"/>
+                        </GroupBox>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:FPropertyGrid}" BasedOn="{StaticResource S.FPropertyGrid.Default}"/>
+</ResourceDictionary>

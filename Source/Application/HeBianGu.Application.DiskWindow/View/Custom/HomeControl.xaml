@@ -3,10 +3,130 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HeBianGu.Application.DiskWindow.View.Custom"
+             xmlns:local="clr-namespace:HeBianGu.Application.DiskWindow"
              mc:Ignorable="d" 
+             xmlns:h="QQ:908293466"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="Green">
-        <TextBlock Text="Custom" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="100"/>
+    <UserControl.Resources>
+
+        <DataTemplate DataType="{x:Type local:CDViewModel}">
+            <Grid>
+                <ItemsControl>
+                    <h:FPropertyGrid Object="{Binding }" AutoMerge="True"/>
+
+                    <h:FPropertyGrid Object="{Binding Tz.Current}"/>
+                </ItemsControl>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:BJViewModel}">
+            <Grid>
+                <ItemsControl>
+                    <h:FPropertyGrid Object="{Binding}" AutoMerge="True"/>
+
+                    <h:FPropertyGrid Object="{Binding Tz.Current}"/>
+                </ItemsControl>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:StudentViewModel}">
+            <GroupBox Header="属性表单">
+                <ItemsControl>
+                    <h:FPropertyGrid Object="{Binding}" AutoMerge="True">
+                        <h:FPropertyGrid.Resources>
+                            <DataTemplate DataType="{x:Type local:CDViewModel}">
+                                <Grid>
+                                    <TextBlock Text="{Binding DisplayName}"/>
+                                </Grid>
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type local:BJViewModel}">
+                                <Grid>
+                                    <Grid>
+                                        <TextBlock Text="{Binding DisplayName}"/>
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </h:FPropertyGrid.Resources>
+                    </h:FPropertyGrid>
+                    <ContentControl Content="{Binding Xh.Current}"/>
+                </ItemsControl>
+            </GroupBox>
+        </DataTemplate>
+
+
+        <DataTemplate DataType="{x:Type local:XhtypeProperty}" >
+            <Grid  Width="{StaticResource S.Property.Item.Width}" Background="Transparent" Margin="{StaticResource S.Property.Item.Margin}"  ToolTip="{Binding Description}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Style="{DynamicResource S.ComboBox.Single.LabelAlarm}" ItemsSource="{Binding Source}" SelectedItem="{Binding Current}"/>
+
+                <TextBlock Grid.Column="2"
+                       Foreground="Red"  Style="{DynamicResource FIcon}" Text="&#xe74e;" ToolTip="{Binding Message}"
+                       Visibility="{Binding Message,Converter={x:Static h:XConverter.VisibilityEmptyConverter}}"
+                       FontSize="20" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:TztypeProperty}" >
+            <Grid  Width="{StaticResource S.Property.Item.Width}" Background="Transparent" Margin="{StaticResource S.Property.Item.Margin}"  ToolTip="{Binding Description}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Style="{DynamicResource S.ComboBox.Single.LabelAlarm}" ItemsSource="{Binding Source}" SelectedItem="{Binding Current}"/>
+
+                <TextBlock Grid.Column="2"
+                       Foreground="Red"  Style="{DynamicResource FIcon}" Text="&#xe74e;" ToolTip="{Binding Message}"
+                       Visibility="{Binding Message,Converter={x:Static h:XConverter.VisibilityEmptyConverter}}"
+                       FontSize="20" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+
+        <ScrollViewer Grid.Column="1">
+            <Grid Margin="10,0">
+                <Grid.Resources>
+                    <DataTemplate DataType="{x:Type local:CWViewModel}">
+                        <Grid>
+                            <TextBlock Text="{Binding DisplayName}"/>
+                        </Grid>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type local:AMViewModel}">
+                        <Grid>
+                            <TextBlock Text="{Binding DisplayName}"/>
+                        </Grid>
+                    </DataTemplate>
+
+                    <DataTemplate DataType="{x:Type local:ASKViewModel}">
+                        <Grid>
+                            <TextBlock Text="{Binding DisplayName}"/>
+                        </Grid>
+                    </DataTemplate>
+
+                </Grid.Resources>
+                <ItemsControl>
+                    <ContentControl Content="{Binding Student}"/>
+                </ItemsControl>
+            </Grid>
+        </ScrollViewer>
     </Grid>
+    <h:Interaction.Triggers>
+        <h:EventTrigger EventName="Loaded">
+            <h:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+        </h:EventTrigger>
+    </h:Interaction.Triggers>
 </UserControl>

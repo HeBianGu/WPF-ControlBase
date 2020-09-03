@@ -210,6 +210,11 @@ namespace HeBianGu.Base.WpfBase
             get { return new TimeSpanSplitPointConverter(); }
         }
 
+        public static NullOrEmptyTofalseConverter NullOrEmptyTofalseConverter
+        {
+            get { return new NullOrEmptyTofalseConverter(); }
+        }
+
         
         //public static SelectTextConverter SelectTextConverter
         //{

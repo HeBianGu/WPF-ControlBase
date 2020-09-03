@@ -1,36 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Reflection;
-using System.Linq;
+using HeBianGu.Base.WpfBase;
 
-namespace HeBianGu.Base.WpfBase
+namespace HeBianGu.Control.PropertyGrid
 {
-
     /// <summary> 拥有根据Model验证特性判断用户输入数据是否合法的绑定模型基类 </summary>
-    public class ValidationModelViewModel<T> : ModelViewModel<T> where T : new()
+    public class ValidationAttributeViewModel<T> : ModelViewModel<T> where T : new()
     {
-        public ValidationModelViewModel() : base()
+        public ValidationAttributeViewModel() : base()
         {
 
         }
 
-        public ValidationModelViewModel(T t) : base(t)
+        public ValidationAttributeViewModel(T t) : base(t)
         {
 
         }
 
         /// <summary> 获取指定名称实体字段数据 </summary>
-        protected ValidationProperty<R> CreateModelProperty<R>([CallerMemberName] string propertyName = "")
+        protected R CreateProperty<R>([CallerMemberName] string propertyName = "") where R : PropertyInfo
         {
-            ValidationProperty<R> value = new ValidationProperty<R>();
+            R value = Activator.CreateInstance<R>();
 
             //  Do ：值改变时检查数据，并更新实体字段
-            value.ValueChanged = l =>
+            value.TextChanged = l =>
             {
-                this.RefreshModelProperty(value, propertyName);
+                this.RefreshProperty(value, propertyName);
             };
 
             var p = typeof(T).GetProperty(propertyName);
@@ -45,8 +46,6 @@ namespace HeBianGu.Base.WpfBase
 
             value.DisplayName = display_this ?? display ?? value.Name;
 
-            value.DisplayName = display ?? value.Name;
-
             if (!p.CanRead)
             {
                 value.Message = "只写字段不支持读取数据";
@@ -60,15 +59,17 @@ namespace HeBianGu.Base.WpfBase
             {
                 foreach (var r in collection)
                 {
-                    if (!r.IsValid(value.Value))
+
+                    if (!r.IsValid(value.Text))
                     {
-                        value.Message = r.ErrorMessage ?? r.FormatErrorMessage(display ?? p.Name);
+                        value.Message = r.ErrorMessage ?? r.FormatErrorMessage(value.DisplayName);
 
                         //  Do ：保存实体验证失败
                         break;
                     }
                 }
-            } 
+            }
+
             var collection_this = p_this.GetCustomAttributes<ValidationAttribute>()?.ToList();
 
             if (collection_this != null)
@@ -76,7 +77,7 @@ namespace HeBianGu.Base.WpfBase
                 foreach (var r in collection_this)
                 {
 
-                    if (!r.IsValid(value.Value))
+                    if (!r.IsValid(value.Text))
                     {
                         value.Message = r.ErrorMessage ?? r.FormatErrorMessage(value.DisplayName);
 
@@ -88,15 +89,18 @@ namespace HeBianGu.Base.WpfBase
 
             value.Flag = p.GetCustomAttributes<RequiredAttribute>()?.FirstOrDefault() != null ? "*" : "";
 
-            value.Value = (R)p.GetValue(this.Model);
+            value.Text = p.GetValue(this.Model)?.ToString();
 
             return value;
         }
 
+
         /// <summary> 设置指定名称实体字段数据  </summary>
-        bool RefreshModelProperty<R>(ValidationProperty<R> value, [CallerMemberName] string propertyName = "")
+        bool RefreshProperty<R>(R value, [CallerMemberName] string propertyName = "") where R : PropertyInfo
         {
             var p = typeof(T).GetProperty(propertyName);
+
+            var p_this = this.GetType().GetProperty(propertyName);
 
             if (!p.CanWrite)
             {
@@ -113,7 +117,7 @@ namespace HeBianGu.Base.WpfBase
             {
                 foreach (var r in collection)
                 {
-                    if (!r.IsValid(value.Value))
+                    if (!r.IsValid(value.Text))
                     {
                         string display = p.GetCustomAttributes<DisplayAttribute>()?.FirstOrDefault()?.Name;
 
@@ -125,7 +129,24 @@ namespace HeBianGu.Base.WpfBase
                 }
             }
 
-            p.SetValue(this.Model, value.Value);
+            var collection_this = p_this.GetCustomAttributes<ValidationAttribute>()?.ToList();
+
+            if (collection_this != null)
+            {
+                foreach (var r in collection_this)
+                {
+
+                    if (!r.IsValid(value.Text))
+                    {
+                        value.Message = r.ErrorMessage ?? r.FormatErrorMessage(value.DisplayName);
+
+                        //  Do ：保存实体验证失败
+                        break;
+                    }
+                }
+            }
+
+            p.SetValue(this.Model, value.ConvertToObject(value.Text));
 
             return true;
         }
@@ -152,89 +173,5 @@ namespace HeBianGu.Base.WpfBase
 
             return errors.Count == 0;
         }
-    }
-
-    /// <summary> 用于绑定验证Model的实体，可以应用Model中的验证特性判断输入数据是否合法</summary>
-    public class ValidationProperty<V> : ValidationPropertyBase
-    {
-
-        private V _value;
-        /// <summary> 值  </summary>
-        public V Value
-        {
-            get { return _value; }
-            set
-            {
-                _value = value;
-
-                //  Do ：应用实体验证数据有效性
-                this.ValueChanged?.Invoke(value);
-
-                RaisePropertyChanged("Value");
-            }
-        }
-
-
-        public Action<V> ValueChanged;
-    }
-
-    /// <summary> 验证Model属性的基类 </summary>
-    public class ValidationPropertyBase : NotifyPropertyChanged
-    {
-        #region - 属性 -
-
-
-        private string _name;
-        /// <summary> 实体字段名称  </summary>
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                RaisePropertyChanged("Name");
-            }
-        }
-
-
-        private string _displayName;
-        /// <summary> 说明  </summary>
-        public string DisplayName
-        {
-            get { return _displayName; }
-            set
-            {
-                _displayName = value;
-                RaisePropertyChanged("DisplayName");
-            }
-        }
-
-        private string _flag;
-        /// <summary> 必须字段标识  </summary>
-        public string Flag
-        {
-            get { return _flag; }
-            set
-            {
-                _flag = value;
-                RaisePropertyChanged("Flag");
-            }
-        }
-
-
-        private string _message;
-        /// <summary> 验证消息  </summary>
-        public string Message
-        {
-            get { return _message; }
-            set
-            {
-                _message = value;
-                RaisePropertyChanged("Message");
-            }
-        }
-
-        #endregion
-
     }
 }

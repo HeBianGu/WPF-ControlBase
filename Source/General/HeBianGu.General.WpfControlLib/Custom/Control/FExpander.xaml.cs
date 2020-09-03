@@ -283,5 +283,25 @@ namespace HeBianGu.General.WpfControlLib
         {
             VisualStateManager.GoToState(this, value, false);
         }
+
+
+        public double HeaderHeight
+        {
+            get { return (double)GetValue(HeaderHeightProperty); }
+            set { SetValue(HeaderHeightProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HeaderHeightProperty =
+            DependencyProperty.Register("HeaderHeight", typeof(double), typeof(FExpander), new PropertyMetadata(50.0, (d, e) =>
+             {
+                 FExpander control = d as FExpander;
+
+                 if (control == null) return;
+
+                 //double config = e.NewValue as double;
+
+             }));
+
     }
 }

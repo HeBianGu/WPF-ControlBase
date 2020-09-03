@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3B346F56-F6E7-4F90-B2D1-E1BBE5E5CECA}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <RootNamespace>HeBianGu.Application.DiskWindow</RootNamespace>
-    <AssemblyName>HeBianGu.Application.DiskWindow</AssemblyName>
+    <ProjectGuid>{C3456FE9-ADCC-4BE8-AB71-827D74A04F3E}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <RootNamespace>HeBianGu.Control.PropertyGrid</RootNamespace>
+    <AssemblyName>HeBianGu.Control.PropertyGrid</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -15,17 +15,15 @@
     <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\Product\Debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,13 +31,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>TiBook.ico</ApplicationIcon>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HeBianGu.Common.LocalConfig, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\Solution\hebiangu\packages\HeBianGu.Common.LocalConfig.2.0.1\lib\net45\HeBianGu.Common.LocalConfig.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -57,53 +49,55 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <Page Include="Theme\FPropertyGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="Controller\CustomController.cs" />
-    <Compile Include="Controller\LoyoutController.cs" />
-    <Compile Include="Domain\AssemblyDomain.cs" />
-    <Compile Include="Domain\IAssemblyDomain.cs" />
-    <Compile Include="Model\ITz.cs" />
-    <Compile Include="Model\IXh.cs" />
-    <Compile Include="Model\Signl.cs" />
-    <Compile Include="Provider\LocalizeService.cs" />
-    <Compile Include="ViewModel\Custom\CustomViewModel.cs" />
-    <Compile Include="ViewModel\Custom\Entity\IXhtypeViewModelBase.cs" />
-    <Compile Include="ViewModel\Custom\Entity\IZTypeViewModelBase.cs" />
-    <Compile Include="ViewModel\Custom\Entity\StudentViewModel.cs" />
-    <Compile Include="ViewModel\Loyout\LoyoutViewModel.cs" />
+    </Page>
     <Page Include="Theme\Default.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Custom\HomeControl.xaml">
+    <Compile Include="Provider\Attribute\AutoMergeAttribute.cs" />
+    <Compile Include="Theme\FPropertyGrid.xaml.cs">
+      <DependentUpon>FPropertyGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Provider\PropertyInfo\BaseType\BoolProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\BaseType\BoolsProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\BaseType\DoubleProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\BaseType\DoubleRangePropery.cs" />
+    <Compile Include="Provider\PropertyInfo\BaseType\DoublesProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\BaseType\EnumProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\BaseType\IntProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\BaseType\IntRangePropery.cs" />
+    <Compile Include="Provider\PropertyInfo\BaseType\IntsProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\BaseType\StringProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\BaseType\StringsProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\BaseType\UnitProperyBase.cs" />
+    <Compile Include="Provider\PropertyInfo\Base\CollectionPropertyInfoT.cs" />
+    <Compile Include="Provider\PropertyInfo\Base\IObjectSelectProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\Base\IValidationPropertyBase.cs" />
+    <Compile Include="Provider\PropertyInfo\Base\ObjectSelectProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\Base\PropertyInfo.cs" />
+    <Compile Include="Provider\PropertyInfo\Base\PropertyInfoT.cs" />
+    <Compile Include="Provider\PropertyInfo\Base\RangeProperyBase.cs" />
+    <Compile Include="Provider\PropertyInfo\Base\ValidationProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\Base\ValidationPropertyBase.cs" />
+    <Compile Include="Provider\PropertyInfo\Service\PathPropery.cs" />
+    <Compile Include="Provider\PropertyInfo\Service\Slider_DoubleRangePropery.cs" />
+    <Compile Include="Provider\PropertyInfo\Service\StrechEnumProperty.cs" />
+    <Compile Include="Provider\PropertyInfo\Service\UnitDoublePropery.cs" />
+    <Compile Include="Provider\PropertyInfo\Service\UpDown_DoubleRangePropery.cs" />
+    <Compile Include="Provider\PropertyModel\ValidationModelViewModel.cs" />
+    <Compile Include="Provider\PropertyModel\ValidationXmlViewModel.cs" />
+    <Compile Include="Provider\Xml\Unit.cs" />
+    <Compile Include="Provider\Xml\Validation.cs" />
+    <Compile Include="Provider\Xml\XmlIndexAttribute.cs" />
+    <Compile Include="Provider\Xml\XmlProvider.cs" />
+    <Compile Include="Provider\Xml\XmlUnitAttribute.cs" />
+    <Page Include="Theme\Generic.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Loyout\HomeControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="View\ShellWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="View\Custom\HomeControl.xaml.cs">
-      <DependentUpon>HomeControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\Loyout\HomeControl.xaml.cs">
-      <DependentUpon>HomeControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="View\ShellWindow.xaml.cs">
-      <DependentUpon>ShellWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -123,45 +117,20 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\Base\HeBianGu.Base.WpfBase\HeBianGu.Base.WpfBase.csproj">
       <Project>{d35216b4-1702-41eb-8f2a-c3ab43853c8c}</Project>
       <Name>HeBianGu.Base.WpfBase</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Control\HeBianGu.Control.PropertyGrid\HeBianGu.Control.PropertyGrid.csproj">
-      <Project>{c3456fe9-adcc-4be8-ab71-827d74a04f3e}</Project>
-      <Name>HeBianGu.Control.PropertyGrid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\General\HeBianGu.General.WpfControlLib\HeBianGu.General.WpfControlLib.csproj">
       <Project>{090f137c-469a-4b92-b589-62302184fdeb}</Project>
       <Name>HeBianGu.General.WpfControlLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\General\HeBianGu.General.WpfMvc\HeBianGu.General.WpfMvc.csproj">
-      <Project>{d0c8fa31-f202-4c8e-a052-4cbb858af863}</Project>
-      <Name>HeBianGu.General.WpfMvc</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="TiBook.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\config.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\unit.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
