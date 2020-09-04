@@ -245,7 +245,30 @@ namespace HeBianGu.Application.BlurWindow
                 await MessageService.ShowStringProgress(action);
 
             }
+            //  Do：文本进度对话框
+            else if (command == "Button.ShowTakStringProgress")
+            {
+                //Action<IStringProgress> action = l =>
+                //{
+                //    for (int i = 1; i <= 100; i++)
+                //    {
+                //        l.MessageStr = $"正在提交当前页第{i}份数据,共100份";
 
+                //        Thread.Sleep(10);
+                //    }
+
+                //    Thread.Sleep(1000);
+
+                //    MessageService.ShowSnackMessageWithNotice("提交完成：成功100条，失败0条！");
+                //};
+
+                StringProgressDialog dialog = new StringProgressDialog();
+
+                MessageService.ShowWithLayer(dialog);
+
+            }
+
+            
             //  Do：确认取消对话框
             else if (command == "Button.ShowResultMessge")
             {
@@ -396,11 +419,79 @@ namespace HeBianGu.Application.BlurWindow
             }
 
             //  Do：气泡消息
+            else if (command.StartsWith("Button.Message.StringProgrss"))
+            {
+                Func<StringProgressMessage, bool> func = l =>
+                   {
+                           for (int i = 1; i <= 100; i++)
+                           {
+                               System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                               {
+                                   l.Message = $"正在提交当前页第{i}份数据,共100份";
+                               });
+
+
+                               Thread.Sleep(10);
+                           }
+
+                       return true;
+                   };
+
+                var result = await MessageService.ShowWindowNotifyMessageWithStringProgress(func);
+
+                if (result)
+                {
+                    MessageService.ShowSnackMessageWithNotice("运行成功");
+                }
+            }
+
+            //  Do：气泡消息
+            else if (command.StartsWith("Button.Message.PercentProgrss"))
+            {
+                Func<PercentProgressMessage, bool> func = l =>
+                {
+                    for (int i = 1; i <= 100; i++)
+                    {
+                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            l.Value=i;
+                        });
+
+                        Thread.Sleep(10);
+                    }
+
+                    return true;
+                };
+
+               var result= await MessageService.ShowWindowNotifyMessageWithPercentProgress(func);
+
+                if(result)
+                {
+                    MessageService.ShowSnackMessageWithNotice("运行成功");
+                }
+            }
+
+            //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Dailog"))
             {
                 DailogMessage message = new DailogMessage();
 
                 message.Message = "可以保存了么?";
+
+                message.IsMatch = l =>
+                  {
+                      if (random.Next(1, 3) == 1)
+                      {
+                          MessageService.ShowSnackMessageWithNotice("保存成功");
+                          return true;
+                      }
+                      else
+                      {
+                          MessageService.ShowSnackMessageWithNotice("保存失败");
+                          return false;
+
+                      }
+                  };
 
                 this.AddMessage(message, command);
             }

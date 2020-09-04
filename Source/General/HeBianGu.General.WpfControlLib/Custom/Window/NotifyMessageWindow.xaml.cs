@@ -33,22 +33,27 @@ namespace HeBianGu.General.WpfControlLib
         }
 
 
-        public ObservableCollection<MessageBase> Source
+        //public ObservableCollection<MessageBase> Source
+        //{
+        //    get { return (ObservableCollection<MessageBase>)GetValue(SourceProperty); }
+        //    set { SetValue(SourceProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty SourceProperty =
+        //    DependencyProperty.Register("Source", typeof(ObservableCollection<MessageBase>), typeof(NotifyMessageWindow), new PropertyMetadata(new ObservableCollection<MessageBase>(), (d, e) =>
+        //    {
+        //        NotifyMessageWindow control = d as NotifyMessageWindow;
+
+        //        if (control == null) return;
+
+        //        //ProgressBarState config = e.NewValue as ProgressBarState;
+
+        //    }));
+
+        public void Add(MessageBase message)
         {
-            get { return (ObservableCollection<MessageBase>)GetValue(SourceProperty); }
-            set { SetValue(SourceProperty, value); }
+            this.contrainer.Add(message);
         }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SourceProperty =
-            DependencyProperty.Register("Source", typeof(ObservableCollection<MessageBase>), typeof(NotifyMessageWindow), new PropertyMetadata(new ObservableCollection<MessageBase>(), (d, e) =>
-            {
-                NotifyMessageWindow control = d as NotifyMessageWindow;
-
-                if (control == null) return;
-
-                //ProgressBarState config = e.NewValue as ProgressBarState;
-
-            }));
     }
 }

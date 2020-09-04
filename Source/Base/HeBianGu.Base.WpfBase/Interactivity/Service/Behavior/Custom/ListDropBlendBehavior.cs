@@ -31,8 +31,41 @@ namespace HeBianGu.Base.WpfBase
             {
                 //dropTarget.Items.Add(dragEventArgs.Data.GetData("Custom"));
 
-                (dropTarget.ItemsSource as IList).Add(dragEventArgs.Data.GetData("Custom"));
+                var data = this.GetDataByMousePoint(dragEventArgs.GetPosition(this.AssociatedObject));
+
+                int index = data == null ? (this.AssociatedObject.ItemsSource as IList).Count: (this.AssociatedObject.ItemsSource as IList).IndexOf(data);
+
+                //(dropTarget.ItemsSource as IList).Add(dragEventArgs.Data.GetData("Custom"));
+
+                (dropTarget.ItemsSource as IList).Insert(index,dragEventArgs.Data.GetData("Custom"));
             }
+        }
+
+
+        object GetDataByMousePoint(Point point)
+        {
+            UIElement element =  this.AssociatedObject.InputHitTest(point) as UIElement;
+
+            if(element==null)
+            {
+                element = this.AssociatedObject.InputHitTest(new Point(point.X,point.Y-10)) as  UIElement;
+            }
+
+            object data = DependencyProperty.UnsetValue;
+
+            while(data==DependencyProperty.UnsetValue)
+            {
+                data = this.AssociatedObject.ItemContainerGenerator.ItemFromContainer(element);
+
+                if (data == DependencyProperty.UnsetValue)
+                {
+                    element = VisualTreeHelper.GetParent(element) as UIElement;
+                }
+
+                if (element == this.AssociatedObject) return null;
+            }
+
+            return data==DependencyProperty.UnsetValue?null:data;
         }
     }
 }

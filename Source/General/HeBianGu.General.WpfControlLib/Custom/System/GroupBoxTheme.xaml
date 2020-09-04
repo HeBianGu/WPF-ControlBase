@@ -114,6 +114,62 @@
         </Setter>
     </Style>
 
+    <Style x:Key="S.GroupBox.UnderLine" TargetType="{x:Type GroupBox}" BasedOn="{StaticResource S.GroupBox.Default}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="h:ControlAttachProperty.FIcon" Value="&#xe756;"/>
+        <Setter Property="h:ControlAttachProperty.FIconSize" Value="{DynamicResource S.FIcon.Size.Default}"/>
+        <Setter Property="h:ControlAttachProperty.FIconMargin" Value="5"/>
+        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="local:ShadowAssist.ShadowDepth" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.RowSpan="2" Margin="0,0,0,0" x:Name="bordercenter"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{TemplateBinding Background}" 
+                                Effect="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(local:ShadowAssist.ShadowDepth)}"
+                                BorderThickness="0" CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(h:ControlAttachProperty.CornerRadius)}" Opacity="1">
+                        </Border>
+
+                        <Border Margin="0,0,0,0" x:Name="borderheader"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{TemplateBinding Background}"  Height="{DynamicResource S.Window.Row.Height}"
+                                BorderThickness="0,0,0,1" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Top}">
+                        </Border>
+
+                        <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}"
+                                           Margin="10,0,0,0" HorizontalAlignment="Left" Content="{TemplateBinding Header}"
+                                           Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False"
+                                           MouseOverForeground="{TemplateBinding Background}"
+                                           FIcon="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:ControlAttachProperty.FIcon)}"
+                                           FIconMargin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:ControlAttachProperty.FIconMargin)}"
+                                           FIconSize="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:ControlAttachProperty.FIconSize)}"/>
+
+                        <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}"/>
+
+                        <ContentControl Template="{TemplateBinding h:ControlAttachProperty.AttachContent}" HorizontalAlignment="Right"/>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource S.GroupBox.Default}"/>
 
 </ResourceDictionary>

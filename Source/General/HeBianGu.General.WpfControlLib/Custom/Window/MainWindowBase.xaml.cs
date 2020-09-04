@@ -335,7 +335,7 @@ namespace HeBianGu.General.WpfControlLib
         {
             this.Dispatcher.Invoke(() =>
             {
-                _messageContainer.Source.Add(message);
+                _messageContainer.Add(message);
 
             });
         }
@@ -356,10 +356,10 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 输出消息、按钮和参数 </summary>
         void AddSnackMessage<TArgument>(string message, object actionContent, Action<TArgument> actionHandler, TArgument actionArgument);
 
-        /// <summary> 显示蒙版 </summary>
-        void ShowWithLayer(Uri uri, int layerIndex = 0);
+        ///// <summary> 显示蒙版 </summary>
+        //void ShowWithLayer(Uri uri, int layerIndex = 0);
 
-        void ShowWithLayer(IActionResult link, int layerIndex = 0);
+        //void ShowWithLayer(IActionResult link, int layerIndex = 0);
 
         void ShowWithLayer(FrameworkElement element, int layerIndex = 0);
 

@@ -106,33 +106,39 @@ namespace HeBianGu.Control.PropertyGrid
 
         public bool AutoMerge { get; set; }
 
+        public bool UseGroup { get; set; } = true;
+
         void RefreshData(List<ValidationPropertyBase> from)
         {
             var groups = from.GroupBy(l => l.Group);
 
-            if (groups.Count() == 1)
+            if (!this.UseGroup)
             {
                 this.ItemsSource = from;
+                return;
             }
-            else
+
+            //if (groups.Count() == 1)
+            //{
+            //    this.ItemsSource = from;
+            //}
+
+            List<ValidationPropertyGroup> datas = new List<ValidationPropertyGroup>();
+
+            foreach (var item in groups)
             {
-                List<ValidationPropertyGroup> datas = new List<ValidationPropertyGroup>();
+                ValidationPropertyGroup vps = new ValidationPropertyGroup();
 
-                foreach (var item in groups)
+                vps.Name = item.Key;
+
+                foreach (var it in item)
                 {
-                    ValidationPropertyGroup vps = new ValidationPropertyGroup();
-
-                    vps.Name = item.Key;
-
-                    foreach (var it in item)
-                    {
-                        vps.Add(it);
-                    }
-                    datas.Add(vps);
+                    vps.Add(it);
                 }
-
-                this.ItemsSource = datas;
+                datas.Add(vps);
             }
+
+            this.ItemsSource = datas;
 
         }
 

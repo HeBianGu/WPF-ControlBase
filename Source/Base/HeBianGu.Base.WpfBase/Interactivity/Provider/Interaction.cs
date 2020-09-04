@@ -53,7 +53,6 @@ namespace HeBianGu.Base.WpfBase
                                                                                                                         new FrameworkPropertyMetadata(
                                                                                                                             new PropertyChangedCallback(OnBehaviorsChanged)));
 
-
         /// <summary>
         /// Gets the TriggerCollection containing the triggers associated with the specified object.
         /// </summary>

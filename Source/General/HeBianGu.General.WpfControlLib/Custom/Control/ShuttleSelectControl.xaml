@@ -3,23 +3,50 @@
                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
                    xmlns:h="QQ:908293466">
 
-    <Style x:Key="S.ListBoxItem.AllowDrop" TargetType="ListBoxItem" BasedOn="{StaticResource S.ListBoxItem.Default}">
-        <Setter Property="AllowDrop" Value="True"/>
-    </Style>
-
     <DataTemplate DataType="{x:Type local:ShuttleItem}">
         <Grid>
-            <GroupBox Header="{Binding Header}">
-                <ListBox ItemsSource="{Binding ItemSource}" AllowDrop="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="{Binding Header}" Background="{DynamicResource S.Brush.Dark.3}">
+                <ListBox ItemsSource="{Binding ItemSource}" SelectedItem="{Binding SelectItem}" Background="{DynamicResource S.Brush.TextBackground.Default}" AllowDrop="True" ItemContainerStyle="{DynamicResource S.ListBoxItem.AllowDrop}">
                     <h:Interaction.Behaviors>
                         <h:ListDragBlendBehavior/>
                         <h:ListDropBlendBehavior/>
                     </h:Interaction.Behaviors>
+
+                    <h:Interaction.Triggers>
+                        <h:EventTrigger EventName="DragEnter">
+                            <h:ChangePropertyAction PropertyName="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
+                        </h:EventTrigger>
+
+                        <h:EventTrigger EventName="DragLeave">
+                            <h:ChangePropertyAction PropertyName="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+                        </h:EventTrigger>
+
+                        <h:EventTrigger EventName="Drop">
+                            <h:ChangePropertyAction PropertyName="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+                        </h:EventTrigger>
+
+                        <h:EventTrigger EventName="MouseDoubleClick">
+                            <h:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=h:ShuttleSelectControl},Path=NextCommand}"
+                                                   CommandParameter="{Binding .}"/>
+                        </h:EventTrigger>
+                    </h:Interaction.Triggers>
                 </ListBox>
             </GroupBox>
+
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="5,0" Visibility="{Binding IsUseButton,Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}" FIcon="&#xe9bb;" Command="{Binding RelativeSource={RelativeSource AncestorType=h:ShuttleSelectControl},Path=NextCommand}"
+                                                   CommandParameter="{Binding .}"/>
+
+                <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}"  FIcon="&#xe9ba;" Command="{Binding RelativeSource={RelativeSource AncestorType=h:ShuttleSelectControl},Path=PreviousCommand}"
+                                                   CommandParameter="{Binding .}"/>
+            </StackPanel>
         </Grid>
     </DataTemplate>
-    
+
     <!--  自定义输入框  -->
     <Style TargetType="{x:Type local:ShuttleSelectControl}">
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}" />
@@ -31,7 +58,7 @@
                         <ItemsControl ItemsSource="{TemplateBinding Source}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="2"/>
+                                    <UniformGrid x:Name="PART_UniformGrid" Rows="1"/>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>

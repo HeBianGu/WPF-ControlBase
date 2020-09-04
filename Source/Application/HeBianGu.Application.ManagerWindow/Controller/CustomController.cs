@@ -19,5 +19,15 @@ namespace HeBianGu.Application.ManagerWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> PropertyGrid()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Shuttle()
+        {
+            return await ViewAsync();
+        }
     }
 }

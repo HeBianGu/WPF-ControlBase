@@ -926,6 +926,25 @@ namespace HeBianGu.Base.WpfBase
 
         #endregion
 
+
+        #region bool 类型的附加属性 Tag
+        /// <summary>
+        /// bool类型附加属性
+        /// </summary>
+        public static readonly DependencyProperty BoolProperty = DependencyProperty.RegisterAttached(
+            "Bool", typeof(bool), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(false));
+
+        public static bool GetBool(DependencyObject d)
+        {
+            return (bool)d.GetValue(BoolProperty);
+        }
+
+        public static void SetBool(DependencyObject obj, bool value)
+        {
+            obj.SetValue(BoolProperty, value);
+        }
+        #endregion
+
         /// <summary>
         /// 静态构造函数
         /// </summary>

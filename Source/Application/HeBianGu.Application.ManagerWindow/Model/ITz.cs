@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HeBianGu.Application.DiskWindow
+namespace HeBianGu.Application.ManagerWindow
 {
 
     public interface ITz

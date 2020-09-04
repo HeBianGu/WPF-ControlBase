@@ -346,30 +346,29 @@ namespace HeBianGu.General.WpfControlLib
 
         public static MessageCloseLayerCommand CloseLayer { get; } = new MessageCloseLayerCommand();
 
-        /// <summary> 显示蒙版 </summary>
-        public static void ShowWithLayer(Uri uri, int layerIndex = 0)
-        {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
-             {
-                 if (Application.Current.MainWindow is IWindowBase window)
-                 {
-                     window.ShowWithLayer(uri);
-                 }
-             }));
-        }
+        ///// <summary> 显示蒙版 </summary>
+        //public static void ShowWithLayer(Uri uri, int layerIndex = 0)
+        //{
+        //    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+        //     {
+        //         if (Application.Current.MainWindow is IWindowBase window)
+        //         {
+        //             window.ShowWithLayer(uri);
+        //         }
+        //     }));
+        //}
 
-        /// <summary> 显示蒙版 </summary>
-        public static void ShowWithLayer(IActionResult link, int layerIndex = 0)
-        {
-            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
-            {
-                if (Application.Current.MainWindow is IWindowBase window)
-                {
-                    window.ShowWithLayer(link);
-                }
-            }));
-        }
-
+        ///// <summary> 显示蒙版 </summary>
+        //public static void ShowWithLayer(IActionResult link, int layerIndex = 0)
+        //{
+        //    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+        //    {
+        //        if (Application.Current.MainWindow is IWindowBase window)
+        //        {
+        //            window.ShowWithLayer(link);
+        //        }
+        //    }));
+        //}
 
         /// <summary> 显示蒙版 </summary>
         public static void ShowWithLayer(FrameworkElement element, int layerIndex = 0)
@@ -574,7 +573,7 @@ namespace HeBianGu.General.WpfControlLib
 
             }
 
-            _notifyMessage.Source.Add(message);
+            _notifyMessage.Add(message);
         }
 
         /// <summary> 输出消息、按钮和参数 </summary>
@@ -645,6 +644,34 @@ namespace HeBianGu.General.WpfControlLib
             {
                 Message = message
             });
+        }
+
+        /// <summary> 显示带进度的消息 </summary>
+        public static async Task<T> ShowWindowNotifyMessageWithStringProgress<T>(Func<StringProgressMessage,T> action)
+        {
+            var control = new StringProgressMessage();
+
+            ShowWindowNotifyMessage(control);
+
+           var result= await Task<T>.Run(()=>action.Invoke(control));
+
+            control.Close();
+
+            return result;
+        }
+
+        /// <summary> 显示带进度的消息 </summary>
+        public static async Task<T> ShowWindowNotifyMessageWithPercentProgress<T>(Func<PercentProgressMessage, T> action)
+        {
+            var control = new PercentProgressMessage();
+
+            ShowWindowNotifyMessage(control);
+
+            var result = await Task<T>.Run(() => action.Invoke(control));
+
+            control.Close();
+
+            return result;
         }
 
         public static void ShowWindowNotifyMessageWithError(string message)

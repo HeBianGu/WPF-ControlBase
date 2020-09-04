@@ -25,13 +25,17 @@ namespace HeBianGu.General.WpfControlLib
             InitializeComponent();
         }
 
-        public string  MessageStr { set {
+        public string MessageStr
+        {
+            set
+            {
                 this.Dispatcher.Invoke(() =>
                 {
                     this.Message.Content = value; ;
                 });
 
-            }}
+            }
+        }
 
     }
 
