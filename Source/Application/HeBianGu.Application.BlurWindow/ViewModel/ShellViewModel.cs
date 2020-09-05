@@ -419,32 +419,52 @@ namespace HeBianGu.Application.BlurWindow
             }
 
             //  Do：气泡消息
-            else if (command.StartsWith("Button.Message.StringProgrss"))
+            else if (command.StartsWith("Button.Message.Waitting"))
             {
-                Func<StringProgressMessage, bool> func = l =>
+                Func<WaittingMessage, bool> func = l =>
                    {
-                           for (int i = 1; i <= 100; i++)
-                           {
-                               System.Windows.Application.Current.Dispatcher.Invoke(() =>
-                               {
-                                   l.Message = $"正在提交当前页第{i}份数据,共100份";
-                               });
+                       l.Message = $"正在加载...";
 
-
-                               Thread.Sleep(10);
-                           }
+                       Thread.Sleep(5000);
 
                        return true;
                    };
 
-                var result = await MessageService.ShowWindowNotifyMessageWithStringProgress(func);
+                var result = await MessageService.ShowWinWaittingMessage(func);
+
+                if (result)
+                {
+                    MessageService.ShowSnackMessageWithNotice("加载完成");
+                }
+            }
+
+            //  Do：气泡消息
+            else if (command.StartsWith("Button.Message.StringProgrss"))
+            {
+                Func<StringProgressMessage, bool> func = l =>
+                {
+                    for (int i = 1; i <= 100; i++)
+                    {
+                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            l.Message = $"正在提交当前页第{i}份数据,共100份";
+                        });
+
+
+                        Thread.Sleep(50);
+                    }
+
+                    return true;
+                };
+
+                var result = await MessageService.ShowWinProgressStrMessage(func);
 
                 if (result)
                 {
                     MessageService.ShowSnackMessageWithNotice("运行成功");
                 }
-            }
-
+            } 
+            
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.PercentProgrss"))
             {
@@ -457,13 +477,13 @@ namespace HeBianGu.Application.BlurWindow
                             l.Value=i;
                         });
 
-                        Thread.Sleep(10);
+                        Thread.Sleep(50);
                     }
 
                     return true;
                 };
 
-               var result= await MessageService.ShowWindowNotifyMessageWithPercentProgress(func);
+               var result= await MessageService.ShowWinProgressBarMessage(func);
 
                 if(result)
                 {
@@ -590,12 +610,12 @@ namespace HeBianGu.Application.BlurWindow
         {
             if (command.EndsWith("System"))
             {
-                MessageService.ShowSystemNotifyMessage(message);
+                MessageService.ShowSysMessage(message);
             }
             else if (command.EndsWith("Window"))
             {
 
-                MessageService.ShowWindowNotifyMessage(message);
+                MessageService.ShowWinMessage(message);
             }
             else
             {

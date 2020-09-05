@@ -94,7 +94,13 @@ namespace HeBianGu.General.WpfControlLib
         public string Message
         {
             get { return (string)GetValue(MessageProperty); }
-            set { SetValue(MessageProperty, value); }
+            set 
+            {
+                this.Dispatcher?.Invoke(() =>
+                {
+                    SetValue(MessageProperty, value);
+                });
+            }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
@@ -131,6 +137,11 @@ namespace HeBianGu.General.WpfControlLib
     }
 
     public class WarnMessage : MessageBase
+    {
+
+    }
+
+    public class WaittingMessage : MessageBase
     {
 
     }

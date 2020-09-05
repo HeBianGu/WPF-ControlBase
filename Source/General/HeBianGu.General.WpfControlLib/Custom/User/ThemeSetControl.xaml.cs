@@ -44,8 +44,8 @@ namespace HeBianGu.General.WpfControlLib
         //private const string FontSmall = "Small";
         //private const string FontLarge = "Large";
 
-        private const string PaletteMetro = "Custom";
-        private const string PaletteWP = "Window";
+        private const string PaletteMetro = "浅色";
+        private const string PaletteWP = "深色";
 
 
         private int _selectIndex;
@@ -75,7 +75,25 @@ namespace HeBianGu.General.WpfControlLib
             Color.FromRgb(0xff, 0x45, 0x00),   // orange red
             Color.FromRgb(0xe5, 0x14, 0x00),   // red
             Color.FromRgb(0xff, 0x00, 0x97),   // magenta
-            Color.FromRgb(0xa2, 0x00, 0xff),   // purple    
+            Color.FromRgb(0xa2, 0x00, 0xff),   // purple 
+            
+            (Color)ColorConverter.ConvertFromString("#FF8AA500"),
+            (Color)ColorConverter.ConvertFromString("#FF4B9601"),
+            (Color)ColorConverter.ConvertFromString("#FF009E00"),
+            (Color)ColorConverter.ConvertFromString("#FF009392"),
+            (Color)ColorConverter.ConvertFromString("#FF0292D8"),
+            (Color)ColorConverter.ConvertFromString("#FF002F8E"),
+            (Color)ColorConverter.ConvertFromString("#FF00205F"),
+            (Color)ColorConverter.ConvertFromString("#FF3A008C"),
+            (Color)ColorConverter.ConvertFromString("#FF7D00BC"),
+            (Color)ColorConverter.ConvertFromString("#FF46006A"),
+            (Color)ColorConverter.ConvertFromString("#FFD8009C"),
+            (Color)ColorConverter.ConvertFromString("#FFC8006A"),
+            (Color)ColorConverter.ConvertFromString("#FF8C004A"),
+            (Color)ColorConverter.ConvertFromString("#FF85001E"),
+            (Color)ColorConverter.ConvertFromString("#FFB10F00"),
+            (Color)ColorConverter.ConvertFromString("#FFBF4F00"),
+             (Color)ColorConverter.ConvertFromString("#FFCE8900"),
         };
 
         //  Message：主题颜色

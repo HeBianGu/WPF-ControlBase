@@ -349,12 +349,12 @@ namespace HeBianGu.Application.LinkWindow
         {
             if (command.EndsWith("System"))
             {
-                MessageService.ShowSystemNotifyMessage(message);
+                MessageService.ShowSysMessage(message);
             }
             else if (command.EndsWith("Window"))
             {
 
-                MessageService.ShowWindowNotifyMessage(message);
+                MessageService.ShowWinMessage(message);
             }
             else
             {

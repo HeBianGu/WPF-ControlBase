@@ -558,7 +558,7 @@ namespace HeBianGu.General.WpfControlLib
         static NotifyMessageWindow _notifyMessage;
 
         /// <summary> 显示自定义气泡消息 </summary>
-        public static void ShowSystemNotifyMessage(MessageBase message)
+        public static void ShowSysMessage(MessageBase message)
         {
             if (_notifyMessage == null)
             {
@@ -577,7 +577,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 输出消息、按钮和参数 </summary>
-        public static void ShowWindowNotifyMessage(MessageBase message)
+        public static void ShowWinMessage(MessageBase message)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -590,82 +590,52 @@ namespace HeBianGu.General.WpfControlLib
             });
         }
 
-        public static void ShowSystemNotifyMessageWithSuccess(string message)
+        public static void ShowSysSuccessMessage(string message)
         {
-            ShowSystemNotifyMessage(new SuccessMessage
+            ShowSysMessage(new SuccessMessage
             {
                 Message = message
             });
         }
 
-        public static void ShowSystemNotifyMessageWithInfo(string message)
+        public static void ShowSysInfoMessage(string message)
         {
-            ShowSystemNotifyMessage(new InfoMessage
+            ShowSysMessage(new InfoMessage
             {
                 Message = message
             });
         }
 
-        public static void ShowSystemNotifyMessageWithError(string message)
+        public static void ShowSysErrorMessage(string message)
         {
-            ShowSystemNotifyMessage(new ErrorMessage
+            ShowSysMessage(new ErrorMessage
             {
                 Message = message
             });
         }
 
-        public static void ShowSystemNotifyMessageWithWarn(string message)
+        public static void ShowSysWarnMessage(string message)
         {
-            ShowSystemNotifyMessage(new WarnMessage
+            ShowSysMessage(new WarnMessage
             {
                 Message = message
             });
         }
 
-        public static void ShowSystemNotifyMessageWithFatal(string message)
+        public static void ShowSysFatalMessage(string message)
         {
-            ShowSystemNotifyMessage(new FatalMessage
+            ShowSysMessage(new FatalMessage
             {
                 Message = message
             });
         }
 
-        public static void ShowWindowNotifyMessageWithSuccess(string message)
+        /// <summary> 显示等待效果的 </summary>
+        public static async Task<T> ShowSysWaittingMessage<T>(Func<WaittingMessage, T> action)
         {
-            ShowWindowNotifyMessage(new SuccessMessage
-            {
-                Message = message
-            });
-        }
+            var control = new WaittingMessage();
 
-        public static void ShowWindowNotifyMessageWithInfo(string message)
-        {
-            ShowWindowNotifyMessage(new InfoMessage
-            {
-                Message = message
-            });
-        }
-
-        /// <summary> 显示带进度的消息 </summary>
-        public static async Task<T> ShowWindowNotifyMessageWithStringProgress<T>(Func<StringProgressMessage,T> action)
-        {
-            var control = new StringProgressMessage();
-
-            ShowWindowNotifyMessage(control);
-
-           var result= await Task<T>.Run(()=>action.Invoke(control));
-
-            control.Close();
-
-            return result;
-        }
-
-        /// <summary> 显示带进度的消息 </summary>
-        public static async Task<T> ShowWindowNotifyMessageWithPercentProgress<T>(Func<PercentProgressMessage, T> action)
-        {
-            var control = new PercentProgressMessage();
-
-            ShowWindowNotifyMessage(control);
+            ShowSysMessage(control);
 
             var result = await Task<T>.Run(() => action.Invoke(control));
 
@@ -674,25 +644,111 @@ namespace HeBianGu.General.WpfControlLib
             return result;
         }
 
-        public static void ShowWindowNotifyMessageWithError(string message)
+        /// <summary> 显示带进度的消息 </summary>
+        public static async Task<T> ShowSysProgressBarMessage<T>(Func<PercentProgressMessage, T> action)
         {
-            ShowWindowNotifyMessage(new ErrorMessage
+            var control = new PercentProgressMessage();
+
+            ShowSysMessage(control);
+
+            var result = await Task<T>.Run(() => action.Invoke(control));
+
+            control.Close();
+
+            return result;
+        }
+
+        /// <summary> 显示带进度的消息 </summary>
+        public static async Task<T> ShowSysProgressStrMessage<T>(Func<StringProgressMessage, T> action)
+        {
+            var control = new StringProgressMessage();
+
+            ShowSysMessage(control);
+
+            var result = await Task<T>.Run(() => action.Invoke(control));
+
+            control.Close();
+
+            return result;
+        }
+
+        public static void ShowWinSuccessMessage(string message)
+        {
+            ShowWinMessage(new SuccessMessage
             {
                 Message = message
             });
         }
 
-        public static void ShowWindowNotifyMessageWithWarn(string message)
+        public static void ShowWinInfoMessage(string message)
         {
-            ShowWindowNotifyMessage(new WarnMessage
+            ShowWinMessage(new InfoMessage
             {
                 Message = message
             });
         }
 
-        public static void ShowWindowNotifyMessageWithFatal(string message)
+        /// <summary> 显示带进度的消息 </summary>
+        public static async Task<T> ShowWinProgressStrMessage<T>(Func<StringProgressMessage,T> action)
         {
-            ShowWindowNotifyMessage(new FatalMessage
+            var control = new StringProgressMessage();
+
+            ShowWinMessage(control);
+
+           var result= await Task<T>.Run(()=>action.Invoke(control));
+
+            control.Close();
+
+            return result;
+        }
+
+        /// <summary> 显示等待效果的 </summary>
+        public static async Task<T> ShowWinWaittingMessage<T>(Func<WaittingMessage, T> action)
+        {
+            var control = new WaittingMessage();
+
+            ShowWinMessage(control);
+
+            var result = await Task<T>.Run(() => action.Invoke(control));
+
+            control.Close();
+
+            return result;
+        }
+
+        /// <summary> 显示带进度的消息 </summary>
+        public static async Task<T> ShowWinProgressBarMessage<T>(Func<PercentProgressMessage, T> action)
+        {
+            var control = new PercentProgressMessage();
+
+            ShowWinMessage(control);
+
+            var result = await Task<T>.Run(() => action.Invoke(control));
+
+            control.Close();
+
+            return result;
+        }
+
+        public static void ShowWinErrorMessage(string message)
+        {
+            ShowWinMessage(new ErrorMessage
+            {
+                Message = message
+            });
+        }
+
+        public static void ShowWinWarnMessage(string message)
+        {
+            ShowWinMessage(new WarnMessage
+            {
+                Message = message
+            });
+        }
+
+        public static void ShowWinFatalMessage(string message)
+        {
+            ShowWinMessage(new FatalMessage
             {
                 Message = message
             });

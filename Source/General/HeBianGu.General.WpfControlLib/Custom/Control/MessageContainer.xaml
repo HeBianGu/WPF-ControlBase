@@ -101,7 +101,7 @@
                         </Grid.RenderTransform>
                         <Grid.Triggers>
                             <EventTrigger RoutedEvent="Loaded">
-                                <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageHide.OpacityLeftToRight}"/>
+                                <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageLoad.OpacityRightToLeft}"/>
                             </EventTrigger>
                         </Grid.Triggers>
                         <Grid.ColumnDefinitions>
@@ -139,7 +139,7 @@
                         </Grid.RenderTransform>
                         <Grid.Triggers>
                             <EventTrigger RoutedEvent="Loaded">
-                                <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageHide.OpacityLeftToRight}"/>
+                                <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageLoad.OpacityRightToLeft}"/>
                             </EventTrigger>
                         </Grid.Triggers>
                         <Grid.ColumnDefinitions>
@@ -370,6 +370,48 @@
                         <ProgressBar Value="{TemplateBinding Value}" Minimum="0.0" Maximum="100.0" Width="300" Height="15" 
                                          h:ControlAttachProperty.CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"  
                                          Style="{DynamicResource S.ProgressBar.Handy.Default}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:WaittingMessage}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:WaittingMessage}">
+                    <Grid Height="Auto" Width="Auto"  Margin="10,2">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Grid.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageLoad.OpacityRightToLeft}"/>
+                            </EventTrigger>
+                        </Grid.Triggers>
+
+                        <!--<Label Style="{DynamicResource S.Label.Flash}" Content="{TemplateBinding Message}"  FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="10,0"/>-->
+
+                        <TextBlock Text="{TemplateBinding Message}" Foreground="{DynamicResource S.Brush.Accent}"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,0" FontSize="25" RenderTransformOrigin="0.5,0.5" RenderTransform="{StaticResource S.TransformGroup.Default}">
+                            <TextBlock.Triggers>
+                                <EventTrigger RoutedEvent="Button.Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="-10" To="0"  Duration="0:0:0.2" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" RepeatBehavior="Forever">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <ElasticEase/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </TextBlock.Triggers>
+                        </TextBlock>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

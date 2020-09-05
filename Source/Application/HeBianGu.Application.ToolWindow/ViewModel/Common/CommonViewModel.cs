@@ -53,7 +53,7 @@ namespace HeBianGu.Application.ToolWindow
 
                 if(find==null)
                 {
-                    MessageService.ShowSystemNotifyMessageWithInfo("请先复制文件或文件夹");
+                    MessageService.ShowSysInfoMessage("请先复制文件或文件夹");
                     return;
                 }
 
@@ -61,7 +61,7 @@ namespace HeBianGu.Application.ToolWindow
 
                 this.Respository.SaveCommons(this.Collection);
 
-                MessageService.ShowSystemNotifyMessageWithSuccess("添加成功！");
+                MessageService.ShowSysSuccessMessage("添加成功！");
             }
 
             //  Do：等待消息
@@ -73,7 +73,7 @@ namespace HeBianGu.Application.ToolWindow
 
                 this.Respository.SaveCommons(this.Collection);
 
-                MessageService.ShowSystemNotifyMessageWithSuccess("移除成功！");
+                MessageService.ShowSysSuccessMessage("移除成功！");
             }
         }
 

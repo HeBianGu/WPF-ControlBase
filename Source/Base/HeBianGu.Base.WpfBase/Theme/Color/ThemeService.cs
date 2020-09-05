@@ -352,6 +352,11 @@ namespace HeBianGu.Base.WpfBase
             Color.FromRgb(0x87, 0x79, 0x4e),   // taupe
         };
 
+        //  Message：主题颜色
+        private Color[] customAccentColors = new Color[]{
+            Color.FromRgb(0xa4, 0xc4, 0x00),   // lime
+        };
+
         #region - 设置随机播放颜色 -
 
         Timer _timer = new Timer(1000);
