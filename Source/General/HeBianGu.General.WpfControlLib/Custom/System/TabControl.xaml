@@ -31,6 +31,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="TabControlStyle" TargetType="{x:Type TabControl}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="Padding" Value="0"/>
@@ -89,6 +90,82 @@
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="S.TabItem.UnderLine.Default" TargetType="{x:Type TabItem}">
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Header" Value="{Binding Content.DataContext.HeaderInfo, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid Width="Auto" Height="Auto"  x:Name="TabItemRoot" Margin="13,0,13,0">
+
+                        <Border x:Name="underline"  BorderThickness="0,0,0,2" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" />
+                        <ContentPresenter Margin="13" x:Name="Content" ContentSource="Header" RecognizesAccessKey="True"/>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsSelected" Value="false">
+                            <Setter TargetName="underline" Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+                            <Setter TargetName="underline" Property="BorderThickness" Value="0,0,0,2"/>
+                            <Setter  Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Assist}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="underline" Property="BorderThickness" Value="0,0,0,2"/>
+                            <Setter TargetName="underline" Property="BorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                            <Setter  Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="underline" Property="BorderThickness" Value="0,0,0,2"/>
+                            <Setter TargetName="underline" Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
+                            <Setter  Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.TabItem.TopLine.Default" TargetType="{x:Type TabItem}">
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Header" Value="{Binding Content.DataContext.HeaderInfo, RelativeSource={RelativeSource Self}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid Width="Auto" Height="Auto"  x:Name="TabItemRoot" Margin="13,0,13,0">
+
+                        <Border x:Name="underline"  BorderThickness="0,2,0,0" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" />
+                        <ContentPresenter Margin="13" x:Name="Content" ContentSource="Header" RecognizesAccessKey="True"/>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsSelected" Value="false">
+                            <Setter TargetName="underline" Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+                            <Setter TargetName="underline" Property="BorderThickness" Value="0,2,0,0"/>
+                            <Setter  Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Assist}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="underline" Property="BorderThickness" Value="0,2,0,0"/>
+                            <Setter TargetName="underline" Property="BorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+
+                            <Setter  Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="underline" Property="BorderThickness" Value="0,2,0,0"/>
+                            <Setter TargetName="underline" Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
+                            <Setter  Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

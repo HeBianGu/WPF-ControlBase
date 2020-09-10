@@ -171,7 +171,13 @@ namespace HeBianGu.General.WpfControlLib
 
         public static VisibleOfMarginLeftCommand VisibleOfMarginLeftCommand { get; } = new VisibleOfMarginLeftCommand();
 
-       
+
+
+        public static CollapsedOfMarginBottomCommand CollapsedOfMarginBottomCommand { get; } = new CollapsedOfMarginBottomCommand();
+
+        public static VisibleOfMarginBottomCommand VisibleOfMarginBottomCommand { get; } = new VisibleOfMarginBottomCommand();
+
+
         /// <summary> 打开应用程序 </summary>
         public static ProcessCommand ProcessCommand { get; } = new ProcessCommand();
 

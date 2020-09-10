@@ -65,6 +65,32 @@ namespace HeBianGu.General.WpfControlLib
         }
 
 
+        private ObservableCollection<AccentColorSource> _colorSource = new ObservableCollection<AccentColorSource>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<AccentColorSource> ColorSource
+        {
+            get { return _colorSource; }
+            set
+            {
+                _colorSource = value;
+                RaisePropertyChanged("ColorSource");
+            }
+        }
+
+
+        private AccentColorSource _selectColorSource;
+        /// <summary> 说明  </summary>
+        public AccentColorSource SelectColorSource
+        {
+            get { return _selectColorSource; }
+            set
+            {
+                _selectColorSource = value;
+                RaisePropertyChanged("SelectColorSource");
+            }
+        }
+
+
         //  Message：主题颜色
         private Color[] metroAccentColors = new Color[]{
             Color.FromRgb(0x33, 0x99, 0xff),   // blue
@@ -134,13 +160,33 @@ namespace HeBianGu.General.WpfControlLib
         public SettingsAppearanceViewModel()
         {
             //  Message：主题
-            this.themes.Add(new ColorLink { DisplayName = "Light", Source = ThemeService.LightThemeSource, Color = Brushes.White, Text = Brushes.Black });
-            this.themes.Add(new ColorLink { DisplayName = "Dark", Source = ThemeService.DarkThemeSource, Color = Brushes.Black, Text = Brushes.White });
-            this.themes.Add(new ColorLink { DisplayName = "Gray", Source = ThemeService.GrayThemeSource, Color = Brushes.Gray, Text = Brushes.White });
-            this.themes.Add(new ColorLink { DisplayName = "Accent", Source = ThemeService.AccentThemeSource, Color = Brushes.White, Text = Brushes.Black });
+            this.themes.Add(new ColorLink { DisplayName = "浅色调", Source = ThemeService.LightThemeSource, Color = Brushes.White, Text = Brushes.Black });
+            this.themes.Add(new ColorLink { DisplayName = "深色调", Source = ThemeService.DarkThemeSource, Color = Brushes.Black, Text = Brushes.White });
+            this.themes.Add(new ColorLink { DisplayName = "灰色调", Source = ThemeService.GrayThemeSource, Color = Brushes.Gray, Text = Brushes.White });
+            this.themes.Add(new ColorLink { DisplayName = "主色调", Source = ThemeService.AccentThemeSource, Color = Brushes.White, Text = Brushes.Black });
 
             //this.SelectedFontSize = ThemeService.Current.FontSize == FontSize.Large ? FontLarge : FontSmall;
 
+            this.ColorSource.Clear();
+
+            var dark = new AccentColorSource() { DispalyName="适中",Colors=ColorSourceFactory.Create(0.6).ToObservable()};
+
+            this.ColorSource.Add(dark);
+
+            var light = new AccentColorSource() { DispalyName = "浅色", Colors = ColorSourceFactory.Create(0.8).ToObservable() };
+
+            this.ColorSource.Add(light);
+
+            var deep = new AccentColorSource() { DispalyName = "深色", Colors = ColorSourceFactory.Create(0.3).ToObservable() };
+
+            this.ColorSource.Add(deep);
+
+            var height = new AccentColorSource() { DispalyName = "高亮", Colors = ColorSourceFactory.Create(1.0).ToObservable() };
+
+            this.ColorSource.Add(height);
+
+
+            this.SelectColorSource = this.ColorSource.FirstOrDefault();
 
             SyncThemeAndColor();
 
@@ -159,7 +205,7 @@ namespace HeBianGu.General.WpfControlLib
 
             this.IsUseAnimal = ThemeService.Current.IsUseAnimal;
 
-            this.AnimalSpeed = (int)(ThemeService.Current.AnimalSpeed/1000);
+            this.AnimalSpeed = (int)(ThemeService.Current.AnimalSpeed / 1000);
 
             this.ItemCornerRadius = (int)ThemeService.Current.ItemCornerRadius;
         }
@@ -190,30 +236,30 @@ namespace HeBianGu.General.WpfControlLib
         //    get { return new string[] { FontSmall, FontLarge }; }
         //}
 
-        public string[] Palettes
-        {
-            get { return new string[] { PaletteMetro, PaletteWP }; }
-        }
+        //public string[] Palettes
+        //{
+        //    get { return new string[] { PaletteMetro, PaletteWP }; }
+        //}
 
-        public Color[] AccentColors
-        {
-            get { return this.selectedPalette == PaletteMetro ? this.metroAccentColors : this.wpAccentColors; }
-        }
+        //public Color[] AccentColors
+        //{
+        //    get { return this.selectedPalette == PaletteMetro ? this.metroAccentColors : this.wpAccentColors; }
+        //}
 
-        public string SelectedPalette
-        {
-            get { return this.selectedPalette; }
-            set
-            {
-                if (this.selectedPalette != value)
-                {
-                    this.selectedPalette = value;
-                    RaisePropertyChanged("AccentColors");
+        //public string SelectedPalette
+        //{
+        //    get { return this.selectedPalette; }
+        //    set
+        //    {
+        //        if (this.selectedPalette != value)
+        //        {
+        //            this.selectedPalette = value;
+        //            RaisePropertyChanged("AccentColors");
 
-                    this.SelectedAccentColor = this.AccentColors.FirstOrDefault();
-                }
-            }
-        }
+        //            this.SelectedAccentColor = this.AccentColors.FirstOrDefault();
+        //        }
+        //    }
+        //}
 
         public Link SelectedTheme
         {
@@ -345,7 +391,79 @@ namespace HeBianGu.General.WpfControlLib
                 ThemeService.Current.ItemCornerRadius = value;
             }
         }
+
+
+        protected override void RelayMethod(object obj)
+        {
+            string command = obj.ToString();
+
+            //  Do：应用
+            if (command == "Combobox.SelectChanged.Refresh")
+            {
+                this.SelectedAccentColor = this.SelectColorSource.Colors.FirstOrDefault();
+            }
+            //  Do：取消
+            else if (command == "Cancel")
+            {
+
+
+            }
+        }
     }
+
+
+    /// <summary> 说明</summary>
+    public class AccentColorSource : NotifyPropertyChanged
+    {
+        #region - 属性 - 
+
+        private string _displayName;
+        /// <summary> 显示名称  </summary>
+        public string DispalyName
+        {
+            get { return _displayName; }
+            set
+            {
+                _displayName = value;
+                RaisePropertyChanged("DispalyName");
+            }
+        }
+
+
+        private ObservableCollection<Color> _colors = new ObservableCollection<Color>();
+        /// <summary> 颜色列表  </summary>
+        public ObservableCollection<Color> Colors
+        {
+            get { return _colors; }
+            set
+            {
+                _colors = value;
+                RaisePropertyChanged("Colors");
+            }
+        }
+
+
+        #endregion
+    }
+
+    public static class ColorSourceFactory
+    {
+        public static List<Color> Create(double b = 0.5)
+        {
+            List<Color> result = new List<Color>();
+
+            for (int i = 0; i < 100; i++)
+            {
+                if (i % 3 == 0)
+                {
+                    result.Add(new HsbaColor(3.6 * i, 1.0, b, 1.0).Color);
+                }
+            }
+
+            return result;
+        }
+    }
+
 
     public class ColorLink : Link
     {

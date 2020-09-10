@@ -14,7 +14,7 @@
 
                 <TextBlock Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=SetScene,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Margin="0,0,0,8" />
 
-                <ListBox ItemsSource="{Binding AccentColors}"  SelectedItem="{Binding SelectedAccentColor, Mode=TwoWay}" Margin="0,0,0,16">
+                <ListBox ItemsSource="{Binding SelectColorSource.Colors}" SelectedIndex="0"  SelectedItem="{Binding SelectedAccentColor, Mode=TwoWay}" Margin="0,0,0,16">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel MaxWidth="{Binding ActualWidth, ElementName=Panel}" />
@@ -69,8 +69,23 @@
 
                     <local:Row Style="{DynamicResource S.Row.Column.4}">
                         <TextBlock  Text="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=ApplyScene,Mode=TwoWay}" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,16,4" />
-                        <ComboBox Grid.Column="1" Grid.ColumnSpan="3" ItemsSource="{Binding Palettes}" SelectedItem="{Binding SelectedPalette, Mode=TwoWay}" 
-                              VerticalAlignment="Center" Margin="0,4" ItemContainerStyle="{StaticResource S.ComboBoxItem.Current}" >
+                        <ComboBox  Grid.Column="1" Grid.ColumnSpan="3" SelectedIndex="0" 
+                              VerticalAlignment="Center" Margin="0,4" ItemsSource="{Binding ColorSource}" SelectedItem="{Binding SelectColorSource}"
+                                  ItemContainerStyle="{StaticResource S.ComboBoxItem.Current}" >
+                            <ComboBox.Resources>
+                                <DataTemplate DataType="{x:Type local:AccentColorSource}">
+                                    <Grid>
+                                        <TextBlock Text="{Binding DispalyName}" VerticalAlignment="Center"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </ComboBox.Resources>
+
+
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="SelectionChanged">
+                                    <h:InvokeCommandAction Command="{Binding RelayCommand}" CommandParameter="Combobox.SelectChanged.Refresh"/>
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
                         </ComboBox>
                     </local:Row>
 
@@ -79,7 +94,7 @@
 
                         <ComboBox Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="3" IsEnabled="True"  ItemsSource="{Binding Themes}"
                               SelectedItem="{Binding SelectedTheme, Mode=TwoWay}"
-                              ItemTemplate="{StaticResource D.ColorLink.Default}"
+                              ItemTemplate="{StaticResource D.ColorLink.Default}" 
                               VerticalAlignment="Center" Margin="0,4">
                         </ComboBox>
                     </local:Row>

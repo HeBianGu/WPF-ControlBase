@@ -790,6 +790,7 @@ namespace HeBianGu.Base.WpfBase
         #endregion
 
 
+
         #region - PassWordBox -
 
         public static readonly DependencyProperty PasswordProperty =
@@ -944,6 +945,35 @@ namespace HeBianGu.Base.WpfBase
             obj.SetValue(BoolProperty, value);
         }
         #endregion
+
+
+        #region - 将焦点设置在控件上 -
+        /// <summary>
+        /// 将焦点设置在控件上
+        /// </summary>
+        public static readonly DependencyProperty IsFocusedProperty = DependencyProperty.RegisterAttached(
+            "IsFocused", typeof(bool), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(false,(l, k) =>
+            {
+                if (k.NewValue == k.NewValue) return;
+
+                if(l is UIElement element)
+                {
+                    element?.Focus();
+                }
+            }
+            ));
+
+        public static bool GetIsFocused(DependencyObject d)
+        {
+            return (bool)d.GetValue(DoubleAttachProperty);
+        }
+
+        public static void SetIsFocused(DependencyObject obj, bool value)
+        {
+            obj.SetValue(DoubleAttachProperty, value);
+        }
+        #endregion
+
 
         /// <summary>
         /// 静态构造函数
