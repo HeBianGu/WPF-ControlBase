@@ -45,7 +45,9 @@ namespace HeBianGu.Application.BlurWindow
             //  Do：设置默认主题
             app.UseLocalTheme(l =>
             {
-                l.AccentColor = Color.FromRgb(0x64, 0x76, 0x87);
+                l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF003D99");
+                l.ForegroundColor = (Color)ColorConverter.ConvertFromString("#727272");
+
                 l.SmallFontSize = 15D;
                 l.LargeFontSize = 18D;
                 l.FontSize = FontSize.Small;

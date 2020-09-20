@@ -564,18 +564,7 @@ namespace HeBianGu.Base.WpfBase
 
         public void LoadFrom(ThemeLocalizeConfig config)
         {
-            var ps = config.GetType().GetProperties();
-
-            foreach (var p in ps)
-            {
-                var find = this.GetType().GetProperty(p.Name);
-
-                if (find == null) continue;
-
-                if (!find.CanWrite) continue; 
-
-                find.SetValue(this, p.GetValue(config));
-            }
+           
 
             this.AccentColor = config.AccentColor == default(Color) ? this.AccentColor : config.AccentColor;
             this.SmallFontSize = config.SmallFontSize == default(double) ? this.SmallFontSize : config.SmallFontSize;
@@ -585,14 +574,30 @@ namespace HeBianGu.Base.WpfBase
             this.ItemWidth = config.ItemWidth == default(double) ? this.ItemWidth : config.ItemWidth;
             this.ItemCornerRadius = config.ItemCornerRadius == default(double) ? this.ItemCornerRadius : config.ItemCornerRadius;
             this.RowHeight = config.RowHeight == default(double) ? this.RowHeight : config.RowHeight;
-            //this.Language = config.Language;
-            //this.ThemeType = config.ThemeType;
 
-            //this.ForegroundColor = config.ForegroundColor;
-            //this.AnimalSpeed = config.AnimalSpeed;
-            //this.AccentColorSelectType = config.AccentColorSelectType;
-            //this.IsUseAnimal = config.IsUseAnimal;
-            //this.Version = config.Version;
+
+            this.ForegroundColor = config.ForegroundColor == Colors.White ? this.ForegroundColor : config.ForegroundColor;
+
+
+            //var ps = config.GetType().GetProperties();
+
+            //foreach (var p in ps)
+            //{
+            //    var find = this.GetType().GetProperty(p.Name);
+
+            //    if (find == null) continue;
+
+            //    if (!find.CanWrite) continue;
+
+            //    find.SetValue(this, p.GetValue(config));
+            //}
+
+            this.Language = config.Language;
+            this.ThemeType = config.ThemeType;
+            this.AnimalSpeed = config.AnimalSpeed;
+            this.AccentColorSelectType = config.AccentColorSelectType;
+            this.IsUseAnimal = config.IsUseAnimal;
+            this.Version = config.Version;
         }
 
         public int Version { get; set; }
