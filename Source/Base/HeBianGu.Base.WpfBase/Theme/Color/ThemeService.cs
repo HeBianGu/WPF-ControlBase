@@ -21,6 +21,8 @@ namespace HeBianGu.Base.WpfBase
     {
         public Color AccentColor { get; set; }
 
+        public Color ForegroundColor { get; set; }
+
         public FontSize FontSize { get; set; }
 
         public double ItemCornerRadius { get; set; }
@@ -51,6 +53,8 @@ namespace HeBianGu.Base.WpfBase
     public interface IThemeService
     {
         Color AccentColor { get; set; }
+
+        Color ForegroundColor { get; set; }
 
         FontSize FontSize { get; set; }
 
@@ -316,6 +320,24 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
+
+        /// <summary> 前景色 </summary>
+        public Color ForegroundColor
+        {
+            get
+            {
+                var foreColor = Application.Current.Resources["S.Brush.TextForeground.Default"] as SolidColorBrush; 
+
+                return foreColor.Color;
+            }
+            set
+            {
+                Application.Current.Resources["S.Brush.TextForeground.Default"] = new SolidColorBrush(value); 
+
+                RaisePropertyChanged("ForegroundColor");
+            }
+        }
+
         private Color[] metroAccentColors = new Color[]{
             Color.FromRgb(0x33, 0x99, 0xff),   // blue
             Color.FromRgb(0x00, 0xab, 0xa9),   // teal
@@ -508,26 +530,53 @@ namespace HeBianGu.Base.WpfBase
         {
             ThemeLocalizeConfig themeLocalize = new ThemeLocalizeConfig();
 
-            themeLocalize.AccentColor = this.AccentColor;
-            themeLocalize.SmallFontSize = this.SmallFontSize;
-            themeLocalize.LargeFontSize = this.LargeFontSize;
-            themeLocalize.FontSize = this.FontSize;
-            themeLocalize.ItemHeight = this.ItemHeight;
-            themeLocalize.ItemWidth = this.ItemWidth;
-            themeLocalize.ItemCornerRadius = this.ItemCornerRadius;
-            themeLocalize.RowHeight = this.RowHeight;
-            themeLocalize.Language = this.Language;
-            themeLocalize.ThemeType = this.ThemeType;
+            //themeLocalize.AccentColor = this.AccentColor;
+            //themeLocalize.SmallFontSize = this.SmallFontSize;
+            //themeLocalize.LargeFontSize = this.LargeFontSize;
+            //themeLocalize.FontSize = this.FontSize;
+            //themeLocalize.ItemHeight = this.ItemHeight;
+            //themeLocalize.ItemWidth = this.ItemWidth;
+            //themeLocalize.ItemCornerRadius = this.ItemCornerRadius;
+            //themeLocalize.RowHeight = this.RowHeight;
+            //themeLocalize.Language = this.Language;
+            //themeLocalize.ThemeType = this.ThemeType;
 
-            themeLocalize.AnimalSpeed = this.AnimalSpeed;
-            themeLocalize.AccentColorSelectType = this.AccentColorSelectType;
-            themeLocalize.IsUseAnimal = this.IsUseAnimal;
-            themeLocalize.Version = this.Version;
+            //themeLocalize.AnimalSpeed = this.AnimalSpeed;
+            //themeLocalize.AccentColorSelectType = this.AccentColorSelectType;
+            //themeLocalize.IsUseAnimal = this.IsUseAnimal;
+            //themeLocalize.Version = this.Version;
+
+             var ps=this.GetType().GetProperties();
+
+            foreach (var p in ps)
+            {
+                var find = typeof(ThemeLocalizeConfig).GetProperty(p.Name);
+
+                if (find == null) continue;
+
+                if (!find.CanWrite) continue;
+
+                find.SetValue(themeLocalize, p.GetValue(this));
+            }
+
             return themeLocalize;
         }
 
         public void LoadFrom(ThemeLocalizeConfig config)
         {
+            var ps = config.GetType().GetProperties();
+
+            foreach (var p in ps)
+            {
+                var find = this.GetType().GetProperty(p.Name);
+
+                if (find == null) continue;
+
+                if (!find.CanWrite) continue; 
+
+                find.SetValue(this, p.GetValue(config));
+            }
+
             this.AccentColor = config.AccentColor == default(Color) ? this.AccentColor : config.AccentColor;
             this.SmallFontSize = config.SmallFontSize == default(double) ? this.SmallFontSize : config.SmallFontSize;
             this.LargeFontSize = config.LargeFontSize == default(double) ? this.LargeFontSize : config.LargeFontSize;
@@ -536,13 +585,14 @@ namespace HeBianGu.Base.WpfBase
             this.ItemWidth = config.ItemWidth == default(double) ? this.ItemWidth : config.ItemWidth;
             this.ItemCornerRadius = config.ItemCornerRadius == default(double) ? this.ItemCornerRadius : config.ItemCornerRadius;
             this.RowHeight = config.RowHeight == default(double) ? this.RowHeight : config.RowHeight;
-            this.Language = config.Language;
-            this.ThemeType = config.ThemeType;
+            //this.Language = config.Language;
+            //this.ThemeType = config.ThemeType;
 
-            this.AnimalSpeed = config.AnimalSpeed;
-            this.AccentColorSelectType = config.AccentColorSelectType;
-            this.IsUseAnimal = config.IsUseAnimal;
-            this.Version = config.Version;
+            //this.ForegroundColor = config.ForegroundColor;
+            //this.AnimalSpeed = config.AnimalSpeed;
+            //this.AccentColorSelectType = config.AccentColorSelectType;
+            //this.IsUseAnimal = config.IsUseAnimal;
+            //this.Version = config.Version;
         }
 
         public int Version { get; set; }
