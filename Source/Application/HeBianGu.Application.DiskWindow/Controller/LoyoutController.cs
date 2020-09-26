@@ -19,5 +19,25 @@ namespace HeBianGu.Application.DiskWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Near()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Explorer()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Space()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Share()
+        {
+            return await ViewAsync();
+        }
     }
 }

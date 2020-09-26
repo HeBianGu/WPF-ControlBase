@@ -12,8 +12,8 @@ using System.Windows;
 
 namespace HeBianGu.Application.DiskWindow
 {
-    [Route("Extend")]
-    internal class ExtendController : Controller<ExtendViewModel>
+    [Route("Custom")]
+    internal class CustomController : Controller<CustomViewModel>
     {
         public async Task<IActionResult> Home()
         {

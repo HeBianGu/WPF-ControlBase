@@ -1,0 +1,214 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+                    xmlns:h="QQ:908293466">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../../Custom/System/DataGrid.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="S.Explorer.Template.Default"  TargetType="{x:Type local:Explorer}">
+        <Border Background="{TemplateBinding Background}"  
+                            BorderBrush="{TemplateBinding BorderBrush}"  
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            SnapsToDevicePixels="True" 
+                            Padding="{TemplateBinding Padding}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+
+                <local:Row Visibility="{TemplateBinding TopVisibility}">
+                    <!--<local:FTextBox Style="{DynamicResource S.FTextBox.Single.LabelClear}"  h:ControlAttachProperty.Label="当前路径:" Grid.Column="0" Grid.ColumnSpan="5"/>-->
+
+                    <UniformGrid Columns="3">
+                        <local:FButton Content="&lt;" Margin="-10" Command="{x:Static local:Explorer.Next}" ToolTip="返回"/>
+                        <local:FButton Content="&gt;" Margin="-10"  Command="{x:Static local:Explorer.Previous}"  ToolTip="前进"/>
+                        <ToggleButton x:Name="tb" Style="{DynamicResource ComboToggleButton}" HorizontalAlignment="Center" ToolTip="最近浏览的位置"/>
+                    </UniformGrid>
+
+                    <TextBlock Text="|" VerticalAlignment="Center" Grid.Column="1" Margin="2,0,0,0" Foreground="{DynamicResource S.Brush.TextForeground.Default}"/>
+
+                    <local:NavigationBar x:Name="navigationBar" Margin="10,0,0,0" Grid.Column="1" Grid.ColumnSpan="9" IsHitTestVisible="{TemplateBinding NavigationBarEnbled}" CurrentPath="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentPath,Mode=TwoWay}" />
+
+                    <local:FTextBox Width="Auto" h:ControlAttachProperty.Watermark="请输入搜索条件" h:ControlAttachProperty.Label="" HorizontalAlignment="Stretch"
+                                                    Style="{DynamicResource S.FTextBox.Single.LabelClear}"   Grid.Column="9" Grid.ColumnSpan="5"
+                                                    Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=FilterString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                </local:Row>
+
+
+                <ScrollViewer Grid.Row="1" Style="{DynamicResource DefaultScrollViewer}">
+                    <ScrollViewer.Template>
+                        <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Button Command="{x:Static DataGrid.SelectAllCommand}"
+                                                Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=CellsPanelHorizontalOffset}"
+                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type DataGrid}, ResourceId=DataGridSelectAllButtonStyle}}"
+                                                Focusable="false"
+                                                Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.All}}" />
+
+                                <DataGridColumnHeadersPresenter Grid.Column="1"
+                                                           Name="PART_ColumnHeadersPresenter"
+                                                           Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}"/>
+
+                                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Grid.Row="1" Grid.ColumnSpan="2" CanContentScroll="{TemplateBinding CanContentScroll}" />
+
+                            </Grid>
+                        </ControlTemplate>
+                    </ScrollViewer.Template>
+                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                </ScrollViewer>
+
+                <Grid Grid.Row="2" Height="{DynamicResource S.Window.Row.Height}">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <TextBlock  Style="{DynamicResource S.TextBlock.Default}">
+                               <Run Text="共"/>
+                               <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Total}"/>
+                               <Run Text="项目"/>
+                        </TextBlock>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <local:Pagination MaxPageCount="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid},Path=TotalPage,Mode=TwoWay}"  Width="600"
+                                          PageIndex="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid},Path=PageIndex,Mode=TwoWay}"/>
+
+                    </StackPanel>
+                </Grid>
+
+
+                <Popup x:Name="Pop" PopupAnimation="Slide" IsOpen="{Binding ElementName=tb,Path=IsChecked}"
+                       PlacementTarget="{Binding ElementName=tb}" Placement="Bottom"
+                       AllowsTransparency="True" StaysOpen="False" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+                    <Border Background="{DynamicResource S.Brush.TextBackground.Default}"
+                          CornerRadius="5" BorderBrush="{DynamicResource S.Brush.Accent}"
+                          BorderThickness="1">
+                        <StackPanel>
+                            <GroupBox Header="最近浏览的位置" Style="{DynamicResource S.GroupBox.UnderLine}">
+                                <ListBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=History}" Style="{DynamicResource S.ListBox.Sinple}" SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=HistorySelectedItem}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type local:DirectoryModel}">
+                                            <Grid Background="Transparent" Height="{DynamicResource S.Window.Row.Height}">
+                                                <TextBlock x:Name="flag" Style="{DynamicResource FIcon}" Text="&#xe759;" Visibility="Hidden" HorizontalAlignment="Left"/>
+
+                                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="25,0,0,0" >
+                                                    <Image Source="{Binding Logo,Converter={x:Static h:XConverter.IconToImageSourceConverter}}" VerticalAlignment="Center" Height="25" />
+                                                    <TextBlock Text="{Binding  Model.Name}" VerticalAlignment="Center" Margin="5,0,0,0"/>
+                                                </StackPanel>
+
+                                                <!--<TextBlock Text="{Binding Model.Name}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="25,0,0,0" />-->
+                                            </Grid>
+                                            <DataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" TargetName="flag"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                            </GroupBox>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <Style x:Key="S.Explorer.Default"  TargetType="{x:Type local:Explorer}" BasedOn="{StaticResource S.DataGrid.Default}">
+        <Setter Property="PageCount" Value="10000000"/>
+        <Setter Property="NavigationBarEnbled" Value="True"/>
+        <Setter Property="Template" Value="{StaticResource S.Explorer.Template.Default}"/>
+        <Style.Triggers>
+            <Trigger Property="IsGrouping" Value="true">
+                <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style  BasedOn="{StaticResource S.Explorer.Default}" TargetType="{x:Type local:Explorer}"/>
+
+
+    <Style TargetType="{x:Type local:NavigationBar}">
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="boder">
+                                    <ContentPresenter/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=local:MvcNavigationBar},Path=Background}" TargetName="boder"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate DataType="{x:Type local:DirectoryModel}">
+                    <StackPanel Orientation="Horizontal">
+                        <local:FButton x:Name="btn" Content="{Binding Model.Name}" Width="Auto" Style="{DynamicResource S.FButton.Style.Link}" Margin="0">
+                            <h:Interaction.Behaviors>
+                                <h:SelectListBoxItemElementBehavior/>
+                            </h:Interaction.Behaviors>
+                        </local:FButton>
+                        <TextBlock x:Name="flag" Text="&gt;" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Converter= {x:Static h:XConverter.IsLastItemInContainerConverter}}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" TargetName="flag"/>
+                            <Setter Property="IsHitTestVisible" Value="False"/>
+                            <Setter Property="Style" Value="{DynamicResource S.FButton.Style.Transparent}" TargetName="btn"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity"  Value="{DynamicResource S.Opacity.Disable}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

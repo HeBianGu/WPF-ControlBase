@@ -12,10 +12,15 @@ using System.Windows;
 
 namespace HeBianGu.Application.DiskWindow
 {
-    [Route("Extend")]
-    internal class ExtendController : Controller<ExtendViewModel>
+    [Route("Send")]
+    internal class SendController : Controller<SendViewModel>
     {
         public async Task<IActionResult> Home()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Down()
         {
             return await ViewAsync();
         }

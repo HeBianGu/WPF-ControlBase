@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows; 
+using System.Windows;
 
 namespace HeBianGu.Base.WpfBase
 {
@@ -31,6 +31,10 @@ namespace HeBianGu.Base.WpfBase
 
             MethodInfo method = controller.GetType().GetMethod(action, types);
 
+            if (method == null)
+            {
+                throw new ArgumentException($"在控制器中{controller?.GetType().Name}没有找到对应方法名称，请添加该方法 : {action}");
+            }
             //  Do：通过反射调用指定名称的方法
             return method.Invoke(controller, args);
 

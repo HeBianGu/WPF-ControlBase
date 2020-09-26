@@ -129,5 +129,43 @@ namespace HeBianGu.Base.WpfBase
                 RaisePropertyChanged("Value9");
             }
         }
+
+
+        private int _int1;
+        /// <summary> 说明  </summary>
+        public int Int1
+        {
+            get { return _int1; }
+            set
+            {
+                _int1 = value;
+                RaisePropertyChanged("Int1");
+            }
+        }
+
+        private int _int2;
+        /// <summary> 说明  </summary>
+        public int Int2
+        {
+            get { return _int2; }
+            set
+            {
+                _int2 = value;
+                RaisePropertyChanged("Int2");
+            }
+        }
+
+
+        private int _int3;
+        /// <summary> 说明  </summary>
+        public int Int3
+        {
+            get { return _int3; }
+            set
+            {
+                _int3 = value;
+                RaisePropertyChanged("Int3");
+            }
+        }
     }
 }

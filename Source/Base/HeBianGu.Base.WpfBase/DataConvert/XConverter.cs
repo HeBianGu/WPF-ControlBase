@@ -215,7 +215,13 @@ namespace HeBianGu.Base.WpfBase
             get { return new NullOrEmptyTofalseConverter(); }
         }
 
+        public static IconToImageSourceConverter IconToImageSourceConverter
+        {
+            get { return new IconToImageSourceConverter(); }
+        }
+
         
+
         //public static SelectTextConverter SelectTextConverter
         //{
         //    get { return Singleton<SelectTextConverter>.GetInstance(); }

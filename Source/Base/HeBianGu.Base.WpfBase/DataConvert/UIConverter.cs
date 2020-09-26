@@ -856,4 +856,29 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+
+    /// <summary> 绑定图标转换 </summary>
+    [ValueConversion(typeof(Icon), typeof(ImageSource))]
+    public class IconToImageSourceConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+
+            if (value == null) return null;
+
+            Icon icon = (Icon)value;
+
+            ImageSource imageSource =
+                System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(
+                icon.Handle,
+                Int32Rect.Empty,
+                BitmapSizeOptions.FromEmptyOptions());
+
+            return imageSource;
+        }
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

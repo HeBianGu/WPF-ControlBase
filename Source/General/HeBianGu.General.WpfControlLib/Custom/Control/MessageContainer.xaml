@@ -4,6 +4,33 @@
     xmlns:h="QQ:908293466"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <!--抖动效果-->
+    <Storyboard x:Key="S.Storyboard.RenderTransform.Shake">
+        <DoubleAnimation From="-10" To="0"  Duration="0:0:0.2" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" RepeatBehavior="Forever">
+            <DoubleAnimation.EasingFunction>
+                <ElasticEase/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <!--字体反弹效果-->
+    <Storyboard  x:Key="S.Storyboard.FontSize.Rebound">
+        <DoubleAnimation From="5" To="50" Duration="0:0:2" Storyboard.TargetProperty="FontSize"  RepeatBehavior="Forever">
+            <DoubleAnimation.EasingFunction>
+                <BounceEase/>
+            </DoubleAnimation.EasingFunction>
+        </DoubleAnimation>
+    </Storyboard>
+
+    <!--字体反弹效果-->
+    <Storyboard x:Key="S.Storyboard.Color.Flash">
+        <ColorAnimation  Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)" RepeatBehavior="Forever"  From="Green" To="#ED4646" Duration="0:0:2" AutoReverse="True" >
+            <ColorAnimation.EasingFunction>
+                <CubicEase/>
+            </ColorAnimation.EasingFunction>
+        </ColorAnimation>
+    </Storyboard>
+
     <!--右向左渐显示动画-->
     <Storyboard x:Key="S.Storyboard.MessageLoad.OpacityRightToLeft">
         <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
@@ -400,15 +427,7 @@
                         <TextBlock Text="{TemplateBinding Message}" Foreground="{DynamicResource S.Brush.Accent}"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="20,0" FontSize="25" RenderTransformOrigin="0.5,0.5" RenderTransform="{StaticResource S.TransformGroup.Default}">
                             <TextBlock.Triggers>
                                 <EventTrigger RoutedEvent="Button.Loaded">
-                                    <BeginStoryboard>
-                                        <Storyboard>
-                                            <DoubleAnimation From="-10" To="0"  Duration="0:0:0.2" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" RepeatBehavior="Forever">
-                                                <DoubleAnimation.EasingFunction>
-                                                    <ElasticEase/>
-                                                </DoubleAnimation.EasingFunction>
-                                            </DoubleAnimation>
-                                        </Storyboard>
-                                    </BeginStoryboard>
+                                    <BeginStoryboard Storyboard="{StaticResource S.Storyboard.RenderTransform.Shake}"/>
                                 </EventTrigger>
                             </TextBlock.Triggers>
                         </TextBlock>

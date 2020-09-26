@@ -10,7 +10,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-
+        <Style TargetType="h:FButton" BasedOn="{StaticResource S.FButton.Style.Transparent}">
+            <Setter Property="Margin" Value="0,0,20,0"/>
+            <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+        </Style>
     </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -18,7 +21,8 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <ListBox BorderThickness="0,0,1,0" SelectedIndex="0" ItemContainerStyle="{StaticResource S.ListBoxItem.LeftAccent}" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}">
+        <!--左侧菜单-->
+        <ListBox x:Name="lb_select" BorderThickness="0,0,1,0"  Background="{DynamicResource S.Brush.Dark.1}" SelectedIndex="1" ItemContainerStyle="{StaticResource S.ListBoxItem.LeftAccent}" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}">
             <ListBox.Resources>
                 <DataTemplate DataType="{x:Type h:LinkAction}">
                     <Grid Height="{DynamicResource S.Window.Item.Height}">
@@ -30,19 +34,44 @@
                     </Grid>
                 </DataTemplate>
             </ListBox.Resources>
-            
-            <h:LinkAction DisplayName="最近使用" Controller="Loyout" Action="Nearly" Logo="&#xe7fe;"/>
-            <h:LinkAction DisplayName="全部文件" Controller="Loyout" Action="Nearly" Logo="&#xe7fe;"/>
-            <h:LinkAction DisplayName="图片" Controller="Loyout" Action="Nearly" Logo="&#xe7fe;"/>
-            <h:LinkAction DisplayName="视频" Controller="Loyout" Action="Nearly" Logo="&#xe7fe;"/>
-            <h:LinkAction DisplayName="文档" Controller="Loyout" Action="Nearly" Logo="&#xe7fe;"/>
-            <h:LinkAction DisplayName="音乐" Controller="Loyout" Action="Nearly" Logo="&#xe7fe;"/>
-            <h:LinkAction DisplayName="种子" Controller="Loyout" Action="Nearly" Logo="&#xe7fe;"/>
-            <h:LinkAction DisplayName="其他" Controller="Loyout" Action="Nearly" Logo="&#xe7fe;"/>
-            <h:LinkAction DisplayName="隐藏空间" Controller="Loyout" Action="Nearly" Logo="&#xe7fe;"/>
-            <h:LinkAction DisplayName="我的分享" Controller="Loyout" Action="Nearly" Logo="&#xe7fe;"/>
-            <h:LinkAction DisplayName="回收站" Controller="Loyout" Action="Nearly" Logo="&#xe7fe;"/>
+
+            <ListBox.Template>
+                <ControlTemplate TargetType="ListBox">
+                    <Grid>
+                        <Border Background="{DynamicResource S.Brush.Dark.1}" Opacity="0.6"/>
+                        <ItemsPresenter SnapsToDevicePixels="True"/>
+                    </Grid>
+                </ControlTemplate>
+            </ListBox.Template>
+
+            <h:LinkAction DisplayName="最近使用" Controller="Loyout" Action="Near" Logo="&#xe6f3;"/>
+            <h:LinkAction DisplayName="全部文件" Controller="Loyout" Action="Explorer" Logo="&#xe6fe;"/>
+            <h:LinkAction DisplayName="     图片" Controller="Loyout" Action="Explorer"/>
+            <h:LinkAction DisplayName="     视频" Controller="Loyout" Action="Explorer"/>
+            <h:LinkAction DisplayName="     文档" Controller="Loyout" Action="Explorer"/>
+            <h:LinkAction DisplayName="     音乐" Controller="Loyout" Action="Explorer"/>
+            <h:LinkAction DisplayName="     种子" Controller="Loyout" Action="Explorer"/>
+            <h:LinkAction DisplayName="     其他" Controller="Loyout" Action="Explorer"/>
+            <h:LinkAction DisplayName="隐藏空间" Controller="Loyout" Action="Space" Logo="&#xe613;"/>
+            <h:LinkAction DisplayName="我的分享" Controller="Loyout" Action="Share" Logo="&#xe764;"/>
+            <h:LinkAction DisplayName="回收站" Controller="Loyout" Action="Near" Logo="&#xe618;"/>
         </ListBox>
-            
+
+        <StackPanel VerticalAlignment="Bottom" Margin="10">
+            <!--<ProgressBar Value="1507" Maximum="2056" Style="{DynamicResource }"/>-->
+            <h:FProgressBar  Value="850" Maximum="2056" Height="12">
+                <h:FProgressBar.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard Storyboard="{StaticResource S.Storyboard.ProgressBar.LoadValue}"/>
+                    </EventTrigger>
+                </h:FProgressBar.Triggers>
+            </h:FProgressBar>
+
+            <TextBlock Text="850G/2056G" Style="{DynamicResource S.TextBlock.Default}" HorizontalAlignment="Left" Margin="0,10" Foreground="{DynamicResource S.Brush.TextForeground.Title}"/>
+        </StackPanel>
+        <!--中间内容-->
+        <Grid Grid.Column="1">
+            <h:LinkActionFrame LinkAction="{Binding ElementName=lb_select,Path=SelectedItem}"/>
+        </Grid>
     </Grid>
 </UserControl>

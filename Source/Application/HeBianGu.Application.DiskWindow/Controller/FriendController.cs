@@ -12,8 +12,8 @@ using System.Windows;
 
 namespace HeBianGu.Application.DiskWindow
 {
-    [Route("Extend")]
-    internal class ExtendController : Controller<ExtendViewModel>
+    [Route("Friend")]
+    internal class FriendController : Controller<FriendViewModel>
     {
         public async Task<IActionResult> Home()
         {

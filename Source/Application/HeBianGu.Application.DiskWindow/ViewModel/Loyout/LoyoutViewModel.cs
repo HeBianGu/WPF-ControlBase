@@ -21,10 +21,66 @@ namespace HeBianGu.Application.DiskWindow
     [ViewModel("Loyout")]
     class LoyoutViewModel : MvcViewModelBase
     {
+        private DataFileViewModel _dataFile=new DataFileViewModel();
+        /// <summary> 说明  </summary>
+        public DataFileViewModel DataFile
+        {
+            get { return _dataFile; }
+            set
+            {
+                _dataFile = value;
+                RaisePropertyChanged("DataFile");
+            }
+        }
+
+
+        private string _path;
+        /// <summary> 说明  </summary>
+        public string Path
+        {
+            get { return _path; }
+            set
+            {
+                _path = value;
+                RaisePropertyChanged("Path");
+            }
+        }
+
+
+        private string _nearPath;
+        /// <summary> 说明  </summary>
+        public string NearPath
+        {
+            get { return _nearPath; }
+            set
+            {
+                _nearPath = value;
+                RaisePropertyChanged("NearPath");
+            }
+        }
+
+
+        private string _sharePath;
+        /// <summary> 说明  </summary>
+        public string SharePath
+        {
+            get { return _sharePath; }
+            set
+            {
+                _sharePath = value;
+                RaisePropertyChanged("SharePath");
+            }
+        }
+
+
 
         protected override void Init()
         {
+            this.Path = Environment.GetFolderPath(Environment.SpecialFolder.MyComputer);
 
+            this.NearPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
+
+            this.SharePath= Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         }
 
 
@@ -53,5 +109,16 @@ namespace HeBianGu.Application.DiskWindow
             }
         }
 
+    }
+
+    class DataFileViewModel: ObservableSourceViewModel<TestViewModel>
+    {
+        protected override void Init()
+        {
+            base.Init();
+
+
+           
+        }
     }
 }
