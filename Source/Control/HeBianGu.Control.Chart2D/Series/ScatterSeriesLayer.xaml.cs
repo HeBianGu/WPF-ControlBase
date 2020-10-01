@@ -25,7 +25,7 @@ namespace HeBianGu.Control.Chart2D
 {
 
     /// <summary> 散点图 </summary>
-    public class ScatterSeries : Series
+    public class ScatterSeriesLayer : SeriesLayer
     {
         public override void Draw(Canvas canvas)
         {
@@ -53,7 +53,7 @@ namespace HeBianGu.Control.Chart2D
     }
 
     /// <summary> 散点图 </summary>
-    public class BubbleSeries : Series
+    public class BubbleSeriesLayer : SeriesLayer
     {
         [TypeConverter(typeof(DataTypeConverter))]
         public ObservableCollection<double> BubbleData
@@ -64,9 +64,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty BubbleDataProperty =
-            DependencyProperty.Register("BubbleData", typeof(ObservableCollection<double>), typeof(BubbleSeries), new PropertyMetadata(default(ObservableCollection<double>), (d, e) =>
+            DependencyProperty.Register("BubbleData", typeof(ObservableCollection<double>), typeof(BubbleSeriesLayer), new PropertyMetadata(default(ObservableCollection<double>), (d, e) =>
              {
-                 BubbleSeries control = d as BubbleSeries;
+                 BubbleSeriesLayer control = d as BubbleSeriesLayer;
 
                  if (control == null) return;
 

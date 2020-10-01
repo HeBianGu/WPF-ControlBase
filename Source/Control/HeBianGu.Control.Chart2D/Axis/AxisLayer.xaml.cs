@@ -23,7 +23,7 @@ using System.Windows.Threading;
 
 namespace HeBianGu.Control.Chart2D
 {
-    public class Axis : DataLayer
+    public class AxisLayer : XyLayer
     {
 
         public int LineLenght
@@ -34,9 +34,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LineLenghtProperty =
-            DependencyProperty.Register("LineLenght", typeof(int), typeof(Axis), new PropertyMetadata(5, (d, e) =>
+            DependencyProperty.Register("LineLenght", typeof(int), typeof(AxisLayer), new PropertyMetadata(5, (d, e) =>
              {
-                 Axis control = d as Axis;
+                 AxisLayer control = d as AxisLayer;
 
                  if (control == null) return;
 
@@ -52,9 +52,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LabelStyleProperty =
-            DependencyProperty.Register("LabelStyle", typeof(Style), typeof(Axis), new PropertyMetadata(default(Style), (d, e) =>
+            DependencyProperty.Register("LabelStyle", typeof(Style), typeof(AxisLayer), new PropertyMetadata(default(Style), (d, e) =>
              {
-                 Axis control = d as Axis;
+                 AxisLayer control = d as AxisLayer;
 
                  if (control == null) return;
 
@@ -63,14 +63,15 @@ namespace HeBianGu.Control.Chart2D
              }));
 
     }
-    public class xAxis : Axis
+
+    public class xAxisLayer : AxisLayer
     {
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
 
             //  Do ：绘制坐标
-            foreach (var item in this.Data)
+            foreach (var item in this.xAxis)
             {
                 //  Do ：刻度线
                 Line l = new Line();
@@ -106,26 +107,26 @@ namespace HeBianGu.Control.Chart2D
             }
         }
 
-        protected override void InitX()
-        {
-            if (this.Data.Count > 0)
-            {
-                this.minX = this.Data.Min();
+        //protected override void InitX()
+        //{
+        //    if (this.Data.Count > 0)
+        //    {
+        //        this.minX = this.Data.Min();
 
-                this.maxX = this.Data.Max();
-            }
-        }
+        //        this.maxX = this.Data.Max();
+        //    }
+        //}
     }
 
 
-    public class yAxis : Axis
+    public class yAxisLayer : AxisLayer
     {
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
 
             //Y坐标
-            foreach (var item in this.Data)
+            foreach (var item in this.yAxis)
             {
                 //  Do ：刻度
                 Line l = new Line();
@@ -165,19 +166,14 @@ namespace HeBianGu.Control.Chart2D
             }
         }
 
-        private void T_Loaded(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
+        //protected override void InitY()
+        //{
+        //    if (this.Data.Count > 0)
+        //    {
+        //        this.minY = this.Data.Min();
 
-        protected override void InitY()
-        {
-            if (this.Data.Count > 0)
-            {
-                this.minY = this.Data.Min();
-
-                this.maxY = this.Data.Max();
-            }
-        }
+        //        this.maxY = this.Data.Max();
+        //    }
+        //}
     }
 }

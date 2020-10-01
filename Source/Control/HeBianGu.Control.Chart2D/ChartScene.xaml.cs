@@ -23,20 +23,7 @@ using System.Windows.Threading;
 
 namespace HeBianGu.Control.Chart2D
 {
-    /// <summary> 容器 </summary>
-    public class PlotterBase : ItemsControl
-    {
-
-
-    }
-
-    /// <summary> 绘图结构关系 </summary>
-    public abstract class ViewPlotter : PlotterBase
-    {
-
-    }
-
-    public class ChartPlotter : ViewPlotter
+    public class ChartScene : ViewScene
     {
 
         [TypeConverter(typeof(DataTypeConverter))]
@@ -48,9 +35,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty xAxisProperty =
-            DependencyProperty.Register("xAxis", typeof(ObservableCollection<double>), typeof(ChartPlotter), new PropertyMetadata(default(ObservableCollection<double>), (d, e) =>
+            DependencyProperty.Register("xAxis", typeof(ObservableCollection<double>), typeof(ChartScene), new PropertyMetadata(default(ObservableCollection<double>), (d, e) =>
              {
-                 ChartPlotter control = d as ChartPlotter;
+                 ChartScene control = d as ChartScene;
 
                  if (control == null) return;
 
@@ -69,9 +56,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty yAxisProperty =
-            DependencyProperty.Register("yAxis", typeof(ObservableCollection<double>), typeof(ChartPlotter), new PropertyMetadata(default(ObservableCollection<double>), (d, e) =>
+            DependencyProperty.Register("yAxis", typeof(ObservableCollection<double>), typeof(ChartScene), new PropertyMetadata(default(ObservableCollection<double>), (d, e) =>
              {
-                 ChartPlotter control = d as ChartPlotter;
+                 ChartScene control = d as ChartScene;
 
                  if (control == null) return;
 
@@ -81,13 +68,14 @@ namespace HeBianGu.Control.Chart2D
 
     }
 
-    public class Chart : ChartPlotter
+    public class Chart : ChartScene
     {
 
     }
 
-    public class StaticCurveChartPlotter : Chart
+    public class StaticCurveChartScene : Chart
     {
 
     }
+
 }

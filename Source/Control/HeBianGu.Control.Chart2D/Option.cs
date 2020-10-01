@@ -19,9 +19,36 @@ namespace HeBianGu.Control.Chart2D
     {
         void Draw(Canvas canvas);
     }
-    public class LayerCanvas : Canvas, IDraw
+
+    public class CanvasLayer : Canvas, IDraw
     {
-        public LayerCanvas()
+        public CanvasLayer()
+        {
+            this.SizeChanged += (l, k) =>
+            {
+                this.Draw(this);
+
+            };
+
+            this.Loaded += (l, k) =>
+            {
+                this.Draw(this);
+
+            };
+
+
+        }
+
+
+        public virtual void Draw(Canvas canvas)
+        {
+            canvas.Children.Clear();
+        }
+    }
+
+    public class XyLayer : CanvasLayer
+    {
+        public XyLayer()
         {
             this.SizeChanged += (l, k) =>
               {
@@ -38,17 +65,6 @@ namespace HeBianGu.Control.Chart2D
         }
 
 
-        public virtual void Draw(Canvas canvas)
-        {
-            this.InitX();
-
-            this.InitY();
-
-            canvas.Children.Clear();
-        }
-
-
-
         public Brush Foreground
         {
             get { return (Brush)GetValue(ForegroundProperty); }
@@ -57,15 +73,24 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ForegroundProperty =
-            DependencyProperty.Register("Foreground", typeof(Brush), typeof(LayerCanvas), new PropertyMetadata(Brushes.Black, (d, e) =>
+            DependencyProperty.Register("Foreground", typeof(Brush), typeof(XyLayer), new PropertyMetadata(Brushes.Black, (d, e) =>
              {
-                 LayerCanvas control = d as LayerCanvas;
+                 XyLayer control = d as XyLayer;
 
                  if (control == null) return;
 
                  Brush config = e.NewValue as Brush;
 
              }));
+
+        public override void Draw(Canvas canvas)
+        {
+            this.InitX();
+
+            this.InitY();
+
+            base.Draw(canvas);
+        }
 
         protected double minX;
         protected double maxX;
@@ -84,11 +109,18 @@ namespace HeBianGu.Control.Chart2D
 
         protected virtual void InitY()
         {
+            if (this.xAxis == null || this.xAxis.Count == 0) return;
+
+            this.minX = this.xAxis.Min();
+            this.maxX = this.xAxis.Max();
 
         }
         protected virtual void InitX()
         {
+            if (this.yAxis == null || this.yAxis.Count == 0) return;
 
+            this.minY = this.yAxis.Min();
+            this.maxY = this.yAxis.Max();
         }
 
         /// <summary> 获取值对应Canvas的位置 </summary>
@@ -107,20 +139,55 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LineStyleProperty =
-            DependencyProperty.Register("LineStyle", typeof(Style), typeof(LayerCanvas), new PropertyMetadata(default(Style), (d, e) =>
+            DependencyProperty.Register("LineStyle", typeof(Style), typeof(XyLayer), new PropertyMetadata(default(Style), (d, e) =>
             {
-                Grid control = d as Grid;
+                GridLayer control = d as GridLayer;
 
                 if (control == null) return;
 
                 Style config = e.NewValue as Style;
 
             }));
+
+
+        public ObservableCollection<double> xAxis
+        {
+            get { return (ObservableCollection<double>)GetValue(xAxisProperty); }
+            set { SetValue(xAxisProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty xAxisProperty =
+            DependencyProperty.Register("xAxis", typeof(ObservableCollection<double>), typeof(XyLayer), new PropertyMetadata(new ObservableCollection<double>(), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+
+            }));
+
+
+        public ObservableCollection<double> yAxis
+        {
+            get { return (ObservableCollection<double>)GetValue(yAxisProperty); }
+            set { SetValue(yAxisProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty yAxisProperty =
+            DependencyProperty.Register("yAxis", typeof(ObservableCollection<double>), typeof(XyLayer), new PropertyMetadata(new ObservableCollection<double>(), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+
+            }));
+
     }
-
-
-
-
 
     public class Option
     {
@@ -192,7 +259,7 @@ namespace HeBianGu.Control.Chart2D
     //    }
     //}
 
-    public class DataLayer : LayerCanvas
+    public class DataLayer : XyLayer
     {
         [TypeConverter(typeof(DataTypeConverter))]
         public ObservableCollection<double> Data

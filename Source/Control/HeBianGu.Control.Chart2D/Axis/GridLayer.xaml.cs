@@ -24,52 +24,46 @@ using System.Windows.Threading;
 namespace HeBianGu.Control.Chart2D
 {
     /// <summary> 网格 </summary>
-    public class Grid : LayerCanvas
+    public class GridLayer : XyLayer
     {
-
-
-
-        public ObservableCollection<double> xAxis
+        public Style HorizontalLineStyle
         {
-            get { return (ObservableCollection<double>)GetValue(xAxisProperty); }
-            set { SetValue(xAxisProperty, value); }
+            get { return (Style)GetValue(HorizontalLineStyleProperty); }
+            set { SetValue(HorizontalLineStyleProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty xAxisProperty =
-            DependencyProperty.Register("xAxis", typeof(ObservableCollection<double>), typeof(Grid), new PropertyMetadata(new ObservableCollection<double>(), (d, e) =>
-            {
-                Grid control = d as Grid;
+        public static readonly DependencyProperty HorizontalLineStyleProperty =
+            DependencyProperty.Register("HorizontalLineStyle", typeof(Style), typeof(GridLayer), new PropertyMetadata(default(Style), (d, e) =>
+             {
+                 GridLayer control = d as GridLayer;
 
-                if (control == null) return;
+                 if (control == null) return;
 
-                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+                 Style config = e.NewValue as Style; 
 
-                control.Draw(control);
-
-            }));
+             }));
 
 
-        public ObservableCollection<double> yAxis
+
+        public Style VerticalLineStyle
         {
-            get { return (ObservableCollection<double>)GetValue(yAxisProperty); }
-            set { SetValue(yAxisProperty, value); }
+            get { return (Style)GetValue(VerticalLineStyleProperty); }
+            set { SetValue(VerticalLineStyleProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty yAxisProperty =
-            DependencyProperty.Register("yAxis", typeof(ObservableCollection<double>), typeof(Grid), new PropertyMetadata(new ObservableCollection<double>(), (d, e) =>
-            {
-                Grid control = d as Grid;
+        public static readonly DependencyProperty VerticalLineStyleProperty =
+            DependencyProperty.Register("VerticalLineStyle", typeof(Style), typeof(GridLayer), new PropertyMetadata(default(Style), (d, e) =>
+             {
+                 GridLayer control = d as GridLayer;
 
-                if (control == null) return;
+                 if (control == null) return;
 
-                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+                 Style config = e.NewValue as Style;
 
-                control.Draw(control);
-
-            }));
-
+             }));
+     
         void DrawBorder(Canvas canvas)
         {
             //  Do ：绘制边框
@@ -121,7 +115,7 @@ namespace HeBianGu.Control.Chart2D
                 l.Y1 = 0;
                 l.Y2 = 0;
                 l.Height = 1;
-                l.Style = this.LineStyle;
+                l.Style = this.VerticalLineStyle;
                 l.X2 = this.ActualWidth;
 
                 //   l.MouseEnter +=(m, k) =>
@@ -142,7 +136,7 @@ namespace HeBianGu.Control.Chart2D
                 l.X1 = 0;
                 l.Y1 = 0;
                 l.Y2 = this.ActualHeight;
-                l.Style = this.LineStyle;
+                l.Style = this.HorizontalLineStyle;
                 l.X2 = 0;
                 l.Width = 1;
 
@@ -160,22 +154,22 @@ namespace HeBianGu.Control.Chart2D
             this.DrawCross(this);
         }
 
-        protected override void InitX()
-        {
-            if (this.xAxis.Count > 0)
-            {
-                this.minX = this.xAxis.Min();
-                this.maxX = this.xAxis.Max();
-            }
-        }
+        //protected override void InitX()
+        //{
+        //    if (this.xAxis.Count > 0)
+        //    {
+        //        this.minX = this.xAxis.Min();
+        //        this.maxX = this.xAxis.Max();
+        //    }
+        //}
 
-        protected override void InitY()
-        {
-            if (this.yAxis.Count > 0)
-            {
-                this.minY = this.yAxis.Min();
-                this.maxY = this.yAxis.Max();
-            }
-        }
+        //protected override void InitY()
+        //{
+        //    if (this.yAxis.Count > 0)
+        //    {
+        //        this.minY = this.yAxis.Min();
+        //        this.maxY = this.yAxis.Max();
+        //    }
+        //}
     }
 }

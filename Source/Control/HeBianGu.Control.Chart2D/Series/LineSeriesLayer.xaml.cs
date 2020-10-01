@@ -24,7 +24,7 @@ using System.Windows.Threading;
 namespace HeBianGu.Control.Chart2D
 {
     /// <summary> 曲线视图 </summary>
-    public class LineSeries : Series
+    public class LineSeriesLayer : SeriesLayer
     {
         public Style PathStyle
         {
@@ -34,9 +34,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PathStyleProperty =
-            DependencyProperty.Register("PathStyle", typeof(Style), typeof(LineSeries), new PropertyMetadata(default(Style), (d, e) =>
+            DependencyProperty.Register("PathStyle", typeof(Style), typeof(LineSeriesLayer), new PropertyMetadata(default(Style), (d, e) =>
             {
-                LineSeries control = d as LineSeries;
+                LineSeriesLayer control = d as LineSeriesLayer;
 
                 if (control == null) return;
 
@@ -100,7 +100,7 @@ namespace HeBianGu.Control.Chart2D
         }
     }
 
-    public class AreaSeries : Series
+    public class AreaSeriesLayer : SeriesLayer
     {
         public Style PathStyle
         {
@@ -110,9 +110,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PathStyleProperty =
-            DependencyProperty.Register("PathStyle", typeof(Style), typeof(AreaSeries), new PropertyMetadata(default(Style), (d, e) =>
+            DependencyProperty.Register("PathStyle", typeof(Style), typeof(AreaSeriesLayer), new PropertyMetadata(default(Style), (d, e) =>
             {
-                AreaSeries control = d as AreaSeries;
+                AreaSeriesLayer control = d as AreaSeriesLayer;
 
                 if (control == null) return;
 

@@ -4,14 +4,17 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
 
-    <Style x:Key="S.Series.Default" TargetType="{x:Type local:Series}">
+    <Style x:Key="S.Series.Default" TargetType="{x:Type local:SeriesLayer}">
         <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="Margin" Value="{Binding RelativeSource={RelativeSource AncestorType=local:ChartScene},Path=Padding}"/>
+        <Setter Property="xAxis" Value="{Binding RelativeSource={RelativeSource AncestorType=local:ChartScene},Path=xAxis}"/>
+        <Setter Property="yAxis" Value="{Binding RelativeSource={RelativeSource AncestorType=local:ChartScene},Path=yAxis}"/>
         <Setter Property="MarkStyle">
             <Setter.Value>
                 <Style TargetType="local:EllipseMark">
                     <Setter Property="StrokeThickness" Value="1"/>
                     <Setter Property="Fill" Value="{DynamicResource S.Brush.TextForeground.White}"/>
-                    <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Series},Path=Foreground}"/>
+                    <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:SeriesLayer},Path=Foreground}"/>
                     <Setter Property="Rect">
                         <Setter.Value>
                             <Rect Width="4" Height="4"/>
@@ -23,7 +26,7 @@
     </Style>
 
 
-    <Style TargetType="{x:Type local:Series}" BasedOn="{StaticResource S.Series.Default}"/>
+    <Style TargetType="{x:Type local:SeriesLayer}" BasedOn="{StaticResource S.Series.Default}"/>
 
 </ResourceDictionary>
 
