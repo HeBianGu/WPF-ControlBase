@@ -1,0 +1,377 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+    xmlns:h="QQ:908293466" 
+   xmlns:net="clr-namespace:System.Net.NetworkInformation;assembly=System">
+
+    <DataTemplate x:Key="S.StepItem.Running" DataType="{x:Type local:StepItem}">
+        
+        <StackPanel x:Name="running" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Grid x:Name="line" Margin="0,-30,0,0">
+                <Line Stroke="{DynamicResource S.Brush.Accent}" X1="0" X2="100" Y1="0" Y2="0" Width="Auto" StrokeThickness="2" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                    <Line.OpacityMask>
+                        <LinearGradientBrush>
+                            <GradientStop x:Name="stop1" Color="Black" Offset="0"/>
+                            <GradientStop x:Name="stop2" Color="Transparent" Offset="0.2"/>
+                            <GradientStop x:Name="stop3" Color="Black" Offset="0.4"/>
+                        </LinearGradientBrush>
+                    </Line.OpacityMask>
+                    <Line.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation From="0" To="1" Duration="0:0:5" Storyboard.TargetProperty="Offset"  
+                                                                         RepeatBehavior="Forever" Storyboard.TargetName="stop1">
+                                        <DoubleAnimation.EasingFunction>
+                                            <QuarticEase/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+
+                                    <DoubleAnimation From="0.2" To="1.2" Duration="0:0:5" Storyboard.TargetProperty="Offset"  
+                                                                         RepeatBehavior="Forever" Storyboard.TargetName="stop2">
+                                        <DoubleAnimation.EasingFunction>
+                                            <QuarticEase/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+
+                                    <DoubleAnimation From="0.4" To="1.4" Duration="0:0:5" Storyboard.TargetProperty="Offset"  
+                                                                         RepeatBehavior="Forever" Storyboard.TargetName="stop3">
+                                        <DoubleAnimation.EasingFunction>
+                                            <QuarticEase/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Line.Triggers>
+                </Line>
+            </Grid>
+
+            <StackPanel>
+                <Grid x:Name="run">
+                    <Ellipse Width="40" Height="40" Fill="{DynamicResource S.Brush.TextBackground.Default}" Stroke="{DynamicResource S.Brush.Accent}" 
+                         StrokeThickness="2" StrokeDashArray="5,1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                         RenderTransform="{StaticResource S.TransformGroup.Default}" RenderTransformOrigin="0.5,0.5">
+                        <Ellipse.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard Storyboard="{StaticResource S.Storyboard.RotateForever.3}"/>
+                            </EventTrigger>
+                        </Ellipse.Triggers>
+                    </Ellipse>
+                    <Ellipse Width="30" Height="30" Fill="{DynamicResource S.Brush.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+                </Grid>
+
+                <TextBlock Text="{Binding Message}"  Style="{DynamicResource S.TextBlock.Default}" Margin="-50,10,-50,0" Foreground="{DynamicResource S.Brush.Accent}"/>
+
+            </StackPanel>
+            
+            <StackPanel.Triggers>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard Storyboard="{StaticResource S.Storyboard.OpacityForever}"/>
+                </EventTrigger>
+            </StackPanel.Triggers>
+        </StackPanel>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Converter= {x:Static h:XConverter.IsFirstItemInContainerConverter}}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="line"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="S.StepItem.Unkown" DataType="{x:Type local:StepItem}">
+
+        <StackPanel x:Name="unkown" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Grid  x:Name="line"   Margin="0,-30,0,0">
+                <Line Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}" X1="0" X2="100" Y1="0" Y2="0" Width="Auto" StrokeThickness="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+            </Grid>
+
+            <StackPanel>
+                <Grid x:Name="run">
+                    <Ellipse Width="40" Height="40" Fill="{DynamicResource S.Brush.TextBackground.Default}" Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}" StrokeThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}" Foreground="{DynamicResource  S.Brush.TextBorderBrush.Default}"/>
+                </Grid>
+
+                <TextBlock Text="{Binding Message}"  Style="{DynamicResource S.TextBlock.Default}" Margin="-50,10,-50,0" Foreground="{DynamicResource  S.Brush.TextBorderBrush.Default}"/>
+
+            </StackPanel>  
+        </StackPanel>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Converter= {x:Static h:XConverter.IsFirstItemInContainerConverter}}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="line"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="S.StepItem.Error" DataType="{x:Type local:StepItem}">
+        <StackPanel x:Name="error" Orientation="Horizontal" HorizontalAlignment="Left">
+            <Grid  x:Name="line"   Margin="0,-30,0,0">
+                <Line Stroke="{DynamicResource S.Brush.Red.Notice}" X1="0" X2="100" Y1="0" Y2="0" Width="Auto" StrokeThickness="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+
+                <TextBlock Text="×" FontSize="25" Margin="0,0,0,5" Foreground="{DynamicResource S.Brush.Red.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+
+            <StackPanel>
+                <Grid x:Name="run">
+                    <Ellipse Width="40" Height="40" Fill="{DynamicResource S.Brush.TextBackground.Default}" Stroke="{DynamicResource S.Brush.Red.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Ellipse Width="30" Height="30" Fill="{DynamicResource S.Brush.Red.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+                </Grid>
+
+                <TextBlock Text="{Binding Message}"  Style="{DynamicResource S.TextBlock.Default}" Margin="-50,10,-50,0"  Foreground="{DynamicResource  S.Brush.Red.Notice}"/>
+
+            </StackPanel>
+        
+        </StackPanel>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Converter= {x:Static h:XConverter.IsFirstItemInContainerConverter}}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="line"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="S.StepItem.Success" DataType="{x:Type local:StepItem}">
+        <StackPanel x:Name="success" Orientation="Horizontal"  HorizontalAlignment="Left">
+            <Grid  x:Name="line"   Margin="0,-30,0,0">
+                <Line Stroke="{DynamicResource S.Brush.Green.Notice}" X1="0" X2="100" Y1="0" Y2="0" Width="Auto" StrokeThickness="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+
+                <TextBlock Text="√" FontSize="20" Margin="0,0,0,5" Foreground="{DynamicResource S.Brush.Green.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+            <StackPanel>
+
+                <Grid x:Name="run">
+                    <Ellipse Width="40" Height="40" Fill="{DynamicResource S.Brush.TextBackground.Default}" Stroke="{DynamicResource S.Brush.Green.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Ellipse Width="30" Height="30" Fill="{DynamicResource S.Brush.Green.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                    <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+                </Grid>
+
+                <TextBlock Text="{Binding Message}"  Style="{DynamicResource S.TextBlock.Default}" Margin="-50,10,-50,0"  Foreground="{DynamicResource S.Brush.Green.Notice}"/>
+
+            </StackPanel>
+        </StackPanel>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Converter= {x:Static h:XConverter.IsFirstItemInContainerConverter}}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="line"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:StepItem}">
+        <Grid>
+            <StackPanel x:Name="running" Orientation="Horizontal" HorizontalAlignment="Left"  Visibility="Collapsed">
+                <Grid x:Name="line1" Margin="0,-30,0,0">
+                    <Line Stroke="{DynamicResource S.Brush.Accent}" X1="0" X2="100" Y1="0" Y2="0" Width="Auto" StrokeThickness="2" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                        <Line.OpacityMask>
+                            <LinearGradientBrush>
+                                <GradientStop x:Name="stop1" Color="Black" Offset="0"/>
+                                <GradientStop x:Name="stop2" Color="Transparent" Offset="0.2"/>
+                                <GradientStop x:Name="stop3" Color="Black" Offset="0.4"/>
+                            </LinearGradientBrush>
+                        </Line.OpacityMask>
+                        <Line.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation From="0" To="1" Duration="0:0:5" Storyboard.TargetProperty="Offset"  
+                                                                         RepeatBehavior="Forever" Storyboard.TargetName="stop1">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuarticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+
+                                        <DoubleAnimation From="0.2" To="1.2" Duration="0:0:5" Storyboard.TargetProperty="Offset"  
+                                                                         RepeatBehavior="Forever" Storyboard.TargetName="stop2">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuarticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+
+                                        <DoubleAnimation From="0.4" To="1.4" Duration="0:0:5" Storyboard.TargetProperty="Offset"  
+                                                                         RepeatBehavior="Forever" Storyboard.TargetName="stop3">
+                                            <DoubleAnimation.EasingFunction>
+                                                <QuarticEase/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </Line.Triggers>
+                    </Line>
+                </Grid>
+
+                <StackPanel>
+                    <Grid>
+                        <Ellipse Width="40" Height="40" Fill="{DynamicResource S.Brush.TextBackground.Default}" Stroke="{DynamicResource S.Brush.Accent}" 
+                         StrokeThickness="2" StrokeDashArray="5,1" HorizontalAlignment="Center" VerticalAlignment="Center"
+                         RenderTransform="{StaticResource S.TransformGroup.Default}" RenderTransformOrigin="0.5,0.5">
+                            <Ellipse.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard Storyboard="{StaticResource S.Storyboard.RotateForever.3}"/>
+                                </EventTrigger>
+                            </Ellipse.Triggers>
+                        </Ellipse>
+                        <Ellipse Width="30" Height="30" Fill="{DynamicResource S.Brush.Accent}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+                    </Grid>
+
+                    <TextBlock Text="{Binding Message}"  Style="{DynamicResource S.TextBlock.Default}" Margin="-50,10,-50,0" Foreground="{DynamicResource S.Brush.Accent}"/>
+
+                </StackPanel>
+
+                <StackPanel.Triggers>
+                    <EventTrigger RoutedEvent="Loaded">
+                        <BeginStoryboard Storyboard="{StaticResource S.Storyboard.OpacityForever}"/>
+                    </EventTrigger>
+                </StackPanel.Triggers>
+            </StackPanel>
+
+            <StackPanel x:Name="unkown" Orientation="Horizontal" HorizontalAlignment="Left"  Visibility="Collapsed">
+                <Grid  x:Name="line2"   Margin="0,-30,0,0">
+                    <Line Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}" X1="0" X2="100" Y1="0" Y2="0" Width="Auto" StrokeThickness="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                </Grid>
+
+                <StackPanel>
+                    <Grid>
+                        <Ellipse Width="40" Height="40" Fill="{DynamicResource S.Brush.TextBackground.Default}" Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}" StrokeThickness="3" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}" Foreground="{DynamicResource  S.Brush.TextBorderBrush.Default}"/>
+                    </Grid>
+
+                    <TextBlock Text="{Binding Message}"  Style="{DynamicResource S.TextBlock.Default}" Margin="-50,10,-50,0" Foreground="{DynamicResource  S.Brush.TextBorderBrush.Default}"/>
+
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel x:Name="error" Orientation="Horizontal" HorizontalAlignment="Left"  Visibility="Collapsed">
+                <Grid  x:Name="line3"   Margin="0,-30,0,0">
+                    <Line Stroke="{DynamicResource S.Brush.Red.Notice}" X1="0" X2="100" Y1="0" Y2="0" Width="Auto" StrokeThickness="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+
+                    <TextBlock Text="×" FontSize="25" Margin="0,0,0,5" Foreground="{DynamicResource S.Brush.Red.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+
+                <StackPanel>
+                    <Grid>
+                        <Ellipse Width="40" Height="40" Fill="{DynamicResource S.Brush.TextBackground.Default}" Stroke="{DynamicResource S.Brush.Red.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Ellipse Width="30" Height="30" Fill="{DynamicResource S.Brush.Red.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+                    </Grid>
+
+                    <TextBlock Text="{Binding Message}"  Style="{DynamicResource S.TextBlock.Default}" Margin="-50,10,-50,0"  Foreground="{DynamicResource  S.Brush.Red.Notice}"/>
+
+                </StackPanel>
+
+            </StackPanel>
+
+            <StackPanel x:Name="success" Orientation="Horizontal"  HorizontalAlignment="Left" Visibility="Collapsed">
+                <Grid  x:Name="line4"   Margin="0,-30,0,0">
+                    <Line Stroke="{DynamicResource S.Brush.Green.Notice}" X1="0" X2="100" Y1="0" Y2="0" Width="Auto" StrokeThickness="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+
+                    <TextBlock Text="√" FontSize="20" Margin="0,0,0,5" Foreground="{DynamicResource S.Brush.Green.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+                <StackPanel>
+
+                    <Grid>
+                        <Ellipse Width="40" Height="40" Fill="{DynamicResource S.Brush.TextBackground.Default}" Stroke="{DynamicResource S.Brush.Green.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <Ellipse Width="30" Height="30" Fill="{DynamicResource S.Brush.Green.Notice}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                        <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+                    </Grid>
+
+                    <TextBlock Text="{Binding Message}"  Style="{DynamicResource S.TextBlock.Default}" Margin="-50,10,-50,0"  Foreground="{DynamicResource S.Brush.Green.Notice}"/>
+
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Converter= {x:Static h:XConverter.IsFirstItemInContainerConverter}}" Value="True">
+                <Setter Property="Visibility" Value="Collapsed" TargetName="line1"/>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="line2"/>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="line3"/>
+                <Setter Property="Visibility" Value="Collapsed" TargetName="line4"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding State}" Value="-1">
+                <Setter Property="Visibility" Value="Visible" TargetName="error"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding State}" Value="0">
+                <Setter Property="Visibility" Value="Visible" TargetName="unkown"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding State}" Value="1">
+                <Setter Property="Visibility" Value="Visible" TargetName="running"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding State}" Value="2">
+                <Setter Property="Visibility" Value="Visible" TargetName="success"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <Style x:Key="S.StepState.Default" TargetType="{x:Type local:StepState}">
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Height" Value="{DynamicResource S.Window.Item.Width}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="boder">
+                                    <ContentPresenter/>
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <!--<Setter Property="ItemTemplateSelector">
+            <Setter.Value>
+                <local:StepItemStateTemplateSelector RunningTempate="{StaticResource S.StepItem.Running}"
+                                                     ErrorTempate="{StaticResource S.StepItem.Error}"
+                                                     UnkownTempate="{StaticResource S.StepItem.Unkown}"
+                                                     SuccessTempate="{StaticResource S.StepItem.Success}"/>
+            </Setter.Value>
+        </Setter>-->
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel IsItemsHost="True" VerticalAlignment="Center" Orientation="Horizontal" HorizontalAlignment="Left"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity"  Value="{DynamicResource S.Opacity.Disable}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:StepState}" BasedOn="{StaticResource S.StepState.Default}"/>
+
+</ResourceDictionary>
+

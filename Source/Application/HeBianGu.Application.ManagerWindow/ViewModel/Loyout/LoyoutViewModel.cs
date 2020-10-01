@@ -9,6 +9,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -33,6 +35,7 @@ namespace HeBianGu.Application.ManagerWindow
                 RaisePropertyChanged("Collection");
             }
         }
+
 
 
 

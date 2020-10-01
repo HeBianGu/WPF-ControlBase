@@ -160,7 +160,12 @@ namespace HeBianGu.Base.WpfBase
             get { return new IsLastItemInContainerConverter(); }
         }
 
+        public static IsFirstItemInContainerConverter IsFirstItemInContainerConverter
+        {
+            get { return new IsFirstItemInContainerConverter(); }
+        }
 
+        
         public static CircleProgressBarConverter CircleProgressBarConverter
         {
             get { return new CircleProgressBarConverter(); }

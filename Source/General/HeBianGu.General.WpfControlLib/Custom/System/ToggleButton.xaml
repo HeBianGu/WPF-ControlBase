@@ -199,6 +199,43 @@
     </Style>
 
 
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.DoubleFIconChecked.Single" BasedOn="{StaticResource S.ToggleButton.DoubleFIconChecked}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid x:Name="Grid" Margin="{TemplateBinding Padding}">
+                        <StackPanel Orientation="Horizontal" Margin="{TemplateBinding h:ControlAttachProperty.FIconMargin}">
+
+                            <TextBlock x:Name="FIcon" 
+                                   FontSize="{Binding Path=(h:ControlAttachProperty.FIconSize),RelativeSource={RelativeSource TemplatedParent}}"
+                                   Text="{TemplateBinding h:ControlAttachProperty.FIcon}" 
+                                   Foreground="{TemplateBinding Foreground}" 
+                                   Style="{DynamicResource FIcon}" />
+
+                        </StackPanel>
+                    </Grid>
+                    <!--z触发器-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
+                            <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" TargetName="FIcon"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Gray.Notice}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
+                            <Setter Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}" TargetName="FIcon"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" TargetName="Grid"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.FIconSingle">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Assist}" />
         <Setter Property="h:ControlAttachProperty.FIconSize" Value="{DynamicResource S.FIcon.Size.Large}"/>

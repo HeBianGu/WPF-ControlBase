@@ -177,6 +177,7 @@ namespace HeBianGu.Base.WpfBase
         public static T GetElement<T>(this DependencyObject element) where T : FrameworkElement
         {
             T correctlyTyped = element as T;
+
             if (correctlyTyped != null)
             {
                 return correctlyTyped;
@@ -196,6 +197,7 @@ namespace HeBianGu.Base.WpfBase
 
                 // Popups continue in another window, jump to that tree
                 Popup popup = element as Popup;
+
                 if (popup != null)
                 {
                     return GetElement<T>(popup.Child as FrameworkElement);
@@ -205,6 +207,40 @@ namespace HeBianGu.Base.WpfBase
             return null;
         }
 
+
+        public static IEnumerable<T> GetElements<T>(this DependencyObject element) where T : FrameworkElement
+        {
+            T correctlyTyped = element as T;
+
+            if (correctlyTyped != null)
+            {
+               yield return correctlyTyped;
+            }
+
+            if (element != null)
+            {
+                int numChildren = VisualTreeHelper.GetChildrenCount(element);
+
+                for (int i = 0; i < numChildren; i++)
+                {
+                    foreach (var item in GetElements<T>(VisualTreeHelper.GetChild(element, i) as FrameworkElement))
+                    {
+                        yield return item;
+                    }
+                }
+
+                // Popups continue in another window, jump to that tree
+                Popup popup = element as Popup;
+
+                if (popup != null)
+                {
+                    foreach (var item in GetElements<T>(popup.Child as FrameworkElement))
+                    {
+                        yield return item;
+                    }
+                }
+            }
+        }
 
         public static VisualStateGroup TryGetVisualStateGroup(this DependencyObject d, string groupName)
         {

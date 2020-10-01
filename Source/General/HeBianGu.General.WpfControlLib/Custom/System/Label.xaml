@@ -25,5 +25,40 @@
         </Setter>
     </Style>
 
+    <Style x:Key="S.Label.FIcon" TargetType="Label">
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForground.Default}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="{DynamicResource S.Brush.FontSize.Default}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Label">
+                    <TextBlock x:Name="txt" Text="{TemplateBinding Content}" Style="{DynamicResource FIcon}"
+                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                               VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.Label.FIcon.Rotate" TargetType="Label" BasedOn="{StaticResource S.Label.FIcon}">
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Label">
+                    <TextBlock x:Name="txt" Text="{TemplateBinding Content}" Style="{DynamicResource FIcon}"
+                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
+                               VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.RotateForever}"/>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
 </ResourceDictionary>

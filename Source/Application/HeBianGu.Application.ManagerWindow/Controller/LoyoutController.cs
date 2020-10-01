@@ -25,7 +25,7 @@ namespace HeBianGu.Application.ManagerWindow
             return await ViewAsync();
         }
 
-        public async Task<IActionResult> Report()
+        public async Task<IActionResult> HomeA()
         {
             return await ViewAsync();
         }

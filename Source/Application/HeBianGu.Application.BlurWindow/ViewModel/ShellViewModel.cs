@@ -287,7 +287,13 @@ namespace HeBianGu.Application.BlurWindow
             //  Do：提示消息
             else if (command == "Button.ShowSnackMessage")
             {
+
+                //ErrorMessage error = new ErrorMessage() { Message= "这是提示消息？" };
+
+                //MessageService.ShowSnackMessage(error);
+
                 MessageService.ShowSnackMessageWithNotice("这是提示消息？");
+
             }
 
             //  Do：气泡消息

@@ -16,7 +16,7 @@ namespace HeBianGu.General.WpfControlLib
     {
         #region - 提示消息 -
 
-        public static void ShowSnackMessage(string message)
+        public static void ShowSnackMessage(object message)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -30,7 +30,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
 
-        public static void ShowSnackMessageWithNotice(string message)
+        public static void ShowSnackMessageWithNotice(object message)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
@@ -46,7 +46,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 输出消息和操作按钮 </summary>
-        public static void ShowSnackMessage(string message, object actionContent, Action actionHandler)
+        public static void ShowSnackMessage(object message, object actionContent, Action actionHandler)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {

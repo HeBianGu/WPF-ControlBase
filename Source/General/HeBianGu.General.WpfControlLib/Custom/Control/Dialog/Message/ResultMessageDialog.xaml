@@ -7,32 +7,36 @@
              mc:Ignorable="d" Background="{DynamicResource S.Brush.TextBackground.Default}"
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="300" d:DesignWidth="300"
-             Width="400" Height="220">
-    <Grid Margin="16">
+             Width="450" Height="150">
+    <Grid Margin="16,10">
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="Message" Foreground="{DynamicResource S.Brush.TextForeground.Default}" FontSize="{DynamicResource S.FontSize.Default}"
-                   HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="{Binding ElementName=Message,Path=Text}" Grid.Row="0"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center">
-            <local:FButton Grid.Row="1" Style="{DynamicResource S.FButton.Style.Default}"
-                Content="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Sumit}"
-                IsDefault="True"  Command="{x:Static local:DialogHost.CloseDialogCommand}" 
-                HorizontalAlignment="Center">
+        <TextBlock Text="提示" Foreground="{DynamicResource S.Brush.TextForeground.Default}" FontSize="18" Margin="0,5"/>
+
+        <TextBlock x:Name="Message" Style="{DynamicResource S.TextBlock.Default}"
+                   HorizontalAlignment="Left" VerticalAlignment="Center" ToolTip="{Binding ElementName=Message,Path=Text}" Margin="15,0" Grid.Row="0"  Grid.RowSpan="2"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Right">
+            
+            <local:FButton Grid.Row="1" Style="{DynamicResource S.FButton.Style.Transparent}" MouseOverBorderBrush="{DynamicResource S.Brush.Accent}"
+                IsCancel="True"  Command="{x:Static local:DialogHost.CloseDialogCommand}" Width="70"
+                Content="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Cancel}"
+                HorizontalAlignment="Right" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="1"
+                >
                 <local:FButton.CommandParameter>
-                    <system:Boolean>True</system:Boolean>
+                    <system:Boolean>False</system:Boolean>
                 </local:FButton.CommandParameter>
             </local:FButton>
 
-            <local:FButton Grid.Row="1" Style="{DynamicResource S.FButton.Style.Transparent}" MouseOverBorderBrush="{DynamicResource S.Brush.Accent}"
-                IsCancel="True"  Command="{x:Static local:DialogHost.CloseDialogCommand}" Width="120"
-                Content="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Cancel}"
-                HorizontalAlignment="Center" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="1"
-                Margin="16,0,0,0">
+            <local:FButton Grid.Row="1" Style="{DynamicResource S.FButton.Style.Default}"
+                Content="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Sumit}"
+                IsDefault="True"  Command="{x:Static local:DialogHost.CloseDialogCommand}"  Width="70"
+                HorizontalAlignment="Right" Margin="16,0,0,0">
                 <local:FButton.CommandParameter>
-                    <system:Boolean>False</system:Boolean>
+                    <system:Boolean>True</system:Boolean>
                 </local:FButton.CommandParameter>
             </local:FButton>
         </StackPanel>

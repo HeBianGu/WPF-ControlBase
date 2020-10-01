@@ -29,5 +29,21 @@ namespace HeBianGu.Application.ManagerWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Ping()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Step()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> LeftMenu()
+        {
+            return await ViewAsync();
+        }
+        
     }
 }

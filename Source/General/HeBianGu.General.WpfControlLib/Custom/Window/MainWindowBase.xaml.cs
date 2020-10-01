@@ -191,8 +191,9 @@ namespace HeBianGu.General.WpfControlLib
                 };
             }
         }
+
         /// <summary> 输出消息 </summary>
-        public void AddSnackMessage(string message)
+        public void AddSnackMessage(object message)
         {
             SnackbarMessageQueue queue = _snackbar.MessageQueue;
 
@@ -200,7 +201,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 输出消息和操作按钮 </summary>
-        public void AddSnackMessage(string message, object actionContent, Action actionHandler)
+        public void AddSnackMessage(object message, object actionContent, Action actionHandler)
         {
             SnackbarMessageQueue queue = _snackbar.MessageQueue;
 
@@ -208,7 +209,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 输出消息、按钮和参数 </summary>
-        public void AddSnackMessage<TArgument>(string message, object actionContent, Action<TArgument> actionHandler,
+        public void AddSnackMessage<TArgument>(object message, object actionContent, Action<TArgument> actionHandler,
             TArgument actionArgument)
         {
             SnackbarMessageQueue queue = _snackbar.MessageQueue;
@@ -348,13 +349,13 @@ namespace HeBianGu.General.WpfControlLib
     public interface IWindowBase
     {
         /// <summary> 输出消息 </summary>
-        void AddSnackMessage(string message);
+        void AddSnackMessage(object message);
 
         /// <summary> 输出消息和操作按钮 </summary>
-        void AddSnackMessage(string message, object actionContent, Action actionHandler);
+        void AddSnackMessage(object message, object actionContent, Action actionHandler);
 
         /// <summary> 输出消息、按钮和参数 </summary>
-        void AddSnackMessage<TArgument>(string message, object actionContent, Action<TArgument> actionHandler, TArgument actionArgument);
+        void AddSnackMessage<TArgument>(object message, object actionContent, Action<TArgument> actionHandler, TArgument actionArgument);
 
         ///// <summary> 显示蒙版 </summary>
         //void ShowWithLayer(Uri uri, int layerIndex = 0);

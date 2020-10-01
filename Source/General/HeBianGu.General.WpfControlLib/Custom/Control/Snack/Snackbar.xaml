@@ -72,6 +72,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
+                        
                         <ContentPresenter Content="{TemplateBinding Content}" 
                                           ContentTemplate="{TemplateBinding ContentTemplate}"
                                           ContentStringFormat="{TemplateBinding ContentStringFormat}"
@@ -79,12 +80,13 @@
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           DockPanel.Dock="Left"
                                           MaxHeight="36">
+                            
                             <ContentPresenter.Resources>
                                 <DataTemplate DataType="{x:Type system:String}">
                                     <TextBlock Text="{Binding}">
                                         <TextBlock.Style>
                                             <!--<Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MaterialDesignBody1TextBlock}">-->
-                                                <Style TargetType="{x:Type TextBlock}">
+                                            <Style TargetType="{x:Type TextBlock}">
                                                 <Setter Property="FontSize" Value="14" />
                                                 <Setter Property="TextWrapping" Value="WrapWithOverflow" />
                                                 <Setter Property="TextTrimming" Value="CharacterEllipsis" />
@@ -118,8 +120,8 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="FontSize" Value="14" />
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}" />
-        <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.2}" />
         <Setter Property="ActionButtonStyle" Value="{StaticResource MaterialDesignSnackbarActionButton}" />
         <Setter Property="MinWidth" Value="288" />
         <Setter Property="MaxWidth" Value="568" />
@@ -135,8 +137,7 @@
                                     <SineEase EasingMode="EaseOut" />
                                 </DoubleAnimation.EasingFunction>
                             </DoubleAnimation>
-                        
-                             <DoubleAnimation Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Opacity" To="0" BeginTime="0" Duration="0" />
+                            <DoubleAnimation Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Opacity" To="0" BeginTime="0" Duration="0" />
                             <DoubleAnimation Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Opacity" From="0" To="1" BeginTime="0:0:0.075" Duration="0:0:0.225">
                                 <DoubleAnimation.EasingFunction>
                                     <SineEase EasingMode="EaseOut" />
@@ -163,7 +164,7 @@
                             </DoubleAnimation>
                         </Storyboard>
                     </ControlTemplate.Resources>
-                    <StackPanel x:Name="Root">
+                    <StackPanel x:Name="Root" >
                         <StackPanel.Tag>
                             <system:Double>0.0</system:Double>
                         </StackPanel.Tag>
@@ -173,14 +174,18 @@
                                 <Binding RelativeSource="{RelativeSource Self}" Path="Tag"/>
                             </MultiBinding>
                         </StackPanel.Height>
-                        <Border x:Name="ContentBorder"
-                                Background="{TemplateBinding Background}" Opacity="1" CornerRadius="24" SnapsToDevicePixels="True"                                
-                                VerticalAlignment="Stretch" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="0.5"
+
+                        <Border Background="{DynamicResource S.Brush.TextForeground.White}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
+                            <Border x:Name="ContentBorder"
+                                Background="{TemplateBinding Background}" Opacity="1"  CornerRadius="{DynamicResource S.Window.Item.CornerRadius}" SnapsToDevicePixels="True"                                
+                                VerticalAlignment="Stretch" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
                                 MinHeight="24">
-                            <ContentPresenter Content="{TemplateBinding Message}" HorizontalAlignment="Center"
+
+                                <ContentPresenter Content="{TemplateBinding Message}" HorizontalAlignment="Center" 
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               Margin="{TemplateBinding Padding}"
                                               x:Name="ContentPresenter" />
+                            </Border>
                         </Border>
                     </StackPanel>
                     <ControlTemplate.Triggers>

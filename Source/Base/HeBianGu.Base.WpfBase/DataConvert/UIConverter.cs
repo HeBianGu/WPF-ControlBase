@@ -675,6 +675,25 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+    public class IsFirstItemInContainerConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType,
+                              object parameter, CultureInfo culture)
+        {
+            DependencyObject item = (DependencyObject)value;
+            ItemsControl ic = ItemsControl.ItemsControlFromItemContainer(item);
+
+            return ic.ItemContainerGenerator.IndexFromContainer(item)
+                    == 0;
+        }
+
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
     public class CircleProgressBarConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

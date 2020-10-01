@@ -565,8 +565,8 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FIconSize" Value="20"/>
         <Setter Property="CaptionHeight" Value="76"/>
-        <Setter Property="CaptionForeground" Value="{DynamicResource S.Brush.TextForeground.Title}" />
-        <Setter Property="CaptionBackground" Value="{DynamicResource S.Brush.Dark.2}" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
+        <Setter Property="CaptionBackground" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="FIcon" Value="&#xe79c;"/>
         <Setter Property="MaxboxEnable" Value="True"/>
         <Setter Property="MinboxEnable" Value="True"/>
@@ -625,8 +625,7 @@
 
                                     <ListBox x:Name="list"  Grid.Column="1" BorderBrush="Transparent" SelectedIndex="0"
                         SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}" VerticalAlignment="Center"
-                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks}" Margin="-2"
-                         ItemContainerStyle="{DynamicResource S.ListBoxItem.BottomAccent}" >
+                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks}" Margin="-2">
                                         <ListBox.Resources>
                                             <DataTemplate DataType="{x:Type local:TabLink}">
                                                 <Grid>
@@ -647,6 +646,40 @@
                                                 <StackPanel HorizontalAlignment="Left" Orientation="Horizontal"/>
                                             </ItemsPanelTemplate>
                                         </ListBox.ItemsPanel>
+
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Header}"/>
+                                                <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                                                <Setter Property="Padding" Value="20,0,0,0"/>
+                                                <Setter Property="Height" Value="45"/>
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                            <Grid VerticalAlignment="Center" Height="{TemplateBinding Height}"  Margin="{TemplateBinding Padding}">
+                                                                <Border x:Name="underline"  BorderThickness="0,0,0,1.5" BorderBrush="{DynamicResource S.Brush.TextForeground.White}"/>
+                                                                <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="Left"  Margin="15,0" />
+                                                            </Grid>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsSelected" Value="false">
+                                                                    <Setter TargetName="underline" Property="BorderThickness" Value="0,0,0,0"/>
+                                                                </Trigger>
+
+                                                                <Trigger Property="IsMouseOver" Value="true">
+                                                                    <Setter TargetName="underline" Property="BorderThickness" Value="0,0,0,0"/>
+                                                                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White.Opacity.5}"/>
+                                                                </Trigger>
+
+                                                                <Trigger Property="IsSelected" Value="true">
+                                                                    <Setter TargetName="underline" Property="BorderThickness" Value="0,0,0,1.5"/>
+                                                                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
                                     </ListBox>
 
                                     <!--窗体功能按钮：最小、最大、关闭-->
@@ -679,7 +712,7 @@
                           Visibility="{Binding Path=MaxboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
                          Command="{Binding Path=MaximizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
 
-                                        <local:FButton x:Name="btnClose" Width="{DynamicResource S.Window.Item.Height}" Margin="10,0" FIconSize="15"
+                                        <local:FButton x:Name="btnClose" Width="{DynamicResource S.Window.Item.Height}" Margin="10,0" FIconSize="15" Foreground="{TemplateBinding CaptionForeground}"
                          MouseOverBackground="Red" MouseOverForeground="{DynamicResource S.Brush.TextForeground.White}"  PressedForeground="{DynamicResource S.Brush.TextForeground.White}"
                          AllowsAnimation="True"  FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}"
                          Command="{Binding Path=CloseWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>

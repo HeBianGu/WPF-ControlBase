@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -18,13 +19,13 @@ namespace HeBianGu.Application.MainWindow
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
+
             MainWindow shellWindow = new MainWindow();
 
             shellWindow.Show();
-
-            base.OnStartup(e);
+       
         }
-
 
         protected override void ConfigureServices(IServiceCollection services)
         {
@@ -33,7 +34,6 @@ namespace HeBianGu.Application.MainWindow
 
             ////  Do ：注册日志服务
             //services.AddSingleton<ILogService, AssemblyDomain>();
-
 
         }
 

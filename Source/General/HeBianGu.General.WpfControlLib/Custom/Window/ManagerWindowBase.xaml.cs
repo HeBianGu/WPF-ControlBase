@@ -50,33 +50,6 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-        public ManagerWindowBase()
-        {
-            this.Loaded += (l, k) =>
-              {
-                  this.CurrentLink = this.LinkActionGroups.FirstOrDefault()?.Links?.FirstOrDefault();
-              };
-        }
-
-        public LinkActionGroups LinkActionGroups
-        {
-            get { return (LinkActionGroups)GetValue(LinkActionGroupsProperty); }
-            set { SetValue(LinkActionGroupsProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LinkActionGroupsProperty =
-            DependencyProperty.Register("LinkActionGroups", typeof(LinkActionGroups), typeof(ManagerWindowBase), new PropertyMetadata(new LinkActionGroups(true), (d, e) =>
-               {
-                   ManagerWindowBase control = d as ManagerWindowBase;
-
-                   if (control == null) return;
-
-                   LinkActionGroups config = e.NewValue as LinkActionGroups;
-
-                   if (config == null) return;
-
-               }));
 
         public static readonly DependencyProperty LogoProperty = DependencyProperty.Register("Logo", typeof(ImageSource), typeof(ManagerWindowBase), new PropertyMetadata(null));
 
@@ -85,8 +58,6 @@ namespace HeBianGu.General.WpfControlLib
             get { return (ImageSource)GetValue(LogoProperty); }
             set { SetValue(LogoProperty, value); }
         }
-
-
 
         public ILinkActionBase CurrentLink
         {
@@ -116,16 +87,95 @@ namespace HeBianGu.General.WpfControlLib
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CustomContentProperty =
             DependencyProperty.Register("CustomContent", typeof(object), typeof(ManagerWindowBase), new PropertyMetadata(default(object), (d, e) =>
+            {
+                ManagerWindowBase control = d as ManagerWindowBase;
+
+                if (control == null) return;
+
+                object config = e.NewValue as object;
+
+            }));
+    }
+
+    /// <summary> 链接主窗口 </summary>
+    public partial class LinkGroupsManagerWindowBase : ManagerWindowBase
+    {
+        public override void OnApplyTemplate()
+        {
+
+            base.OnApplyTemplate();
+        }
+
+        public LinkGroupsManagerWindowBase()
+        {
+            this.Loaded += (l, k) =>
+            {
+                var find = this.LinkActionGroups.FirstOrDefault(f => f.IsExpanded)?? this.LinkActionGroups.FirstOrDefault();
+
+                this.CurrentLink = find?.Links?.FirstOrDefault();
+            };
+        }
+
+
+        public LinkActionGroups LinkActionGroups
+        {
+            get { return (LinkActionGroups)GetValue(LinkActionGroupsProperty); }
+            set { SetValue(LinkActionGroupsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LinkActionGroupsProperty =
+            DependencyProperty.Register("LinkActionGroups", typeof(LinkActionGroups), typeof(ManagerWindowBase), new PropertyMetadata(new LinkActionGroups(true), (d, e) =>
+            {
+                ManagerWindowBase control = d as ManagerWindowBase;
+
+                if (control == null) return;
+
+                LinkActionGroups config = e.NewValue as LinkActionGroups;
+
+                if (config == null) return;
+
+            }));
+    }
+
+    /// <summary> 链接主窗口 </summary>
+    public partial class LinkActionsManagerWindowBase : ManagerWindowBase
+    {
+        public LinkActionsManagerWindowBase()
+        {
+            this.Loaded += (l, k) =>
+            {
+                this.CurrentLink = this.LinkActions?.FirstOrDefault();
+            };
+        }
+
+        public ObservableCollection<ILinkActionBase> LinkActions
+        {
+            get { return (ObservableCollection<ILinkActionBase>)GetValue(LinkActionsProperty); }
+            set { SetValue(LinkActionsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LinkActionsProperty =
+            DependencyProperty.Register("LinkActions", typeof(ObservableCollection<ILinkActionBase>), typeof(LinkActionsManagerWindowBase), new PropertyMetadata(new ObservableCollection<ILinkActionBase>(), (d, e) =>
              {
-                 ManagerWindowBase control = d as ManagerWindowBase;
+                 LinkActionsManagerWindowBase control = d as LinkActionsManagerWindowBase;
 
                  if (control == null) return;
 
-                 object config = e.NewValue as object;
+                 ObservableCollection<ILinkActionBase> config = e.NewValue as ObservableCollection<ILinkActionBase>;
 
              }));
+    }
 
 
+    /// <summary> 链接主窗口 </summary>
+    public partial class CustomManagerWindowBase : ManagerWindowBase
+    {
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+        } 
 
         public object LeftContent
         {
@@ -136,17 +186,14 @@ namespace HeBianGu.General.WpfControlLib
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LeftContentProperty =
             DependencyProperty.Register("LeftContent", typeof(object), typeof(ManagerWindowBase), new PropertyMetadata(default(object), (d, e) =>
-             {
-                 ManagerWindowBase control = d as ManagerWindowBase;
+            {
+                ManagerWindowBase control = d as ManagerWindowBase;
 
-                 if (control == null) return;
+                if (control == null) return;
 
-                 object config = e.NewValue as object;
+                object config = e.NewValue as object;
 
-             }));
-
+            }));
 
     }
-
-
 }
