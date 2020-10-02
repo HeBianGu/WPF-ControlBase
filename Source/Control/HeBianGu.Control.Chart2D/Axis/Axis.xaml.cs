@@ -23,7 +23,7 @@ using System.Windows.Threading;
 
 namespace HeBianGu.Control.Chart2D
 {
-    public class AxisLayer : XyLayer
+    public class Axis : XyLayer
     {
 
         public int LineLenght
@@ -34,9 +34,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LineLenghtProperty =
-            DependencyProperty.Register("LineLenght", typeof(int), typeof(AxisLayer), new PropertyMetadata(5, (d, e) =>
+            DependencyProperty.Register("LineLenght", typeof(int), typeof(Axis), new PropertyMetadata(5, (d, e) =>
              {
-                 AxisLayer control = d as AxisLayer;
+                 Axis control = d as Axis;
 
                  if (control == null) return;
 
@@ -52,9 +52,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LabelStyleProperty =
-            DependencyProperty.Register("LabelStyle", typeof(Style), typeof(AxisLayer), new PropertyMetadata(default(Style), (d, e) =>
+            DependencyProperty.Register("LabelStyle", typeof(Style), typeof(Axis), new PropertyMetadata(default(Style), (d, e) =>
              {
-                 AxisLayer control = d as AxisLayer;
+                 Axis control = d as Axis;
 
                  if (control == null) return;
 
@@ -64,27 +64,84 @@ namespace HeBianGu.Control.Chart2D
 
     }
 
-    public class xAxisLayer : AxisLayer
+    public class xAxis : Axis
     {
+        public bool AlignmentCenter
+        {
+            get { return (bool)GetValue(AlignmentCenterProperty); }
+            set { SetValue(AlignmentCenterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AlignmentCenterProperty =
+            DependencyProperty.Register("AlignmentCenter", typeof(bool), typeof(xAxis), new PropertyMetadata(default(bool), (d, e) =>
+             {
+                 xAxis control = d as xAxis;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+                 control.Draw(control);
+
+             }));
+
+
+        public bool AlignAlignmentCenter
+        {
+            get { return (bool)GetValue(AlignAlignmentCenterProperty); }
+            set { SetValue(AlignAlignmentCenterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AlignAlignmentCenterProperty =
+            DependencyProperty.Register("AlignAlignmentCenter", typeof(bool), typeof(xAxis), new PropertyMetadata(default(bool), (d, e) =>
+             {
+                 xAxis control = d as xAxis;
+
+                 if (control == null) return;
+
+                 control.Draw(control);
+
+             }));
+
+
+        protected override void InitX()
+        {
+            base.InitX();
+
+            if (this.AlignmentCenter)
+            {
+                double span = (this.maxX - this.minX) / this.xAxis.Count;
+
+                this.maxX = this.maxX + span / 2;
+
+                this.minX = this.minX - span / 2;
+            }
+
+        }
+
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
+
+            double span = this.AlignmentCenter ? this.AlignAlignmentCenter ? (this.maxX - this.minX) / (this.xAxis.Count) : 0 : 0;
 
             //  Do ：绘制坐标
             foreach (var item in this.xAxis)
             {
                 //  Do ：刻度线
-                Line l = new Line();
+                System.Windows.Shapes.Line l = new System.Windows.Shapes.Line();
                 l.X1 = 0;
                 l.X2 = 0;
                 l.Y1 = 0;
                 l.Y2 = this.LineLenght;
                 l.Style = this.LineStyle;
-                Canvas.SetLeft(l, this.GetX(item, this.ActualWidth));
+                Canvas.SetLeft(l, this.GetX(item + span / 2, this.ActualWidth));
                 canvas.Children.Add(l);
 
                 //  Do ：底线
-                Line yright = new Line();
+                System.Windows.Shapes.Line yright = new System.Windows.Shapes.Line();
                 yright.X1 = 0;
                 yright.X2 = this.ActualWidth;
                 yright.Y1 = 0;
@@ -95,7 +152,8 @@ namespace HeBianGu.Control.Chart2D
 
                 //  Do ：显示文本
                 Label t = new Label();
-                t.Content = item;
+
+                t.Content = this.Display.Count > this.xAxis.IndexOf(item) ? this.Display[this.xAxis.IndexOf(item)] : item.ToString();
                 t.Style = this.LabelStyle;
 
                 t.Loaded += (o, e) =>
@@ -118,8 +176,7 @@ namespace HeBianGu.Control.Chart2D
         //}
     }
 
-
-    public class yAxisLayer : AxisLayer
+    public class yAxis : Axis
     {
         public override void Draw(Canvas canvas)
         {
@@ -129,7 +186,7 @@ namespace HeBianGu.Control.Chart2D
             foreach (var item in this.yAxis)
             {
                 //  Do ：刻度
-                Line l = new Line();
+                System.Windows.Shapes.Line l = new System.Windows.Shapes.Line();
                 l.X1 = 0;
                 l.X2 = this.LineLenght;
                 l.Y1 = 0;
@@ -141,7 +198,7 @@ namespace HeBianGu.Control.Chart2D
                 canvas.Children.Add(l);
 
                 //  Do ：底线
-                Line xleft = new Line();
+                System.Windows.Shapes.Line xleft = new System.Windows.Shapes.Line();
                 xleft.X1 = 0;
                 xleft.X2 = 0;
                 xleft.Y1 = 0;

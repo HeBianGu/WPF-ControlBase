@@ -22,20 +22,20 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace HeBianGu.Control.Chart2D
-{
-    /// <summary> 容器 </summary>
-    public class Scene : ItemsControl
-    {
+{ 
 
-
-    }
-
-    /// <summary> 绘图结构关系 </summary>
-    public abstract class ViewScene : Scene
+    public class Series : DataLayerGroup
     {
 
     }
 
+
+
+    /// <summary> 柱状图 </summary>
+    public class BarSeriesLayer : Layer
+    {
+
+    }
 
 
 }

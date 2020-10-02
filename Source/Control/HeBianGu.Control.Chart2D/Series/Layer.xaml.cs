@@ -1,0 +1,311 @@
+﻿using HeBianGu.Base.WpfBase;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Windows.Threading;
+
+namespace HeBianGu.Control.Chart2D
+{
+    public interface IDraw
+    {
+        void Draw(Canvas canvas);
+    }
+
+    public class CanvasLayer : Canvas, IDraw
+    {
+        public CanvasLayer()
+        {
+            this.SizeChanged += (l, k) =>
+            {
+                this.Draw(this);
+
+            };
+
+            this.Loaded += (l, k) =>
+            {
+                this.Draw(this);
+
+            };
+        }
+
+
+        public virtual void Draw(Canvas canvas)
+        {
+            canvas.Children.Clear();
+        }
+    }
+
+    public class XyLayer : CanvasLayer
+    {
+        public XyLayer()
+        {
+            this.SizeChanged += (l, k) =>
+            {
+                this.Draw(this);
+
+            };
+
+            this.Loaded += (l, k) =>
+            {
+                this.Draw(this);
+
+            };
+
+        }
+
+
+        public Brush Foreground
+        {
+            get { return (Brush)GetValue(ForegroundProperty); }
+            set { SetValue(ForegroundProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ForegroundProperty =
+            DependencyProperty.Register("Foreground", typeof(Brush), typeof(XyLayer), new PropertyMetadata(Brushes.Black, (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                Brush config = e.NewValue as Brush;
+
+                control.Draw(control);
+
+            }));
+
+        public override void Draw(Canvas canvas)
+        {
+            this.InitX();
+
+            this.InitY();
+
+            base.Draw(canvas);
+        }
+
+        protected double minX;
+        protected double maxX;
+
+        /// <summary> 获取值对应Canvas的位置 </summary>
+        public double GetX(double value, double width)
+        {
+
+            var bottom = ((value - this.minX) / (this.maxX - this.minX)) * width;
+
+            return bottom;
+        }
+
+        protected double minY;
+        protected double maxY;
+
+        protected virtual void InitY()
+        {
+            if (this.yAxis == null || this.yAxis.Count == 0) return;
+
+            this.minY = this.yAxis.Min();
+            this.maxY = this.yAxis.Max();
+          
+
+        }
+        protected virtual void InitX()
+        {
+            if (this.xAxis == null || this.xAxis.Count == 0) return;
+
+            this.minX = this.xAxis.Min();
+            this.maxX = this.xAxis.Max();
+        }
+
+        /// <summary> 获取值对应Canvas的位置 </summary>
+        public double GetY(double value, double height)
+        {
+            var bottom = height - ((value - this.minY) / (this.maxY - this.minY)) * height;
+
+            return bottom;
+        }
+
+        public Style LineStyle
+        {
+            get { return (Style)GetValue(LineStyleProperty); }
+            set { SetValue(LineStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LineStyleProperty =
+            DependencyProperty.Register("LineStyle", typeof(Style), typeof(XyLayer), new PropertyMetadata(default(Style), (d, e) =>
+            {
+                Grid control = d as Grid;
+
+                if (control == null) return;
+
+                Style config = e.NewValue as Style;
+
+            }));
+
+
+        public ObservableCollection<double> xAxis
+        {
+            get { return (ObservableCollection<double>)GetValue(xAxisProperty); }
+            set { SetValue(xAxisProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty xAxisProperty =
+            DependencyProperty.Register("xAxis", typeof(ObservableCollection<double>), typeof(XyLayer), new PropertyMetadata(new ObservableCollection<double>(), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+
+            }));
+
+
+        public ObservableCollection<double> yAxis
+        {
+            get { return (ObservableCollection<double>)GetValue(yAxisProperty); }
+            set { SetValue(yAxisProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty yAxisProperty =
+            DependencyProperty.Register("yAxis", typeof(ObservableCollection<double>), typeof(XyLayer), new PropertyMetadata(new ObservableCollection<double>(), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+
+            }));
+
+
+        [TypeConverter(typeof(DisplayTypeConverter))]
+        public ObservableCollection<string> Display
+        {
+            get { return (ObservableCollection<string>)GetValue(DisplayProperty); }
+            set { SetValue(DisplayProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DisplayProperty =
+            DependencyProperty.Register("Display", typeof(ObservableCollection<string>), typeof(XyLayer), new PropertyMetadata(new ObservableCollection<string>(), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                ObservableCollection<string> config = e.NewValue as ObservableCollection<string>;
+
+                control.Draw(control);
+
+            }));
+
+    }
+
+
+    public class DataLayer : XyLayer
+    {
+        [TypeConverter(typeof(DataTypeConverter))]
+        public ObservableCollection<double> Data
+        {
+            get { return (ObservableCollection<double>)GetValue(DataProperty); }
+            set { SetValue(DataProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DataProperty =
+            DependencyProperty.Register("Data", typeof(ObservableCollection<double>), typeof(DataLayer), new PropertyMetadata(new ObservableCollection<double>(), (d, e) =>
+            {
+                DataLayer control = d as DataLayer;
+
+                if (control == null) return;
+
+                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+
+                control.Draw(control);
+
+            })); 
+    }
+
+    /// <summary> 数据列表 </summary>
+    public class Layer : DataLayer
+    {
+        public Style MarkStyle
+        {
+            get { return (Style)GetValue(MarkStyleProperty); }
+            set { SetValue(MarkStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MarkStyleProperty =
+            DependencyProperty.Register("MarkStyle", typeof(Style), typeof(Layer), new PropertyMetadata(default(Style), (d, e) =>
+            {
+                Layer control = d as Layer;
+
+                if (control == null) return;
+
+                Style config = e.NewValue as Style;
+
+            }));
+
+
+        public Style TextStyle
+        {
+            get { return (Style)GetValue(TextStyleProperty); }
+            set { SetValue(TextStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextStyleProperty =
+            DependencyProperty.Register("TextStyle", typeof(Style), typeof(Layer), new PropertyMetadata(default(Style), (d, e) =>
+             {
+                 Layer control = d as Layer;
+
+                 if (control == null) return;
+
+                 Style config = e.NewValue as Style;
+
+             }));
+
+
+        protected override void InitX()
+        {
+            if (this.xAxis.Count > 0)
+            {
+                this.minX = this.xAxis.Min();
+
+                this.maxX = this.xAxis.Max();
+            }
+        }
+
+        protected override void InitY()
+        {
+            if (this.yAxis.Count > 0)
+            {
+                this.minY = this.yAxis.Min();
+
+                this.maxY = this.yAxis.Max();
+            }
+        }
+
+    }
+
+}

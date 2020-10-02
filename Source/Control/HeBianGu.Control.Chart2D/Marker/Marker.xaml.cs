@@ -1,16 +1,30 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace HeBianGu.Control.Chart2D
 {
-    public class EllipseMark: ShapePointMarker
+    public class EllipseMarker : ShapePointMarker
     {
-
         public Rect Rect
         {
             get { return (Rect)GetValue(RectProperty); }
@@ -19,17 +33,13 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RectProperty =
-            DependencyProperty.Register("Rect", typeof(Rect), typeof(EllipseMark), new PropertyMetadata(default(Rect), (d, e) =>
-             {
-                 EllipseMark control = d as EllipseMark;
+            DependencyProperty.Register("Rect", typeof(Rect), typeof(EllipseMarker), new PropertyMetadata(default(Rect), (d, e) =>
+            {
+                EllipseMarker control = d as EllipseMarker;
 
-                 if (control == null) return;
+                if (control == null) return;
 
-                
-
-             }));
-
-
+            }));
 
         /// <summary> 描绘形状 </summary>
         protected override Geometry DefiningGeometry
@@ -53,4 +63,5 @@ namespace HeBianGu.Control.Chart2D
 
         }
     }
+
 }

@@ -66,6 +66,83 @@ namespace HeBianGu.Control.Chart2D
 
              }));
 
+
+        public bool xAxisAlignmentCenter
+        {
+            get { return (bool)GetValue(xAxisAlignmentCenterProperty); }
+            set { SetValue(xAxisAlignmentCenterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty xAxisAlignmentCenterProperty =
+            DependencyProperty.Register("xAxisAlignmentCenter", typeof(bool), typeof(ChartScene), new PropertyMetadata(default(bool), (d, e) =>
+             {
+                 ChartScene control = d as ChartScene;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
+
+
+        public bool AlignAlignmentCenter
+        {
+            get { return (bool)GetValue(AlignAlignmentCenterProperty); }
+            set { SetValue(AlignAlignmentCenterProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AlignAlignmentCenterProperty =
+            DependencyProperty.Register("AlignAlignmentCenter", typeof(bool), typeof(ChartScene), new PropertyMetadata(default(bool), (d, e) =>
+             {
+                 ChartScene control = d as ChartScene;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
+        [TypeConverter(typeof(DisplayTypeConverter))]
+        public ObservableCollection<string> Display
+        {
+            get { return (ObservableCollection<string>)GetValue(DisplayProperty); }
+            set { SetValue(DisplayProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DisplayProperty =
+            DependencyProperty.Register("Display", typeof(ObservableCollection<string>), typeof(ChartScene), new PropertyMetadata(new ObservableCollection<string>(), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                ObservableCollection<string> config = e.NewValue as ObservableCollection<string>;
+
+            }));
+
+        //public bool xAxisAlignmentCenter
+        //{
+        //    get { return (bool)GetValue(xAxisAlignmentCenterProperty); }
+        //    set { SetValue(xAxisAlignmentCenterProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty xAxisAlignmentCenterProperty =
+        //    DependencyProperty.Register("xAxisAlignmentCenter", typeof(bool), typeof(ChartScene), new PropertyMetadata(default(bool), (d, e) =>
+        //     {
+        //         ChartScene control = d as ChartScene;
+
+        //         if (control == null) return;
+
+        //         //bool config = e.NewValue as bool;
+
+        //     }));
+
+
     }
 
     public class Chart : ChartScene

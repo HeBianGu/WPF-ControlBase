@@ -24,7 +24,7 @@ using System.Windows.Threading;
 namespace HeBianGu.Control.Chart2D
 {
     /// <summary> 网格 </summary>
-    public class GridLayer : XyLayer
+    public class Grid : XyLayer
     {
         public Style HorizontalLineStyle
         {
@@ -34,9 +34,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty HorizontalLineStyleProperty =
-            DependencyProperty.Register("HorizontalLineStyle", typeof(Style), typeof(GridLayer), new PropertyMetadata(default(Style), (d, e) =>
+            DependencyProperty.Register("HorizontalLineStyle", typeof(Style), typeof(Grid), new PropertyMetadata(default(Style), (d, e) =>
              {
-                 GridLayer control = d as GridLayer;
+                 Grid control = d as Grid;
 
                  if (control == null) return;
 
@@ -54,9 +54,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VerticalLineStyleProperty =
-            DependencyProperty.Register("VerticalLineStyle", typeof(Style), typeof(GridLayer), new PropertyMetadata(default(Style), (d, e) =>
+            DependencyProperty.Register("VerticalLineStyle", typeof(Style), typeof(Grid), new PropertyMetadata(default(Style), (d, e) =>
              {
-                 GridLayer control = d as GridLayer;
+                 Grid control = d as Grid;
 
                  if (control == null) return;
 
@@ -67,7 +67,7 @@ namespace HeBianGu.Control.Chart2D
         void DrawBorder(Canvas canvas)
         {
             //  Do ：绘制边框
-            Line xleft = new Line();
+            System.Windows.Shapes.Line xleft = new System.Windows.Shapes.Line();
             xleft.X1 = 0;
             xleft.X2 = 0;
             xleft.Y1 = 0;
@@ -75,7 +75,7 @@ namespace HeBianGu.Control.Chart2D
             xleft.Style = this.LineStyle;
             Canvas.SetLeft(xleft, 0);
 
-            Line xright = new Line();
+            System.Windows.Shapes.Line xright = new System.Windows.Shapes.Line();
             xright.X1 = 0;
             xright.X2 = 0;
             xright.Y1 = 0;
@@ -83,7 +83,7 @@ namespace HeBianGu.Control.Chart2D
             xleft.Style = this.LineStyle;
             Canvas.SetRight(xright, 0);
 
-            Line yleft = new Line();
+            System.Windows.Shapes.Line yleft = new System.Windows.Shapes.Line();
             yleft.X1 = 0;
             yleft.X2 = this.ActualWidth;
             yleft.Y1 = 0;
@@ -91,7 +91,7 @@ namespace HeBianGu.Control.Chart2D
             xleft.Style = this.LineStyle;
             Canvas.SetTop(yleft, 0);
 
-            Line yright = new Line();
+            System.Windows.Shapes.Line yright = new System.Windows.Shapes.Line();
             yright.X1 = 0;
             yright.X2 = this.ActualWidth;
             yright.Y1 = 0;
@@ -110,7 +110,7 @@ namespace HeBianGu.Control.Chart2D
         {
             foreach (var item in this.yAxis)
             {
-                Line l = new Line();
+                System.Windows.Shapes.Line l = new System.Windows.Shapes.Line();
                 l.X1 = 0;
                 l.Y1 = 0;
                 l.Y2 = 0;
@@ -132,7 +132,7 @@ namespace HeBianGu.Control.Chart2D
 
             foreach (var item in this.xAxis)
             {
-                Line l = new Line();
+                System.Windows.Shapes.Line l = new System.Windows.Shapes.Line();
                 l.X1 = 0;
                 l.Y1 = 0;
                 l.Y2 = this.ActualHeight;
