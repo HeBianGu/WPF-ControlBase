@@ -101,13 +101,35 @@ namespace HeBianGu.Control.Chart2D
         protected double maxX;
 
         /// <summary> 获取值对应Canvas的位置 </summary>
-        public double GetX(double value, double width)
+        public virtual double GetX(double value, double width)
         {
             if (this.maxX == this.minX) return 0;
 
             var bottom = ((value - this.minX) / (this.maxX - this.minX)) * width;
 
             return bottom;
+        }
+
+        /// <summary> 获取值对应Canvas的位置 </summary>
+        public virtual double GetX(double value)
+        {
+            return this.GetX(value,this.ActualWidth);
+        }
+
+        /// <summary> 获取值对应Canvas的位置 </summary>
+        public virtual double GetY(double value, double height)
+        {
+            if (this.maxY == this.minY) return 0;
+
+            var bottom = height - ((value - this.minY) / (this.maxY - this.minY)) * height;
+
+            return bottom;
+        }
+
+        /// <summary> 获取值对应Canvas的位置 </summary>
+        public virtual double GetY(double value)
+        {
+            return this.GetY(value,this.ActualHeight);
         }
 
         protected double minY;
@@ -130,15 +152,7 @@ namespace HeBianGu.Control.Chart2D
             this.maxX = this.xAxis.Max();
         }
 
-        /// <summary> 获取值对应Canvas的位置 </summary>
-        public double GetY(double value, double height)
-        {
-            if (this.maxY == this.minY) return 0;
 
-            var bottom = height - ((value - this.minY) / (this.maxY - this.minY)) * height;
-
-            return bottom;
-        }
 
         public Style LineStyle
         {
@@ -308,6 +322,26 @@ namespace HeBianGu.Control.Chart2D
                 this.maxY = this.yAxis.Max();
             }
         }
+
+        public Style PathStyle
+        {
+            get { return (Style)GetValue(PathStyleProperty); }
+            set { SetValue(PathStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PathStyleProperty =
+            DependencyProperty.Register("PathStyle", typeof(Style), typeof(Layer), new PropertyMetadata(default(Style), (d, e) =>
+            {
+                Layer control = d as Layer;
+
+                if (control == null) return;
+
+                Style config = e.NewValue as Style;
+
+                control.TryDraw();
+
+            }));
 
     }
 

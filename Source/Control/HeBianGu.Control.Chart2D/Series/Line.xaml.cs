@@ -64,24 +64,6 @@ namespace HeBianGu.Control.Chart2D
     /// <summary> 曲线视图 </summary>
     public class Line : LineBase
     {
-        public Style PathStyle
-        {
-            get { return (Style)GetValue(PathStyleProperty); }
-            set { SetValue(PathStyleProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PathStyleProperty =
-            DependencyProperty.Register("PathStyle", typeof(Style), typeof(Line), new PropertyMetadata(default(Style), (d, e) =>
-            {
-                Line control = d as Line;
-
-                if (control == null) return;
-
-                Style config = e.NewValue as Style;
-
-            }));
-
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
@@ -118,23 +100,7 @@ namespace HeBianGu.Control.Chart2D
 
     public class Area : LineBase
     {
-        public Style PathStyle
-        {
-            get { return (Style)GetValue(PathStyleProperty); }
-            set { SetValue(PathStyleProperty, value); }
-        }
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PathStyleProperty =
-            DependencyProperty.Register("PathStyle", typeof(Style), typeof(Area), new PropertyMetadata(default(Style), (d, e) =>
-            {
-                Area control = d as Area;
-
-                if (control == null) return;
-
-                Style config = e.NewValue as Style;
-
-            }));
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
@@ -175,6 +141,128 @@ namespace HeBianGu.Control.Chart2D
 
 
         }
+    }
+
+    /// <summary> 极坐标曲线图 </summary>
+    public class PolayLine : LineBase
+    {
+
+        public double Len
+        {
+            get { return (double)GetValue(LenProperty); }
+            set { SetValue(LenProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LenProperty =
+            DependencyProperty.Register("Len", typeof(double), typeof(PolayLine), new PropertyMetadata(200.0, (d, e) =>
+             {
+                 PolayLine control = d as PolayLine;
+
+                 if (control == null) return;
+
+                 //double config = e.NewValue as double;
+
+                 control.TryDraw();
+
+             }));
+
+
+        public override void Draw(Canvas canvas)
+        {
+            base.Draw(canvas);
+
+            Point center = new Point(0, 0);
+
+            Path path = new Path();
+
+            path.Style = this.PathStyle;
+
+            PolyLineSegment pls = new PolyLineSegment();
+
+            for (int i = 0; i < this.Data.Count; i++)
+            {
+                double x = this.yAxis[i];
+
+                double d = this.Data[i];
+
+                double angle = x;
+
+                Point start = new Point(this.GetX(d, this.Len), center.Y);
+
+                Matrix matrix = new Matrix();
+
+                matrix.RotateAt(angle, center.X, center.Y);
+
+                Point end = matrix.Transform(start);
+
+                //  Do ：添加曲线
+                //pls.Points.Add(new Point(this.GetX(x, this.ActualWidth), this.GetY(y, this.ActualHeight)));
+
+                pls.Points.Add(end);
+            }
+
+            PathFigure pf = new PathFigure();
+            pf.StartPoint = pls.Points.FirstOrDefault();
+            pf.Segments.Add(pls);
+
+            PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
+
+            path.Data = pg;
+
+            this.Children.Add(path);
+
+        }
+
+        //void DrawLine(Canvas canvas)
+        //{
+        //    Point center = new Point(0, 0);
+
+        //    for (int i = 0; i < this.yAxis.Count; i++)
+        //    {
+        //        double y = this.yAxis[i];
+
+        //        double angle = y / 360;
+
+        //        Path path = new Path();
+        //        path.Style = this.LineStyle;
+
+        //        PathFigure pf = new PathFigure();
+        //        {
+        //            Point start = new Point(-this.Len, center.Y);
+
+        //            Matrix matrix = new Matrix();
+
+        //            matrix.RotateAt(angle, center.X, center.Y);
+
+        //            Point end = matrix.Transform(start);
+
+        //            pf.StartPoint = end;
+
+        //        }
+
+        //        {
+        //            Point start = new Point(-this.Len - this.AlignLenght, center.Y);
+
+        //            Matrix matrix = new Matrix();
+
+        //            matrix.RotateAt(angle * i, center.X, center.Y);
+
+        //            Point end = matrix.Transform(start);
+
+        //            pf.Segments.Add(new LineSegment(end, true));
+
+        //        }
+
+        //        PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
+
+        //        path.Data = pg;
+
+        //        this.Children.Add(path);
+
+
+        //    }
+        //}
     }
 
 }

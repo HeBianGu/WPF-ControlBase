@@ -26,24 +26,6 @@ namespace HeBianGu.Control.Chart2D
     /// <summary> 曲线视图 </summary>
     public class MarkLine : Layer
     {
-        public Style PathStyle
-        {
-            get { return (Style)GetValue(PathStyleProperty); }
-            set { SetValue(PathStyleProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PathStyleProperty =
-            DependencyProperty.Register("PathStyle", typeof(Style), typeof(MarkLine), new PropertyMetadata(default(Style), (d, e) =>
-            {
-                MarkLine control = d as MarkLine;
-
-                if (control == null) return;
-
-                Style config = e.NewValue as Style;
-
-            }));
-
 
         public Style TrangleStyle
         {

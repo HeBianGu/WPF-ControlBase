@@ -86,10 +86,27 @@ namespace HeBianGu.Control.Chart2D
 
     }
 
-    //public class Chart : ChartScene
-    //{
+    public class PolarChart : Chart
+    {
+        public double Len
+        {
+            get { return (double)GetValue(LenProperty); }
+            set { SetValue(LenProperty, value); }
+        }
 
-    //}
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LenProperty =
+            DependencyProperty.Register("Len", typeof(double), typeof(PolarChart), new PropertyMetadata(default(double), (d, e) =>
+             {
+                 PolarChart control = d as PolarChart;
+
+                 if (control == null) return;
+
+                 //double config = e.NewValue as double;
+
+             }));
+
+    }
 
     //public class StaticCurveChartScene : Chart
     //{

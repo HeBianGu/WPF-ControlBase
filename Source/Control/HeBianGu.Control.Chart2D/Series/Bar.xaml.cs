@@ -27,25 +27,7 @@ namespace HeBianGu.Control.Chart2D
     /// <summary> 柱状图 </summary>
     public class Bar : Layer
     {
-        public Style PathStyle
-        {
-            get { return (Style)GetValue(PathStyleProperty); }
-            set { SetValue(PathStyleProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PathStyleProperty =
-            DependencyProperty.Register("PathStyle", typeof(Style), typeof(Bar), new PropertyMetadata(default(Style), (d, e) =>
-            {
-                Bar control = d as Bar;
-
-                if (control == null) return;
-
-                Style config = e.NewValue as Style;
-
-            }));
-
-
+       
         public double WidthPercent
         {
             get { return (double)GetValue(WidthPercentProperty); }
@@ -140,6 +122,28 @@ namespace HeBianGu.Control.Chart2D
             this.maxX = this.maxX + span / 2;
 
             this.minX = this.minX - span / 2;
+        }
+
+
+        /// <summary> 获取值对应Canvas的位置 </summary>
+        public override double GetX(double value, double width)
+        {
+            if (this.maxY == this.minY) return 0;
+
+            var bottom = this.ActualHeight - ((value - this.minY) / (this.maxY - this.minY)) * this.ActualHeight;
+
+            return bottom;
+        }
+
+        /// <summary> 获取值对应Canvas的位置 </summary>
+        public override double GetY(double value, double height)
+        {
+            if (this.maxX == this.minX) return 0;
+
+            var bottom = ((value - this.minX) / (this.maxX - this.minX)) * this.ActualWidth;
+
+            return bottom;
+
         }
 
         public override void Draw(Canvas canvas)

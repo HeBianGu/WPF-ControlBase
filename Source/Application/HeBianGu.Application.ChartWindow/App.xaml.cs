@@ -28,9 +28,16 @@ namespace HeBianGu.Application.ChartWindow
 
 
 
-            Trace.WriteLine(string.Join(",", Enumerable.Range(1, 300).ToArray()));
+            Debug.WriteLine(string.Join(",", Enumerable.Range(1, 300).ToArray()));
             Random random = new Random();
-            Trace.WriteLine(string.Join(",", Enumerable.Range(1, 300).Select(l => random.Next(1,100)).ToArray()));
+            Trace.WriteLine(string.Join(",", Enumerable.Range(1, 300).Select(l => random.Next(1, 100)).ToArray()));
+
+            Debug.WriteLine(string.Join(",", Enumerable.Range(1, 360).ToArray()));
+
+            Debug.WriteLine(string.Join(",", Enumerable.Range(1, 360).Select(l => Math.Round(Math.Sin(Convert.ToDouble(l.ToString())/5) * 5.0 + 5, 2)).ToArray()));
+
+            Debug.WriteLine(string.Join(",", Enumerable.Range(1, 360).Select(l => Math.Round(Math.Sin(Convert.ToDouble(l.ToString()) / 10) * 5.0 + 5, 2)).ToArray()));
+
         }
 
 

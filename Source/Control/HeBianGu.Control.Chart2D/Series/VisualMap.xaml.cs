@@ -26,24 +26,6 @@ namespace HeBianGu.Control.Chart2D
     /// <summary> 曲线视图 </summary>
     public class VisualMap : Layer
     {
-        public Style PathStyle
-        {
-            get { return (Style)GetValue(PathStyleProperty); }
-            set { SetValue(PathStyleProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PathStyleProperty =
-            DependencyProperty.Register("PathStyle", typeof(Style), typeof(VisualMap), new PropertyMetadata(default(Style), (d, e) =>
-            {
-                VisualMap control = d as VisualMap;
-
-                if (control == null) return;
-
-                Style config = e.NewValue as Style;
-
-            }));
-
         public ObservableCollection<SolidColorBrush> MarkBrushes
         {
             get { return (ObservableCollection<SolidColorBrush>)GetValue(MarkBrushesProperty); }

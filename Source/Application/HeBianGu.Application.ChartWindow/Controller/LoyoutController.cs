@@ -49,5 +49,20 @@ namespace HeBianGu.Application.ChartWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Polar()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> AngleAxis()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> RadiusAxis()
+        {
+            return await ViewAsync();
+        }
     }
 }
