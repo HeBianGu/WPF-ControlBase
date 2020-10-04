@@ -86,6 +86,7 @@ namespace HeBianGu.Control.Chart2D
                     this.Children.Add(m);
                 }
             }
+
         }
     }
 

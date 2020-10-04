@@ -7,40 +7,41 @@
         <ResourceDictionary Source="../Provider/Layer.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="S.LineBase.Default" TargetType="{x:Type local:LineBase}" BasedOn="{StaticResource S.Layer.Default}">
-        <Setter Property="AlignmentCenter" Value="False"/>
-    </Style>
 
-    <Style x:Key="S.Line.Default" TargetType="{x:Type local:Line}" BasedOn="{StaticResource S.LineBase.Default}">
+    <Style x:Key="S.Pie.Default" TargetType="{x:Type local:Pie}"  BasedOn="{StaticResource S.Layer.Default}">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Len" Value="300"/>
         <Setter Property="PathStyle">
             <Setter.Value>
                 <Style TargetType="Path">
                     <Setter Property="StrokeThickness" Value="1"/>
                     <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer},Path=Foreground}"/>
-                </Style>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="S.Line.AlignmentCenter" TargetType="{x:Type local:Line}" BasedOn="{StaticResource S.Line.Default}">
-        <Setter Property="AlignmentCenter" Value="True"/>
-    </Style>
-    
-    <Style TargetType="{x:Type local:Line}" BasedOn="{StaticResource S.Line.Default}"/>
-
-    <Style x:Key="S.Area.Default" TargetType="{x:Type local:Area}" BasedOn="{StaticResource S.LineBase.Default}">
-        <Setter Property="PathStyle">
-            <Setter.Value>
-                <Style TargetType="Path">
                     <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer},Path=Foreground}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="LineStyle">
+            <Setter.Value>
+                <Style TargetType="Path">
                     <Setter Property="StrokeThickness" Value="1"/>
                     <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer},Path=Foreground}"/>
                 </Style>
             </Setter.Value>
         </Setter>
+
+        <Setter Property="EllipseStyle">
+            <Setter.Value>
+                <Style TargetType="Ellipse">
+                    <Setter Property="StrokeThickness" Value="1"/>
+                    <Setter Property="Fill" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 
-    <Style TargetType="{x:Type local:Area}" BasedOn="{StaticResource S.Area.Default}"/>
-
+    <Style TargetType="{x:Type local:Pie}" BasedOn="{StaticResource S.Pie.Default}"/>
+ 
 </ResourceDictionary>
 

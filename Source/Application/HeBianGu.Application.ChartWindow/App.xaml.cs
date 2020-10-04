@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,6 +25,12 @@ namespace HeBianGu.Application.ChartWindow
             shellWindow.Show();
 
             base.OnStartup(e);
+
+
+
+            Trace.WriteLine(string.Join(",", Enumerable.Range(1, 300).ToArray()));
+            Random random = new Random();
+            Trace.WriteLine(string.Join(",", Enumerable.Range(1, 300).Select(l => random.Next(1,100)).ToArray()));
         }
 
 

@@ -28,9 +28,9 @@ namespace HeBianGu.Control.Chart2D
         void Draw(Canvas canvas);
     }
 
-    public class CanvasLayer : Canvas, IDraw
+    public class LayerBase : Canvas, IDraw
     {
-        public CanvasLayer()
+        public LayerBase()
         {
             this.SizeChanged += (l, k) =>
             {
@@ -50,27 +50,24 @@ namespace HeBianGu.Control.Chart2D
         {
             canvas.Children.Clear();
         }
+
+        public virtual void TryDraw()
+        {
+            try
+            {
+                this.Draw(this);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+
+                //Trace.Fail(ex.Message);
+            }
+        }
     }
 
-    public class XyLayer : CanvasLayer
+    public class XyLayer : LayerBase
     {
-        public XyLayer()
-        {
-            this.SizeChanged += (l, k) =>
-            {
-                this.Draw(this);
-
-            };
-
-            this.Loaded += (l, k) =>
-            {
-                this.Draw(this);
-
-            };
-
-        }
-
-
         public Brush Foreground
         {
             get { return (Brush)GetValue(ForegroundProperty); }
@@ -87,7 +84,7 @@ namespace HeBianGu.Control.Chart2D
 
                 Brush config = e.NewValue as Brush;
 
-                control.Draw(control);
+                control.TryDraw();
 
             }));
 
@@ -106,6 +103,7 @@ namespace HeBianGu.Control.Chart2D
         /// <summary> 获取值对应Canvas的位置 </summary>
         public double GetX(double value, double width)
         {
+            if (this.maxX == this.minX) return 0;
 
             var bottom = ((value - this.minX) / (this.maxX - this.minX)) * width;
 
@@ -121,7 +119,7 @@ namespace HeBianGu.Control.Chart2D
 
             this.minY = this.yAxis.Min();
             this.maxY = this.yAxis.Max();
-          
+
 
         }
         protected virtual void InitX()
@@ -135,6 +133,8 @@ namespace HeBianGu.Control.Chart2D
         /// <summary> 获取值对应Canvas的位置 </summary>
         public double GetY(double value, double height)
         {
+            if (this.maxY == this.minY) return 0;
+
             var bottom = height - ((value - this.minY) / (this.maxY - this.minY)) * height;
 
             return bottom;
@@ -158,7 +158,7 @@ namespace HeBianGu.Control.Chart2D
 
             }));
 
-
+        [TypeConverter(typeof(DataTypeConverter))]
         public ObservableCollection<double> xAxis
         {
             get { return (ObservableCollection<double>)GetValue(xAxisProperty); }
@@ -167,7 +167,7 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty xAxisProperty =
-            DependencyProperty.Register("xAxis", typeof(ObservableCollection<double>), typeof(XyLayer), new PropertyMetadata(new ObservableCollection<double>(), (d, e) =>
+            DependencyProperty.Register("xAxis", typeof(ObservableCollection<double>), typeof(XyLayer), new FrameworkPropertyMetadata(new ObservableCollection<double>(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
             {
                 XyLayer control = d as XyLayer;
 
@@ -175,9 +175,11 @@ namespace HeBianGu.Control.Chart2D
 
                 ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
 
+                control.TryDraw();
+
             }));
 
-
+        [TypeConverter(typeof(DataTypeConverter))]
         public ObservableCollection<double> yAxis
         {
             get { return (ObservableCollection<double>)GetValue(yAxisProperty); }
@@ -186,13 +188,15 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty yAxisProperty =
-            DependencyProperty.Register("yAxis", typeof(ObservableCollection<double>), typeof(XyLayer), new PropertyMetadata(new ObservableCollection<double>(), (d, e) =>
+            DependencyProperty.Register("yAxis", typeof(ObservableCollection<double>), typeof(XyLayer), new FrameworkPropertyMetadata(new ObservableCollection<double>(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
             {
                 XyLayer control = d as XyLayer;
 
                 if (control == null) return;
 
                 ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+
+                control.TryDraw();
 
             }));
 
@@ -214,12 +218,11 @@ namespace HeBianGu.Control.Chart2D
 
                 ObservableCollection<string> config = e.NewValue as ObservableCollection<string>;
 
-                control.Draw(control);
+                control.TryDraw();
 
             }));
 
     }
-
 
     public class DataLayer : XyLayer
     {
@@ -240,9 +243,9 @@ namespace HeBianGu.Control.Chart2D
 
                 ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
 
-                control.Draw(control);
+                control.TryDraw();
 
-            })); 
+            }));
     }
 
     /// <summary> 数据列表 </summary>

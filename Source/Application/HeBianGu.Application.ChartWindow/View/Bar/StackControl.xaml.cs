@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Application.ChartWindow.View.Loyout
+namespace HeBianGu.Application.ChartWindow.View.Bar
 {
     /// <summary>
-    /// AxisControl.xaml 的交互逻辑
+    /// StackControl.xaml 的交互逻辑
     /// </summary>
-    public partial class AxisControl : UserControl
+    public partial class StackControl : UserControl
     {
-        public AxisControl()
+        public StackControl()
         {
             InitializeComponent();
         }

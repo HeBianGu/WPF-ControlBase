@@ -19,5 +19,35 @@ namespace HeBianGu.Application.ChartWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> xAxis()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> yAxis()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Grid()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Legend()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Series()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Title()
+        {
+            return await ViewAsync();
+        }
     }
 }
