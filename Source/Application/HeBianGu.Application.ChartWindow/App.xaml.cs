@@ -34,9 +34,14 @@ namespace HeBianGu.Application.ChartWindow
 
             Debug.WriteLine(string.Join(",", Enumerable.Range(1, 360).ToArray()));
 
-            Debug.WriteLine(string.Join(",", Enumerable.Range(1, 360).Select(l => Math.Round(Math.Sin(Convert.ToDouble(l.ToString())/5) * 5.0 + 5, 2)).ToArray()));
+            Debug.WriteLine(string.Join(",", Enumerable.Range(1, 360).Select(l => Math.Round(Math.Sin(Convert.ToDouble(l.ToString()) / 4) * 5.0 + 5, 2)).ToArray()));
 
             Debug.WriteLine(string.Join(",", Enumerable.Range(1, 360).Select(l => Math.Round(Math.Sin(Convert.ToDouble(l.ToString()) / 10) * 5.0 + 5, 2)).ToArray()));
+
+
+            Debug.WriteLine(string.Join(",", Enumerable.Range(1, 360).Select(l => l * 3).ToArray()));
+
+            Debug.WriteLine(string.Join(",", Enumerable.Range(1, 360).Select(l => Math.Round((10.0 / 360.0) * l, 2)).ToArray()));
 
         }
 
