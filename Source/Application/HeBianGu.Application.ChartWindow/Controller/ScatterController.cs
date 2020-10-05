@@ -30,5 +30,10 @@ namespace HeBianGu.Application.ChartWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Polay()
+        {
+            return await ViewAsync();
+        }
     }
 }

@@ -52,6 +52,58 @@
     </Style>
 
     <Style TargetType="{x:Type local:Bubble}" BasedOn="{StaticResource S.Bubble.Default}"/>
-    
+
+    <Style x:Key="S.PolayScatter.Default" TargetType="{x:Type local:PolayScatter}" BasedOn="{StaticResource S.ScatterBase.Default}">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="MarkStyle" Value="{StaticResource S.EllipseMarker.Default}"/>
+        <Setter Property="Len" Value="{Binding RelativeSource={RelativeSource AncestorType=local:PolarChart},Path=Len}"/>
+        <Setter Property="PathStyle">
+            <Setter.Value>
+                <Style TargetType="Path">
+                    <Setter Property="StrokeThickness" Value="4"/>
+                    <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer},Path=Foreground}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style TargetType="{x:Type local:PolayScatter}" BasedOn="{StaticResource S.PolayScatter.Default}"/>
+
+
+    <Style x:Key="S.PolarBubble.Default" TargetType="{x:Type local:PolarBubble}" BasedOn="{StaticResource S.ScatterBase.Default}">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Len" Value="{Binding RelativeSource={RelativeSource AncestorType=local:PolarChart},Path=Len}"/>
+        <Setter Property="MarkStyle">
+            <Setter.Value>
+                <Style TargetType="local:EllipseMarker" BasedOn="{StaticResource S.EllipseMarker.Default}">
+                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Rect.Height}"/>
+                    <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer},Path=Foreground}"/>
+                    <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer},Path=Foreground}"/>
+                    <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                    <Setter Property="Rect">
+                        <Setter.Value>
+                            <Rect Width="15" Height="15"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource S.Storyboard.Scale.Enlarge.1.2}"/>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource S.Storyboard.Scale.Enlarge.1.2.Recovery}"/>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:PolarBubble}" BasedOn="{StaticResource S.PolarBubble.Default}"/>
+
 </ResourceDictionary>
 

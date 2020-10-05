@@ -81,8 +81,8 @@ namespace HeBianGu.Control.Chart2D
                 {
                     m.Style = this.MarkStyle;
 
-                    Canvas.SetLeft(m, this.GetX(x, this.ActualWidth));
-                    Canvas.SetTop(m, this.GetY(y, this.ActualHeight));
+                    Canvas.SetLeft(m, this.GetX(x, this.ActualWidth) - m.ActualWidth / 2);
+                    Canvas.SetTop(m, this.GetY(y, this.ActualHeight) - m.ActualHeight / 2);
                     this.Children.Add(m);
                 }
             }
@@ -134,8 +134,159 @@ namespace HeBianGu.Control.Chart2D
 
                     m.Rect = new Rect(0, 0, v, v);
 
-                    Canvas.SetLeft(m, this.GetX(x, this.ActualWidth));
-                    Canvas.SetTop(m, this.GetY(y, this.ActualHeight));
+                    Canvas.SetLeft(m, this.GetX(x, this.ActualWidth) - v / 2);
+                    Canvas.SetTop(m, this.GetY(y, this.ActualHeight) - v / 2);
+                    this.Children.Add(m);
+                }
+            }
+        }
+    }
+
+    /// <summary> 极坐标曲线图 </summary>
+    public class PolayScatter : ScatterBase
+    {
+
+        public double Len
+        {
+            get { return (double)GetValue(LenProperty); }
+            set { SetValue(LenProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LenProperty =
+            DependencyProperty.Register("Len", typeof(double), typeof(PolayScatter), new PropertyMetadata(200.0, (d, e) =>
+            {
+                PolayScatter control = d as PolayScatter;
+
+                if (control == null) return;
+
+                //double config = e.NewValue as double;
+
+                control.TryDraw();
+
+            }));
+
+
+        public override void Draw(Canvas canvas)
+        {
+            base.Draw(canvas);
+
+            Point center = new Point(0, 0);
+
+
+            for (int i = 0; i < this.Data.Count; i++)
+            {
+                double x = this.yAxis[i];
+
+                double d = this.Data[i];
+
+                double angle = x;
+
+                Point start = new Point(this.GetX(d, this.Len), center.Y);
+
+                Matrix matrix = new Matrix();
+
+                matrix.RotateAt(angle, center.X, center.Y);
+
+                Point end = matrix.Transform(start);
+
+                //  Do ：显示标记
+                Shape m = Activator.CreateInstance(this.MarkStyle.TargetType) as Shape;
+
+                if (m != null)
+                {
+                    m.Style = this.MarkStyle;
+
+                    Canvas.SetLeft(m, end.X - m.ActualWidth / 2);
+                    Canvas.SetTop(m, end.Y - m.ActualHeight / 2);
+
+                    this.Children.Add(m);
+                }
+            }
+        }
+    }
+
+    /// <summary> 极坐标曲线图 </summary>
+    public class PolarBubble : ScatterBase
+    {
+
+        [TypeConverter(typeof(DataTypeConverter))]
+        public ObservableCollection<double> BubbleData
+        {
+            get { return (ObservableCollection<double>)GetValue(BubbleDataProperty); }
+            set { SetValue(BubbleDataProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BubbleDataProperty =
+            DependencyProperty.Register("BubbleData", typeof(ObservableCollection<double>), typeof(PolarBubble), new PropertyMetadata(default(ObservableCollection<double>), (d, e) =>
+            {
+                PolarBubble control = d as PolarBubble;
+
+                if (control == null) return;
+
+                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+
+            }));
+
+
+        public double Len
+        {
+            get { return (double)GetValue(LenProperty); }
+            set { SetValue(LenProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LenProperty =
+            DependencyProperty.Register("Len", typeof(double), typeof(PolarBubble), new PropertyMetadata(200.0, (d, e) =>
+            {
+                PolarBubble control = d as PolarBubble;
+
+                if (control == null) return;
+
+                //double config = e.NewValue as double;
+
+                control.TryDraw();
+
+            }));
+
+
+        public override void Draw(Canvas canvas)
+        {
+            base.Draw(canvas);
+
+            Point center = new Point(0, 0);
+
+            for (int i = 0; i < this.Data.Count; i++)
+            {
+                double x = this.yAxis[i];
+
+                double d = this.Data[i];
+
+                double v = this.BubbleData[i];
+
+                double angle = x;
+
+                Point start = new Point(this.GetX(d, this.Len), center.Y);
+
+                Matrix matrix = new Matrix();
+
+                matrix.RotateAt(angle, center.X, center.Y);
+
+                Point end = matrix.Transform(start);
+
+                //  Do ：显示标记
+                EllipseMarker m = Activator.CreateInstance(this.MarkStyle.TargetType) as EllipseMarker;
+
+                if (m != null)
+                {
+                    m.Style = this.MarkStyle;
+
+                    m.Rect = new Rect(0, 0, v, v);
+
+                    Canvas.SetLeft(m, end.X - v / 2);
+                    Canvas.SetTop(m, end.Y - v / 2);
+
                     this.Children.Add(m);
                 }
             }

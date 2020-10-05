@@ -26,6 +26,8 @@ namespace HeBianGu.Control.Chart2D
     public interface IDraw
     {
         void Draw(Canvas canvas);
+
+        void Clear();
     }
 
     public class LayerBase : Canvas, IDraw
@@ -48,7 +50,12 @@ namespace HeBianGu.Control.Chart2D
 
         public virtual void Draw(Canvas canvas)
         {
-            canvas.Children.Clear();
+            this.Clear();
+        }
+
+        public virtual void Clear()
+        {
+            this.Children.Clear();
         }
 
         public virtual void TryDraw()
