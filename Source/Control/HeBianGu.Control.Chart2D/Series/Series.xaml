@@ -12,7 +12,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="S.Series.Default" TargetType="{x:Type local:Series}" BasedOn="{StaticResource S.ViewLayerGroup.Default}">
-        <Setter Property="LineStyle" Value="{StaticResource S.Line.Default}"/>
+        <Setter Property="LineStyle" Value="{StaticResource S.LineBase.Default}"/>
         <Setter Property="ScatterStyle" Value="{StaticResource S.Scatter.Default}"/>
         <Setter Property="BarStyle" Value="{StaticResource S.Bar.Default}"/>
     </Style>
@@ -25,6 +25,23 @@
                 <ControlTemplate TargetType="{x:Type local:Series}">
                     <local:LayerGroup>
                         <local:Line Style="{TemplateBinding LineStyle}" Foreground="{TemplateBinding Foreground}" Data="{TemplateBinding Data}" />
+
+                        <local:Scatter Style="{TemplateBinding ScatterStyle}" Foreground="{TemplateBinding Foreground}" MarkStyle="{StaticResource S.EllipseMarker.4}" Data="{TemplateBinding Data}"/>
+
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.Series.Line.Smooth" TargetType="{x:Type local:Series}" BasedOn="{StaticResource S.Series.Default}">
+        <Setter Property="LineStyle" Value="{StaticResource S.SmoothLine.Default}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Series}">
+                    <local:LayerGroup>
+                        <local:SmoothLine Style="{TemplateBinding LineStyle}" Foreground="{TemplateBinding Foreground}" Data="{TemplateBinding Data}" />
 
                         <local:Scatter Style="{TemplateBinding ScatterStyle}" Foreground="{TemplateBinding Foreground}" MarkStyle="{StaticResource S.EllipseMarker.4}" Data="{TemplateBinding Data}"/>
 

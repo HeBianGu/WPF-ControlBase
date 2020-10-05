@@ -5,6 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Axis/Axis.xaml"/>
+        <ResourceDictionary Source="Axis/Grid.xaml"/>
         <ResourceDictionary Source="Provider/LayerGroup.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
@@ -40,7 +41,21 @@
         </Setter>
     </Style>
 
-
+    <!--带有直角坐标系的图-->
+    <Style x:Key="S.Chart.Coord.Vertical" TargetType="{x:Type local:Chart}" BasedOn="{StaticResource S.Chart.Default}"> 
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Chart}">
+                    <local:LayerGroup>
+                        <local:Grid Style="{StaticResource S.Grid.Vertical}"/>
+                        <local:xAxis Style="{TemplateBinding xAxisStyle}"/>
+                        <local:yAxis Style="{TemplateBinding yAxisStyle}" TextAlignmentCenter="True"/>
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <!--带有直角坐标系的图 X坐标剧中效果-->
     <Style x:Key="S.Chart.Coord.AlignmentCenter" TargetType="{x:Type local:Chart}" BasedOn="{StaticResource S.Chart.Default}">
         <Setter Property="Template">
@@ -74,7 +89,8 @@
 
     <!--默认样式 需要自己添加坐标系等元素 -->
     <Style x:Key="S.PolarChart.Default" TargetType="{x:Type local:PolarChart}" BasedOn="{StaticResource S.Chart.Default}">
-        <Setter Property="Len" Value="200"/> 
+        <Setter Property="Len" Value="200"/>
+        <Setter Property="yAxis" Value="0,30,60,90,120,150,180,210,240,270,300,330"/>
     </Style>
 
     <Style TargetType="{x:Type local:PolarChart}" BasedOn="{StaticResource S.PolarChart.Default}"/>

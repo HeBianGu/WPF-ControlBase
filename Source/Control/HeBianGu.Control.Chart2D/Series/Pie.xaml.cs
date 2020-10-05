@@ -201,7 +201,7 @@ namespace HeBianGu.Control.Chart2D
                     //  Do ：显示文本
                     TextBlock t = new TextBlock();
 
-                    t.Text = this.Display.Count > i ? this.Display[i] : this.Data[i].ToString();
+                    t.Text = this.xDisplay.Count > i ? this.xDisplay[i] : this.Data[i].ToString();
                     t.Style = this.TextStyle;
 
                     t.Loaded += (o, e) =>

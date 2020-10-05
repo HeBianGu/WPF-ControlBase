@@ -64,5 +64,15 @@ namespace HeBianGu.Application.ChartWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Radar()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> RadarAxis()
+        {
+            return await ViewAsync();
+        }
     }
 }

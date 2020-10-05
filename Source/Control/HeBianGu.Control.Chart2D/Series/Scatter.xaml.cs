@@ -134,8 +134,8 @@ namespace HeBianGu.Control.Chart2D
 
                     m.Rect = new Rect(0, 0, v, v);
 
-                    Canvas.SetLeft(m, this.GetX(x, this.ActualWidth) - v / 2);
-                    Canvas.SetTop(m, this.GetY(y, this.ActualHeight) - v / 2);
+                    Canvas.SetLeft(m, this.GetX(x, this.ActualWidth));
+                    Canvas.SetTop(m, this.GetY(y, this.ActualHeight));
                     this.Children.Add(m);
                 }
             }
@@ -174,7 +174,7 @@ namespace HeBianGu.Control.Chart2D
             Point center = new Point(0, 0);
 
 
-            for (int i = 0; i < this.Data.Count; i++)
+            for (int i = 0; i < this.yAxis.Count; i++)
             {
                 double x = this.yAxis[i];
 
@@ -284,8 +284,8 @@ namespace HeBianGu.Control.Chart2D
 
                     m.Rect = new Rect(0, 0, v, v);
 
-                    Canvas.SetLeft(m, end.X - v / 2);
-                    Canvas.SetTop(m, end.Y - v / 2);
+                    Canvas.SetLeft(m, end.X);
+                    Canvas.SetTop(m, end.Y);
 
                     this.Children.Add(m);
                 }

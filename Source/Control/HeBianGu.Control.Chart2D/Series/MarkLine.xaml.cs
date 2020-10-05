@@ -45,25 +45,27 @@ namespace HeBianGu.Control.Chart2D
 
              }));
 
+        [TypeConverter(typeof(BrushArrayTypeConverter))]
 
-        public ObservableCollection<Brush> MarkBrushes
+        public ObservableCollection<Color> MarkBrushes
         {
-            get { return (ObservableCollection<Brush>)GetValue(MarkBrushesProperty); }
+            get { return (ObservableCollection<Color>)GetValue(MarkBrushesProperty); }
             set { SetValue(MarkBrushesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MarkBrushesProperty =
-            DependencyProperty.Register("MarkBrushes", typeof(ObservableCollection<Brush>), typeof(MarkLine), new PropertyMetadata(new ObservableCollection<Brush>(), (d, e) =>
+            DependencyProperty.Register("MarkBrushes", typeof(ObservableCollection<Color>), typeof(MarkLine), new PropertyMetadata(new ObservableCollection<Color>(), (d, e) =>
              {
                  MarkLine control = d as MarkLine;
 
                  if (control == null) return;
 
-                 ObservableCollection<Brush> config = e.NewValue as ObservableCollection<Brush>;
+                 ObservableCollection<Color> config = e.NewValue as ObservableCollection<Color>;
 
-             }));
+                 control.TryDraw();
 
+             })); 
 
         public override void Draw(Canvas canvas)
         {
@@ -80,7 +82,7 @@ namespace HeBianGu.Control.Chart2D
 
                     if(this.MarkBrushes.Count > i)
                     {
-                        path.Stroke = this.MarkBrushes[i];
+                        path.Stroke = new SolidColorBrush(this.MarkBrushes[i]);
                     }
                     else
                     {
@@ -112,7 +114,7 @@ namespace HeBianGu.Control.Chart2D
 
                     if (this.MarkBrushes.Count > i)
                     {
-                        path.Stroke = this.MarkBrushes[i];
+                        path.Stroke = new SolidColorBrush(this.MarkBrushes[i]);
                     }
                     else
                     {
@@ -150,7 +152,7 @@ namespace HeBianGu.Control.Chart2D
  
                 if (this.MarkBrushes.Count > i)
                 {
-                    text.Foreground = this.MarkBrushes[i];
+                    text.Foreground = new SolidColorBrush(this.MarkBrushes[i]);
                 }
                 else
                 {
@@ -173,7 +175,7 @@ namespace HeBianGu.Control.Chart2D
 
                     if (this.MarkBrushes.Count > i)
                     {
-                        m.Stroke = this.MarkBrushes[i];
+                        m.Stroke = new SolidColorBrush(this.MarkBrushes[i]);
                     }
                     else
                     {

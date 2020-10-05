@@ -15,7 +15,7 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary> Application基类 封装一些加载初始化和注入方法 </summary>
     public abstract class ApplicationBase : Application
     {
-        public ApplicationBase()
+         public ApplicationBase()
         {
             DispatcherUnhandledException += App_DispatcherUnhandledException;
 

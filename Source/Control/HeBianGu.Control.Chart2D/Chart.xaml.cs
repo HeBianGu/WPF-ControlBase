@@ -26,15 +26,15 @@ namespace HeBianGu.Control.Chart2D
     public class Chart : ViewLayerGroup
     {
         [TypeConverter(typeof(DisplayTypeConverter))]
-        public ObservableCollection<string> Display
+        public ObservableCollection<string> xDisplay
         {
-            get { return (ObservableCollection<string>)GetValue(DisplayProperty); }
-            set { SetValue(DisplayProperty, value); }
+            get { return (ObservableCollection<string>)GetValue(xDisplayProperty); }
+            set { SetValue(xDisplayProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DisplayProperty =
-            DependencyProperty.Register("Display", typeof(ObservableCollection<string>), typeof(Chart), new PropertyMetadata(new ObservableCollection<string>(), (d, e) =>
+        public static readonly DependencyProperty xDisplayProperty =
+            DependencyProperty.Register("xDisplay", typeof(ObservableCollection<string>), typeof(Chart), new PropertyMetadata(new ObservableCollection<string>(), (d, e) =>
             {
                 XyLayer control = d as XyLayer;
 
@@ -44,6 +44,24 @@ namespace HeBianGu.Control.Chart2D
 
             }));
 
+        [TypeConverter(typeof(DisplayTypeConverter))]
+        public ObservableCollection<string> yDisplay
+        {
+            get { return (ObservableCollection<string>)GetValue(yDisplayProperty); }
+            set { SetValue(yDisplayProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty yDisplayProperty =
+            DependencyProperty.Register("yDisplay", typeof(ObservableCollection<string>), typeof(Chart), new PropertyMetadata(new ObservableCollection<string>(), (d, e) =>
+             {
+                 Chart control = d as Chart;
+
+                 if (control == null) return;
+
+                 ObservableCollection<string> config = e.NewValue as ObservableCollection<string>;
+
+             }));
 
 
         public Style xAxisStyle

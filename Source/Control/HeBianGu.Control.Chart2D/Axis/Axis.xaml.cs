@@ -124,6 +124,20 @@ namespace HeBianGu.Control.Chart2D
                 this.minY = this.minY - span / 2;
             }
         }
+
+        protected override void InitY()
+        {
+            base.InitY();
+
+            if (this.TextAlignmentCenter)
+            {
+                double span = (this.maxY - this.minY) / this.yAxis.Count;
+
+                this.maxY = this.maxY + span / 2;
+
+                this.minY = this.minY - span / 2;
+            }
+        }
     }
 
     public class xAxis : Axis
@@ -192,7 +206,7 @@ namespace HeBianGu.Control.Chart2D
                 //  Do ：显示文本
                 Label t = new Label();
 
-                t.Content = this.Display.Count > this.xAxis.IndexOf(item) ? this.Display[this.xAxis.IndexOf(item)] : item.ToString();
+                t.Content = this.xDisplay.Count > this.xAxis.IndexOf(item) ? this.xDisplay[this.xAxis.IndexOf(item)] : item.ToString();
                 t.Style = this.LabelStyle;
 
                 t.Loaded += (o, e) =>
@@ -204,15 +218,6 @@ namespace HeBianGu.Control.Chart2D
             }
         }
 
-        //protected override void InitX()
-        //{
-        //    if (this.Data.Count > 0)
-        //    {
-        //        this.minX = this.Data.Min();
-
-        //        this.maxX = this.Data.Max();
-        //    }
-        //}
     }
 
     public class yAxis : Axis
@@ -220,6 +225,8 @@ namespace HeBianGu.Control.Chart2D
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
+
+            double span = this.TextAlignmentCenter ? this.AlignAlignmentCenter ? 0 : (this.maxY - this.minY) / (this.yAxis.Count) : 0;
 
             //Y坐标
             foreach (var item in this.yAxis)
@@ -243,7 +250,8 @@ namespace HeBianGu.Control.Chart2D
                 l.Y2 = 0;
                 l.Style = this.LineStyle;
 
-                Canvas.SetTop(l, this.GetY(item, this.ActualHeight));
+                Canvas.SetTop(l, this.GetY(item + span / 2, this.ActualHeight));
+
                 if (this.HorizontalAlignment == HorizontalAlignment.Right)
                 {
                     Canvas.SetLeft(l, 0);
@@ -257,7 +265,7 @@ namespace HeBianGu.Control.Chart2D
 
                 // Todo ：绘制文本 
                 Label t = new Label();
-                t.Content = item;
+                t.Content = this.yDisplay.Count> this.yAxis.IndexOf(item)? this.yDisplay[this.yAxis.IndexOf(item)]:item.ToString();
                 t.Style = this.LabelStyle;
 
                 t.Loaded += (o, e) =>
@@ -341,7 +349,7 @@ namespace HeBianGu.Control.Chart2D
                 //  Do ：显示文本
                 Label t = new Label();
 
-                t.Content = this.Display.Count > this.xAxis.IndexOf(item) ? this.Display[this.xAxis.IndexOf(item)] : item.ToString();
+                t.Content = this.xDisplay.Count > this.xAxis.IndexOf(item) ? this.xDisplay[this.xAxis.IndexOf(item)] : item.ToString();
                 t.Style = this.LabelStyle;
 
                 t.Loaded += (o, e) =>
@@ -377,7 +385,8 @@ namespace HeBianGu.Control.Chart2D
 
             }));
 
-        void DrawCircle(Canvas canvas)
+
+        protected virtual void DrawCircle(Canvas canvas)
         {
             //  Do ：绘制圆环 
             Path path = new Path();
@@ -464,7 +473,7 @@ namespace HeBianGu.Control.Chart2D
                 //  Do ：显示文本
                 Label t = new Label();
 
-                t.Content = this.Display.Count > i ? this.Display[i] : this.yAxis[i].ToString();
+                t.Content = this.yDisplay.Count > i ? this.yDisplay[i] : this.yAxis[i].ToString();
                 t.Style = this.LabelStyle;
 
                 double hlen = this.AlignLenght / 10;
@@ -474,7 +483,7 @@ namespace HeBianGu.Control.Chart2D
                     double endParam = (end.X > center.X ? hlen + hlen / 2 : -hlen - t.ActualWidth - hlen / 2);
 
                     Canvas.SetLeft(t, end.X + endParam);
-                    Canvas.SetTop(t, end.Y - t.ActualHeight / 2); 
+                    Canvas.SetTop(t, end.Y - t.ActualHeight / 2);
                 };
                 this.Children.Add(t);
             }
@@ -489,6 +498,51 @@ namespace HeBianGu.Control.Chart2D
             this.DrawLine(this);
 
             this.DrawText();
+        }
+    }
+
+
+    public class RadarAxis : AngleAxis
+    {
+        protected override void DrawCircle(Canvas canvas)
+        {
+            Point center = new Point(0, 0);
+
+            double angle = 360 / this.yAxis.Count;
+
+            Path path = new Path();
+            path.Style = this.LineStyle;
+
+            PathFigure pf = new PathFigure();
+
+            pf.IsClosed = true;
+
+            for (int i = 0; i < this.yAxis.Count; i++)
+            {
+                if (i == 0)
+                {
+                    pf.StartPoint = new Point(this.Len, center.Y);
+                    continue;
+                }
+
+                {
+                    Point start = new Point(this.Len, center.Y);
+
+                    Matrix matrix = new Matrix();
+
+                    matrix.RotateAt(angle * i, center.X, center.Y);
+
+                    Point end = matrix.Transform(start);
+
+                    pf.Segments.Add(new LineSegment(end, true));
+                }
+            }
+
+            PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
+
+            path.Data = pg;
+
+            this.Children.Add(path);
         }
     }
 

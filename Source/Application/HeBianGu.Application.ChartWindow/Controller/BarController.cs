@@ -29,5 +29,14 @@ namespace HeBianGu.Application.ChartWindow
         {
             return await ViewAsync();
         }
+        public async Task<IActionResult> yBar()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> yStackBar()
+        {
+            return await ViewAsync();
+        }
     }
 }
