@@ -78,7 +78,7 @@ namespace HeBianGu.Control.Chart2D
 
                 //bool config = e.NewValue as bool;
 
-                control.Draw(control);
+                control.TryDraw();
 
             }));
 
@@ -97,7 +97,7 @@ namespace HeBianGu.Control.Chart2D
 
                 if (control == null) return;
 
-                control.Draw(control);
+                control.TryDraw();
 
             }));
 
@@ -160,7 +160,7 @@ namespace HeBianGu.Control.Chart2D
                  //double config = e.NewValue as double;
 
 
-                 control.Draw(control);
+                 control.TryDraw();
 
              }));
 

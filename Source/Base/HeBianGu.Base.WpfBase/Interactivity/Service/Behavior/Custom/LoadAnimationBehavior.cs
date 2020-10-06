@@ -4,14 +4,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-
+using System.Windows.Media.Animation;
 
 namespace HeBianGu.Base.WpfBase
 {
     /// <summary> 容器内子控件加载时触发动画效果</summary>
     public class LoadAnimationBehavior : Behavior<FrameworkElement>
-    {
-
+    { 
         protected override void OnAttached()
         {
             AssociatedObject.Loaded += AssociatedObject_Loaded;
@@ -57,7 +56,6 @@ namespace HeBianGu.Base.WpfBase
             {
                 StoryBoardService.BeginAnimationOpacity(controls, this.StartValue, this.EndValue, this.End, this.Split);
             }
-
         }
 
         protected override void OnDetaching()
@@ -184,5 +182,5 @@ namespace HeBianGu.Base.WpfBase
     public enum LoadAnimationType
     {
         HorizontalAlignment=0, VerticalAlignment,Opactiy
-    }
+    } 
 }

@@ -16,6 +16,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -41,7 +42,7 @@ namespace HeBianGu.Control.Chart2D
 
                 //bool config = e.NewValue as bool;
 
-                control.Draw(control);
+                control.TryDraw();
 
             }));
 
@@ -86,7 +87,6 @@ namespace HeBianGu.Control.Chart2D
                     this.Children.Add(m);
                 }
             }
-
         }
     }
 
@@ -109,6 +109,8 @@ namespace HeBianGu.Control.Chart2D
                  if (control == null) return;
 
                  ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+
+                 control.TryDraw();
 
              }));
 
@@ -139,6 +141,17 @@ namespace HeBianGu.Control.Chart2D
                     this.Children.Add(m);
                 }
             }
+
+            //var items = this.GetChildren<FrameworkElement>().Where(l => l.RenderTransform is TransformGroup);
+
+            //items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
+
+            //Storyboard storyboard = this.FindResource("sss") as Storyboard;
+
+            //foreach (var item in items)
+            //{
+            //    storyboard?.Begin(item);
+            //}
         }
     }
 

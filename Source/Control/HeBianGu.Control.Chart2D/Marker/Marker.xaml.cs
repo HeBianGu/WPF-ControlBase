@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
@@ -62,6 +63,5 @@ namespace HeBianGu.Control.Chart2D
             //drawingContext.DrawGeometry(this.Fill, this.Pen, DefiningGeometry);
 
         }
-    }
-
+    } 
 }

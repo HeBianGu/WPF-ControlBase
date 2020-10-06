@@ -35,7 +35,7 @@ namespace HeBianGu.Control.Chart2D
         public static readonly DependencyProperty AlignmentCenterProperty =
             DependencyProperty.Register("AlignmentCenter", typeof(bool), typeof(LineBase), new PropertyMetadata(default(bool), (d, e) =>
             {
-                xAxis control = d as xAxis;
+                LineBase control = d as LineBase;
 
                 if (control == null) return;
 

@@ -3,6 +3,7 @@
                     xmlns:local="clr-namespace:HeBianGu.Control.Chart2D" 
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
+    
     <Style x:Key="S.EllipseMarker.Default" TargetType="local:EllipseMarker">
         <Setter Property="StrokeThickness" Value="1"/>
         <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer},Path=Foreground}"/>
@@ -11,7 +12,29 @@
             <Setter.Value>
                 <Rect Width="15" Height="15"/>
             </Setter.Value>
-        </Setter>
+        </Setter> 
+        <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard Storyboard="{StaticResource S.Storyboard.ScaleTransform.XY}"/>
+                <!--<BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Duration="00:00:02" From="0" To="1"  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                            <DoubleAnimation.EasingFunction>
+                                <ElasticEase Springiness="10" Oscillations="6"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+
+                        <DoubleAnimation Duration="00:00:02" From="0" To="1"  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                            <DoubleAnimation.EasingFunction>
+                                <ElasticEase Springiness="10" Oscillations="6"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>-->
+            </EventTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="S.EllipseMarker.5" TargetType="local:EllipseMarker" BasedOn="{StaticResource S.EllipseMarker.Default}">
@@ -38,10 +61,8 @@
                 <Rect Width="2" Height="2"/>
             </Setter.Value>
         </Setter>
-    </Style>
-
+    </Style> 
     
-    <Style TargetType="local:EllipseMarker" BasedOn="{StaticResource S.EllipseMarker.Default}"/>
-
-</ResourceDictionary>
+    <Style TargetType="local:EllipseMarker" BasedOn="{StaticResource S.EllipseMarker.Default}"/> 
+ </ResourceDictionary>
 

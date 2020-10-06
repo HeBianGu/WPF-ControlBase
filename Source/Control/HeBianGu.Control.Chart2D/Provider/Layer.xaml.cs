@@ -36,17 +36,22 @@ namespace HeBianGu.Control.Chart2D
         {
             this.SizeChanged += (l, k) =>
             {
-                this.Draw(this);
+                this.TryDraw();
 
             };
 
             this.Loaded += (l, k) =>
             {
-                this.Draw(this);
+                this.TryDraw();
 
             };
-        }
 
+            this.MouseRightButtonDown +=(l, k) =>
+             {
+                 this.TryDraw();
+             };
+
+        }
 
         public virtual void Draw(Canvas canvas)
         {
@@ -63,6 +68,8 @@ namespace HeBianGu.Control.Chart2D
             try
             {
                 this.Draw(this);
+
+                this.OnDrawed();
             }
             catch (Exception ex)
             {
@@ -71,6 +78,26 @@ namespace HeBianGu.Control.Chart2D
                 //Trace.Fail(ex.Message);
             }
         }
+
+
+        //声明和注册路由事件
+        public static readonly RoutedEvent DrawedRoutedEvent =
+            EventManager.RegisterRoutedEvent("Drawed", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(LayerBase));
+        //CLR事件包装
+        public event RoutedEventHandler Drawed
+        {
+            add { this.AddHandler(DrawedRoutedEvent, value); }
+            remove { this.RemoveHandler(DrawedRoutedEvent, value); }
+        }
+
+        //激发路由事件,借用Click事件的激发方法
+
+        protected void OnDrawed()
+        {
+            RoutedEventArgs args = new RoutedEventArgs(DrawedRoutedEvent, this);
+            this.RaiseEvent(args);
+        }
+
     }
 
     public class XyLayer : LayerBase
@@ -318,15 +345,15 @@ namespace HeBianGu.Control.Chart2D
             }));
 
 
-        public Style TextStyle
+        public Style LabelStyle
         {
-            get { return (Style)GetValue(TextStyleProperty); }
-            set { SetValue(TextStyleProperty, value); }
+            get { return (Style)GetValue(LabelStyleProperty); }
+            set { SetValue(LabelStyleProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TextStyleProperty =
-            DependencyProperty.Register("TextStyle", typeof(Style), typeof(Layer), new PropertyMetadata(default(Style), (d, e) =>
+        public static readonly DependencyProperty LabelStyleProperty =
+            DependencyProperty.Register("LabelStyle", typeof(Style), typeof(Layer), new PropertyMetadata(default(Style), (d, e) =>
              {
                  Layer control = d as Layer;
 

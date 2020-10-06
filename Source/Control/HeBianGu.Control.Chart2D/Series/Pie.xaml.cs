@@ -197,12 +197,11 @@ namespace HeBianGu.Control.Chart2D
                     path.Data = pg;
 
                     this.Children.Add(path);
-                     
-                    //  Do ：显示文本
-                    TextBlock t = new TextBlock();
 
-                    t.Text = this.xDisplay.Count > i ? this.xDisplay[i] : this.Data[i].ToString();
-                    t.Style = this.TextStyle;
+                    //  Do ：显示文本
+                    Label t = new Label();
+                    t.Content = this.xDisplay.Count > i ? this.xDisplay[i] : this.Data[i].ToString();
+                    t.Style = this.LabelStyle;
 
                     t.Loaded += (o, e) =>
                     {

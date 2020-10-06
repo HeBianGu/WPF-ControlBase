@@ -67,8 +67,6 @@ namespace HeBianGu.Control.Chart2D
 
             }));
 
-
-
         public int MulCount
         {
             get { return (int)GetValue(MulCountProperty); }

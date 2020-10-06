@@ -26,7 +26,6 @@ namespace HeBianGu.Control.Chart2D
     /// <summary> 曲线视图 </summary>
     public class MarkLine : Layer
     {
-
         public Style TrangleStyle
         {
             get { return (Style)GetValue(TrangleStyleProperty); }
@@ -71,10 +70,11 @@ namespace HeBianGu.Control.Chart2D
         {
             base.Draw(canvas);
 
-            for (int i = 0; i < this.Data.Count; i++)
-            {
-                double y = this.Data[i];
+            this.InitData();
 
+            for (int i = 0; i < this._tempData.Count; i++)
+            {
+                double y = this._tempData[i];
                 {
                     //  Do ：添加标定线
                     Path path = new Path();
@@ -146,9 +146,9 @@ namespace HeBianGu.Control.Chart2D
                 }
 
                 //  Do ：绘制文本
-                TextBlock text = new TextBlock();
-                text.Text = y.ToString();
-                text.Style = this.TextStyle;
+                Label text = new Label();
+                text.Content = Math.Round(y,2).ToString();
+                text.Style = this.LabelStyle;
  
                 if (this.MarkBrushes.Count > i)
                 {
@@ -186,10 +186,60 @@ namespace HeBianGu.Control.Chart2D
                     Canvas.SetTop(m, this.GetY(y, this.ActualHeight));
                     this.Children.Add(m);
                 }
+            } 
+        }
+
+
+        public MarkLineType MarkLineType
+        {
+            get { return (MarkLineType)GetValue(MarkLineTypeProperty); }
+            set { SetValue(MarkLineTypeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MarkLineTypeProperty =
+            DependencyProperty.Register("MarkLineType", typeof(MarkLineType), typeof(MarkLine), new PropertyMetadata(default(MarkLineType), (d, e) =>
+             {
+                 MarkLine control = d as MarkLine;
+
+                 if (control == null) return;
+
+                 //MarkLineType config = e.NewValue as MarkLineType;
+
+                 control.TryDraw();
+
+             }));
+
+        List<double> _tempData = new List<double>();
+
+        public void InitData()
+        {
+            this._tempData.Clear();
+
+            if (this.MarkLineType== MarkLineType.Max)
+            {
+                this._tempData.Add(this.maxY);
             }
 
+            else if (this.MarkLineType == MarkLineType.Min)
+            {
+                this._tempData.Add(this.minX);
+            }
 
+            else if (this.MarkLineType == MarkLineType.Average)
+            {
+                this._tempData.Add(this.Data.Average());
+            }
+            else
+            {
+                this._tempData = this.Data.ToList();
+            }
         }
+    }
+
+    public enum MarkLineType
+    {
+        Default=0,Max,Min,Average
     }
 
 }
