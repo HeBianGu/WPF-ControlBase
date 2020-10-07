@@ -14,6 +14,26 @@
                 <Style TargetType="Path">
                     <Setter Property="StrokeThickness" Value="2"/>
                     <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer},Path=Foreground}"/>
+                    <Setter Property="OpacityMask">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="1,0.5" EndPoint="0,0.5">
+                                <GradientStop Color="#00000000" Offset="0"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                                <GradientStop Color="#00000000" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation From="1" To="0" Duration="0:0:1" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[1].Offset"/>
+                                    <DoubleAnimation From="1" To="0" Duration="0:0:0.75" BeginTime="0:0:0.5" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Offset"/>
+                                    <ColorAnimation To="#FF000000" Duration="0" Storyboard.TargetProperty="OpacityMask.(GradientBrush.GradientStops)[2].Color"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Style.Triggers>
                 </Style>
             </Setter.Value>
         </Setter>

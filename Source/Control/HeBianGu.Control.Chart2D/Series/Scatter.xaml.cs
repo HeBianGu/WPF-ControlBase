@@ -42,7 +42,7 @@ namespace HeBianGu.Control.Chart2D
 
                 //bool config = e.NewValue as bool;
 
-                control.TryDraw();
+                control.TryDraw(); 
 
             }));
 
