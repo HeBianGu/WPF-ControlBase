@@ -12,7 +12,26 @@
             <GroupBox Header="默认样式" Height="450">
                 <h:Chart Padding="100,50">
                     <h:Series>
-                        <h:Pie Foreground="red,green,blue,purple" xDisplay="成都,北京,牡丹江,长春" Data="4,5,6,7" Len="180"/>
+                        <h:Pie Foreground="red,green,blue,purple" xDisplay="成都,北京,牡丹江,长春" Data="4,5,6,7">
+                            <h:Interaction.Behaviors>
+                                <h:LayerDrawedBehavior Split="-1900">
+                                    <h:LayerDrawedBehavior.Timelines>
+                                        <!--<DoubleAnimation Duration="00:00:01" From="0" To="1"  Storyboard.TargetProperty="Opacity"/>-->
+                                        <DoubleAnimation Duration="00:00:02" From="0" To="1"  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                                            <DoubleAnimation.EasingFunction>
+                                                <ElasticEase Springiness="9" Oscillations="5"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+
+                                        <DoubleAnimation Duration="00:00:02" From="0" To="1"  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                            <DoubleAnimation.EasingFunction>
+                                                <ElasticEase Springiness="9" Oscillations="5"/>
+                                            </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                    </h:LayerDrawedBehavior.Timelines>
+                                </h:LayerDrawedBehavior>
+                            </h:Interaction.Behaviors>
+                        </h:Pie>
                     </h:Series>
                 </h:Chart>
             </GroupBox>

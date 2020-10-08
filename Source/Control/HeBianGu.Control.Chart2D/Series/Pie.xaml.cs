@@ -165,10 +165,10 @@ namespace HeBianGu.Control.Chart2D
 
                 sum = sum + y;
 
+                //Point direction = new Point(0,0);
+
                 //  Do ：增加标记
                 {
-
-
                     Point start = new Point(center.X - len - len / 10, center.X);
 
                     Matrix matrix = new Matrix();
@@ -176,6 +176,8 @@ namespace HeBianGu.Control.Chart2D
                     matrix.RotateAt((endAngle - startAngle) / 2 + startAngle, center.X, center.Y);
 
                     Point end = matrix.Transform(start);
+
+                    //direction = end;
 
                     Path path = new Path();
                     path.Style = this.LineStyle;
@@ -269,6 +271,15 @@ namespace HeBianGu.Control.Chart2D
                     PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
 
                     path.Data = pg;
+
+
+                    //Vector vector = new Vector(direction.X,direction.Y);
+
+                    //vector.Normalize();
+
+                    //Point sss = new Point(vector.X, vector.Y);
+
+                    //path.RenderTransformOrigin = sss;
 
                     //Canvas.SetLeft(path, (this.ActualWidth - min) / 2);
                     //Canvas.SetTop(path, (this.ActualHeight - min) / 2);
