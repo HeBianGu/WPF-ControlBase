@@ -41,6 +41,8 @@ namespace HeBianGu.Control.Chart2D
 
                 //bool config = e.NewValue as bool;
 
+              
+
                 control.Draw(control);
 
             }));
@@ -76,7 +78,7 @@ namespace HeBianGu.Control.Chart2D
 
             Path path = new Path();
 
-            path.Style = this.PathStyle;
+            path.Style = this.PathStyle; 
 
             PolyLineSegment pls = new PolyLineSegment();
 
