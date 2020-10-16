@@ -1,0 +1,137 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Chart2D" 
+                    xmlns:h="QQ:908293466" 
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <DataTemplate x:Key="S.Series.Template.LegendItem" DataType="{x:Type local:LegendItem}">
+        <Grid x:Name="grid" Background="Transparent">
+            <ToggleButton Style="{DynamicResource S.ToggleButton.Default}" HorizontalAlignment="Left" IsChecked="{Binding Series.Visibility,Converter={x:Static h:XConverter.VisibilityToBoolenConverter}}">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="30" Height="20" Opacity="{Binding Series.Opacity}" OpacityMask="{Binding Series.OpacityMask}" Fill="{Binding Series.Foreground}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="txt" Margin="10" Text="{Binding Series.DisplayName}" Foreground="{DynamicResource S.Brush.TextForeground.Title}" VerticalAlignment="Center"  HorizontalAlignment="Center"/>
+                </StackPanel>
+                <h:Interaction.Triggers>
+                    <h:EventTrigger EventName="Checked">
+                        <h:CallMethodAction MethodName="Draw" TargetObject="{Binding Series}"/>
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+            </ToggleButton>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding ElementName=grid,Path=IsMouseOver}" Value="True">
+                <Setter Property="Foreground" Value="{Binding Series.Foreground}" TargetName="txt"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Series.Visibility}" Value="Collapsed">
+                <Setter Property="Opacity" Value="0.4"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Series.IsMouseOver}" Value="True">
+                <Setter Property="Foreground" Value="{Binding Series.Foreground}" TargetName="txt"/>
+                <Setter Property="Opacity" Value="0.9"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <Style x:Key="S.Legend.Default" TargetType="{x:Type local:Legend}">
+        <Setter Property="ItemTemplate" Value="{StaticResource S.Series.Template.LegendItem}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.Legend.Vertical" TargetType="{x:Type local:Legend}">
+        <Setter Property="ItemTemplate" Value="{StaticResource S.Series.Template.LegendItem}"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="20,0"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:Legend}" BasedOn="{StaticResource S.Legend.Default}"/>
+
+    <DataTemplate x:Key="S.Series.Template.PathLegendItem" DataType="{x:Type local:ShapeLegendItem}">
+        <Grid x:Name="grid" Background="Transparent">
+            <ToggleButton Style="{DynamicResource S.ToggleButton.Default}" HorizontalAlignment="Left" IsChecked="{Binding IsChecked}">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="30" Height="20" Opacity="{Binding Shape.Opacity}" OpacityMask="{Binding Shape.OpacityMask}" Fill="{Binding Shape.Stroke}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="txt" Margin="10" Text="{Binding Shape.Tag}" Foreground="{DynamicResource S.Brush.TextForeground.Title}" VerticalAlignment="Center"  HorizontalAlignment="Center"/>
+                </StackPanel>
+                <h:Interaction.Triggers>
+                    <h:EventTrigger  EventName="Checked">
+                        <h:CallMethodAction MethodName="Checked" TargetObject="{Binding}"/>
+                    </h:EventTrigger>
+                    <h:EventTrigger  EventName="Unchecked">
+                        <h:CallMethodAction MethodName="Unchecked" TargetObject="{Binding}"/>
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+            </ToggleButton>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding ElementName=grid,Path=IsMouseOver}" Value="True">
+                <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" TargetName="txt"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsChecked}" Value="False">
+                <Setter Property="Opacity" Value="0.4"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <Style x:Key="S.PathLegend.Default" TargetType="{x:Type local:PathLegend}" BasedOn="{StaticResource S.Legend.Vertical}">
+        <Setter Property="ItemTemplate" Value="{StaticResource S.Series.Template.PathLegendItem}"/>
+    </Style>
+
+    <Style TargetType="{x:Type local:PathLegend}" BasedOn="{StaticResource S.PathLegend.Default}"/>
+
+    <DataTemplate x:Key="S.Series.Template.StackLegendItem" DataType="{x:Type local:StackLegendItem}">
+        <Grid x:Name="grid" Background="Transparent">
+            <ToggleButton Style="{DynamicResource S.ToggleButton.Default}" HorizontalAlignment="Left" IsChecked="{Binding IsChecked}">
+                <StackPanel Orientation="Horizontal">
+                    <Rectangle Width="30" Height="20" Fill="{Binding Brush}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="txt" Margin="10" Text="{Binding Text}" Foreground="{DynamicResource S.Brush.TextForeground.Title}" VerticalAlignment="Center"  HorizontalAlignment="Center"/>
+                </StackPanel>
+                <h:Interaction.Triggers>
+                    <h:EventTrigger  EventName="Checked">
+                        <h:CallMethodAction MethodName="Checked" TargetObject="{Binding}"/>
+                    </h:EventTrigger>
+                    <h:EventTrigger  EventName="Unchecked">
+                        <h:CallMethodAction MethodName="Unchecked" TargetObject="{Binding}"/>
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+            </ToggleButton>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding ElementName=grid,Path=IsMouseOver}" Value="True">
+                <Setter Property="Foreground" Value="{Binding Brush}" TargetName="txt"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsChecked}" Value="False">
+                <Setter Property="Opacity" Value="0.4"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Layer.IsMouseOver}" Value="True">
+                <Setter Property="Foreground" Value="{Binding Brush}" TargetName="txt"/>
+                <Setter Property="Opacity" Value="0.9"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <Style x:Key="S.StackLegend.Default" TargetType="{x:Type local:StackLegend}" BasedOn="{StaticResource S.Legend.Vertical}">
+        <Setter Property="ItemTemplate" Value="{StaticResource S.Series.Template.StackLegendItem}"/>
+    </Style>
+    <Style TargetType="{x:Type local:StackLegend}" BasedOn="{StaticResource S.StackLegend.Default}"/>
+
+
+</ResourceDictionary>
+

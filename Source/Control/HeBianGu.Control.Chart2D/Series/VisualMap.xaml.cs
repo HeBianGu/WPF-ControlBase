@@ -26,21 +26,22 @@ namespace HeBianGu.Control.Chart2D
     /// <summary> 曲线视图 </summary>
     public class VisualMap : Layer
     {
-        public ObservableCollection<SolidColorBrush> MarkBrushes
+        [TypeConverter(typeof(BrushArrayTypeConverter))]
+        public ObservableCollection<Color> MarkBrushes
         {
-            get { return (ObservableCollection<SolidColorBrush>)GetValue(MarkBrushesProperty); }
+            get { return (ObservableCollection<Color>)GetValue(MarkBrushesProperty); }
             set { SetValue(MarkBrushesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MarkBrushesProperty =
-            DependencyProperty.Register("MarkBrushes", typeof(ObservableCollection<SolidColorBrush>), typeof(VisualMap), new PropertyMetadata(new ObservableCollection<SolidColorBrush>(), (d, e) =>
+            DependencyProperty.Register("MarkBrushes", typeof(ObservableCollection<Color>), typeof(VisualMap), new PropertyMetadata(new ObservableCollection<Color>(), (d, e) =>
              {
                  VisualMap control = d as VisualMap;
 
                  if (control == null) return;
 
-                 ObservableCollection<SolidColorBrush> config = e.NewValue as ObservableCollection<SolidColorBrush>;
+                 ObservableCollection<Color> config = e.NewValue as ObservableCollection<Color>;
 
              }));
 
@@ -63,12 +64,12 @@ namespace HeBianGu.Control.Chart2D
 
                     if(this.MarkBrushes.Count < i)
                     {
-                        path.Fill = new LinearGradientBrush((this.Foreground as SolidColorBrush).Color, (this.Foreground as SolidColorBrush).Color, new Point(0, 0), new Point(0, 1));
-                        
+                        path.Fill = this.Foreground;
                     }
+                
                     else
                     {
-                        path.Fill = new LinearGradientBrush(this.MarkBrushes[i - 1].Color, this.MarkBrushes[i].Color, new Point(0, 0), new Point(0, 1));
+                        path.Fill = new LinearGradientBrush(this.MarkBrushes[i - 1], this.MarkBrushes[i], new Point(0, 0), new Point(0, 1));
 
                     }
 

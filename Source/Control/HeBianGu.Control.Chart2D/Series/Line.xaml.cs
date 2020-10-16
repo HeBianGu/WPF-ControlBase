@@ -16,6 +16,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -40,8 +41,6 @@ namespace HeBianGu.Control.Chart2D
                 if (control == null) return;
 
                 //bool config = e.NewValue as bool;
-
-              
 
                 control.Draw(control);
 
@@ -78,7 +77,7 @@ namespace HeBianGu.Control.Chart2D
 
             Path path = new Path();
 
-            path.Style = this.PathStyle; 
+            path.Style = this.PathStyle;
 
             PolyLineSegment pls = new PolyLineSegment();
 
@@ -102,7 +101,11 @@ namespace HeBianGu.Control.Chart2D
             path.Data = pg;
 
             this.Children.Add(path);
+
         }
+
+
+
     }
 
     public class Area : LineBase
@@ -151,7 +154,7 @@ namespace HeBianGu.Control.Chart2D
     }
 
     /// <summary> 极坐标曲线图 </summary>
-    public class PolayLine : Line
+    public class PolarLine : Line
     {
 
         public double Len
@@ -162,9 +165,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LenProperty =
-            DependencyProperty.Register("Len", typeof(double), typeof(PolayLine), new PropertyMetadata(200.0, (d, e) =>
+            DependencyProperty.Register("Len", typeof(double), typeof(PolarLine), new PropertyMetadata(200.0, (d, e) =>
              {
-                 PolayLine control = d as PolayLine;
+                 PolarLine control = d as PolarLine;
 
                  if (control == null) return;
 
@@ -217,12 +220,17 @@ namespace HeBianGu.Control.Chart2D
 
             this.Children.Add(path);
 
+            path.Loaded += (l, k) =>
+            {
+                this.RunPath(path);
+            };
         }
+    
     }
 
 
     /// <summary> 极坐标曲线图 </summary>
-    public class RadarLine : PolayLine
+    public class RadarLine : PolarLine
     {
         protected override void DrawLine(Canvas canvas)
         {
@@ -267,6 +275,11 @@ namespace HeBianGu.Control.Chart2D
             path.Data = pg;
 
             this.Children.Add(path);
+
+            path.Loaded += (l, k) =>
+            {
+                this.RunPath(path);
+            };
 
         }
     }

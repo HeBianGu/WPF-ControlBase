@@ -26,9 +26,8 @@ namespace HeBianGu.Application.ChartWindow
 
             base.OnStartup(e);
 
-
-
             Debug.WriteLine(string.Join(",", Enumerable.Range(1, 300).ToArray()));
+
             Random random = new Random();
             Trace.WriteLine(string.Join(",", Enumerable.Range(1, 300).Select(l => random.Next(1, 100)).ToArray()));
 
@@ -43,8 +42,17 @@ namespace HeBianGu.Application.ChartWindow
 
             Debug.WriteLine(string.Join(",", Enumerable.Range(1, 360).Select(l => Math.Round((10.0 / 360.0) * l, 2)).ToArray()));
 
-        }
 
+            int[] sss = { 1, 2, 3, 4, 5, 6 };
+
+            int[] sss1 = { 1};
+
+           var sssss=  sss1.Zip(sss, (l, k) =>
+             {
+                 return l;
+             }).ToList();
+
+        }
 
         protected override void ConfigureServices(IServiceCollection services)
         {
@@ -68,7 +76,7 @@ namespace HeBianGu.Application.ChartWindow
             app.UseLocalTheme(l =>
             {
                 l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF003D99");
-                l.ForegroundColor = (Color)ColorConverter.ConvertFromString("#727272");
+                //l.ForegroundColor = (Color)ColorConverter.ConvertFromString("#727272");
 
                 l.SmallFontSize = 15D;
                 l.LargeFontSize = 18D;
@@ -82,11 +90,13 @@ namespace HeBianGu.Application.ChartWindow
 
                 l.AccentColorSelectType = 0;
 
-                l.IsUseAnimal = true;
+                l.IsUseAnimal = false;
 
                 l.ThemeType = ThemeType.Light;
 
                 l.Language = Language.Chinese;
+
+                l.AccentBrushType = AccentBrushType.LinearGradientBrush;
             });
         }
 

@@ -10,12 +10,26 @@
     <Style x:Key="S.VisualMap.Default" TargetType="{x:Type local:VisualMap}" BasedOn="{StaticResource S.Layer.Default}">
         <Setter Property="MarkStyle" Value="{StaticResource S.EllipseMarker.5}"/>
         <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Series},Path=Foreground}"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
         <Setter Property="PathStyle">
             <Setter.Value>
                 <Style TargetType="Path">
                     <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Series},Path=Foreground}"/>
                     <Setter Property="StrokeThickness" Value="1"/>
                     <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Series},Path=Foreground}"/>
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation From="0" To="1" Duration="0:0:1" Storyboard.TargetProperty="Opacity">
+                                        <DoubleAnimation.EasingFunction>
+                                            <BounceEase/>
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Style.Triggers>
                 </Style>
             </Setter.Value>
         </Setter>

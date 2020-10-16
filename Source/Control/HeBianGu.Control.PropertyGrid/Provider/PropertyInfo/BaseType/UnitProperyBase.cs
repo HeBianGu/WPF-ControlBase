@@ -28,10 +28,13 @@ namespace HeBianGu.Control.PropertyGrid
             get => _selectItem;
             set
             {
+
                 // 切换单位计算
                 if (_selectItem != null && value != null)
                 {
                     double convert = this.ConvertToValue(this.Text) / _selectItem.Param;
+
+                    _selectItem = value;
 
                     this.Text = (convert * value.Param).ToString();
                 }
@@ -57,6 +60,13 @@ namespace HeBianGu.Control.PropertyGrid
             }
             // 暂时设置单位第一个 后面根据配置设置
             this.SelectItem = this.Units?.FirstOrDefault();
+        }
+
+        protected override string BeforeValid(string text)
+        {
+            double convert = this.ConvertToValue(text) / this.SelectItem.Param;
+
+            return base.BeforeValid(convert.ToString());
         }
     }
 }

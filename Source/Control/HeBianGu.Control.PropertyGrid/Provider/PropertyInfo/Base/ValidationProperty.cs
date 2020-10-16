@@ -80,7 +80,8 @@ namespace HeBianGu.Control.PropertyGrid
 
             foreach (var r in result)
             {
-                if (!r.IsValid(this.Text))
+
+                if (!r.IsValid(this.BeforeValid(this.Text)))
                 {
                     this.Message = r.ErrorMessage ?? r.FormatErrorMessage(this.DisplayName);
 
@@ -101,6 +102,13 @@ namespace HeBianGu.Control.PropertyGrid
         }
 
         public Action<string> TextChanged;
+
+
+        /// <summary> 验证前处理字符串方法 </summary>
+        protected virtual string BeforeValid(string text)
+        {
+            return text;
+        }
    
 
      

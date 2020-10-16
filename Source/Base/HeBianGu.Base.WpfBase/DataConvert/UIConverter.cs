@@ -65,6 +65,23 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+    /// <summary> 布尔为true转不可用 </summary>
+    [ValueConversion(typeof(bool), typeof(Visibility))]
+    public class VisibilityToBoolenConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            //将bool值转换为什么呢？自己在这里定义
+            return (Visibility)value == Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            //反转换方法，就是对照上面的把男女再转换回去
+            return (bool)value? Visibility.Visible:Visibility.Collapsed;
+        }
+    }
+
     /// <summary> 空文本不可用 </summary>
     [ValueConversion(typeof(Visibility), typeof(string))]
     public class VisibilityEmptyConverter : IValueConverter

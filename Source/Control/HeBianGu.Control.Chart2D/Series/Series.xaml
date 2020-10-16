@@ -16,7 +16,8 @@
         <Setter Property="LineStyle" Value="{StaticResource S.LineBase.Default}"/>
         <Setter Property="ScatterStyle" Value="{StaticResource S.Scatter.Default}"/>
         <Setter Property="BarStyle" Value="{StaticResource S.Bar.Default}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:ViewLayerGroup},Path=Foreground}"/>
+        <Setter Property="DisplayName" Value="{Binding RelativeSource={RelativeSource AncestorType=local:ViewLayerGroup},Path=DisplayName}"/>
     </Style>
 
     <Style TargetType="{x:Type local:Series}" BasedOn="{StaticResource S.Series.Default}"/>
@@ -35,6 +36,21 @@
         </Setter>
     </Style>
 
+
+    <Style x:Key="S.Series.Line.Polar" TargetType="{x:Type local:Series}" BasedOn="{StaticResource S.Series.Default}">
+        <Setter Property="LineStyle" Value="{StaticResource S.PolarLine.Default}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Series}">
+                    <local:LayerGroup>
+                        <local:PolarLine Foreground="{TemplateBinding Foreground}" Data="{TemplateBinding Data}"/>
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style x:Key="S.Series.Line.Smooth" TargetType="{x:Type local:Series}" BasedOn="{StaticResource S.Series.Default}">
         <Setter Property="LineStyle" Value="{StaticResource S.SmoothLine.Default}"/>
         <Setter Property="Template">
@@ -73,20 +89,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Series}">
                     <local:LayerGroup>
-                        <local:Bar Style="{TemplateBinding BarStyle}" Foreground="{TemplateBinding Foreground}" MarkStyle="{StaticResource S.EllipseMarker.4}" Data="{TemplateBinding Data}">
-                            <h:Interaction.Behaviors>
-                                <local:LayerDrawedBehavior Split="-1900">
-                                    <local:LayerDrawedBehavior.Timelines>
-                                        <!--<DoubleAnimation Duration="00:00:01" From="0" To="1"  Storyboard.TargetProperty="Opacity"/>-->
-                                        <DoubleAnimation Duration="00:00:02" From="0" To="1"  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
-                                            <DoubleAnimation.EasingFunction>
-                                                <ElasticEase Springiness="10" Oscillations="6"/>
-                                            </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                    </local:LayerDrawedBehavior.Timelines>
-                                </local:LayerDrawedBehavior>
-                            </h:Interaction.Behaviors>
-                        </local:Bar>
+                        <local:Bar Style="{TemplateBinding BarStyle}" Foreground="{TemplateBinding Foreground}" MarkStyle="{StaticResource S.EllipseMarker.4}" Data="{TemplateBinding Data}"/>
                         <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </local:LayerGroup>
                 </ControlTemplate>
@@ -94,5 +97,7 @@
         </Setter>
     </Style>
 
+
+    
 </ResourceDictionary>
 

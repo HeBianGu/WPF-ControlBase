@@ -1,5 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,6 +17,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -46,9 +48,14 @@ namespace HeBianGu.Control.Chart2D
 
             };
 
-            this.MouseRightButtonDown +=(l, k) =>
+            this.MouseRightButtonDown += (l, k) =>
+              {
+                  this.TryDraw();
+              };
+
+            this.MouseDown +=(l, k) =>
              {
-                 this.TryDraw();
+                 Debug.WriteLine(this.GetType().FullName);
              };
 
         }
@@ -97,10 +104,189 @@ namespace HeBianGu.Control.Chart2D
             RoutedEventArgs args = new RoutedEventArgs(DrawedRoutedEvent, this);
             this.RaiseEvent(args);
         }
+    }
+
+    public class AnimationLayer : LayerBase
+    {
+        public AnimationLayer()
+        {
+            this.Drawed += AssociatedObject_Drawed;
+        }
+        public ArrayList Timelines
+        {
+            get { return (ArrayList)GetValue(TimelinesProperty); }
+            set { SetValue(TimelinesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TimelinesProperty =
+            DependencyProperty.Register("Timelines", typeof(ArrayList), typeof(AnimationLayer), new PropertyMetadata(new ArrayList(), (d, e) =>
+            {
+                AnimationLayer control = d as AnimationLayer;
+
+                if (control == null) return;
+
+                ArrayList config = e.NewValue as ArrayList;
+
+                control.TryDraw();
+
+            }));
+
+
+        void AssociatedObject_Drawed(object sender, RoutedEventArgs e)
+        {
+            var items = this.GetChildren<UIElement>().Where(l => l.RenderTransform is TransformGroup);
+
+            items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
+
+            var controls = items?.ToList();
+
+            if (controls == null || controls.Count == 0) return;
+
+            Storyboard storyboard = new Storyboard();
+
+            for (int i = 0; i < controls.Count; i++)
+            {
+                foreach (var item in Timelines.OfType<DoubleAnimation>())
+                {
+                    TimeSpan span = TimeSpan.FromMilliseconds(i * (SplitMilliSecond + item.Duration.TimeSpan.TotalMilliseconds));
+
+                    TimeSpan end = item.Duration.TimeSpan + span;
+
+                    DoubleAnimationUsingKeyFrames frames = new DoubleAnimationUsingKeyFrames();
+
+                    EasingDoubleKeyFrame key1 = new EasingDoubleKeyFrame(item.From.Value, KeyTime.FromTimeSpan(TimeSpan.Zero));
+
+                    frames.KeyFrames.Add(key1);
+                    Storyboard.SetTarget(frames, controls[i]);
+                    Storyboard.SetTargetProperty(frames, Storyboard.GetTargetProperty(item));
+                    storyboard.Children.Add(frames);
+
+                    DoubleAnimation animation = item.Clone();
+                    animation.BeginTime = span;
+                    Storyboard.SetTarget(animation, controls[i]);
+
+                    storyboard.Children.Add(animation);
+                }
+
+                foreach (var item in Timelines.OfType<ThicknessAnimation>())
+                {
+                    TimeSpan span = TimeSpan.FromMilliseconds(i * (SplitMilliSecond + item.Duration.TimeSpan.TotalMilliseconds));
+
+                    TimeSpan end = item.Duration.TimeSpan + span;
+
+                    ThicknessAnimationUsingKeyFrames frames = new ThicknessAnimationUsingKeyFrames();
+
+                    EasingThicknessKeyFrame key1 = new EasingThicknessKeyFrame(item.From.Value, KeyTime.FromTimeSpan(TimeSpan.Zero));
+
+                    frames.KeyFrames.Add(key1);
+                    Storyboard.SetTarget(frames, controls[i]);
+                    Storyboard.SetTargetProperty(frames, Storyboard.GetTargetProperty(item));
+                    storyboard.Children.Add(frames);
+
+                    ThicknessAnimation animation = item.Clone();
+                    animation.BeginTime = span;
+                    Storyboard.SetTarget(animation, controls[i]);
+
+                    storyboard.Children.Add(animation);
+                }
+            }
+
+            storyboard.FillBehavior = FillBehavior.HoldEnd;
+            storyboard.Begin();
+        }
+
+        public double SplitMilliSecond
+        {
+            get { return (double)GetValue(SplitMilliSecondProperty); }
+            set { SetValue(SplitMilliSecondProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SplitMilliSecondProperty =
+            DependencyProperty.Register("SplitMilliSecond", typeof(double), typeof(AnimationLayer), new PropertyMetadata(5.0, (d, e) =>
+            {
+                AnimationLayer control = d as AnimationLayer;
+
+                if (control == null) return;
+
+                control.TryDraw();
+            }));
+
+
+        public bool IsUseAnimation
+        {
+            get { return (bool)GetValue(IsUseAnimationProperty); }
+            set { SetValue(IsUseAnimationProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsUseAnimationProperty =
+            DependencyProperty.Register("IsUseAnimation", typeof(bool), typeof(AnimationLayer), new PropertyMetadata(true, (d, e) =>
+             {
+                 AnimationLayer control = d as AnimationLayer;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
+
+        Storyboard _storyboard;
+
+        /// <summary>
+        ///     更新路径
+        /// </summary>
+        protected void RunPath(Path path, double MilliSecond = 1000)
+        {
+            if (!this.IsUseAnimation) return;
+
+            double _pathLength = path.Data.GetTotalLength(new Size(path.ActualWidth, path.ActualHeight), path.StrokeThickness) * 2;
+
+            if (Math.Abs(_pathLength) < 1E-06) return;
+
+            path.StrokeDashOffset = _pathLength;
+
+            path.StrokeDashArray = new DoubleCollection(new List<double>
+            {
+                _pathLength,
+                _pathLength
+            });
+
+            //定义动画
+            if (_storyboard != null)
+            {
+                _storyboard.Stop();
+            }
+            _storyboard = new Storyboard();
+
+            var frames = new DoubleAnimationUsingKeyFrames();
+
+            var frame0 = new LinearDoubleKeyFrame
+            {
+                Value = _pathLength,
+                KeyTime = KeyTime.FromTimeSpan(TimeSpan.Zero)
+            };
+
+            var frame1 = new LinearDoubleKeyFrame
+            {
+                Value = 0,
+                KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(MilliSecond))
+            };
+            frames.KeyFrames.Add(frame0);
+            frames.KeyFrames.Add(frame1);
+
+            Storyboard.SetTarget(frames, path);
+            Storyboard.SetTargetProperty(frames, new PropertyPath(Path.StrokeDashOffsetProperty));
+            _storyboard.Children.Add(frames);
+
+            _storyboard.Begin();
+        }
 
     }
 
-    public class XyLayer : LayerBase
+    public class XyLayer : AnimationLayer
     {
         public Brush Foreground
         {
@@ -147,7 +333,7 @@ namespace HeBianGu.Control.Chart2D
         /// <summary> 获取值对应Canvas的位置 </summary>
         public virtual double GetX(double value)
         {
-            return this.GetX(value,this.ActualWidth);
+            return this.GetX(value, this.ActualWidth);
         }
 
         /// <summary> 获取值对应Canvas的位置 </summary>
@@ -163,7 +349,7 @@ namespace HeBianGu.Control.Chart2D
         /// <summary> 获取值对应Canvas的位置 </summary>
         public virtual double GetY(double value)
         {
-            return this.GetY(value,this.ActualHeight);
+            return this.GetY(value, this.ActualHeight);
         }
 
         protected double minY;
@@ -316,9 +502,36 @@ namespace HeBianGu.Control.Chart2D
 
                 ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
 
+                control.InitDataBoolean(config.Count);
+
                 control.TryDraw();
 
             }));
+
+        protected virtual void InitDataBoolean(int count,bool value=true)
+        {
+            this.DataBoolean = Enumerable.Range(0, count).Select(l => value)?.ToObservable();
+        }
+
+        //[TypeConverter(typeof(DataBoolenTypeConverter))]
+        public ObservableCollection<bool> DataBoolean
+        {
+            get { return (ObservableCollection<bool>)GetValue(DataBooleanProperty); }
+            set { SetValue(DataBooleanProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DataBooleanProperty =
+            DependencyProperty.Register("DataBoolean", typeof(ObservableCollection<bool>), typeof(DataLayer), new PropertyMetadata(new ObservableCollection<bool>(), (d, e) =>
+             {
+                 DataLayer control = d as DataLayer;
+
+                 if (control == null) return;
+
+                 ObservableCollection<bool> config = e.NewValue as ObservableCollection<bool>;
+
+             }));
+
     }
 
     /// <summary> 数据列表 </summary>
@@ -405,7 +618,6 @@ namespace HeBianGu.Control.Chart2D
                 control.TryDraw();
 
             }));
-
     }
 
 }

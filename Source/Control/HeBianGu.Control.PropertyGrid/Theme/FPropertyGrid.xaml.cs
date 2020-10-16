@@ -97,7 +97,7 @@ namespace HeBianGu.Control.PropertyGrid
 
             action?.Invoke(obj);
 
-            this.RefreshData(vs);
+            this.RefreshData(vs.OrderBy(l=>l.Index)?.ToList());
 
             //  Do ：加载默认值
             vs.ForEach(l => l.LoadDefault());
@@ -106,7 +106,27 @@ namespace HeBianGu.Control.PropertyGrid
 
         public bool AutoMerge { get; set; }
 
-        public bool UseGroup { get; set; } = true;
+        public bool UseGroup
+        {
+            get { return (bool)GetValue(UseGroupProperty); }
+            set { SetValue(UseGroupProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseGroupProperty =
+            DependencyProperty.Register("UseGroup", typeof(bool), typeof(FPropertyGrid), new PropertyMetadata(true, (d, e) =>
+             {
+                 FPropertyGrid control = d as FPropertyGrid;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+                 control.LoadProperty(control.Object);
+
+
+             }));
+
 
         void RefreshData(List<ValidationPropertyBase> from)
         {

@@ -266,6 +266,20 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
+
+        private AccentBrushType _accentBrushType= AccentBrushType.LinearGradientBrush;
+        /// <summary> 说明  </summary>
+        public AccentBrushType AccentBrushType
+        {
+            get { return _accentBrushType; }
+            set
+            {
+                _accentBrushType = value;
+                RaisePropertyChanged("hType AccentBrushType");
+            }
+        }
+
+
         /// <summary> 主色调 </summary>
         public Color AccentColor
         {
@@ -285,9 +299,26 @@ namespace HeBianGu.Base.WpfBase
                 Application.Current.Resources["AccentColor"] = value;
 
                 Application.Current.Resources["Accent"] = new SolidColorBrush(value);
+       
+                if(this.AccentBrushType==AccentBrushType.SolidColorBrush)
+                {
+                    Application.Current.Resources["S.Brush.Accent"] = new SolidColorBrush(value);
+                }
+                else if (this.AccentBrushType == AccentBrushType.LinearGradientBrush)
+                {
+                    LinearGradientBrush radial = new LinearGradientBrush();
+                    radial.StartPoint = new Point(-3, 0);
+                    radial.EndPoint = new Point(1, 0);
+                    radial.GradientStops.Add(new GradientStop(Colors.White, 0.0));
+                    radial.GradientStops.Add(new GradientStop(value, 1.0));
 
-                Application.Current.Resources["S.Brush.Accent"] = new SolidColorBrush(value);
+                    Application.Current.Resources["S.Brush.Accent"] = radial;
+                }
+                else
+                {
 
+                }
+         
 
                 List<string> findAll = new List<string>();
 
@@ -299,7 +330,6 @@ namespace HeBianGu.Base.WpfBase
 
                     if (item.Key.ToString().StartsWith("S.Brush.Accent"))
                     {
-
                         findAll.Add(item.Key.ToString());
                     }
                 }
@@ -326,13 +356,13 @@ namespace HeBianGu.Base.WpfBase
         {
             get
             {
-                var foreColor = Application.Current.Resources["S.Brush.TextForeground.Default"] as SolidColorBrush; 
+                var foreColor = Application.Current.Resources["S.Brush.TextForeground.Default"] as SolidColorBrush;
 
                 return foreColor.Color;
             }
             set
             {
-                Application.Current.Resources["S.Brush.TextForeground.Default"] = new SolidColorBrush(value); 
+                Application.Current.Resources["S.Brush.TextForeground.Default"] = new SolidColorBrush(value);
 
                 RaisePropertyChanged("ForegroundColor");
             }
@@ -576,7 +606,7 @@ namespace HeBianGu.Base.WpfBase
             this.RowHeight = config.RowHeight == default(double) ? this.RowHeight : config.RowHeight;
 
 
-            this.ForegroundColor = config.ForegroundColor == Colors.White ? this.ForegroundColor : config.ForegroundColor;
+            //this.ForegroundColor = config.ForegroundColor == Colors.White ? this.ForegroundColor : config.ForegroundColor;
 
 
             //var ps = config.GetType().GetProperties();
@@ -676,6 +706,11 @@ namespace HeBianGu.Base.WpfBase
     public enum ThemeType
     {
         Light, Dark, Gray, Accent
+    }
+
+    public enum AccentBrushType
+    {
+        SolidColorBrush, LinearGradientBrush, RadialGradientBrush
     }
 
 }

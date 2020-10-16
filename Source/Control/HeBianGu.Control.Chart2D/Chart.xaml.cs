@@ -25,6 +25,65 @@ namespace HeBianGu.Control.Chart2D
 {
     public class Chart : ViewLayerGroup
     {
+
+        public static RoutedCommand RefeshCommand = new RoutedCommand();
+
+        public Chart()
+        {
+            {
+                RoutedCommand command = new RoutedCommand();
+
+                CommandBinding binding = new CommandBinding(RefeshCommand, (l, k) =>
+                {
+
+                    var layers = this.GetChildren<LayerBase>();
+
+
+                    foreach (var item in layers)
+                    {
+                        item.TryDraw();
+                    }
+
+                    //List<LayerBase> layers;
+
+                    //layers = this.Dispatcher?.Invoke(() => this.GetChildren<LayerBase>())?.ToList();
+
+                    //var split = this.Dispatcher?.Invoke(() => this.SplitMilliSecond);
+
+                    //Task.Run(() =>
+                    //{
+                    //    foreach (var item in layers)
+                    //    {
+                    //        this.Dispatcher?.Invoke(() =>
+                    //        item.TryDraw()
+                    //        );
+
+                    //        Thread.Sleep((int)500.0);
+
+                    //    }
+                    //});
+
+                });
+
+                this.CommandBindings.Add(binding);
+            }
+        }
+
+        public double SplitMilliSecond
+        {
+            get { return (double)GetValue(SplitMilliSecondProperty); }
+            set { SetValue(SplitMilliSecondProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SplitMilliSecondProperty =
+            DependencyProperty.Register("SplitMilliSecond", typeof(double), typeof(Chart), new PropertyMetadata(500.0, (d, e) =>
+            {
+                Chart control = d as Chart;
+
+                if (control == null) return;
+            }));
+
         [TypeConverter(typeof(DisplayTypeConverter))]
         public ObservableCollection<string> xDisplay
         {
@@ -83,24 +142,81 @@ namespace HeBianGu.Control.Chart2D
              }));
 
 
-        public Style  yAxisStyle
+        public Style yAxisStyle
         {
-            get { return (Style )GetValue(yAxisStyleProperty); }
+            get { return (Style)GetValue(yAxisStyleProperty); }
             set { SetValue(yAxisStyleProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty yAxisStyleProperty =
-            DependencyProperty.Register("yAxisStyle", typeof(Style ), typeof(Chart), new PropertyMetadata(default(Style ), (d, e) =>
+            DependencyProperty.Register("yAxisStyle", typeof(Style), typeof(Chart), new PropertyMetadata(default(Style), (d, e) =>
+           {
+               Chart control = d as Chart;
+
+               if (control == null) return;
+
+               Style config = e.NewValue as Style;
+
+           }));
+
+
+        public Style GridStyle
+        {
+            get { return (Style)GetValue(GridStyleProperty); }
+            set { SetValue(GridStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty GridStyleProperty =
+            DependencyProperty.Register("GridStyle", typeof(Style), typeof(Chart), new PropertyMetadata(default(Style), (d, e) =>
              {
                  Chart control = d as Chart;
 
                  if (control == null) return;
 
-                 Style  config = e.NewValue as Style ;
+                 Style config = e.NewValue as Style;
 
              }));
 
+
+        public Style LegendStyle
+        {
+            get { return (Style)GetValue(LegendStyleProperty); }
+            set { SetValue(LegendStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LegendStyleProperty =
+            DependencyProperty.Register("LegendStyle", typeof(Style), typeof(Chart), new PropertyMetadata(default(Style), (d, e) =>
+             {
+                 Chart control = d as Chart;
+
+                 if (control == null) return;
+
+                 Style config = e.NewValue as Style;
+
+             }));
+
+
+
+        public Style VisualMapStyle
+        {
+            get { return (Style)GetValue(VisualMapStyleProperty); }
+            set { SetValue(VisualMapStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty VisualMapStyleProperty =
+            DependencyProperty.Register("VisualMapStyle", typeof(Style), typeof(Chart), new PropertyMetadata(default(Style), (d, e) =>
+             {
+                 Chart control = d as Chart;
+
+                 if (control == null) return;
+
+                 Style config = e.NewValue as Style;
+
+             }));
 
     }
 
@@ -123,7 +239,6 @@ namespace HeBianGu.Control.Chart2D
                  //double config = e.NewValue as double;
 
              }));
-
     }
 
     //public class StaticCurveChartScene : Chart

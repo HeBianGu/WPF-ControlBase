@@ -90,6 +90,56 @@ namespace HeBianGu.Control.Chart2D
         }
     }
 
+
+    public class AreaScatter: ScatterBase
+    {
+        [TypeConverter(typeof(DataXyTypeConverter))]
+        public new ObservableCollection<double[]> Data
+        {
+            get { return (ObservableCollection<double[]>)GetValue(DataProperty); }
+            set { SetValue(DataProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static new readonly DependencyProperty DataProperty =
+            DependencyProperty.Register("Data", typeof(ObservableCollection<double[]>), typeof(AreaScatter), new PropertyMetadata(new ObservableCollection<double[]>(), (d, e) =>
+            {
+                StackBarBase control = d as StackBarBase;
+
+                if (control == null) return;
+
+                ObservableCollection<double[]> config = e.NewValue as ObservableCollection<double[]>;
+
+                control.TryDraw();
+
+            }));
+
+        public override void Draw(Canvas canvas)
+        {
+            base.Draw(canvas);
+
+            if (this.MarkStyle == null) return;
+
+            for (int i = 0; i < this.Data.Count; i++)
+            {
+                double x = this.Data[i][0];
+
+                double y = this.Data[i][1];
+
+                //  Do ：显示标记
+                Shape m = Activator.CreateInstance(this.MarkStyle.TargetType) as Shape;
+                if (m != null)
+                {
+                    m.Style = this.MarkStyle;
+
+                    Canvas.SetLeft(m, this.GetX(x, this.ActualWidth) - m.ActualWidth / 2);
+                    Canvas.SetTop(m, this.GetY(y, this.ActualHeight) - m.ActualHeight / 2);
+                    this.Children.Add(m);
+                }
+            }
+        }
+    }
+
     /// <summary> 散点图 </summary>
     public class Bubble : ScatterBase
     {
@@ -156,7 +206,7 @@ namespace HeBianGu.Control.Chart2D
     }
 
     /// <summary> 极坐标曲线图 </summary>
-    public class PolayScatter : ScatterBase
+    public class PolarScatter : ScatterBase
     {
 
         public double Len
@@ -167,9 +217,9 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LenProperty =
-            DependencyProperty.Register("Len", typeof(double), typeof(PolayScatter), new PropertyMetadata(200.0, (d, e) =>
+            DependencyProperty.Register("Len", typeof(double), typeof(PolarScatter), new PropertyMetadata(200.0, (d, e) =>
             {
-                PolayScatter control = d as PolayScatter;
+                PolarScatter control = d as PolarScatter;
 
                 if (control == null) return;
 

@@ -40,6 +40,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="h:ControlAttachProperty.FIcon" Value=""/>
     </Style>
 
     <Style x:Key="S.ComboBox.Single.LabelAlarm"  TargetType="{x:Type ComboBox}" BasedOn="{StaticResource S.ComboBox.Single}">
@@ -314,8 +315,8 @@
                                         <ListBox ItemsSource="{Binding Units}" BorderThickness="0" IsEnabled="{Binding Message,Converter={x:Static h:XConverter.NullOrEmptyTofalseConverter}}" SelectedItem="{Binding SelectItem}">
                                             <ListBox.Resources>
                                                 <DataTemplate DataType="{x:Type local:Unit}">
-                                                    <Grid Margin="5,0">
-                                                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                    <Grid Margin="4,0">
+                                                        <TextBlock Text="{Binding Name}" FontSize="{DynamicResource S.FontSize.Fixed}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                     </Grid>
                                                 </DataTemplate>
                                             </ListBox.Resources>
@@ -357,6 +358,49 @@
                        FontSize="20" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
         </Grid>
     </DataTemplate>
-    
-    
+
+
+    <DataTemplate DataType="{x:Type local:StringSelectProperty}" >
+        <Grid  Width="{Binding Source={RelativeSource AncestorType=local:FPropertyGrid},Path=ActualWidth}" Background="Transparent" Margin="{StaticResource S.Property.Item.Margin}"  ToolTip="{Binding Description}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <ComboBox Style="{DynamicResource S.ComboBox.Single.LabelAlarm}" ItemsSource="{Binding Source}" SelectedItem="{Binding Text}"/>
+
+            <TextBlock Grid.Column="2"
+                       Foreground="Red"  Style="{DynamicResource FIcon}" Text="&#xe74e;" ToolTip="{Binding Message}"
+                       Visibility="{Binding Message,Converter={x:Static h:XConverter.VisibilityEmptyConverter}}"
+                       FontSize="20" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+        </Grid>
+    </DataTemplate>
+
+    <!--<DataTemplate DataType="{x:Type local:StringSelectProperty}" >
+        <Grid  Width="{Binding Source={RelativeSource AncestorType=local:FPropertyGrid},Path=ActualWidth}" Background="Transparent" Margin="{StaticResource S.Property.Item.Margin}"  ToolTip="{Binding Description}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{Binding DisplayName,StringFormat={}{0}  ：}" FontSize="{DynamicResource S.FontSize.Default}" Margin="2,0" HorizontalAlignment="Right"  VerticalAlignment="Center"/>
+
+            --><!--<ComboBox Style="{DynamicResource S.ComboBox.Single.LabelAlarm}" ItemsSource="{Binding Source}" SelectedItem="{Binding Text}"/>--><!--
+            <ListBox Grid.Column="1" ItemsSource="{Binding Source}" SelectedItem="{Binding Text}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem" BasedOn="{StaticResource S.ListBoxItem.Accent}">
+                        <Setter Property="Height" Value="20"/>
+                        <Setter Property="MinHeight" Value="20"/>
+                        <Setter Property="Margin" Value="10,-5"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+            </ListBox>
+
+        </Grid>
+    </DataTemplate>-->
 </ResourceDictionary>

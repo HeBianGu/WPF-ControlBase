@@ -42,6 +42,7 @@ namespace HeBianGu.Control.Chart2D
 
                  //int config = e.NewValue as int;
 
+
              }));
 
         public Style LabelStyle
@@ -265,7 +266,7 @@ namespace HeBianGu.Control.Chart2D
 
                 // Todo ：绘制文本 
                 Label t = new Label();
-                t.Content = this.yDisplay.Count> this.yAxis.IndexOf(item)? this.yDisplay[this.yAxis.IndexOf(item)]:item.ToString();
+                t.Content = this.yDisplay.Count > this.yAxis.IndexOf(item) ? this.yDisplay[this.yAxis.IndexOf(item)] : item.ToString();
                 t.Style = this.LabelStyle;
 
                 t.Loaded += (o, e) =>
@@ -543,6 +544,12 @@ namespace HeBianGu.Control.Chart2D
             path.Data = pg;
 
             this.Children.Add(path);
+
+
+            path.Loaded += (l, k) =>
+            {
+                this.RunPath(path,500);
+            };
         }
     }
 

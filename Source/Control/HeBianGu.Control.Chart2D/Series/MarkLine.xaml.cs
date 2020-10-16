@@ -42,10 +42,31 @@ namespace HeBianGu.Control.Chart2D
 
                  Style config = e.NewValue as Style;
 
+                 control.TryDraw();
+
              }));
 
-        [TypeConverter(typeof(BrushArrayTypeConverter))]
 
+        public Orientation Orientation
+        {
+            get { return (Orientation)GetValue(OrientationProperty); }
+            set { SetValue(OrientationProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty OrientationProperty =
+            DependencyProperty.Register("Orientation", typeof(Orientation), typeof(MarkLine), new PropertyMetadata(default(Orientation), (d, e) =>
+             {
+                 MarkLine control = d as MarkLine;
+
+                 if (control == null) return;
+
+                 //Orientation config = e.NewValue as Orientation;
+
+             }));
+
+
+        [TypeConverter(typeof(BrushArrayTypeConverter))]
         public ObservableCollection<Color> MarkBrushes
         {
             get { return (ObservableCollection<Color>)GetValue(MarkBrushesProperty); }
@@ -64,23 +85,84 @@ namespace HeBianGu.Control.Chart2D
 
                  control.TryDraw();
 
-             })); 
+             }));
+
+
+        public Point Start
+        {
+            get { return (Point)GetValue(StartProperty); }
+            set { SetValue(StartProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StartProperty =
+            DependencyProperty.Register("Start", typeof(Point), typeof(MarkLine), new PropertyMetadata(default(Point), (d, e) =>
+             {
+                 MarkLine control = d as MarkLine;
+
+                 if (control == null) return;
+
+                 //Point config = e.NewValue as Point;
+
+             }));
+
+
+
+        public Point End
+        {
+            get { return (Point)GetValue(EndProperty); }
+            set { SetValue(EndProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty EndProperty =
+            DependencyProperty.Register("End", typeof(Point), typeof(MarkLine), new PropertyMetadata(default(Point), (d, e) =>
+             {
+                 MarkLine control = d as MarkLine;
+
+                 if (control == null) return;
+
+                 //Point config = e.NewValue as Point;
+
+             }));
+
+
 
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
 
-            this.InitData();
+            var data = this.GetData();
 
-            for (int i = 0; i < this._tempData.Count; i++)
+            var names = this.GetDisplayName();
+
+            for (int i = 0; i < data.Count; i++)
             {
-                double y = this._tempData[i];
+                double value = data[i];
+
+                Point start;
+
+                Point end;
+
+                if (this.MarkLineType == MarkLineType.Custom)
+                {
+                    start = this.Start;
+                    end = this.End;
+                }
+
+                else
+                {
+                    start = this.Orientation == Orientation.Horizontal ? new Point(this.minX, value) : new Point(value, this.minY);
+                    end = this.Orientation == Orientation.Horizontal ? new Point(this.maxX, value) : new Point(value, this.maxY);
+                }
+
                 {
                     //  Do ：添加标定线
                     Path path = new Path();
+
                     path.Style = this.PathStyle;
 
-                    if(this.MarkBrushes.Count > i)
+                    if (this.MarkBrushes.Count > i)
                     {
                         path.Stroke = new SolidColorBrush(this.MarkBrushes[i]);
                     }
@@ -90,8 +172,9 @@ namespace HeBianGu.Control.Chart2D
                     }
 
                     PolyLineSegment pls = new PolyLineSegment();
-                    pls.Points.Add(new Point(this.GetX(this.minX, this.ActualWidth), this.GetY(y, this.ActualHeight)));
-                    pls.Points.Add(new Point(this.GetX(this.maxX, this.ActualWidth), this.GetY(y, this.ActualHeight)));
+
+                    pls.Points.Add(new Point(this.GetX(start.X), this.GetY(start.Y)));
+                    pls.Points.Add(new Point(this.GetX(end.X), this.GetY(end.Y)));
 
                     PathFigure pf = new PathFigure();
                     pf.StartPoint = pls.Points.FirstOrDefault();
@@ -125,11 +208,11 @@ namespace HeBianGu.Control.Chart2D
 
                     PolyLineSegment pls = new PolyLineSegment();
 
-                    pls.Points.Add(new Point(0, 0));
-                    pls.Points.Add(new Point(50, 10));
-                    pls.Points.Add(new Point(0, 20));
-                    pls.Points.Add(new Point(20, 10));
-                    pls.Points.Add(new Point(0, 0));
+                    pls.Points.Add(new Point(25, 0));
+                    pls.Points.Add(new Point(50, 5));
+                    pls.Points.Add(new Point(25, 10));
+                    pls.Points.Add(new Point(20, 5));
+                    pls.Points.Add(new Point(25, 0));
 
                     PathFigure pf = new PathFigure();
                     pf.StartPoint = pls.Points.FirstOrDefault();
@@ -139,30 +222,87 @@ namespace HeBianGu.Control.Chart2D
 
                     path.Data = pg;
 
-                    Canvas.SetTop(path, this.GetY(y, this.ActualHeight) - 20 / 2);
-                    Canvas.SetLeft(path, this.GetX(this.maxX, this.ActualWidth) - 50);
+                    if (path.RenderTransform is TransformGroup group)
+                    {
+                        TransformGroup ng = group.Clone();
+
+                        if (ng.Children[2] is RotateTransform rotate)
+                        {
+                            double angle = Math.Atan2((end.Y - start.Y), (end.X - start.X)) * 180 / Math.PI;
+                            rotate.Angle = -angle;
+                        }
+
+                        path.RenderTransform = ng;
+                    }
+
+                    path.Loaded += (l, k) =>
+                    {
+                        Canvas.SetBottom(path, this.ActualHeight - this.GetY(end.Y) - path.ActualHeight / 2);
+                        Canvas.SetLeft(path, this.GetX(end.X) - path.ActualWidth / 2);
+                    };
 
                     this.Children.Add(path);
                 }
 
-                //  Do ：绘制文本
-                Label text = new Label();
-                text.Content = Math.Round(y,2).ToString();
-                text.Style = this.LabelStyle;
- 
-                if (this.MarkBrushes.Count > i)
+
                 {
-                    text.Foreground = new SolidColorBrush(this.MarkBrushes[i]);
-                }
-                else
-                {
-                    text.Foreground = this.Foreground;
+                    //  Do ：绘制文本
+                    Label text = new Label();
+                    text.Content = names.Count > i ? names[i] : names.FirstOrDefault();
+                    text.Style = this.LabelStyle;
+
+                    if (this.MarkBrushes.Count > i)
+                    {
+                        text.Foreground = new SolidColorBrush(this.MarkBrushes[i]);
+                    }
+                    else
+                    {
+                        text.Foreground = this.Foreground;
+                    }
+
+                    text.Loaded += (l, k) =>
+                    {
+                        Canvas.SetTop(text, this.GetY(end.Y) - text.ActualHeight / 2);
+                        Canvas.SetLeft(text, this.GetX(end.X) + text.ActualWidth/2);
+                    };
+
+
+
+                    this.Children.Add(text);
                 }
 
-                Canvas.SetTop(text, this.GetY(y, this.ActualHeight) - 20 / 2);
-                Canvas.SetLeft(text, this.GetX(this.maxX, this.ActualWidth) + 50 / 2);
+                {
+                    //  Do ：绘制文本
+                    Label text = new Label();
 
-                this.Children.Add(text);
+                    if (this.MarkBrushes.Count > i)
+                    {
+                        text.Foreground = new SolidColorBrush(this.MarkBrushes[i]);
+                    }
+                    else
+                    {
+                        text.Foreground = this.Foreground;
+                    }
+                    text.Content = Math.Round(value, 2).ToString(); 
+
+                    text.Style = this.LabelStyle;
+
+                    if (this.MarkBrushes.Count > i)
+                    {
+                        text.Foreground = new SolidColorBrush(this.MarkBrushes[i]);
+                    }
+                    else
+                    {
+                        text.Foreground = this.Foreground;
+                    }
+                    text.Loaded += (l, k) =>
+                    {
+                        Canvas.SetTop(text, this.GetY(start.Y) - text.ActualHeight / 2);
+                        Canvas.SetLeft(text, this.GetX(start.X) - text.ActualWidth * 1.5);
+                    };
+
+                    this.Children.Add(text);
+                }
 
                 //  Do ：显示标记
                 if (this.MarkStyle == null) return;
@@ -182,11 +322,11 @@ namespace HeBianGu.Control.Chart2D
                         m.Stroke = this.Foreground;
                     }
 
-                    Canvas.SetLeft(m, this.GetX(this.minX, this.ActualWidth));
-                    Canvas.SetTop(m, this.GetY(y, this.ActualHeight));
+                    Canvas.SetLeft(m, this.GetX(start.X));
+                    Canvas.SetTop(m, this.GetY(start.Y));
                     this.Children.Add(m);
                 }
-            } 
+            }
         }
 
 
@@ -210,36 +350,64 @@ namespace HeBianGu.Control.Chart2D
 
              }));
 
-        List<double> _tempData = new List<double>();
 
-        public void InitData()
+
+        List<double> GetData()
         {
-            this._tempData.Clear();
+            List<double> result = new List<double>();
 
-            if (this.MarkLineType== MarkLineType.Max)
+            if (this.MarkLineType == MarkLineType.Max)
             {
-                this._tempData.Add(this.maxY);
+                result.Add(this.maxY);
             }
 
             else if (this.MarkLineType == MarkLineType.Min)
             {
-                this._tempData.Add(this.minX);
+                result.Add(this.minX);
             }
 
             else if (this.MarkLineType == MarkLineType.Average)
             {
-                this._tempData.Add(this.Data.Average());
+                result.Add(this.Data.Average());
             }
             else
             {
-                this._tempData = this.Data.ToList();
+                result = this.Data.ToList();
             }
+
+            return result;
+        }
+
+        List<string> GetDisplayName()
+        {
+            List<string> result = new List<string>();
+
+            if (this.MarkLineType == MarkLineType.Max)
+            {
+                result.Add("最大值");
+            }
+
+            else if (this.MarkLineType == MarkLineType.Min)
+            {
+                result.Add("最小值");
+            }
+
+            else if (this.MarkLineType == MarkLineType.Average)
+            {
+                result.Add("平均值");
+            }
+            else
+            {
+                result = this.yDisplay?.ToList();
+            }
+
+            return result;
         }
     }
 
     public enum MarkLineType
     {
-        Default=0,Max,Min,Average
+        Default = 0, Max, Min, Average, Custom
     }
 
 }

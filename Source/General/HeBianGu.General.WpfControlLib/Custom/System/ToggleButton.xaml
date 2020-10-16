@@ -331,4 +331,47 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.Single">
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}" />
+        <Setter Property="h:ControlAttachProperty.FIconSize" Value="{DynamicResource S.FIcon.Size.Small}"/>
+        <Setter Property="h:ControlAttachProperty.FIconMargin" Value="0,1,3,1"/>
+        <Setter Property="h:ControlAttachProperty.FIcon" Value="&#xe63a;"/>
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="h:ControlAttachProperty.CheckedForegroundBrush" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="h:ControlAttachProperty.CheckedBackgroundBrush" Value="Transparent"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                Grid.ColumnSpan="2" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            <ContentPresenter/>
+                        </Border>
+                    </Grid>
+                    <!--z触发器-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="0.8"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Opacity" Value="0.7"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Background" Value="{Binding Path=(h:ControlAttachProperty.CheckedBackgroundBrush),RelativeSource={RelativeSource TemplatedParent}}" TargetName="border"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="{StaticResource S.Opacity.Disable}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

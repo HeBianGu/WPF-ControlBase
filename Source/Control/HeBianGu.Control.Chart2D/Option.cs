@@ -34,19 +34,40 @@ namespace HeBianGu.Control.Chart2D
 
     }
 
-    /// <summary> 标题 </summary>
-    public class Title : Label
+    ///// <summary> 标题 </summary>
+    //public class Title : Label
+    //{
+
+    //}
+
+    ///// <summary> 图例 </summary>
+    //public class Legend : ListBox
+    //{
+
+    //}
+
+    public class DataBoolenTypeConverter : TypeConverter
     {
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return sourceType == typeof(string);
+        }
 
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            return value?.ToString().Split(',')?.Select(l =>
+            {
+                if (bool.TryParse(l, out bool d))
+                {
+                    return d;
+                }
+                else
+                {
+                    return false;
+                }
+            })?.ToObservable();
+        }
     }
-
-    /// <summary> 图例 </summary>
-    public class Legend : ListBox
-    {
-
-    }
-
-
 
     public class DataTypeConverter : TypeConverter
     {
@@ -82,7 +103,7 @@ namespace HeBianGu.Control.Chart2D
         {
             List<double[]> result = new List<double[]>();
 
-            var ss = value?.ToString().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var ss = value?.ToString().Split(new char[] { ' ','[',']' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var item in ss)
             {
@@ -105,6 +126,40 @@ namespace HeBianGu.Control.Chart2D
         }
     }
 
+
+    public class DataXyTypeConverter : TypeConverter
+    {
+        public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        {
+            return sourceType == typeof(string);
+        }
+
+        public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        {
+            List<double[]> result = new List<double[]>();
+
+            var ss = value?.ToString().Split(new string[] { "]," }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var item in ss)
+            {
+                double[] ds = item.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)?.Select(l =>
+                {
+                    if (double.TryParse(l.Trim(' ').Trim(']').Trim('['), out double d))
+                    {
+                        return d;
+                    }
+                    else
+                    {
+                        return double.NaN;
+                    }
+                })?.ToArray();
+
+                result.Add(ds);
+            }
+
+            return result?.ToObservable();
+        }
+    }
     public class BrushArrayTypeConverter : TypeConverter
     {
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)

@@ -112,7 +112,7 @@ namespace HeBianGu.Control.Chart2D
 
     /// <summary> 柱状图 </summary>
     public class Bar : BarBase
-    { 
+    {
         protected override void InitX()
         {
             base.InitX();
@@ -131,8 +131,6 @@ namespace HeBianGu.Control.Chart2D
             double span = (this.maxX - this.minX) / this.xAxis.Count;
 
             double itemWidth = span * this.WidthPercent;
-
-            if (this.xAxis.Count != this.Data.Count) return;
 
             for (int i = 0; i < this.xAxis.Count; i++)
             {
@@ -166,10 +164,7 @@ namespace HeBianGu.Control.Chart2D
                 path.Data = pg;
 
                 this.Children.Add(path);
-
             }
-
-
         }
     }
 
@@ -184,17 +179,25 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static new readonly DependencyProperty DataProperty =
-            DependencyProperty.Register("Data", typeof(ObservableCollection<double[]>), typeof(StackBarBase), new PropertyMetadata(default(ObservableCollection<double[]>), (d, e) =>
+            DependencyProperty.Register("Data", typeof(ObservableCollection<double[]>), typeof(StackBarBase), new PropertyMetadata(new ObservableCollection<double[]>(), (d, e) =>
             {
-                StackBar control = d as StackBar;
+                StackBarBase control = d as StackBarBase;
 
                 if (control == null) return;
 
                 ObservableCollection<double[]> config = e.NewValue as ObservableCollection<double[]>;
 
+                control.DataBoolean = Enumerable.Range(0, config.FirstOrDefault().Length).Select(l => true)?.ToObservable();
+
                 control.TryDraw();
 
             }));
+
+        //  Do ：过滤掉基类Data刷新的DataBoolean
+        protected override void InitDataBoolean(int count, bool value = true)
+        {
+            return;
+        }
 
         [TypeConverter(typeof(BrushArrayTypeConverter))]
         public new ObservableCollection<Color> Foreground
@@ -211,12 +214,11 @@ namespace HeBianGu.Control.Chart2D
 
                 if (control == null) return;
 
-                ObservableCollection<Color> config = e.NewValue as ObservableCollection<Color>;
+                ObservableCollection<Color> config = e.NewValue as ObservableCollection<Color>; 
 
                 control.TryDraw();
 
             }));
-
     }
 
     public class StackBar : StackBarBase
@@ -240,6 +242,8 @@ namespace HeBianGu.Control.Chart2D
 
             double itemWidth = span * this.WidthPercent;
 
+            if (this.Data == null || this.xAxis == null) return;
+
             if (this.xAxis.Count != this.Data.Count) return;
 
             for (int i = 0; i < this.xAxis.Count; i++)
@@ -251,6 +255,10 @@ namespace HeBianGu.Control.Chart2D
                 for (int j = 0; j < this.Data[i].Length; j++)
                 {
                     double start = y;
+
+                    bool use = this.DataBoolean.Count>j? this.DataBoolean[j]:true;
+
+                    if (!use) continue;
 
                     y = y + this.Data[i][j];
 
@@ -280,6 +288,9 @@ namespace HeBianGu.Control.Chart2D
                     PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
 
                     path.Data = pg;
+
+                    //  Do ：用于标识Legend显示信息
+                    path.Tag = this.xDisplay.Count > i ? this.xDisplay[i] : this.Data[i].ToString();
 
                     this.Children.Add(path);
                 }
@@ -370,7 +381,7 @@ namespace HeBianGu.Control.Chart2D
 
             double span = (this.maxY - this.minY) / this.yAxis.Count;
 
-            double itemWidth = span * this.WidthPercent; 
+            double itemWidth = span * this.WidthPercent;
 
             for (int i = 0; i < this.yAxis.Count; i++)
             {
@@ -380,6 +391,10 @@ namespace HeBianGu.Control.Chart2D
 
                 for (int j = 0; j < this.Data[i].Length; j++)
                 {
+                    bool use = this.DataBoolean.Count > j ? this.DataBoolean[j] : true;
+
+                    if (!use) continue;
+
                     double start = d;
 
                     d = d + this.Data[i][j];
@@ -393,13 +408,13 @@ namespace HeBianGu.Control.Chart2D
                     PolyLineSegment area = new PolyLineSegment();
 
                     //  Do ：添加曲线
-                    area.Points.Add(new Point(this.GetX(start),this.GetY((x - itemWidth / 2) + this.MulIndex * itemWidth / this.MulCount)));
+                    area.Points.Add(new Point(this.GetX(start), this.GetY((x - itemWidth / 2) + this.MulIndex * itemWidth / this.MulCount)));
 
-                    area.Points.Add(new Point(this.GetX(d),this.GetY((x - itemWidth / 2) + this.MulIndex * itemWidth / this.MulCount)));
+                    area.Points.Add(new Point(this.GetX(d), this.GetY((x - itemWidth / 2) + this.MulIndex * itemWidth / this.MulCount)));
 
-                    area.Points.Add(new Point(this.GetX(d),this.GetY((x - itemWidth / 2) + ((this.MulIndex + 1) * itemWidth / this.MulCount) * this.ItemPercent)));
+                    area.Points.Add(new Point(this.GetX(d), this.GetY((x - itemWidth / 2) + ((this.MulIndex + 1) * itemWidth / this.MulCount) * this.ItemPercent)));
 
-                    area.Points.Add(new Point(this.GetX(start),this.GetY((x - itemWidth / 2) + ((this.MulIndex + 1) * itemWidth / this.MulCount) * this.ItemPercent)));
+                    area.Points.Add(new Point(this.GetX(start), this.GetY((x - itemWidth / 2) + ((this.MulIndex + 1) * itemWidth / this.MulCount) * this.ItemPercent)));
 
                     area.Points.Add(area.Points.FirstOrDefault());
 

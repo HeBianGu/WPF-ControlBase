@@ -38,7 +38,7 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (window != null)
                 {
-                    string info = $"{LanguageService.Instance.GetConfigByKey("Notice")}：[" + DateTime.Now.ToString("HH:mm:ss]  " + message);
+                    string info = $"{LanguageService.Instance.GetConfigByKey("Notice")}：[{DateTime.Now.ToString("HH:mm:ss")}] {message}";
 
                     window.AddSnackMessage(info);
                 }
@@ -689,13 +689,13 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 显示带进度的消息 </summary>
-        public static async Task<T> ShowWinProgressStrMessage<T>(Func<StringProgressMessage,T> action)
+        public static async Task<T> ShowWinProgressStrMessage<T>(Func<StringProgressMessage, T> action)
         {
             var control = new StringProgressMessage();
 
             ShowWinMessage(control);
 
-           var result= await Task<T>.Run(()=>action.Invoke(control));
+            var result = await Task<T>.Run(() => action.Invoke(control));
 
             control.Close();
 
@@ -770,7 +770,7 @@ namespace HeBianGu.General.WpfControlLib
 
             bool result = int.TryParse(parameter?.ToString(), out int value);
 
-            if(result)
+            if (result)
             {
                 MessageService.CloseWithLayer(value);
             }
@@ -778,7 +778,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 MessageService.CloseWithLayer();
             }
-          
+
         }
 
         public event EventHandler CanExecuteChanged;

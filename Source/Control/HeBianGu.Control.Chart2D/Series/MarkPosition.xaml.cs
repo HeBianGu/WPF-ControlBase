@@ -26,7 +26,6 @@ namespace HeBianGu.Control.Chart2D
     /// <summary> 曲线视图 </summary>
     public class MarkPosition : Layer
     {
-
         public double WidthPercent
         {
             get { return (double)GetValue(WidthPercentProperty); }
@@ -46,7 +45,6 @@ namespace HeBianGu.Control.Chart2D
                 control.TryDraw();
 
             }));
-
 
         public double ItemPercent
         {
@@ -164,19 +162,44 @@ namespace HeBianGu.Control.Chart2D
 
              }));
 
+
+
+        public Point Point
+        {
+            get { return (Point)GetValue(PointProperty); }
+            set { SetValue(PointProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PointProperty =
+            DependencyProperty.Register("Point", typeof(Point), typeof(MarkPosition), new PropertyMetadata(default(Point), (d, e) =>
+             {
+                 MarkPosition control = d as MarkPosition;
+
+                 if (control == null) return;
+
+                 //Point config = e.NewValue as Point;
+
+                 control.TryDraw();
+
+             }));
+
+
         Point GetPoint()
         {
+            if (this.MarkValueType == MarkValueType.Default) return this.Point;
+
             double span = this.AlignmentCenter ? (this.maxX - this.minX) / (this.xAxis.Count) : 0;
 
             double itemWidth = span * this.WidthPercent;
 
-            double v = this.MarkValueType == MarkValueType.Max ? this.Data.Max() : this.Data.Min();
+            double v = (this.MarkValueType == MarkValueType.Max) ? this.Data.Max() : this.Data.Min();
 
             int index = this.Data.IndexOf(v);
 
             double x = this.xAxis[index];
 
-            return new Point((x - itemWidth / 2) + (this.MulIndex+0.5) * (itemWidth / this.MulCount), v);
+            return new Point((x - itemWidth / 2) + (this.MulIndex + 0.5) * (itemWidth / this.MulCount), v);
         }
 
 
@@ -184,19 +207,12 @@ namespace HeBianGu.Control.Chart2D
         {
             base.Draw(canvas);
 
-            if (this.Data.Count == 0) return;
-
             Point point = this.GetPoint();
-
-            //Canvas.SetLeft(Marker,this.GetX(point.X) - Marker.ActualWidth / 2);
-            //Canvas.SetTop(Marker, this .GetY(point.Y) - Marker.ActualHeight);
-
-            //this.Children.Add(Marker);
 
             //  Do ：显示文本
             Label t = new Label();
 
-            t.Content = point.Y.ToString();
+            t.Content = Math.Round(point.Y, 0).ToString();
             t.Style = this.LabelStyle;
 
             t.Foreground = Brushes.White;
@@ -213,7 +229,7 @@ namespace HeBianGu.Control.Chart2D
 
     public enum MarkValueType
     {
-        Max = 0, Min
+        Default = 0, Max, Min
     }
 
 }

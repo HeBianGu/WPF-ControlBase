@@ -6,9 +6,9 @@ using System.Windows.Media.Animation;
 namespace HeBianGu.Base.WpfBase
 {
     public class CollapsedOfOpacityCommand : ICommand
-    {  
+    {
         public bool CanExecute(object parameter)
-        { 
+        {
             return true;
         }
 
@@ -19,9 +19,9 @@ namespace HeBianGu.Base.WpfBase
                 var engine = DoubleStoryboardEngine.Create(1, 0, 0.2, UIElement.OpacityProperty.Name);
 
                 engine.CompletedEvent += (l, k) =>
-              {
-                  element.Visibility = Visibility.Collapsed;
-              };
+                {
+                    element.Visibility = Visibility.Collapsed;
+                };
 
 
                 engine.Start(element);
@@ -99,7 +99,7 @@ namespace HeBianGu.Base.WpfBase
             {
                 ThicknessAnimation marginAnimation = new ThicknessAnimation();
                 marginAnimation.From = new Thickness(0, 0, 0, 0);
-                marginAnimation.To = new Thickness(-element.ActualHeight, 0, 0, 0);
+                marginAnimation.To = new Thickness(0, 0, 0, -element.ActualHeight);
                 marginAnimation.Duration = TimeSpan.FromSeconds(0.5);
                 //marginAnimation.Completed += (l, k) =>
                 //  {
@@ -128,7 +128,7 @@ namespace HeBianGu.Base.WpfBase
             {
                 element.Visibility = Visibility.Visible;
                 ThicknessAnimation marginAnimation = new ThicknessAnimation();
-                marginAnimation.From = new Thickness(-element.ActualHeight, 0, 0, 0);
+                marginAnimation.From = new Thickness(0, 0, 0, -element.ActualHeight);
                 marginAnimation.To = new Thickness(0, 0, 0, 0);
                 marginAnimation.Duration = TimeSpan.FromSeconds(0.5);
                 element.BeginAnimation(FrameworkElement.MarginProperty, marginAnimation);

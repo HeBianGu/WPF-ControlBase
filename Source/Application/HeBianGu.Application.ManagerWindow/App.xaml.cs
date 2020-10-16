@@ -50,7 +50,7 @@ namespace HeBianGu.Application.ManagerWindow
             {
                 l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF003D99");
 
-                l.ForegroundColor = (Color)ColorConverter.ConvertFromString("#606266");
+                //l.ForegroundColor = (Color)ColorConverter.ConvertFromString("#606266");
 
                 l.SmallFontSize = 14D;
                 l.LargeFontSize = 16D;

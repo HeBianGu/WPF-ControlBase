@@ -143,7 +143,20 @@ namespace HeBianGu.Control.Chart2D
         {
             base.Draw(canvas);
 
-            double total = this.Data.Sum();
+            double total = 0;
+
+            for (int i = 0; i < this.Data.Count; i++)
+            {
+                bool use = this.DataBoolean.Count > i ? this.DataBoolean[i] : true;
+
+                if (!use) continue;
+
+                total += this.Data[i];
+            }
+
+            //this.Data.Union
+
+            //double total = this.Data.Sum();
 
             double sum = 0;
 
@@ -154,10 +167,12 @@ namespace HeBianGu.Control.Chart2D
 
             for (int i = 0; i < this.Data.Count; i++)
             {
+                bool use = this.DataBoolean.Count > i ? this.DataBoolean[i] : true;
+
                 //  Do ：半径
                 double len = Len == double.NaN ? min / 2 : Len;
 
-                double y = this.Data[i];
+                double y = use ? this.Data[i] : 0;
 
                 double startAngle = 360 * sum / total;
 
@@ -165,27 +180,39 @@ namespace HeBianGu.Control.Chart2D
 
                 sum = sum + y;
 
+                double max = len;
+
+                //半径跟随值变化
+                if (this.IsCustomized)
+                {
+                    len = len * this.Data[i] / this.Data.Max();
+                }
+
                 //Point direction = new Point(0,0);
 
                 //  Do ：增加标记
                 {
-                    Point start = new Point(center.X - len - len / 10, center.X);
-
+                    //  Do ：第二个点
+                    Point start = new Point(center.X - max - max / 10, center.X);
                     Matrix matrix = new Matrix();
-
                     matrix.RotateAt((endAngle - startAngle) / 2 + startAngle, center.X, center.Y);
-
                     Point end = matrix.Transform(start);
 
-                    //direction = end;
+                    //  Do ：第一个点
+                    Point startFirst = new Point(center.X - len, center.X);
+                    Matrix matrixFirst = new Matrix();
+                    matrixFirst.RotateAt((endAngle - startAngle) / 2 + startAngle, center.X, center.Y);
+                    Point endFirst = matrixFirst.Transform(startFirst);
 
                     Path path = new Path();
+
+                    path.Visibility = use ? Visibility.Visible : Visibility.Hidden;
                     path.Style = this.LineStyle;
 
                     path.Stroke = new SolidColorBrush(this.Foreground[i]);
 
                     PathFigure pf = new PathFigure();
-                    pf.StartPoint = center;
+                    pf.StartPoint = endFirst;
                     pf.Segments.Add(new LineSegment(end, true));
 
                     double hlen = len / 8;
@@ -198,11 +225,15 @@ namespace HeBianGu.Control.Chart2D
 
                     path.Data = pg;
 
+
                     this.Children.Add(path);
 
                     //  Do ：显示文本
                     Label t = new Label();
                     t.Content = this.xDisplay.Count > i ? this.xDisplay[i] : this.Data[i].ToString();
+
+                    t.Visibility = use ? Visibility.Visible : Visibility.Hidden;
+
                     t.Style = this.LabelStyle;
 
                     t.Loaded += (o, e) =>
@@ -212,14 +243,12 @@ namespace HeBianGu.Control.Chart2D
                         Canvas.SetLeft(t, end.X + endParam);
                         Canvas.SetTop(t, end.Y - t.ActualHeight / 2);
                     };
+
+
                     canvas.Children.Add(t);
                 }
 
-                //半径跟随值变化
-                if (this.IsCustomized)
-                {
-                    len = len * this.Data[i] / this.Data.Max();
-                }
+
 
                 //  Do ：增加扇形
                 {
@@ -272,20 +301,15 @@ namespace HeBianGu.Control.Chart2D
 
                     path.Data = pg;
 
+                    //  Do ：用于标识Legend显示信息
+                    path.Tag = this.xDisplay.Count > i ? this.xDisplay[i] : this.Data[i].ToString();
 
-                    //Vector vector = new Vector(direction.X,direction.Y);
+                    path.Visibility = use ? Visibility.Visible : Visibility.Hidden;
 
-                    //vector.Normalize();
-
-                    //Point sss = new Point(vector.X, vector.Y);
-
-                    //path.RenderTransformOrigin = sss;
-
-                    //Canvas.SetLeft(path, (this.ActualWidth - min) / 2);
-                    //Canvas.SetTop(path, (this.ActualHeight - min) / 2);
                     this.Children.Add(path);
                 }
 
+                //  Do ：中心空白圆圈
                 Ellipse ellipse = new Ellipse();
                 ellipse.Width = this.CircleLen * 2;
                 ellipse.Height = this.CircleLen * 2;

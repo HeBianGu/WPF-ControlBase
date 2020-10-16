@@ -752,6 +752,8 @@ namespace HeBianGu.Base.WpfBase
             //    txt.Text = fd.SelectedPath;
             //}
             //tbox.Focus();
+
+            
         }
 
         #endregion

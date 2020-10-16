@@ -35,8 +35,11 @@ namespace HeBianGu.Base.WpfBase
             get { return new FalseToVisibilityConverter(); }
         }
 
+        public static VisibilityToBoolenConverter VisibilityToBoolenConverter
+        {
+            get { return new VisibilityToBoolenConverter(); }
+        }
 
-        
         public static VisibilityConverter VisibilityConverter
         {
             get { return new VisibilityConverter(); }

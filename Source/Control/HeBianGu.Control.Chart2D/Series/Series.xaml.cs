@@ -23,10 +23,8 @@ using System.Windows.Threading;
 
 namespace HeBianGu.Control.Chart2D
 { 
-
     public class Series : DataLayerGroup
     {
-
         public Style LineStyle
         {
             get { return (Style)GetValue(LineStyleProperty); }

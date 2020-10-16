@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="HeBianGu.Application.SceneWindow.View.Dialog.ConfigSceneControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.Application.SceneWindow.View.Dialog" xmlns:h="QQ:908293466" xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" Background="{DynamicResource S.Brush.TextBackground.Default}"
+             d:DesignHeight="450" d:DesignWidth="800" Width="900" Height="600">
+    <Grid Margin="50,30">
+        <Grid.Resources>
+            <Style TargetType="h:FButton" BasedOn="{StaticResource S.FButton.Circle.CornerRadius}">
+                <Setter Property="FIconSize" Value="50"/>
+                <Setter Property="Height" Value="Auto"/>
+                <Setter Property="Margin" Value="0,5,0,0"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+            </Style>
+        </Grid.Resources>
+
+        <h:Interaction.Behaviors>
+            <h:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="HorizontalAlignment" StartValue="1000" EndValue="0" End="1" Split="0.2"/>
+        </h:Interaction.Behaviors>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.RowSpan="3">
+            <StackPanel>
+                <TextBlock Text="配置新场景" Style="{DynamicResource S.TextBlock.Default}" HorizontalAlignment="Left" FontSize="25" Margin="-1,0,0,0" Foreground="{DynamicResource S.Brush.TextForeground.Title}"/>
+
+                <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=local:ConfigSceneControl},Path=Model.Value3}" Style="{DynamicResource S.TextBlock.Default}" HorizontalAlignment="Left" FontSize="{DynamicResource S.FIcon.Size.Large}" Margin="0,25,0,10"/>
+
+                <ItemsControl Margin="10,20">
+                    <h:Row Style="{StaticResource S.Row.Column.1}">
+                        <h:FTextBox Text="{Binding RelativeSource={RelativeSource AncestorType=local:ConfigSceneControl},Path=Model.Value}" Style="{StaticResource S.FTextBox.Single.LabelClear}" h:ControlAttachProperty.Label="名称  " h:ControlAttachProperty.Watermark="请输入场景名称"/>
+                    </h:Row>
+                    <h:Row Style="{StaticResource S.Row.Column.1}">
+                        <h:FTextBox Text="{Binding RelativeSource={RelativeSource AncestorType=local:ConfigSceneControl},Path=Model.Value1}" Style="{StaticResource S.FTextBox.Single.OpenFolder}" h:ControlAttachProperty.Label="路径  " h:ControlAttachProperty.Watermark="请输入场景路径"/>
+                    </h:Row>
+                    <h:Row Style="{StaticResource S.Row.Column.1}">
+                        <h:FTextBox Text="{Binding RelativeSource={RelativeSource AncestorType=local:ConfigSceneControl},Path=Model.Value2}" Style="{StaticResource S.FTextBox.Single.LabelClear}" h:ControlAttachProperty.Label="说明  " h:ControlAttachProperty.Watermark="请输入场景说明"/>
+                    </h:Row>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+        
+        <h:FButton Grid.Row="2" Content="上一步" Style="{StaticResource S.FButton.Style.Default}" Grid.ColumnSpan="2"
+                IsDefault="True" Command="{x:Static h:DialogHost.CloseDialogCommand}" 
+                HorizontalAlignment="Right" Margin="0,0,150,0" CommandParameter="{x:Null}">
+        </h:FButton>
+
+        <h:FButton Grid.Row="2" Content="创建" Style="{StaticResource S.FButton.Style.Default}" Grid.ColumnSpan="2"
+                IsDefault="True" Command="{x:Static h:DialogHost.CloseDialogCommand}" 
+                HorizontalAlignment="Right" Margin="0,0,0,0">
+            <h:FButton.CommandParameter>
+                <system:Boolean>True</system:Boolean>
+            </h:FButton.CommandParameter>
+        </h:FButton>
+
+        <h:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Instance.Close}" Grid.ColumnSpan="2"
+                IsCancel="True" Command="{x:Static h:DialogHost.CloseDialogCommand}" Margin="-40,-20"
+                HorizontalAlignment="Right">
+            <h:FButton.CommandParameter>
+                <system:Boolean>False</system:Boolean>
+            </h:FButton.CommandParameter>
+        </h:FButton>
+    </Grid>
+</UserControl>

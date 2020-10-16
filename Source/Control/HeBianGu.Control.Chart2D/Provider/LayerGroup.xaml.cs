@@ -26,8 +26,35 @@ namespace HeBianGu.Control.Chart2D
     /// <summary> 容器 </summary>
     public class LayerGroup : ItemsControl
     {
+        public virtual void Draw()
+        {
+            var layers = this.GetChildren<LayerBase>();
 
+            if (layers == null) return;
 
+            foreach (var layer in layers)
+            {
+                layer.TryDraw();
+            }
+        }
+
+        public string DisplayName
+        {
+            get { return (string)GetValue(DisplayNameProperty); }
+            set { SetValue(DisplayNameProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DisplayNameProperty =
+            DependencyProperty.Register("DisplayName", typeof(string), typeof(LayerGroup), new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
+            {
+                LayerGroup control = d as LayerGroup;
+
+                if (control == null) return;
+
+                string config = e.NewValue as string;
+
+            }));
     }
 
     /// <summary> 绘图结构关系 </summary>

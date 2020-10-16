@@ -44,22 +44,30 @@ namespace WpfAppBlurWindow
             //  Do：设置默认主题
             app.UseLocalTheme(l =>
             {
-                l.AccentColor = Color.FromRgb(0x64, 0x76, 0x87);
-                l.SmallFontSize = 15D;
-                l.LargeFontSize = 18D;
-                l.FontSize = FontSize.Small;
+                //  Do：设置默认主题
+                app.UseLocalTheme(l =>
+                {
+                    l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF003D99");
+                    //l.ForegroundColor = (Color)ColorConverter.ConvertFromString("#727272");
 
-                l.ItemHeight = 35;
-                //l.ItemWidth = 120;
-                l.ItemCornerRadius = 5;
+                    l.SmallFontSize = 15D;
+                    l.LargeFontSize = 18D;
+                    l.FontSize = FontSize.Small;
 
-                l.AnimalSpeed = 5000;
-                l.AccentColorSelectType = 0;
-                l.IsUseAnimal = true;
+                    l.ItemHeight = 35;
+                    //l.ItemWidth = 120;
+                    l.ItemCornerRadius = 5;
 
-                l.ThemeType = ThemeType.Light;
+                    l.AnimalSpeed = 5000;
 
-                l.Language = Language.Chinese;
+                    l.AccentColorSelectType = 0;
+
+                    l.IsUseAnimal = true;
+
+                    l.ThemeType = ThemeType.Light;
+
+                    l.Language = Language.Chinese;
+                });
             });
         }
 

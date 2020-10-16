@@ -79,6 +79,23 @@ namespace HeBianGu.Application.ChartWindow
         {
             return await ViewAsync();
         }
-        
+
+        public async Task<IActionResult> FlagTip()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> ToolBar()
+        {
+            return await ViewAsync();
+        }
+
+
+        public async Task<IActionResult> VisualMap()
+        {
+            return await ViewAsync();
+        }
+
+
     }
 }
