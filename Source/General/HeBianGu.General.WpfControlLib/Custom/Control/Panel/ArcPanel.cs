@@ -126,18 +126,24 @@ namespace HeBianGu.General.WpfControlLib
 
                 end = new Point(end.X - elment.DesiredSize.Width / 2, end.Y - elment.DesiredSize.Height / 2);
 
-                elment.Arrange(new Rect(new Point(0, 0), elment.DesiredSize));
-
-                if (elment.CheckDefaultTransformGroup())
+                if(!this.UseAnimation)
                 {
-                    elment.BeginAnimationXY(end.X, end.Y, this.Duration);
-
-                    if (this.AngleToCenter)
-                    {
-                        elment.BeginAnimationAngle(angle, this.Duration);
-                    }
+                    elment.Arrange(new Rect(end, elment.DesiredSize));
                 }
+                else
+                {
+                    elment.Arrange(new Rect(new Point(0, 0), elment.DesiredSize));
 
+                    if (elment.CheckDefaultTransformGroup())
+                    {
+                        elment.BeginAnimationXY(end.X, end.Y, this.Duration);
+
+                        if (this.AngleToCenter)
+                        {
+                            elment.BeginAnimationAngle(angle, this.Duration);
+                        }
+                    }
+                } 
             }
 
             return base.ArrangeOverride(finalSize);

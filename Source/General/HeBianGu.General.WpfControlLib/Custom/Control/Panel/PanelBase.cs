@@ -155,5 +155,24 @@ namespace HeBianGu.General.WpfControlLib
 
             }));
 
+
+        public bool UseAnimation
+        {
+            get { return (bool)GetValue(UseAnimationProperty); }
+            set { SetValue(UseAnimationProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseAnimationProperty =
+            DependencyProperty.Register("UseAnimation", typeof(bool), typeof(AnimationPanel), new PropertyMetadata(true, (d, e) =>
+             {
+                 AnimationPanel control = d as AnimationPanel;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
     }
 }
