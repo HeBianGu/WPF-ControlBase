@@ -53,10 +53,10 @@ namespace HeBianGu.Control.Chart2D
                   this.TryDraw();
               };
 
-            this.MouseDown +=(l, k) =>
-             {
-                 Debug.WriteLine(this.GetType().FullName);
-             };
+            this.MouseDown += (l, k) =>
+              {
+                  Debug.WriteLine(this.GetType().FullName);
+              };
 
         }
 
@@ -112,6 +112,7 @@ namespace HeBianGu.Control.Chart2D
         {
             this.Drawed += AssociatedObject_Drawed;
         }
+
         public ArrayList Timelines
         {
             get { return (ArrayList)GetValue(TimelinesProperty); }
@@ -323,7 +324,7 @@ namespace HeBianGu.Control.Chart2D
         /// <summary> 获取值对应Canvas的位置 </summary>
         public virtual double GetX(double value, double width)
         {
-            if (this.maxX == this.minX) return 0;
+            if (this.maxX == this.minX) return this.minX;
 
             var bottom = ((value - this.minX) / (this.maxX - this.minX)) * width;
 
@@ -339,7 +340,7 @@ namespace HeBianGu.Control.Chart2D
         /// <summary> 获取值对应Canvas的位置 </summary>
         public virtual double GetY(double value, double height)
         {
-            if (this.maxY == this.minY) return 0;
+            if (this.maxY == this.minY) return this.minY;
 
             var bottom = height - ((value - this.minY) / (this.maxY - this.minY)) * height;
 
@@ -480,8 +481,46 @@ namespace HeBianGu.Control.Chart2D
 
              }));
 
+        [TypeConverter(typeof(DataArrayTypeConverter))]
+        public ObservableCollection<double[]> xMap
+        {
+            get { return (ObservableCollection<double[]>)GetValue(xMapProperty); }
+            set { SetValue(xMapProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty xMapProperty =
+            DependencyProperty.Register("xMap", typeof(ObservableCollection<double[]>), typeof(XyLayer), new PropertyMetadata(default(ObservableCollection<double[]>), (d, e) =>
+             {
+                 XyLayer control = d as XyLayer;
+
+                 if (control == null) return;
+
+                 ObservableCollection<double[]> config = e.NewValue as ObservableCollection<double[]>;
+
+             }));
+
+        [TypeConverter(typeof(DataArrayTypeConverter))]
+        public ObservableCollection<double[]> yMap
+        {
+            get { return (ObservableCollection<double[]>)GetValue(yMapProperty); }
+            set { SetValue(yMapProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty yMapProperty =
+            DependencyProperty.Register("yMap", typeof(ObservableCollection<double[]>), typeof(XyLayer), new PropertyMetadata(default(ObservableCollection<double[]>), (d, e) =>
+             {
+                 XyLayer control = d as XyLayer;
+
+                 if (control == null) return;
+
+                 ObservableCollection<double[]> config = e.NewValue as ObservableCollection<double[]>;
+
+             }));
 
     }
+
 
     public class DataLayer : XyLayer
     {
@@ -508,7 +547,7 @@ namespace HeBianGu.Control.Chart2D
 
             }));
 
-        protected virtual void InitDataBoolean(int count,bool value=true)
+        protected virtual void InitDataBoolean(int count, bool value = true)
         {
             this.DataBoolean = Enumerable.Range(0, count).Select(l => value)?.ToObservable();
         }
@@ -532,10 +571,121 @@ namespace HeBianGu.Control.Chart2D
 
              }));
 
+        [TypeConverter(typeof(DataArrayTypeConverter))]
+        public ObservableCollection<double[]> DataMap
+        {
+            get { return (ObservableCollection<double[]>)GetValue(DataMapProperty); }
+            set { SetValue(DataMapProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DataMapProperty =
+            DependencyProperty.Register("DataMap", typeof(ObservableCollection<double[]>), typeof(DataLayer), new PropertyMetadata(default(ObservableCollection<double[]>), (d, e) =>
+             {
+                 DataLayer control = d as DataLayer;
+
+                 if (control == null) return;
+
+                 ObservableCollection<double[]> config = e.NewValue as ObservableCollection<double[]>;
+
+             }));
+
+
+
+    }
+
+    public class MapLayer: DataLayer
+    {
+        public MapLayer() : base()
+        {
+            this.Loaded += (l, k) =>
+            {
+                var group = this.GetParent<Chart>();
+
+                this.yAxises = group?.GetChildren<yAxis>()?.ToObservable();
+
+                this.xAxises = group?.GetChildren<xAxis>()?.ToObservable();
+
+                this.TryDraw();
+            };
+
+        }
+
+        public ObservableCollection<yAxis> yAxises
+        {
+            get { return (ObservableCollection<yAxis>)GetValue(yAxisesProperty); }
+            set { SetValue(yAxisesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty yAxisesProperty =
+            DependencyProperty.Register("yAxises", typeof(ObservableCollection<yAxis>), typeof(MapLayer), new PropertyMetadata(default(ObservableCollection<yAxis>), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                ObservableCollection<yAxis> config = e.NewValue as ObservableCollection<yAxis>;
+
+            }));
+
+
+        public ObservableCollection<xAxis> xAxises
+        {
+            get { return (ObservableCollection<xAxis>)GetValue(xAxisesProperty); }
+            set { SetValue(xAxisesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty xAxisesProperty =
+            DependencyProperty.Register("xAxises", typeof(ObservableCollection<xAxis>), typeof(MapLayer), new PropertyMetadata(default(ObservableCollection<xAxis>), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                ObservableCollection<xAxis> config = e.NewValue as ObservableCollection<xAxis>;
+
+            }));
+
+
+        public double GetMapY(double x, double value)
+        {
+            if (this.maxY == this.minY) return this.minY;
+
+            var find = this.yAxises?.FirstOrDefault(l => l.Value == x);
+
+            if (find == null) return value;
+
+            double min = find.yAxis.Min();
+
+            double max = find.yAxis.Max();
+
+
+            return ((value - min) / (max - min)) * (this.maxY - this.minY) + this.minY;
+        }
+
+
+
+        public double GetMapX(double y, double value)
+        {
+            if (this.maxX == this.minX) return this.minX;
+
+            var find = this.xAxises?.FirstOrDefault(l => l.Value == y);
+
+            if (find == null) return value;
+
+            double min = find.yAxis.Min();
+
+            double max = find.yAxis.Max();
+
+
+            return ((value - min) / (max - min)) * (this.maxX - this.minX) + this.minX;
+        }
     }
 
     /// <summary> 数据列表 </summary>
-    public class Layer : DataLayer
+    public class Layer : MapLayer
     {
         public Style MarkStyle
         {

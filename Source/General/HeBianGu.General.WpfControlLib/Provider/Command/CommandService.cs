@@ -183,7 +183,9 @@ namespace HeBianGu.General.WpfControlLib
 
         /// <summary> 关闭消息层 </summary>
         public static MessageLayerCloseCommand MessageLayerCloseCommand { get; } = new MessageLayerCloseCommand();
-        
 
+        public static CollapsedSplitAnimationCommand CollapsedSplitAnimationCommand { get; } = new CollapsedSplitAnimationCommand();
+
+        public static VisibleSplitAnimationCommand VisibleSplitAnimationCommand { get; } = new VisibleSplitAnimationCommand();
     }
 }

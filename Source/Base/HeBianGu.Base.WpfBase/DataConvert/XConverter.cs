@@ -168,7 +168,13 @@ namespace HeBianGu.Base.WpfBase
             get { return new IsFirstItemInContainerConverter(); }
         }
 
+
+        public static ItemPanelConverter ItemPanelConverter
+        {
+            get { return new ItemPanelConverter(); }
+        }
         
+
         public static CircleProgressBarConverter CircleProgressBarConverter
         {
             get { return new CircleProgressBarConverter(); }

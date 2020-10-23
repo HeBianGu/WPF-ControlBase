@@ -87,8 +87,10 @@ namespace HeBianGu.Control.Chart2D
 
                 double y = this.Data[i];
 
+                y = this.GetMapY(i, y);
+
                 //  Do ：添加曲线
-                pls.Points.Add(new Point(this.GetX(x, this.ActualWidth), this.GetY(y, this.ActualHeight)));
+                pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
 
             }
 

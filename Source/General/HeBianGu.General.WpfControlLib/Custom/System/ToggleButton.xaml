@@ -37,8 +37,38 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style> 
-    
+    </Style>
+
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.Accent">
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid x:Name="Grid" Margin="{TemplateBinding Padding}">
+                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </Grid>
+                    <!--z触发器-->
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}" />
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource S.Brush.Accent}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Opacity" Value="{StaticResource S.Opacity.Disable}" TargetName="Grid"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--选中和未选中设置两种颜色-->
     <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.BrushFIconChecked">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
@@ -179,7 +209,6 @@
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
                             <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" TargetName="FIcon"/>
-
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Gray.Notice}" />
@@ -198,7 +227,7 @@
         </Setter>
     </Style>
 
-
+   
     <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.DoubleFIconChecked.Single" BasedOn="{StaticResource S.ToggleButton.DoubleFIconChecked}">
         <Setter Property="Template">
             <Setter.Value>

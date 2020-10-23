@@ -44,6 +44,20 @@ namespace HeBianGu.Application.ManagerWindow
         {
             return await ViewAsync();
         }
-        
+
+        public async Task<IActionResult> GitTop()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Expander()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Panel()
+        {
+            return await ViewAsync();
+        }
     }
 }

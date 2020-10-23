@@ -102,7 +102,57 @@ namespace HeBianGu.Control.Chart2D
 
             }));
 
+        public double Value
+        {
+            get { return (double)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
 
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("Value", typeof(double), typeof(Axis), new PropertyMetadata(0.0, (d, e) =>
+             {
+                 Axis control = d as Axis;
+
+                 if (control == null) return;
+
+                 //double config = e.NewValue as double;
+
+
+                 control.TryDraw();
+
+             }));
+
+
+        public Dock DockAlignment
+        {
+            get { return (Dock)GetValue(DockAlignmentProperty); }
+            set { SetValue(DockAlignmentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DockAlignmentProperty =
+            DependencyProperty.Register("DockAlignment", typeof(Dock), typeof(Axis), new PropertyMetadata(Dock.Left, (d, e) =>
+             {
+                 Axis control = d as Axis;
+
+                 if (control == null) return;
+
+                 //Dock config = e.NewValue as Dock;
+
+
+                 control.TryDraw();
+             }));
+
+
+
+      
+
+     
+    }
+
+    public class xAxis : Axis
+    {
         protected override void InitX()
         {
             base.InitX();
@@ -126,6 +176,66 @@ namespace HeBianGu.Control.Chart2D
             }
         }
 
+        public override void Draw(Canvas canvas)
+        {
+            base.Draw(canvas);
+
+            double span = this.TextAlignmentCenter ? this.AlignAlignmentCenter ? 0 : (this.maxX - this.minX) / (this.xAxis.Count) : 0;
+
+            //this.Y = this.DockTop ? this.yAxis.Max() : this.Y;
+
+            //double y = this.DockTop ? this.yAxis.Max() : this.Y;
+
+            double y = this.Value;
+
+            //  Do ：绘制坐标
+            foreach (var item in this.xAxis)
+            {
+                //  Do ：底线
+                System.Windows.Shapes.Line yright = new System.Windows.Shapes.Line();
+                yright.X1 = 0;
+                yright.X2 = this.ActualWidth;
+                yright.Y1 = 0;
+                yright.Y2 = 0;
+                yright.Style = this.LineStyle;
+
+                Canvas.SetBottom(yright, this.ActualHeight - this.GetY(y));
+
+                canvas.Children.Add(yright);
+
+
+                //  Do ：刻度线
+                System.Windows.Shapes.Line l = new System.Windows.Shapes.Line();
+                l.X1 = 0;
+                l.X2 = 0;
+                l.Y1 = 0;
+                l.Y2 = this.AlignLenght;
+                l.Style = this.LineStyle;
+                Canvas.SetLeft(l, this.GetX(item + span / 2, this.ActualWidth));
+
+                Canvas.SetBottom(l, this.ActualHeight - this.GetY(y) + (this.DockAlignment == Dock.Top || this.DockAlignment == Dock.Left ? 0 : -this.AlignLenght));
+
+                canvas.Children.Add(l);
+
+                //  Do ：显示文本
+                Label t = new Label();
+
+                t.Content = this.xDisplay.Count > this.xAxis.IndexOf(item) ? this.xDisplay[this.xAxis.IndexOf(item)] : item.ToString();
+                t.Style = this.LabelStyle;
+
+                t.Loaded += (o, e) =>
+                {
+                    Canvas.SetLeft(t, this.GetX(item, this.ActualWidth) - t.ActualWidth / 2);
+                    Canvas.SetTop(t, (this.DockAlignment == Dock.Top || this.DockAlignment == Dock.Left ? -(this.AlignLenght + t.ActualHeight) : this.AlignLenght) + this.GetY(y));
+                };
+                canvas.Children.Add(t);
+            }
+        }
+
+    }
+
+    public class yAxis : Axis
+    {
         protected override void InitY()
         {
             base.InitY();
@@ -139,90 +249,7 @@ namespace HeBianGu.Control.Chart2D
                 this.minY = this.minY - span / 2;
             }
         }
-    }
 
-    public class xAxis : Axis
-    {
-        //  Message：目前不起作用 
-        public double Y
-        {
-            get { return (double)GetValue(YProperty); }
-            set { SetValue(YProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty YProperty =
-            DependencyProperty.Register("Y", typeof(double), typeof(xAxis), new PropertyMetadata(0.0, (d, e) =>
-             {
-                 xAxis control = d as xAxis;
-
-                 if (control == null) return;
-
-                 //double config = e.NewValue as double;
-
-
-                 control.TryDraw();
-
-             }));
-
-        public override void Draw(Canvas canvas)
-        {
-            base.Draw(canvas);
-
-            double span = this.TextAlignmentCenter ? this.AlignAlignmentCenter ? 0 : (this.maxX - this.minX) / (this.xAxis.Count) : 0;
-
-            //this.Y = this.DockTop ? this.yAxis.Max() : this.Y;
-
-            //double y = this.DockTop ? this.yAxis.Max() : this.Y;
-
-            double y = this.Y;
-
-            //  Do ：绘制坐标
-            foreach (var item in this.xAxis)
-            {
-                //  Do ：底线
-                System.Windows.Shapes.Line yright = new System.Windows.Shapes.Line();
-                yright.X1 = 0;
-                yright.X2 = this.ActualWidth;
-                yright.Y1 = 0;
-                yright.Y2 = 0;
-                yright.Style = this.LineStyle;
-
-                Canvas.SetBottom(yright, this.GetY(y, this.ActualHeight));
-
-                canvas.Children.Add(yright);
-
-
-                //  Do ：刻度线
-                System.Windows.Shapes.Line l = new System.Windows.Shapes.Line();
-                l.X1 = 0;
-                l.X2 = 0;
-                l.Y1 = 0;
-                l.Y2 = this.VerticalAlignment == VerticalAlignment.Top ? -this.AlignLenght : this.AlignLenght;
-                l.Style = this.LineStyle;
-                Canvas.SetLeft(l, this.GetX(item + span / 2, this.ActualWidth));
-
-                canvas.Children.Add(l);
-
-                //  Do ：显示文本
-                Label t = new Label();
-
-                t.Content = this.xDisplay.Count > this.xAxis.IndexOf(item) ? this.xDisplay[this.xAxis.IndexOf(item)] : item.ToString();
-                t.Style = this.LabelStyle;
-
-                t.Loaded += (o, e) =>
-                {
-                    Canvas.SetLeft(t, this.GetX(item, this.ActualWidth) - t.ActualWidth / 2);
-                    Canvas.SetTop(t, this.VerticalAlignment == VerticalAlignment.Top ? -(this.AlignLenght + t.ActualHeight) : this.AlignLenght);
-                };
-                canvas.Children.Add(t);
-            }
-        }
-
-    }
-
-    public class yAxis : Axis
-    {
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
@@ -232,6 +259,8 @@ namespace HeBianGu.Control.Chart2D
             //Y坐标
             foreach (var item in this.yAxis)
             {
+                var postion = this.GetX(this.Value);
+
                 //  Do ：底线
                 System.Windows.Shapes.Line xleft = new System.Windows.Shapes.Line();
                 xleft.X1 = 0;
@@ -239,7 +268,7 @@ namespace HeBianGu.Control.Chart2D
                 xleft.Y1 = 0;
                 xleft.Y2 = this.ActualHeight;
                 xleft.Style = this.LineStyle;
-                Canvas.SetLeft(xleft, 0);
+                Canvas.SetLeft(xleft, postion);
 
                 canvas.Children.Add(xleft);
 
@@ -253,13 +282,14 @@ namespace HeBianGu.Control.Chart2D
 
                 Canvas.SetTop(l, this.GetY(item + span / 2, this.ActualHeight));
 
-                if (this.HorizontalAlignment == HorizontalAlignment.Right)
+                if (this.DockAlignment == Dock.Right || this.DockAlignment == Dock.Bottom)
                 {
-                    Canvas.SetLeft(l, 0);
+
+                    Canvas.SetLeft(l, postion);
                 }
                 else
                 {
-                    Canvas.SetRight(l, 0);
+                    Canvas.SetLeft(l, postion - this.AlignLenght);
                 }
 
                 canvas.Children.Add(l);
@@ -272,22 +302,12 @@ namespace HeBianGu.Control.Chart2D
                 t.Loaded += (o, e) =>
                 {
                     Canvas.SetTop(t, this.GetY(item, this.ActualHeight) - t.ActualHeight / 2);
-                    Canvas.SetRight(t, this.HorizontalAlignment == HorizontalAlignment.Right ? -(this.AlignLenght + t.ActualWidth) : this.AlignLenght);
+                    Canvas.SetLeft(t, (this.DockAlignment == Dock.Right || this.DockAlignment == Dock.Bottom ? (this.AlignLenght) : -this.AlignLenght - t.ActualWidth) + postion);
                 };
 
                 canvas.Children.Add(t);
             }
         }
-
-        //protected override void InitY()
-        //{
-        //    if (this.Data.Count > 0)
-        //    {
-        //        this.minY = this.Data.Min();
-
-        //        this.maxY = this.Data.Max();
-        //    }
-        //}
     }
 
 
@@ -548,7 +568,7 @@ namespace HeBianGu.Control.Chart2D
 
             path.Loaded += (l, k) =>
             {
-                this.RunPath(path,500);
+                this.RunPath(path, 500);
             };
         }
     }

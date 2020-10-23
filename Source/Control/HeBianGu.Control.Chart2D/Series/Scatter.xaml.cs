@@ -169,6 +169,12 @@ namespace HeBianGu.Control.Chart2D
         {
             base.Draw(canvas);
 
+            if (this.BubbleData == null) return;
+
+            if (this.Data == null) return;
+
+            if (this.xAxis == null) return;
+
             for (int i = 0; i < this.xAxis.Count; i++)
             {
                 double x = this.xAxis[i];

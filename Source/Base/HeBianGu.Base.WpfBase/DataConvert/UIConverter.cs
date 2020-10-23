@@ -675,8 +675,7 @@ namespace HeBianGu.Base.WpfBase
 
     public class IsLastItemInContainerConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType,
-                              object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             DependencyObject item = (DependencyObject)value;
             ItemsControl ic = ItemsControl.ItemsControlFromItemContainer(item);
@@ -694,14 +693,32 @@ namespace HeBianGu.Base.WpfBase
 
     public class IsFirstItemInContainerConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType,
-                              object parameter, CultureInfo culture)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             DependencyObject item = (DependencyObject)value;
             ItemsControl ic = ItemsControl.ItemsControlFromItemContainer(item);
 
             return ic.ItemContainerGenerator.IndexFromContainer(item)
                     == 0;
+        }
+
+        public object ConvertBack(object value, Type targetType,
+                                  object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary> 获取ItemsPresenter 中的ItemsPanel </summary>
+    public class ItemPanelConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            ItemsPresenter item = (ItemsPresenter)value;
+
+           var panel= item.GetChildren<Panel>()?.ToList();
+
+            return panel?.FirstOrDefault();
         }
 
         public object ConvertBack(object value, Type targetType,

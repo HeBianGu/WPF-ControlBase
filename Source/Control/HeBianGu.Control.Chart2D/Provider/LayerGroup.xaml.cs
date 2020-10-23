@@ -125,6 +125,25 @@ namespace HeBianGu.Control.Chart2D
 
             }));
 
+        [TypeConverter(typeof(DataArrayTypeConverter))]
+        public ObservableCollection<double[]> DataMap
+        {
+            get { return (ObservableCollection<double[]>)GetValue(DataMapProperty); }
+            set { SetValue(DataMapProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DataMapProperty =
+            DependencyProperty.Register("DataMap", typeof(ObservableCollection<double[]>), typeof(DataLayerGroup), new PropertyMetadata(default(ObservableCollection<double[]>), (d, e) =>
+            {
+                DataLayerGroup control = d as DataLayerGroup;
+
+                if (control == null) return;
+
+                ObservableCollection<double[]> config = e.NewValue as ObservableCollection<double[]>;
+
+            }));
+
     }
 
 }

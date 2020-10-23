@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace HeBianGu.Base.WpfBase
@@ -33,8 +34,6 @@ namespace HeBianGu.Base.WpfBase
         }
 
         #endregion
-
-
    
         public static void Visible(this UIElement @ui)
         {
@@ -61,6 +60,9 @@ namespace HeBianGu.Base.WpfBase
         {
             @ui.Visibility = Visibility.Collapsed;
         }
+
+
+ 
     }
 
 
