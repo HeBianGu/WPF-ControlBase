@@ -45,6 +45,16 @@
                 </Style>
             </Setter.Value>
         </Setter>
+        <Setter Property="LabelStyle">
+            <Setter.Value>
+                <Style TargetType="Label">
+                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+                    <Setter Property="FontSize" Value="20"/>
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="WidthPercent" Value="0.8"/>
         <Setter Property="SplitMilliSecond" Value="-1900"/>
         <Setter Property="Timelines">
@@ -168,5 +178,46 @@
         </Setter>
     </Style>
 
+    <Style TargetType="{x:Type local:yAnimationBar}" BasedOn="{StaticResource S.BarBase.Default}">
+        <Setter Property="yDisplay" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Chart},Path=yDisplay}"/>
+        <Setter Property="PathStyle">
+            <Setter.Value>
+                <Style TargetType="Path">
+                    <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer},Path=Foreground}"/>
+                    <Setter Property="StrokeThickness" Value="1"/>
+                    <Setter Property="Opacity" Value="0.8"/>
+                    <Setter Property="OpacityMask">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Color="White" Offset="0"/>
+                                <GradientStop Color="Transparent" Offset="0.3"/>
+                                <GradientStop Color="White" Offset="0.7"/>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer},Path=Foreground}"/>
+                    <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+                    <Setter Property="RenderTransformOrigin" Value="0,0"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="1"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Timelines">
+            <Setter.Value>
+                <collections:ArrayList>
+                    <DoubleAnimation Duration="00:00:02" From="0" To="1"  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                        <DoubleAnimation.EasingFunction>
+                            <ElasticEase Springiness="10" Oscillations="6"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </collections:ArrayList>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
 

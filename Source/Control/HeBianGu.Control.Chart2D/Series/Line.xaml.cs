@@ -227,7 +227,7 @@ namespace HeBianGu.Control.Chart2D
                 this.RunPath(path);
             };
         }
-    
+
     }
 
 
@@ -423,5 +423,131 @@ namespace HeBianGu.Control.Chart2D
         {
             return Math.Sqrt(Math.Pow(pt1.X - pt2.X, 2) + Math.Pow(pt1.Y - pt2.Y, 2));
         }
+    }
+
+
+    /// <summary> 曲线视图 </summary>
+    public class StepLine : LineBase
+    {
+
+        public StepType StepType
+        {
+            get { return (StepType)GetValue(StepTypeProperty); }
+            set { SetValue(StepTypeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty StepTypeProperty =
+            DependencyProperty.Register("StepType", typeof(StepType), typeof(StepLine), new PropertyMetadata(default(StepType), (d, e) =>
+             {
+                 StepLine control = d as StepLine;
+
+                 if (control == null) return;
+
+                 //StepType config = e.NewValue as StepType;
+
+                 control.TryDraw();
+
+             }));
+
+
+        public override void Draw(Canvas canvas)
+        {
+            base.Draw(canvas);
+
+            this.DrawLine(canvas);
+        }
+
+        protected virtual void DrawLine(Canvas canvas)
+        {
+
+            Path path = new Path();
+
+            path.Style = this.PathStyle;
+
+            PolyLineSegment pls = new PolyLineSegment();
+
+            for (int i = 0; i < this.xAxis.Count; i++)
+            {
+                double x = this.xAxis[i];
+
+                double y = this.Data[i];
+
+                y = this.GetMapY(i, y);
+
+                if (this.StepType == StepType.Start)
+                {
+                    if (i == this.xAxis.Count - 1)
+                    {
+                        pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
+                    }
+                    else
+                    {
+                        double yn = this.Data[i + 1];
+
+                        pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
+                        pls.Points.Add(new Point(this.GetX(x), this.GetY(yn)));
+                    }
+                }
+                else if (this.StepType == StepType.End)
+                {
+                    if (i == 0)
+                    {
+                        pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
+                    }
+                    else
+                    {
+                        double yl = this.Data[i - 1];
+
+                        pls.Points.Add(new Point(this.GetX(x), this.GetY(yl)));
+                        pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
+                    }
+                }
+                else if (this.StepType == StepType.Center)
+                {
+                    if(i==0)
+                    {
+                        pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
+                    }
+
+                    if (i == this.xAxis.Count - 1)
+                    {
+                        pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
+                    }
+                    else
+                    {
+                        double yn = this.Data[i + 1];
+                        double xc = (this.xAxis[i + 1] - this.xAxis[i]) / 2 + this.xAxis[i];
+
+                        pls.Points.Add(new Point(this.GetX(xc), this.GetY(y)));
+                        pls.Points.Add(new Point(this.GetX(xc), this.GetY(yn)));
+                    }
+                }
+                else
+                {
+                    pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
+                }
+            }
+
+            PathFigure pf = new PathFigure();
+            pf.StartPoint = pls.Points.FirstOrDefault();
+            pf.Segments.Add(pls);
+
+            PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
+
+            path.Data = pg;
+
+            this.Children.Add(path);
+
+        }
+
+
+
+    }
+
+
+    public enum StepType
+    {
+        Default, Start, End, Center
     }
 }

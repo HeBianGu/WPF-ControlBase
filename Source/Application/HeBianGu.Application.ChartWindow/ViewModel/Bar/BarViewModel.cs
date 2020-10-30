@@ -21,15 +21,16 @@ namespace HeBianGu.Application.ChartWindow
     [ViewModel("Bar")]
     class BarViewModel : MvcViewModelBase
     {
-
         protected override void Init()
         {
-
+       
         }
+
+        Random random = new Random();
 
         protected override void Loaded(string args)
         {
-
+           
         }
 
         /// <summary> 命令通用方法 </summary>

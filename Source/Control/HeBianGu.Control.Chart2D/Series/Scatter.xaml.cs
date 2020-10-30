@@ -184,7 +184,7 @@ namespace HeBianGu.Control.Chart2D
                 double v = this.BubbleData[i];
 
                 //  Do ：显示标记
-                EllipseMarker m = Activator.CreateInstance(this.MarkStyle.TargetType) as EllipseMarker;
+                EllipseMarker m = Activator.CreateInstance(this.MarkStyle?.TargetType) as EllipseMarker;
 
                 if (m != null)
                 {

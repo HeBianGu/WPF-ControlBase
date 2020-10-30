@@ -29,6 +29,8 @@ namespace HeBianGu.Control.Chart2D
     {
         void Draw(Canvas canvas);
 
+        void Refresh();
+
         void Clear();
     }
 
@@ -62,7 +64,12 @@ namespace HeBianGu.Control.Chart2D
 
         public virtual void Draw(Canvas canvas)
         {
-            this.Clear();
+            this.Clear(); 
+        }
+
+        public virtual void Refresh()
+        {
+
         }
 
         public virtual void Clear()

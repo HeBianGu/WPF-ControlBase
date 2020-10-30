@@ -28,14 +28,25 @@
                 <ControlTemplate TargetType="{x:Type local:Series}">
                     <local:LayerGroup>
                         <local:Line Style="{TemplateBinding LineStyle}" Foreground="{TemplateBinding Foreground}" Data="{TemplateBinding Data}" />
-                        <local:Scatter Style="{TemplateBinding ScatterStyle}" Foreground="{TemplateBinding Foreground}" MarkStyle="{StaticResource S.EllipseMarker.4}" Data="{TemplateBinding Data}"/>
+                        <local:Scatter Style="{TemplateBinding ScatterStyle}" Foreground="{TemplateBinding Foreground}" Data="{TemplateBinding Data}">
+                            <local:Scatter.MarkStyle>
+                                <Style TargetType="local:EllipseMarker" BasedOn="{StaticResource S.EllipseMarker.Default}">
+                                    <Setter Property="StrokeThickness" Value="3"/>
+                                    <Setter Property="Fill" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+                                    <Setter Property="Rect">
+                                        <Setter.Value>
+                                            <Rect Width="10" Height="10"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </local:Scatter.MarkStyle>
+                        </local:Scatter>
                         <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </local:LayerGroup>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <Style x:Key="S.Series.Line.Polar" TargetType="{x:Type local:Series}" BasedOn="{StaticResource S.Series.Default}">
         <Setter Property="LineStyle" Value="{StaticResource S.PolarLine.Default}"/>

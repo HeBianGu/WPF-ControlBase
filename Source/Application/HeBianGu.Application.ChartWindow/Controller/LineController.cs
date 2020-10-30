@@ -39,5 +39,10 @@ namespace HeBianGu.Application.ChartWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Step()
+        {
+            return await ViewAsync();
+        }
     }
 }

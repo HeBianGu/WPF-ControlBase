@@ -74,5 +74,12 @@ namespace HeBianGu.Application.ChartWindow
         {
             return await ViewAsync();
         }
+
+
+        public async Task<IActionResult> Rich()
+        {
+            return await ViewAsync();
+        }
+        
     }
 }

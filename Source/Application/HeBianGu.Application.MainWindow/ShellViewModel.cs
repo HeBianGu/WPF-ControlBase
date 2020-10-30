@@ -26,6 +26,22 @@ namespace HeBianGu.Application.MainWindow
         }
 
 
+
+        private CustomNameViewModel _customNameViewModel=new CustomNameViewModel();
+        /// <summary> 说明  </summary>
+        public CustomNameViewModel CustomNameViewModel
+        {
+            get { return _customNameViewModel; }
+            set
+            {
+                _customNameViewModel = value;
+                RaisePropertyChanged("CustomNameViewModel");
+            }
+        }
+
+
+
+
         #endregion
 
         #region - 命令 -
@@ -63,5 +79,48 @@ namespace HeBianGu.Application.MainWindow
         #endregion
     }
 
+     /// <summary> 说明</summary>
+    internal class CustomNameViewModel : NotifyPropertyChanged
+    {
+        #region - 属性 -
+        private MyEnum _selectedMyEnum;
+        /// <summary> 说明  </summary>
+        public MyEnum SelectedMyEnum
+        {
+            get { return _selectedMyEnum; }
+            set
+            {
+                _selectedMyEnum = value;
+                RaisePropertyChanged("SelectedMyEnum");
+            }
+        }
+        #endregion
+
+        #region - 命令 -
+
+        #endregion
+
+        #region - 方法 -
+
+        protected override void RelayMethod(object obj)
+        {
+            string command = obj.ToString();
+
+            //  Do：应用
+            if (command == "Sumit")
+            {
+
+
+            }
+            //  Do：取消
+            else if (command == "Cancel")
+            {
+
+
+            }
+        }
+
+        #endregion
+    }
 
 }

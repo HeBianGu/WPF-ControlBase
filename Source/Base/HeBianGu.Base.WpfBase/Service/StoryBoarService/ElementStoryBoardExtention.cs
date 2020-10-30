@@ -33,7 +33,7 @@ namespace System.Windows
 
         public static bool CheckDefaultTransformGroup(this UIElement element)
         {
-            if (element.RenderTransform == Transform.Identity || element.RenderTransform == null)
+            if (element.RenderTransform == Transform.Identity || element.RenderTransform == null || element.RenderTransform.IsFrozen)
             {
                 var dg = Application.Current.FindResource("S.TransformGroup.Default") as TransformGroup;
 

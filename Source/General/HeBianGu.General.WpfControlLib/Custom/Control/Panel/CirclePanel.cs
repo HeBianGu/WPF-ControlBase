@@ -80,11 +80,7 @@ namespace HeBianGu.General.WpfControlLib
 
                 end = new Point(end.X - elment.DesiredSize.Width / 2, end.Y - elment.DesiredSize.Height / 2);
 
-                if (!this.UseAnimation)
-                {
-                    elment.Arrange(new Rect(end, elment.DesiredSize));
-                }
-                else
+                if(this.IsAnimation)
                 {
                     elment.Arrange(new Rect(new Point(0, 0), elment.DesiredSize));
 
@@ -97,7 +93,11 @@ namespace HeBianGu.General.WpfControlLib
                             elment.BeginAnimationAngle(angle, this.Duration);
                         }
                     }
-                } 
+                }
+                else
+                {
+                    elment.Arrange(new Rect(end, elment.DesiredSize));
+                }
             }
 
             return base.ArrangeOverride(finalSize);

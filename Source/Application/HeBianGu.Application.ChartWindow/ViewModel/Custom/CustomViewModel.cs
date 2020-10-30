@@ -21,7 +21,6 @@ namespace HeBianGu.Application.ChartWindow
     [ViewModel("Custom")]
     class CustomViewModel : MvcViewModelBase
     {
-
         private ObservableCollection<double> _waveyAxis = new ObservableCollection<double>();
         /// <summary> 说明  </summary>
         public ObservableCollection<double> WaveyAxis
@@ -70,12 +69,38 @@ namespace HeBianGu.Application.ChartWindow
             }
         }
 
+
+        private ObservableCollection<double> _animationBarSource = new ObservableCollection<double>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<double> AnimationBarSource
+        {
+            get { return _animationBarSource; }
+            set
+            {
+                _animationBarSource = value;
+                RaisePropertyChanged("AnimationBarSource");
+            }
+        }
+
+
+        private string _year;
+        /// <summary> 说明  </summary>
+        public string Year
+        {
+            get { return _year; }
+            set
+            {
+                _year = value;
+                RaisePropertyChanged("Year");
+            }
+        }
+
+
         Random random = new Random();
 
         protected override void Init()
         {
             List<Func<double, double>> waves = new List<Func<double, double>>();
-
 
             waves.Add(l => 1 * Math.Sin(l));
             waves.Add(l => 2 * Math.Sin(l / 2));
@@ -173,7 +198,50 @@ namespace HeBianGu.Application.ChartWindow
 
                     if (param > 5) param = -5;
 
-                    Thread.Sleep(100);
+                    //Thread.Sleep(1);
+                }
+            });
+
+
+            List<double> source = new List<double>();
+
+            int index = 0;
+
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    for (int i = 0; i < 12; i++)
+                    {
+                        if (source.Count == 12)
+                        {
+                            source[i] = source[i] + random.NextDouble() - 0.5;
+
+                            if (source[i] > 10)
+                            {
+                                source[i] = 10;
+                            }
+
+                            if (source[i] < 0)
+                            {
+                                source[i] = 0;
+                            }
+                        }
+                        else
+                        {
+                            source.Add(random.Next(1, 10));
+                        }
+                    }
+
+                    this.AnimationBarSource = source?.ToObservable();
+
+                    if (index == int.MaxValue) index = 0;
+
+                    index++;
+
+                    this.Year = DateTime.Now.AddYears(-500).AddYears(index).ToString("yyyy");
+
+                    Thread.Sleep(500);
                 }
             });
         }
