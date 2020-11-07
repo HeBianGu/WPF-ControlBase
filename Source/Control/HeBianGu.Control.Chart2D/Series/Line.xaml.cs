@@ -505,7 +505,7 @@ namespace HeBianGu.Control.Chart2D
                 }
                 else if (this.StepType == StepType.Center)
                 {
-                    if(i==0)
+                    if (i == 0)
                     {
                         pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
                     }
@@ -549,5 +549,160 @@ namespace HeBianGu.Control.Chart2D
     public enum StepType
     {
         Default, Start, End, Center
+    }
+
+    /// <summary> K线图 </summary>
+    public class Candlestick : LineBase
+    {
+
+        public Brush ForegroundContrarty
+        {
+            get { return (Brush)GetValue(ForegroundContrartyProperty); }
+            set { SetValue(ForegroundContrartyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ForegroundContrartyProperty =
+            DependencyProperty.Register("ForegroundContrarty", typeof(Brush), typeof(Candlestick), new PropertyMetadata(default(Brush), (d, e) =>
+             {
+                 Candlestick control = d as Candlestick;
+
+                 if (control == null) return;
+
+                 Brush config = e.NewValue as Brush;
+
+                 control.TryDraw();
+
+             }));
+
+
+
+        /// <summary> ohlc </summary>
+        [TypeConverter(typeof(DataArrayTypeConverter))]
+        public new ObservableCollection<double[]> Data
+        {
+            get { return (ObservableCollection<double[]>)GetValue(DataProperty); }
+            set { SetValue(DataProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public new static readonly DependencyProperty DataProperty =
+            DependencyProperty.Register("Data", typeof(ObservableCollection<double[]>), typeof(Candlestick), new PropertyMetadata(default(ObservableCollection<double[]>), (d, e) =>
+             {
+                 Candlestick control = d as Candlestick;
+
+                 if (control == null) return;
+
+                 ObservableCollection<double[]> config = e.NewValue as ObservableCollection<double[]>;
+
+             }));
+
+        public double WidthPercent
+        {
+            get { return (double)GetValue(WidthPercentProperty); }
+            set { SetValue(WidthPercentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty WidthPercentProperty =
+            DependencyProperty.Register("WidthPercent", typeof(double), typeof(Candlestick), new PropertyMetadata(0.5, (d, e) =>
+             {
+                 Candlestick control = d as Candlestick;
+
+                 if (control == null) return;
+
+                 //double config = e.NewValue as double;
+
+                 control.TryDraw();
+
+             }));
+
+
+        protected override void InitX()
+        {
+            base.InitX();
+
+            double span = (this.maxX - this.minX) / this.xAxis.Count;
+
+            this.maxX = this.maxX + span / 2;
+
+            this.minX = this.minX - span / 2;
+        }
+
+        public override void Draw(Canvas canvas)
+        {
+            base.Draw(canvas);
+
+            this.DrawLine(canvas);
+        }
+
+        protected virtual void DrawLine(Canvas canvas)
+        {
+            double span = (this.maxX - this.minX) / this.xAxis.Count;
+
+            double itemWidth = span * this.WidthPercent;
+
+            if (this.Data == null || this.xAxis == null) return;
+
+            for (int i = 0; i < this.xAxis.Count; i++)
+            {
+                double x = this.xAxis[i];
+
+                double open = this.Data[i][0];
+
+                double close = this.Data[i][1];
+
+                double low = this.Data[i][2];
+
+                double hight = this.Data[i][3];
+
+                Path path = new Path();
+
+                path.Style = this.PathStyle;
+
+                path.Stroke = path.Fill = open >= close ? this.ForegroundContrarty : this.Foreground;
+
+                PolyLineSegment area = new PolyLineSegment();
+
+                //  Do ：添加曲线
+                area.Points.Add(new Point(this.GetX((x - itemWidth / 2)), this.GetY(open)));
+
+                area.Points.Add(new Point(this.GetX((x - itemWidth / 2)), this.GetY(close)));
+
+                area.Points.Add(new Point(this.GetX((x + itemWidth / 2)), this.GetY(close)));
+
+                area.Points.Add(new Point(this.GetX((x + itemWidth / 2)), this.GetY(open)));
+
+                area.Points.Add(area.Points.FirstOrDefault());
+
+                PathFigure pf = new PathFigure();
+                pf.StartPoint = area.Points.FirstOrDefault();
+                pf.Segments.Add(area);
+
+                PolyLineSegment line = new PolyLineSegment();
+
+                //  Do ：添加曲线
+                line.Points.Add(new Point(this.GetX(x), this.GetY(low)));
+
+                line.Points.Add(new Point(this.GetX(x), this.GetY(hight)));
+
+                PathFigure pfline = new PathFigure();
+                pfline.StartPoint = line.Points.FirstOrDefault();
+                pfline.Segments.Add(line);
+
+                PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf, pfline });
+
+                path.Data = pg;
+
+                //  Do ：用于标识Legend显示信息
+                path.Tag = this.xDisplay.Count > i ? this.xDisplay[i] : this.Data[i].ToString();
+
+                this.Children.Add(path);
+            }
+
+        }
+
+
+
     }
 }

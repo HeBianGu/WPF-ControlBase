@@ -26,7 +26,7 @@ namespace HeBianGu.Base.WpfBase
             storyboard.Completed -= CompletedEvent;
         }
 
-        public abstract StoryboardEngineBase Start(UIElement element);
+        public abstract StoryboardEngineBase Start(UIElement element, Action<UIElement> Completed = null, Action<Storyboard> init = null);
 
         public abstract StoryboardEngineBase Stop();
 

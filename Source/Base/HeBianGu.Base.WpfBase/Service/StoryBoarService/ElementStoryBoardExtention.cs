@@ -13,11 +13,11 @@ namespace System.Windows
     public static class ElementStoryBoardExtention
     {
         /// <summary> 执行动画 </summary>
-        public static void BegionDoubleStoryBoard(this UIElement element, double start, double end, double duration, string propertyName)
+        public static void BegionDoubleStoryBoard(this UIElement element, double start, double end, double duration, string propertyName, Action<UIElement> Completed = null, Action<Storyboard> init = null)
         {
             var engine = DoubleStoryboardEngine.Create(start, end, duration, propertyName);
 
-            engine.Start(element);
+            engine.Start(element,Completed, init);
 
         }
 
@@ -78,6 +78,12 @@ namespace System.Windows
             tran.BeginAnimation(RotateTransform.AngleProperty, xd);
         }
 
+        public static void BeginAnimationOpacity(this UIElement element, double to, double duration = 1000)
+        {
+            DoubleAnimation xd = new DoubleAnimation(to, TimeSpan.FromMilliseconds(duration));
+            element.BeginAnimation(UIElement.OpacityProperty, xd);
+        }
+
         public static void BeginAnimationSkew(this UIElement element, double toAngleX, double toAngleY, double duration = 1000)
         {
             var tran = element.GetTransform<SkewTransform>();
@@ -88,6 +94,75 @@ namespace System.Windows
 
             tran.BeginAnimation(SkewTransform.AngleXProperty, d1);
             tran.BeginAnimation(SkewTransform.AngleYProperty, d2);
+        }
+
+
+        public static void BeginAnimationOpacity(this UIElement element, double from, double to, double duration = 1000, Action<UIElement> Completed = null, Action<Storyboard> init = null)
+        {  
+            element.BegionDoubleStoryBoard(from, to, duration / 1000.0, UIElement.OpacityProperty.Name, Completed);
+        }
+
+        public static void BeginAnimationX(this UIElement element, double from, double to, double duration = 1000, Action<UIElement> Completed = null, Action<Storyboard> init = null)
+        {
+            var tran = element.GetTransform<TranslateTransform>();
+
+            if (tran == null) return;
+
+            element.BegionDoubleStoryBoard(from, to, duration / 1000.0, "(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)", Completed, init);
+        }
+
+        public static void BeginAnimationY(this UIElement element, double from, double to, double duration = 1000, Action<UIElement> Completed = null, Action<Storyboard> init = null)
+        {
+            var tran = element.GetTransform<TranslateTransform>();
+
+            if (tran == null) return;
+
+            element.BegionDoubleStoryBoard(from, to, duration / 1000.0, "(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)", Completed, init);
+        }
+
+        public static void BeginAnimationScaleY(this UIElement element, double from, double to, double duration = 1000, Action<UIElement> Completed = null, Action<Storyboard> init = null)
+        {
+            var tran = element.GetTransform<ScaleTransform>();
+
+            if (tran == null) return;
+
+            element.BegionDoubleStoryBoard(from, to, duration / 1000.0, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)", Completed, init);
+        }
+
+        public static void BeginAnimationScaleX(this UIElement element, double from, double to, double duration = 1000, Action<UIElement> Completed = null, Action<Storyboard> init = null)
+        {
+            var tran = element.GetTransform<ScaleTransform>();
+
+            if (tran == null) return;
+
+            element.BegionDoubleStoryBoard(from, to, duration / 1000.0, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)", Completed, init);
+        }
+
+        public static void BeginAnimationSkewX(this UIElement element, double from, double to, double duration = 1000, Action<UIElement> Completed = null, Action<Storyboard> init = null)
+        {
+            var tran = element.GetTransform<SkewTransform>();
+
+            if (tran == null) return;
+
+            element.BegionDoubleStoryBoard(from, to, duration / 1000.0, "(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleX)", Completed, init);
+        }
+
+        public static void BeginAnimationSkewY(this UIElement element, double from, double to, double duration = 1000, Action<UIElement> Completed = null, Action<Storyboard> init = null)
+        {
+            var tran = element.GetTransform<SkewTransform>();
+
+            if (tran == null) return;
+
+            element.BegionDoubleStoryBoard(from, to, duration / 1000.0, "(UIElement.RenderTransform).(TransformGroup.Children)[1].(SkewTransform.AngleY)", Completed, init);
+        }
+
+        public static void BeginAnimationAngle(this UIElement element, double from, double to, double duration = 1000, Action<UIElement> Completed = null, Action<Storyboard> init = null)
+        {
+            var tran = element.GetTransform<RotateTransform>();
+
+            if (tran == null) return;
+
+            element.BegionDoubleStoryBoard(from, to, duration / 1000.0, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)",Completed,init);
         }
     }
 }

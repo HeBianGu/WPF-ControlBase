@@ -13,7 +13,7 @@ using System.Windows;
 namespace HeBianGu.Application.ManagerWindow
 {
     [Route("Custom")]
-    internal class CustomController : Controller<CustomViewModel>
+    internal class CustomController : Controller
     {
         public async Task<IActionResult> Home()
         {

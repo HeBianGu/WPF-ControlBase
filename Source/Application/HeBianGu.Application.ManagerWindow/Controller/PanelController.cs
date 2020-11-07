@@ -13,7 +13,7 @@ using System.Windows;
 namespace HeBianGu.Application.ManagerWindow
 {
     [Route("Panel")]
-    internal class PanelController : Controller<PanelViewModel>
+    internal class PanelController : Controller
     {
         public async Task<IActionResult> Home()
         {
@@ -56,6 +56,12 @@ namespace HeBianGu.Application.ManagerWindow
         }
 
         public async Task<IActionResult> Panel()
+        {
+            return await ViewAsync();
+        }
+
+
+        public async Task<IActionResult> Page()
         {
             return await ViewAsync();
         }

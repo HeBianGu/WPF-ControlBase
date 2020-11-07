@@ -141,7 +141,10 @@ namespace HeBianGu.General.WpfMvc
             //  Message：反射获取ViewModel
             Type type = Assembly.GetEntryAssembly().GetTypeOfMatch<MvcViewModelBase>(l => l.Name == controlName + "ViewModel");
 
-            result.ViewModel = ServiceRegistry.Instance.GetInstance(type);
+            if (type != null)
+            {
+                result.ViewModel = ServiceRegistry.Instance.GetInstance(type);
+            }
 
             Application.Current.Dispatcher.Invoke(() =>
             {

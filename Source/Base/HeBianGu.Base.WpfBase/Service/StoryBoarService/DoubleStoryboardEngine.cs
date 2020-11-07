@@ -40,7 +40,7 @@ namespace HeBianGu.Base.WpfBase
 
         }
 
-        public override StoryboardEngineBase Start(UIElement element)
+        public override StoryboardEngineBase Start(UIElement element, Action<UIElement> Completed = null, Action<Storyboard> init = null)
         {
             //  Do：时间线
             DoubleAnimation animation = new DoubleAnimation(this.FromValue, this.ToValue, this.Duration);
@@ -57,7 +57,20 @@ namespace HeBianGu.Base.WpfBase
             Storyboard.SetTargetProperty(animation, this.PropertyPath);
 
             if (CompletedEvent != null)
+            {
                 storyboard.Completed += CompletedEvent;
+            }
+
+            if (Completed != null)
+            {
+                storyboard.Completed += (l, k) =>
+                {
+                    Completed?.Invoke(element);
+                };
+            }
+
+            init?.Invoke(storyboard);
+
             storyboard.Begin();
 
             return this;

@@ -30,13 +30,13 @@ namespace HeBianGu.Control.Chart2D
         {
             this.MouseMove += FlagTip_MouseMove;
 
-            this.MouseEnter += (l, k) => this.Refresh();
+            this.MouseEnter += (l, k) => this.RefreshVisibility();
 
-            this.MouseLeave += (l, k) => this.Refresh();
+            this.MouseLeave += (l, k) => this.RefreshVisibility();
 
         }
 
-        void Refresh()
+        void RefreshVisibility()
         {
             this.X.Visibility = this.IsMouseOver && (this.FlagTipType == FlagTipType.Cross || this.FlagTipType == FlagTipType.CrossStep || this.FlagTipType == FlagTipType.OnlyX || this.FlagTipType == FlagTipType.StepX) ? Visibility.Visible : Visibility.Collapsed;
             this.Y.Visibility = this.IsMouseOver && (this.FlagTipType == FlagTipType.Cross || this.FlagTipType == FlagTipType.CrossStep || this.FlagTipType == FlagTipType.OnlyY || this.FlagTipType == FlagTipType.StepY) ? Visibility.Visible : Visibility.Collapsed;

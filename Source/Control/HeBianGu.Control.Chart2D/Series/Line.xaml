@@ -198,6 +198,41 @@
     </Style>
 
     <Style TargetType="{x:Type local:StepLine}" BasedOn="{StaticResource S.LineBase.Default}"/>
-    
+
+    <Style TargetType="{x:Type local:Candlestick}" BasedOn="{StaticResource S.LineBase.Default}">
+        <Setter Property="Foreground" Value="Red"/>
+        <Setter Property="ForegroundContrarty" Value="Green"/>
+        <Setter Property="AlignmentCenter" Value="True"/>
+        <Setter Property="PathStyle">
+            <Setter.Value>
+                <Style TargetType="Path">
+                    <Setter Property="StrokeThickness" Value="1"/>
+                    <Setter Property="Opacity" Value="0.85"/>
+                    <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer},Path=Foreground}"/>
+                    <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+                    <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Opacity" Value="1"/>
+                            <Setter Property="StrokeThickness" Value="2"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="SplitMilliSecond" Value="-1950"/>
+        <Setter Property="Timelines">
+            <Setter.Value>
+                <collections:ArrayList>
+                    <DoubleAnimation Duration="00:00:02" From="0" To="1"  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                        <DoubleAnimation.EasingFunction>
+                            <ElasticEase Springiness="10" Oscillations="6"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </collections:ArrayList>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>
 

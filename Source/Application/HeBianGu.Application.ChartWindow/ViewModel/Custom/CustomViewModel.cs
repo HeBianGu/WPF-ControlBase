@@ -235,7 +235,7 @@ namespace HeBianGu.Application.ChartWindow
 
                     this.AnimationBarSource = source?.ToObservable();
 
-                    if (index == int.MaxValue) index = 0;
+                    if (index > 500) index = 0;
 
                     index++;
 

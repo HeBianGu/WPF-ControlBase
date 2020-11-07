@@ -13,7 +13,7 @@ using System.Windows;
 namespace HeBianGu.Application.ManagerWindow
 {
     [Route("Loyout")]
-    internal class LoyoutController : Controller<LoyoutViewModel>
+    internal class LoyoutController : Controller
     { 
         public async Task<IActionResult> RealData()
         {

@@ -21,6 +21,8 @@ using System.Windows.Controls.Primitives;
 
 namespace HeBianGu.Application.ManagerWindow
 {
+
+
     [ViewModel("Panel")]
     class PanelViewModel : MvcViewModelBase
     {

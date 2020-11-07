@@ -40,9 +40,7 @@ namespace HeBianGu.General.WpfControlLib
 
             this.StartIndex = this.StartIndex > this.Children.Count - 1 ? 0 : this.StartIndex;
 
-
             System.Diagnostics.Debug.WriteLine(this.StartIndex);
-
 
             //  Do ：刷新
             this.InvalidateArrange();
@@ -99,7 +97,6 @@ namespace HeBianGu.General.WpfControlLib
                  control.InvalidateArrange();
 
              }));
-
 
 
         protected List<UIElement> GetChildren()
@@ -174,6 +171,9 @@ namespace HeBianGu.General.WpfControlLib
 
              }));
 
+        protected virtual void RefreshAnimation()
+        {
 
+        }
     }
 }

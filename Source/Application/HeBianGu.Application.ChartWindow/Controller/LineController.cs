@@ -44,5 +44,10 @@ namespace HeBianGu.Application.ChartWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Candlestick()
+        {
+            return await ViewAsync();
+        }
     }
 }
