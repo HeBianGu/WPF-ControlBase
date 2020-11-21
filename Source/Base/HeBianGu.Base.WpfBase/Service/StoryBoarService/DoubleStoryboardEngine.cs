@@ -76,6 +76,42 @@ namespace HeBianGu.Base.WpfBase
             return this;
         }
 
+        //public override StoryboardEngineBase Start(Animatable element, Action<Animatable> Completed = null, Action<Storyboard> init = null)
+        //{
+        //    //  Do：时间线
+        //    DoubleAnimation animation = new DoubleAnimation(this.FromValue, this.ToValue, this.Duration);
+
+        //    if (this.Easing != null)
+        //        animation.EasingFunction = this.Easing;
+
+        //    //if (this.RepeatBehavior != default(RepeatBehavior))
+        //    //    animation.RepeatBehavior = (RepeatBehavior);
+
+        //    //  Do：属性动画
+        //    storyboard.Children.Add(animation);
+        //    Storyboard.SetTarget(animation, element);
+        //    Storyboard.SetTargetProperty(animation, this.PropertyPath);
+
+        //    if (CompletedEvent != null)
+        //    {
+        //        storyboard.Completed += CompletedEvent;
+        //    }
+
+        //    if (Completed != null)
+        //    {
+        //        storyboard.Completed += (l, k) =>
+        //        {
+        //            Completed?.Invoke(element);
+        //        };
+        //    }
+
+        //    init?.Invoke(storyboard);
+
+        //    storyboard.Begin();
+
+        //    return this;
+        //}
+
         public override StoryboardEngineBase Stop()
         {
             this.storyboard.Stop();

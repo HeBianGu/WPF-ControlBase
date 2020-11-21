@@ -13,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -169,6 +170,56 @@ namespace HeBianGu.General.WpfControlLib
         public static readonly DependencyProperty UseRandomWipeProperty =
             DependencyProperty.Register("UseRandomWipe", typeof(bool), typeof(TransitionEffectBase), new PropertyMetadata(true));
 
+
+    }
+
+    /// <summary> 带有数据集选项的导航框架 </summary>
+    [ContentProperty("LinkActions")]
+    public class LinkActionsContianer : LinkActionFrame
+    {
+        public LinkActionCollection LinkActions
+        {
+            get { return (LinkActionCollection)GetValue(LinkActionsProperty); }
+            set { SetValue(LinkActionsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LinkActionsProperty =
+            DependencyProperty.Register("LinkActions", typeof(LinkActionCollection), typeof(LinkActionsContianer), new PropertyMetadata(new LinkActionCollection(), (d, e) =>
+             {
+                 LinkActionsContianer control = d as LinkActionsContianer;
+
+                 if (control == null) return;
+
+                 LinkActionCollection config = e.NewValue as LinkActionCollection;
+
+             }));
+
+
+
+        public Style ListStyle
+        {
+            get { return (Style)GetValue(ListStyleProperty); }
+            set { SetValue(ListStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ListStyleProperty =
+            DependencyProperty.Register("ListStyle", typeof(Style), typeof(LinkActionsContianer), new PropertyMetadata(default(Style), (d, e) =>
+             {
+                 LinkActionsContianer control = d as LinkActionsContianer;
+
+                 if (control == null) return;
+
+                 Style config = e.NewValue as Style;
+
+             }));
+
+    }
+
+    
+    public class LinkActionCollection: ObservableCollection<ILinkActionBase>
+    {
 
     }
 

@@ -18,18 +18,20 @@ namespace HeBianGu.Base.WpfBase
 
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
         {
-            if (IsUseAll) 
+            if (IsUseAll)
             {
 
-                var items = AssociatedObject.GetChildren<UIElement>().Where(l=>l.RenderTransform is TransformGroup);
+                var items = AssociatedObject.GetChildren<UIElement>().Where(l => l.RenderTransform is TransformGroup);
 
                 items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
+
+                items = items.Where(l => (l as FrameworkElement)?.Tag?.ToString() != "Except");
 
                 StoryBoardService.FountainAnimation(items, PointLeft, PointTop, Mul, MiddleValue, EndValue, Split);
             }
             else
             {
-                if(AssociatedObject is Panel panel)
+                if (AssociatedObject is Panel panel)
                 {
                     var items = panel.Children?.Cast<UIElement>()?.Where(l => l.RenderTransform is TransformGroup);
 
@@ -37,7 +39,7 @@ namespace HeBianGu.Base.WpfBase
 
                     StoryBoardService.FountainAnimation(items, PointLeft, PointTop, Mul, MiddleValue, EndValue, Split);
                 }
-               
+
             }
         }
 

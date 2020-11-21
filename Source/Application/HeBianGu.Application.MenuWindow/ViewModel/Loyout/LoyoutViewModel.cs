@@ -20,7 +20,7 @@ namespace HeBianGu.Application.MenuWindow
 {
     [ViewModel("Loyout")]
     class LoyoutViewModel : MvcViewModelBase
-    {
+    {  
 
         protected override void Init()
         {

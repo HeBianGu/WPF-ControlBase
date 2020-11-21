@@ -59,7 +59,7 @@ namespace HeBianGu.Application.MenuWindow
 
                 l.AnimalSpeed = 5000;
                 l.AccentColorSelectType = 0;
-                l.IsUseAnimal = true;
+                l.IsUseAnimal = false;
 
                 l.ThemeType = ThemeType.Light;
 

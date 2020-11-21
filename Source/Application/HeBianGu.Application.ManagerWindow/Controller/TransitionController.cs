@@ -59,5 +59,20 @@ namespace HeBianGu.Application.ManagerWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Linear()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Clip()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Image()
+        {
+            return await ViewAsync();
+        }
     }
 }

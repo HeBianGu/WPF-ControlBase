@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,6 +33,13 @@ namespace HeBianGu.General.WpfControlLib
 
                 binding.Executed += (l, k) => this.Previous();
             }
+
+            this.SizeChanged +=(l, k) =>
+             {
+                 this.InvalidateArrange();
+ 
+             };
+
         }
 
         protected virtual void Next()
@@ -170,6 +178,51 @@ namespace HeBianGu.General.WpfControlLib
                  //bool config = e.NewValue as bool;
 
              }));
+
+        public ArrayList Timelines
+        {
+            get { return (ArrayList)GetValue(TimelinesProperty); }
+            set { SetValue(TimelinesProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TimelinesProperty =
+            DependencyProperty.Register("Timelines", typeof(ArrayList), typeof(AnimationPanel), new PropertyMetadata(new ArrayList(), (d, e) =>
+            {
+                AnimationPanel control = d as AnimationPanel;
+
+                if (control == null) return;
+
+                ArrayList config = e.NewValue as ArrayList;
+
+            }));
+
+        public double SplitMilliSecond
+        {
+            get { return (double)GetValue(SplitMilliSecondProperty); }
+            set { SetValue(SplitMilliSecondProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SplitMilliSecondProperty =
+            DependencyProperty.Register("SplitMilliSecond", typeof(double), typeof(AnimationPanel), new PropertyMetadata(5.0, (d, e) =>
+            {
+                AnimationPanel control = d as AnimationPanel;
+
+                if (control == null) return;
+            }));
+
+
+        protected override Size ArrangeOverride(Size finalSize)
+        {
+            //  Do ：触发动画
+            if(this.IsAnimation)
+            {
+                this.RefreshAnimation();
+            }
+
+            return base.ArrangeOverride(finalSize);
+        }
 
         protected virtual void RefreshAnimation()
         {

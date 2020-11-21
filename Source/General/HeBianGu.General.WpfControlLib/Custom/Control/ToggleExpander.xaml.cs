@@ -24,11 +24,29 @@ using System.Windows.Threading;
 
 namespace HeBianGu.General.WpfControlLib
 {
-    public class ToggleExpander : ItemsControl
+    public class ToggleExpander : ListBox
     {
         static ToggleExpander()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ToggleExpander), new FrameworkPropertyMetadata(typeof(ToggleExpander)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ToggleExpander), new FrameworkPropertyMetadata(typeof(ToggleExpander)));  
         }
+
+        public bool ToggleButtonIsHitVisible
+        {
+            get { return (bool)GetValue(ToggleButtonIsHitVisibleProperty); }
+            set { SetValue(ToggleButtonIsHitVisibleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ToggleButtonIsHitVisibleProperty =
+            DependencyProperty.Register("ToggleButtonIsHitVisible", typeof(bool), typeof(ToggleExpander), new PropertyMetadata(true, (d, e) =>
+             {
+                 ToggleExpander control = d as ToggleExpander;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
     }
 }

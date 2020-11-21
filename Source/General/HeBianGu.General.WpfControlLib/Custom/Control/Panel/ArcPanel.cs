@@ -144,7 +144,7 @@ namespace HeBianGu.General.WpfControlLib
                 {
                     elment.Arrange(new Rect(end, elment.DesiredSize));
                 }
-                
+
 
             }
 
@@ -155,7 +155,6 @@ namespace HeBianGu.General.WpfControlLib
         protected override Size MeasureOverride(Size availableSize)
         {
             var value = base.MeasureOverride(availableSize);
-
 
             bool isAll = false;
 
@@ -169,6 +168,7 @@ namespace HeBianGu.General.WpfControlLib
 
             //  Do ：都是隐藏的
             if (!isAll) return value;
+
 
             return new Size(this.Len * 2, this.Len * 2);
         }

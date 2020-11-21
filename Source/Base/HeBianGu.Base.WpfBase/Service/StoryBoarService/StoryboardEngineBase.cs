@@ -28,6 +28,8 @@ namespace HeBianGu.Base.WpfBase
 
         public abstract StoryboardEngineBase Start(UIElement element, Action<UIElement> Completed = null, Action<Storyboard> init = null);
 
+        //public abstract StoryboardEngineBase Start(Animatable element, Action<Animatable> Completed = null, Action<Storyboard> init = null);
+
         public abstract StoryboardEngineBase Stop();
 
         public StoryboardEngineBase(double second, string property)

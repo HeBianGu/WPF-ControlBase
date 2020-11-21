@@ -422,7 +422,7 @@ namespace HeBianGu.Base.WpfBase
             {
                 if (this.SourceObject != null)
                 {
-                    throw new ArgumentException();
+                     throw new ArgumentException();
                 }
                 else
                 {

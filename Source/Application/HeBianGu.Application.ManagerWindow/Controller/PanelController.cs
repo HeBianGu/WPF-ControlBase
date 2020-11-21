@@ -65,5 +65,15 @@ namespace HeBianGu.Application.ManagerWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Wave()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Linear()
+        {
+            return await ViewAsync();
+        }
     }
 }

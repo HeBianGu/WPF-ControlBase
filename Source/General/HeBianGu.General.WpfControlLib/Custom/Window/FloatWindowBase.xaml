@@ -1,0 +1,228 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+    xmlns:h="QQ:908293466">
+
+    <Style x:Key="S.Window.Float.Default" TargetType="{x:Type local:FloatWindowBase}">
+        <Setter Property="Background" Value="{x:Null}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}"/>
+        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
+        <Setter Property="FontFamily" Value="{DynamicResource  S.FontFamily.Default}"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="FIconSize" Value="15"/>
+        <Setter Property="ShowInTaskbar" Value="False"/>
+        <Setter Property="SizeToContent" Value="Manual"/>
+        <Setter Property="Topmost" Value="True"/>
+        <!--标题栏背景色-->
+        <Setter Property="CaptionBackground" Value="{DynamicResource S.Brush.WindowBackground}" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource S.Brush.TextForeground.Title}" />
+        <Setter Property="FIcon" Value="&#xe65c;"/>
+        <Setter Property="MaxboxEnable" Value="True"/>
+        <Setter Property="MinboxEnable" Value="True"/>
+        <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
+        <Setter Property="Padding" Value="3"/>
+        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="AllowsTransparency" Value="True"/>
+        <Setter Property="WindowStyle" Value="None"/>
+        <Setter Property="ResizeMode" Value="CanMinimize"/>
+        <!--窗体基本设置 WindowChrome-->
+        <!--<Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:WindowBase}}}"
+                             ResizeBorderThickness="8" GlassFrameThickness="-1"/>
+            </Setter.Value>
+        </Setter>-->
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:WindowBase}">
+                    <Grid Name="g_all">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Grid Margin="1">
+                            <!--窗体内容区域-->
+                            <AdornerDecorator>
+                                <ContentPresenter Content="{TemplateBinding Content}" />
+                            </AdornerDecorator>
+
+                            <!--<local:FButton Style="{DynamicResource S.FButton.Close}" Margin="20"
+                                           Command="{x:Static h:CommandService.Close}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>-->
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate DataType="{x:Type local:IconFloatModel}">
+        <Grid>
+            <local:FButton x:Name="bt" Height="Auto" FIconSize="50"  FIcon="{Binding Icon}" ToolTip="{Binding DisplayName}" 
+                               HorizontalAlignment="Center" RenderTransform="{StaticResource S.TransformGroup.Default}"
+                               Tag="{Binding}" Margin="5,2"
+                               Style="{DynamicResource S.FButton.Style.Transparent}">
+                <h:Interaction.Triggers>
+                    <h:EventTrigger EventName="Click">
+                        <h:CallMethodAction MethodName="Do" TargetObject="{Binding ElementName=bt,Path=Tag}"/>
+                        <h:InvokeCommandAction Command="{Binding RelayCommand}" CommandParameter="sss" PassEventArgsToCommand="True"/>
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+            </local:FButton>
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="S.Window.Float.Circle" TargetType="{x:Type local:FloatWindowBase}" BasedOn="{StaticResource S.Window.Float.Default}">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:WindowBase}">
+                    <Grid Name="g_all">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Grid Margin="1">
+                            <!--窗体内容区域-->
+                            <AdornerDecorator>
+                                <Grid>
+                                    <local:ToggleExpander Style="{DynamicResource S.ToggleExpander.Center}" 
+                              Background="{DynamicResource S.Brush.Accent.MouseOver.Background}" 
+                              h:ControlAttachProperty.FIconSize="60" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:FloatWindowBase},Path=Source}">
+                                        <local:ToggleExpander.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <local:CirclePanel Len="100" Margin="40" IsAnimation="False"/>
+                                            </ItemsPanelTemplate>
+                                        </local:ToggleExpander.ItemsPanel>
+                                    </local:ToggleExpander>
+                                </Grid>
+                            </AdornerDecorator>
+
+                            <!--<local:FButton Style="{DynamicResource S.FButton.Close}" Margin="20"
+                                           Command="{x:Static h:CommandService.Close}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>-->
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.Window.Float.Arc" TargetType="{x:Type local:FloatWindowBase}" BasedOn="{StaticResource S.Window.Float.Default}">
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:WindowBase}">
+                    <Grid Name="g_all">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Grid Margin="1">
+                            <!--窗体内容区域-->
+                            <AdornerDecorator>
+                                <Grid>
+                                    <local:ToggleExpander Style="{DynamicResource S.ToggleExpander.Center}" 
+                              Background="{DynamicResource S.Brush.Accent.MouseOver.Background}" 
+                              h:ControlAttachProperty.FIconSize="60"
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                              ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:FloatWindowBase},Path=Source}">
+                                        <local:ToggleExpander.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <local:ArcPanel Len="100" StartAngle="-10" EndAngle="100" Margin="40" IsAnimation="False"/>
+                                            </ItemsPanelTemplate>
+                                        </local:ToggleExpander.ItemsPanel>
+                                    </local:ToggleExpander>
+                                </Grid>
+                            </AdornerDecorator>
+
+                            <!--<local:FButton Style="{DynamicResource S.FButton.Close}" Margin="20"
+                                           Command="{x:Static h:CommandService.Close}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>-->
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    <Style x:Key="S.Window.Float.StackPanel" TargetType="{x:Type local:FloatWindowBase}" BasedOn="{StaticResource S.Window.Float.Default}">
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+        <Setter Property="DockPanel.Dock" Value="Right"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:WindowBase}">
+                    <Grid Name="g_all">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Grid Margin="1">
+                            <!--窗体内容区域-->
+                            <AdornerDecorator>
+                                <Grid>
+                                    <local:ToggleExpander Style="{DynamicResource S.ToggleExpander.Single}"
+                              Background="{DynamicResource S.Brush.Accent.MouseOver.Background}" 
+                              h:ControlAttachProperty.CornerRadius="35" DockPanel.Dock="{TemplateBinding DockPanel.Dock}" 
+                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"  
+                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"                   
+                              h:ControlAttachProperty.FIconSize="50"
+                              ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:FloatWindowBase},Path=Source}">
+                                        <local:ToggleExpander.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </local:ToggleExpander.ItemsPanel>
+                                    </local:ToggleExpander>
+                                </Grid>
+                            </AdornerDecorator>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.Window.Float.StackPanel.TopRight" TargetType="{x:Type local:FloatWindowBase}" BasedOn="{StaticResource S.Window.Float.StackPanel}">
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="DockPanel.Dock" Value="Right"/>
+    </Style>
+
+    <Style x:Key="S.Window.Float.StackPanel.TopLeft" TargetType="{x:Type local:FloatWindowBase}" BasedOn="{StaticResource S.Window.Float.StackPanel}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="DockPanel.Dock" Value="Left"/>
+    </Style>
+
+    <Style x:Key="S.Window.Float.StackPanel.BottomLeft" TargetType="{x:Type local:FloatWindowBase}" BasedOn="{StaticResource S.Window.Float.StackPanel}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+        <Setter Property="DockPanel.Dock" Value="Left"/>
+    </Style>
+
+</ResourceDictionary>

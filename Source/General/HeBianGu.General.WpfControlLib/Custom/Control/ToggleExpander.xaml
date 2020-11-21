@@ -16,13 +16,13 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <Style TargetType="{x:Type ListBoxItem}">
+                <Style TargetType="ListBoxItem">
+                    <!--<Setter Property="Visibility" Value="Collapsed"/>-->
+                    <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
                     <Setter Property="Template">
                         <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                                <Border x:Name="boder">
-                                    <ContentPresenter/>
-                                </Border>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentPresenter/>
                             </ControlTemplate>
                         </Setter.Value>
                     </Setter>
@@ -94,7 +94,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ItemsControl">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding h:ControlAttachProperty.CornerRadius}">
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="{TemplateBinding h:ControlAttachProperty.CornerRadius}">
                         <DockPanel HorizontalAlignment="Left" VerticalAlignment="Center">
 
                             <ToggleButton x:Name="tg" HorizontalAlignment="Center" VerticalAlignment="Center" DockPanel.Dock="{TemplateBinding DockPanel.Dock}"
@@ -122,6 +123,7 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="IsChecked"  Value="true" TargetName="tg"/>
+                            <Setter Property="Cursor" Value="ScrollAll"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -129,20 +131,20 @@
         </Setter>
     </Style>
 
-
     <Style x:Key="S.ToggleExpander.Center" TargetType="{x:Type local:ToggleExpander}" BasedOn="{StaticResource S.ToggleExpander.Single}">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Height" Value="Auto"/>
         <Setter Property="h:ControlAttachProperty.FIconSize" Value="50"/>
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="150"/>
+        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="250"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ItemsControl">
+                <ControlTemplate TargetType="local:ToggleExpander">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
                             BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding h:ControlAttachProperty.CornerRadius}">
-                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            
+                        <Grid>
                             <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
 
                             <ToggleButton x:Name="tg" HorizontalAlignment="Center" VerticalAlignment="Center" 
@@ -168,12 +170,12 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="IsChecked"  Value="true" TargetName="tg"/>
+                            <Setter Property="Cursor" Value="ScrollAll"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>

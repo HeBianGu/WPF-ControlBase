@@ -466,6 +466,8 @@ namespace HeBianGu.Base.WpfBase
             {
                 this.DragBegun(this, e);
             }
+
+            e.Handled = true;
         }
 
         private void OnLostMouseCapture(object sender, MouseEventArgs e)

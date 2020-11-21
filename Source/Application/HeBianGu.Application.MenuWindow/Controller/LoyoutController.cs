@@ -19,5 +19,15 @@ namespace HeBianGu.Application.MenuWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Fluid()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> MouseDrag()
+        {
+            return await ViewAsync();
+        }
     }
 }

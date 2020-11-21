@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeBianGu.General.WpfControlLib;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -16,6 +17,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -36,7 +38,9 @@ namespace HeBianGu.Application.MainWindow
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            //Window1 window1 = new Window1();
 
+            //window1.Show();
         }
 
 
@@ -63,6 +67,94 @@ namespace HeBianGu.Application.MainWindow
                 }
             });
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            IconFloatModel model = new IconFloatModel();
+
+            model.Icon = "\xe69f";
+
+            model.DisplayName = "特特特";
+
+            model.Action = () =>
+               {
+                   Debug.WriteLine("说明");
+               };
+
+            FloatWindow.ShowDefault(model);
+        }
+
+        private void FButton_Click(object sender, RoutedEventArgs e)
+        {
+            //DrawingBrush brush = this.FindResource("S.DrawingBrush.Linear") as DrawingBrush;
+        }
+
+        private void Grid_Loaded(object sender, RoutedEventArgs e)
+        {
+
+            //DrawingBrush brush = new DrawingBrush();
+
+            //brush.TileMode = TileMode.Tile;
+
+            //brush.Viewport = new Rect() { X = 0.5, Y = 0.5, Height = 0.5, Width = 0.5 };
+
+            //brush.ViewboxUnits = BrushMappingMode.RelativeToBoundingBox;
+
+            //GeometryDrawing drawing = new GeometryDrawing();
+
+            //LinearGradientBrush linear = new LinearGradientBrush();
+
+            //var endStop = new GradientStop() { Offset = 0.5, Color = Colors.Transparent };
+
+            //linear.GradientStops.Add(new GradientStop() { Offset = 0, Color = Colors.Black });
+            //linear.GradientStops.Add(endStop);
+
+            //RectangleGeometry geometry = new RectangleGeometry();
+
+            //geometry.Rect = new Rect() { X = 0.01, Y = 0.01, Width = 0.9, Height = 0.9 };
+
+            //drawing.Geometry = geometry;
+
+            //drawing.Brush = linear;
+
+            //brush.Drawing = drawing;
+
+            //this.grid.OpacityMask = brush;
+
+            //S.DrawingBrush.Linear
+            //endStop.BegionDoubleStoryBoard(1, 0, 5, "Offset", l => element.Visibility = Visibility.Hidden);
+
+            //endStop.BegionDoubleStoryBoard(1, 0, 5, GradientStop.OffsetProperty.Name);
+
+            //DoubleAnimation animation = new DoubleAnimation(1,0, TimeSpan.FromSeconds(5));
+
+            //endStop.BeginAnimation(GradientStop.OffsetProperty, animation);
+
+            //Storyboard storyboard = new Storyboard();
+
+            ////  Do：时间线
+            //DoubleAnimation animation = new DoubleAnimation(1, 0, TimeSpan.FromSeconds(5));
+
+            ////  Do：属性动画
+            //storyboard.Children.Add(animation);
+
+            //Storyboard.SetTarget(animation, endStop);
+
+            //Storyboard.SetTargetProperty(animation, new PropertyPath("Offset"));
+
+            //storyboard.Completed +=(l, k) =>
+            // {
+            //     Debug.WriteLine("说明");
+            // };
+
+            //storyboard.FillBehavior = FillBehavior.HoldEnd;
+
+            //storyboard.Begin();
+
+
+            this.grid.BegionDoubleStoryBoard(1, 0, 3, "OpacityMask.(DrawingBrush.Drawing).(GeometryDrawing.Brush).(LinearGradientBrush.GradientStops)[1].Offset", l => this.grid.Visibility = Visibility.Hidden);
+        }
+
 
     }
 

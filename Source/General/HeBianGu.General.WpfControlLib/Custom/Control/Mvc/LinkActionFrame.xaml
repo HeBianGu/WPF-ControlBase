@@ -4,6 +4,10 @@
     xmlns:h="QQ:908293466"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../ToggleExpander.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
     <Style TargetType="local:LinkActionFrame">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -42,7 +46,6 @@
                                                       Margin="{TemplateBinding Padding}"/>
                         </Grid>
                     </Border>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -82,11 +85,459 @@
                                                       Background="Yellow"
                                                       Margin="{TemplateBinding Padding}"/>
                         </Grid>-->
-                        
+
                         <ContentPresenter Content="{TemplateBinding Content}"  Margin="{TemplateBinding Padding}"/>
                     </Border>
 
                 </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.ToggleExpander.LinkActionsContianer" TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.Center}">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,0"/>
+        <Setter Property="SelectedIndex" Value="0"/>
+        <Setter Property="ToggleButtonIsHitVisible" Value="False"/>
+        <Setter Property="h:ControlAttachProperty.FIconSize" Value="50"/>
+        <Setter Property="Background" Value="{StaticResource S.Brush.Accent.MouseOver.Background}"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <local:ArcPanel Len="70" Margin="20" StartAngle="10" EndAngle="170" IsAnimation="False"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Default" TargetType="local:LinkActionsContianer">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="-100" />
+        <Setter Property="h:ControlAttachProperty.DoubleAttach" Value="60" />
+        <Setter Property="h:ControlAttachProperty.FIconSize" Value="45" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LinkActionsContianer">
+
+                    <ControlTemplate.Resources>
+                        <!-- render a nicely formatted error page when content is an exception -->
+                        <DataTemplate DataType="{x:Type sys:Exception}">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <StackPanel Margin="10">
+                                    <TextBlock Text="NAVIGATION FAILED" />
+                                    <TextBlock Text="{Binding Message}" FontWeight="Bold" Foreground="#e51400" Margin="0,0,0,8" />
+                                    <TextBlock Text="Source" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding Source, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LinkActionFrame}}" Margin="0,0,0,8"/>
+                                    <TextBlock Text="Stack Trace" FontWeight="Bold" />
+                                    <TextBlock Text="{Binding}"  Margin="0,0,0,16" />
+                                    <TextBlock Text="Suggestions" FontWeight="Bold" />
+                                </StackPanel>
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </ControlTemplate.Resources>
+
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <local:SwtichTransitioner CurrentContent="{TemplateBinding Content}" 
+                                                      ITransitionWipe="{TemplateBinding CurrentWipe}"/>
+
+                            <Grid Width="300" Height="300" Margin="{TemplateBinding Padding}" 
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+
+                                <local:ToggleExpander Style="{TemplateBinding ListStyle}"
+                                                  SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=LinkAction}"
+                                                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=LinkActions}">
+
+                                    <local:ToggleExpander.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type h:ILinkActionBase}">
+                                            <Grid Cursor="Hand" Height="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer},Path=(h:ControlAttachProperty.DoubleAttach)}"
+                                              Width="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer},Path=(h:ControlAttachProperty.DoubleAttach)}">
+
+                                                <Border x:Name="border" Background="Transparent" 
+                                                    BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" 
+                                                    BorderThickness="2" CornerRadius="100"/>
+
+                                                <TextBlock x:Name="txt" Text="{Binding Logo}" ToolTip="{Binding DisplayName}" 
+                                                       FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer},Path=(h:ControlAttachProperty.FIconSize)}" 
+                                                       Style="{DynamicResource FIcon}"/>
+                                            </Grid>
+
+                                            <DataTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
+                                                </Trigger>
+
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="true">
+                                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Accent}"/>
+                                                    <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                                                    <Setter TargetName="txt" Property="FontWeight" Value="Black"/>
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </local:ToggleExpander.ItemTemplate>
+
+                                    <h:Interaction.Behaviors>
+                                        <h:MouseDragElementBehavior ConstrainToParentBounds="False"/>
+                                    </h:Interaction.Behaviors>
+                                </local:ToggleExpander>
+
+
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer}">
+                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                    <Setter Property="VerticalAlignment" Value="Center"/>
+                    <Setter Property="Margin" Value="0,0,0,0"/>
+                    <Setter Property="h:ControlAttachProperty.FIconSize" Value="80"/>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <local:CirclePanel Len="80" Margin="50" IsAnimation="False"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Expander.RightBottom" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Default}">
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+        <Setter Property="Padding" Value="-150" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer}">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <local:ArcPanel Len="120" Margin="20" StartAngle="-10" EndAngle="100" IsAnimation="False"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Expander.Top" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Default}">
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Padding" Value="-150" />
+        <Setter Property="h:ControlAttachProperty.DoubleAttach" Value="50" />
+        <Setter Property="h:ControlAttachProperty.FIconSize" Value="35" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer}">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <local:ArcPanel Len="70" Margin="35" StartAngle="190" EndAngle="350" IsAnimation="False"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Expander.Bottom" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Expander.Top}">
+        <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer}">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <local:ArcPanel Len="70" Margin="35" StartAngle="10" EndAngle="170" IsAnimation="False"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Expander.Left" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Default}">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="-150" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer}">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <local:ArcPanel Len="70" Margin="35" StartAngle="270" EndAngle="90" IsAnimation="False"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Expander.Right" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Expander.Top}">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="Padding" Value="-150" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer}">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <local:ArcPanel Len="70" Margin="35" StartAngle="-90" EndAngle="90" IsAnimation="False"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.ToggleExpander.LinkActionsContianer.Single" TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.Single}">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="h:ControlAttachProperty.FIconSize" Value="45"/>
+        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="35"/>
+        <Setter Property="DockPanel.Dock" Value="Bottom"/>
+    </Style>
+    
+    <Style x:Key="S.LinkActionsContianer.Single" TargetType="local:LinkActionsContianer">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="BorderBrush" Value="{x:Null}"/>
+        <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="5,8" />
+        <Setter Property="h:ControlAttachProperty.DoubleAttach" Value="50" />
+        <Setter Property="h:ControlAttachProperty.FIconSize" Value="35" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LinkActionsContianer">
+
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                            <local:SwtichTransitioner CurrentContent="{TemplateBinding Content}" 
+                                                      ITransitionWipe="{TemplateBinding CurrentWipe}"/>
+
+                            <local:ToggleExpander Style="{TemplateBinding ListStyle}"
+                                                  SelectedIndex="0"
+                                                  SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=LinkAction}"
+                                                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=LinkActions}">
+                                <local:ToggleExpander.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type h:ILinkActionBase}">
+                                        <Grid Cursor="Hand" Height="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer},Path=(h:ControlAttachProperty.DoubleAttach)}"
+                                              Width="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer},Path=(h:ControlAttachProperty.DoubleAttach)}"
+                                              Margin="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer},Path=Padding}">
+
+                                            <Border x:Name="border" Background="Transparent" 
+                                                    BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" 
+                                                    BorderThickness="2" CornerRadius="100"/>
+
+                                            <TextBlock x:Name="txt" Text="{Binding Logo}" ToolTip="{Binding DisplayName}" 
+                                                       FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer},Path=(h:ControlAttachProperty.FIconSize)}" 
+                                                       Style="{DynamicResource FIcon}"/>
+                                        </Grid>
+
+                                        <DataTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
+                                            </Trigger>
+
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="true">
+                                                <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Accent}"/>
+                                                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                                                <Setter TargetName="txt" Property="FontWeight" Value="Black"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </local:ToggleExpander.ItemTemplate>
+
+                                <h:Interaction.Behaviors>
+                                    <h:MouseDragElementBehavior ConstrainToParentBounds="False"/>
+                                </h:Interaction.Behaviors>
+                            </local:ToggleExpander>
+
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ListStyle" Value="{StaticResource S.ToggleExpander.LinkActionsContianer.Single}"/>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Single.Horizontal.RightTop" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Single}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer.Single}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="DockPanel.Dock" Value="Right"/>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Single.Horizontal.RightBottom" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Single}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer.Single}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    <Setter Property="DockPanel.Dock" Value="Right"/>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Single.Horizontal.LeftBottom" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Single}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer.Single}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    <Setter Property="DockPanel.Dock" Value="Right"/>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Single.Horizontal.LeftTop" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Single}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer.Single}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    <Setter Property="DockPanel.Dock" Value="Right"/>
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Single.Vertical.RightTop" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Single}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer.Single}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Top"/>
+                    <Setter Property="DockPanel.Dock" Value="Right"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Single.Vertical.RightBottom" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Single}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer.Single}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    <Setter Property="DockPanel.Dock" Value="Right"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Single.Vertical.LeftBottom" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Single}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Bottom"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer.Single}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    <Setter Property="DockPanel.Dock" Value="Right"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.LinkActionsContianer.Single.Vertical.LeftTop" TargetType="local:LinkActionsContianer" BasedOn="{StaticResource S.LinkActionsContianer.Single}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style TargetType="local:ToggleExpander" BasedOn="{StaticResource S.ToggleExpander.LinkActionsContianer.Single}">
+                    <Setter Property="HorizontalAlignment" Value="Right"/>
+                    <Setter Property="VerticalAlignment" Value="Bottom"/>
+                    <Setter Property="DockPanel.Dock" Value="Right"/>
+                </Style>
             </Setter.Value>
         </Setter>
     </Style>

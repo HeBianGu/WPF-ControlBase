@@ -147,7 +147,7 @@ namespace HeBianGu.Base.WpfBase
 
     public class VisibleSplitAnimationCommand : ICommand
     {
-        public int SplitMilliSecond { get; set; } = 30;
+        public int SplitMilliSecond { get; set; } = 10;
 
         public bool CanExecute(object parameter)
         {
@@ -198,7 +198,7 @@ namespace HeBianGu.Base.WpfBase
     public class CollapsedSplitAnimationCommand : ICommand
     {
 
-        public int SplitMilliSecond { get; set; } = 30;
+        public int SplitMilliSecond { get; set; } = 10;
 
         public bool CanExecute(object parameter)
         {
