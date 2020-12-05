@@ -1,3 +1,4 @@
+using HeBianGu.Base.WpfBase;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -96,8 +97,5 @@ namespace HeBianGu.General.WpfControlLib
         }
     }
 
-    public enum PointOriginType
-    {
-        Default = 0, Custom, Center, MousePosition, RandomInner
-    }
+ 
 }

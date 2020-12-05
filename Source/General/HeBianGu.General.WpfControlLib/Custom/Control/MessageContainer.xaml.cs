@@ -58,7 +58,7 @@ namespace HeBianGu.General.WpfControlLib
 
     public abstract class MessageBase : ContentControl
     {
-        public static RoutedUICommand CloseCommand = new RoutedUICommand() { Text = "关闭" }; 
+        public static RoutedUICommand CloseCommand = new RoutedUICommand() { Text = "关闭" };
 
         public MessageBase()
         {
@@ -94,7 +94,7 @@ namespace HeBianGu.General.WpfControlLib
         public string Message
         {
             get { return (string)GetValue(MessageProperty); }
-            set 
+            set
             {
                 this.Dispatcher?.Invoke(() =>
                 {
@@ -123,12 +123,13 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (parent == null) return;
 
-                parent.Items.Remove(this);
+                this.BeginAnimationOpacity(1.0, 0.0, 500.0);
+                this.BeginAnimationX(0.0, 300.0, 500.0,l => parent.Items.Remove(this));
             });
 
         }
 
-        
+
     }
 
     public abstract class DailogMessageBase : MessageBase
@@ -159,7 +160,7 @@ namespace HeBianGu.General.WpfControlLib
 
     public class SuccessMessage : AutoCloseMessage
     {
-       
+
     }
 
     public class ErrorMessage : MessageBase
@@ -187,7 +188,7 @@ namespace HeBianGu.General.WpfControlLib
                 CommandBinding binding = new CommandBinding(SumitCommand, (l, k) =>
                 {
                     //  Do ：点击确定先检查是否合法
-                    if(this.IsMatch?.Invoke(this)==true)
+                    if (this.IsMatch?.Invoke(this) == true)
                     {
                         this.Close();
                     }

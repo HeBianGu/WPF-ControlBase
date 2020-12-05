@@ -75,5 +75,10 @@ namespace HeBianGu.Application.ManagerWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Contain()
+        {
+            return await ViewAsync();
+        }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using HeBianGu.General.WpfControlLib;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -174,26 +177,57 @@ namespace HeBianGu.Application.MainWindow
                     FieldInfo fi = value.GetType().GetField(value.ToString());
                     if (fi != null)
                     {
-                        var attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
+                        var attributes = (DisplayAttribute[])fi.GetCustomAttributes(typeof(DisplayAttribute), false);
 
-                        return ((attributes.Length > 0) && (!String.IsNullOrEmpty(attributes[0].Description))) ? attributes[0].Description : value.ToString();
+                        return ((attributes.Length > 0) && (!String.IsNullOrEmpty(attributes[0].Name))) ? attributes[0].Name : value.ToString();
                     }
                 }
                 return string.Empty;
             }
             return base.ConvertTo(context, culture, value, destinationType);
         }
+
+        //public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
+        //{
+        //    return base.CanConvertFrom(context, sourceType);
+        //}
+
+        //public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
+        //{
+        //    return base.CanConvertTo(context, destinationType);
+        //}
+
+        //public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+        //{
+        //    return base.ConvertFrom(context, culture, value);
+        //}
+
+        //public override object CreateInstance(ITypeDescriptorContext context, IDictionary propertyValues)
+        //{
+        //    return base.CreateInstance(context, propertyValues);
+        //}
+
+        //public override bool IsValid(ITypeDescriptorContext context, object value)
+        //{
+        //    return base.IsValid(context, value);
+        //}
     }
 
+
     [TypeConverter(typeof(MyEnumConverter))]
-    enum MyEnum
+    public enum MyEnum
     {
-        [Description("dsfsdfs")]
+        [Display(Name ="默认",GroupName ="11")]
         Defatul,
-        [Description("34353")]
+        [Display(Name = "第一个", GroupName = "22")]
         First,
-        [Description("ghgjhj")]
+        [Display(Name = "第二个", GroupName = "11")]
         Second
+    }
+
+    public class MyEnumColletion: ObservableCollection<MyEnum>
+    {
+
     }
 
     public class EnumBindingSourceExtension : MarkupExtension

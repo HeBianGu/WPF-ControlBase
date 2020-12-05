@@ -264,7 +264,7 @@ namespace HeBianGu.Application.BlurWindow
 
                 StringProgressDialog dialog = new StringProgressDialog();
 
-                MessageService.ShowWithLayer(dialog);
+                MessageService.ShowLayer(dialog);
 
             }
 
@@ -527,7 +527,7 @@ namespace HeBianGu.Application.BlurWindow
             {
                 SettingControl setting = new SettingControl();
 
-                MessageService.ShowWithLayer(setting);
+                MessageService.ShowLayer(setting);
 
             }
 

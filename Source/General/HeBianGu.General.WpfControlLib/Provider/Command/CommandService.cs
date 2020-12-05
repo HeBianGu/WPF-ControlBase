@@ -171,8 +171,6 @@ namespace HeBianGu.General.WpfControlLib
 
         public static VisibleOfMarginLeftCommand VisibleOfMarginLeftCommand { get; } = new VisibleOfMarginLeftCommand();
 
-
-
         public static CollapsedOfMarginBottomCommand CollapsedOfMarginBottomCommand { get; } = new CollapsedOfMarginBottomCommand();
 
         public static VisibleOfMarginBottomCommand VisibleOfMarginBottomCommand { get; } = new VisibleOfMarginBottomCommand();
@@ -187,5 +185,12 @@ namespace HeBianGu.General.WpfControlLib
         public static CollapsedSplitAnimationCommand CollapsedSplitAnimationCommand { get; } = new CollapsedSplitAnimationCommand();
 
         public static VisibleSplitAnimationCommand VisibleSplitAnimationCommand { get; } = new VisibleSplitAnimationCommand();
+
+        /// <summary> 应用动画效果显示控件 </summary>
+        public static ActionVisibleCommand ActionVisibleCommand { get; } = new ActionVisibleCommand();
+
+        /// <summary> 应用动画隐藏效果 </summary>
+        public static ActionHiddenCommand ActionHiddenCommand { get; } = new ActionHiddenCommand();
+
     }
 }

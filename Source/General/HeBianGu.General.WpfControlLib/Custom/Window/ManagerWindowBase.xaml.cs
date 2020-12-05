@@ -50,7 +50,6 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
-
         public static readonly DependencyProperty LogoProperty = DependencyProperty.Register("Logo", typeof(ImageSource), typeof(ManagerWindowBase), new PropertyMetadata(null));
 
         public ImageSource Logo

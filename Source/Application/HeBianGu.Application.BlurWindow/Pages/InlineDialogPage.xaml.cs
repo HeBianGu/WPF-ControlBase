@@ -33,18 +33,40 @@ namespace WpfControlDemo.View
             var dialog = new InlineModalDialog
             {
                 Owner = this,
-                Content=new DialogSampleContent(),
+                Content = new DialogSampleContent(),
                 Width = _rng.Next(100, (int)ActualWidth),
                 Height = _rng.Next(100, (int)ActualHeight),
+                ShowBlurrer = true
             };
             dialog.InputBindings.Add(new KeyBinding { Key = Key.Escape, Command = InlineModalDialog.CloseCommand });
             dialog.Show();
         }
 
-       
+        private void Button_CP_Click(object sender, RoutedEventArgs e)
+        {
+            ContentControl content = new ContentControl();
+            content.Width = _rng.Next(100, (int)ActualWidth);
+            content.Height = _rng.Next(100, (int)ActualHeight);
+          
+
+            content.Content = new ContainPanelSampleContent();
+
+            this.cp.Add(content);
+        }
+
+        private void Button_CP_Click_Close(object sender, RoutedEventArgs e)
+        {
+            this.cp.Remove();
+        }
     }
 
     internal class DialogSampleContent
     {
+
+    }
+
+    internal class ContainPanelSampleContent
+    {
+
     }
 }

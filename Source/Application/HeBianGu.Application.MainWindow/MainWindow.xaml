@@ -15,11 +15,236 @@
     <Window.Resources>
 
         <ResourceDictionary Source="ComboBox.xaml"/>
+
+
     </Window.Resources>
     <TabControl>
+        <!--<TabControl.Resources>
+            <collections:ArrayList x:Key="D.ArrayList.Items">
+                <h:FilterModel Name="序号"/>
+                <h:FilterModel Name="名称"/>
+                <h:FilterModel Name="类型"/>
+                <h:FilterModel Name="是否合格"/>
+            </collections:ArrayList>
+        </TabControl.Resources>-->
+
+        <TabControl.Resources>
+            <collections:ArrayList x:Key="D.ArrayList.MyEnum">
+                <local:MyEnum>Defatul</local:MyEnum>
+                <local:MyEnum>First</local:MyEnum>
+            </collections:ArrayList>
+
+        </TabControl.Resources>
 
 
 
+        <TabItem Header="RadialGradientBrush">
+            <Grid x:Name="griddd" Background="Red" RenderTransformOrigin="0.5,0.5">
+                <Grid.OpacityMask>
+                    <RadialGradientBrush>
+                        <RadialGradientBrush.Transform>
+                            <ScaleTransform x:Name="stt" CenterX="671" CenterY="240" ScaleX="{Binding ElementName=sd,Path=Value}" ScaleY="{Binding ElementName=sd,Path=Value}"/>
+                        </RadialGradientBrush.Transform>
+                        <GradientStop Offset="0" Color="Transparent"/>
+                        <GradientStop Offset="0.2" Color="Transparent"/>
+                        <GradientStop Offset="1" Color="Black"/>
+                    </RadialGradientBrush>
+                </Grid.OpacityMask>
+
+
+                <TextBlock Text="{Binding ElementName=griddd,Path=ActualHeight}" Foreground="Black" HorizontalAlignment="Left"/>
+
+                <Slider x:Name="sd" Value="0" Maximum="20"/>
+            </Grid>
+
+        </TabItem>
+        <TabItem Header="FDrawer">
+            <Grid>
+                <Grid>
+                    <h:FDrawer Style="{StaticResource S.FDrawer.Geomotry.Default}">
+                        <ListBox  Background="Purple" Width="500" Height="300">
+                            <h:FTextBox UseHistory="False"/>
+                            <h:FTextBox/>
+                        </ListBox>
+                    </h:FDrawer>
+                </Grid>
+
+                <Grid>
+                    <h:FDrawer Style="{StaticResource S.FDrawer.Geomotry.Default}" HorizontalContentAlignment="Left">
+                        <ListBox  Background="Red" Width="500" Height="300">
+                            <h:FTextBox UseHistory="False"/>
+                            <h:FTextBox/>
+                        </ListBox>
+                    </h:FDrawer>
+                </Grid>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="FDrawer">
+            <Grid Background="Yellow">
+                <h:FDrawer Style="{StaticResource S.FDrawer.Right.Default}" Background="Red">
+                    <ListBox HorizontalAlignment="Stretch" Grid.Row="1" Width="200">
+                        <h:FTextBox UseHistory="False"/>
+                        <h:FTextBox/>
+                    </ListBox>
+                </h:FDrawer>
+
+                <h:FDrawer Style="{StaticResource S.FDrawer.Left.Default}" Background="Red">
+                    <h:Cattach.VisibleActions>
+                        <h:ActionCollection>
+                            <h:ScaleAction/>
+                        </h:ActionCollection>
+                    </h:Cattach.VisibleActions>
+                    
+                    <ListBox HorizontalAlignment="Stretch" Grid.Row="1" Width="200">
+                        <h:FTextBox UseHistory="False"/>
+                        <h:FTextBox/>
+                    </ListBox>
+                </h:FDrawer>
+
+                <h:FDrawer Style="{StaticResource S.FDrawer.Bottom.Default}" Background="Red">
+                    <h:Cattach.VisibleActions>
+                        <h:ActionCollection>
+                            <h:HorizontalAction/>
+                        </h:ActionCollection>
+                    </h:Cattach.VisibleActions>
+
+                    <ListBox HorizontalAlignment="Stretch" Grid.Row="1" Height="200">
+                        <h:FTextBox UseHistory="False"/>
+                        <h:FTextBox/>
+                    </ListBox>
+                </h:FDrawer>
+
+                <h:FDrawer Style="{StaticResource S.FDrawer.Top.Default}" Background="Red">
+                    <h:Cattach.VisibleActions>
+                        <h:ActionCollection>
+                            <h:TranslateAction StartPoint="0,-100" EndPoint="0,-100"/>
+                        </h:ActionCollection>
+                    </h:Cattach.VisibleActions>
+
+                    <ListBox HorizontalAlignment="Stretch" Grid.Row="1" Height="200">
+                        <h:FTextBox UseHistory="False"/>
+                        <h:FTextBox/>
+                    </ListBox>
+                </h:FDrawer>
+            </Grid>
+        </TabItem>
+        
+        <TabItem Header="h:Cattach.IsVisible">
+            <Grid Background="Yellow">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <ListBox HorizontalAlignment="Stretch" Grid.Row="1">
+                    <h:FTextBox UseHistory="False"/>
+                    <h:FTextBox/>
+                </ListBox>
+                <h:FCheckBox x:Name="cb" DockPanel.Dock="Top"/>
+
+                <Grid Background="Red" Grid.Row="1" h:Cattach.IsVisible="{Binding ElementName=cb,Path=IsChecked}">
+                    <h:Cattach.VisibleActions>
+                        <h:ActionCollection>
+                            <h:HorizontalAction/>
+                        </h:ActionCollection>
+                    </h:Cattach.VisibleActions>
+                </Grid>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Group DataGrid">
+            <Grid>
+                <h:PagedDataGrid DataSource="{Binding Students}" AutoGenerateColumns="True" >
+                    <DataGrid.GroupStyle>
+                        <GroupStyle>
+                            <GroupStyle.ContainerStyle>
+                                <Style TargetType="{x:Type GroupItem}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                <Expander Style="{StaticResource MaterialDesignExpander}" IsExpanded="False" Header="{Binding Path=Name}">
+                                                    <ItemsPresenter/>
+                                                </Expander>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </GroupStyle.ContainerStyle>
+                            <GroupStyle.Panel>
+                                <ItemsPanelTemplate>
+                                    <DataGridRowsPresenter/>
+                                </ItemsPanelTemplate>
+                            </GroupStyle.Panel>
+                        </GroupStyle>
+                    </DataGrid.GroupStyle>
+                    <!--<DataGrid.Columns>
+
+                    </DataGrid.Columns>-->
+                </h:PagedDataGrid>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="TEST">
+            <StackPanel>
+
+                <!--<ComboBox ItemsSource="{Binding Source={local:EnumBindingSource EnumType={x:Type local:MyEnum}}}" 
+                          SelectedItem="{Binding CustomNameViewModel.SelectedMyEnum}"/>-->
+
+                <ComboBox ItemsSource="{Binding Source={h:EnumSource EnumType={x:Type local:MyEnum}}}" 
+                          SelectedItem="{Binding CustomNameViewModel.SelectedMyEnum}"/>
+
+                <ComboBox ItemsSource="{Binding Source={h:EnumGroupSource EnumType={x:Type local:MyEnum},GroupName=11}}" 
+                          SelectedItem="{Binding CustomNameViewModel.SelectedMyEnum}"/>
+                <!--<ComboBox>
+                    <local:MyEnum>Defatul</local:MyEnum>
+                    <local:MyEnum>First</local:MyEnum>
+                    -->
+                <!--<ComboBox.ItemsSource>
+                        <local:MyEnumColletion>
+                            <local:MyEnum>Defatul</local:MyEnum>
+                            <local:MyEnum>First</local:MyEnum>
+                        </local:MyEnumColletion>
+                    </ComboBox.ItemsSource>-->
+                <!--
+                </ComboBox>-->
+
+            </StackPanel>
+
+        </TabItem>
+
+        <TabItem Header="FilterBox">
+            <StackPanel>
+                <h:FilterBox x:Name="fb" DataSource="{Binding Students}"/>
+
+                <h:PagedDataGrid PageCount="10" DataSource="{Binding ElementName=fb,Path=OutSource}" AutoGenerateColumns="True">
+                    <!--<DataGrid.Columns>
+                        <DataGridTextColumn Header="姓名" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="班级"  Binding="{Binding Class}"/>
+                        <DataGridTextColumn Header="姓名"  Binding="{Binding Address}"/>
+                        <DataGridTextColumn Header="姓名"  Binding="{Binding Emall}"/>
+                        <DataGridTextColumn Header="姓名"  Binding="{Binding IsEnbled}"/>
+                        <DataGridTextColumn Header="姓名"  Binding="{Binding time}"/>
+                        <DataGridTextColumn Header="姓名"  Binding="{Binding Age}"/>
+                        <DataGridTextColumn Header="姓名"  Binding="{Binding Age}"/>
+                    </DataGrid.Columns>-->
+                </h:PagedDataGrid>
+            </StackPanel>
+        </TabItem>
+
+        <TabItem Header="FTextBox">
+            <StackPanel>
+                <h:FTextBox UseHistory="True"/>
+                <h:FTextBox/>
+                <h:FTextBox/>
+                <h:FTextBox/>
+                <h:FTextBox/>
+                <h:FTextBox/>
+                <h:FTextBox/>
+                <h:FTextBox/>
+                <h:FTextBox/>
+                <h:FTextBox/>
+            </StackPanel>
+        </TabItem>
         <TabItem Header="TEST11111">
             <Grid>
                 <Grid.Background>
@@ -64,13 +289,13 @@
             </Grid>
         </TabItem>
 
-        
+
         <TabItem Header="TEST">
             <Grid  Background="Green">
                 <!--<Grid.OpacityMask>
                     <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png"/>
                 </Grid.OpacityMask>-->
-                <GroupBox Header="None" Height="800">
+                <!--<GroupBox Header="None" Height="800">
                     <Grid>
                         <Grid.Resources>
                             <Style TargetType="h:FButton" BasedOn="{StaticResource S.FButton.Style.Default}">
@@ -87,7 +312,8 @@
                             <h:PagePanel.AnimationAction>
                                 <h:ImageOpacityMaskAction IsSingle="False" ViewportUnits="RelativeToBoundingBox" TileMode="None" ImageSource="C:\Solution\Github\WPF-ControlBase-master (1) (1)\WPF-ControlBase-master\Source\General\HeBianGu.General.WpfControlLib\Resources\logo.png">
                                 </h:ImageOpacityMaskAction>
-                                <!--<h:ScaleGeomotryAction Duration="1000">
+                                -->
+                <!--<h:ScaleGeomotryAction Duration="1000">
                                     <h:ScaleGeomotryAction.Geometry>
                                         <PathGeometry>
                                             <PathFigure StartPoint="-600,-400" IsClosed="True" IsFilled="True">
@@ -98,6 +324,7 @@
                                         </PathGeometry>
                                     </h:ScaleGeomotryAction.Geometry>
                                 </h:ScaleGeomotryAction>-->
+                <!--
                             </h:PagePanel.AnimationAction>
                             <h:FButton Background="Purple" Content="1"/>
                             <h:FButton Background="Red" Content="2"/>
@@ -111,11 +338,11 @@
                         <h:FButton FIcon="&#xe9bf;"  Style="{StaticResource S.FButton.Right}" CommandTarget="{Binding ElementName=pp22}"/>
 
                     </Grid>
-                </GroupBox>
+                </GroupBox>-->
 
             </Grid>
         </TabItem>
-        
+
         <TabItem Header="TEST">
             <Grid Background="Green">
                 <!--<Path Fill="Red">
@@ -132,14 +359,16 @@
 
                 <!--<Path Fill="Red">
                     <Path.Data>
-                        --><!--<RectangleGeometry Rect="-100 -100 200 200">
+                        -->
+                <!--<RectangleGeometry Rect="-100 -100 200 200">
                             <RectangleGeometry.Transform>
                                 <TransformGroup>
                                     <ScaleTransform ScaleX="3" ScaleY="3"/>
                                     <TranslateTransform X="300" Y="300"/>
                                 </TransformGroup>
                             </RectangleGeometry.Transform>
-                        </RectangleGeometry>--><!--
+                        </RectangleGeometry>-->
+                <!--
 
                         <PathGeometry>
                             <PathGeometry.Transform>
@@ -173,7 +402,7 @@
                 </Grid.Clip>
             </Grid>
         </TabItem>
-        
+
         <TabItem Header="TEST11111">
             <Grid Background="Green">
                 <Grid.Clip>
@@ -194,7 +423,7 @@
                 </Grid.Triggers>
             </Grid>
         </TabItem>
-        
+
         <TabItem Header="TEST11111">
             <Grid Background="Green">
                 <Grid.OpacityMask>
@@ -242,13 +471,13 @@
         </TabItem>
 
 
-        
+
         <TabItem Header="TEST">
             <Grid x:Name="grid" OpacityMask="{StaticResource S.DrawingBrush.Linear}"  Background="Green" Loaded="Grid_Loaded">
-           
+
             </Grid>
         </TabItem>
-        
+
 
 
         <TabItem Header="TEST">
@@ -720,19 +949,6 @@
 
         </TabItem>
 
-        <!--<TabItem Header="TEST">
-            <StackPanel>
-                -->
-        <!--<ComboBox ItemsSource="{Binding Source={local:EnumBindingSource EnumType={x:Type local:MyEnum}}}" 
-                          SelectedItem="{Binding CustomNameViewModel.SelectedMyEnum}"/>
-                <ComboBox SelectedItem="{Binding CustomNameViewModel.SelectedMyEnum}">
-                    <local:MyEnum>First</local:MyEnum>
-                    <local:MyEnum>Second</local:MyEnum>
-                </ComboBox>-->
-        <!--
-            </StackPanel>
-
-        </TabItem>-->
 
         <TabItem Header="TEST">
             <StackPanel>
@@ -804,14 +1020,50 @@
         <TabItem Header="FluidMoveBehavior">
             <DockPanel>
                 <h:FButton DockPanel.Dock="Top" Content="添加.." Command="{Binding RelayCommand}" CommandParameter="Add"/>
+                <h:FButton DockPanel.Dock="Top" Content="移除.." Command="{Binding RelayCommand}" CommandParameter="Add"/>
+
+                <ListBox ItemsSource="{Binding Collection}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <!--<h:CirclePanel Len="200">
+                                -->
+                            <!--<h:Interaction.Behaviors>
+                                    <h:FluidMoveBehavior AppliesTo="Children"/>
+                                </h:Interaction.Behaviors>-->
+                            <!--
+                            </h:CirclePanel>-->
+
+                            <StackPanel>
+                                <h:Interaction.Behaviors>
+                                    <h:FluidMoveBehavior AppliesTo="Children"/>
+                                </h:Interaction.Behaviors>
+                            </StackPanel>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <h:FButton Content="{Binding Value}" Width="250" Height="Auto" VerticalAlignment="Stretch"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+        </TabItem>
+
+        <TabItem Header="FluidMoveBehavior">
+            <DockPanel>
+                <h:FButton DockPanel.Dock="Top" Content="添加.." Command="{Binding RelayCommand}" CommandParameter="Add"/>
+                <h:FButton DockPanel.Dock="Top" Content="移除.." Command="{Binding RelayCommand}" CommandParameter="Add"/>
 
                 <ListBox ItemsSource="{Binding Collection}">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <h:CirclePanel Len="200">
-                                <!--<h:Interaction.Behaviors>
+                                <h:Interaction.Behaviors>
                                     <h:FluidMoveBehavior AppliesTo="Children"/>
-                                </h:Interaction.Behaviors>-->
+                                </h:Interaction.Behaviors>
                             </h:CirclePanel>
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
@@ -880,7 +1132,7 @@
                             <TextBlock Text="测试" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </h:GitTopItem.HeaderContent>
 
-                        <h:FTextBox Margin="10,2" h:ControlAttachProperty.Watermark="请输入筛选条件" h:ControlAttachProperty.FIcon="&#xe787;"/>
+                        <h:FTextBox Margin="10,2" h:Cattach.Watermark="请输入筛选条件" h:Cattach.FIcon="&#xe787;"/>
 
                     </h:GitTopItem>
 
@@ -889,7 +1141,7 @@
                             <TextBlock Text="测试" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </h:GitTopItem.HeaderContent>
 
-                        <h:FTextBox Margin="10,2" h:ControlAttachProperty.Watermark="请输入筛选条件" h:ControlAttachProperty.FIcon="&#xe787;"/>
+                        <h:FTextBox Margin="10,2" h:Cattach.Watermark="请输入筛选条件" h:Cattach.FIcon="&#xe787;"/>
 
                     </h:GitTopItem>
                 </h:GitTopContainer>

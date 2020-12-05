@@ -47,7 +47,7 @@ namespace HeBianGu.Application.MainWindow
 
         [Display(Name = "时间")]
         [Required]
-        public DateTime time { get; set; }
+        public DateTime Time { get; set; }
 
         [Display(Name = "年龄")]
         [Required]
@@ -60,6 +60,23 @@ namespace HeBianGu.Application.MainWindow
         [Required]
         [RegularExpression(@"^1[3|4|5|7|8][0-9]{9}$", ErrorMessage = "手机号码不合法！")]
         public string Tel { get; set; }
+
+        static Random random = new Random();
+
+        public static Student Random()
+        {
+            Student student = new Student();
+            student.Name = "HeBianGu";
+            student.Class = random.Next(1, 20).ToString();
+            student.Address = random.Next(30, 50).ToString();
+            student.Emall = random.Next(30, 50).ToString();
+            student.IsEnbled = random.Next(1, 3) == 2;
+            student.Time = DateTime.Now.AddDays(random.Next(-50, 50));
+            student.Age = random.Next(30, 50);
+            student.Score = random.Next(90, 100);
+            student.Tel = random.NextDouble().ToString();
+            return student;
+        }
     }
 
     class StudentViewModel : ValidationModelViewModel<Student>

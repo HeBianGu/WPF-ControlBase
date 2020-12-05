@@ -316,7 +316,7 @@ namespace HeBianGu.Application.LinkWindow
             else if (command.StartsWith("Button.ShowCoverMessge"))
             {
                 SettingControl setting = new SettingControl();
-                MessageService.ShowWithLayer(setting);
+                MessageService.ShowLayer(setting);
             }
 
             else if (command == "Button.Add")

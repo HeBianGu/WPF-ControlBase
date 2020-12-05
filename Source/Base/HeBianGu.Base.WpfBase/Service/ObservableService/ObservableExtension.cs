@@ -95,5 +95,24 @@ namespace HeBianGu.Base.WpfBase
                 action(item);
             }
         }
+        /// <summary> 随机排序 </summary>
+        public static ObservableCollection<T> Random<T>(this ObservableCollection<T> collection)
+        {
+            Random random = new Random();
+            T temp;
+
+            for (int i = 0; i < collection.Count; i++)
+            {
+                int index = random.Next(i, collection.Count - 1);
+
+                temp = collection[i];
+
+                collection[i] = collection[index];
+
+                collection[index] = temp;
+            }
+
+            return collection;
+        }
     }
 }

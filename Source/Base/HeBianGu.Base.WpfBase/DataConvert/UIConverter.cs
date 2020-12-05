@@ -78,7 +78,7 @@ namespace HeBianGu.Base.WpfBase
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             //反转换方法，就是对照上面的把男女再转换回去
-            return (bool)value? Visibility.Visible:Visibility.Collapsed;
+            return (bool)value ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 
@@ -716,7 +716,7 @@ namespace HeBianGu.Base.WpfBase
         {
             ItemsPresenter item = (ItemsPresenter)value;
 
-           var panel= item.GetChildren<Panel>()?.ToList();
+            var panel = item.GetChildren<Panel>()?.ToList();
 
             return panel?.FirstOrDefault();
         }
@@ -930,6 +930,48 @@ namespace HeBianGu.Base.WpfBase
             return imageSource;
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// 并运算
+    /// </summary>
+    public class BoolAndConverter : IMultiValueConverter
+    {
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null) return null;
+
+            var result = values.OfType<bool>()?.ToList();
+
+            return result.TrueForAll(l => l == true);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// 或运算
+    /// </summary>
+    public class BoolOrConverter : IMultiValueConverter
+    {
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values == null) return null;
+
+            var result = values.OfType<bool>()?.ToList();
+
+            return result.Any(l => l == true);
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

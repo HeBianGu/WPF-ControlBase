@@ -16,9 +16,9 @@ namespace HeBianGu.Base.WpfBase
     {
         public ValidationPropertyChanged() : base()
         {
-            var froms = this.GetErrorMessage();
+            //var froms = this.GetErrorMessage();
 
-            this.Error = froms.FirstOrDefault();
+            //this.Error = froms.FirstOrDefault();
 
         }
         #region - 属性 -
@@ -34,9 +34,12 @@ namespace HeBianGu.Base.WpfBase
 
                 var property = this.GetType().GetProperty(columnName);
 
-                var attrs = property.GetCustomAttributes(true)?.Cast<ValidationAttribute>();
+                var attrs = property.GetCustomAttributes(true)?.OfType<ValidationAttribute>();
 
                 if (attrs == null || attrs.Count() == 0) return string.Empty;
+
+                var display = property.GetCustomAttributes(true)?.OfType<DisplayAttribute>()?.FirstOrDefault();
+
 
                 var value = property.GetValue(this);
 
@@ -44,11 +47,13 @@ namespace HeBianGu.Base.WpfBase
                 {
                     if (!r.IsValid(value))
                     {
-                        results.Add(r.ErrorMessage ?? r.FormatErrorMessage(columnName));
+                        results.Add(r.ErrorMessage ?? r.FormatErrorMessage(display == null ? columnName : display.Name));
                     }
                 }
 
-                return string.Join(Environment.NewLine, results);
+               return this.Error = results.FirstOrDefault();
+
+                //return string.Join(Environment.NewLine, results);
 
 
                 //var vc = new ValidationContext(this, null, null);

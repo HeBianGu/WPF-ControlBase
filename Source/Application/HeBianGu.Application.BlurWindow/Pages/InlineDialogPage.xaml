@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:WpfControlDemo.View"
       xmlns:av="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
       mc:Ignorable="d" 
+      xmlns:h="QQ:908293466"
       d:DesignHeight="1000" d:DesignWidth="1000" x:Name="page"
       Title="InlineDialogPage">
 
@@ -15,17 +16,49 @@
                 <Button Click="Button_Click" Content="Open" Padding="20,0" />
             </Grid>
         </DataTemplate>
-    </FrameworkElement.Resources>
-    
-    <Grid>
-        <av:InlineModalDecorator  Target="{x:Reference page}">
+
+        <DataTemplate DataType="{x:Type local:ContainPanelSampleContent}">
             <Grid>
-                <Button Padding="50,0"
+                <Grid.Background>
+                    <SolidColorBrush Color="Yellow" Opacity="0.5"/>
+                </Grid.Background>
+                <Button Click="Button_CP_Click_Close" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Close" Padding="20,0" />
+
+                <Button Click="Button_CP_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Open" Padding="20,0" />
+            </Grid>
+        </DataTemplate>
+        
+    </FrameworkElement.Resources>
+
+    <ScrollViewer>
+        <UniformGrid Columns="1" Height="1200">
+            <Grid>
+                <av:InlineModalDecorator  Target="{x:Reference page}">
+                    <Grid>
+                        <Button Padding="50,0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Content="Show"
                     Click="Button_Click" />
+                    </Grid>
+                </av:InlineModalDecorator>
             </Grid>
-        </av:InlineModalDecorator>
-    </Grid>
+
+            <h:ContainPanel x:Name="cp" Background="{DynamicResource S.Brush.Dialog.Cover}">
+                <h:ContainPanel.AnimationAction>
+                    <h:OpacityAction/>
+                </h:ContainPanel.AnimationAction>
+
+                <Grid Background="Red" Width="500" Height="400">
+                    <Button Height="50" Width="100"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Show"
+                    Click="Button_CP_Click" />
+                </Grid>
+            </h:ContainPanel>
+        </UniformGrid>
+    </ScrollViewer>
+
+    
 </Page>

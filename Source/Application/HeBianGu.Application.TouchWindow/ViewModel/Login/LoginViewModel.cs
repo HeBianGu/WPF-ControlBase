@@ -128,7 +128,7 @@ namespace HeBianGu.Application.TouchWindow
                 this.IsActive = true;
             };
 
-            MessageService.ShowWithLayer(awaitControl);
+            MessageService.ShowLayer(awaitControl);
         }
 
     }

@@ -15,14 +15,14 @@ using System.Windows.Shapes;
 namespace HeBianGu.Base.WpfBase
 {
     /// <summary> 公共附加属性 </summary>
-    public static partial class ControlAttachProperty
+    public static partial class Cattach
     {
         /************************************ Attach Property **************************************/
 
         #region FocusBackground 获得焦点背景色，
 
         public static readonly DependencyProperty FocusBackgroundProperty = DependencyProperty.RegisterAttached(
-            "FocusBackground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "FocusBackground", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         public static void SetFocusBackground(DependencyObject element, Brush value)
         {
@@ -39,7 +39,7 @@ namespace HeBianGu.Base.WpfBase
         #region FocusForeground 获得焦点前景色，
 
         public static readonly DependencyProperty FocusForegroundProperty = DependencyProperty.RegisterAttached(
-            "FocusForeground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "FocusForeground", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         public static void SetFocusForeground(DependencyObject element, Brush value)
         {
@@ -56,7 +56,7 @@ namespace HeBianGu.Base.WpfBase
         #region MouseOverBackgroundProperty 鼠标悬浮背景色
 
         public static readonly DependencyProperty MouseOverBackgroundProperty = DependencyProperty.RegisterAttached(
-            "MouseOverBackground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "MouseOverBackground", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         public static void SetMouseOverBackground(DependencyObject element, Brush value)
         {
@@ -73,7 +73,7 @@ namespace HeBianGu.Base.WpfBase
         #region MouseOverForegroundProperty 鼠标悬浮前景色
 
         public static readonly DependencyProperty MouseOverForegroundProperty = DependencyProperty.RegisterAttached(
-            "MouseOverForeground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "MouseOverForeground", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         public static void SetMouseOverForeground(DependencyObject element, Brush value)
         {
@@ -90,7 +90,7 @@ namespace HeBianGu.Base.WpfBase
         #region MouseOverBackgroundProperty 选中背景色
 
         public static readonly DependencyProperty SelectBackgroundProperty = DependencyProperty.RegisterAttached(
-            "SelectBackground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "SelectBackground", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         public static void SetSelectBackground(DependencyObject element, Brush value)
         {
@@ -107,7 +107,7 @@ namespace HeBianGu.Base.WpfBase
         #region MouseOverForegroundProperty 选中前景色
 
         public static readonly DependencyProperty SelectForegroundProperty = DependencyProperty.RegisterAttached(
-            "SelectForeground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "SelectForeground", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         public static void SetSelectForeground(DependencyObject element, Brush value)
         {
@@ -124,7 +124,7 @@ namespace HeBianGu.Base.WpfBase
         #region PressBackgroundProperty 按下背景色
 
         public static readonly DependencyProperty PressBackgroundProperty = DependencyProperty.RegisterAttached(
-            "PressBackground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "PressBackground", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         public static void SetPressBackground(DependencyObject element, Brush value)
         {
@@ -141,7 +141,7 @@ namespace HeBianGu.Base.WpfBase
         #region  PressForegroundProperty 按下前景色
 
         public static readonly DependencyProperty PressForegroundProperty = DependencyProperty.RegisterAttached(
-            "PressForeground", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "PressForeground", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         public static void SetPressForeground(DependencyObject element, Brush value)
         {
@@ -158,7 +158,7 @@ namespace HeBianGu.Base.WpfBase
         #region FocusBorderBrush 焦点边框色，输入控件
 
         public static readonly DependencyProperty FocusBorderBrushProperty = DependencyProperty.RegisterAttached(
-            "FocusBorderBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "FocusBorderBrush", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(null));
         public static void SetFocusBorderBrush(DependencyObject element, Brush value)
         {
             element.SetValue(FocusBorderBrushProperty, value);
@@ -173,7 +173,7 @@ namespace HeBianGu.Base.WpfBase
         #region SelectedForegroundBrush 选中前景色
 
         public static readonly DependencyProperty SelectedForegroundBrushProperty = DependencyProperty.RegisterAttached(
-            "SelectedForegroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+            "SelectedForegroundBrush", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(Brushes.Transparent));
         public static void SetSelectedForegroundBrush(DependencyObject element, Brush value)
         {
             element.SetValue(SelectedForegroundBrushProperty, value);
@@ -188,7 +188,7 @@ namespace HeBianGu.Base.WpfBase
         #region SelectedBackgroundBrush 选中背景色
 
         public static readonly DependencyProperty SelectedBackgroundBrushProperty = DependencyProperty.RegisterAttached(
-            "SelectedBackgroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+            "SelectedBackgroundBrush", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(Brushes.Transparent));
         public static void SetSelectedBackgroundBrush(DependencyObject element, Brush value)
         {
             element.SetValue(SelectedBackgroundBrushProperty, value);
@@ -203,7 +203,7 @@ namespace HeBianGu.Base.WpfBase
         #region CheckedForegroundBrush 选中前景色
 
         public static readonly DependencyProperty CheckedForegroundBrushProperty = DependencyProperty.RegisterAttached(
-            "CheckedForegroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+            "CheckedForegroundBrush", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(Brushes.Transparent));
 
         public static void SetCheckedForegroundBrush(DependencyObject element, Brush value)
         {
@@ -220,7 +220,7 @@ namespace HeBianGu.Base.WpfBase
         #region CheckedBackgroundBrush 选中背景色
 
         public static readonly DependencyProperty CheckedBackgroundBrushProperty = DependencyProperty.RegisterAttached(
-            "CheckedBackgroundBrush", typeof(Brush), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(Brushes.Transparent));
+            "CheckedBackgroundBrush", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(Brushes.Transparent));
 
         public static void SetCheckedBackgroundBrush(DependencyObject element, Brush value)
         {
@@ -237,7 +237,7 @@ namespace HeBianGu.Base.WpfBase
         #region MouseOverBorderBrush 鼠标进入边框色，输入控件
 
         public static readonly DependencyProperty MouseOverBorderBrushProperty =
-            DependencyProperty.RegisterAttached("MouseOverBorderBrush", typeof(Brush), typeof(ControlAttachProperty),
+            DependencyProperty.RegisterAttached("MouseOverBorderBrush", typeof(Brush), typeof(Cattach),
                 new FrameworkPropertyMetadata(Brushes.Transparent,
                     FrameworkPropertyMetadataOptions.AffectsRender | FrameworkPropertyMetadataOptions.Inherits));
 
@@ -270,7 +270,7 @@ namespace HeBianGu.Base.WpfBase
         /// 附加组件模板
         /// </summary>
         public static readonly DependencyProperty AttachContentProperty = DependencyProperty.RegisterAttached(
-            "AttachContent", typeof(ControlTemplate), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "AttachContent", typeof(ControlTemplate), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         public static ControlTemplate GetAttachContent(DependencyObject d)
         {
@@ -288,7 +288,7 @@ namespace HeBianGu.Base.WpfBase
         /// 水印
         /// </summary>
         public static readonly DependencyProperty WatermarkProperty = DependencyProperty.RegisterAttached(
-            "Watermark", typeof(string), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(""));
+            "Watermark", typeof(string), typeof(Cattach), new FrameworkPropertyMetadata(""));
 
         public static string GetWatermark(DependencyObject d)
         {
@@ -307,7 +307,7 @@ namespace HeBianGu.Base.WpfBase
         /// 字体图标
         /// </summary>
         public static readonly DependencyProperty FIconProperty = DependencyProperty.RegisterAttached(
-            "FIcon", typeof(string), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(""));
+            "FIcon", typeof(string), typeof(Cattach), new FrameworkPropertyMetadata(""));
 
         public static string GetFIcon(DependencyObject d)
         {
@@ -323,7 +323,7 @@ namespace HeBianGu.Base.WpfBase
         /// 字体图标
         /// </summary>
         public static readonly DependencyProperty FIconChangedProperty = DependencyProperty.RegisterAttached(
-            "FIconChanged", typeof(string), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(""));
+            "FIconChanged", typeof(string), typeof(Cattach), new FrameworkPropertyMetadata(""));
 
         public static string GetFIconChanged(DependencyObject d)
         {
@@ -342,7 +342,7 @@ namespace HeBianGu.Base.WpfBase
         /// 字体图标
         /// </summary>
         public static readonly DependencyProperty FIconSizeProperty = DependencyProperty.RegisterAttached(
-            "FIconSize", typeof(double), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(12D));
+            "FIconSize", typeof(double), typeof(Cattach), new FrameworkPropertyMetadata(12D));
 
         public static double GetFIconSize(DependencyObject d)
         {
@@ -360,7 +360,7 @@ namespace HeBianGu.Base.WpfBase
         /// 字体图标
         /// </summary>
         public static readonly DependencyProperty FIconMarginProperty = DependencyProperty.RegisterAttached(
-            "FIconMargin", typeof(Thickness), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "FIconMargin", typeof(Thickness), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         public static Thickness GetFIconMargin(DependencyObject d)
         {
@@ -378,7 +378,7 @@ namespace HeBianGu.Base.WpfBase
         /// 启用旋转动画
         /// </summary>
         public static readonly DependencyProperty AllowsAnimationProperty = DependencyProperty.RegisterAttached("AllowsAnimation"
-            , typeof(bool), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(false, AllowsAnimationChanged));
+            , typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(false, AllowsAnimationChanged));
 
         public static bool GetAllowsAnimation(DependencyObject d)
         {
@@ -427,7 +427,7 @@ namespace HeBianGu.Base.WpfBase
         /// Border圆角
         /// </summary>
         public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.RegisterAttached(
-            "CornerRadius", typeof(CornerRadius), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "CornerRadius", typeof(CornerRadius), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         public static CornerRadius GetCornerRadius(DependencyObject d)
         {
@@ -445,7 +445,7 @@ namespace HeBianGu.Base.WpfBase
         /// Border圆角
         /// </summary>
         public static readonly DependencyProperty DoubleAttachProperty = DependencyProperty.RegisterAttached(
-            "DoubleAttach", typeof(double), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(0.0));
+            "DoubleAttach", typeof(double), typeof(Cattach), new FrameworkPropertyMetadata(0.0));
 
         public static double GetDoubleAttach(DependencyObject d)
         {
@@ -463,7 +463,7 @@ namespace HeBianGu.Base.WpfBase
         /// TextBox的头部Label
         /// </summary>
         public static readonly DependencyProperty LabelProperty = DependencyProperty.RegisterAttached(
-            "Label", typeof(string), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "Label", typeof(string), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         [AttachedPropertyBrowsableForType(typeof(TextBox))]
         public static string GetLabel(DependencyObject d)
@@ -482,7 +482,7 @@ namespace HeBianGu.Base.WpfBase
         /// TextBox的头部Label模板
         /// </summary>
         public static readonly DependencyProperty LabelTemplateProperty = DependencyProperty.RegisterAttached(
-            "LabelTemplate", typeof(ControlTemplate), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(null));
+            "LabelTemplate", typeof(ControlTemplate), typeof(Cattach), new FrameworkPropertyMetadata(null));
 
         [AttachedPropertyBrowsableForType(typeof(TextBox))]
         public static ControlTemplate GetLabelTemplate(DependencyObject d)
@@ -494,7 +494,7 @@ namespace HeBianGu.Base.WpfBase
         {
             obj.SetValue(LabelTemplateProperty, value);
 
-            
+
         }
         #endregion
 
@@ -505,7 +505,7 @@ namespace HeBianGu.Base.WpfBase
         /// 清除输入框Text值按钮行为开关
         /// </summary>
         public static readonly DependencyProperty IsClearTextButtonBehaviorEnabledProperty = DependencyProperty.RegisterAttached("IsClearTextButtonBehaviorEnabled"
-            , typeof(bool), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(false, IsClearTextButtonBehaviorEnabledChanged));
+            , typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(false, IsClearTextButtonBehaviorEnabledChanged));
 
         [AttachedPropertyBrowsableForType(typeof(TextBox))]
         public static bool GetIsClearTextButtonBehaviorEnabled(DependencyObject d)
@@ -537,7 +537,7 @@ namespace HeBianGu.Base.WpfBase
         /// 详细信息
         /// </summary>
         public static readonly DependencyProperty DetailProperty = DependencyProperty.RegisterAttached(
-            "Detail", typeof(string), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(""));
+            "Detail", typeof(string), typeof(Cattach), new FrameworkPropertyMetadata(""));
 
         public static string GetDetail(DependencyObject d)
         {
@@ -556,7 +556,7 @@ namespace HeBianGu.Base.WpfBase
         /// 选择文件命令行为开关
         /// </summary>
         public static readonly DependencyProperty IsOpenFileButtonBehaviorEnabledProperty = DependencyProperty.RegisterAttached("IsOpenFileButtonBehaviorEnabled"
-            , typeof(bool), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(false, IsOpenFileButtonBehaviorEnabledChanged));
+            , typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(false, IsOpenFileButtonBehaviorEnabledChanged));
 
         [AttachedPropertyBrowsableForType(typeof(TextBox))]
         public static bool GetIsOpenFileButtonBehaviorEnabled(DependencyObject d)
@@ -585,7 +585,7 @@ namespace HeBianGu.Base.WpfBase
         /// 选择文件夹命令行为开关
         /// </summary>
         public static readonly DependencyProperty IsOpenFolderButtonBehaviorEnabledProperty = DependencyProperty.RegisterAttached("IsOpenFolderButtonBehaviorEnabled"
-            , typeof(bool), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(false, IsOpenFolderButtonBehaviorEnabledChanged));
+            , typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(false, IsOpenFolderButtonBehaviorEnabledChanged));
 
         [AttachedPropertyBrowsableForType(typeof(TextBox))]
         public static bool GetIsOpenFolderButtonBehaviorEnabled(DependencyObject d)
@@ -614,7 +614,7 @@ namespace HeBianGu.Base.WpfBase
         /// 选择文件保存路径及名称
         /// </summary>
         public static readonly DependencyProperty IsSaveFileButtonBehaviorEnabledProperty = DependencyProperty.RegisterAttached("IsSaveFileButtonBehaviorEnabled"
-            , typeof(bool), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(false, IsSaveFileButtonBehaviorEnabledChanged));
+            , typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(false, IsSaveFileButtonBehaviorEnabledChanged));
 
         [AttachedPropertyBrowsableForType(typeof(TextBox))]
         public static bool GetIsSaveFileButtonBehaviorEnabled(DependencyObject d)
@@ -753,7 +753,7 @@ namespace HeBianGu.Base.WpfBase
             //}
             //tbox.Focus();
 
-            
+
         }
 
         #endregion
@@ -791,20 +791,18 @@ namespace HeBianGu.Base.WpfBase
 
         #endregion
 
-
-
         #region - PassWordBox -
 
         public static readonly DependencyProperty PasswordProperty =
           DependencyProperty.RegisterAttached("Password",
-          typeof(string), typeof(ControlAttachProperty),
+          typeof(string), typeof(Cattach),
           new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
         public static readonly DependencyProperty AttachProperty =
             DependencyProperty.RegisterAttached("Attach",
-            typeof(bool), typeof(ControlAttachProperty), new PropertyMetadata(false, Attach));
+            typeof(bool), typeof(Cattach), new PropertyMetadata(false, Attach));
         private static readonly DependencyProperty IsUpdatingProperty =
            DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
-           typeof(ControlAttachProperty));
+           typeof(Cattach));
 
         public static void SetAttach(DependencyObject dp, bool value)
         {
@@ -866,7 +864,6 @@ namespace HeBianGu.Base.WpfBase
 
         #endregion
 
-
         #region - ListBox - 
 
         public static IList GetSelectedItems(DependencyObject obj)
@@ -883,11 +880,12 @@ namespace HeBianGu.Base.WpfBase
 
         public static readonly DependencyProperty SelectedItemsProperty =
 
-            DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(ControlAttachProperty), new PropertyMetadata(OnSelectedItemsChanged));
+            DependencyProperty.RegisterAttached("SelectedItems", typeof(IList), typeof(Cattach), new PropertyMetadata(OnSelectedItemsChanged));
 
         static public void OnSelectedItemsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var listBox = d as ListBox;
+
             if ((listBox != null) && (listBox.SelectionMode == SelectionMode.Multiple))
             {
                 if (e.OldValue != null)
@@ -912,7 +910,7 @@ namespace HeBianGu.Base.WpfBase
 
         static void OnlistBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            IList dataSource = GetSelectedItems(sender as DependencyObject); 
+            IList dataSource = GetSelectedItems(sender as DependencyObject);
 
             //添加用户选中的当前项.
             foreach (var item in e.AddedItems)
@@ -929,13 +927,12 @@ namespace HeBianGu.Base.WpfBase
 
         #endregion
 
-
         #region bool 类型的附加属性 Tag
         /// <summary>
         /// bool类型附加属性
         /// </summary>
         public static readonly DependencyProperty BoolProperty = DependencyProperty.RegisterAttached(
-            "Bool", typeof(bool), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(false));
+            "Bool", typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(false));
 
         public static bool GetBool(DependencyObject d)
         {
@@ -948,21 +945,20 @@ namespace HeBianGu.Base.WpfBase
         }
         #endregion
 
-
         #region - 将焦点设置在控件上 -
         /// <summary>
         /// 将焦点设置在控件上
         /// </summary>
         public static readonly DependencyProperty IsFocusedProperty = DependencyProperty.RegisterAttached(
-            "IsFocused", typeof(bool), typeof(ControlAttachProperty), new FrameworkPropertyMetadata(false,(l, k) =>
-            {
-                if (k.NewValue == k.NewValue) return;
+            "IsFocused", typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(false, (l, k) =>
+             {
+                 if (k.NewValue == k.NewValue) return;
 
-                if(l is UIElement element)
-                {
-                    element?.Focus();
-                }
-            }
+                 if (l is UIElement element)
+                 {
+                     element?.Focus();
+                 }
+             }
             ));
 
         public static bool GetIsFocused(DependencyObject d)
@@ -976,11 +972,10 @@ namespace HeBianGu.Base.WpfBase
         }
         #endregion
 
-
         /// <summary>
         /// 静态构造函数
         /// </summary>
-        static ControlAttachProperty()
+        static Cattach()
         {
             //ClearTextCommand
             ClearTextCommand = new RoutedUICommand();
@@ -1001,7 +996,7 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
-    static partial class ControlAttachProperty
+    static partial class Cattach
     {
 
         #region - 等待效果 -
@@ -1018,7 +1013,7 @@ namespace HeBianGu.Base.WpfBase
 
         /// <summary> 是否等待 </summary>
         public static readonly DependencyProperty IsBuzyProperty =
-            DependencyProperty.RegisterAttached("IsBuzy", typeof(bool), typeof(ControlAttachProperty), new PropertyMetadata(false));
+            DependencyProperty.RegisterAttached("IsBuzy", typeof(bool), typeof(Cattach), new PropertyMetadata(false));
 
         public static string GetBuzyText(DependencyObject obj)
         {
@@ -1032,10 +1027,9 @@ namespace HeBianGu.Base.WpfBase
 
         // Using a DependencyProperty as the backing store for BuzyText.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty BuzyTextProperty =
-            DependencyProperty.RegisterAttached("BuzyText", typeof(string), typeof(ControlAttachProperty), new PropertyMetadata("请等待"));
+            DependencyProperty.RegisterAttached("BuzyText", typeof(string), typeof(Cattach), new PropertyMetadata("请等待"));
 
         #endregion
-
 
         #region - Path -
 
@@ -1051,9 +1045,79 @@ namespace HeBianGu.Base.WpfBase
 
         /// <summary> 是否等待 </summary>
         public static readonly DependencyProperty PathProperty =
-            DependencyProperty.RegisterAttached("Path", typeof(Geometry), typeof(ControlAttachProperty), new PropertyMetadata(default(Geometry)));
+            DependencyProperty.RegisterAttached("Path", typeof(Geometry), typeof(Cattach), new PropertyMetadata(default(Geometry)));
 
         #endregion
+
+    }
+
+    static partial class Cattach
+    {
+
+        #region - 应用动画效果的显示、隐藏 -
+
+        public static bool GetIsVisible(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsVisibleProperty);
+        }
+
+        public static void SetIsVisible(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsVisibleProperty, value);
+        }
+
+        /// <summary> 是否等待 </summary>
+        public static readonly DependencyProperty IsVisibleProperty =
+            DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(Cattach), new PropertyMetadata(true, OnIsVisibleChanged));
+
+        static public void OnIsVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var element = d as UIElement;
+
+            var actions = Cattach.GetVisibleActions(element);
+
+            if (actions == null) return;
+
+            bool v = (bool)e.NewValue;
+
+            if (v)
+            {
+
+                //  Do ：显示动画
+                foreach (var item in actions)
+                {
+                    item.BeginVisible(element);
+                }
+            }
+            else
+            {
+                //  Do ：隐藏动画
+                foreach (var item in actions)
+                {
+                    item.BeginHidden(element);
+                }
+              
+            }
+        }
+
+
+        public static ActionCollection GetVisibleActions(DependencyObject obj)
+        {
+            return (ActionCollection)obj.GetValue(VisibleActionsProperty);
+        }
+
+        public static void SetVisibleActions(DependencyObject obj, ActionCollection value)
+        {
+            obj.SetValue(VisibleActionsProperty, value);
+        }
+
+        /// <summary> 显示隐藏过度效果 </summary>
+        public static readonly DependencyProperty VisibleActionsProperty =
+            DependencyProperty.RegisterAttached("VisibleActions", typeof(ActionCollection), typeof(Cattach), new PropertyMetadata(new ActionCollection()));
+
+        #endregion
+
+
 
     }
 }

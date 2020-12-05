@@ -59,5 +59,15 @@ namespace HeBianGu.Application.ManagerWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Scroll()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Filter()
+        {
+            return await ViewAsync();
+        }
     }
 }

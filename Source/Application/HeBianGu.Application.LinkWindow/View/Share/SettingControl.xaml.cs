@@ -42,7 +42,7 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
             }
             else
             {
-                MessageService.CloseWithLayer();
+                MessageService.CloseLayer();
                 MessageService.ShowSnackMessageWithNotice("查询完成");
             }
         }

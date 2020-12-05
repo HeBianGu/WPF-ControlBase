@@ -234,7 +234,16 @@ namespace HeBianGu.Base.WpfBase
             get { return new IconToImageSourceConverter(); }
         }
 
-        
+        public static BoolAndConverter BoolAndConverter
+        {
+            get { return new BoolAndConverter(); }
+        }
+
+        public static BoolOrConverter BoolOrConverter
+        {
+            get { return new BoolOrConverter(); }
+        }
+
 
         //public static SelectTextConverter SelectTextConverter
         //{

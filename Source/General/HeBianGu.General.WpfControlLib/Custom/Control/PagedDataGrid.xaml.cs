@@ -16,6 +16,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Reflection;
+using System.ComponentModel.DataAnnotations;
 
 namespace HeBianGu.General.WpfControlLib
 {
@@ -27,9 +29,6 @@ namespace HeBianGu.General.WpfControlLib
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PagedDataGrid), new FrameworkPropertyMetadata(typeof(PagedDataGrid)));
         }
-
-
-
 
         public IEnumerable DataSource
         {
@@ -55,7 +54,7 @@ namespace HeBianGu.General.WpfControlLib
                  {
                      if (notify1 != null)
                          notify1.CollectionChanged += control.CollectionChanged;
-                    
+
                  }
 
                  control.ItemsSource = e.NewValue as IEnumerable;
@@ -369,13 +368,38 @@ namespace HeBianGu.General.WpfControlLib
 
         void InitData()
         {
-
             this.PageIndex = 1;
 
-
             this.RefreshData();
-
         }
 
+
+        protected override void OnAutoGeneratingColumn(DataGridAutoGeneratingColumnEventArgs e)
+        {
+            base.OnAutoGeneratingColumn(e);
+
+            if (this.DataSource == null) return;
+
+            Type type = this.DataSource.GetType();
+
+            if (!type.IsGenericType) return;
+
+            Type t = type.GetGenericArguments()?.FirstOrDefault();
+
+            if (t == null) return;
+
+            DisplayAttribute diplay = t.GetProperty(e.PropertyName)?.GetCustomAttribute<DisplayAttribute>();
+
+            if (diplay == null) return;
+
+            e.Column.Header = diplay.Name;
+
+            if(diplay.GetOrder().HasValue)
+            {
+                e.Column.DisplayIndex = diplay.GetOrder().Value;
+            }
+
+            e.Column.Width = new DataGridLength(1, DataGridLengthUnitType.Star);
+        }
     }
 }

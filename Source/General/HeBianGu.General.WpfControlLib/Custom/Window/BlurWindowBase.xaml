@@ -30,7 +30,7 @@
                 <BlurEffect/>
             </Setter.Value>
         </Setter>
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         
         <Setter Property="WindowStyle" Value="None"/>
         <Setter Property="ResizeMode" Value="CanMinimize"/>
@@ -53,7 +53,7 @@
                         
                         <!--背景-->
                         <Border x:Name="Bg"
-                    CornerRadius="{TemplateBinding h:ControlAttachProperty.CornerRadius}"
+                    CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
@@ -61,7 +61,7 @@
                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         </Border>
 
-                        <Border  x:Name="BgInner" CornerRadius="{TemplateBinding h:ControlAttachProperty.CornerRadius}"
+                        <Border  x:Name="BgInner" CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                      Background="{TemplateBinding Background}"
                      BorderThickness="{TemplateBinding BorderThickness}"
                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
@@ -92,7 +92,7 @@
 
                                         <ToggleButton x:Name="btnTheme" Width="30" VerticalAlignment="Center" Margin="1"
                            Visibility="{Binding Path=SetboxEnable,RelativeSource={RelativeSource TemplatedParent},Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
-                          Style="{DynamicResource S.ToggleButton.BrushFIconChecked}" h:ControlAttachProperty.FIcon="&#xe6d2;"
+                          Style="{DynamicResource S.ToggleButton.BrushFIconChecked}" h:Cattach.FIcon="&#xe6d2;"
                            WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"/>
 
                                         <local:FButton x:Name="btnMin"  Width="30" VerticalAlignment="Center" Margin="1"
@@ -140,21 +140,12 @@
                                             <!--最底层内容-->
                                             <ContentPresenter Content="{TemplateBinding Content}" />
 
-                                            <!--第一次蒙版-->
-                                            <local:ModernFrame Visibility="Collapsed" x:Name="PART_SettingFrame">
-                                                <local:ModernFrame.Background>
-                                                    <SolidColorBrush Color="Black" Opacity="0.5"/>
-                                                </local:ModernFrame.Background>
-                                            </local:ModernFrame>
-
-                                            <local:SwtichTransitioner  x:Name="PART_SwtichTransitioner"  Visibility="Collapsed" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                                <local:SwtichTransitioner.Background>
-                                                    <SolidColorBrush Color="#000000" Opacity="0.5"/>
-                                                </local:SwtichTransitioner.Background>
-                                                <local:SwtichTransitioner.ITransitionWipe>
-                                                    <local:SlideOutScale/>
-                                                </local:SwtichTransitioner.ITransitionWipe>
-                                            </local:SwtichTransitioner>
+                                            <!--蒙版-->
+                                            <local:ContainPanel Background="{DynamicResource S.Brush.Dialog.Cover}" Visibility="Collapsed" x:Name="PART_LAYERGROUP">
+                                                <local:ContainPanel.AnimationAction>
+                                                    <h:ScaleAction/>
+                                                </local:ContainPanel.AnimationAction>
+                                            </local:ContainPanel>
 
                                             <local:MessageContainer  x:Name="PART_Message"  Grid.Row="1"/>
                                         </Grid>
@@ -163,6 +154,7 @@
                                     <local:Snackbar MessageQueue="{local:MessageQueue}" x:Name="PART_SnackBar" />
                                 </Grid>
                             </AdornerDecorator>
+                            
                             <Popup x:Name="Pop" PopupAnimation="Slide" IsOpen="{Binding ElementName=btnTheme,Path=IsChecked}"  PlacementTarget="{Binding ElementName=btnTheme}" Placement="Top" AllowsTransparency="True" StaysOpen="False" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                                 <Border Background="{DynamicResource S.Brush.Accent.Opacity.5}" CornerRadius="5" BorderBrush="{DynamicResource S.Brush.Accent}" BorderThickness="1">
                                     <StackPanel Margin="10">

@@ -29,7 +29,6 @@ namespace HeBianGu.General.WpfControlLib
             });
         }
 
-
         public static void ShowSnackMessageWithNotice(object message)
         {
             Application.Current.Dispatcher.Invoke(() =>
@@ -132,16 +131,6 @@ namespace HeBianGu.General.WpfControlLib
 
             return result;
         }
-
-        ///// <summary> 带有返回结果的等待消息窗口 </summary>
-        //public static async Task<T> ShowWaittingResultMessge<T>(Func<object> action)
-        //{
-        //    var result = await ShowWaittingResultMessge(action);
-
-        //    if (result == null) return default(T);
-
-        //    return (T)result;
-        //}
 
         public static async Task ShowPercentProgress(Action<IPercentProgress> action, Action closeAction = null)
         {
@@ -311,7 +300,6 @@ namespace HeBianGu.General.WpfControlLib
 
         }
 
-
         public static async Task<bool> ShowResultMessge(string message)
         {
             if (CheckOpen()) return false;
@@ -344,52 +332,28 @@ namespace HeBianGu.General.WpfControlLib
 
         #region - 蒙版消息 -
 
-        public static MessageCloseLayerCommand CloseLayer { get; } = new MessageCloseLayerCommand();
-
-        ///// <summary> 显示蒙版 </summary>
-        //public static void ShowWithLayer(Uri uri, int layerIndex = 0)
-        //{
-        //    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
-        //     {
-        //         if (Application.Current.MainWindow is IWindowBase window)
-        //         {
-        //             window.ShowWithLayer(uri);
-        //         }
-        //     }));
-        //}
-
-        ///// <summary> 显示蒙版 </summary>
-        //public static void ShowWithLayer(IActionResult link, int layerIndex = 0)
-        //{
-        //    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
-        //    {
-        //        if (Application.Current.MainWindow is IWindowBase window)
-        //        {
-        //            window.ShowWithLayer(link);
-        //        }
-        //    }));
-        //}
+        public static MessageCloseLayerCommand CloseLayerCommand { get; } = new MessageCloseLayerCommand();
 
         /// <summary> 显示蒙版 </summary>
-        public static void ShowWithLayer(FrameworkElement element, int layerIndex = 0)
+        public static void ShowLayer(FrameworkElement element)
         {
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
             {
                 if (Application.Current.MainWindow is IWindowBase window)
                 {
-                    window.ShowWithLayer(element, layerIndex);
+                    window.ShowLayer(element);
                 }
             }));
         }
 
         /// <summary> 关闭蒙版 </summary>
-        public static void CloseWithLayer(int layerIndex = 0)
+        public static void CloseLayer()
         {
             Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
             {
                 if (Application.Current.MainWindow is IWindowBase window)
                 {
-                    window.CloseWithLayer(layerIndex);
+                    window.CloseLayer();
                 }
             }));
         }
@@ -415,7 +379,7 @@ namespace HeBianGu.General.WpfControlLib
 
                      form.Close += (l, k) =>
                      {
-                         CloseWithLayer(layerIndex);
+                         CloseLayer();
                          _asyncShowWaitHandle.Set();
                          result = false;
                      };
@@ -435,13 +399,13 @@ namespace HeBianGu.General.WpfControlLib
                              return;
                          }
 
-                         CloseWithLayer(layerIndex);
+                         CloseLayer();
                          _asyncShowWaitHandle.Set();
                          result = true;
 
                      };
 
-                     window.ShowWithLayer(form, layerIndex);
+                     window.ShowLayer(form);
 
                      _asyncShowWaitHandle.Reset();
 
@@ -461,7 +425,7 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 显示蒙版 </summary>
-        public static async Task<bool> ShowObjectWithContent<T>(T value, Predicate<T> match = null, string title = null, int layerIndex = 0)
+        public static async Task<bool> ShowObjectWithContent<T>(T value, Predicate<T> match = null, string title = null)
 
         {
             bool result = false;
@@ -491,19 +455,19 @@ namespace HeBianGu.General.WpfControlLib
                     {
                         if (match != null && !match(value)) return;
 
-                        CloseWithLayer(layerIndex);
+                        CloseLayer();
                         _asyncShowWaitHandle.Set();
                         result = true;
                     };
 
                     content.Closed += (l, k) =>
                    {
-                       CloseWithLayer(layerIndex);
+                       CloseLayer();
                        _asyncShowWaitHandle.Set();
                        result = false;
                    };
 
-                    window.ShowWithLayer(content, layerIndex);
+                    window.ShowLayer(content);
 
                     _asyncShowWaitHandle.Reset();
 
@@ -521,7 +485,6 @@ namespace HeBianGu.General.WpfControlLib
             return result;
 
         }
-
 
         #endregion
 
@@ -767,18 +730,7 @@ namespace HeBianGu.General.WpfControlLib
 
         public void Execute(object parameter)
         {
-
-            bool result = int.TryParse(parameter?.ToString(), out int value);
-
-            if (result)
-            {
-                MessageService.CloseWithLayer(value);
-            }
-            else
-            {
-                MessageService.CloseWithLayer();
-            }
-
+            MessageService.CloseLayer();
         }
 
         public event EventHandler CanExecuteChanged;

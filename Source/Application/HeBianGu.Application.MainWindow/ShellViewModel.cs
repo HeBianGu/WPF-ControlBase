@@ -2,9 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 
 namespace HeBianGu.Application.MainWindow
 {
@@ -41,6 +43,18 @@ namespace HeBianGu.Application.MainWindow
 
 
 
+        private ObservableCollection<Student> _students = new ObservableCollection<Student>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<Student> Students
+        {
+            get { return _students; }
+            set
+            {
+                _students = value;
+                RaisePropertyChanged("Students");
+            }
+        }
+
 
         #endregion
 
@@ -54,6 +68,14 @@ namespace HeBianGu.Application.MainWindow
         {
             base.Init();
 
+            for (int i = 0; i < 2000; i++)
+            {
+                this.Students.Add(Student.Random());
+            }
+
+
+            ICollectionView vw = CollectionViewSource.GetDefaultView(this.Students);
+            vw.GroupDescriptions.Add(new PropertyGroupDescription("Class"));
         }
 
         Random random = new Random();
@@ -69,9 +91,10 @@ namespace HeBianGu.Application.MainWindow
 
             }
             //  Do：取消
-            else if (command == "Cancel")
+            else if (command == "Delete")
             {
 
+                this.Collection.RemoveAt(0);
 
             }
         }
@@ -85,6 +108,7 @@ namespace HeBianGu.Application.MainWindow
         #region - 属性 -
         private MyEnum _selectedMyEnum;
         /// <summary> 说明  </summary>
+        [TypeConverter(typeof(EnumConverter))]
         public MyEnum SelectedMyEnum
         {
             get { return _selectedMyEnum; }

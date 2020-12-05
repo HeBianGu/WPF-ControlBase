@@ -25,17 +25,17 @@ namespace HeBianGu.Base.WpfBase
 
         private void AssociatedObject_DragLeave(object sender, DragEventArgs e)
         {
-            ControlAttachProperty.SetBool(this.AssociatedObject, false);
+            Cattach.SetBool(this.AssociatedObject, false);
         }
 
         private void AssociatedObject_DragEnter(object sender, DragEventArgs e)
         {
-            ControlAttachProperty.SetBool(this.AssociatedObject, true);
+            Cattach.SetBool(this.AssociatedObject, true);
         }
 
         private void AssociatedObjectOnDrop(object sender, DragEventArgs dragEventArgs)
         {
-            ControlAttachProperty.SetBool(this.AssociatedObject,false);
+            Cattach.SetBool(this.AssociatedObject,false);
         }
 
 

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Application.MenuWindow.View.Random
+namespace HeBianGu.Application.MenuWindow.View.Flash
 {
     /// <summary>
     /// BackControl.xaml 的交互逻辑

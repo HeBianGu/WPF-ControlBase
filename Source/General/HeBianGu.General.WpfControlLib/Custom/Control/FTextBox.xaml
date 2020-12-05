@@ -4,12 +4,12 @@
                    xmlns:h="QQ:908293466"
                    xmlns:system="clr-namespace:System;assembly=mscorlib">
 
-
+    <local:FTextBoxHistoryConverter x:Key="S.Converter.History"/>
     <!--默认模板-->
     <ControlTemplate x:Key="S.FTextBox.Template.Default" TargetType="{x:Type local:FTextBox}">
         <Grid x:Name="PART_Root">
             <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                CornerRadius="{TemplateBinding h:ControlAttachProperty.CornerRadius}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="{TemplateBinding Background}" />
@@ -24,22 +24,21 @@
 
                 <!--Label区域-->
                 <ContentControl x:Name="Label" Margin="1"  Background="Transparent"
-                                            Template="{TemplateBinding h:ControlAttachProperty.LabelTemplate}"
-                                            Content="{TemplateBinding h:ControlAttachProperty.Label}"/>
-                <!--Foreground="{TemplateBinding Foreground}"
-                                            Background="{TemplateBinding Background}"-->
+                                            Template="{TemplateBinding h:Cattach.LabelTemplate}"
+                                            Content="{TemplateBinding h:Cattach.Label}"/>
 
                 <TextBlock x:Name="ficon" Style="{DynamicResource FIcon}" HorizontalAlignment="Center"
                                        VerticalAlignment="Center" Grid.Column="1" 
-                                       FontSize="{TemplateBinding h:ControlAttachProperty.FIconSize}"
-                                       Margin="{TemplateBinding h:ControlAttachProperty.FIconMargin}" 
-                                       Text="{TemplateBinding h:ControlAttachProperty.FIcon}"/>
+                                       FontSize="{TemplateBinding h:Cattach.FIconSize}"
+                                       Margin="{TemplateBinding h:Cattach.FIconMargin}" 
+                                       Text="{TemplateBinding h:Cattach.FIcon}"/>
                 <!--内容区域-->
                 <ScrollViewer x:Name="PART_ContentHost" BorderThickness="0" Grid.Column="2" IsTabStop="False" Margin="2"
                                           VerticalAlignment="Stretch" Background="{x:Null}" />
+                
                 <!--水印-->
                 <TextBlock x:Name="Message"  Padding="{TemplateBinding Padding}" Visibility="Collapsed"
-                                       Text="{TemplateBinding h:ControlAttachProperty.Watermark}" Grid.Column="2"
+                                       Text="{TemplateBinding h:Cattach.Watermark}" Grid.Column="2"
                                        Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" 
                                        Opacity="{DynamicResource S.Opacity.Watermark}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -49,8 +48,39 @@
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center">
                     <ContentControl  x:Name="PART_AttachContent" VerticalAlignment="Top" VerticalContentAlignment="Top" Foreground="{DynamicResource S.Brush.TextForeground.Assist}"
-                                                Template="{TemplateBinding h:ControlAttachProperty.AttachContent}" />
+                                                Template="{TemplateBinding h:Cattach.AttachContent}" />
                 </Border>
+
+                <!--弹出下拉控件-->
+                <Popup x:Name="PART_Popup" PlacementTarget="{Binding ElementName=Bg}"
+                               AllowsTransparency="True" 
+                               Focusable="False" VerticalOffset="0"
+                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                               Placement="Bottom">
+                    <Popup.IsOpen>
+                        <MultiBinding Mode="OneWay" Converter="{StaticResource S.Converter.History}">
+                            <Binding Path="IsFocused" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
+                            <Binding Path="UseHistory" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
+                            <Binding Path="History" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
+                        </MultiBinding>
+                    </Popup.IsOpen>
+
+                    <Grid Width="{Binding ActualWidth,ElementName=Bg}"  MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
+
+                        <Grid x:Name="grid_auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,5,0,0">
+                            <Border Background="{DynamicResource S.Brush.TextBackground.Default}" BorderBrush="{DynamicResource S.Brush.Accent}" BorderThickness="1" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
+                            </Border>
+                            <Polygon  HorizontalAlignment="Right" Fill="{DynamicResource S.Brush.Accent}" Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}" Points="0,5 5,0 10,5 0,5" Margin="0,-5,8,0" FillRule="Nonzero"/>
+
+                            <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" VerticalAlignment="Top" Margin="2,3">
+                                <ListBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=History}"
+                                         SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=SelectedHistroyItem}"/>
+                            </ScrollViewer>
+
+                        </Grid>
+
+                    </Grid>
+                </Popup>
             </Grid>
         </Grid>
         <ControlTemplate.Triggers>
@@ -58,17 +88,18 @@
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
                 <Setter TargetName="Message" Property="Visibility" Value="Visible" />
             </DataTrigger>
+            
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="ficon" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="ficon" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
 
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
-                <Setter  Property="BorderBrush"  Value="{Binding Path=(h:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="BorderBrush"  Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="ficon" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/> 
@@ -84,9 +115,34 @@
                 <Setter TargetName="PART_ContentHost" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
                 <Setter TargetName="Label" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
             </Trigger>
+
+            <!--<MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsFocused" Value="True"/>
+                    <Condition Property="UseHistory" Value="True"/> 
+                </MultiTrigger.Conditions>
+
+                <Setter Property="IsOpen" Value="true" TargetName="PART_Popup"/>
+            </MultiTrigger>-->
+            
             <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource= {x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"/>
-                <Setter Property="BorderBrush" Value="Red"/>
+                <!--<Setter Property="ToolTip" Value="{Binding RelativeSource= {x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"/>-->
+                <Setter Property="BorderBrush" Value="{StaticResource S.Brush.Red.Notice}"/>
+                <Setter Property="ToolTip">
+                    <Setter.Value>
+                        <ToolTip Padding="0" BorderThickness="0" Background="Transparent">
+                            <Border Background="{StaticResource S.Brush.Red.Notice}" 
+                                    CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"
+                                    Height="{DynamicResource S.Window.Item.Height}" BorderBrush="Transparent">
+                                <TextBlock VerticalAlignment="Center" FontSize="{DynamicResource S.FontSize.Default}" 
+                                           Margin="10,0" Foreground="{DynamicResource S.Brush.TextForeground.White}">
+                                    <Run Text="数据错误 ："/>
+                                    <Run Text="{Binding RelativeSource={RelativeSource AncestorType=ToolTip},Path=PlacementTarget.(Validation.Errors)[0].ErrorContent}"/>
+                                </TextBlock>
+                            </Border>
+                        </ToolTip>
+                    </Setter.Value>
+                </Setter>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -103,29 +159,29 @@
                 </Grid.ColumnDefinitions>
 
                 <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                CornerRadius="{TemplateBinding h:ControlAttachProperty.CornerRadius}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="3"
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="{TemplateBinding Background}" />
 
                 <!--Label区域-->
                 <ContentControl x:Name="Label" Margin="1" Background="Transparent"
-                                            Template="{TemplateBinding h:ControlAttachProperty.LabelTemplate}"
-                                            Content="{TemplateBinding h:ControlAttachProperty.Label}"/>
+                                            Template="{TemplateBinding h:Cattach.LabelTemplate}"
+                                            Content="{TemplateBinding h:Cattach.Label}"/>
                 <!--Foreground="{TemplateBinding Foreground}"
                                             Background="{TemplateBinding Background}"-->
 
                 <TextBlock x:Name="ficon" Style="{DynamicResource FIcon}" HorizontalAlignment="Center"
                                        VerticalAlignment="Center" Grid.Column="1"
-                                       FontSize="{TemplateBinding h:ControlAttachProperty.FIconSize}"
-                                       Margin="{TemplateBinding h:ControlAttachProperty.FIconMargin}" 
-                                       Text="{TemplateBinding h:ControlAttachProperty.FIcon}"/>
+                                       FontSize="{TemplateBinding h:Cattach.FIconSize}"
+                                       Margin="{TemplateBinding h:Cattach.FIconMargin}" 
+                                       Text="{TemplateBinding h:Cattach.FIcon}"/>
                 <!--内容区域-->
                 <ScrollViewer x:Name="PART_ContentHost" BorderThickness="0" Grid.Column="2" IsTabStop="False" Margin="2"
                                           VerticalAlignment="Stretch" Background="{x:Null}" />
                 <!--水印-->
                 <TextBlock x:Name="Message"  Padding="{TemplateBinding Padding}" Visibility="Collapsed"
-                                       Text="{TemplateBinding h:ControlAttachProperty.Watermark}" Grid.Column="2"
+                                       Text="{TemplateBinding h:Cattach.Watermark}" Grid.Column="2"
                                        Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" 
                                        Opacity="{DynamicResource S.Opacity.Watermark}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -135,8 +191,39 @@
                                     VerticalAlignment="Center"
                                     HorizontalAlignment="Center">
                     <ContentControl  x:Name="PART_AttachContent" Foreground="{DynamicResource S.Brush.TextForeground.Assist}" VerticalAlignment="Top" VerticalContentAlignment="Top" 
-                                                Template="{TemplateBinding h:ControlAttachProperty.AttachContent}" />
+                                                Template="{TemplateBinding h:Cattach.AttachContent}" />
                 </Border>
+
+                <!--弹出下拉控件-->
+                <Popup x:Name="PART_Popup" PlacementTarget="{Binding ElementName=Bg}"
+                               AllowsTransparency="True" Grid.Column="1"
+                               Focusable="False" VerticalOffset="0"
+                               PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                               Placement="Bottom">
+                    <Popup.IsOpen>
+                        <MultiBinding Converter="{x:Static h:XConverter.BoolAndConverter}">
+                            <Binding Path="IsFocused" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
+                            <Binding Path="UseHistory" RelativeSource="{RelativeSource TemplatedParent}"/>
+                        </MultiBinding>
+                    </Popup.IsOpen>
+
+                    <Grid Width="{Binding ActualWidth,ElementName=Bg}" MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
+
+                        <Grid x:Name="grid_auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,5,0,0">
+                            <Border Background="{DynamicResource S.Brush.TextBackground.Default}" BorderBrush="{DynamicResource S.Brush.Accent}" BorderThickness="1" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
+                            </Border>
+                            <Polygon  HorizontalAlignment="Right" Fill="{DynamicResource S.Brush.Accent}" Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}" Points="0,5 5,0 10,5 0,5" Margin="0,-5,8,0" FillRule="Nonzero"/>
+
+                            <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" VerticalAlignment="Top" Margin="2,3">
+                                <ListBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=History}"
+                                         SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=SelectedHistroyItem}"/>
+                            </ScrollViewer>
+
+                        </Grid>
+
+                    </Grid>
+                </Popup>
+                
             </Grid>
         </Grid>
         <ControlTemplate.Triggers>
@@ -145,16 +232,16 @@
                 <Setter TargetName="Message" Property="Visibility" Value="Visible" />
             </DataTrigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="ficon" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
-                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="ficon" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
 
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
-                <Setter  Property="BorderBrush"  Value="{Binding Path=(h:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="BorderBrush"  Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="ficon" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/> 
@@ -171,8 +258,23 @@
                 <Setter TargetName="Label" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
             </Trigger>
             <Trigger Property="Validation.HasError" Value="true">
-                <Setter Property="ToolTip" Value="{Binding RelativeSource= {x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"/>
-                <Setter Property="BorderBrush" Value="Red"/>
+                <!--<Setter Property="ToolTip" Value="{Binding RelativeSource= {x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"/>-->
+                <Setter Property="BorderBrush" Value="{StaticResource S.Brush.Red.Notice}"/>
+                <Setter Property="ToolTip">
+                    <Setter.Value>
+                        <ToolTip Padding="0" BorderThickness="0" Background="Transparent">
+                            <Border Background="{StaticResource S.Brush.Red.Notice}" 
+                                    CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"
+                                    Height="{DynamicResource S.Window.Item.Height}" BorderBrush="Transparent">
+                                <TextBlock VerticalAlignment="Center" FontSize="{DynamicResource S.FontSize.Default}" 
+                                           Margin="10,0" Foreground="{DynamicResource S.Brush.TextForeground.White}">
+                                    <Run Text="数据错误 ："/>
+                                    <Run Text="{Binding RelativeSource={RelativeSource AncestorType=ToolTip},Path=PlacementTarget.(Validation.Errors)[0].ErrorContent}"/>
+                                </TextBlock>
+                            </Border>
+                        </ToolTip>
+                    </Setter.Value>
+                </Setter>
             </Trigger>
         </ControlTemplate.Triggers>
     </ControlTemplate>
@@ -191,32 +293,86 @@
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}" />
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}" />
-        <Setter Property="h:ControlAttachProperty.FIcon" Value="&#xe6ed;"/>
-        <Setter Property="h:ControlAttachProperty.FIconSize" Value="{DynamicResource S.FIcon.Size.Default}"/>
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/> 
+        <Setter Property="h:Cattach.FIcon" Value="&#xe6ed;"/>
+        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource S.FIcon.Size.Default}"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/> 
 
-        <Setter Property="h:ControlAttachProperty.FIconMargin" Value="5,0,0,0"/>
+        <Setter Property="h:Cattach.FIconMargin" Value="5,0,0,0"/>
         <Setter Property="Padding" Value="0" />
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
-        <Setter Property="h:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
-        <Setter Property="h:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
+        <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <!-- change SnapsToDevicePixels to True to view a better border and validation error -->
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <!--英 ['kærət]  美 ['kærət]  插入符号-->
         <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}" />
-        <Setter Property="Validation.ErrorTemplate">
+
+
+        <Setter Property="ToolTipService.ShowDuration" Value="20000" />
+        <!--<Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <StackPanel Orientation="Horizontal">
+                        
                         <AdornedElementPlaceholder x:Name="textBox"/>
+                        
                         <TextBlock Style="{DynamicResource FIcon}" Text="&#xe626;" Margin="12,0,0,0" 
                                    FontSize="{DynamicResource S.IconFontSize.Default}" ToolTip="{Binding [0].ErrorContent}" 
                                    Foreground="Red" VerticalAlignment="Center"/>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
+
+        <!--<Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Border>
+                            <Grid>
+                                <AdornedElementPlaceholder x:Name="adorner" Margin="-1"/>
+                            </Grid>
+                        </Border>
+                        <Border x:Name="errorBorder" Background="#FFdc000c" Margin="8,0,0,0"
+                                Opacity="0" CornerRadius="0"
+                                IsHitTestVisible="False"
+                                MinHeight="24" >
+                            <TextBlock Text="{Binding ElementName=adorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
+                                       Foreground="White" Margin="8,2,8,3" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                        </Border>
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <DataTrigger Value="True">
+                            <DataTrigger.Binding>
+                                <Binding ElementName="adorner" Path="AdornedElement.IsKeyboardFocused" />
+                            </DataTrigger.Binding>
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard x:Name="fadeInStoryboard">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="00:00:00.15"
+                                                         Storyboard.TargetName="errorBorder"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="1"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                            <DataTrigger.ExitActions>
+                                <StopStoryboard BeginStoryboardName="fadeInStoryboard"/>
+                                <BeginStoryboard x:Name="fadeOutStoryBoard">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="00:00:00"
+                                                         Storyboard.TargetName="errorBorder"
+                                                         Storyboard.TargetProperty="Opacity"
+                                                         To="0"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.ExitActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>-->
         <Setter Property="Template" Value="{StaticResource S.FTextBox.Template.Default}"/>
         <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
     </Style>
@@ -227,14 +383,14 @@
 
     <!--TextBox包含清除Text按钮的样式-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Clear" BasedOn="{StaticResource S.FTextBox.Default}">
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe6f4;" AllowsAnimation="True" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0" 
-                                   h:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.ClearTextCommand" 
+                                   h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.ClearTextCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="1,3,1,4" FIconSize="13" 
                                    Foreground="{TemplateBinding Foreground}" 
@@ -246,7 +402,7 @@
 
     <!--TextBox包含附加属性Label的样式-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Label" BasedOn="{StaticResource S.FTextBox.Default}"> 
-        <Setter Property="h:ControlAttachProperty.LabelTemplate" >
+        <Setter Property="h:Cattach.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <Border Background="{DynamicResource S.Brush.Accent}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Left}">
@@ -263,13 +419,13 @@
 
     <!--TextBox包含附加属性Label，以及ClearText按钮的样式-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.LabelClear" BasedOn="{StaticResource S.FTextBox.Label}">
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0" AllowsAnimation="True" 
-                                   h:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.ClearTextCommand" 
+                                   h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.ClearTextCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="0,3,1,4" FIconSize="13" 
                                    Foreground="{TemplateBinding Foreground}"  
@@ -281,15 +437,15 @@
 
     <!--S.FTextBox.OpenFile-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.OpenFile" BasedOn="{StaticResource S.FTextBox.LabelClear}">
-        <Setter Property="h:ControlAttachProperty.Label" Value="文件路径 "/>
-        <Setter Property="h:ControlAttachProperty.Watermark" Value="选择文件路径 "/>
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.Label" Value="文件路径 "/>
+        <Setter Property="h:Cattach.Watermark" Value="选择文件路径 "/>
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe611;" Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0"
-                                   h:ControlAttachProperty.IsOpenFileButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.OpenFileCommand" 
+                                   h:Cattach.IsOpenFileButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.OpenFileCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="0,1,0,2"  
                                    FIconSize="18" 
@@ -302,16 +458,16 @@
 
     <!--S.FTextBox.OpenFolder-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.OpenFolder" BasedOn="{StaticResource S.FTextBox.LabelClear}">
-        <Setter Property="h:ControlAttachProperty.Label" Value="设置路径 "/>
-        <Setter Property="h:ControlAttachProperty.Watermark" Value="选择文件夹路径 "/>
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.Label" Value="设置路径 "/>
+        <Setter Property="h:Cattach.Watermark" Value="选择文件夹路径 "/>
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe611;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0" VerticalAlignment="Center"
-                                   h:ControlAttachProperty.IsOpenFolderButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.OpenFolderCommand" 
+                                   h:Cattach.IsOpenFolderButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.OpenFolderCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="0,1,0,2"  FIconSize="18" 
                                    Foreground="{TemplateBinding Foreground}" 
@@ -323,17 +479,17 @@
 
     <!--S.FTextBox.SaveFile-->
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.SaveFile" BasedOn="{StaticResource S.FTextBox.LabelClear}">
-        <Setter Property="h:ControlAttachProperty.Label" Value="保存路径 "/>
-        <Setter Property="h:ControlAttachProperty.Watermark" Value="选择文件保存路径 "/>
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.Label" Value="保存路径 "/>
+        <Setter Property="h:Cattach.Watermark" Value="选择文件保存路径 "/>
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe611;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" 
                                    FIconMargin="0"
-                                   h:ControlAttachProperty.IsSaveFileButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.SaveFileCommand" 
+                                   h:Cattach.IsSaveFileButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.SaveFileCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="0,1,0,2"  
                                    FIconSize="18" 
@@ -384,8 +540,8 @@
         <Setter Property="Background" Value="{DynamicResource S.Brush.White.Notice}" />
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}" />
-        <Setter Property="h:ControlAttachProperty.FocusBorderBrush" Value="{DynamicResource S.Brush.Orange}" />
-        <Setter Property="h:ControlAttachProperty.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
+        <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource S.Brush.Orange}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
         <Setter Property="Padding" Value="1" />
         <Setter Property="AllowDrop" Value="True" />
         <Setter Property="VerticalScrollBarVisibility" Value="Auto" />
@@ -409,10 +565,10 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderBrush" Value="{Binding Path=(h:ControlAttachProperty.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                            <Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
                         </Trigger>
                         <Trigger Property="IsFocused" Value="True">
-                            <Setter  Property="BorderBrush" Value="{Binding Path=(h:ControlAttachProperty.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                            <Setter  Property="BorderBrush" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Bd" Property="Opacity" Value="0.5" />
@@ -427,8 +583,8 @@
     </Style> 
 
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Single.Label" BasedOn="{StaticResource S.FTextBox.Single}">
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
-        <Setter Property="h:ControlAttachProperty.LabelTemplate" >
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="h:Cattach.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <Border Background="Transparent" Margin="0,0,5,0">
@@ -445,15 +601,15 @@
     </Style>
 
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Single.Clear" BasedOn="{StaticResource S.FTextBox.Single}">
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe6f4;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" 
                                    FIconMargin="0"
-                                   h:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.ClearTextCommand" 
+                                   h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.ClearTextCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="1,3,1,4" 
                                    FIconSize="14" 
@@ -465,15 +621,15 @@
     </Style>
     
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Single.LabelClear" BasedOn="{StaticResource S.FTextBox.Single.Label}">
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe6f4;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" 
                                    FIconMargin="0"
-                                   h:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.ClearTextCommand" 
+                                   h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.ClearTextCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="1,3,1,4" 
                                    FIconSize="14" 
@@ -485,15 +641,15 @@
     </Style>
 
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Single.OpenFile" BasedOn="{StaticResource S.FTextBox.Single.LabelClear}">
-        <Setter Property="h:ControlAttachProperty.Label" Value="文件路径 "/>
-        <Setter Property="h:ControlAttachProperty.Watermark" Value="选择文件路径 "/>
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.Label" Value="文件路径 "/>
+        <Setter Property="h:Cattach.Watermark" Value="选择文件路径 "/>
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe611;" Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0"
-                                   h:ControlAttachProperty.IsOpenFileButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.OpenFileCommand" 
+                                   h:Cattach.IsOpenFileButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.OpenFileCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="0,1,0,2"  
                                    FIconSize="18" 
@@ -505,16 +661,16 @@
     </Style>
 
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Single.OpenFolder" BasedOn="{StaticResource S.FTextBox.Single.LabelClear}">
-        <Setter Property="h:ControlAttachProperty.Label" Value="设置路径 "/>
-        <Setter Property="h:ControlAttachProperty.Watermark" Value="选择文件夹路径 "/>
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.Label" Value="设置路径 "/>
+        <Setter Property="h:Cattach.Watermark" Value="选择文件夹路径 "/>
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe611;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" FIconMargin="0" VerticalAlignment="Center"
-                                   h:ControlAttachProperty.IsOpenFolderButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.OpenFolderCommand" 
+                                   h:Cattach.IsOpenFolderButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.OpenFolderCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="0,1,0,2"  FIconSize="18" 
                                    Foreground="{TemplateBinding Foreground}" 
@@ -525,17 +681,17 @@
     </Style>
 
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Single.SaveFile" BasedOn="{StaticResource S.FTextBox.Single.LabelClear}">
-        <Setter Property="h:ControlAttachProperty.Label" Value="保存路径 "/>
-        <Setter Property="h:ControlAttachProperty.Watermark" Value="选择文件保存路径 "/>
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.Label" Value="保存路径 "/>
+        <Setter Property="h:Cattach.Watermark" Value="选择文件保存路径 "/>
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe611;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" 
                                    FIconMargin="0"
-                                   h:ControlAttachProperty.IsSaveFileButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.SaveFileCommand" 
+                                   h:Cattach.IsSaveFileButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.SaveFileCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="0,1,0,2"  
                                    FIconSize="18" 
@@ -548,14 +704,14 @@
 
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Circle" BasedOn="{StaticResource S.FTextBox.Default}">
         <Setter Property="Padding" Value="0,0,0,0"/>
-        <Setter Property="h:ControlAttachProperty.FIconMargin" Value="10,0,2,0"/>
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>  
+        <Setter Property="h:Cattach.FIconMargin" Value="10,0,2,0"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>  
     </Style>
 
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Circle.Label" BasedOn="{StaticResource S.FTextBox.Label}">
         <Setter Property="Padding" Value="0,0,0,0"/>
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
-        <Setter Property="h:ControlAttachProperty.LabelTemplate" >
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="h:Cattach.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <Border MinWidth="90" Background="Transparent">
@@ -568,16 +724,16 @@
 
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Circle.Clear" BasedOn="{StaticResource S.FTextBox.Circle}">
         <Setter Property="Padding" Value="0,0,0,0"/>
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe6f4;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" 
                                    FIconMargin="0"
-                                   h:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.ClearTextCommand" 
+                                   h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.ClearTextCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="1,3,10,4" 
                                    FIconSize="14" 
@@ -591,8 +747,8 @@
 
     <Style TargetType="{x:Type local:FTextBox}" x:Key="S.FTextBox.Circle.LabelClear" BasedOn="{StaticResource S.FTextBox.LabelClear}">
         <Setter Property="Padding" Value="0,0,0,0"/>
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
-        <Setter Property="h:ControlAttachProperty.LabelTemplate" >
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="h:Cattach.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <Border MinWidth="90" Background="Transparent">
@@ -601,15 +757,15 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="h:ControlAttachProperty.AttachContent">
+        <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
                     <local:FButton FIcon="&#xe6f4;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" 
                                    FIconMargin="0"
-                                   h:ControlAttachProperty.IsClearTextButtonBehaviorEnabled="True" 
-                                   Command="h:ControlAttachProperty.ClearTextCommand" 
+                                   h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.ClearTextCommand" 
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
                                    Margin="1,3,10,4" 
                                    FIconSize="14" 
@@ -623,26 +779,26 @@
 
     <Style x:Key="S.FTextBox.UnderLine.LabelClear" TargetType="{x:Type local:FTextBox}" BasedOn="{StaticResource S.FTextBox.Single.LabelClear}">
         <Setter Property="BorderThickness" Value="0,0,0,1"/>
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="0"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="0"/>
 
-        <Setter Property="h:ControlAttachProperty.FIcon" Value=""/>
+        <Setter Property="h:Cattach.FIcon" Value=""/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
 
     <Style x:Key="S.FTextBox.UnderLine.Clear" TargetType="{x:Type local:FTextBox}" BasedOn="{StaticResource S.FTextBox.Single.Clear}">
         <Setter Property="BorderThickness" Value="0,0,0,1"/>
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="0"/>
-        <Setter Property="h:ControlAttachProperty.FIcon" Value=""/>
+        <Setter Property="h:Cattach.CornerRadius" Value="0"/>
+        <Setter Property="h:Cattach.FIcon" Value=""/>
         <Setter Property="Background" Value="Transparent"/>
     </Style>
 
     <Style x:Key="S.FTextBox.UnderLine.LabelClear.Alarm" TargetType="{x:Type local:FTextBox}" BasedOn="{StaticResource S.FTextBox.Single.LabelClear}">
         <Setter Property="BorderThickness" Value="0,0,0,1"/>
-        <Setter Property="h:ControlAttachProperty.CornerRadius" Value="0"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="0"/>
 
-        <Setter Property="h:ControlAttachProperty.FIcon" Value=""/>
+        <Setter Property="h:Cattach.FIcon" Value=""/>
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="h:ControlAttachProperty.LabelTemplate">
+        <Setter Property="h:Cattach.LabelTemplate">
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <Border MinWidth="90" Background="Transparent">

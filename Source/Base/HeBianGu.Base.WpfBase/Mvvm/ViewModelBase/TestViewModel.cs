@@ -13,7 +13,7 @@ namespace HeBianGu.Base.WpfBase
     /// <summary> 开发原型用的模型 </summary>
     public partial class TestViewModel : SelectViewModel<DateTime>
     {
-        Random _random = new Random();
+       static  Random _random = new Random();
 
         protected override void Init()
         {

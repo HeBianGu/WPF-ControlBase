@@ -7,15 +7,15 @@ namespace HeBianGu.Application.LinkWindow
 {
     public class Student
     {
-        [Display(Name = "姓名")]
+        [Display(Name = "姓名",Order =0)]
         [Required()]
         public string Name { get; set; }
 
-        [Display(Name = "班级")]
+        [Display(Name = "班级", Order = 0)]
         [Required]
         public string Class { get; set; }
 
-        [Display(Name = "地址")]
+        [Display(Name = "地址", Order = 0)]
         [Required]
         public string Address { get; set; }
 
