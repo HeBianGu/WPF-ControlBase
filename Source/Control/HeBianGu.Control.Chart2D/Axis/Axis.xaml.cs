@@ -220,7 +220,7 @@ namespace HeBianGu.Control.Chart2D
                 //  Do ：显示文本
                 Label t = new Label();
 
-                t.Content = this.xDisplay.Count > this.xAxis.IndexOf(item) ? this.xDisplay[this.xAxis.IndexOf(item)] : item.ToString();
+                t.Content = this.xDisplay.Count > this.xAxis.IndexOf(item) ? this.xDisplay[this.xAxis.IndexOf(item)] : item.ToString("G4");
                 t.Style = this.LabelStyle;
 
                 t.Loaded += (o, e) =>
@@ -296,7 +296,7 @@ namespace HeBianGu.Control.Chart2D
 
                 // Todo ：绘制文本 
                 Label t = new Label();
-                t.Content = this.yDisplay.Count > this.yAxis.IndexOf(item) ? this.yDisplay[this.yAxis.IndexOf(item)] : item.ToString();
+                t.Content = this.yDisplay.Count > this.yAxis.IndexOf(item) ? this.yDisplay[this.yAxis.IndexOf(item)] : item.ToString("G4");
                 t.Style = this.LabelStyle;
 
                 t.Loaded += (o, e) =>
@@ -370,7 +370,7 @@ namespace HeBianGu.Control.Chart2D
                 //  Do ：显示文本
                 Label t = new Label();
 
-                t.Content = this.xDisplay.Count > this.xAxis.IndexOf(item) ? this.xDisplay[this.xAxis.IndexOf(item)] : item.ToString();
+                t.Content = this.xDisplay.Count > this.xAxis.IndexOf(item) ? this.xDisplay[this.xAxis.IndexOf(item)] : item.ToString("G4");
                 t.Style = this.LabelStyle;
 
                 t.Loaded += (o, e) =>
@@ -494,7 +494,7 @@ namespace HeBianGu.Control.Chart2D
                 //  Do ：显示文本
                 Label t = new Label();
 
-                t.Content = this.yDisplay.Count > i ? this.yDisplay[i] : this.yAxis[i].ToString();
+                t.Content = this.yDisplay.Count > i ? this.yDisplay[i] : this.yAxis[i].ToString("G4");
                 t.Style = this.LabelStyle;
 
                 double hlen = this.AlignLenght / 10;

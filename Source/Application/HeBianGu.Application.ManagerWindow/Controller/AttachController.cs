@@ -20,12 +20,12 @@ namespace HeBianGu.Application.ManagerWindow
             return await ViewAsync();
         }
 
-        public async Task<IActionResult> PropertyGrid()
+        public async Task<IActionResult> Random()
         {
             return await ViewAsync();
         }
 
-        public async Task<IActionResult> Shuttle()
+        public async Task<IActionResult> Group()
         {
             return await ViewAsync();
         }

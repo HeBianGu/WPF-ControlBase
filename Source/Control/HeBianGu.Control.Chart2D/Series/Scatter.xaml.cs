@@ -85,6 +85,8 @@ namespace HeBianGu.Control.Chart2D
                     Canvas.SetLeft(m, this.GetX(x, this.ActualWidth) - m.ActualWidth / 2);
                     Canvas.SetTop(m, this.GetY(y, this.ActualHeight) - m.ActualHeight / 2);
                     this.Children.Add(m);
+
+                    m.Tag = $"（{x.ToString("G4")}，{y.ToString("G4")}）";
                 }
             }
         }
@@ -135,6 +137,8 @@ namespace HeBianGu.Control.Chart2D
                     Canvas.SetLeft(m, this.GetX(x, this.ActualWidth) - m.ActualWidth / 2);
                     Canvas.SetTop(m, this.GetY(y, this.ActualHeight) - m.ActualHeight / 2);
                     this.Children.Add(m);
+
+                    m.Tag = $"（{x.ToString("G4")}，{y.ToString("G4")}）";
                 }
             }
         }
@@ -195,6 +199,8 @@ namespace HeBianGu.Control.Chart2D
                     Canvas.SetLeft(m, this.GetX(x, this.ActualWidth));
                     Canvas.SetTop(m, this.GetY(y, this.ActualHeight));
                     this.Children.Add(m);
+
+                    m.Tag = $"（{x.ToString("G4")}，{y.ToString("G4")}）";
                 }
             }
 
@@ -270,6 +276,8 @@ namespace HeBianGu.Control.Chart2D
                     Canvas.SetTop(m, end.Y - m.ActualHeight / 2);
 
                     this.Children.Add(m);
+
+                    m.Tag = $"（{x.ToString("G4")}，{d.ToString("G4")}）";
                 }
             }
         }
@@ -357,6 +365,8 @@ namespace HeBianGu.Control.Chart2D
                     Canvas.SetTop(m, end.Y);
 
                     this.Children.Add(m);
+
+                    m.Tag = $"( {x.ToString("G4")} , {d.ToString("G4")} )";
                 }
             }
         }

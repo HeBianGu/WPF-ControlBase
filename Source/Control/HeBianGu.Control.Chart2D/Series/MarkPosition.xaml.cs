@@ -212,7 +212,7 @@ namespace HeBianGu.Control.Chart2D
             //  Do ：显示文本
             Label t = new Label();
 
-            t.Content = Math.Round(point.Y, 0).ToString();
+            t.Content = point.Y.ToString("G3");
             t.Style = this.LabelStyle;
 
             t.Foreground = Brushes.White;

@@ -40,11 +40,13 @@ namespace HeBianGu.General.WpfControlLib
                   ObjectRoutedEventArgs<ThumbType> from = k as ObjectRoutedEventArgs<ThumbType>;
 
                   this.RefreshData(from.Entity);
+
               };
 
             this._center_thumb.DragCompletedChanged += (l, k) =>
               {
-                  this.SetPosition();
+                  this.OnValueChanged();
+
               };
         }
 
@@ -59,6 +61,8 @@ namespace HeBianGu.General.WpfControlLib
             DependencyProperty.Register("LeftPercent", typeof(double), typeof(StoryBoardToolBar), new PropertyMetadata(0.2, (l, e) =>
             {
                 var control = l as StoryBoardToolBar;
+
+                //control.OnValueChanged();
 
                 control.SetPosition();
 
@@ -77,6 +81,8 @@ namespace HeBianGu.General.WpfControlLib
             DependencyProperty.Register("RightPercent", typeof(double), typeof(StoryBoardToolBar), new PropertyMetadata(0.8, (l, e) =>
             {
                 var control = l as StoryBoardToolBar;
+
+                //control.OnValueChanged(); 
 
                 control.SetPosition();
             }));
@@ -163,6 +169,26 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
+
+        //声明和注册路由事件
+        public static readonly RoutedEvent ValueChangedRoutedEvent =
+            EventManager.RegisterRoutedEvent("ValueChanged", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(StoryBoardToolBar));
+        //CLR事件包装
+        public event RoutedEventHandler ValueChanged
+        {
+            add { this.AddHandler(ValueChangedRoutedEvent, value); }
+            remove { this.RemoveHandler(ValueChangedRoutedEvent, value); }
+        }
+
+        //激发路由事件,借用Click事件的激发方法
+
+        protected void OnValueChanged()
+        {
+            RoutedEventArgs args = new RoutedEventArgs(ValueChangedRoutedEvent, this);
+            this.RaiseEvent(args);
+        }
+
+
         protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
         {
             base.OnRenderSizeChanged(sizeInfo);
@@ -212,6 +238,7 @@ namespace HeBianGu.General.WpfControlLib
             if ((Canvas.GetLeft(this) + e.HorizontalChange) < 0)
             {
                 Canvas.SetLeft(this, 0);
+
                 this.OnDragDeltaChanged();
 
                 this.OnDragCompletedChanged();
@@ -322,6 +349,10 @@ namespace HeBianGu.General.WpfControlLib
             RoutedEventArgs args = new RoutedEventArgs(DragCompletedChangedRoutedEvent, this);
 
             this.RaiseEvent(args);
+
+
+            Debug.WriteLine("说明");
+
         }
 
 
@@ -331,6 +362,9 @@ namespace HeBianGu.General.WpfControlLib
     {
         Left, Right, Center
     }
+
+
+  
 
 
 }

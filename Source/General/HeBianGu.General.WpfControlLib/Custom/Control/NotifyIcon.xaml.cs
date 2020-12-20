@@ -822,7 +822,9 @@ namespace HeBianGu.General.WpfControlLib
 
             if (window != null)
             {
-                window.ShowWindow = !window.ShowWindow;
+                //window.ShowWindow = !window.ShowWindow;
+
+                window.RefreshHide();
             }
 
         }

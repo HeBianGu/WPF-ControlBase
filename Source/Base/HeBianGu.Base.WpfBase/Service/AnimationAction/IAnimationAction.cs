@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -15,7 +16,7 @@ namespace HeBianGu.Base.WpfBase
 {
     public enum PointOriginType
     {
-        Default = 0, Custom, Center, MousePosition, RandomInner
+        Default = 0, Custom, Center, MousePosition, RandomInner, MouseInnerOrCenter
     }
 
     public interface IAnimationAction
@@ -34,6 +35,7 @@ namespace HeBianGu.Base.WpfBase
         void BeginVisible(UIElement element, Action complate = null);
     }
 
+    [DefaultMember("Item")]
     public class ActionCollection : ObservableCollection<IAnimationAction>
     {
 
@@ -66,9 +68,12 @@ namespace HeBianGu.Base.WpfBase
 
         public Double BeginTime { get; set; } = 0.0;
 
+        //  Do ：切页反转
+        public bool Reverse { get; set; }
+
         public virtual void BeginPrevious(UIElement element, Action complate = null)
         {
-            Panel.SetZIndex(element, 1);
+            Panel.SetZIndex(element, Reverse ? 0 : 1);
 
             element.RenderTransformOrigin = RenderTransformOrigin;
         }
@@ -77,7 +82,7 @@ namespace HeBianGu.Base.WpfBase
         {
             element.RenderTransformOrigin = RenderTransformOrigin;
 
-            Panel.SetZIndex(element, 0);
+            Panel.SetZIndex(element, Reverse ? 1 : 0);
 
             if (this.BeginTime == 0.0)
             {
@@ -124,7 +129,7 @@ namespace HeBianGu.Base.WpfBase
         {
             this.StartOpacity = 0;
 
-            this.EndOpacity = 1;
+            this.EndOpacity = 0;
         }
         public override void BeginPrevious(UIElement element, Action complate = null)
         {
@@ -132,7 +137,7 @@ namespace HeBianGu.Base.WpfBase
 
             //element.RenderTransformOrigin = this.RenderTransformOrigin;
 
-            element.BeginAnimationOpacity(this.EndOpacity, this.StartOpacity, this.HideDuration, l =>
+            element.BeginAnimationOpacity(1, this.StartOpacity, this.HideDuration, l =>
             {
                 element.Visibility = Visibility.Hidden;
                 complate?.Invoke();
@@ -148,7 +153,7 @@ namespace HeBianGu.Base.WpfBase
 
             element.Visibility = Visibility.Visible;
 
-            element.BeginAnimationOpacity(this.StartOpacity, this.EndOpacity, this.VisibleDuration, l =>
+            element.BeginAnimationOpacity(this.StartOpacity, 1, this.VisibleDuration, l =>
             {
                 complate?.Invoke();
             });
@@ -353,13 +358,13 @@ namespace HeBianGu.Base.WpfBase
 
     public class SkewAction : OpacityAction
     {
-        public double StartAngleX { get; set; } = 0;
+        public double StartAngleX { get; set; } = 90;
 
-        public double EndAngleX { get; set; } = 360;
+        public double EndAngleX { get; set; } = 90;
 
         public double StartAngleY { get; set; } = 0;
 
-        public double EndAngleY { get; set; } = 360;
+        public double EndAngleY { get; set; } = 0;
 
         public override void BeginCurrent(UIElement element, Action complate = null)
         {
@@ -367,11 +372,8 @@ namespace HeBianGu.Base.WpfBase
 
             base.BeginCurrent(element);
 
-            if (this.StartAngleX != this.EndAngleX)
-                element.BeginAnimationSkewX(this.StartAngleX, this.EndAngleX, this.VisibleDuration * 1.5, l => complate?.Invoke(), l => l.BeginTime = TimeSpan.FromMilliseconds(this.BeginTime));
-
-            if (this.StartAngleY != this.EndAngleY)
-                element.BeginAnimationSkewY(this.StartAngleY, this.EndAngleY, this.VisibleDuration * 1.5, null, l => l.BeginTime = TimeSpan.FromMilliseconds(this.BeginTime));
+            element.BeginAnimationSkewX(this.StartAngleX, 0, this.VisibleDuration * 1.5, l => complate?.Invoke(), l => l.BeginTime = TimeSpan.FromMilliseconds(this.BeginTime));
+            element.BeginAnimationSkewY(this.StartAngleY, 0, this.VisibleDuration * 1.5, null, l => l.BeginTime = TimeSpan.FromMilliseconds(this.BeginTime));
         }
 
         public override void BeginPrevious(UIElement element, Action complate = null)
@@ -380,11 +382,9 @@ namespace HeBianGu.Base.WpfBase
 
             base.BeginPrevious(element);
 
-            if (this.StartAngleX != this.EndAngleX)
-                element.BeginAnimationSkewX(this.EndAngleX, this.StartAngleX, this.HideDuration, l => complate?.Invoke(), l => l.FillBehavior = FillBehavior.Stop);
+            element.BeginAnimationSkewX(0, this.EndAngleX, this.HideDuration, l => complate?.Invoke(), l => l.FillBehavior = FillBehavior.Stop);
 
-            if (this.StartAngleY != this.EndAngleY)
-                element.BeginAnimationSkewY(this.EndAngleY, this.StartAngleY, this.HideDuration, null, l => l.FillBehavior = FillBehavior.Stop);
+            element.BeginAnimationSkewY(0, this.EndAngleY, this.HideDuration, null, l => l.FillBehavior = FillBehavior.Stop);
         }
     }
 
@@ -423,40 +423,6 @@ namespace HeBianGu.Base.WpfBase
         public override void BeginPrevious(UIElement element, Action complate = null)
         {
             base.BeginPrevious(element);
-
-            //DrawingBrush brush = new DrawingBrush();
-
-            //brush.TileMode = TileMode.Tile;
-
-            //brush.Viewport = Viewport;
-
-            //brush.ViewboxUnits = BrushMappingMode.RelativeToBoundingBox;
-
-            //GeometryDrawing drawing = new GeometryDrawing();
-
-            //LinearGradientBrush linear = new LinearGradientBrush();
-
-            //linear.StartPoint = this.StartPoint;
-
-            //linear.EndPoint = this.EndPoint;
-
-            //linear.GradientStops.Add(new GradientStop() { Offset = 0, Color = Colors.Black });
-            //linear.GradientStops.Add(new GradientStop() { Offset = 1, Color = Colors.Transparent });
-
-            //drawing.Geometry = this.Geometry;
-
-            //drawing.Brush = linear;
-
-            //brush.Drawing = drawing;
-
-            //element.OpacityMask = brush;
-
-            //element.BegionDoubleStoryBoard(1, 0, this.HideDuration / 1000.0,
-            //    "OpacityMask.(DrawingBrush.Drawing).(GeometryDrawing.Brush).(LinearGradientBrush.GradientStops)[1].Offset", l =>
-            //    {
-            //        element.Visibility = Visibility.Hidden;
-            //        complate?.Invoke();
-            //    });
 
             Action action = () =>
               {
@@ -509,6 +475,117 @@ namespace HeBianGu.Base.WpfBase
                     element.OpacityMask = null;
                     complate?.Invoke();
                 });
+        }
+    }
+
+    public class RadialOpacityMaskAction : AnimationActionBase
+    {
+        public RadialGradientBrush Brush { get; set; }
+
+        public RadialOpacityMaskAction()
+        {
+            GradientStopCollection stops = new GradientStopCollection();
+
+            stops.Add(new GradientStop() { Offset = 0, Color = Colors.Transparent });
+            stops.Add(new GradientStop() { Offset = 0.2, Color = Colors.Transparent });
+            stops.Add(new GradientStop() { Offset = 1, Color = Colors.Black });
+
+            this.Brush = new RadialGradientBrush(stops);
+
+            this.Start = 0;
+
+            this.End = 5;
+        }
+
+        public override void BeginCurrent(UIElement element, Action complate = null)
+        {
+            base.BeginCurrent(element);
+
+            if (!Reverse) return;
+
+            this.Begin(element as FrameworkElement, this.End, this.Start, this.VisibleDuration, complate);
+
+            //this.Begin(element as FrameworkElement, this.End, this.Start, this.VisibleDuration, complate);
+        }
+
+        public override void BeginPrevious(UIElement element, Action complate = null)
+        {
+            base.BeginPrevious(element);
+
+            if (Reverse)
+            {
+                Action<UIElement> action = l =>
+                {
+                    element.Visibility = Visibility.Hidden;
+                    complate?.Invoke();
+                };
+
+                element.Wait( this.HideDuration, action);
+            }
+            else
+            {
+                Action action = () =>
+                {
+                    element.Visibility = Visibility.Hidden;
+                    complate?.Invoke();
+                };
+
+                this.Begin(element as FrameworkElement, this.Start, this.End, this.HideDuration, action);
+            }
+        }
+
+        public override void BeginVisible(UIElement element, Action complate = null)
+        {
+            base.BeginVisible(element);
+
+            this.Begin(element as FrameworkElement, this.End, this.Start, this.VisibleDuration, complate);
+        }
+
+        public override void BeginHidden(UIElement element, Action complate = null)
+        {
+            //base.BeginHidden(element, complate);
+
+            Action action = () =>
+            {
+                element.Visibility = Visibility.Hidden;
+                complate?.Invoke();
+            };
+
+            this.Begin(element as FrameworkElement, this.Start, this.End, this.HideDuration, action);
+        }
+
+        void Begin(FrameworkElement element, double from, double to, double duration, Action complate = null)
+        {
+            if (element == null) return;
+
+            element.OpacityMask = this.Brush;
+
+            ScaleTransform scaleTransform = new ScaleTransform(0, 0);
+
+            scaleTransform.CenterX = element.ActualWidth / 2;
+
+            scaleTransform.CenterY = element.ActualHeight / 2;
+
+            this.Brush.Transform = scaleTransform;
+
+            element.SetCurrentValue(UIElement.OpacityMaskProperty, this.Brush);
+
+            DoubleAnimation animation = new DoubleAnimation();
+            animation.From = from;
+            animation.To = to;
+            animation.BeginTime = TimeSpan.FromMilliseconds(this.BeginTime);
+            animation.Duration = TimeSpan.FromMilliseconds(this.HideDuration);
+
+            animation.Completed += (sender, args) =>
+            {
+                element.SetCurrentValue(UIElement.OpacityMaskProperty, null);
+                complate?.Invoke();
+            };
+
+            //animation.EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseIn };
+
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
+            scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
         }
     }
 
@@ -596,7 +673,7 @@ namespace HeBianGu.Base.WpfBase
 
             DoubleAnimation animation = new DoubleAnimation();
             animation.From = 0;
-            animation.To = 10;
+            animation.To = 8;
             animation.BeginTime = TimeSpan.FromMilliseconds(this.StartTime);
             animation.Duration = TimeSpan.FromMilliseconds(this.VisibleDuration);
 
@@ -606,7 +683,7 @@ namespace HeBianGu.Base.WpfBase
                 complate?.Invoke();
             };
 
-            animation.EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseIn };
+            //animation.EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseIn };
 
             scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
             scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
@@ -675,10 +752,10 @@ namespace HeBianGu.Base.WpfBase
             toSlide.SetCurrentValue(UIElement.OpacityMaskProperty, image);
 
             DoubleAnimation animation = new DoubleAnimation();
-            animation.From = 10;
+            animation.From = 8;
             animation.To = 0;
             animation.BeginTime = TimeSpan.FromMilliseconds(this.StartTime);
-            animation.Duration = TimeSpan.FromMilliseconds(this.VisibleDuration);
+            animation.Duration = TimeSpan.FromMilliseconds(this.HideDuration);
 
             animation.Completed += (sender, args) =>
             {
@@ -687,7 +764,7 @@ namespace HeBianGu.Base.WpfBase
                 complate?.Invoke();
             };
 
-            animation.EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseIn };
+            //animation.EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseIn };
 
             scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
             scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
@@ -711,79 +788,7 @@ namespace HeBianGu.Base.WpfBase
         {
             base.BeginCurrent(element);
 
-            //Panel.SetZIndex(element, 1);
-
-            //var toSlide = element as FrameworkElement;
-
-            //var origin = this.RenderTransformOrigin;
-
-            //if (this.PointOriginType == PointOriginType.MousePosition)
-            //{
-            //    //  Do ：按鼠标位置计算
-            //    var postion = Mouse.GetPosition(toSlide);
-            //    double x = postion.X / toSlide.ActualWidth;
-            //    double y = postion.Y / toSlide.ActualHeight;
-
-            //    origin = new Point(x, y);
-            //}
-            //else if (this.PointOriginType == PointOriginType.RandomInner)
-            //{
-            //    //  Do ：随机计算
-            //    Random random = new Random();
-            //    origin = new Point(random.NextDouble(), random.NextDouble());
-            //}
-            //else if (this.PointOriginType == PointOriginType.Center)
-            //{
-            //    //  Do ：中心点计算
-            //    origin = new Point(0.5, 0.5);
-            //}
-
-            //var horizontalProportion = toSlide.ActualWidth * Math.Max(1.0 - origin.X, 1.0 * origin.X);
-
-            //var verticalProportion = toSlide.ActualHeight * Math.Max(1.0 - origin.Y, 1.0 * origin.Y);
-
-            //var radius = Math.Sqrt(Math.Pow(horizontalProportion, 2) + Math.Pow(verticalProportion, 2));
-
-            //var transformGroup = new TransformGroup();
-
-            //var scaleTransform = new ScaleTransform(0, 0);
-            //transformGroup.Children.Add(scaleTransform);
-
-            //var translateTransform = new TranslateTransform(toSlide.ActualWidth * origin.X, toSlide.ActualHeight * origin.Y);
-            //transformGroup.Children.Add(translateTransform);
-
-            //if (this.Geometry is EllipseGeometry ellipse)
-            //{
-            //    ellipse.RadiusX = radius;
-            //    ellipse.RadiusY = radius;
-
-            //}
-            //else if (this.Geometry is RectangleGeometry rectangle)
-            //{
-            //    rectangle.Rect = new Rect(-horizontalProportion, -verticalProportion, 2 * horizontalProportion, 2 * verticalProportion);
-            //}
-
-            //this.Geometry.Transform = transformGroup;
-
-            //toSlide.SetCurrentValue(UIElement.ClipProperty, this.Geometry);
-
-            //var scaleAnimation = new DoubleAnimationUsingKeyFrames();
-
-            //scaleAnimation.Completed += (sender, args) =>
-            //{
-
-            //    System.Diagnostics.Debug.WriteLine(this.Geometry.Bounds.Width);
-
-            //    toSlide.SetCurrentValue(UIElement.ClipProperty, null);
-            //};
-            //scaleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(0, TimeSpan.FromMilliseconds(this.StartTime)));
-            //scaleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(1, TimeSpan.FromMilliseconds(this.VisibleDuration)));
-
-            //scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, scaleAnimation);
-            //scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleAnimation);
-
-
-            this.Begin(element, 0, 1);
+            this.Begin(element, 0, 1, this.VisibleDuration, complate);
         }
 
 
@@ -798,11 +803,21 @@ namespace HeBianGu.Base.WpfBase
 
         public override void BeginHidden(UIElement element, Action complate = null)
         {
-            this.Begin(element, 1, 0, () => element.Visibility = Visibility.Collapsed);
+            this.Begin(element, 1, 0, this.HideDuration, () =>
+             {
+                 //  Message：Visibility.Hidden 当设置成折叠时，显示时窗口布局没有更新会产生异常
+                 element.Visibility = Visibility.Hidden;
+                 complate?.Invoke();
+             });
         }
 
+        //public override void BeginVisible(UIElement element, Action complate = null)
+        //{
+        //    this.Begin(element, 0, 1, this.VisibleDuration);
+        //}
 
-        void Begin(UIElement element, double from, double to, Action complate = null)
+
+        void Begin(UIElement element, double from, double to, double duration, Action complate = null)
         {
             var toSlide = element as FrameworkElement;
 
@@ -817,6 +832,24 @@ namespace HeBianGu.Base.WpfBase
 
                 origin = new Point(x, y);
             }
+
+            if (this.PointOriginType == PointOriginType.MouseInnerOrCenter)
+            {
+                //  Do ：按鼠标位置计算
+                var postion = Mouse.GetPosition(toSlide);
+
+                if (postion.X < 0 || postion.Y < 0)
+                {
+                    origin = new Point(0.5, 0.5);
+                }
+                else
+                {
+                    double x = postion.X / toSlide.ActualWidth;
+                    double y = postion.Y / toSlide.ActualHeight;
+                    origin = new Point(x, y);
+                }
+            }
+
             else if (this.PointOriginType == PointOriginType.RandomInner)
             {
                 //  Do ：随机计算
@@ -869,7 +902,7 @@ namespace HeBianGu.Base.WpfBase
                 complate?.Invoke();
             };
             scaleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(from, TimeSpan.FromMilliseconds(this.StartTime)));
-            scaleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(to, TimeSpan.FromMilliseconds(this.VisibleDuration)));
+            scaleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(to, TimeSpan.FromMilliseconds(duration)));
 
             scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, scaleAnimation);
             scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleAnimation);

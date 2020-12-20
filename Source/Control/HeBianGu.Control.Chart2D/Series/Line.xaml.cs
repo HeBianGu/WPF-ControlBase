@@ -75,7 +75,7 @@ namespace HeBianGu.Control.Chart2D
         protected virtual void DrawLine(Canvas canvas)
         {
 
-            Path path = new Path();
+           Path path = new Path();
 
             path.Style = this.PathStyle;
 

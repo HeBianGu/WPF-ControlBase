@@ -1,4 +1,5 @@
-﻿using HeBianGu.General.WpfControlLib;
+﻿using HeBianGu.Control.Chart2D;
+using HeBianGu.General.WpfControlLib;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -159,6 +160,19 @@ namespace HeBianGu.Application.MainWindow
         }
 
 
+        //Point last;
+
+        //private void Chart_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //    Point current = e.GetPosition(sender as IInputElement);
+
+        //    if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
+        //    {
+        //        double offset_x = current.X - last.X;
+        //    }
+
+        //    last = current;
+        //}
     }
 
 
@@ -217,7 +231,7 @@ namespace HeBianGu.Application.MainWindow
     [TypeConverter(typeof(MyEnumConverter))]
     public enum MyEnum
     {
-        [Display(Name ="默认",GroupName ="11")]
+        [Display(Name = "默认", GroupName = "11")]
         Defatul,
         [Display(Name = "第一个", GroupName = "22")]
         First,
@@ -225,7 +239,7 @@ namespace HeBianGu.Application.MainWindow
         Second
     }
 
-    public class MyEnumColletion: ObservableCollection<MyEnum>
+    public class MyEnumColletion : ObservableCollection<MyEnum>
     {
 
     }

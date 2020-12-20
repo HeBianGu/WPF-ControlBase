@@ -164,5 +164,10 @@ namespace System.Windows
 
             element.BegionDoubleStoryBoard(from, to, duration / 1000.0, "(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)",Completed,init);
         }
+
+        public static void Wait(this UIElement element,double duration = 1000, Action<UIElement> Completed = null)
+        {
+            element.BegionDoubleStoryBoard(1, 1, duration / 1000.0, "Opacity", Completed);
+        }
     }
 }

@@ -69,7 +69,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="C.TestViewModel.Item" DataType="{x:Type h:TestViewModel}">
-            <Grid x:Name="grid" HorizontalAlignment="Stretch" TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}">
+            <Grid x:Name="grid" Width="320" HorizontalAlignment="Left" TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
@@ -82,6 +82,35 @@
 
                 <TextBlock Style="{StaticResource FIcon}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
+                <TextBlock Text="{Binding Value}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
+
+                <h:FButton x:Name="btn_close" Grid.Column="2" Style="{DynamicResource S.FButton.Close}" 
+                                                   FIconSize="12" MouseOverForeground="{DynamicResource S.Brush.Red.Notice}" Visibility="Hidden"
+                                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}"/>
+            </Grid>
+            <DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsMouseOver}" Value="True">
+                    <Setter Property="Visibility" Value="Visible" TargetName="btn_close"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <DataTemplate x:Key="C.TestViewModel.Item.Checked" DataType="{x:Type h:TestViewModel}">
+            <Grid x:Name="grid" HorizontalAlignment="Stretch" TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <!--<TextBlock Style="{StaticResource FIcon}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+
+                <h:FCheckBox Margin="10,0" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}"/>
+                
                 <TextBlock Text="{Binding Value}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
 
                 <h:FButton x:Name="btn_close" Grid.Column="2" Style="{DynamicResource S.FButton.Close}" 
@@ -188,17 +217,17 @@
                         </Grid.RowDefinitions>
 
                         <TabControl ItemContainerStyle="{StaticResource S.TabItem.UnderLine.Default}" Background="Transparent" Padding="0">
-                            <TabItem Header="Changes" Width="135">
+                            <TabItem Header="文件列表" Width="160"  HorizontalContentAlignment="Center">
                                 <DockPanel>
                                     <h:Row DockPanel.Dock="Top" Style="{StaticResource S.Row.Column.1}">
-                                        <Border BorderBrush="{DynamicResource S.Brush.Dark.2}" BorderThickness="0,1"/>
                                         <TextBlock Style="{StaticResource S.TextBlock.Default}">
                                             <Run Text="{Binding Files.Count,Mode=OneWay}"/>
-                                             <Run Text="files"/>
+                                            <Run Text="文件"/>
                                         </TextBlock>
+                                        <Separator VerticalAlignment="Bottom" Background="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
                                     </h:Row>
 
-                                    <ListBox ItemTemplate="{StaticResource C.TestViewModel.Item}" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"  Background="{DynamicResource S.Brush.TextBackground.Default}">
+                                    <ListBox ItemTemplate="{StaticResource C.TestViewModel.Item.Checked}" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"  Background="{DynamicResource S.Brush.TextBackground.Default}">
                                         <!--<h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
                                         <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
                                         <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>-->
@@ -206,14 +235,18 @@
                                 </DockPanel>
                             </TabItem>
 
-                            <TabItem Header="History" Width="135" HorizontalContentAlignment="Center">
-
+                            <TabItem Header="历史记录"  Width="160" HorizontalContentAlignment="Center">
+                                <ListBox ItemTemplate="{StaticResource C.TestViewModel.Item}"  ItemsSource="{Binding Historys}" SelectedItem="{Binding SelectedHistory}"  Background="{DynamicResource S.Brush.TextBackground.Default}">
+                                    <!--<h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
+                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
+                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>-->
+                                </ListBox>
                             </TabItem>
                         </TabControl>
 
                         <DockPanel Grid.Row="1">
                             <h:Row DockPanel.Dock="Top">
-                                <h:FTextBox h:Cattach.Watermark="Summary" Grid.ColumnSpan="12"/>
+                                <h:FTextBox Text="{Binding Title}" h:Cattach.Watermark="请输入标题" Grid.ColumnSpan="12" Margin="{DynamicResource S.Thickness.Margin.10.0}"/>
                             </h:Row>
 
                             <h:Row DockPanel.Dock="Bottom" Height="45" Margin="10,0">
@@ -224,7 +257,7 @@
 
                             <h:Row DockPanel.Dock="Bottom" Height="45" Style="{StaticResource S.Row.Column.1}" Margin="10,0">
                                 <Border BorderBrush="{DynamicResource S.Brush.Dark.2}" BorderThickness="1" Margin="-10,0"/>
-                                <h:FButton DockPanel.Dock="Bottom" Grid.Row="2" Content="Commit" Width="Auto">
+                                <h:FButton DockPanel.Dock="Bottom" Grid.Row="2" Content="提交" Width="Auto" Command="{Binding RelayCommand}" CommandParameter="Button.Click.Commit">
                                     <h:FButton.Triggers>
                                         <EventTrigger RoutedEvent="Button.Click">
                                             <BeginStoryboard>
@@ -237,7 +270,7 @@
                                 </h:FButton>
                             </h:Row>
 
-                            <h:FTextBox Height="Auto" h:Cattach.Watermark="Detail"/>
+                            <h:FTextBox Height="Auto" h:Cattach.Watermark="请输入说明"  Margin="{DynamicResource S.Thickness.Margin.10.0}"/>
                         </DockPanel>
                     </Grid>
 
@@ -262,7 +295,7 @@
                         <TextBlock Style="{StaticResource FIcon}" Margin="10,0" Grid.RowSpan="2" Text="&#xe6ad;" 
                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-                        <TextBlock Text="Current Scene" Grid.Column="1" Grid.Row="0" VerticalAlignment="Bottom"/>
+                        <TextBlock Text="当前场景" Grid.Column="1" Grid.Row="0" VerticalAlignment="Bottom"/>
 
                         <TextBlock Text="{Binding Value}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" FontWeight="Black"/>
 
@@ -301,7 +334,7 @@
                         <TextBlock Style="{StaticResource FIcon}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90b;" 
                                    VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-                        <TextBlock Text="Current Template" Grid.Column="1" Grid.Row="0" VerticalAlignment="Bottom"/>
+                        <TextBlock Text="当前模板" Grid.Column="1" Grid.Row="0" VerticalAlignment="Bottom"/>
 
                         <TextBlock Text="{Binding Value}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" FontWeight="Black"/>
 
@@ -326,8 +359,8 @@
         <!--<Grid Height="60" VerticalAlignment="Top">
         </Grid>-->
         <Grid Height="60" VerticalAlignment="Top" Opacity="0.3">
-            <ProgressBar x:Name="pg" Style="{StaticResource S.ProgressBar.Handy.Default}" Background="{DynamicResource S.Brush.White.Opactiy.3}" Height="Auto" Value="0">
-                <ProgressBar.Triggers>
+            <ProgressBar x:Name="pg" Style="{StaticResource S.ProgressBar.Handy.Default}" Background="{DynamicResource S.Brush.White.Opactiy.3}" Height="Auto" Value="{Binding Percent}">
+                <!--<ProgressBar.Triggers>
                     <EventTrigger RoutedEvent="Loaded">
                         <BeginStoryboard>
                             <Storyboard RepeatBehavior="Forever">
@@ -335,7 +368,7 @@
                             </Storyboard>
                         </BeginStoryboard>
                     </EventTrigger>
-                </ProgressBar.Triggers>
+                </ProgressBar.Triggers>-->
             </ProgressBar>
         </Grid>
     </h:GitTopContainer>

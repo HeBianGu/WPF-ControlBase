@@ -283,7 +283,7 @@ namespace HeBianGu.Control.Chart2D
                     {
                         text.Foreground = this.Foreground;
                     }
-                    text.Content = Math.Round(value, 2).ToString(); 
+                    text.Content = value.ToString("G4"); 
 
                     text.Style = this.LabelStyle;
 

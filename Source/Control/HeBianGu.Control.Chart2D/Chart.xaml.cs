@@ -1,4 +1,5 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfControlLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -25,7 +26,6 @@ namespace HeBianGu.Control.Chart2D
 {
     public class Chart : ViewLayerGroup
     {
-
         public static RoutedCommand RefeshCommand = new RoutedCommand();
 
         public Chart()
@@ -35,38 +35,25 @@ namespace HeBianGu.Control.Chart2D
 
                 CommandBinding binding = new CommandBinding(RefeshCommand, (l, k) =>
                 {
-
-                    var layers = this.GetChildren<LayerBase>();
-
-
-                    foreach (var item in layers)
-                    {
-                        item.TryDraw();
-                    }
-
-                    //List<LayerBase> layers;
-
-                    //layers = this.Dispatcher?.Invoke(() => this.GetChildren<LayerBase>())?.ToList();
-
-                    //var split = this.Dispatcher?.Invoke(() => this.SplitMilliSecond);
-
-                    //Task.Run(() =>
-                    //{
-                    //    foreach (var item in layers)
-                    //    {
-                    //        this.Dispatcher?.Invoke(() =>
-                    //        item.TryDraw()
-                    //        );
-
-                    //        Thread.Sleep((int)500.0);
-
-                    //    }
-                    //});
+                    this.ForceDraw();
 
                 });
 
                 this.CommandBindings.Add(binding);
             }
+
+            //this.SizeChanged += (l, k) =>
+            //  {
+            //      if (this.IsLoaded)
+            //          this.ForceDraw();
+            //  };
+
+            //this.Loaded += (l, k) =>
+            //  {
+            //      this.ForceDraw();
+            //  };
+
+
         }
 
         public double SplitMilliSecond
@@ -241,9 +228,162 @@ namespace HeBianGu.Control.Chart2D
              }));
     }
 
-    //public class StaticCurveChartScene : Chart
-    //{
+    [TemplatePart(Name = "PART_TOOLBAR", Type = typeof(Thumb))]
+    public class ChartMap : ViewLayerGroup
+    {
+        StoryBoardToolBar toolBar;
 
-    //}
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            this.toolBar = Template.FindName("PART_TOOLBAR", this) as StoryBoardToolBar;
+
+            this.toolBar.ValueChanged += (l, k) =>
+            {
+                this.BeginRefresh();
+            };
+
+            if (this.Chart != null)
+            {
+                this.toolBar.LeftPercent = 0.0;
+                this.toolBar.RightPercent = 1.0;
+
+                this.BeginRefresh();
+            }
+        }
+
+        public Chart Chart
+        {
+            get { return (Chart)GetValue(ChartProperty); }
+            set { SetValue(ChartProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ChartProperty =
+            DependencyProperty.Register("Chart", typeof(Chart), typeof(ChartMap), new PropertyMetadata(default(Chart), (d, e) =>
+             {
+                 ChartMap control = d as ChartMap;
+
+                 if (control == null) return;
+
+                 control.UnRegister(e.OldValue as Chart);
+
+                 control.Register(e.NewValue as Chart);
+             }));
+
+        void Register(Chart chart)
+        {
+            if (chart == null) return;
+
+            if (this.toolBar != null)
+            {
+                this.toolBar.LeftPercent = 0.0;
+                this.toolBar.RightPercent = 1.0;
+
+                this.BeginRefresh();
+            }
+
+            chart.MouseWheel += Chart_MouseWheel;
+            chart.MouseMove += Chart_MouseMove;
+        }
+
+
+        void UnRegister(Chart chart)
+        {
+            if (chart == null) return;
+
+            chart.MouseWheel -= Chart_MouseWheel;
+            chart.MouseMove -= Chart_MouseMove;
+        }
+
+        private void Chart_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void Chart_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (this.Chart == null) return;
+
+            var position = Mouse.GetPosition(this.Chart);
+
+            double left = position.X / this.Chart.ActualWidth;
+
+            double right = (this.Chart.ActualWidth - position.X) / this.Chart.ActualWidth;
+
+            double lp = this.toolBar.LeftPercent + 0.0001 * e.Delta * left;
+
+            double rp = this.toolBar.RightPercent - 0.0001 * e.Delta * right;
+
+            if (lp < 0) lp = 0;
+
+            if (rp > 1) rp = 1;
+
+            if (Math.Abs(rp - lp) < 0.05) return;
+
+            this.toolBar.LeftPercent = lp;
+            this.toolBar.RightPercent = rp;
+
+            this.BeginRefresh();
+        }
+
+        void BeginRefresh()
+        {
+            //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+            //{
+            //    this.RefreshChart();
+            //}));
+
+            this.RefreshChart();
+        }
+
+        void RefreshChart()
+        {
+            double left = this.toolBar.LeftPercent;
+            double right = this.toolBar.RightPercent;
+
+            double xmin = this.xAxis.Min();
+            double xmax = this.xAxis.Max();
+
+            double min = (xmax - xmin) * left + xmin;
+            double max = (xmax - xmin) * right + xmin;
+
+            double step = (max - min) / 10;
+
+            //  Do ：更新坐标轴
+            ObservableCollection<double> cx = new ObservableCollection<double>();
+
+            for (int i = 0; i < 11; i++)
+            {
+                cx.Add(min + step * i);
+            }
+
+            this.Chart.xAxis = cx;
+
+            //  Do ：更新数据 
+            ObservableCollection<double> xa = new ObservableCollection<double>();
+            ObservableCollection<double> dd = new ObservableCollection<double>();
+
+            for (int i = 0; i < this.xDatas.Count; i++)
+            {
+                double current = this.xDatas[i];
+
+                if (current < min || current > max) continue;
+
+                dd.Add(this.yDatas[i]);
+                xa.Add(current);
+            }
+
+            this.Chart.xDatas = xa;
+
+            this.Chart.yDatas = dd;
+
+            this.Chart.ForceDraw();
+
+            Debug.WriteLine("说明");
+
+        }
+    }
 
 }

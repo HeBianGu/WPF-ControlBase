@@ -83,6 +83,32 @@ namespace HeBianGu.Application.ChartWindow
         }
 
 
+
+        private ObservableCollection<double> _datas = new ObservableCollection<double>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<double> Datas
+        {
+            get { return _datas; }
+            set
+            {
+                _datas = value;
+                RaisePropertyChanged("Datas");
+            }
+        }
+
+
+        private ObservableCollection<double> _xAxis = new ObservableCollection<double>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<double> xAxis
+        {
+            get { return _xAxis; }
+            set
+            {
+                _xAxis = value;
+                RaisePropertyChanged("xAxis");
+            }
+        }
+
         private string _year;
         /// <summary> 说明  </summary>
         public string Year
@@ -94,6 +120,19 @@ namespace HeBianGu.Application.ChartWindow
                 RaisePropertyChanged("Year");
             }
         }
+
+
+        //private bool _gotoRefresh;
+        ///// <summary> 说明  </summary>
+        //public bool GotoRefresh
+        //{
+        //    get { return _gotoRefresh; }
+        //    set
+        //    {
+        //        _gotoRefresh = value;
+        //        RaisePropertyChanged("GotoRefresh");
+        //    }
+        //}
 
 
         Random random = new Random();
@@ -140,7 +179,8 @@ namespace HeBianGu.Application.ChartWindow
 
             double weight = 90;
 
-            double offsite = 90;
+            double offsite = 90; 
+       
 
             Task.Run(() =>
             {
@@ -148,19 +188,6 @@ namespace HeBianGu.Application.ChartWindow
 
                 while (true)
                 {
-                    int count = random.Next(3, waves.Count);
-
-                    var find = Enumerable.Range(0, count).Select(l => waves[l])?.ToList();
-
-                    Func<double, double> func = l =>
-                    {
-                        double result = 0;
-
-                        find.ForEach(k => result = result + k.Invoke(l));
-
-                        return result;
-                    };
-
                     List<double> data = new List<double>();
 
                     List<double> data1 = new List<double>();
@@ -169,8 +196,21 @@ namespace HeBianGu.Application.ChartWindow
 
                     List<double> axis = new List<double>();
 
-                    for (double i = 0; i <= 360 * 10; i = i + 1)
+                    for (double i = 0; i <= 360 * 2; i = i + 1)
                     {
+                        int count = random.Next(3, waves.Count);
+
+                        var find = Enumerable.Range(0, count).Select(l => waves[l])?.ToList();
+
+                        Func<double, double> func = l =>
+                        {
+                            double result = 0;
+
+                            find.ForEach(k => result = result + k.Invoke(l));
+
+                            return result;
+                        };
+
                         axis.Add(i);
 
                         double t = i / 360 * Math.PI;
@@ -198,7 +238,13 @@ namespace HeBianGu.Application.ChartWindow
 
                     if (param > 5) param = -5;
 
-                    //Thread.Sleep(1);
+                    Thread.Sleep(100);
+
+                    //System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    // {
+                    //     this.GotoRefresh = true;
+                    // });
+
                 }
             });
 
@@ -241,9 +287,36 @@ namespace HeBianGu.Application.ChartWindow
 
                     this.Year = DateTime.Now.AddYears(-500).AddYears(index).ToString("yyyy");
 
-                    Thread.Sleep(500);
+                    Thread.Sleep(100);
+
+                    //this.GotoRefresh = true;
                 }
             });
+            {
+                for (double i = 0; i <= 360 * 2; i = i + 1)
+                {
+                    int count = random.Next(3, waves.Count);
+
+                    var find = Enumerable.Range(0, count).Select(l => waves[l])?.ToList();
+
+                    Func<double, double> func = l =>
+                    {
+                        double result = 0;
+
+                        find.ForEach(k => result = result + k.Invoke(l));
+
+                        return result;
+                    };
+
+                    double t = i / 360 * Math.PI;
+
+                    double value = func(t);
+
+                    this.Datas.Add(func(t));
+                    this.xAxis.Add(i);
+                }
+            }
+           
         }
 
         protected override void Loaded(string args)

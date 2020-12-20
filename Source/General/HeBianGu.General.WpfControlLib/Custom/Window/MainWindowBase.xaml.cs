@@ -21,7 +21,6 @@ namespace HeBianGu.General.WpfControlLib
 
     public partial class MainWindowBase : WindowBase
     {
-
         public ICommand NotifyWindowCommand { get; protected set; }
 
         public MainWindowBase()
@@ -30,30 +29,33 @@ namespace HeBianGu.General.WpfControlLib
 
             this.BindCommand(NotifyWindowCommand, (l, k) =>
             {
-                MessageService.ShowSnackMessageWithNotice("窗口即将隐藏至右下角，双击右下角图标显示窗口");
-
-                this._notifyIcon.ShowBalloonTip(1000, "提示！", "窗口即将隐藏至右下角，双击右下角图标显示窗口", NotifyBalloonIcon.Info);
+                //this._notifyIcon.ShowBalloonTip(1000, "提示！", "窗口即将隐藏至右下角，双击右下角图标显示窗口", NotifyBalloonIcon.Info);
 
                 Task.Delay(100).ContinueWith(t =>
                 {
                     this.Dispatcher.Invoke(() =>
                     {
-                        this.ShowWindow = false;
+                        //this.ShowWindow = false;
+
+                        this.RefreshHide();
                     });
 
                 });
             });
 
-            this.ShowAnimation = l =>
-            {
-                // Todo ：初始化淡出初始效果 
-                this.OpacityMask = this.TryFindResource("S.WindowOpMack.LoadBrush") as Brush;
-            };
+            //this.ShowAnimation = l =>
+            //{
+            //    // Todo ：初始化淡出初始效果 
+            //    //this.OpacityMask = this.TryFindResource("S.WindowOpMack.LoadBrush") as Brush;
 
-            this.CloseAnimation = l =>
-            {
-                this.BegionStoryClose();
-            };
+            //    Cattach.SetIsClose(this, true);
+            //};
+
+            //this.CloseAnimation = l =>
+            //{
+            //    //this.BegionStoryClose();
+            //    Cattach.SetIsClose(this, false);
+            //};
 
             this.BindCommand(CommandService.Close, async (s, e) =>
             {
@@ -74,7 +76,6 @@ namespace HeBianGu.General.WpfControlLib
                     this.CloseAnimation?.Invoke(this);
                 }
             });
-
         }
 
         /// <summary> 托盘图标按钮图标 </summary>
@@ -98,46 +99,47 @@ namespace HeBianGu.General.WpfControlLib
 
 
 
-        public bool ShowWindow
-        {
-            get { return (bool)GetValue(ShowWindowProperty); }
-            set { SetValue(ShowWindowProperty, value); }
-        }
+        //public bool ShowWindow
+        //{
+        //    get { return (bool)GetValue(ShowWindowProperty); }
+        //    set { SetValue(ShowWindowProperty, value); }
+        //}
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ShowWindowProperty =
-            DependencyProperty.Register("ShowWindow", typeof(bool), typeof(MainWindowBase), new PropertyMetadata(true, (d, e) =>
-            {
-                MainWindowBase control = d as MainWindowBase;
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty ShowWindowProperty =
+        //    DependencyProperty.Register("ShowWindow", typeof(bool), typeof(MainWindowBase), new PropertyMetadata(true, (d, e) =>
+        //    {
+        //        MainWindowBase control = d as MainWindowBase;
 
-                if (control == null) return;
+        //        if (control == null) return;
 
-                bool config = (bool)e.NewValue;
+        //        bool config = (bool)e.NewValue;
 
-                if (config)
-                {
-                    control.ShowOfScaleEnlarge();
+        //        if (config)
+        //        {
+        //            control.ShowOfScaleEnlarge();
 
-                    control.ScaleEnlarge(new Point(1, 1), 0.5, 5);
-                }
-                else
-                {
-                    control.HideOfScaleReduce();
-                }
+        //            control.ScaleEnlarge(new Point(1, 1), 0.5, 5);
+        //        }
+        //        else
+        //        {
+        //            control.HideOfScaleReduce();
+        //        }
 
-            }));
+        //    }));
 
 
-        /// <summary> 用于重写关闭到那个花 </summary>
-        public virtual void BegionStoryClose()
-        {
-            if (this._notifyIcon != null)
-            {
-                this._notifyIcon.Visibility = Visibility.Collapsed;
-                this._notifyIcon.Dispose();
-            }
-            this.CloseDownToUpOps();
-        }
+        ///// <summary> 用于重写关闭到那个花 </summary>
+        //public virtual void BegionStoryClose()
+        //{
+        //    if (this._notifyIcon != null)
+        //    {
+        //        this._notifyIcon.Visibility = Visibility.Collapsed;
+        //        this._notifyIcon.Dispose();
+        //    }
+
+        //    this.CloseDownToUpOps();
+        //}
     }
 
     [TemplatePart(Name = "PART_SnackBar", Type = typeof(Snackbar))]
@@ -169,11 +171,13 @@ namespace HeBianGu.General.WpfControlLib
             {
                 this._notifyIcon.MouseDoubleClick += (l, k) =>
                 {
-                    this.ShowWindow = !this.ShowWindow;
+                    //this.ShowWindow = !this.ShowWindow;
+
+                    this.RefreshHide();
                 };
             }
         }
-
+   
         /// <summary> 输出消息 </summary>
         public void AddSnackMessage(object message)
         {
@@ -230,9 +234,6 @@ namespace HeBianGu.General.WpfControlLib
             });
         }
     }
-
-
-
 
 
     public interface IWindowBase

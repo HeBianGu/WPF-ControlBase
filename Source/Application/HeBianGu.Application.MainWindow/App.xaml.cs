@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,10 +22,141 @@ namespace HeBianGu.Application.MainWindow
         {
             base.OnStartup(e);
 
+
+
+
+
+            int c = 2;
+
+            Func<double, double> RoundDown = l =>
+                   {
+                       if (l > 0)
+                       {
+                           var dfdf = (int)l.Log10() - c;
+
+                           return l.RoundDown(Math.Pow(10, dfdf));
+                       }
+                       else
+                       {
+                           l = -l;
+
+                           var dfdf = (int)l.Log10() - c;
+
+                           return -(l.RoundUp(Math.Pow(10, dfdf)));
+                       }
+                   };
+
+
+            Func<double, double> RoundUp = l =>
+            {
+                if (l > 0)
+                {
+                    var dfdf = (int)l.Log10() - c;
+
+                    return l.RoundUp(Math.Pow(10, dfdf));
+                }
+                else
+                {
+                    l = -l;
+
+                    var dfdf = (int)l.Log10() - c;
+
+                    return -l.RoundDown(Math.Pow(10, dfdf));
+                }
+            };
+
+
+            for (double i = 0.0000000001; i < 100000000; i = i + 0.1)
+            {
+                double d = 0.00336;
+
+                //d = 44320.00336;
+
+                var sss = RoundDown(d);
+                var sss1 = RoundUp(d);
+
+                if (d < sss)
+                {
+                    Debug.WriteLine("当前值 " + d);
+                    Debug.WriteLine("最小值 " + sss);
+                }
+
+                if (d > sss1)
+                {
+                    Debug.WriteLine("当前值 " + d);
+                    Debug.WriteLine("最大值 " + sss1);
+                }
+            }
+
+            {
+                double d = 0.00336;
+
+                //d = 44320.00336;
+
+                var sss = RoundDown(d);
+                var sss1 = RoundUp(d);
+
+                if (d < sss)
+                {
+                    Debug.WriteLine("当前值 " + d);
+                    Debug.WriteLine("最小值 " + sss);
+                }
+
+                if (d > sss1)
+                {
+                    Debug.WriteLine("当前值 " + d);
+                    Debug.WriteLine("最大值 " + sss1);
+                }
+
+            }
+
+            {
+                double d = -0.00336;
+
+                //d = 44320.00336;
+
+                var sss = RoundDown(d);
+                var sss1 = RoundUp(d);
+
+                Debug.WriteLine("当前值 " + d);
+                Debug.WriteLine("最小值 " + sss);
+                Debug.WriteLine("最大值 " + sss1);
+            }
+
+            {
+                double d = 0.00336;
+
+                d = 44320.00336;
+
+                var sss = RoundDown(d);
+                var sss1 = RoundUp(d);
+
+                Debug.WriteLine("当前值 " + d);
+                Debug.WriteLine("最小值 " + sss);
+                Debug.WriteLine("最大值 " + sss1);
+            }
+
+            {
+                double d = 0.00336;
+
+                d = -44320.00336;
+
+                var sss = RoundDown(d);
+                var sss1 = RoundUp(d);
+
+                Debug.WriteLine("当前值 " + d);
+                Debug.WriteLine("最小值 " + sss);
+                Debug.WriteLine("最大值 " + sss1);
+            }
+
+            //var fdf = d.RoundDown(Math.Pow(10, dfdf));
+
+            //var fdfdf = d.RoundUp(Math.Pow(10, dfdf));
+
             MainWindow shellWindow = new MainWindow();
 
             shellWindow.Show();
-       
+
         }
 
         protected override void ConfigureServices(IServiceCollection services)

@@ -23,19 +23,21 @@ namespace HeBianGu.General.WpfControlLib
     {
         public LoginWindowBase()
         {
-            this.ShowAnimation = l =>
-            {
+            //this.ShowAnimation = l =>
+            //{
 
-                l.RenderTransformOrigin = new Point(0.5, 0.5);
+            //    //l.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                var engine2 = DoubleStoryboardEngine.Create(0.5, 1, 0.5, "Opacity");
-                var engine = DoubleStoryboardEngine.Create(0.1, 0.98, 1, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
-                var engine1 = DoubleStoryboardEngine.Create(0.1, 0.98, 1, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
+            //    //var engine2 = DoubleStoryboardEngine.Create(0.5, 1, 0.5, "Opacity");
+            //    //var engine = DoubleStoryboardEngine.Create(0.1, 0.98, 1, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
+            //    //var engine1 = DoubleStoryboardEngine.Create(0.1, 0.98, 1, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
 
-                engine.Start(l);
-                engine1.Start(l);
-                engine2.Start(l);
-            };
+            //    //engine.Start(l);
+            //    //engine1.Start(l);
+            //    //engine2.Start(l);
+
+            //    this.Show(true);
+            //};
         }
         public static readonly DependencyProperty LogoProperty = DependencyProperty.Register("Logo", typeof(ImageSource), typeof(LoginWindowBase), new PropertyMetadata(null));
 
@@ -70,24 +72,29 @@ namespace HeBianGu.General.WpfControlLib
                     //}); 
 
 
-                    control.RenderTransformOrigin = new Point(0.5, 0.5);
+                    //control.RenderTransformOrigin = new Point(0.5, 0.5);
 
-                    var engine2 = DoubleStoryboardEngine.Create(1, 0.5, 0.5, "Opacity");
-                    var engine = DoubleStoryboardEngine.Create(1, 0.3, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
-                    var engine1 = DoubleStoryboardEngine.Create(1, 0.3, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
+                    //var engine2 = DoubleStoryboardEngine.Create(1, 0.5, 0.5, "Opacity");
+                    //var engine = DoubleStoryboardEngine.Create(1, 0.3, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)");
+                    //var engine1 = DoubleStoryboardEngine.Create(1, 0.3, 0.3, "(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)");
 
-                    engine.CompletedEvent += (s, k) =>
-                    {
-                        control.DialogResult = true;
-                        control.Close();
-                    };
+                    //engine.CompletedEvent += (s, k) =>
+                    //{
+                    //    control.DialogResult = true;
+                    //    control.Close();
+                    //};
 
-                    engine.Start(control);
-                    engine1.Start(control);
-                    engine2.Start(control);
+                    //engine.Start(control);
+                    //engine1.Start(control);
+                    //engine2.Start(control);
+
+                    control.Result = true;
+                    control.Show(false);
                 }
 
             }));
+
+        public bool Result { get; set; }
 
     }
 

@@ -28,9 +28,9 @@ namespace HeBianGu.Application.LinkWindow
 
             loginWindow.Title = this.GetWpfControlLibVersonInfo();
 
-            var result = loginWindow.ShowDialog();
+             loginWindow.ShowDialog();
 
-            if (result.HasValue && result.Value)
+            if (loginWindow.Result)
             {
                 shellWindow.Show();
             }

@@ -40,20 +40,25 @@ namespace HeBianGu.Control.Chart2D
         {
             this.SizeChanged += (l, k) =>
             {
-                this.TryDraw();
+                if (this.IsLoaded == false) return;
 
+                //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                //{
+                //    this.TryDraw();
+                //}));
+
+                this.TryDraw();
             };
 
             this.Loaded += (l, k) =>
             {
+                //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                //{
+                //    this.TryDraw();
+                //}));
+
                 this.TryDraw();
-
             };
-
-            this.MouseRightButtonDown += (l, k) =>
-              {
-                  this.TryDraw();
-              };
 
             this.MouseDown += (l, k) =>
               {
@@ -77,10 +82,36 @@ namespace HeBianGu.Control.Chart2D
             this.Children.Clear();
         }
 
+        ///// <summary> 冻结修改属性刷新 </summary>
+        //public bool TryFreeze { get; set; }
+
+        public bool TryFreeze
+        {
+            get { return (bool)GetValue(TryFreezeProperty); }
+            set { SetValue(TryFreezeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TryFreezeProperty =
+            DependencyProperty.Register("TryFreeze", typeof(bool), typeof(LayerBase), new PropertyMetadata(default(bool), (d, e) =>
+             {
+                 LayerBase control = d as LayerBase;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
+
         public virtual void TryDraw()
         {
             try
             {
+                if (this.TryFreeze) return;
+
+                if (!this.IsLoaded) return;
+
                 this.Draw(this);
 
                 this.OnDrawed();
@@ -379,8 +410,6 @@ namespace HeBianGu.Control.Chart2D
             this.minX = this.xAxis.Min();
             this.maxX = this.xAxis.Max();
         }
-
-
 
         public Style LineStyle
         {
@@ -775,6 +804,16 @@ namespace HeBianGu.Control.Chart2D
                 control.TryDraw();
 
             }));
+
+        public override void TryDraw()
+        {
+            //  Do ：重写刷新数据在空闲时刷新
+            this.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() =>
+            {
+                base.TryDraw();
+            }));
+
+        }
     }
 
 }

@@ -30,13 +30,88 @@
 
         <TabControl.Resources>
             <collections:ArrayList x:Key="D.ArrayList.MyEnum">
+                
                 <local:MyEnum>Defatul</local:MyEnum>
                 <local:MyEnum>First</local:MyEnum>
             </collections:ArrayList>
 
         </TabControl.Resources>
 
+        <TabItem Header="Chart">
+            <GroupBox Header="显示居中">
+                <DockPanel>
+                    <h:ChartMap Background="{DynamicResource S.Brush.Dark.2}" Chart="{Binding ElementName=chart}" DockPanel.Dock="Bottom" yAxis="0,1,2,3,4,5,6,7,8,9,10" 
+                                xAxis="{Binding xAxis}" 
+                                xDatas="{Binding xAxis}" 
+                                yDatas="{Binding Datas}"/>
 
+                    <h:Chart x:Name="chart" Background="Transparent" Style="{StaticResource S.Chart.Coord}"  yAxis="0,1,2,3,4,5,6,7,8,9,10" Padding="100,50">
+                        <h:Series>
+                            <h:Line TryFreeze="True" Style="{StaticResource S.Line.Single}"/>
+                            <h:MarkPosition Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Max"  />
+                            <h:MarkPosition Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Min" Foreground="Red"/>
+                            <h:MarkPosition Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Default" Foreground="Green" Point="1800,25"/>
+                            <h:MarkLine Style="{StaticResource S.MarkLine.Single}" MarkLineType="Average"/>
+                        </h:Series>
+                        
+                    </h:Chart>
+                </DockPanel>
+            </GroupBox>
+        </TabItem>
+        
+        <TabItem Header="Chart">
+            <GroupBox Header="显示居中">
+                <DockPanel>
+                    <Grid Height="30" DockPanel.Dock="Top">
+                        <h:Series >
+                                <h:Line Style="{StaticResource S.Line.Single}"  yAxis="0,1,2,3,4,5,6,7,8,9,10" xAxis="{Binding ChartxAxis}" Data="{Binding Datas}"/>
+                            </h:Series>
+                        <h:StoryBoardToolBar x:Name="tool" Grid.Column="1" LeftPercent="{Binding LeftPercent,Mode=TwoWay}" Height="30"
+                                                             RightPercent="{Binding RightPercent,Mode=TwoWay}" MaxValue="1000">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="ValueChanged">
+                                    <h:InvokeCommandAction Command="{Binding RelayCommand}" CommandParameter="ToolBar.ValueChanged.RefreshData"/>
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </h:StoryBoardToolBar>
+                    </Grid>
+
+                    <h:Chart Background="Transparent" Style="{StaticResource S.Chart.Coord}"  yAxis="0,1,2,3,4,5,6,7,8,9,10" Padding="100,50" xAxis="{Binding DynimacxAxis}">
+
+                        <h:Series xAxis="{Binding xAxis}" yDatas="{Binding DynimacData}">
+                            <h:Line TryFreeze="True" Style="{StaticResource S.Line.Single}" />
+                            <!--<h:MarkPosition Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Max"  />
+                            <h:MarkPosition Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Min" Foreground="Red"/>
+                            <h:MarkPosition Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Default" Foreground="Green" Point="1800,25"/>
+                            <h:MarkLine Style="{StaticResource S.MarkLine.Single}" MarkLineType="Average"/>-->
+                        </h:Series>
+
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="MouseWheel">
+                                <h:InvokeCommandAction Command="{Binding RelayCommand}" PassEventArgsToCommand="True"/>
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+                    </h:Chart>
+                </DockPanel>
+            </GroupBox>
+        </TabItem>
+
+        <TabItem Header="RadialGradientBrush">
+            <GroupBox Header="None">
+                <DockPanel>
+                    <h:SwitchToggleButton  IsChecked="True" x:Name="cb1111" DockPanel.Dock="Top" Content="显示/隐藏" HorizontalAlignment="Left" Margin="5" CornerRadius="2" BorderCornerRadius="3" />
+                    <Grid Background="{DynamicResource S.Brush.Accent}" h:Cattach.IsVisible="{Binding ElementName=cb1111,Path=IsChecked}">
+                        <h:Cattach.VisibleActions>
+                            <h:ActionCollection>
+                                <!--<h:AngleAction StartAngle="{h:IntRandowm From=0,To=720}" EndAngle="{h:IntRandowm From=0,To=720}" RenderTransformOrigin="0.5,0.5"/>-->
+                                <h:RadialOpacityMaskAction/>
+                            </h:ActionCollection>
+                        </h:Cattach.VisibleActions>
+                        <TextBlock Text="Grid" FontSize="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </DockPanel>
+            </GroupBox>
+        </TabItem>
 
         <TabItem Header="RadialGradientBrush">
             <Grid x:Name="griddd" Background="Red" RenderTransformOrigin="0.5,0.5">
@@ -91,11 +166,9 @@
 
                 <h:FDrawer Style="{StaticResource S.FDrawer.Left.Default}" Background="Red">
                     <h:Cattach.VisibleActions>
-                        <h:ActionCollection>
-                            <h:ScaleAction/>
-                        </h:ActionCollection>
+                        <h:ScaleAction/>
                     </h:Cattach.VisibleActions>
-                    
+
                     <ListBox HorizontalAlignment="Stretch" Grid.Row="1" Width="200">
                         <h:FTextBox UseHistory="False"/>
                         <h:FTextBox/>
@@ -129,7 +202,7 @@
                 </h:FDrawer>
             </Grid>
         </TabItem>
-        
+
         <TabItem Header="h:Cattach.IsVisible">
             <Grid Background="Yellow">
                 <Grid.RowDefinitions>

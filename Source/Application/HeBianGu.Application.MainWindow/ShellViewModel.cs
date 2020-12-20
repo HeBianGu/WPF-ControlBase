@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace HeBianGu.Application.MainWindow
 {
@@ -29,7 +30,7 @@ namespace HeBianGu.Application.MainWindow
 
 
 
-        private CustomNameViewModel _customNameViewModel=new CustomNameViewModel();
+        private CustomNameViewModel _customNameViewModel = new CustomNameViewModel();
         /// <summary> 说明  </summary>
         public CustomNameViewModel CustomNameViewModel
         {
@@ -56,6 +57,32 @@ namespace HeBianGu.Application.MainWindow
         }
 
 
+
+        private ObservableCollection<double> _datas = new ObservableCollection<double>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<double> Datas
+        {
+            get { return _datas; }
+            set
+            {
+                _datas = value;
+                RaisePropertyChanged("Datas");
+            }
+        }
+
+
+        private ObservableCollection<double> _xAxis = new ObservableCollection<double>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<double> xAxis
+        {
+            get { return _xAxis; }
+            set
+            {
+                _xAxis = value;
+                RaisePropertyChanged("xAxis");
+            }
+        }
+
         #endregion
 
         #region - 命令 -
@@ -73,9 +100,16 @@ namespace HeBianGu.Application.MainWindow
                 this.Students.Add(Student.Random());
             }
 
-
             ICollectionView vw = CollectionViewSource.GetDefaultView(this.Students);
             vw.GroupDescriptions.Add(new PropertyGroupDescription("Class"));
+
+
+            for (int i = 0; i < 500; i++)
+            {
+                this.Datas.Add(random.NextDouble() * 10);
+                this.xAxis.Add(i);
+            }
+
         }
 
         Random random = new Random();
@@ -97,12 +131,31 @@ namespace HeBianGu.Application.MainWindow
                 this.Collection.RemoveAt(0);
 
             }
+
+            //  Do：取消
+            else if (command == "ToolBar.ValueChanged.RefreshData")
+            {
+
+              
+
+            }
+            //  Do：取消
+            else if (command == "Chart.MouseWheel.ChangeValue")
+            {
+
+            }
+
+            if (obj is MouseWheelEventArgs args)
+            {
+
+            }
+
         }
 
         #endregion
     }
 
-     /// <summary> 说明</summary>
+    /// <summary> 说明</summary>
     internal class CustomNameViewModel : NotifyPropertyChanged
     {
         #region - 属性 -

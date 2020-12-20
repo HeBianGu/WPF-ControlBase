@@ -6,38 +6,25 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../Control/FButton.xaml"/>
+        <ResourceDictionary Source="WindowBase.xaml"/>
+        <ResourceDictionary Source="MainWindowBase.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="S.Window.Link.Default" TargetType="{x:Type local:LinkWindowBase}">
-        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
-        <Setter Property="FontFamily" Value="{DynamicResource S.FontFamily.Default}"/>
-        <Setter Property="Width" Value="480"/>
-        <Setter Property="Height" Value="320"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
+    <Style x:Key="S.Window.Link.Default" TargetType="{x:Type local:LinkWindowBase}"  BasedOn="{StaticResource S.Window.Main.Default}">
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="FIconSize" Value="20"/>
         <Setter Property="CaptionHeight" Value="76"/>
         <Setter Property="CaptionForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
         <Setter Property="CaptionBackground" Value="{DynamicResource S.Brush.Accent}" />
-        <Setter Property="FIcon" Value="&#xe79c;"/>
-        <Setter Property="MaxboxEnable" Value="True"/>
-        <Setter Property="MinboxEnable" Value="True"/>
-        <Setter Property="NotifyIconSource" Value="/HeBianGu.General.WpfControlLib;component/Resources/iBook.ico"/>
-        <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
         <Setter Property="Padding" Value="10"/>
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
-        <Setter Property="WindowStyle" Value="None"/>
-        <Setter Property="ResizeMode" Value="CanMinimize"/>
-        <!--窗体基本设置 WindowChrome-->
-        <Setter Property="WindowChrome.WindowChrome">
+
+        <Setter Property="h:Cattach.VisibleActions">
             <Setter.Value>
-                <WindowChrome CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:WindowBase}}}"
-                             ResizeBorderThickness="8" GlassFrameThickness="-1"/>
+                <h:ActionCollection>
+                    <h:TranslateAction StartPoint="0,150" VisibleDuration="1000" EndPoint="0,150"/>
+                </h:ActionCollection>
             </Setter.Value>
         </Setter>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:LinkWindowBase}">
@@ -56,8 +43,7 @@
                   BorderBrush="{TemplateBinding BorderBrush}"
                   Effect="{DynamicResource S.DropShadowEffect.Window}"
                   BorderThickness="{TemplateBinding BorderThickness}"
-                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
-
+                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
 
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -144,7 +130,7 @@
                                             </ListBox>
                                         </ScrollViewer>
 
-                                        <ItemsControl Grid.Column="2" Margin="57,0" Background="Purple"
+                                        <!--<ItemsControl Grid.Column="2" Margin="57,0" Background="Purple"
                               HorizontalAlignment="Center" VerticalAlignment="Center"
                               WindowChrome.IsHitTestVisibleInChrome="True"
                               ItemsSource="{TemplateBinding SettingLinks}">
@@ -166,7 +152,7 @@
 
                                                 </ItemContainerTemplate>
                                             </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                        </ItemsControl>-->
 
                                         <!--窗体功能按钮：最小、最大、关闭-->
                                         <StackPanel Grid.Column="3" Orientation="Horizontal" VerticalAlignment="Top" WindowChrome.IsHitTestVisibleInChrome="True" Margin="10,0"  HorizontalAlignment="Right" Height="{TemplateBinding CaptionHeight}">
@@ -381,11 +367,12 @@
                         </Trigger>
 
                         <!--淡出动画-->
+                        <!--
                         <EventTrigger RoutedEvent="Window.Loaded">
                             <EventTrigger.Actions>
                                 <BeginStoryboard Storyboard="{DynamicResource Story.WindowLoad}"/>
                             </EventTrigger.Actions>
-                        </EventTrigger>
+                        </EventTrigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -393,52 +380,14 @@
     </Style>
 
     <Style x:Key="S.Window.Link.Single" TargetType="{x:Type local:LinkWindowBase}" BasedOn="{StaticResource S.Window.Link.Default}">
-        <!--<Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
-        <Setter Property="FontFamily" Value="{DynamicResource S.FontFamily.Default}"/>
-        <Setter Property="Width" Value="480"/>
-        <Setter Property="Height" Value="320"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="FIconSize" Value="20"/>
-        -->
-        <!--<Setter Property="ResizeMode" Value="CanResizeWithGrip"/>-->
-        <!--
-        <Setter Property="CaptionHeight" Value="1"/>
-        <Setter Property="CaptionForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
-        <Setter Property="CaptionBackground" Value="{DynamicResource S.Brush.Accent}" />
-        <Setter Property="FIcon" Value="&#xe79c;"/>
-        <Setter Property="MaxboxEnable" Value="True"/>
-        <Setter Property="MinboxEnable" Value="True"/>
-        <Setter Property="NotifyIconSource" Value="/HeBianGu.General.WpfControlLib;component/Resources/iBook.ico"/>
-        -->
-        <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
-        <!--
-        <Setter Property="Padding" Value="3"/>-->
-
-        <!--<Setter Property="WindowStyle" Value="None"/>
-        <Setter Property="ResizeMode" Value="CanMinimize"/>-->
-        <!--窗体基本设置 WindowChrome-->
-        <!--
-        <Setter Property="WindowChrome.WindowChrome">
+        <Setter Property="h:Cattach.VisibleActions">
             <Setter.Value>
-                <WindowChrome CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource Fin  dAncestor,AncestorType={x:Type h:WindowBase}}}"
-                             ResizeBorderThickness="8" GlassFrameThickness="-1"/>
+                <h:ActionCollection>
+                    <h:ScaleGeomotryAction VisibleDuration="1500" HideDuration="1000" PointOriginType="MouseInnerOrCenter"/>
+                </h:ActionCollection>
             </Setter.Value>
-        </Setter>-->
-
-        <Setter Property="WindowStyle" Value="None"/>
-        <Setter Property="ResizeMode" Value="CanMinimize"/>
-        <!--窗体基本设置 WindowChrome-->
-        <!--<Setter Property="WindowChrome.WindowChrome">
-            <Setter.Value>
-                <WindowChrome CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type h:WindowBase}}}"
-                             ResizeBorderThickness="8" GlassFrameThickness="-1"/>
-            </Setter.Value>
-        </Setter>-->
-
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:LinkWindowBase}">
@@ -456,7 +405,7 @@
                             </Border>
 
                             <Border x:Name="BgInner" CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" 
-                                  Background="{TemplateBinding Background}" 
+                                  Background="{TemplateBinding Background}"  
                                   BorderThickness="{TemplateBinding BorderThickness}" 
                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                             </Border>
@@ -479,8 +428,14 @@
 
                                             <FrameworkElement.ContextMenu>
                                                 <ContextMenu Style="{DynamicResource DefaultContextMenu}">
-                                                    <MenuItem Header="显示面板" />
-                                                    <MenuItem Header="退出" />
+                                                    <MenuItem Header="显示面板" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=NotifyWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                                                    <MenuItem Header="隐藏"  Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=NotifyWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                                                    <MenuItem Header="退出"  Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CloseWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                                 </ContextMenu>
                                             </FrameworkElement.ContextMenu>
                                         </local:NotifyIcon>
@@ -502,13 +457,14 @@
                                                         </local:LinkActionFrame>
 
                                                         <!--第一次蒙版-->
+                                                        <!--
                                                         <local:ModernFrame  Visibility="Collapsed"  x:Name="PART_SettingFrame">
                                                             <local:ModernFrame.Background>
                                                                 <SolidColorBrush Color="#000000" Opacity="0.5"/>
                                                             </local:ModernFrame.Background>
-                                                        </local:ModernFrame>
+                                                        </local:ModernFrame>-->
 
-                                                        <local:LinkActionFrame x:Name="PART_LinkActionFrame"  Visibility="Collapsed"  UseRandomWipe="True"/>
+                                                        <!--<local:LinkActionFrame x:Name="PART_LinkActionFrame"  Visibility="Collapsed"  UseRandomWipe="True"/>-->
 
                                                         <!--<local:SwtichTransitioner  x:Name="PART_LAYERGROUP"  Visibility="Collapsed"
                                                                                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
@@ -516,7 +472,9 @@
                                                                 <SolidColorBrush Color="#000000" Opacity="0.5"/>
                                                             </local:SwtichTransitioner.Background>
                                                             <local:SwtichTransitioner.ITransitionWipe>
-                                                                --><!--<h:SlideWipe Direction="Up"/>--><!--
+                                                                -->
+                                                        <!--<h:SlideWipe Direction="Up"/>-->
+                                                        <!--
                                                                 <local:SlideOutScale/>
                                                             </local:SwtichTransitioner.ITransitionWipe>
                                                         </local:SwtichTransitioner>-->
@@ -542,47 +500,33 @@
                             </Grid>
                         </Grid>
                     </Viewbox>
-                    <ControlTemplate.Triggers>
-                        <!--淡出动画-->
+                    <!--<ControlTemplate.Triggers>
+                        -->
+                    <!--淡出动画-->
+                    <!--
                         <EventTrigger RoutedEvent="Window.Loaded">
                             <EventTrigger.Actions>
                                 <BeginStoryboard Storyboard="{DynamicResource Story.WindowLoad}"/>
                             </EventTrigger.Actions>
                         </EventTrigger>
-                    </ControlTemplate.Triggers>
+                    </ControlTemplate.Triggers>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="S.Window.Link.Disk" TargetType="{x:Type local:LinkWindowBase}">
-        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
-        <Setter Property="FontFamily" Value="{DynamicResource S.FontFamily.Default}"/>
-        <Setter Property="Width" Value="480"/>
-        <Setter Property="Height" Value="320"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
+    <Style x:Key="S.Window.Link.Disk" TargetType="{x:Type local:LinkWindowBase}" BasedOn="{StaticResource S.Window.Main.Default}">
         <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-        <Setter Property="FIconSize" Value="20"/>
         <Setter Property="CaptionHeight" Value="76"/>
         <Setter Property="CaptionForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
         <Setter Property="CaptionBackground" Value="{DynamicResource S.Brush.Accent}" />
-        <Setter Property="FIcon" Value="&#xe79c;"/>
-        <Setter Property="MaxboxEnable" Value="True"/>
-        <Setter Property="MinboxEnable" Value="True"/>
-        <Setter Property="NotifyIconSource" Value="/HeBianGu.General.WpfControlLib;component/Resources/iBook.ico"/>
-        <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
         <Setter Property="Padding" Value="10"/>
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
-        <Setter Property="WindowStyle" Value="None"/>
-        <Setter Property="ResizeMode" Value="CanMinimize"/>
-        <!--窗体基本设置 WindowChrome-->
-        <Setter Property="WindowChrome.WindowChrome">
+
+        <Setter Property="h:Cattach.VisibleActions">
             <Setter.Value>
-                <WindowChrome CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:WindowBase}}}"
-                             ResizeBorderThickness="8" GlassFrameThickness="-1"/>
+                <h:ActionCollection>
+                    <h:ImageOpacityMaskAction Duration="1000" ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png"/>
+                </h:ActionCollection>
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
@@ -739,14 +683,20 @@
 
                                             <FrameworkElement.ContextMenu>
                                                 <ContextMenu Style="{DynamicResource DefaultContextMenu}">
-                                                    <MenuItem Header="显示面板" />
-                                                    <MenuItem Header="退出" />
+                                                    <MenuItem Header="显示面板" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=NotifyWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                                                    <MenuItem Header="隐藏"  Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=NotifyWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                                                    <MenuItem Header="退出"  Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CloseWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                                 </ContextMenu>
                                             </FrameworkElement.ContextMenu>
                                         </local:NotifyIcon>
 
                                         <local:DrawerHost HorizontalContentAlignment="Stretch">
-                                            <local:DrawerHost.LeftDrawerContent>
+                                            <!--<local:DrawerHost.LeftDrawerContent>
                                                 <Grid>
                                                     <Grid.RowDefinitions>
                                                         <RowDefinition Height="35"/>
@@ -777,12 +727,16 @@
                                                 <Grid>
                                                     <Border Background="{DynamicResource S.Brush.Gray.Notice}" BorderThickness="0,0,0,0"/>
 
-                                                    <!--<ContentPresenter Grid.Row="1"  Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink.ActionResult.View}"/>-->
+                                                    -->
+                                            <!--<ContentPresenter Grid.Row="1"  Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink.ActionResult.View}"/>-->
+                                            <!--
 
                                                     <local:LinkActionFrame Grid.Row="1" Style="{DynamicResource S.LinkActonFrame.Single}" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink}"/>
 
-                                                    <!--<local:ModernFrame Grid.Row="1" Margin="0,0" BorderBrush="Transparent" BorderThickness="0"
+                                                    -->
+                                            <!--<local:ModernFrame Grid.Row="1" Margin="0,0" BorderBrush="Transparent" BorderThickness="0"
                                                                    Source="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink.TopLink.Source}"/>-->
+                                            <!--
 
                                                     <local:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Style.Transparent}"
                                      FIcon="&#xe9d3;" AllowsAnimation="True" Command="{x:Static local:DrawerHost.CloseDrawerCommand}"
@@ -842,7 +796,7 @@
                                      FIconSize="14" Margin="5,0"
                                      HorizontalAlignment="Left"  VerticalAlignment="Center"/>
                                                 </Grid>
-                                            </local:DrawerHost.RightDrawerContent>
+                                            </local:DrawerHost.RightDrawerContent>-->
 
                                             <Grid>
                                                 <!--整体消息弹出-->
@@ -851,25 +805,35 @@
                                                         <local:LinkActionFrame UseRandomWipe="False" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}"/>
 
                                                         <!--第一次蒙版-->
+                                                        <!--
                                                         <local:ModernFrame  Visibility="Collapsed"  x:Name="PART_SettingFrame">
                                                             <local:ModernFrame.Background>
                                                                 <SolidColorBrush Color="#000000" Opacity="0.5"/>
                                                             </local:ModernFrame.Background>
-                                                        </local:ModernFrame>
+                                                        </local:ModernFrame>-->
 
-                                                        <local:LinkActionFrame x:Name="PART_LinkActionFrame"  Visibility="Collapsed"  UseRandomWipe="True"/>
+                                                        <!--<local:LinkActionFrame x:Name="PART_LinkActionFrame"  Visibility="Collapsed"  UseRandomWipe="True"/>-->
 
 
-                                                        <local:SwtichTransitioner  x:Name="PART_LAYERGROUP"  Visibility="Collapsed"
+                                                        <!--<local:SwtichTransitioner  x:Name="PART_LAYERGROUP"  Visibility="Collapsed"
                                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                                             <local:SwtichTransitioner.Background>
                                                                 <SolidColorBrush Color="#000000" Opacity="0.5"/>
                                                             </local:SwtichTransitioner.Background>
                                                             <local:SwtichTransitioner.ITransitionWipe>
-                                                                <!--<local:SlideWipe Direction="Up"/>-->
+                                                                -->
+                                                        <!--<local:SlideWipe Direction="Up"/>-->
+                                                        <!--
                                                                 <local:SlideOutScale/>
                                                             </local:SwtichTransitioner.ITransitionWipe>
-                                                        </local:SwtichTransitioner>
+                                                        </local:SwtichTransitioner>-->
+
+                                                        <!--蒙版-->
+                                                        <local:ContainPanel Background="{DynamicResource S.Brush.Dialog.Cover}" Visibility="Collapsed" x:Name="PART_LAYERGROUP">
+                                                            <local:ContainPanel.AnimationAction>
+                                                                <h:ScaleAction/>
+                                                            </local:ContainPanel.AnimationAction>
+                                                        </local:ContainPanel>
 
                                                     </Grid>
                                                 </local:DialogHost>
@@ -906,12 +870,165 @@
                         </Trigger>
 
                         <!--淡出动画-->
+                        <!--
                         <EventTrigger RoutedEvent="Window.Loaded">
                             <EventTrigger.Actions>
                                 <BeginStoryboard Storyboard="{DynamicResource Story.WindowLoad}"/>
                             </EventTrigger.Actions>
-                        </EventTrigger>
+                        </EventTrigger>-->
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="S.Window.Link.Phone" TargetType="{x:Type local:PhoneWindowBase}" BasedOn="{StaticResource S.Window.Main.Default}">
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="CaptionHeight" Value="{DynamicResource S.Window.Row.Height}"/>
+        <Setter Property="CaptionForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
+        <Setter Property="CaptionBackground" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Width" Value="350" />
+        <Setter Property="Height" Value="700"/>
+        <Setter Property="FIcon" Value="&#xe7fd;"/>
+        <Setter Property="h:Cattach.VisibleActions">
+            <Setter.Value>
+                <h:ActionCollection>
+                    <h:ScaleAction/>
+                </h:ActionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:PhoneWindowBase}">
+                    <Grid Name="g_all" Margin="10">
+                        <!--背景-->
+                        <Border CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                Effect="{DynamicResource S.DropShadowEffect.Window}" BorderThickness="{TemplateBinding BorderThickness}"/>
+
+                        <Grid Margin="1">
+                            <Border x:Name="BgInner" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Bottom}" Background="{TemplateBinding Background}" Grid.Row="1">
+
+                                <!--窗体内容区域-->
+                                <AdornerDecorator WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Grid>
+                                        <!--托盘图标-->
+                                        <local:NotifyIcon x:Name="PART_NotifyIcon"
+                                      Icon="{Binding Path=NotifyIconSource,RelativeSource={RelativeSource TemplatedParent}}"
+                                      Command="{Binding Path=MinimizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"
+                                      Text="{TemplateBinding Title}"
+                                      IconVisibility="Visible">
+                                            <FrameworkElement.ContextMenu>
+                                                <ContextMenu Style="{DynamicResource DefaultContextMenu}">
+                                                    <MenuItem Header="显示面板" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=NotifyWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                                                    <MenuItem Header="隐藏"  Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=NotifyWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                                                    <MenuItem Header="退出"  Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CloseWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                                                </ContextMenu>
+                                            </FrameworkElement.ContextMenu>
+                                        </local:NotifyIcon>
+
+                                        <local:DrawerHost HorizontalContentAlignment="Stretch">
+                                            <Grid>
+                                                <!--整体消息弹出-->
+                                                <local:DialogHost Identifier="windowDialog" HorizontalAlignment="Stretch" Effect="{TemplateBinding AdornerDecoratorEffect}"  VerticalAlignment="Stretch" Margin="-3,0,-3,-3">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition/>
+                                                            <RowDefinition Height="50"/>
+                                                        </Grid.RowDefinitions>
+
+                                                        <local:LinkActionFrame Grid.Row="0" UseRandomWipe="False" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}">
+                                                            <local:LinkActionFrame.CurrentWipe>
+                                                                <local:CircleWipe Duration="200"/>
+                                                            </local:LinkActionFrame.CurrentWipe>
+                                                        </local:LinkActionFrame>
+
+                                                        <ListBox Grid.Row="1" SelectedIndex="0" BorderThickness="2" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}"
+                                                                 Background="{DynamicResource S.Brush.TextBackground.Default}" Margin="2"
+                                                                 SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink}" ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=TabLinks}">
+                                                            <ListBox.Resources>
+                                                                <DataTemplate DataType="{x:Type local:TabLink}">
+                                                                    <Grid>
+                                                                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                            <TextBlock x:Name="tb_logo" Text="{Binding Logo}" Style="{DynamicResource FIcon}" Margin="1"/>
+                                                                            <TextBlock Text="{Binding DisplayName}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}" VerticalAlignment="Center"/>
+                                                                        </StackPanel>
+                                                                    </Grid>
+                                                                    <DataTemplate.Triggers>
+                                                                        <DataTrigger Binding="{Binding Logo}" Value="{x:Null}">
+                                                                            <Setter Property="Visibility" Value="Collapsed" TargetName="tb_logo"/>
+                                                                        </DataTrigger>
+                                                                    </DataTemplate.Triggers>
+                                                                </DataTemplate>
+                                                            </ListBox.Resources>
+
+                                                            <ListBox.ItemsPanel>
+                                                                <ItemsPanelTemplate>
+                                                                    <UniformGrid Columns="4"/>
+                                                                </ItemsPanelTemplate>
+                                                            </ListBox.ItemsPanel>
+
+                                                            <ListBox.ItemContainerStyle>
+                                                                <Style TargetType="ListBoxItem">
+                                                                    <Setter Property="Template">
+                                                                        <Setter.Value>
+                                                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                                                <Grid>
+                                                                                    <ContentPresenter/>
+                                                                                </Grid>
+                                                                                <ControlTemplate.Triggers>
+                                                                                    <Trigger Property="IsMouseOver" Value="true">
+                                                                                        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                                                                                    </Trigger>
+
+                                                                                    <Trigger Property="IsSelected" Value="true">
+                                                                                        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+                                                                                    </Trigger>
+                                                                                </ControlTemplate.Triggers>
+                                                                            </ControlTemplate>
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                </Style>
+                                                            </ListBox.ItemContainerStyle>
+
+                                                            <ListBox.Template>
+                                                                <ControlTemplate TargetType="ListBox">
+                                                                    <Grid>
+                                                                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                                                                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Bottom}">
+                                                                            <ItemsPresenter/>
+                                                                        </Border>
+                                                                    </Grid>
+                                                                </ControlTemplate>
+                                                            </ListBox.Template>
+                                                        </ListBox>
+
+                                                        <!--蒙版-->
+                                                        <local:ContainPanel Background="{DynamicResource S.Brush.Dialog.Cover}" Visibility="Collapsed" x:Name="PART_LAYERGROUP">
+                                                            <local:ContainPanel.AnimationAction>
+                                                                <h:ScaleAction/>
+                                                            </local:ContainPanel.AnimationAction>
+                                                        </local:ContainPanel>
+                                                    </Grid>
+                                                </local:DialogHost>
+
+                                                <local:MessageContainer  x:Name="PART_Message"  Grid.Row="1"/>
+
+                                                <local:Snackbar MessageQueue="{local:MessageQueue}" x:Name="PART_SnackBar" />
+                                            </Grid>
+                                        </local:DrawerHost>
+                                    </Grid>
+                                </AdornerDecorator>
+
+                            </Border>
+                        </Grid>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

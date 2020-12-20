@@ -22,9 +22,7 @@ namespace HeBianGu.General.WpfControlLib
 {
     /// <summary> 链接主窗口 </summary>
     public partial class LinkWindowBase : MainWindowBase
-    {
-
-
+    { 
         public ObservableCollection<TabLink> TabLinks
         {
             get { return (ObservableCollection<TabLink>)GetValue(TabLinksProperty); }
@@ -43,23 +41,23 @@ namespace HeBianGu.General.WpfControlLib
 
             }));
 
-        public LinkGroup SettingLinks
-        {
-            get { return (LinkGroup)GetValue(SettingLinksProperty); }
-            set { SetValue(SettingLinksProperty, value); }
-        }
+        //public LinkGroup SettingLinks
+        //{
+        //    get { return (LinkGroup)GetValue(SettingLinksProperty); }
+        //    set { SetValue(SettingLinksProperty, value); }
+        //}
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SettingLinksProperty =
-            DependencyProperty.Register("SettingLinks", typeof(LinkGroup), typeof(LinkWindowBase), new PropertyMetadata(new LinkGroup(), (d, e) =>
-            {
-                WindowBase control = d as WindowBase;
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty SettingLinksProperty =
+        //    DependencyProperty.Register("SettingLinks", typeof(LinkGroup), typeof(LinkWindowBase), new PropertyMetadata(new LinkGroup(), (d, e) =>
+        //    {
+        //        WindowBase control = d as WindowBase;
 
-                if (control == null) return;
+        //        if (control == null) return;
 
-                ObservableCollection<Link> config = e.NewValue as ObservableCollection<Link>;
+        //        ObservableCollection<Link> config = e.NewValue as ObservableCollection<Link>;
 
-            }));
+        //    }));
 
 
 
@@ -163,5 +161,40 @@ namespace HeBianGu.General.WpfControlLib
         }
     }
 
+    public partial class PhoneWindowBase:LinkWindowBase
+    {
+        public PhoneWindowBase()
+        {
+            this.MouseDown +=(l, k) =>
+             {
 
+                 try
+                 {
+                     this.DragMove();
+                 }
+                 catch (Exception)
+                 {
+
+                 }
+             }; 
+        }
+        //  Do ：自定义标题区域
+        public object CustomContent
+        {
+            get { return (object)GetValue(CustomContentProperty); }
+            set { SetValue(CustomContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CustomContentProperty =
+            DependencyProperty.Register("CustomContent", typeof(object), typeof(PhoneWindowBase), new PropertyMetadata(default(object), (d, e) =>
+            {
+                PhoneWindowBase control = d as PhoneWindowBase;
+
+                if (control == null) return;
+
+                object config = e.NewValue as object;
+
+            }));
+    }
 }

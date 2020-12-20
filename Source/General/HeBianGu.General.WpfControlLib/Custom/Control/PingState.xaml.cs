@@ -111,11 +111,11 @@ namespace HeBianGu.General.WpfControlLib
                      }
                      catch (Exception ex)
                      {
-                         this.Dispatcher?.Invoke(() =>
+                         this?.Dispatcher?.Invoke(() =>
                          {
                              Status = IPStatus.Unknown;
 
-                             _cache.Insert(0,ex?.Message);
+                             _cache?.Insert(0,ex?.Message);
                          });
 
                          Debug.WriteLine(ex);

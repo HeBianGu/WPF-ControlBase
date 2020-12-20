@@ -124,6 +124,59 @@ namespace HeBianGu.Application.SceneWindow
             }
         }
 
+
+        private ObservableCollection<TestViewModel> _historys = new ObservableCollection<TestViewModel>();
+        /// <summary> 历史提交记录  </summary>
+        public ObservableCollection<TestViewModel> Historys
+        {
+            get { return _historys; }
+            set
+            {
+                _historys = value;
+                RaisePropertyChanged("Historys");
+            }
+        }
+
+
+        private TestViewModel _selectedHistory;
+        /// <summary> 选中的历史记录  </summary>
+        public TestViewModel SelectedHistory
+        {
+            get { return _selectedHistory; }
+            set
+            {
+                _selectedHistory = value;
+                RaisePropertyChanged("SelectedHistory");
+            }
+        }
+
+
+        private string _title;
+        /// <summary> 标题  </summary>
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                RaisePropertyChanged("Title");
+            }
+        }
+
+
+        private double _percent;
+        /// <summary> 说明  </summary>
+        public double Percent
+        {
+            get { return _percent; }
+            set
+            {
+                _percent = value;
+                RaisePropertyChanged("Percent");
+            }
+        }
+
+
         protected override async void Init()
         {
 
@@ -239,6 +292,31 @@ namespace HeBianGu.Application.SceneWindow
             }
             else if (command == "Button.Click.Commit")
             {
+                if (string.IsNullOrEmpty(this.Title))
+                {
+                    MessageService.ShowSnackMessageWithNotice("请输入标题信息");
+                    return;
+                }
+
+                if (this.Historys.FirstOrDefault(l => l.Value == this.Title) != null)
+                {
+                    MessageService.ShowSnackMessageWithNotice("存在重复的标题");
+                    return;
+                }
+
+                await Task.Run(() =>
+                 {
+                     for (int i = 0; i < 100; i++)
+                     {
+                         this.Percent = i;
+
+                         Thread.Sleep(50);
+                     }
+                 });
+
+                MessageService.ShowSnackMessageWithNotice("提交成功");
+
+                this.Historys.Add(new TestViewModel() { Value = this.Title });
 
             }
         }

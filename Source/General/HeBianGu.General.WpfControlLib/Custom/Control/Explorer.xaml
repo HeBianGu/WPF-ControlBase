@@ -26,15 +26,15 @@
                     <UniformGrid Columns="3">
                         <local:FButton Content="&lt;" Margin="-10" Command="{x:Static local:Explorer.Next}" ToolTip="返回"/>
                         <local:FButton Content="&gt;" Margin="-10"  Command="{x:Static local:Explorer.Previous}"  ToolTip="前进"/>
-                        <ToggleButton x:Name="tb" Style="{DynamicResource ComboToggleButton}" HorizontalAlignment="Center" ToolTip="最近浏览的位置"/>
+                        <ToggleButton x:Name="tb" Style="{DynamicResource ComboToggleButton}" Foreground="{DynamicResource S.Brush.TextForeground.Default}" HorizontalAlignment="Center" ToolTip="最近浏览的位置"/>
                     </UniformGrid>
 
                     <TextBlock Text="|" VerticalAlignment="Center" Grid.Column="1" Margin="2,0,0,0" Foreground="{DynamicResource S.Brush.TextForeground.Default}"/>
 
                     <local:NavigationBar x:Name="navigationBar" Margin="10,0,0,0" Grid.Column="1" Grid.ColumnSpan="9" IsHitTestVisible="{TemplateBinding NavigationBarEnbled}" CurrentPath="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentPath,Mode=TwoWay}" />
 
-                    <local:FTextBox Width="Auto" h:Cattach.Watermark="请输入搜索条件" h:Cattach.Label="" HorizontalAlignment="Stretch"
-                                                    Style="{DynamicResource S.FTextBox.Single.LabelClear}"   Grid.Column="9" Grid.ColumnSpan="5"
+                    <local:FTextBox Width="Auto" h:Cattach.Watermark="请输入搜索条件" h:Cattach.Label="" HorizontalAlignment="Stretch" Margin="0"
+                                                    Style="{DynamicResource S.FTextBox.Single.Clear}"   Grid.Column="9" Grid.ColumnSpan="5"
                                                     Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=FilterString,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
                 </local:Row>
 
@@ -129,6 +129,7 @@
 
     <Style x:Key="S.Explorer.Default"  TargetType="{x:Type local:Explorer}" BasedOn="{StaticResource S.DataGrid.Default}">
         <Setter Property="PageCount" Value="10000000"/>
+        <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="NavigationBarEnbled" Value="True"/>
         <Setter Property="Template" Value="{StaticResource S.Explorer.Template.Default}"/>
         <Style.Triggers>
@@ -174,7 +175,7 @@
                                 <h:SelectListBoxItemElementBehavior/>
                             </h:Interaction.Behaviors>
                         </local:FButton>
-                        <TextBlock x:Name="flag" Text="&gt;" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="flag" Text="&gt;" VerticalAlignment="Center" Foreground="{DynamicResource S.Brush.TextForeground.Default}"/>
                     </StackPanel>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Converter= {x:Static h:XConverter.IsLastItemInContainerConverter}}" Value="True">

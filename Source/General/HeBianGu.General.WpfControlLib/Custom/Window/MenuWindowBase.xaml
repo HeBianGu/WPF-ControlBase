@@ -4,13 +4,15 @@
     xmlns:h="QQ:908293466"
    >
 
+
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../Control/FButton.xaml"/>
+        <ResourceDictionary Source="WindowBase.xaml"/>
+        <ResourceDictionary Source="MainWindowBase.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!--默认WindowBase的样式-->
-    <Style x:Key="S.Window.Menu.Default" TargetType="{x:Type local:MenuWindowBase}">
-        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+    <Style x:Key="S.Window.Menu.Default" TargetType="{x:Type local:MenuWindowBase}"  BasedOn="{StaticResource S.Window.Main.Default}">
+        <!--<Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
         <Setter Property="FontFamily" Value="{DynamicResource S.FontFamily.Default}"/>
@@ -21,31 +23,42 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="FIconSize" Value="20"/>
         <Setter Property="CaptionHeight" Value="26"/>
-        <!--标题栏背景色-->
+        --><!--标题栏背景色--><!--
         <Setter Property="CaptionBackground" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="CaptionForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
         <Setter Property="FIcon" Value="&#xe79c;"/>
         <Setter Property="MaxboxEnable" Value="True"/>
-        <Setter Property="MinboxEnable" Value="True"/>
+        <Setter Property="MinboxEnable" Value="True"/>-->
+
         <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
         <!--<Setter Property="Padding" Value="10"/>-->
         <!--默认背景模糊效果-->
-        <Setter Property="DefaultBlurEffect">
+        <!--<Setter Property="DefaultBlurEffect">
             <Setter.Value>
                 <BlurEffect/>
             </Setter.Value>
-        </Setter>
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        </Setter>-->
+        <!--<Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>-->
 
-        <Setter Property="WindowStyle" Value="None"/>
+        <!--<Setter Property="WindowStyle" Value="None"/>
         <Setter Property="ResizeMode" Value="CanMinimize"/>
-        <!--窗体基本设置 WindowChrome-->
+        --><!--窗体基本设置 WindowChrome--><!--
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:WindowBase}}}"
                              ResizeBorderThickness="8" GlassFrameThickness="-1"/>
             </Setter.Value>
+        </Setter>-->
+
+        <Setter Property="h:Cattach.VisibleActions">
+            <Setter.Value>
+                <h:ActionCollection>
+                    <!--<h:AngleAction BeginTime="100" VisibleDuration="500" StartAngle="360" EndAngle="360"/>-->
+                    <h:ScaleAction StartX="0" StartY="0" EndX="0" EndY="0"/>
+                </h:ActionCollection>
+            </Setter.Value>
         </Setter>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MenuWindowBase}">
@@ -138,8 +151,14 @@
 
                                         <FrameworkElement.ContextMenu>
                                             <ContextMenu Style="{DynamicResource DefaultContextMenu}">
-                                                <MenuItem Header="显示面板" />
-                                                <MenuItem Header="退出" />
+                                                <MenuItem Header="显示面板" Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=NotifyWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                                                <MenuItem Header="隐藏"  Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=NotifyWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                                                <MenuItem Header="退出"  Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CloseWindowCommand}"
+                                                          CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                                             </ContextMenu>
                                         </FrameworkElement.ContextMenu>
                                     </local:NotifyIcon>
@@ -191,12 +210,12 @@
                             <Setter Property="FIcon" TargetName="btnMax" Value="&#xe615;"></Setter>
                         </Trigger>
 
-                        <!--淡出动画-->
+                        <!--淡出动画--><!--
                         <EventTrigger RoutedEvent="Window.Loaded">
                             <EventTrigger.Actions>
                                 <BeginStoryboard Storyboard="{DynamicResource Story.WindowLoad}"/>
                             </EventTrigger.Actions>
-                        </EventTrigger>
+                        </EventTrigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

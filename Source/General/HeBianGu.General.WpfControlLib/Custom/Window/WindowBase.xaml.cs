@@ -284,7 +284,6 @@ namespace HeBianGu.General.WpfControlLib
         public ICommand MaximizeWindowCommand { get; protected set; }
         public ICommand MinimizeWindowCommand { get; protected set; }
 
-
         private async void CloseCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
             Action<object, DialogClosingEventArgs> action = (l, k) =>
@@ -306,8 +305,6 @@ namespace HeBianGu.General.WpfControlLib
                 this.CloseAnimation?.Invoke(this);
             }
         }
-
-
 
         private void MaxCommand_Execute(object sender, ExecutedRoutedEventArgs e)
         {
@@ -345,21 +342,21 @@ namespace HeBianGu.General.WpfControlLib
 
         public WindowBase()
         {
-            this.WindowStyle = WindowStyle.None;
+            //this.WindowStyle = WindowStyle.None;
             //this.AllowsTransparency = true;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            // Todo ：初始化动画变量 
-            TransformGroup group = new TransformGroup();
-            ScaleTransform scale = new ScaleTransform();
-            SkewTransform skew = new SkewTransform();
-            RotateTransform rotate = new RotateTransform();
-            TranslateTransform translate = new TranslateTransform();
-            group.Children.Add(scale);
-            group.Children.Add(skew);
-            group.Children.Add(rotate);
-            group.Children.Add(translate);
-            this.RenderTransform = group;
+            //// Todo ：初始化动画变量 
+            //TransformGroup group = new TransformGroup();
+            //ScaleTransform scale = new ScaleTransform();
+            //SkewTransform skew = new SkewTransform();
+            //RotateTransform rotate = new RotateTransform();
+            //TranslateTransform translate = new TranslateTransform();
+            //group.Children.Add(scale);
+            //group.Children.Add(skew);
+            //group.Children.Add(rotate);
+            //group.Children.Add(translate);
+            //this.RenderTransform = group;
 
             this.MaxHeight = SystemParameters.WorkArea.Height + 12 + 2;
             //bind command
@@ -382,13 +379,29 @@ namespace HeBianGu.General.WpfControlLib
             // {
             //     this.BegionStoryClose();
             // };
+
+
+            this.ShowAnimation = l =>
+              {
+                  this.Show(true);
+              };
+
+            this.CloseAnimation = l =>
+             {
+                 this.Show(false);
+             };
         }
 
 
         /// <summary> 按照动画方式显示 </summary>
         public new bool? ShowDialog()
         {
-            this.ShowAnimation?.Invoke(this);
+            //this.ShowAnimation?.Invoke(this);
+            this.Loaded += (l, k) =>
+              {
+                  this.ShowAnimation?.Invoke(this);
+              };
+
 
             return base.ShowDialog();
         }
@@ -396,7 +409,12 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 按照动画方式显示 </summary>
         public new void Show()
         {
-            this.ShowAnimation?.Invoke(this);
+            //this.ShowAnimation?.Invoke(this);
+
+            this.Loaded += (l, k) =>
+            {
+                this.ShowAnimation?.Invoke(this);
+            };
 
             base.Show();
 
@@ -407,6 +425,18 @@ namespace HeBianGu.General.WpfControlLib
         {
             this.CloseAnimation?.Invoke(this);
         }
+
+        internal void RefreshHide()
+        {
+            Cattach.SetIsVisible(this, !Cattach.GetIsVisible(this));
+        }
+
+
+        internal void Show(bool value)
+        {
+            Cattach.SetIsClose(this, value);
+        }
+
     }
 
 

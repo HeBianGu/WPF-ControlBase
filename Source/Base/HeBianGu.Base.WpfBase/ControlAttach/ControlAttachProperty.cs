@@ -1056,6 +1056,57 @@ namespace HeBianGu.Base.WpfBase
 
         #region - 应用动画效果的显示、隐藏 -
 
+
+        public static bool GetIsClose(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsCloseProperty);
+        }
+
+        public static void SetIsClose(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsCloseProperty, value);
+        }
+
+        /// <summary> 应用窗体关闭和显示 </summary>
+        public static readonly DependencyProperty IsCloseProperty =
+            DependencyProperty.RegisterAttached("IsClose", typeof(bool), typeof(Cattach), new PropertyMetadata(false, OnIsCloseChanged));
+
+        static public void OnIsCloseChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var element = d as UIElement;
+
+            var actions = Cattach.GetVisibleActions(element);
+
+            if (actions == null) return;
+
+            bool v = (bool)e.NewValue;
+
+            if (v)
+            {
+                //  Do ：显示动画
+                foreach (var item in actions)
+                {
+                    item.BeginVisible(element);
+                }
+            }
+            else
+            {
+                //  Do ：隐藏动画
+                foreach (var item in actions)
+                {
+                    item.BeginHidden(element, () =>
+                     {
+                         if (element is Window window)
+                         {
+                             window.Close();
+                         }
+
+                         return;
+                     });
+                }
+            }
+        }
+
         public static bool GetIsVisible(DependencyObject obj)
         {
             return (bool)obj.GetValue(IsVisibleProperty);
@@ -1066,7 +1117,7 @@ namespace HeBianGu.Base.WpfBase
             obj.SetValue(IsVisibleProperty, value);
         }
 
-        /// <summary> 是否等待 </summary>
+        /// <summary> 应用控件显示和隐藏 </summary>
         public static readonly DependencyProperty IsVisibleProperty =
             DependencyProperty.RegisterAttached("IsVisible", typeof(bool), typeof(Cattach), new PropertyMetadata(true, OnIsVisibleChanged));
 
@@ -1096,7 +1147,7 @@ namespace HeBianGu.Base.WpfBase
                 {
                     item.BeginHidden(element);
                 }
-              
+
             }
         }
 
