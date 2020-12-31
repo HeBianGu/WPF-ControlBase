@@ -19,11 +19,13 @@ namespace HeBianGu.Application.PhoneWindow
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+
+            base.OnStartup(e);
+
             ShellWindow shellWindow = new ShellWindow();
 
             shellWindow.Show();
 
-            base.OnStartup(e);
         }
 
 

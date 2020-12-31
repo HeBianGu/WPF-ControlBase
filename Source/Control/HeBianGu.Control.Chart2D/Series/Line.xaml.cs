@@ -74,39 +74,70 @@ namespace HeBianGu.Control.Chart2D
 
         protected virtual void DrawLine(Canvas canvas)
         {
+            if (this.xAxis.Count == 1) return;
 
-           Path path = new Path();
-
-            path.Style = this.PathStyle;
-
-            PolyLineSegment pls = new PolyLineSegment();
-
-            for (int i = 0; i < this.xAxis.Count; i++)
+            if (this.UseVisual)
             {
-                double x = this.xAxis[i];
+                PointCollection points = new PointCollection();
 
-                double y = this.Data[i];
+                for (int i = 0; i < this.xAxis.Count; i++)
+                {
+                    double x = this.xAxis[i];
 
-                y = this.GetMapY(i, y);
+                    double y = this.Data[i];
 
-                //  Do ：添加曲线
-                pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
+                    y = this.GetMapY(i, y);
 
+                    points.Add(new Point(this.GetX(x), this.GetY(y)));
+
+                }
+
+                var setters = PathStyle?.Setters.OfType<Setter>();
+
+                var st = setters?.FirstOrDefault(l => l.Property.Name == "StrokeThickness")?.Value;
+
+                double thickness = st == null ? 1 : Convert.ToDouble(st);
+
+                Brush brush = this.Foreground.CloneCurrentValue();
+
+                var v = this.Polyline(points, brush, thickness);
+
+                this.AddVisual(v);
             }
+            else
+            {
 
-            PathFigure pf = new PathFigure();
-            pf.StartPoint = pls.Points.FirstOrDefault();
-            pf.Segments.Add(pls);
+                Path path = new Path();
 
-            PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
+                path.Style = this.PathStyle;
 
-            path.Data = pg;
+                PolyLineSegment pls = new PolyLineSegment();
 
-            this.Children.Add(path);
 
+                for (int i = 0; i < this.xAxis.Count; i++)
+                {
+                    double x = this.xAxis[i];
+
+                    double y = this.Data[i];
+
+                    y = this.GetMapY(i, y);
+
+                    //  Do ：添加曲线
+                    pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
+
+                }
+
+                PathFigure pf = new PathFigure();
+                pf.StartPoint = pls.Points.FirstOrDefault();
+                pf.Segments.Add(pls);
+
+                PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
+
+                path.Data = pg;
+
+                this.Children.Add(path);
+            }
         }
-
-
 
     }
 

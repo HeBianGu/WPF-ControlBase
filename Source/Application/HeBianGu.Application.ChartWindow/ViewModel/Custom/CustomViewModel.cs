@@ -196,7 +196,7 @@ namespace HeBianGu.Application.ChartWindow
 
                     List<double> axis = new List<double>();
 
-                    for (double i = 0; i <= 360 * 2; i = i + 1)
+                    for (double i = 0; i <= 360 * 10; i = i + 1)
                     {
                         int count = random.Next(3, waves.Count);
 
@@ -293,7 +293,7 @@ namespace HeBianGu.Application.ChartWindow
                 }
             });
             {
-                for (double i = 0; i <= 360 * 2; i = i + 1)
+                for (double i = 0; i <= 100 * 100; i = i + 1)
                 {
                     int count = random.Next(3, waves.Count);
 

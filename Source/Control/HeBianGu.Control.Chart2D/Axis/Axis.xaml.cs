@@ -199,7 +199,14 @@ namespace HeBianGu.Control.Chart2D
                 yright.Y2 = 0;
                 yright.Style = this.LineStyle;
 
-                Canvas.SetBottom(yright, this.ActualHeight - this.GetY(y));
+                if (this.xAxis.Count == 1)
+                {
+                    Canvas.SetBottom(yright, this.ActualHeight / 2);
+                }
+                else
+                {
+                    Canvas.SetBottom(yright, this.ActualHeight - this.GetY(y));
+                }
 
                 canvas.Children.Add(yright);
 
@@ -211,7 +218,15 @@ namespace HeBianGu.Control.Chart2D
                 l.Y1 = 0;
                 l.Y2 = this.AlignLenght;
                 l.Style = this.LineStyle;
-                Canvas.SetLeft(l, this.GetX(item + span / 2, this.ActualWidth));
+
+                if (this.xAxis.Count == 1)
+                {
+                    Canvas.SetLeft(l, this.ActualWidth / 2);
+                }
+                else
+                {
+                    Canvas.SetLeft(l, this.GetX(item + span / 2, this.ActualWidth));
+                }
 
                 Canvas.SetBottom(l, this.ActualHeight - this.GetY(y) + (this.DockAlignment == Dock.Top || this.DockAlignment == Dock.Left ? 0 : -this.AlignLenght));
 
@@ -225,7 +240,15 @@ namespace HeBianGu.Control.Chart2D
 
                 t.Loaded += (o, e) =>
                 {
-                    Canvas.SetLeft(t, this.GetX(item, this.ActualWidth) - t.ActualWidth / 2);
+                    if (this.xAxis.Count == 1)
+                    {
+                        Canvas.SetLeft(t, this.ActualWidth / 2 - t.ActualWidth / 2);
+                    }
+                    else
+                    {
+                        Canvas.SetLeft(t, this.GetX(item, this.ActualWidth) - t.ActualWidth / 2);
+                    }
+
                     Canvas.SetTop(t, (this.DockAlignment == Dock.Top || this.DockAlignment == Dock.Left ? -(this.AlignLenght + t.ActualHeight) : this.AlignLenght) + this.GetY(y));
                 };
                 canvas.Children.Add(t);
@@ -280,7 +303,14 @@ namespace HeBianGu.Control.Chart2D
                 l.Y2 = 0;
                 l.Style = this.LineStyle;
 
-                Canvas.SetTop(l, this.GetY(item + span / 2, this.ActualHeight));
+                if (this.yAxis.Count == 1)
+                {
+                    Canvas.SetTop(l, this.ActualHeight / 2);
+                }
+                else
+                {
+                    Canvas.SetTop(l, this.GetY(item + span / 2, this.ActualHeight));
+                }
 
                 if (this.DockAlignment == Dock.Right || this.DockAlignment == Dock.Bottom)
                 {
@@ -301,7 +331,14 @@ namespace HeBianGu.Control.Chart2D
 
                 t.Loaded += (o, e) =>
                 {
-                    Canvas.SetTop(t, this.GetY(item, this.ActualHeight) - t.ActualHeight / 2);
+                    if (this.yAxis.Count == 1)
+                    {
+                        Canvas.SetTop(t, this.ActualHeight / 2 - t.ActualHeight / 2);
+                    }
+                    else
+                    {
+                        Canvas.SetTop(t, this.GetY(item, this.ActualHeight) - t.ActualHeight / 2);
+                    }
                     Canvas.SetLeft(t, (this.DockAlignment == Dock.Right || this.DockAlignment == Dock.Bottom ? (this.AlignLenght) : -this.AlignLenght - t.ActualWidth) + postion);
                 };
 

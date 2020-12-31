@@ -22,7 +22,7 @@ namespace HeBianGu.Base.WpfBase
         }
 
         private bool _selected;
-        /// <summary> 说明  </summary>
+        /// <summary> 是否选中  </summary>
         public bool Selected
         {
             get { return _selected; }

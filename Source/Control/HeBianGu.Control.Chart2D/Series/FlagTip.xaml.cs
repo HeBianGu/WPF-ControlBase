@@ -38,13 +38,15 @@ namespace HeBianGu.Control.Chart2D
 
         void RefreshVisibility()
         {
-            if (this.X == null) return;
+            if (this.X == null || this.Y == null) return;
 
             this.X.Visibility = this.IsMouseOver && (this.FlagTipType == FlagTipType.Cross || this.FlagTipType == FlagTipType.CrossStep || this.FlagTipType == FlagTipType.OnlyX || this.FlagTipType == FlagTipType.StepX) ? Visibility.Visible : Visibility.Collapsed;
             this.Y.Visibility = this.IsMouseOver && (this.FlagTipType == FlagTipType.Cross || this.FlagTipType == FlagTipType.CrossStep || this.FlagTipType == FlagTipType.OnlyY || this.FlagTipType == FlagTipType.StepY) ? Visibility.Visible : Visibility.Collapsed;
 
             this.LabelX.Visibility = this.IsMouseOver ? Visibility.Visible : Visibility.Collapsed;
             this.LabelY.Visibility = this.IsMouseOver ? Visibility.Visible : Visibility.Collapsed;
+
+            this.Marker.Visibility = this.IsMouseOver ? Visibility.Visible : Visibility.Collapsed;
 
         }
 
@@ -53,16 +55,23 @@ namespace HeBianGu.Control.Chart2D
             var position = e.GetPosition(this);
 
             if (this.xAxis.Count == 0) return;
+            if (this.Y==null) return;
+            if (this.X == null) return;
 
             double xValue = (this.maxX - this.minX) * (position.X / this.ActualWidth) + this.minX;
 
             double yValue = (this.maxY - this.minY) * (position.Y / this.ActualHeight) + this.minY;
 
+
+
             if (this.FlagTipType == FlagTipType.CrossStep || this.FlagTipType == FlagTipType.StepY || this.FlagTipType == FlagTipType.StepX)
             {
                 double mx = this.xAxis.Min(l => Math.Abs(l - xValue));
                 var xFind = this.xAxis.FirstOrDefault(l => Math.Abs(l - xValue) == mx);
+
                 Canvas.SetLeft(this.Y, this.GetX(xFind));
+
+                Canvas.SetLeft(this.Marker, this.GetX(xFind));
 
                 //double my = this.xAxis.Min(l => Math.Abs(l - yValue));
                 //var yFind = this.xAxis.FirstOrDefault(l => Math.Abs(l - yValue) == my);
@@ -72,24 +81,34 @@ namespace HeBianGu.Control.Chart2D
 
                 if (this.Data.Count > index)
                 {
-                    double my = this.Data[index];
-                    Canvas.SetTop(this.X, this.GetY(my));
+                    double data = this.Data[index];
+                    Canvas.SetTop(this.X, this.GetY(data));
+
                     this.LabelY.Content = $"{xFind}";
-                    this.LabelX.Content = $"{my}";
+                    this.LabelX.Content = $"{data}";
 
                     Canvas.SetLeft(this.LabelX, -this.LabelX.ActualWidth);
-                    Canvas.SetTop(this.LabelX, this.GetY(my));
+                    Canvas.SetTop(this.LabelX, this.GetY(data));
+
+
+                    Canvas.SetTop(this.Marker, this.GetY(data));
                 }
                 else
                 {
+
+
+
                     double my = this.xAxis.Min(l => Math.Abs(l - yValue));
                     var yFind = this.xAxis.FirstOrDefault(l => Math.Abs(l - yValue) == my);
+
                     Canvas.SetBottom(this.X, this.GetY(yFind));
                     this.LabelY.Content = $"{xFind}";
                     this.LabelX.Content = $"{my}";
 
                     Canvas.SetLeft(this.LabelX, -this.LabelX.ActualWidth);
                     Canvas.SetTop(this.LabelX, position.Y);
+
+                    Canvas.SetBottom(this.Marker, this.GetY(yFind));
                 }
             }
             else
@@ -102,11 +121,15 @@ namespace HeBianGu.Control.Chart2D
                 Canvas.SetLeft(this.LabelX, -this.LabelX.ActualWidth);
                 Canvas.SetTop(this.LabelX, position.Y);
 
+                Canvas.SetLeft(this.Marker, position.X);
+                Canvas.SetTop(this.Marker, position.Y);
+
             }
 
 
             Canvas.SetLeft(this.LabelY, position.X);
             Canvas.SetBottom(this.LabelY, -this.LabelX.ActualHeight);
+
 
         }
 
@@ -185,6 +208,26 @@ namespace HeBianGu.Control.Chart2D
             }));
 
 
+        public Shape Marker
+        {
+            get { return (Shape)GetValue(MarkerProperty); }
+            set { SetValue(MarkerProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MarkerProperty =
+            DependencyProperty.Register("Marker", typeof(Shape), typeof(FlagTip), new PropertyMetadata(default(Shape), (d, e) =>
+             {
+                 FlagTip control = d as FlagTip;
+
+                 if (control == null) return;
+
+                 Shape config = e.NewValue as Shape;
+
+             }));
+
+
+
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
@@ -243,6 +286,12 @@ namespace HeBianGu.Control.Chart2D
 
             canvas.Children.Add(this.LabelX);
             canvas.Children.Add(this.LabelY);
+
+            //  Do ：中心点
+            this.Marker = new EllipseMarker();
+            this.Marker.Style=this.MarkStyle;
+            canvas.Children.Add(this.Marker);
+
         }
 
 

@@ -60,6 +60,26 @@ namespace HeBianGu.Control.Chart2D
                 this.minX = this.minX - span / 2;
             }
         }
+
+        /// <summary> 散点显示的最大数量 </summary>
+        public int ShowCount
+        {
+            get { return (int)GetValue(ShowCountProperty); }
+            set { SetValue(ShowCountProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ShowCountProperty =
+            DependencyProperty.Register("ShowCount", typeof(int), typeof(ScatterBase), new PropertyMetadata(500, (d, e) =>
+             {
+                 ScatterBase control = d as ScatterBase;
+
+                 if (control == null) return;
+
+                 //int config = e.NewValue as int;
+
+             }));
+
     }
 
     /// <summary> 散点图 </summary>
@@ -68,6 +88,8 @@ namespace HeBianGu.Control.Chart2D
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
+
+            if (this.xAxis.Count > this.ShowCount) return;
 
             for (int i = 0; i < this.xAxis.Count; i++)
             {
@@ -82,9 +104,19 @@ namespace HeBianGu.Control.Chart2D
                 {
                     m.Style = this.MarkStyle;
 
-                    Canvas.SetLeft(m, this.GetX(x, this.ActualWidth) - m.ActualWidth / 2);
-                    Canvas.SetTop(m, this.GetY(y, this.ActualHeight) - m.ActualHeight / 2);
-                    this.Children.Add(m);
+                    if(this.xAxis.Count==1)
+                    {
+                        Canvas.SetLeft(m, this.ActualWidth/2 - m.ActualWidth / 2);
+                        Canvas.SetTop(m, this.ActualHeight/2 - m.ActualHeight / 2);
+                        this.Children.Add(m);
+                    }
+                    else
+                    {
+                        Canvas.SetLeft(m, this.GetX(x, this.ActualWidth) - m.ActualWidth / 2);
+                        Canvas.SetTop(m, this.GetY(y, this.ActualHeight) - m.ActualHeight / 2);
+                        this.Children.Add(m);
+                    }
+              
 
                     m.Tag = $"（{x.ToString("G4")}，{y.ToString("G4")}）";
                 }

@@ -605,6 +605,8 @@ namespace HeBianGu.Base.WpfBase
 
         public bool IsSingle { get; set; } = true;
 
+        public double ScaleValue { get; set; } = 3;
+
         public override void BeginCurrent(UIElement element, Action complate = null)
         {
             base.BeginCurrent(element);
@@ -673,7 +675,7 @@ namespace HeBianGu.Base.WpfBase
 
             DoubleAnimation animation = new DoubleAnimation();
             animation.From = 0;
-            animation.To = 8;
+            animation.To = ScaleValue;
             animation.BeginTime = TimeSpan.FromMilliseconds(this.StartTime);
             animation.Duration = TimeSpan.FromMilliseconds(this.VisibleDuration);
 

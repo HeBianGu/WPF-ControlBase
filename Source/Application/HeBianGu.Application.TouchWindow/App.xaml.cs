@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -19,7 +20,23 @@ namespace HeBianGu.Application.TouchWindow
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
+
             ShellWindow shellWindow = new ShellWindow();
+
+            StartWindow startWindow = new StartWindow();
+
+            Task.Run(() =>
+            {
+                Thread.Sleep(5000);
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    startWindow.Close();
+                });
+            });
+
+            startWindow.ShowDialog();
 
             shellWindow.Show();
 
@@ -28,8 +45,6 @@ namespace HeBianGu.Application.TouchWindow
             var domain = this.IServiceCollection.GetService<IAssemblyDomain>();
 
             domain.StartMonitor();
-
-            base.OnStartup(e);
         }
 
 

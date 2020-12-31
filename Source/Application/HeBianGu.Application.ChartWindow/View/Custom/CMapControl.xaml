@@ -15,13 +15,29 @@
                                 xDatas="{Binding xAxis}" 
                                 yDatas="{Binding Datas}"/>
 
-                <h:Chart x:Name="chart" Background="Transparent" Style="{StaticResource S.Chart.Coord}" yAxis="-50,-25,0,25,50" Padding="100,50">
+                <h:Chart x:Name="chart" Background="Transparent" xAxisAuto="True" yAxisAuto="True" Style="{StaticResource S.Chart.Coord}" yAxis="-50,-25,0,25,50" Padding="100,50">
                     <h:Series>
                         <h:Line Style="{StaticResource S.Line.Single}"/>
+                        <h:Scatter>
+                            <h:Scatter.MarkStyle>
+                                <Style TargetType="h:EllipseMarker" BasedOn="{StaticResource S.EllipseMarker.Default}">
+                                    <Setter Property="StrokeThickness" Value="3"/>
+                                    <Setter Property="Fill" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+                                    <Setter Property="Rect">
+                                        <Setter.Value>
+                                            <Rect Width="5" Height="5"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Tag}"/>
+                                </Style>
+                            </h:Scatter.MarkStyle>
+                        </h:Scatter>
                         <h:MarkPosition Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Max"  />
                         <h:MarkPosition Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Min" Foreground="Red"/>
                         <h:MarkLine Style="{StaticResource S.MarkLine.Single}" MarkLineType="Average"/>
                     </h:Series>
+
+                    <h:FlagTip FlagTipType="CrossStep"/>
                 </h:Chart>
             </DockPanel>
         </GroupBox>

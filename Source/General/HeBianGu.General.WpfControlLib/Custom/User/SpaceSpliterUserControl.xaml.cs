@@ -24,7 +24,7 @@ namespace HeBianGu.General.WpfControlLib
     {
         public SpaceSpliterUserControl()
         {
-            InitializeComponent(); 
+            InitializeComponent();
         }
 
         public override void OnApplyTemplate()
@@ -42,11 +42,23 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for LeftPercent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LeftPercentProperty =
-            DependencyProperty.Register("LeftPercent", typeof(double), typeof(SpaceSpliterUserControl), new PropertyMetadata(0.2, (l, e) =>
-            {
-                var control = l as SpaceSpliterUserControl;
-                control.SetPosition();
-            }));
+            DependencyProperty.Register("LeftPercent", typeof(double), typeof(SpaceSpliterUserControl),
+                new FrameworkPropertyMetadata(0.2, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+                    new PropertyChangedCallback((l, value) =>
+                    {
+                        var control = l as SpaceSpliterUserControl;
+                        control.SetPosition();
+                    }),
+                    new CoerceValueCallback((l, value) =>
+                    {
+                        //  Do ：添加验证 如限制大小 if(value<0) return 0;
+                        return value;
+                    })),
+                new ValidateValueCallback(value =>
+                {
+                    //  Do ：添加验证有效值,if(value<0) return false; 小于0的值无效
+                    return true;
+                }));
 
 
 
@@ -179,5 +191,6 @@ namespace HeBianGu.General.WpfControlLib
             }
 
         }
+        
     }
 }

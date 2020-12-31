@@ -33,7 +33,9 @@
         <!--<Setter Property="WindowStyle" Value="None"/>
         <Setter Property="ResizeMode" Value="CanMinimize"/>
         
-        --><!--窗体基本设置 WindowChrome--><!--
+        -->
+        <!--窗体基本设置 WindowChrome-->
+        <!--
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome CaptionHeight="{Binding Path=CaptionHeight,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:WindowBase}}}"
@@ -43,82 +45,47 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:WindowBase}">
-                    <Grid Name="g_all" Margin="-1">
-                        <Grid.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform/>
-                                <SkewTransform/>
-                                <RotateTransform/>
-                                <TranslateTransform/>
-                            </TransformGroup>
-                        </Grid.RenderTransform>
-                        
-                        <Border  x:Name="BgInner" CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
-                Background="Transparent"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  />
+                    <Grid >
+                        <!--窗体内容区域-->
+                        <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </AdornerDecorator>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
-                        <Grid>
-                            <!--Caption标题部分-->
-                            <Border Margin="0" Grid.Row="0" Background="Transparent"  CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Top}" >
-                                <Grid Margin="2,1,2,0">
-                                    <Rectangle Height="{TemplateBinding ActualHeight}" Width="{TemplateBinding ActualWidth}">
-                                        <Rectangle.Fill>
-                                            <RadialGradientBrush>
-                                                <GradientStop Offset="0" Color="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Background.Color}" />
-                                                <GradientStop Offset="0.2" Color="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Background.Color}"/>
-                                                <GradientStop Offset="1" Color="Transparent" />
-                                            </RadialGradientBrush>
-                                        </Rectangle.Fill>
+    <Style x:Key="S.Window.Start.OpacityMask"  TargetType="{x:Type local:StartWindowBase}" BasedOn="{StaticResource S.Window.Start.Default}">
+        <Setter Property="ImageSource" Value="/HeBianGu.General.WpfControlLib;component/Resources/logo.png"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:StartWindowBase}">
+                    <Grid >
+                        <!--窗体内容区域-->
+                        <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
+                            <!--<ContentPresenter Content="{TemplateBinding Content}" />-->
 
-                                        <!--<Rectangle.OpacityMask>
-                                            <DrawingBrush TileMode="Tile" Viewport="1 1 1 1" ViewportUnits="RelativeToBoundingBox" >
-                                                <DrawingBrush.Drawing>
-                                                    <GeometryDrawing Brush="Black">
-                                                        <GeometryDrawing.Geometry>
-                                                            <EllipseGeometry RadiusX="10" RadiusY="10" />
-                                                        </GeometryDrawing.Geometry>
-                                                    </GeometryDrawing>
-                                                </DrawingBrush.Drawing>
-                                            </DrawingBrush>
-                                        </Rectangle.OpacityMask>-->
+                            <Grid Background="{DynamicResource S.Brush.Accent}">
+                                <!--<Grid.Background>
+                                    --><!--<LinearGradientBrush>
+                                        <GradientStop Offset="-1" Color="Transparent"/>
+                                        <GradientStop Offset="1" Color="{DynamicResource AccentColor}"/>
+                                    </LinearGradientBrush>--><!--
 
-                                        <Rectangle.OpacityMask>
-                                            <LinearGradientBrush>
-                                                <GradientStop x:Name="stop1" Color="White" Offset="0"/>
-                                                <GradientStop x:Name="stop2" Color="Transparent" Offset="0.3"/>
-                                                <GradientStop x:Name="stop3" Color="White" Offset="0.6"/>
-                                            </LinearGradientBrush>
-                                        </Rectangle.OpacityMask>
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="-1" Color="Transparent"/>
+                                        <GradientStop Offset="1" Color="{DynamicResource AccentColor}"/>
+                                    </RadialGradientBrush>
+                                </Grid.Background>-->
 
-                                        <Rectangle.Triggers>
-                                            <EventTrigger RoutedEvent="Loaded">
-                                                <BeginStoryboard>
-                                                    <Storyboard>
-                                                        <DoubleAnimation From="-5.6" To="1" Duration="0:0:3" Storyboard.TargetProperty="Offset"  
-                                                                         RepeatBehavior="Forever" Storyboard.TargetName="stop1">
-                                                        </DoubleAnimation>
+                                <Grid.OpacityMask>
+                                    <ImageBrush ImageSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=ImageSource }"/>
 
-                                                        <DoubleAnimation From="-5.3" To="1.3" Duration="0:0:3" Storyboard.TargetProperty="Offset"  
-                                                                         RepeatBehavior="Forever" Storyboard.TargetName="stop2">
-                                                        </DoubleAnimation>
-
-                                                        <DoubleAnimation From="-5" To="1.6" Duration="0:0:3" Storyboard.TargetProperty="Offset"  
-                                                                         RepeatBehavior="Forever" Storyboard.TargetName="stop3">
-                                                        </DoubleAnimation>
-                                                    </Storyboard>
-                                                </BeginStoryboard>
-                                            </EventTrigger>
-                                        </Rectangle.Triggers>
-                                    </Rectangle>
-                                </Grid>
-                            </Border>
-                            
-                            <!--窗体内容区域-->
-                            <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
-                                <ContentPresenter Content="{TemplateBinding Content}" />
-                            </AdornerDecorator>
-                        </Grid>
+                                    <!--<ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png"/>-->
+                                </Grid.OpacityMask>
+                            </Grid>
+                        </AdornerDecorator>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

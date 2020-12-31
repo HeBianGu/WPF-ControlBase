@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Shell;
 
 namespace HeBianGu.Application.BlurWindow
 {
@@ -268,7 +269,7 @@ namespace HeBianGu.Application.BlurWindow
 
             }
 
-            
+
             //  Do：确认取消对话框
             else if (command == "Button.ShowResultMessge")
             {
@@ -469,8 +470,8 @@ namespace HeBianGu.Application.BlurWindow
                 {
                     MessageService.ShowSnackMessageWithNotice("运行成功");
                 }
-            } 
-            
+            }
+
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.PercentProgrss"))
             {
@@ -480,7 +481,7 @@ namespace HeBianGu.Application.BlurWindow
                     {
                         System.Windows.Application.Current.Dispatcher.Invoke(() =>
                         {
-                            l.Value=i;
+                            l.Value = i;
                         });
 
                         Thread.Sleep(50);
@@ -489,9 +490,9 @@ namespace HeBianGu.Application.BlurWindow
                     return true;
                 };
 
-               var result= await MessageService.ShowWinProgressBarMessage(func);
+                var result = await MessageService.ShowWinProgressBarMessage(func);
 
-                if(result)
+                if (result)
                 {
                     MessageService.ShowSnackMessageWithNotice("运行成功");
                 }
@@ -541,7 +542,7 @@ namespace HeBianGu.Application.BlurWindow
             }
 
             //  Do：气泡消息
-            else if (command=="Button.ShowObjectWithContent")
+            else if (command == "Button.ShowObjectWithContent")
             {
                 Student student = new Student();
 
@@ -564,7 +565,7 @@ namespace HeBianGu.Application.BlurWindow
             }
 
             //  Do：气泡消息
-            else if (command=="Button.ShowObjectWithContent.WithValidation")
+            else if (command == "Button.ShowObjectWithContent.WithValidation")
             {
                 StudentViewModel student = new StudentViewModel();
 
@@ -607,6 +608,55 @@ namespace HeBianGu.Application.BlurWindow
                         CanDelete = true
                     });
                 }
+            }
+
+            //  Do：任务栏消息
+            else if (command == "Button.Taskbar.Error")
+            {
+                MessageService.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Error);
+            }
+
+            //  Do：任务栏消息
+            else if (command == "Button.Taskbar.Success")
+            {
+                MessageService.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Normal);
+            }
+
+            //  Do：任务栏消息
+            else if (command == "Button.Taskbar.Warn")
+            {
+               MessageService.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Paused);
+            }
+
+            //  Do：任务栏消息
+            else if (command == "Button.Taskbar.Percent")
+            {
+                await MessageService.ShowTaskbarPercent(l =>
+                {
+                    for (int i = 0; i < 100; i++)
+                    {
+                        System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            l.ProgressValue = i / 100.0;
+                        });
+
+                        Thread.Sleep(50);
+                    } 
+                    
+                });
+
+            }
+
+            //  Do：任务栏消息
+            else if (command == "Button.Taskbar.Waitting")
+            {
+                await MessageService.ShowTaskbarWaitting(()=>
+                {
+                    Thread.Sleep(5000);
+
+                    return true;
+                });
+
             }
 
 
@@ -1138,7 +1188,6 @@ namespace HeBianGu.Application.BlurWindow
         /// <summary> 说明  </summary>
         [Required(ErrorMessage = "数据不能为空")]
         [RegularExpression(@"^\d{5}$", ErrorMessage = "只能5位的数字")]
-
         public string Regin
         {
             get { return _regin; }

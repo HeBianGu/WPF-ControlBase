@@ -1,13 +1,18 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfControlLib;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Shell;
 
 namespace HeBianGu.Application.MainWindow
 {
@@ -104,7 +109,7 @@ namespace HeBianGu.Application.MainWindow
             vw.GroupDescriptions.Add(new PropertyGroupDescription("Class"));
 
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 5000; i++)
             {
                 this.Datas.Add(random.NextDouble() * 10);
                 this.xAxis.Add(i);
@@ -114,7 +119,7 @@ namespace HeBianGu.Application.MainWindow
 
         Random random = new Random();
 
-        protected override void RelayMethod(object obj)
+        protected override async void RelayMethod(object obj)
         {
             string command = obj?.ToString();
 
@@ -136,12 +141,41 @@ namespace HeBianGu.Application.MainWindow
             else if (command == "ToolBar.ValueChanged.RefreshData")
             {
 
-              
+
 
             }
             //  Do：取消
             else if (command == "Chart.MouseWheel.ChangeValue")
             {
+
+            }
+
+            //  Do：取消
+            else if (command == "TaskBar")
+            {
+                //MessageService.ShowTaskbarPercent(l =>
+                //{
+                //    for (int i = 0; i < 100; i++)
+                //    {
+                //        l.ProgressState = TaskbarItemProgressState.Normal;
+
+                //        l.ProgressValue = i / 100.0;
+
+                //        Thread.Sleep(10);
+                //    }
+
+                //    l.ProgressValue = 0;
+                //});
+
+               await MessageService.ShowTaskbarWaitting(() =>
+                {
+                    for (int i = 0; i < 100; i++)
+                    {
+                        Thread.Sleep(50);
+                    }
+
+                    return true;
+                });
 
             }
 
@@ -200,4 +234,70 @@ namespace HeBianGu.Application.MainWindow
         #endregion
     }
 
+    public class LeagueList : List<League>
+    {
+        public LeagueList()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                this.Add(new League());
+            }
+        }
+    }
+
+    public class League
+    {
+        public string Name { get; set; }
+
+        public List<Division> Divisions { get; set; } = new List<Division>();
+
+        public static int Count = 0;
+
+        public League()
+        {
+            Count++;
+
+            this.Name = this.GetType().Name + Count;
+
+            for (int i = 0; i < 5; i++)
+            {
+                Divisions.Add(new Division());
+            }
+        }
+    }
+
+    public class Division
+    {
+        public string Name { get; set; }
+
+        public List<Team> Teams { get; set; } = new List<Team>();
+
+        public static int Count = 0;
+
+        public Division()
+        {
+            Count++;
+
+            this.Name = this.GetType().Name + Count;
+
+            for (int i = 0; i < 5; i++)
+            {
+                Teams.Add(new Team());
+            }
+        }
+    }
+
+    public class Team
+    {
+        public static int Count = 0;
+
+        public string Name { get; set; }
+
+        public Team()
+        {
+            Count++;
+
+            this.Name = this.GetType().Name + Count;
+        }
+    }
 }

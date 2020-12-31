@@ -74,6 +74,8 @@ namespace HeBianGu.General.WpfControlLib
 
                 string config = e.NewValue as string;
 
+                if (config == null) return;
+
                 if (control._password == null) return;
 
                 control._password.Password = config;

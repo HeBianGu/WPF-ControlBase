@@ -219,8 +219,18 @@ namespace HeBianGu.Control.Chart2D
 
             t.Loaded += (o, e) =>
             {
-                Canvas.SetLeft(t, this.GetX(point.X) - t.ActualWidth / 2);
-                Canvas.SetTop(t, this.GetY(point.Y) - t.ActualHeight * 1.2);
+
+                if (this.xAxis.Count == 1)
+                {
+                    Canvas.SetLeft(t, this.ActualWidth / 2 - t.ActualWidth / 2);
+                    Canvas.SetTop(t, this.ActualHeight / 2 - t.ActualHeight *1.2);
+                }
+                else
+                {
+
+                    Canvas.SetLeft(t, this.GetX(point.X) - t.ActualWidth / 2);
+                    Canvas.SetTop(t, this.GetY(point.Y) - t.ActualHeight * 1.2);
+                }
             };
             canvas.Children.Add(t);
         }

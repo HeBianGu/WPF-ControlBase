@@ -22,7 +22,9 @@ namespace HeBianGu.General.WpfControlLib
         /// </summary>
         static BlendEffect()
         {
-            _pixelShader.UriSource = UriHelper.MakePackUri("Provider/Effect/Blend.ps");
+            //_pixelShader.UriSource = UriHelper.MakePackUri("Provider/Effect/Blend.ps");
+
+            _pixelShader.UriSource = new System.Uri(@"C:\Solution\Github\WPF-ControlBase-master (1) (1)\WPF-ControlBase-master\WPF-ControlBase-master\Source\General\HeBianGu.General.WpfControlLib\Provider\Effect\Blend.ps", System.UriKind.RelativeOrAbsolute);
         }
 
         /// <summary>

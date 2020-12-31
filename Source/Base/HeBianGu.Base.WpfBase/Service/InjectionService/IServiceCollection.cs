@@ -8,7 +8,7 @@ namespace HeBianGu.Base.WpfBase
 {
     public interface IServiceCollection
     {
-        
+       
     }
     /// <summary> App服务管理 </summary>
     public class ServiceCollection : IServiceCollection

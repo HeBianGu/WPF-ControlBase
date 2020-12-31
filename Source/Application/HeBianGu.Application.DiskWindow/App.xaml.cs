@@ -22,7 +22,6 @@ namespace HeBianGu.Application.DiskWindow
         {
             base.OnStartup(e);
 
-
             ShellWindow shellWindow = new ShellWindow();
 
             StartWindow startWindow = new StartWindow();

@@ -64,7 +64,7 @@ namespace HeBianGu.Control.Chart2D
             {
                 try
                 {
-                    layer.Draw(layer);
+                    layer.ForceDraw();
                 }
                 catch (Exception ex)
                 {
@@ -225,6 +225,167 @@ namespace HeBianGu.Control.Chart2D
 
             }));
 
+
+        /// <summary> y轴坐标点个数 </summary>
+
+        public int yAxisCount
+        {
+            get { return (int)GetValue(yAxisCountProperty); }
+            set { SetValue(yAxisCountProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty yAxisCountProperty =
+            DependencyProperty.Register("yAxisCount", typeof(int), typeof(ViewLayerGroup), new PropertyMetadata(5, (d, e) =>
+            {
+                ViewLayerGroup control = d as ViewLayerGroup;
+
+                if (control == null) return;
+
+                //int config = e.NewValue as int;
+
+            }));
+
+
+        /// <summary> x轴坐标点个数 </summary>
+        public int xAxisCount
+        {
+            get { return (int)GetValue(xAxisCountProperty); }
+            set { SetValue(xAxisCountProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty xAxisCountProperty =
+            DependencyProperty.Register("xAxisCount", typeof(int), typeof(ViewLayerGroup), new PropertyMetadata(10, (d, e) =>
+            {
+                ViewLayerGroup control = d as ViewLayerGroup;
+
+                if (control == null) return;
+
+                //int config = e.NewValue as int;
+
+            }));
+
+
+        /// <summary> y坐标轴根据数据自动计算 </summary>
+        public bool yAxisAuto
+        {
+            get { return (bool)GetValue(yAxisAutoProperty); }
+            set { SetValue(yAxisAutoProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty yAxisAutoProperty =
+            DependencyProperty.Register("yAxisAuto", typeof(bool), typeof(ViewLayerGroup), new PropertyMetadata(false, (d, e) =>
+             {
+                 ViewLayerGroup control = d as ViewLayerGroup;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
+        /// <summary> x轴坐标根据数据自动计算 </summary>
+        public bool xAxisAuto
+        {
+            get { return (bool)GetValue(xAxisAutoProperty); }
+            set { SetValue(xAxisAutoProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty xAxisAutoProperty =
+            DependencyProperty.Register("xAxisAuto", typeof(bool), typeof(ViewLayerGroup), new PropertyMetadata(false, (d, e) =>
+             {
+                 ViewLayerGroup control = d as ViewLayerGroup;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
+
+
+
+        public void RefreshByData()
+        {
+            //  Do ：设置y轴
+            if(this.yAxisAuto)
+            {
+                double minY = this.yDatas.Min();
+
+                double maxY = this.yDatas.Max();
+
+                double step = (maxY - minY) / this.yAxisCount;
+
+                minY = Convert.ToDouble((minY - 2 * step));
+                maxY = Convert.ToDouble((maxY + 2 * step));
+
+                step = (maxY - minY) / this.yAxisCount;
+
+                ObservableCollection<double> ya = new ObservableCollection<double>();
+
+                if (minY == maxY)
+                {
+                    if (this.yAxisCount % 2 == 0)
+                    {
+                        for (int i = 0; i < this.yAxisCount / 2; i++)
+                        {
+                            ya.Add(minY - 1 * i - 0.5);
+                            ya.Add(minY + 1 * i + 0.5);
+                        }
+                    }
+                    else
+                    {
+                        for (int i = 0; i < (this.yAxisCount - 1) / 2; i++)
+                        {
+                            ya.Add(minY - 1 * i - 1);
+                            ya.Add(minY + 1 * i + 1);
+                        }
+
+                        ya.Add(minY);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < this.yAxisCount + 1; i++)
+                    {
+                        ya.Add(minY + i * step);
+                    }
+                }
+
+                this.yAxis = ya;
+            }
+
+            //  Do ：设置x轴
+            if(this.xAxisAuto)
+            {
+                if (this.xDatas.Count > this.xAxisCount)
+                {
+                    ObservableCollection<double> cx = new ObservableCollection<double>();
+
+                    double minX = this.xDatas.Min();
+
+                    double maxX = this.xDatas.Max();
+
+                    double stepx = (maxX - minX) / this.xAxisCount;
+
+                    for (int i = 0; i < this.xAxisCount + 1; i++)
+                    {
+                        cx.Add(minX + i * stepx);
+                    }
+
+                    this.xAxis = cx;
+                }
+                else
+                {
+                    this.xAxis = this.xDatas;
+                }
+            }
+
+            this.ForceDraw();
+        }
     }
 
 

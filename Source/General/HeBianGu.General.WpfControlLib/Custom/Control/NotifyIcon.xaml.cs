@@ -222,7 +222,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 NativeMethods.PostMessage(new HandleRef(_hwndSource, _hwndSource.Handle),
                     NativeMethods.WindowMessage.Close, IntPtr.Zero, IntPtr.Zero);
-                _hwndSource.Dispose();
+                _hwndSource?.Dispose();
             }
         }
 

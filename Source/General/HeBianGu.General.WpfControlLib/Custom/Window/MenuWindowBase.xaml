@@ -71,29 +71,29 @@
                         </h:Interaction.Triggers>
                         
                         <!--背景-->
-                        <Border x:Name="Bg"
-                    CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                        <Border x:Name="Bg" Margin="{TemplateBinding Padding}"
+                    CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
-                    Effect="{StaticResource S.EffectShadow.3}"
+                    Effect="{DynamicResource S.DropShadowEffect.Window}"
                     SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
                         </Border>
 
-                        <Border  x:Name="BgInner" CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                        <!--<Border  x:Name="BgInner" CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                      Background="{TemplateBinding Background}"
                      BorderThickness="{TemplateBinding BorderThickness}"
                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                        </Border>
+                        </Border>-->
 
-                        <Grid Margin="1">
+                        <Grid Margin="{TemplateBinding Padding}">
                             <Grid.RowDefinitions>
                                 <RowDefinition MinHeight="20" Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
 
                             <!--Caption标题部分-->
-                            <Border  Grid.Row="0" Background="{TemplateBinding CaptionBackground}">
+                            <Border Grid.Row="0" Background="{TemplateBinding CaptionBackground}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Top}">
                                 <Grid Margin="2,1,2,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -101,7 +101,6 @@
                                         <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Border Grid.ColumnSpan="2" Grid.RowSpan="2"/>
                                     <!--Header部分-->
                                     <StackPanel x:Name="PART_Header" Height="{TemplateBinding CaptionHeight}" Margin="15,1,15,1" Orientation="Horizontal" VerticalAlignment="Center">
                                         <TextBlock Style="{DynamicResource FIcon}" Foreground="{TemplateBinding CaptionForeground}" FontSize="{TemplateBinding FIconSize}" FontWeight="Bold" Text="{TemplateBinding FIcon}"/>
@@ -130,7 +129,7 @@
                             WindowChrome.IsHitTestVisibleInChrome="True" Foreground="{TemplateBinding CaptionForeground}"
                            Command="{Binding Path=MaximizeWindowCommand,RelativeSource={RelativeSource TemplatedParent}}"/>
 
-                                        <local:FButton x:Name="btnClose"  Width="35" Height="35" VerticalAlignment="Center" Margin="1" CornerRadius="0" Padding="1 2 1 2"
+                                        <local:FButton x:Name="btnClose"  Width="35" Height="35" VerticalAlignment="Center" Margin="1" Padding="1 2 1 2"
                            MouseOverBackground="Red" MouseOverForeground="White" PressedBackground="#AA0D0D" PressedForeground="White"
                            AllowsAnimation="True" Style="{DynamicResource S.FButton.Style.Transparent}"  FIcon="&#xe6f4;" FIconSize="14"
                            WindowChrome.IsHitTestVisibleInChrome="True" FIconMargin="0" Foreground="{TemplateBinding CaptionForeground}"
@@ -205,6 +204,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter Property="FIcon" TargetName="btnMax" Value="&#xe665;"></Setter>
+                            <Setter Property="Padding"  Value="0"></Setter>
                         </Trigger>
                         <Trigger Property="WindowState" Value="Normal">
                             <Setter Property="FIcon" TargetName="btnMax" Value="&#xe615;"></Setter>

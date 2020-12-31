@@ -20,7 +20,7 @@ namespace HeBianGu.Base.WpfBase
         }
 
         private T _model;
-        /// <summary> 说明  </summary>
+        /// <summary> Model层  </summary>
         public T Model
         {
             get { return _model; }
@@ -32,7 +32,7 @@ namespace HeBianGu.Base.WpfBase
         }
 
         private bool _visible = true;
-        /// <summary> 说明  </summary>
+        /// <summary> 是否可见  </summary>
         public bool Visible
         {
             get { return _visible; }
@@ -44,7 +44,7 @@ namespace HeBianGu.Base.WpfBase
         }
 
         private bool _isEnbled;
-        /// <summary> 说明  </summary>
+        /// <summary> 是否可用  </summary>
         public bool IsEnbled
         {
             get { return _isEnbled; }
@@ -53,6 +53,48 @@ namespace HeBianGu.Base.WpfBase
                 _isEnbled = value;
                 RaisePropertyChanged("IsEnbled");
             }
+        }
+
+        /// <summary> 将Model数据加载到ViewModel属性上面 通过名称匹配 </summary>
+        protected virtual bool LoadValue(out string message)
+        {
+            message = string.Empty;
+
+            var ps = this.GetType().GetProperties();
+
+            if (ps == null) return true;
+
+            foreach (var property in ps)
+            {
+                var find = typeof(T).GetProperty(property.Name);
+
+                if (find == null) continue;
+
+                property.SetValue(this, find.GetValue(this.Model));
+            }
+
+            return true;
+        }
+
+        /// <summary> 将ViewModel数据加载到Model属性上面 通过名称匹配 </summary>
+        protected virtual bool SaveValue(out string message)
+        {
+            message = string.Empty;
+
+            var ps = this.GetType().GetProperties();
+
+            if (ps == null) return true;
+
+            foreach (var property in ps)
+            {
+                var find = typeof(T).GetProperty(property.Name);
+
+                if (find == null) continue;
+
+                find.SetValue(this, property.GetValue(this.Model));
+            }
+
+            return true;
         }
     }
 }

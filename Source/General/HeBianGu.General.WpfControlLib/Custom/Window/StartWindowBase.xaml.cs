@@ -81,6 +81,23 @@ namespace HeBianGu.General.WpfControlLib
             this.DragMove();
         }
 
+        public ImageSource ImageSource
+        {
+            get { return (ImageSource)GetValue(ImageSourceProperty); }
+            set { SetValue(ImageSourceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ImageSourceProperty =
+            DependencyProperty.Register("ImageSource", typeof(ImageSource), typeof(StartWindowBase), new PropertyMetadata(default(ImageSource), (d, e) =>
+            {
+                StartWindowBase control = d as StartWindowBase;
+
+                if (control == null) return;
+
+                ImageSource config = e.NewValue as ImageSource;
+
+            }));
     }
 
 

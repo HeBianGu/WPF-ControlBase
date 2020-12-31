@@ -108,8 +108,12 @@ namespace HeBianGu.Control.Chart2D
 
         void DrawCross(Canvas canvas)
         {
-            foreach (var item in this.yAxis)
+            for (int i = 0; i < this.yAxis.Count; i++)
             {
+                //if (i == 0) continue;
+
+                var item = this.yAxis[i];
+
                 System.Windows.Shapes.Line l = new System.Windows.Shapes.Line();
                 l.X1 = 0;
                 l.Y1 = 0;
@@ -130,8 +134,12 @@ namespace HeBianGu.Control.Chart2D
                 this.Children.Add(l);
             }
 
-            foreach (var item in this.xAxis)
+            for (int i = 0; i < this.xAxis.Count; i++)
             {
+                if (i == 0) continue;
+
+                var item = this.xAxis[i];
+
                 System.Windows.Shapes.Line l = new System.Windows.Shapes.Line();
                 l.X1 = 0;
                 l.Y1 = 0;

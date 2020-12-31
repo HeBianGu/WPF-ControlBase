@@ -13,8 +13,8 @@
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}"/>
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
         <Setter Property="FontFamily" Value="{DynamicResource S.FontFamily.Default}"/>
-        <Setter Property="Width" Value="385"/>
-        <Setter Property="Height" Value="331"/>
+        <Setter Property="Width" Value="400"/>
+        <Setter Property="Height" Value="350"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
@@ -28,7 +28,7 @@
         <Setter Property="MaxboxEnable" Value="False"/>
         <Setter Property="MinboxEnable" Value="False"/>
         <!--建议内边框=3：ResizeBorderThickness = new Thickness(3);-->
-        <Setter Property="Padding" Value="10"/>
+        <Setter Property="Padding" Value="15"/>
         <Setter Property="ShowInTaskbar" Value="False"/>
         <Setter Property="Topmost" Value="True"/>
         <!--<Setter Property="Visibility" Value="{Binding IsLoginning,Converter={x:Static local:XConverter.BooleanToVisibilityConverter},Mode=TwoWay}"/>-->
@@ -58,17 +58,17 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:LoginWindowBase}">
                     <Grid Name="g_all">
-                        <!--背景-->
+                        <!--背景--><!--
                         <Border x:Name="Bg"
                     CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                     Background="{TemplateBinding Background}"
-                    BorderBrush="{TemplateBinding BorderBrush}"  Effect="{StaticResource S.EffectShadow.3}"
-                    BorderThickness="{TemplateBinding BorderThickness}"  Margin="{TemplateBinding Padding}"
-                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    BorderBrush="{TemplateBinding BorderBrush}" Effect="{StaticResource S.DropShadowEffect.Window}"
+                    BorderThickness="{TemplateBinding BorderThickness}" Margin="50"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>-->
 
                         <Border  x:Name="BgInner" CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
-                      Background="{TemplateBinding Background}"
-                      BorderThickness="{TemplateBinding BorderThickness}"  Margin="{TemplateBinding Padding}"
+                      Background="{TemplateBinding Background}" Effect="{StaticResource S.DropShadowEffect.Window}"
+                      BorderThickness="{TemplateBinding BorderThickness}"   Margin="{TemplateBinding Padding}" 
                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" >
 
                             <Grid Margin="-0.5">
@@ -76,16 +76,15 @@
                                     <RowDefinition MinHeight="20" Height="Auto"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
+                                
                                 <!--Caption标题部分-->
-                                <Border Margin="0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Top}">
+                                <Border Margin="0,0,0.3,0" Grid.Row="0" Background="{TemplateBinding CaptionBackground}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Top}">
                                     <Grid Margin="2,1,2,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-
-                                        <Border Grid.ColumnSpan="3" Grid.RowSpan="2"/>
 
                                         <!--Header部分-->
                                         <Grid Grid.ColumnSpan="3" x:Name="PART_Header" HorizontalAlignment="Stretch"
@@ -130,6 +129,7 @@
                                         </StackPanel>
                                     </Grid>
                                 </Border>
+                                
                                 <!--窗体内容区域-->
                                 <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
                                     <Grid>
@@ -185,6 +185,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter Property="FIcon" TargetName="btnMax" Value="&#xe665;"></Setter>
+                            <Setter Property="Margin" TargetName="g_all" Value="0"></Setter>
                         </Trigger>
                         <Trigger Property="WindowState" Value="Normal">
                             <Setter Property="FIcon" TargetName="btnMax" Value="&#xe615;"></Setter>

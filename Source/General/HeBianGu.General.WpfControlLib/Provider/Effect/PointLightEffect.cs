@@ -22,7 +22,10 @@ namespace HeBianGu.General.WpfControlLib
         /// </summary>
         static PointLightEffect()
         {
-            _pixelShader.UriSource = UriHelper.MakePackUri("Provider/Effect/PointLight.ps");
+            //_pixelShader.UriSource = UriHelper.MakePackUri("Provider/Effect/PointLight.ps");
+
+            _pixelShader.UriSource = UriHelper.MakePackUri(@"C:\Solution\Github\WPF-ControlBase-master (1) (1)\WPF-ControlBase-master\WPF-ControlBase-master\Source\General\HeBianGu.General.WpfControlLib\Provider\Effect/PointLight.ps");
+
         }
 
         /// <summary>

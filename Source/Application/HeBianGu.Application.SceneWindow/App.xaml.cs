@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -18,11 +19,25 @@ namespace HeBianGu.Application.SceneWindow
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            base.OnStartup(e);
+
             ShellWindow shellWindow = new ShellWindow();
 
-            shellWindow.Show();
+            StartWindow startWindow = new StartWindow();
 
-            base.OnStartup(e);
+            Task.Run(() =>
+            {
+                Thread.Sleep(3000);
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    startWindow.Close();
+                });
+            });
+
+            startWindow.ShowDialog();
+
+            shellWindow.Show();
         }
 
 

@@ -11,7 +11,31 @@
     <Style x:Key="S.FlagTip.Default" TargetType="{x:Type local:FlagTip}" BasedOn="{StaticResource S.Layer.Default}">
         <Setter Property="Data" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Chart},Path=yDatas}"/>
         <Setter Property="xAxis" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Chart},Path=xDatas}"/>
-        <Setter Property="MarkStyle" Value="{StaticResource S.EllipseMarker.5}"/>
+
+        <Setter Property="MarkStyle">
+            <Setter.Value>
+                <Style TargetType="local:EllipseMarker" BasedOn="{StaticResource S.EllipseMarker.Default}">
+                    <Setter Property="StrokeThickness" Value="1"/>
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Setter Property="Stroke" Value="{DynamicResource S.Brush.Orange.Notice}"/>
+                    <Setter Property="Fill" Value="{DynamicResource S.Brush.Orange.Notice}"/>
+                    <Setter Property="Rect">
+                        <Setter.Value>
+                            <Rect Width="15" Height="15"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" Duration="00:00:00.5" From="0" To="1" RepeatBehavior="Forever"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="PathStyle">
@@ -32,7 +56,7 @@
                     <Setter Property="Width" Value="Auto"/>
                     <Setter Property="Height" Value="Auto"/>
                     <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}"/>
-                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
                     <Setter Property="Visibility" Value="Collapsed"/>
                     <Setter Property="Template">
                         <Setter.Value>

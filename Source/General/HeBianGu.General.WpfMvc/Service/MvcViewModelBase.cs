@@ -203,31 +203,31 @@ namespace HeBianGu.General.WpfMvc
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
-    public class MvcViewModelBase<R, M> : MvcEntityViewModelBase<M> where M : new()
+    public class MvcViewModelBase<R> : MvcViewModelBase 
     {
-        public R Respository { get; set; } = ServiceRegistry.Instance.GetInstance<R>();
+        public R Service { get; set; } = ServiceRegistry.Instance.GetInstance<R>();
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
-    public class MvcViewModelBase<R1, R2, M> : MvcViewModelBase<R1, M> where M : new()
+    public class MvcViewModelBase<R1, R2> : MvcViewModelBase<R1> 
     {
         public R2 Service1 { get; set; } = ServiceRegistry.Instance.GetInstance<R2>();
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
-    public class MvcViewModelBase<R1, R2, R3, M> : MvcViewModelBase<R1, R2, M> where M : new()
+    public class MvcViewModelBase<R1, R2, R3> : MvcViewModelBase<R1, R2>
     {
         public R3 Service2 { get; set; } = ServiceRegistry.Instance.GetInstance<R3>();
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
-    public class MvcViewModelBase<R1, R2, R3, R4, M> : MvcViewModelBase<R1, R2, R3, M> where M : new()
+    public class MvcViewModelBase<R1, R2, R3, R4> : MvcViewModelBase<R1, R2, R3>
     {
         public R4 Service3 { get; set; } = ServiceRegistry.Instance.GetInstance<R4>();
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
-    public class MvcViewModelBase<R1, R2, R3, R4, R5, M> : MvcViewModelBase<R1, R2, R3, R4, M> where M : new()
+    public class MvcViewModelBase<R1, R2, R3, R4, R5> : MvcViewModelBase<R1, R2, R3, R4> 
     {
         public R5 Service4 { get; set; } = ServiceRegistry.Instance.GetInstance<R5>();
     }

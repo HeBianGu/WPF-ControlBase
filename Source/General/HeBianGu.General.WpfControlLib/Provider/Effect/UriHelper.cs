@@ -7,8 +7,11 @@ namespace HeBianGu.General.WpfControlLib
     {
         public static Uri MakePackUri(string relativeFile)
         {
-            string uriString = "pack://application:,,,/" + AssemblyShortName + ";component/" + relativeFile;
-            return new Uri(uriString);
+            //string uriString = "pack://application:,,,/" + AssemblyShortName + ";component/" + relativeFile;
+
+            string uriString =  relativeFile;
+
+            return new Uri(uriString,UriKind.RelativeOrAbsolute);
         }
 
         private static string _assemblyShortName;

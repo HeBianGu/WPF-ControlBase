@@ -26,128 +26,128 @@ namespace HeBianGu.Application.MainWindow
 
 
 
-            int c = 2;
+            //int c = 2;
 
-            Func<double, double> RoundDown = l =>
-                   {
-                       if (l > 0)
-                       {
-                           var dfdf = (int)l.Log10() - c;
+            //Func<double, double> RoundDown = l =>
+            //       {
+            //           if (l > 0)
+            //           {
+            //               var dfdf = (int)l.Log10() - c;
 
-                           return l.RoundDown(Math.Pow(10, dfdf));
-                       }
-                       else
-                       {
-                           l = -l;
+            //               return l.RoundDown(Math.Pow(10, dfdf));
+            //           }
+            //           else
+            //           {
+            //               l = -l;
 
-                           var dfdf = (int)l.Log10() - c;
+            //               var dfdf = (int)l.Log10() - c;
 
-                           return -(l.RoundUp(Math.Pow(10, dfdf)));
-                       }
-                   };
-
-
-            Func<double, double> RoundUp = l =>
-            {
-                if (l > 0)
-                {
-                    var dfdf = (int)l.Log10() - c;
-
-                    return l.RoundUp(Math.Pow(10, dfdf));
-                }
-                else
-                {
-                    l = -l;
-
-                    var dfdf = (int)l.Log10() - c;
-
-                    return -l.RoundDown(Math.Pow(10, dfdf));
-                }
-            };
+            //               return -(l.RoundUp(Math.Pow(10, dfdf)));
+            //           }
+            //       };
 
 
-            for (double i = 0.0000000001; i < 100000000; i = i + 0.1)
-            {
-                double d = 0.00336;
+            //Func<double, double> RoundUp = l =>
+            //{
+            //    if (l > 0)
+            //    {
+            //        var dfdf = (int)l.Log10() - c;
 
-                //d = 44320.00336;
+            //        return l.RoundUp(Math.Pow(10, dfdf));
+            //    }
+            //    else
+            //    {
+            //        l = -l;
 
-                var sss = RoundDown(d);
-                var sss1 = RoundUp(d);
+            //        var dfdf = (int)l.Log10() - c;
 
-                if (d < sss)
-                {
-                    Debug.WriteLine("当前值 " + d);
-                    Debug.WriteLine("最小值 " + sss);
-                }
+            //        return -l.RoundDown(Math.Pow(10, dfdf));
+            //    }
+            //};
 
-                if (d > sss1)
-                {
-                    Debug.WriteLine("当前值 " + d);
-                    Debug.WriteLine("最大值 " + sss1);
-                }
-            }
 
-            {
-                double d = 0.00336;
+            //for (double i = 0.0000000001; i < 100000000; i = i + 0.1)
+            //{
+            //    double d = 0.00336;
 
-                //d = 44320.00336;
+            //    //d = 44320.00336;
 
-                var sss = RoundDown(d);
-                var sss1 = RoundUp(d);
+            //    var sss = RoundDown(d);
+            //    var sss1 = RoundUp(d);
 
-                if (d < sss)
-                {
-                    Debug.WriteLine("当前值 " + d);
-                    Debug.WriteLine("最小值 " + sss);
-                }
+            //    if (d < sss)
+            //    {
+            //        Debug.WriteLine("当前值 " + d);
+            //        Debug.WriteLine("最小值 " + sss);
+            //    }
 
-                if (d > sss1)
-                {
-                    Debug.WriteLine("当前值 " + d);
-                    Debug.WriteLine("最大值 " + sss1);
-                }
+            //    if (d > sss1)
+            //    {
+            //        Debug.WriteLine("当前值 " + d);
+            //        Debug.WriteLine("最大值 " + sss1);
+            //    }
+            //}
 
-            }
+            //{
+            //    double d = 0.00336;
 
-            {
-                double d = -0.00336;
+            //    //d = 44320.00336;
 
-                //d = 44320.00336;
+            //    var sss = RoundDown(d);
+            //    var sss1 = RoundUp(d);
 
-                var sss = RoundDown(d);
-                var sss1 = RoundUp(d);
+            //    if (d < sss)
+            //    {
+            //        Debug.WriteLine("当前值 " + d);
+            //        Debug.WriteLine("最小值 " + sss);
+            //    }
 
-                Debug.WriteLine("当前值 " + d);
-                Debug.WriteLine("最小值 " + sss);
-                Debug.WriteLine("最大值 " + sss1);
-            }
+            //    if (d > sss1)
+            //    {
+            //        Debug.WriteLine("当前值 " + d);
+            //        Debug.WriteLine("最大值 " + sss1);
+            //    }
 
-            {
-                double d = 0.00336;
+            //}
 
-                d = 44320.00336;
+            //{
+            //    double d = -0.00336;
 
-                var sss = RoundDown(d);
-                var sss1 = RoundUp(d);
+            //    //d = 44320.00336;
 
-                Debug.WriteLine("当前值 " + d);
-                Debug.WriteLine("最小值 " + sss);
-                Debug.WriteLine("最大值 " + sss1);
-            }
+            //    var sss = RoundDown(d);
+            //    var sss1 = RoundUp(d);
 
-            {
-                double d = 0.00336;
+            //    Debug.WriteLine("当前值 " + d);
+            //    Debug.WriteLine("最小值 " + sss);
+            //    Debug.WriteLine("最大值 " + sss1);
+            //}
 
-                d = -44320.00336;
+            //{
+            //    double d = 0.00336;
 
-                var sss = RoundDown(d);
-                var sss1 = RoundUp(d);
+            //    d = 44320.00336;
 
-                Debug.WriteLine("当前值 " + d);
-                Debug.WriteLine("最小值 " + sss);
-                Debug.WriteLine("最大值 " + sss1);
-            }
+            //    var sss = RoundDown(d);
+            //    var sss1 = RoundUp(d);
+
+            //    Debug.WriteLine("当前值 " + d);
+            //    Debug.WriteLine("最小值 " + sss);
+            //    Debug.WriteLine("最大值 " + sss1);
+            //}
+
+            //{
+            //    double d = 0.00336;
+
+            //    d = -44320.00336;
+
+            //    var sss = RoundDown(d);
+            //    var sss1 = RoundUp(d);
+
+            //    Debug.WriteLine("当前值 " + d);
+            //    Debug.WriteLine("最小值 " + sss);
+            //    Debug.WriteLine("最大值 " + sss1);
+            //}
 
             //var fdf = d.RoundDown(Math.Pow(10, dfdf));
 

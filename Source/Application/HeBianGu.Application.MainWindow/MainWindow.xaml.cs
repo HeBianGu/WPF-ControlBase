@@ -36,17 +36,7 @@ namespace HeBianGu.Application.MainWindow
         public MainWindow()
         {
             InitializeComponent();
-
-            this.Loaded += MainWindow_Loaded;
         }
-
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            //Window1 window1 = new Window1();
-
-            //window1.Show();
-        }
-
 
         public void Method()
         {
@@ -158,6 +148,42 @@ namespace HeBianGu.Application.MainWindow
 
             this.grid.BegionDoubleStoryBoard(1, 0, 3, "OpacityMask.(DrawingBrush.Drawing).(GeometryDrawing.Brush).(LinearGradientBrush.GradientStops)[1].Offset", l => this.grid.Visibility = Visibility.Hidden);
         }
+
+        private void ListBox_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+        {
+            Mouse.SetCursor(Cursors.Help);
+            e.Handled = true;
+        }
+
+        private void ListBoxItem_PreviewGiveFeedback(object sender, GiveFeedbackEventArgs e)
+        {
+
+        }
+
+        private void ListBoxItem_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            string ss = "sss";
+
+            DragDrop.DoDragDrop((DependencyObject)e.Source, ss, DragDropEffects.Copy);
+        }
+
+        private void FButton_Click_1(object sender, RoutedEventArgs e)
+        {
+            //this.Dispatcher.Invoke(() =>
+            //{
+            //    var image = this.FindResource("image");
+
+            //    image = new BitmapImage(new Uri(@"E:/Github/Document/火器营二期_slices/右侧栏_bg@2x.png", UriKind.RelativeOrAbsolute));
+
+            //});
+
+            //System.Windows.Application.Current.Resources["image"] = new BitmapImage(new Uri(@"E:/Github/Document/火器营二期_slices/右侧栏_bg@2x.png", UriKind.RelativeOrAbsolute));
+
+            //mmm.Source = new BitmapImage(new Uri(@"E:/Github/Document/火器营二期_slices/右侧栏_bg@2x.png", UriKind.RelativeOrAbsolute));
+
+           
+        }
+
 
 
         //Point last;

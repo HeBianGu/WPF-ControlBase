@@ -42,18 +42,16 @@ namespace HeBianGu.Control.Chart2D
                 this.CommandBindings.Add(binding);
             }
 
-            //this.SizeChanged += (l, k) =>
-            //  {
-            //      if (this.IsLoaded)
-            //          this.ForceDraw();
-            //  };
+            this.SizeChanged += (l, k) =>
+              {
+                  if (this.IsLoaded)
+                      this.ForceDraw();
+              };
 
-            //this.Loaded += (l, k) =>
-            //  {
-            //      this.ForceDraw();
-            //  };
-
-
+            this.Loaded += (l, k) =>
+              {
+                  this.RefreshByData();
+              };
         }
 
         public double SplitMilliSecond
@@ -251,6 +249,18 @@ namespace HeBianGu.Control.Chart2D
 
                 this.BeginRefresh();
             }
+
+            this.SizeChanged += (l, k) =>
+            {
+                if (this.IsLoaded)
+                    this.RefreshByData();
+            };
+
+            this.Loaded += (l, k) =>
+            {
+                this.RefreshByData();
+            };
+
         }
 
         public Chart Chart
@@ -320,7 +330,13 @@ namespace HeBianGu.Control.Chart2D
 
             if (rp > 1) rp = 1;
 
-            if (Math.Abs(rp - lp) < 0.05) return;
+            if (lp > rp) return;
+
+            var value = Math.Abs(rp - lp);
+
+            if (this.xDatas.Count * value < 3) return;
+
+            if (Math.Abs(rp - lp) < 0.005) return;
 
             this.toolBar.LeftPercent = lp;
             this.toolBar.RightPercent = rp;
@@ -340,26 +356,16 @@ namespace HeBianGu.Control.Chart2D
 
         void RefreshChart()
         {
+            if (this.xDatas.Count == 0) return;
+
             double left = this.toolBar.LeftPercent;
             double right = this.toolBar.RightPercent;
 
-            double xmin = this.xAxis.Min();
-            double xmax = this.xAxis.Max();
+            double xmin = this.xDatas.Min();
+            double xmax = this.xDatas.Max();
 
             double min = (xmax - xmin) * left + xmin;
             double max = (xmax - xmin) * right + xmin;
-
-            double step = (max - min) / 10;
-
-            //  Do ：更新坐标轴
-            ObservableCollection<double> cx = new ObservableCollection<double>();
-
-            for (int i = 0; i < 11; i++)
-            {
-                cx.Add(min + step * i);
-            }
-
-            this.Chart.xAxis = cx;
 
             //  Do ：更新数据 
             ObservableCollection<double> xa = new ObservableCollection<double>();
@@ -379,10 +385,7 @@ namespace HeBianGu.Control.Chart2D
 
             this.Chart.yDatas = dd;
 
-            this.Chart.ForceDraw();
-
-            Debug.WriteLine("说明");
-
+            this.Chart.RefreshByData();
         }
     }
 

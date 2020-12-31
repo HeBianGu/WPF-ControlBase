@@ -34,20 +34,164 @@ namespace HeBianGu.Control.Chart2D
         void Clear();
     }
 
-    public class LayerBase : Canvas, IDraw
+    public abstract class DrawingCanvas : Canvas, IDraw
+    {
+
+        public bool UseVisual
+        {
+            get { return (bool)GetValue(UseVisualProperty); }
+            set { SetValue(UseVisualProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseVisualProperty =
+            DependencyProperty.Register("UseVisual", typeof(bool), typeof(DrawingCanvas), new PropertyMetadata(default(bool), (d, e) =>
+             {
+                 DrawingCanvas control = d as DrawingCanvas;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
+
+        private List<Visual> visuals = new List<Visual>();
+
+        //获取Visual的个数
+        protected override int VisualChildrenCount
+        {
+            get
+            {
+                if (UseVisual)
+                {
+                    return visuals.Count;
+                }
+                else
+                {
+                    return base.VisualChildrenCount;
+                }
+            }
+        }
+
+        //获取Visual
+        protected override Visual GetVisualChild(int index)
+        {
+            if (UseVisual)
+            {
+                return visuals[index];
+            }
+            else
+            {
+                return base.GetVisualChild(index);
+            }
+        }
+
+        //添加Visual
+        public void AddVisual(Visual visual)
+        {
+            visuals.Add(visual);
+
+            base.AddVisualChild(visual);
+            base.AddLogicalChild(visual);
+        }
+
+        ////删除Visual
+        //public void RemoveVisual(Visual visual)
+        //{
+        //    //visuals.Remove(visual);
+
+        //    base.RemoveVisualChild(visual);
+        //    base.RemoveLogicalChild(visual);
+        //}
+
+        //命中测试
+        public DrawingVisual GetVisual(Point point)
+        {
+            HitTestResult hitResult = VisualTreeHelper.HitTest(this, point);
+            return hitResult.VisualHit as DrawingVisual;
+        }
+
+        //使用DrawVisual画Polyline
+        public Visual Polyline(PointCollection points, Brush brush, double thinkness)
+        {
+            DrawingVisual visual = new DrawingVisual();
+            DrawingContext dc = visual.RenderOpen();
+
+            Pen pen = new Pen(brush, thinkness);
+            pen.Freeze();  //冻结画笔，这样能加快绘图速度
+
+            for (int i = 0; i < points.Count - 1; i++)
+            {
+                dc.DrawLine(pen, points[i], points[i + 1]);
+            }
+
+            dc.Close();
+            return visual;
+        }
+
+        public virtual void Clear()
+        {
+            this.Children.Clear();
+
+            if (this.UseVisual)
+            {
+                foreach (var item in this.visuals)
+                {
+                    base.RemoveVisualChild(item);
+                    base.RemoveLogicalChild(item);
+                }
+
+                this.visuals.Clear();
+            }
+        }
+
+        public virtual void Draw(Canvas canvas)
+        {
+            this.Clear();
+        }
+
+        public virtual void Refresh()
+        {
+
+        }
+
+        //public virtual void Clear()
+        //{
+        //    this.Children.Clear();
+        //}
+    }
+
+    public class LayerBase : DrawingCanvas
     {
         public LayerBase()
         {
             this.SizeChanged += (l, k) =>
             {
-                if (this.IsLoaded == false) return;
+                //if (this.IsLoaded == false) return;
 
-                //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                ////Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                ////{
+                ////    this.TryDraw();
+                ////})); 
+
+                //try
+                //{ 
+                //    if (!this.IsLoaded) return;
+
+                //    this.Draw(this);
+
+                //    this.OnDrawed();
+                //}
+                //catch (Exception ex)
                 //{
-                //    this.TryDraw();
-                //}));
+                //    Debug.WriteLine(ex);
 
-                this.TryDraw();
+                //    //Trace.Fail(ex.Message);
+                //}
+
+                //  Do ：触发绘制动画
+                this.OnDrawed();
             };
 
             this.Loaded += (l, k) =>
@@ -57,7 +201,20 @@ namespace HeBianGu.Control.Chart2D
                 //    this.TryDraw();
                 //}));
 
-                this.TryDraw();
+                //try
+                //{
+                //    this.Draw(this);
+
+                //    this.OnDrawed();
+                //}
+                //catch (Exception ex)
+                //{
+                //    Debug.WriteLine(ex);
+
+                //    //Trace.Fail(ex.Message);
+                //}
+
+
             };
 
             this.MouseDown += (l, k) =>
@@ -65,21 +222,6 @@ namespace HeBianGu.Control.Chart2D
                   Debug.WriteLine(this.GetType().FullName);
               };
 
-        }
-
-        public virtual void Draw(Canvas canvas)
-        {
-            this.Clear(); 
-        }
-
-        public virtual void Refresh()
-        {
-
-        }
-
-        public virtual void Clear()
-        {
-            this.Children.Clear();
         }
 
         ///// <summary> 冻结修改属性刷新 </summary>
@@ -93,7 +235,7 @@ namespace HeBianGu.Control.Chart2D
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TryFreezeProperty =
-            DependencyProperty.Register("TryFreeze", typeof(bool), typeof(LayerBase), new PropertyMetadata(default(bool), (d, e) =>
+            DependencyProperty.Register("TryFreeze", typeof(bool), typeof(LayerBase), new PropertyMetadata(true, (d, e) =>
              {
                  LayerBase control = d as LayerBase;
 
@@ -103,6 +245,23 @@ namespace HeBianGu.Control.Chart2D
 
              }));
 
+        public virtual void ForceDraw()
+        {
+            try
+            {
+                if (!this.IsLoaded) return;
+
+                this.Draw(this);
+
+                this.OnDrawed();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+
+                //Trace.Fail(ex.Message);
+            }
+        }
 
         public virtual void TryDraw()
         {
@@ -144,6 +303,12 @@ namespace HeBianGu.Control.Chart2D
         }
     }
 
+
+    public class Timelines : List<Timeline>
+    {
+
+    }
+
     public class AnimationLayer : LayerBase
     {
         public AnimationLayer()
@@ -151,21 +316,21 @@ namespace HeBianGu.Control.Chart2D
             this.Drawed += AssociatedObject_Drawed;
         }
 
-        public ArrayList Timelines
+        public Timelines Timelines
         {
-            get { return (ArrayList)GetValue(TimelinesProperty); }
+            get { return (Timelines)GetValue(TimelinesProperty); }
             set { SetValue(TimelinesProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TimelinesProperty =
-            DependencyProperty.Register("Timelines", typeof(ArrayList), typeof(AnimationLayer), new PropertyMetadata(new ArrayList(), (d, e) =>
+            DependencyProperty.Register("Timelines", typeof(Timelines), typeof(AnimationLayer), new PropertyMetadata(new Timelines(), (d, e) =>
             {
                 AnimationLayer control = d as AnimationLayer;
 
                 if (control == null) return;
 
-                ArrayList config = e.NewValue as ArrayList;
+                Timelines config = e.NewValue as Timelines;
 
                 control.TryDraw();
 
@@ -630,7 +795,7 @@ namespace HeBianGu.Control.Chart2D
 
     }
 
-    public class MapLayer: DataLayer
+    public class MapLayer : DataLayer
     {
         public MapLayer() : base()
         {
