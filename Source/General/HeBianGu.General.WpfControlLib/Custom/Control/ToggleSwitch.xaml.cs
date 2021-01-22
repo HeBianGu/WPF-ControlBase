@@ -568,6 +568,9 @@ namespace HeBianGu.General.WpfControlLib
             {
                 // Change the margin of the content border so that its size is (1 + contentBorderMargin) times the width of
                 // the Toggle switch
+
+                if (double.IsNaN(this.Width) || double.IsNaN(this.Height)) return;
+
                 contentBorder.Margin = new Thickness(-(this.Width * contentBorderMargin), 0, -(this.Width * contentBorderMargin), 0);
             }
         }

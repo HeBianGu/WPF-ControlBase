@@ -7,10 +7,7 @@ using System.Windows.Controls;
 
 namespace HeBianGu.Base.WpfBase
 {
-    /// <summary>
-    /// This Blend behavior provides positional translation for UIElements through a 
-    /// RenderTransform using Drag/Drop semantics.
-    /// </summary>
+    /// <summary> 应用 RenderTransform 的拖拽效果 </summary>
     public class DragPositionBehavior : Behavior<UIElement>
     {
         #region IsEnabledProperty

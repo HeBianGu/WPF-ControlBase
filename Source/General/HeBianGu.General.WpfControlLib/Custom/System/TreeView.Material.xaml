@@ -147,7 +147,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="MaterialDesignTreeView" TargetType="{x:Type TreeView}">
+    <Style x:Key="S.TreeView.Material" TargetType="{x:Type TreeView}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{x:Null}"/>
         <Setter Property="BorderThickness" Value="0"/>
@@ -190,7 +190,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="MaterialDesignTreeViewItemFocusVisual">
+    <!--<Style x:Key="MaterialDesignTreeViewItemFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
@@ -198,12 +198,13 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
+    </Style>-->
 
-    <Style x:Key="MaterialDesignExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="S.ToggleButton.Tree" TargetType="{x:Type ToggleButton}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Width" Value="16"/>
         <Setter Property="Height" Value="16"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -288,13 +289,26 @@
         </Setter>
     </Style>
 
-    <Style x:Key="S.TreeView.Material.TreeViewItem" TargetType="{x:Type TreeViewItem}">
+    <Style x:Key="S.TreeViewItem.Default" TargetType="{x:Type TreeViewItem}">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
         <Setter Property="Padding" Value="8" />
-        <Setter Property="FocusVisualStyle" Value="{StaticResource MaterialDesignTreeViewItemFocusVisual}"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="{Binding RelativeSource={RelativeSource AncestorType=TreeView},Path=(h:Cattach.CornerRadius)}"/>
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Rectangle/>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type TreeView}}}"/>
         <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
         <Setter Property="Template">
@@ -324,7 +338,7 @@
                                 <VisualState Name="MouseOver">
                                     <Storyboard>
                                         <DoubleAnimation Storyboard.TargetName="MouseOverBorder" Storyboard.TargetProperty="Opacity"  To="0.1" Duration="0"/>
-                                        <DoubleAnimation Storyboard.TargetName="MouseOverBorder" Storyboard.TargetProperty="Opacity" To="0.1" Duration="0"/>
+                                        <!--<DoubleAnimation Storyboard.TargetName="MouseOverBorder" Storyboard.TargetProperty="Opacity" To="0.1" Duration="0"/>-->
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState Name="Disabled"/>
@@ -335,7 +349,7 @@
                                 </VisualStateGroup.Transitions>
                                 <VisualState Name="Selected">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="SelectedBorder" Storyboard.TargetProperty="Opacity" To="0.18" Duration="0"/>
+                                        <DoubleAnimation Storyboard.TargetName="SelectedBorder" Storyboard.TargetProperty="Opacity" To="1" Duration="0"/>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState Name="Unselected"/>
@@ -357,7 +371,7 @@
                                     <VisualTransition GeneratedDuration="0" To="Collapsed">
                                         <VisualTransition.GeneratedEasingFunction>
                                             <CubicEase EasingMode="EaseOut"/>
-                                        </VisualTransition.GeneratedEasingFunction>                                        
+                                        </VisualTransition.GeneratedEasingFunction>
                                         <Storyboard>
                                             <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ItemsHost" Storyboard.TargetProperty="Visibility">
                                                 <DiscreteObjectKeyFrame KeyTime="0:0:0.3" Value="{x:Static Visibility.Collapsed}" />
@@ -387,14 +401,17 @@
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-                        <local:ScaleHost x:Name="ScaleHost" />
-                        <ToggleButton x:Name="Expander" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" 
-                                      Style="{StaticResource MaterialDesignExpandCollapseToggleStyle}"
-                                      Foreground="{TemplateBinding Foreground}"
-                                      Margin="8 0 8 0"
-                                      VerticalAlignment="Center"
-                                              />
                         
+                        <local:ScaleHost x:Name="ScaleHost" />
+                        
+                        <ToggleButton x:Name="Expander" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" 
+                                      Style="{StaticResource S.ToggleButton.Tree}"
+                                      Foreground="{Binding RelativeSource={RelativeSource AncestorType=TreeView},Path=Foreground}"
+                                      Margin="8 0 8 0"
+                                      VerticalAlignment="Center"/>
+                        
+                        <!--Foreground="{TemplateBinding Foreground}"-->
+
                         <!--<Border x:Name="MouseOverBorder"
                                 Grid.Column="1" Grid.ColumnSpan="2"
                                 IsHitTestVisible="False"
@@ -407,11 +424,11 @@
                                 Opacity="0"
                                 Background="{TemplateBinding Foreground, Converter={x:Static h:XConverter.BrushRoundConverter}}"/>-->
 
-                        <Border x:Name="MouseOverBorder"  Grid.Column="1" Grid.ColumnSpan="2" IsHitTestVisible="False" Opacity="0"  Background="{TemplateBinding Foreground}"/>
+                        <Border x:Name="MouseOverBorder" CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" Grid.Column="1" Grid.ColumnSpan="2" IsHitTestVisible="False" Opacity="0"  Background="{Binding RelativeSource={RelativeSource AncestorType=TreeView},Path=(h:Cattach.MouseOverBackground)}"/>
 
-                        <Border x:Name="SelectedBorder" Grid.Column="1" Grid.ColumnSpan="2"  IsHitTestVisible="False"  Opacity="0"  Background="{TemplateBinding Foreground}"/>
+                        <Border x:Name="SelectedBorder" CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" Grid.Column="1" Grid.ColumnSpan="2"  IsHitTestVisible="False"  Opacity="0"  Background="{Binding RelativeSource={RelativeSource AncestorType=TreeView},Path=(h:Cattach.SelectBackground)}"/>
 
-                        <Grid Grid.Column="1" Grid.ColumnSpan="2" x:Name="ContentGrid" Background="Transparent" Height="{DynamicResource S.Window.Item.Height}">
+                        <Grid Grid.Column="2" Grid.ColumnSpan="2" x:Name="ContentGrid" Background="Transparent" Height="{DynamicResource S.Window.Item.Height}">
                             <local:Ripple Feedback="{TemplateBinding Foreground, Converter={x:Static h:XConverter.BrushRoundConverter}}"
                                         Focusable="False"
                                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
@@ -452,6 +469,20 @@
                                      Value="Visible">
                             <Setter TargetName="AdditionalContentControl" Property="Visibility" Value="Visible" />
                         </DataTrigger>
+
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                        </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="true"/>
+                                <Condition Property="IsSelectionActive" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="Background" TargetName="SelectedBorder" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+                        </MultiTrigger>
+                        
                         <Trigger Property="HasItems" Value="false">
                             <Setter Property="Visibility" TargetName="Expander" Value="Hidden"/>
                         </Trigger>
@@ -475,16 +506,15 @@
         </Style.Triggers>
     </Style>
 
-
-    <Style x:Key="S.TreeView.Material.Default" TargetType="{x:Type TreeView}" BasedOn="{StaticResource MaterialDesignTreeView}">
-        <Setter Property="ItemContainerStyle"  Value="{StaticResource S.TreeView.Material.TreeViewItem}"/>
+    <Style x:Key="S.TreeView.Default" TargetType="{x:Type TreeView}" BasedOn="{StaticResource S.TreeView.Material}">
+        <Setter Property="ItemContainerStyle"  Value="{StaticResource S.TreeViewItem.Default}"/>
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
     </Style>
 
-    <Style TargetType="TreeView" BasedOn="{StaticResource S.TreeView.Material.Default}"/>
 
 </ResourceDictionary>

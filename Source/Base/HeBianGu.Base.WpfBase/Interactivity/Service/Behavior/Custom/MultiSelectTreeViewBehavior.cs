@@ -21,6 +21,9 @@ namespace HeBianGu.Base.WpfBase
     ///   </TreeView>
     /// ]]>
     /// </example>
+    /// 
+
+    /// <summary> TreeView支持Ctrl Shift多选行为，需要在样式中自定义 IsSelected的效果 </summary>
 	public class MultiSelectTreeViewBehavior : Behavior<TreeView>
     {
         private TreeViewItem _anchorItem;

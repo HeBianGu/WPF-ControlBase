@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives; 
@@ -12,8 +13,59 @@ namespace HeBianGu.Base.WpfBase
     /// The original idea and code was taken from an MSDN sample - see http://code.msdn.microsoft.com/getwpfcode/Release/ProjectReleases.aspx?ReleaseId=1445
     /// for the original source code and project.
     /// </summary>
+    /// 
+ /// <summary> 当滚动条滚动时 显示当前刻度等信息 </summary>
     public class ScrollbarPreviewBehavior : Behavior<ScrollBar>
     {
+
+        #region IsEnabledProperty
+        /// <summary>
+        /// This property allows the behavior to be used as a traditional
+        /// attached property behavior.
+        /// </summary>
+        public static DependencyProperty IsEnabledProperty =
+            DependencyProperty.RegisterAttached("IsEnabled", typeof(bool), typeof(ScrollbarPreviewBehavior),
+                new FrameworkPropertyMetadata(false, OnIsEnabledChanged));
+
+        /// <summary>
+        /// Returns whether NumericTextBoxBehavior is enabled via attached property
+        /// </summary>
+        /// <param name="textBox"></param>
+        /// <returns>True/FalseB</returns>
+        public static bool GetIsEnabled(ScrollBar textBox)
+        {
+            return (bool)textBox.GetValue(IsEnabledProperty);
+        }
+
+        /// <summary>
+        /// Adds NumericTextBoxBehavior to TextBox
+        /// </summary>
+        /// <param name="textBox">TextBox to apply</param>
+        /// <param name="value">True/False</param>
+        public static void SetIsEnabled(ScrollBar textBox, bool value)
+        {
+            textBox.SetValue(IsEnabledProperty, value);
+        }
+
+        private static void OnIsEnabledChanged(DependencyObject dpo, DependencyPropertyChangedEventArgs e)
+        {
+            ScrollBar tb = dpo as ScrollBar;
+            if (tb != null)
+            {
+                var behColl = Interaction.GetBehaviors(tb);
+                var existingBehavior = behColl.FirstOrDefault(b => b.GetType() == typeof(ScrollbarPreviewBehavior)) as ScrollbarPreviewBehavior;
+                if ((bool)e.NewValue == false && existingBehavior != null)
+                {
+                    behColl.Remove(existingBehavior);
+                }
+                else if ((bool)e.NewValue == true && existingBehavior == null)
+                {
+                    behColl.Add(new ScrollbarPreviewBehavior());
+                }
+            }
+        }
+        #endregion
+
         #region ScrollingPreviewTemplate
         /// <summary>
         /// Specifies a ContentTemplate for a ToolTip that will appear next to the ScrollBar while dragging the thumb.

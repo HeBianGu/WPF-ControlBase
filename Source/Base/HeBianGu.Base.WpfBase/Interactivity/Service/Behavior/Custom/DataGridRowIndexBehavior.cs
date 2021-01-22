@@ -7,10 +7,7 @@ using System.Windows.Threading;
 
 namespace HeBianGu.Base.WpfBase
 {
-    /// <summary>
-    /// This behavior changes the Text for the associated TextBlock
-    /// to the current row index of the DataGridRow it is bound to.
-    /// </summary>
+    /// <summary> DataGrid支持显示行号 </summary>
     public class DataGridRowIndexBehavior : Behavior<TextBlock>
     {
         /// <summary>

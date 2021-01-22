@@ -6,10 +6,9 @@ using System.Windows.Media;
 
 namespace HeBianGu.Base.WpfBase
 {
-    /// <summary> 当点击容器中一项时，将该项目置于容器最顶端 </summary>
-    public class DragMoveElementBehavior : Behavior<FrameworkElement>
+    /// <summary> 设置鼠标放下时 窗口拖动</summary>
+    public class DragMoveWindowBehavior : Behavior<FrameworkElement>
     {
-
         protected override void OnAttached()
         {
             AssociatedObject.AddHandler(UIElement.MouseLeftButtonDownEvent,

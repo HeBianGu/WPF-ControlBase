@@ -210,6 +210,8 @@ namespace HeBianGu.General.WpfControlLib
             this._left_thumb = this.Template.FindName("PART_LEFT_THUMB", this) as Thumb;
             this._right_thumb = this.Template.FindName("PART_RIGHT_THUMB", this) as Thumb;
 
+            if (this._left_thumb == null || this._right_thumb == null) return;
+
             this._left_thumb.DragDelta += Thumb_Left_DragDelta;
 
             this._right_thumb.DragDelta += Thumb_Right_DragDelta;

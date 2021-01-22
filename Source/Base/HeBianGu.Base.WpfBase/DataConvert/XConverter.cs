@@ -244,7 +244,12 @@ namespace HeBianGu.Base.WpfBase
             get { return new BoolOrConverter(); }
         }
 
+        public static NullToEmptyConverter NullToEmptyConverter
+        {
+            get { return new NullToEmptyConverter(); }
+        }
 
+        
         //public static SelectTextConverter SelectTextConverter
         //{
         //    get { return Singleton<SelectTextConverter>.GetInstance(); }

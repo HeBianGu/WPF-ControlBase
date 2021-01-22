@@ -18,6 +18,7 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary>
     /// FCheckBox.xaml 的交互逻辑
     /// </summary>
+    [Obsolete("废弃不用了  直接用 CheckBox")]
     public partial class FCheckBox : CheckBox
     {
         static FCheckBox()

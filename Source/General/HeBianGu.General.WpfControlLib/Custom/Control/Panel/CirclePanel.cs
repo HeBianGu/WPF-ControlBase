@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 
 namespace HeBianGu.General.WpfControlLib
@@ -123,5 +118,23 @@ namespace HeBianGu.General.WpfControlLib
 
             return new Size(this.Len * 2, this.Len * 2);
         }
+
+        //protected override void OnIsItemsHostChanged(bool oldIsItemsHost, bool newIsItemsHost)
+        //{
+        //    base.OnIsItemsHostChanged(oldIsItemsHost, newIsItemsHost);
+
+        //    if(newIsItemsHost&& !oldIsItemsHost)
+        //    {
+        //        foreach (UIElement elment in this.Children)
+        //        {
+        //            if (elment.CheckDefaultTransformGroup())
+        //            {
+        //                elment.BeginAnimationXY(0, 0, this.Duration);
+
+        //                elment.BeginAnimationAngle(0, this.Duration);
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

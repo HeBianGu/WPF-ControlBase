@@ -1,8 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -77,7 +75,7 @@ namespace HeBianGu.General.WpfControlLib
 
             this.AnimationAction?.BeginCurrent(element);
 
-            if(this.Children.Count==1)
+            if (this.Children.Count == 1)
             {
                 this.Visibility = Visibility.Visible;
 
@@ -91,7 +89,7 @@ namespace HeBianGu.General.WpfControlLib
 
             if (this.Children.Count == 0) return;
 
-            var element = this.Children[this.Children.Count - 1]; 
+            var element = this.Children[this.Children.Count - 1];
 
             Action compate = () =>
               {
@@ -105,5 +103,55 @@ namespace HeBianGu.General.WpfControlLib
 
             this.AnimationAction?.BeginPrevious(element, compate);
         }
+
+
+        public void Remove(UIElement element)
+        {
+            this.AnimationAction?.BeginHidden(element, () =>
+             {
+                 this.Children.Remove(element);
+             });
+        }
+
+
+
     }
+
+    public class LinkActionPanel : ContainPanel
+    {
+
+        public ILinkActionBase LinkAction
+        {
+            get { return (ILinkActionBase)GetValue(LinkActionProperty); }
+            set { SetValue(LinkActionProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LinkActionProperty =
+            DependencyProperty.Register("LinkAction", typeof(ILinkActionBase), typeof(LinkActionPanel), new PropertyMetadata(default(ILinkActionBase), (d, e) =>
+             {
+                 LinkActionPanel control = d as LinkActionPanel;
+
+                 if (control == null) return;
+
+                 control.Refresh(e.NewValue as ILinkActionBase);
+
+             }));
+
+        async void Refresh(ILinkActionBase neww)
+        {
+            if (this.LinkAction == null) return;
+
+            if (this.Children.Count > 0)
+            {
+                this.Remove(this.Children[0]);
+            } 
+
+            var result = await this.LinkAction.ActionResult();
+
+            this.Add(result.View as UIElement);
+        }
+
+    }
+
 }

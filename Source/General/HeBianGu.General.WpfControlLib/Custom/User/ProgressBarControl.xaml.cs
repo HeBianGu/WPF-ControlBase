@@ -20,15 +20,15 @@ namespace HeBianGu.General.WpfControlLib
     /// <summary>
     /// 进度条
     /// </summary>
+    [Obsolete("效果不佳 不用了")]
     public partial class ProgressBarControl : UserControl
     {
-        //集成到按指定时间间隔和指定优先级处理的 System.Windows.Threading.Dispatcher 队列中的计时器。
         private DispatcherTimer animationTimer;
+
         private ProgressBarDataModel _dataModel;
+
         #region 构造方法与加载
-        /// <summary>
-        /// 构造方法
-        /// </summary>
+
         public ProgressBarControl()
         {
             InitializeComponent();
@@ -42,12 +42,17 @@ namespace HeBianGu.General.WpfControlLib
         private void ProgressBarControl_OnLoaded(object sender, RoutedEventArgs e)
         {
             animationTimer = new DispatcherTimer(DispatcherPriority.ContextIdle, Dispatcher);
+
             //指定时间间隔
             animationTimer.Interval = new TimeSpan(0, 0, 0, 0, TimeSpan);
+
             if (EllipseCount < 1)
             {
                 EllipseCount = 12;
             }
+
+            ProgressBarCanvas.Children.Clear();
+
             for (int i = 0; i < EllipseCount; i++)
             {
                 ProgressBarCanvas.Children.Add(new Ellipse());

@@ -8,9 +8,7 @@ using System.Windows.Threading;
 
 namespace HeBianGu.Base.WpfBase
 {
-    /// <summary>
-    /// This provides scrolling behavior using the mouse much like Touch events in Windows 7.
-    /// </summary>
+    /// <summary> 滚动条支持滑动效果的行为 </summary>
     public class MouseGestureScrollViewerBehavior : Behavior<ScrollViewer>
     {
         #region Private Data

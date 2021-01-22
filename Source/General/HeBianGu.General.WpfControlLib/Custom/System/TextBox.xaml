@@ -1,0 +1,193 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib" xmlns:h="QQ:908293466">
+
+
+    <ControlTemplate x:Key="S.TextBox.Template.Default" TargetType="{x:Type TextBox}">
+        <Grid x:Name="PART_Root">
+            <Grid x:Name="PART_InnerGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition  Width="Auto" />
+                    <ColumnDefinition  Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition  Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="3"
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                Background="{TemplateBinding Background}" />
+
+                <!--Label区域-->
+                <ContentControl x:Name="Label" Margin="1" Background="Transparent"
+                                            Template="{TemplateBinding h:Cattach.LabelTemplate}"
+                                            Content="{TemplateBinding h:Cattach.Label}"/>
+                <!--Foreground="{TemplateBinding Foreground}"
+                                            Background="{TemplateBinding Background}"-->
+
+                <TextBlock x:Name="ficon" Style="{DynamicResource FIcon}" HorizontalAlignment="Center"
+                                       VerticalAlignment="Center" Grid.Column="1"
+                                       FontSize="{TemplateBinding h:Cattach.FIconSize}"
+                                       Margin="{TemplateBinding h:Cattach.FIconMargin}" 
+                                       Text="{TemplateBinding h:Cattach.FIcon}"/>
+                <!--内容区域-->
+                <ScrollViewer x:Name="PART_ContentHost" BorderThickness="0" Grid.Column="2" IsTabStop="False" Margin="2"
+                                          VerticalAlignment="Stretch" Background="{x:Null}" />
+                <!--水印-->
+                <TextBlock x:Name="Message"  Padding="{TemplateBinding Padding}" Visibility="Collapsed"
+                                       Text="{TemplateBinding h:Cattach.Watermark}" Grid.Column="2"
+                                       Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" 
+                                       Opacity="{DynamicResource S.Opacity.Watermark}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="5,2,5,2" />
+                <!--附加内容区域-->
+                <Border Grid.Column="3" Margin="1" 
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center">
+                    <ContentControl  x:Name="PART_AttachContent" Foreground="{DynamicResource S.Brush.TextForeground.Assist}" VerticalAlignment="Top" VerticalContentAlignment="Top" 
+                                                Template="{TemplateBinding h:Cattach.AttachContent}" />
+                </Border>
+            </Grid>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <!--显示水印-->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
+                <Setter TargetName="Message" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="ficon" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+
+            </Trigger>
+            <Trigger Property="IsFocused" Value="True">
+                <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="BorderBrush"  Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="ficon" Value="{DynamicResource S.Brush.Accent}"/>
+                <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>
+            </Trigger>
+            <!--不可用-->
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="PART_Root" Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" />
+            </Trigger>
+            <!--只读时，禁用PART_AttachContent-->
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter TargetName="PART_AttachContent" Property="IsEnabled" Value="False" />
+                <Setter TargetName="Bg" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
+                <Setter TargetName="PART_ContentHost" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
+                <Setter TargetName="Label" Property="Opacity" Value="{DynamicResource S.Opacity.Readonly}" />
+            </Trigger>
+            <Trigger Property="Validation.HasError" Value="true">
+                <!--<Setter Property="ToolTip" Value="{Binding RelativeSource= {x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"/>-->
+                <Setter Property="BorderBrush" Value="{StaticResource S.Brush.Red.Notice}"/>
+                <Setter Property="ToolTip">
+                    <Setter.Value>
+                        <ToolTip Padding="0" BorderThickness="0" Background="Transparent">
+                            <Border Background="{StaticResource S.Brush.Red.Notice}" 
+                                    CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"
+                                    Height="{DynamicResource S.Window.Item.Height}" BorderBrush="Transparent">
+                                <TextBlock VerticalAlignment="Center" FontSize="{DynamicResource S.FontSize.Default}" 
+                                           Margin="10,0" Foreground="{DynamicResource S.Brush.TextForeground.White}">
+                                    <Run Text="数据错误 ："/>
+                                    <Run Text="{Binding RelativeSource={RelativeSource AncestorType=ToolTip},Path=PlacementTarget.(Validation.Errors)[0].ErrorContent}"/>
+                                </TextBlock>
+                            </Border>
+                        </ToolTip>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style TargetType="{x:Type TextBox}" x:Key="S.TextBox.Default">
+        <Setter Property="SelectionBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="FontFamily" Value="{StaticResource  S.FontFamily.Default}" />
+        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="MinHeight" Value="26" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="Height" Value="{DynamicResource S.Window.Item.Height}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="h:Cattach.FIcon" Value="&#xe6ed;"/>
+        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource S.FIcon.Size.Default}"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+
+        <Setter Property="h:Cattach.FIconMargin" Value="5,0,0,0"/>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
+        <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="Template" Value="{StaticResource S.TextBox.Template.Default}"/>
+        <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+    </Style>
+
+    <Style BasedOn="{StaticResource S.TextBox.Default}" TargetType="{x:Type TextBox}"/>
+
+    <Style TargetType="{x:Type TextBox}" x:Key="S.TextBox.Label" BasedOn="{StaticResource S.TextBox.Default}">
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="h:Cattach.LabelTemplate" >
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border Background="Transparent" Margin="10,0" >
+                        <TextBlock x:Name="txt" VerticalAlignment="Center" 
+                                   Foreground="{TemplateBinding Foreground}" 
+                                   Background="Transparent"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   HorizontalAlignment="Right"
+                                   Text="{TemplateBinding Content}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}" x:Key="S.TextBox.Clear" BasedOn="{StaticResource S.TextBox.Default}">
+        <Setter Property="h:Cattach.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:FButton FIcon="&#xe6f4;" 
+                                   Style="{DynamicResource S.FButton.Style.Transparent}" 
+                                   IsTabStop="False" 
+                                   FIconMargin="0"
+                                   h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.ClearTextCommand" 
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
+                                   Margin="1,3,1,4" 
+                                   FIconSize="14" 
+                                   Foreground="{TemplateBinding Foreground}" 
+                                   Cursor="Arrow"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type TextBox}" x:Key="S.TextBox.LabelClear" BasedOn="{StaticResource S.TextBox.Label}">
+        <Setter Property="h:Cattach.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:FButton FIcon="&#xe6f4;" 
+                                   Style="{DynamicResource S.FButton.Style.Transparent}" 
+                                   IsTabStop="False" 
+                                   FIconMargin="0"
+                                   h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.ClearTextCommand" 
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
+                                   Margin="1,3,1,4" 
+                                   FIconSize="14" 
+                                   Foreground="{TemplateBinding Foreground}" 
+                                   Cursor="Arrow"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

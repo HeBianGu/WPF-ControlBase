@@ -9,8 +9,10 @@
 
     <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.Default">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -39,8 +41,8 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.Accent">
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}" />
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.Accent" BasedOn="{StaticResource S.ToggleButton.Default}">
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="Template">
@@ -70,7 +72,7 @@
     </Style>
 
     <!--选中和未选中设置两种颜色-->
-    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.BrushFIconChecked">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.BrushFIconChecked" BasedOn="{StaticResource S.ToggleButton.Default}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource S.FIcon.Size.Large}"/>
         <Setter Property="h:Cattach.FIconMargin" Value="1"/>
@@ -126,7 +128,7 @@
     </Style>
 
     <!--选中和未选中设置两种颜色-->
-    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.BrushFIconChecked.RightToLeft">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.BrushFIconChecked.RightToLeft" BasedOn="{StaticResource S.ToggleButton.Default}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource S.FIcon.Size.Large}"/>
         <Setter Property="h:Cattach.FIconMargin" Value="1"/>
@@ -181,7 +183,7 @@
     </Style>
 
     <!--选中和未选中设置成两种图标-->
-    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.DoubleFIconChecked">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.DoubleFIconChecked" BasedOn="{StaticResource S.ToggleButton.Default}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource S.FontSize.Default}"/>
         <Setter Property="h:Cattach.FIconMargin" Value="1"/>
@@ -266,7 +268,7 @@
         </Setter>
     </Style>
     
-    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.FIconSingle">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.FIconSingle" BasedOn="{StaticResource S.ToggleButton.Default}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Assist}" />
         <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource S.FIcon.Size.Large}"/>
         <Setter Property="h:Cattach.FIconMargin" Value="1"/>
@@ -313,11 +315,14 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.Combobox">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.Combobox" BasedOn="{StaticResource S.ToggleButton.Default}">
         <!--<Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />-->
         <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource S.FIcon.Size.Small}"/>
         <Setter Property="h:Cattach.FIconMargin" Value="0,1,3,1"/>
         <Setter Property="h:Cattach.FIcon" Value="&#xe63a;"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="h:Cattach.MouseOverForeground" Value="Transparent"/>
+        <Setter Property="h:Cattach.PressForeground" Value="Transparent"/>
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
@@ -327,6 +332,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
+                        
                         <Border Background="{TemplateBinding Background}" x:Name="Bg" Grid.ColumnSpan="2" Margin="0,1,1,1"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"  Opacity="0.3"/>
 
@@ -335,25 +341,44 @@
                                    Text="{TemplateBinding h:Cattach.FIcon}" 
                                    h:Cattach.AllowsAnimation="{TemplateBinding IsChecked}"
                                    Foreground="{TemplateBinding Foreground}"
-                                   Style="{DynamicResource FIcon}"
-                                   Margin="{TemplateBinding h:Cattach.FIconMargin}"/>
+                                   Style="{DynamicResource FIcon}" RenderTransformOrigin="0.5,0.5"
+                                   Margin="{TemplateBinding h:Cattach.FIconMargin}">
+                            <TextBlock.RenderTransform>
+                                <RotateTransform x:Name="rts"/>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
                     </Grid>
                     <!--z触发器-->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource MouseOverForeground}" />
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.MouseOverForeground)}" />
                             <Setter Property="Opacity" TargetName="Bg" Value="0.55" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource PressedForeground}" />
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.PressForeground)}" />
                             <Setter Property="Opacity" TargetName="Bg" Value="0.6" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Foreground" Value="{StaticResource PressedForeground}" />
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.PressForeground)}" />
                             <Setter Property="Opacity" TargetName="Bg" Value="0.6" />
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation To="-90" Duration="00:00:0.2" Storyboard.TargetProperty="Angle" Storyboard.TargetName="rts"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation To="0" Duration="00:00:0.2"  Storyboard.TargetProperty="Angle" Storyboard.TargetName="rts"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" Value="{StaticResource S.Opacity.Disable}" TargetName="Grid"/>
+                            <Setter Property="Opacity" Value="{StaticResource S.Opacity.Disable}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -361,7 +386,7 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.Single">
+    <Style TargetType="{x:Type ToggleButton}" x:Key="S.ToggleButton.Single" BasedOn="{StaticResource S.ToggleButton.Default}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}" />
         <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource S.FIcon.Size.Small}"/>
@@ -404,4 +429,6 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+ 
 </ResourceDictionary>

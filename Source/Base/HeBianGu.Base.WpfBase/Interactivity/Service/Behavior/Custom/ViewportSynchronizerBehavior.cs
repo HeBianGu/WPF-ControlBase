@@ -8,6 +8,7 @@ namespace HeBianGu.Base.WpfBase
     /// control with a ScrollViewer in the template.  It can also be used to synchronize two scrolling items
     /// against a single property in a ViewModel.
     /// </summary>
+    /// <summary> 支持滚动条滚动位置属性可以绑定的行为，原生控件偏移量不支持绑定 </summary>
     public class ViewportSynchronizerBehavior : Behavior<Control>
     {
         private ScrollViewer _scrollViewer;

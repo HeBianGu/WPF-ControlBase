@@ -18,6 +18,9 @@
         <Setter Property="h:Cattach.FIconMargin" Value="5"/>
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         <Setter Property="local:ShadowAssist.ShadowDepth" Value="{DynamicResource S.EffectShadow.5}" />
+        <!--<Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>-->
+        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Header.5}"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupBox}">
@@ -44,6 +47,7 @@
                                            Margin="10,0,0,0" HorizontalAlignment="Left" Content="{TemplateBinding Header}"
                                            Foreground="{TemplateBinding h:Cattach.SelectForeground}" IsHitTestVisible="False"
                                            MouseOverForeground="{TemplateBinding Background}"
+                                           FontSize="{TemplateBinding FontSize}"
                                            FIcon="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIcon)}"
                                            FIconMargin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIconMargin)}"
                                            FIconSize="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIconSize)}"/>
@@ -152,7 +156,8 @@
                         <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}"
                                            Margin="0,0,0,0" HorizontalAlignment="Left" Content="{TemplateBinding Header}"
                                            Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False"
-                                           MouseOverForeground="{TemplateBinding Background}" FontSize="{DynamicResource S.FontSize.Header.5}"
+                                           MouseOverForeground="{TemplateBinding Background}"
+                                           FontSize="{TemplateBinding FontSize}"
                                            FIcon="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIcon)}"
                                            FIconMargin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIconMargin)}"
                                            FIconSize="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIconSize)}"/>
@@ -172,6 +177,20 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type GroupBox}" BasedOn="{StaticResource S.GroupBox.Default}"/>
-
+    <Style x:Key="S.GroupBox.ShowCode" TargetType="GroupBox" BasedOn="{StaticResource S.GroupBox.Default}">
+        <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+        <Setter Property="h:Cattach.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Button Style="{DynamicResource S.Button.Transparent}" Margin="10,0"
+                                    Foreground="{DynamicResource S.Brush.TextForeground.White}"
+                                    h:Cattach.FIcon="&#xe7e7;" 
+                                    Command="{x:Static local:CommandService.ShowCopyWindowCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.Text)}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

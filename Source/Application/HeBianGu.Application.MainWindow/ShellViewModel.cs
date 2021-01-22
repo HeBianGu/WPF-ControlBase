@@ -1,9 +1,11 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -12,6 +14,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shell;
 
 namespace HeBianGu.Application.MainWindow
@@ -88,6 +92,58 @@ namespace HeBianGu.Application.MainWindow
             }
         }
 
+        private ObservableCollection<string> _autoCompleteSource = new ObservableCollection<string>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<string> AutoCompleteSource
+        {
+            get { return _autoCompleteSource; }
+            set
+            {
+                _autoCompleteSource = value;
+                RaisePropertyChanged("AutoCompleteSource");
+            }
+        }
+
+
+        private ObservableCollection<string> _autoCompleteSelecteds = new ObservableCollection<string>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<string> AutoCompleteSelecteds
+        {
+            get { return _autoCompleteSelecteds; }
+            set
+            {
+                _autoCompleteSelecteds = value;
+                RaisePropertyChanged("AutoCompleteSelecteds");
+            }
+        }
+
+
+        private ImageSource _imageSource;
+        /// <summary> 说明  </summary>
+        public ImageSource ImageSource
+        {
+            get { return _imageSource; }
+            set
+            {
+                _imageSource = value;
+                RaisePropertyChanged("ImageSource");
+            }
+        }
+
+        private ObservableCollection<SystemInfoModel> _selectedItems=new ObservableCollection<SystemInfoModel>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<SystemInfoModel> SelectedItems
+        {
+            get { return _selectedItems; }
+            set
+            {
+                _selectedItems = value;
+                RaisePropertyChanged("SelectedItems");
+            }
+        }
+
+
+
         #endregion
 
         #region - 命令 -
@@ -105,8 +161,9 @@ namespace HeBianGu.Application.MainWindow
                 this.Students.Add(Student.Random());
             }
 
-            ICollectionView vw = CollectionViewSource.GetDefaultView(this.Students);
-            vw.GroupDescriptions.Add(new PropertyGroupDescription("Class"));
+            //ICollectionView vw = CollectionViewSource.GetDefaultView(this.Students);
+
+            //vw.GroupDescriptions.Add(new PropertyGroupDescription("Class"));
 
 
             for (int i = 0; i < 5000; i++)
@@ -114,6 +171,28 @@ namespace HeBianGu.Application.MainWindow
                 this.Datas.Add(random.NextDouble() * 10);
                 this.xAxis.Add(i);
             }
+
+            for (int i = 0; i < 10; i++)
+            {
+                _autoCompleteSource.Add(random.Next(0,10000000).ToString());
+            }
+
+            //_autoCompleteSource.Add("测试");
+            //_autoCompleteSource.Add("成功");
+            //_autoCompleteSource.Add("失败");
+            //_autoCompleteSource.Add("123456789");
+            _autoCompleteSource.Add("abcdefghijklmnopqrstuvwxyz");
+
+            BitmapImage bitmap = new BitmapImage(new Uri(@"C:\Users\Administrator\Desktop\新建文件夹\vs图标.PNG", UriKind.RelativeOrAbsolute));
+
+            ImageSource grayImage = new FormatConvertedBitmap(bitmap, PixelFormats.Pbgra32, null, 0);
+
+            this.ImageSource = grayImage;
+
+            _selectedItems.CollectionChanged +=(l, k) =>
+             {
+                 Debug.WriteLine(this.SelectedItems.Count);
+             };
 
         }
 
@@ -177,6 +256,17 @@ namespace HeBianGu.Application.MainWindow
                     return true;
                 });
 
+            }
+
+            //  Do：取消
+            else if (command == "ScrollViewer.ScrollingTrigger.ToButton")
+            {
+                MessageService.ShowWinInfoMessage("移动到了指定按钮18");
+            }
+            //  Do：取消
+            else if (string.IsNullOrEmpty(command))
+            {
+                MessageService.ShowWinInfoMessage("测试");
             }
 
             if (obj is MouseWheelEventArgs args)

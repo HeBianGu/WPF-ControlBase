@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,6 +10,7 @@ using System.Windows.Media.Animation;
 namespace HeBianGu.Base.WpfBase
 {
     /// <summary> 容器内子控件加载时触发动画效果</summary>
+    [Obsolete("使用 InvokeTimeSplitAnimationAction 更灵活,后面不继续使用")] 
     public class LoadAnimationBehavior : Behavior<FrameworkElement>
     { 
         protected override void OnAttached()

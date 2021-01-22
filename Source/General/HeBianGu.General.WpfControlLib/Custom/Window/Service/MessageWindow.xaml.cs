@@ -25,7 +25,6 @@ namespace HeBianGu.General.WpfControlLib
             InitializeComponent();
         }
 
-
         #region - 动态加载按钮 -
 
         private bool _result;

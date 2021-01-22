@@ -155,6 +155,34 @@ namespace HeBianGu.Base.WpfBase
 
         #endregion
 
+
+        #region - PressBorderBrushProperty 按下边框颜色 -
+
+        /// <summary>
+        /// 按下边框颜色
+        /// </summary>
+        public static readonly DependencyProperty PressBorderBrushProperty = DependencyProperty.RegisterAttached(
+            "PressBorderBrush", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnPressBorderBrushChanged));
+
+        public static Brush GetPressBorderBrush(DependencyObject d)
+        {
+            return (Brush)d.GetValue(PressBorderBrushProperty);
+        }
+
+        public static void SetPressBorderBrush(DependencyObject obj, Brush value)
+        {
+            obj.SetValue(PressBorderBrushProperty, value);
+        }
+
+        static void OnPressBorderBrushChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        #endregion
+
+
         #region FocusBorderBrush 焦点边框色，输入控件
 
         public static readonly DependencyProperty FocusBorderBrushProperty = DependencyProperty.RegisterAttached(
@@ -400,25 +428,25 @@ namespace HeBianGu.Base.WpfBase
         /// </summary>
         private static void AllowsAnimationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var uc = d as FrameworkElement;
-            if (uc == null) return;
-            if (uc.RenderTransformOrigin == new Point(0, 0))
-            {
-                uc.RenderTransformOrigin = new Point(0.5, 0.5);
-                RotateTransform trans = new RotateTransform(0);
-                uc.RenderTransform = trans;
-            }
-            var value = (bool)e.NewValue;
-            if (value)
-            {
-                RotateAnimation.To = 180;
-                uc.RenderTransform.BeginAnimation(RotateTransform.AngleProperty, RotateAnimation);
-            }
-            else
-            {
-                RotateAnimation.To = 0;
-                uc.RenderTransform.BeginAnimation(RotateTransform.AngleProperty, RotateAnimation);
-            }
+            //var uc = d as FrameworkElement;
+            //if (uc == null) return;
+            //if (uc.RenderTransformOrigin == new Point(0, 0))
+            //{
+            //    uc.RenderTransformOrigin = new Point(0.5, 0.5);
+            //    RotateTransform trans = new RotateTransform(0);
+            //    uc.RenderTransform = trans;
+            //}
+            //var value = (bool)e.NewValue;
+            //if (value)
+            //{
+            //    RotateAnimation.To = 180;
+            //    uc.RenderTransform.BeginAnimation(RotateTransform.AngleProperty, RotateAnimation);
+            //}
+            //else
+            //{
+            //    RotateAnimation.To = 0;
+            //    uc.RenderTransform.BeginAnimation(RotateTransform.AngleProperty, RotateAnimation);
+            //}
         }
         #endregion
 
@@ -797,12 +825,9 @@ namespace HeBianGu.Base.WpfBase
           DependencyProperty.RegisterAttached("Password",
           typeof(string), typeof(Cattach),
           new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
-        public static readonly DependencyProperty AttachProperty =
-            DependencyProperty.RegisterAttached("Attach",
-            typeof(bool), typeof(Cattach), new PropertyMetadata(false, Attach));
-        private static readonly DependencyProperty IsUpdatingProperty =
-           DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
-           typeof(Cattach));
+        public static readonly DependencyProperty AttachProperty = DependencyProperty.RegisterAttached("Attach",typeof(bool), typeof(Cattach), new PropertyMetadata(false, Attach));
+       
+        private static readonly DependencyProperty IsUpdatingProperty = DependencyProperty.RegisterAttached("IsUpdating", typeof(bool), typeof(Cattach));
 
         public static void SetAttach(DependencyObject dp, bool value)
         {
@@ -1168,6 +1193,255 @@ namespace HeBianGu.Base.WpfBase
 
         #endregion
 
+
+
+    }
+
+ 
+    static partial class Cattach
+    {
+        /// <summary>
+        /// 是否启用关闭按钮
+        /// </summary>
+        public static readonly DependencyProperty IsUseCloseProperty = DependencyProperty.RegisterAttached(
+            "IsUseClose", typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsUseCloseChanged));
+
+        public static bool GetIsUseClose(DependencyObject d)
+        {
+            return (bool)d.GetValue(IsUseCloseProperty);
+        }
+
+        public static void SetIsUseClose(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsUseCloseProperty, value);
+        }
+
+        static void OnIsUseCloseChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 是否正在拖动 DragEnter
+        /// </summary>
+        public static readonly DependencyProperty IsDragEnterProperty = DependencyProperty.RegisterAttached(
+            "IsDragEnter", typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsDragEnterChanged));
+
+        public static bool GetIsDragEnter(DependencyObject d)
+        {
+            return (bool)d.GetValue(IsDragEnterProperty);
+        }
+
+        public static void SetIsDragEnter(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsDragEnterProperty, value);
+        }
+
+        static void OnIsDragEnterChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+    }
+
+    static partial class Cattach
+    {
+        /// <summary>
+        /// 子内容中的间距
+        /// </summary>
+        public static readonly DependencyProperty CellMarginProperty = DependencyProperty.RegisterAttached(
+            "CellMargin", typeof(Thickness), typeof(Cattach), new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCellMarginChanged));
+
+        public static Thickness GetCellMargin(DependencyObject d)
+        {
+            return (Thickness)d.GetValue(CellMarginProperty);
+        }
+
+        public static void SetCellMargin(DependencyObject obj, Thickness value)
+        {
+            obj.SetValue(CellMarginProperty, value);
+        }
+
+        static void OnCellMarginChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 布局方式
+        /// </summary>
+        public static readonly DependencyProperty OrientationProperty = DependencyProperty.RegisterAttached(
+            "Orientation", typeof(Orientation), typeof(Cattach), new FrameworkPropertyMetadata(default(Orientation), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnOrientationChanged));
+
+        public static Orientation GetOrientation(DependencyObject d)
+        {
+            return (Orientation)d.GetValue(OrientationProperty);
+        }
+
+        public static void SetOrientation(DependencyObject obj, Orientation value)
+        {
+            obj.SetValue(OrientationProperty, value);
+        }
+
+        static void OnOrientationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 是否选中
+        /// </summary>
+        public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.RegisterAttached(
+            "IsSelected", typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsSelectedChanged));
+
+        public static bool GetIsSelected(DependencyObject d)
+        {
+            return (bool)d.GetValue(IsSelectedProperty);
+        }
+
+        public static void SetIsSelected(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsSelectedProperty, value);
+        }
+
+        static void OnIsSelectedChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        } 
+
+        /// <summary>
+        /// 值
+        /// </summary>
+        public static readonly DependencyProperty ValueProperty = DependencyProperty.RegisterAttached(
+            "Value", typeof(Double), typeof(Cattach), new FrameworkPropertyMetadata(default(Double), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnValueChanged));
+
+        public static Double GetValue(DependencyObject d)
+        {
+            return (Double)d.GetValue(ValueProperty);
+        }
+
+        public static void SetValue(DependencyObject obj, Double value)
+        {
+            obj.SetValue(ValueProperty, value);
+        }
+
+        static void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 文本
+        /// </summary>
+        public static readonly DependencyProperty TextProperty = DependencyProperty.RegisterAttached(
+            "Text", typeof(string), typeof(Cattach), new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTextChanged));
+
+        public static string GetText(DependencyObject d)
+        {
+            return (string)d.GetValue(TextProperty);
+        }
+
+        public static void SetText(DependencyObject obj, string value)
+        {
+            obj.SetValue(TextProperty, value);
+        }
+
+        static void OnTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 是否显示等待
+        /// </summary>
+        public static readonly DependencyProperty IsIndeterminateProperty = DependencyProperty.RegisterAttached(
+            "IsIndeterminate", typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsIndeterminateChanged));
+
+        public static bool GetIsIndeterminate(DependencyObject d)
+        {
+            return (bool)d.GetValue(IsIndeterminateProperty);
+        }
+
+        public static void SetIsIndeterminate(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsIndeterminateProperty, value);
+        }
+
+        static void OnIsIndeterminateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 是否始终显示
+        /// </summary>
+        public static readonly DependencyProperty IsStayOpenProperty = DependencyProperty.RegisterAttached(
+            "IsStayOpen", typeof(string), typeof(Cattach), new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsStayOpenChanged));
+
+        public static string GetIsStayOpen(DependencyObject d)
+        {
+            return (string)d.GetValue(IsStayOpenProperty);
+        }
+
+        public static void SetIsStayOpen(DependencyObject obj, string value)
+        {
+            obj.SetValue(IsStayOpenProperty, value);
+        }
+
+        static void OnIsStayOpenChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 选中文本
+        /// </summary>
+        public static readonly DependencyProperty SelectedTextProperty = DependencyProperty.RegisterAttached(
+            "SelectedText", typeof(string), typeof(Cattach), new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedTextChanged));
+
+        public static string GetSelectedText(DependencyObject d)
+        {
+            return (string)d.GetValue(SelectedTextProperty);
+        }
+
+        public static void SetSelectedText(DependencyObject obj, string value)
+        {
+            obj.SetValue(SelectedTextProperty, value);
+        }
+
+        static void OnSelectedTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 未选中文本
+        /// </summary>
+        public static readonly DependencyProperty UnSelectedTextProperty = DependencyProperty.RegisterAttached(
+            "UnSelectedText", typeof(string), typeof(Cattach), new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnUnSelectedTextChanged));
+
+        public static string GetUnSelectedText(DependencyObject d)
+        {
+            return (string)d.GetValue(UnSelectedTextProperty);
+        }
+
+        public static void SetUnSelectedText(DependencyObject obj, string value)
+        {
+            obj.SetValue(UnSelectedTextProperty, value);
+        }
+
+        static void OnUnSelectedTextChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
 
 
     }

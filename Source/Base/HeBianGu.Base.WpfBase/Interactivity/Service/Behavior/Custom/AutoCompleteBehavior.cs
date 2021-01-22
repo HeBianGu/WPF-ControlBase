@@ -11,36 +11,36 @@ using System.Windows.Input;
 namespace HeBianGu.Base.WpfBase
 {
 
-        //<TextBox Grid.Row="1" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource= "{Binding TestItems}"
-        //         behaviors:AutoCompleteBehavior.AutoCompleteIndicator= "@" />
-        //< TextBox Grid.Row= "2" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource= "{Binding TestItems}" />
-    public static class AutoCompleteBehavior
+    //<TextBox Grid.Row="1" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource= "{Binding TestItems}"
+    //         behaviors:AutoCompleteBehavior.AutoCompleteIndicator= "@" />
+    //< TextBox Grid.Row= "2" behaviors:AutoCompleteBehavior.AutoCompleteItemsSource= "{Binding TestItems}" />
+    public static class AutoComplete
     {
         private static TextChangedEventHandler onTextChanged = new TextChangedEventHandler(OnTextChanged);
         private static KeyEventHandler onKeyDown = new KeyEventHandler(OnPreviewKeyDown);
-        
-		/// <summary>
-		/// The collection to search for matches from.
-		/// </summary>
+
+        /// <summary>
+        /// The collection to search for matches from.
+        /// </summary>
         public static readonly DependencyProperty AutoCompleteItemsSource =
             DependencyProperty.RegisterAttached
             (
                 "AutoCompleteItemsSource",
                 typeof(IEnumerable<String>),
-                typeof(AutoCompleteBehavior),
+                typeof(AutoComplete),
                 new UIPropertyMetadata(null, OnAutoCompleteItemsSource)
             );
-		/// <summary>
-		/// Whether or not to ignore case when searching for matches.
-		/// </summary>
-		public static readonly DependencyProperty AutoCompleteStringComparison =
-			DependencyProperty.RegisterAttached
-			(
-				"AutoCompleteStringComparison",
-				typeof(StringComparison),
-				typeof(AutoCompleteBehavior),
-				new UIPropertyMetadata(StringComparison.Ordinal)
-			);
+        /// <summary>
+        /// Whether or not to ignore case when searching for matches.
+        /// </summary>
+        public static readonly DependencyProperty AutoCompleteStringComparison =
+            DependencyProperty.RegisterAttached
+            (
+                "AutoCompleteStringComparison",
+                typeof(StringComparison),
+                typeof(AutoComplete),
+                new UIPropertyMetadata(StringComparison.Ordinal)
+            );
 
         /// <summary>
 		/// What string should indicate that we should start giving auto-completion suggestions.  For example: @
@@ -51,7 +51,7 @@ namespace HeBianGu.Base.WpfBase
             (
                 "AutoCompleteIndicator",
                 typeof(String),
-                typeof(AutoCompleteBehavior),
+                typeof(AutoComplete),
                 new UIPropertyMetadata(String.Empty)
             );
 
@@ -80,6 +80,7 @@ namespace HeBianGu.Base.WpfBase
             //Remove our old handler, regardless of if we have a new one.
             tb.TextChanged -= onTextChanged;
             tb.PreviewKeyDown -= onKeyDown;
+
             if (e.NewValue != null)
             {
                 //New source.  Add the callbacks
@@ -87,18 +88,18 @@ namespace HeBianGu.Base.WpfBase
                 tb.PreviewKeyDown += onKeyDown;
             }
         }
-		#endregion
+        #endregion
 
-		#region String Comparison
-		public static StringComparison GetAutoCompleteStringComparison(DependencyObject obj) 
-		{
-			return (StringComparison)obj.GetValue(AutoCompleteStringComparison);
-		}
+        #region String Comparison
+        public static StringComparison GetAutoCompleteStringComparison(DependencyObject obj)
+        {
+            return (StringComparison)obj.GetValue(AutoCompleteStringComparison);
+        }
 
-		public static void SetAutoCompleteStringComparison(DependencyObject obj, StringComparison value) 
-		{
-			obj.SetValue(AutoCompleteStringComparison, value);
-		}
+        public static void SetAutoCompleteStringComparison(DependencyObject obj, StringComparison value)
+        {
+            obj.SetValue(AutoCompleteStringComparison, value);
+        }
         #endregion
 
         #region Indicator
@@ -135,11 +136,11 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-		/// <summary>
-		/// Search for auto-completion suggestions.
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
+        /// <summary>
+        /// Search for auto-completion suggestions.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         static void OnTextChanged(object sender, TextChangedEventArgs e)
         {
             if
@@ -167,7 +168,7 @@ namespace HeBianGu.Base.WpfBase
             string matchingString = tb.Text;
             //If we have a trigger string, make sure that it has been typed before
             //giving auto-completion suggestions.
-            if(!String.IsNullOrEmpty(indicator))
+            if (!String.IsNullOrEmpty(indicator))
             {
                 startIndex = tb.Text.LastIndexOf(indicator);
                 //If we haven't typed the trigger string, then don't do anything.
@@ -184,26 +185,26 @@ namespace HeBianGu.Base.WpfBase
 
             Int32 textLength = matchingString.Length;
 
-			StringComparison comparer = GetAutoCompleteStringComparison(tb);
+            StringComparison comparer = GetAutoCompleteStringComparison(tb);
             //Do search and changes here.
-			String match =
-			(
-				from
-					value
-				in
-				(
-					from subvalue
-					in values
-					where subvalue != null && subvalue.Length >= textLength
-					select subvalue
-				)
-				where value.Substring(0, textLength).Equals(matchingString, comparer)
-				select value.Substring(textLength, value.Length - textLength)/*Only select the last part of the suggestion*/
-			).FirstOrDefault();
+            String match =
+            (
+                from
+                    value
+                in
+                (
+                    from subvalue
+                    in values
+                    where subvalue != null && subvalue.Length >= textLength
+                    select subvalue
+                )
+                where value.Substring(0, textLength).Equals(matchingString, comparer)
+                select value.Substring(textLength, value.Length - textLength)/*Only select the last part of the suggestion*/
+            ).FirstOrDefault();
 
             //Nothing.  Leave 'em alone
-			if (String.IsNullOrEmpty(match))
-				return;
+            if (String.IsNullOrEmpty(match))
+                return;
 
             int matchStart = (startIndex + matchingString.Length);
             tb.TextChanged -= onTextChanged;

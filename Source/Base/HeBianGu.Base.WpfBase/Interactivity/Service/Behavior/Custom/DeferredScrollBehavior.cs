@@ -3,10 +3,7 @@ using System.Windows.Controls.Primitives;
 
 namespace HeBianGu.Base.WpfBase
 {
-    /// <summary>
-    /// This class provides deferred scrolling capability to a normal scrollbar - the same
-    /// way a ScrollViewer can have deferred scrolling.
-    /// </summary>
+    /// <summary> 当进度条滚动时 返回当前值 </summary>
     public class DeferredScrollBehavior : Behavior<ScrollBar>
     {
         #region Value property

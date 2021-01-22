@@ -13,6 +13,7 @@ namespace HeBianGu.Base.WpfBase
     /// <summary>
     /// Behavior which applies a grayscale effect to an image when it's
     /// parent Button or MenuItem is disabled.
+    /// 图片控件 当不可用时设置成灰白
     /// </summary>
     public class AutoDisabledImageBehavior : Behavior<Image>
     {

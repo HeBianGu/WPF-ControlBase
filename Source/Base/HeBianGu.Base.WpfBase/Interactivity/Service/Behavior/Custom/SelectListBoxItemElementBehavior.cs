@@ -6,10 +6,9 @@ using System.Windows.Media;
 
 namespace HeBianGu.Base.WpfBase
 {
-    /// <summary> 但点击当前控件时ListBoxItem项值也选中 </summary>
+    /// <summary> 单点击当前控件时ListBoxItem项值也选中 </summary>
     public class SelectListBoxItemElementBehavior : Behavior<FrameworkElement>
-    {
-
+    { 
         protected override void OnAttached()
         {
             AssociatedObject.AddHandler(UIElement.PreviewMouseLeftButtonDownEvent,
@@ -20,9 +19,7 @@ namespace HeBianGu.Base.WpfBase
         {
             AssociatedObject.RemoveHandler(UIElement.PreviewMouseLeftButtonDownEvent
                 , new MouseButtonEventHandler(OnMouseLeftButtonDown));
-        }
-
-
+        } 
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -31,8 +28,8 @@ namespace HeBianGu.Base.WpfBase
             if(parent!=null)
             {
                 parent.IsSelected = true;
-            } 
-         
+            }  
         }
     }
+
 }

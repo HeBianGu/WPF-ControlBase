@@ -59,7 +59,9 @@ namespace HeBianGu.Control.Chart2D
 
             //  Do ：刷新饼图
             {
-                var series = this.GetParent<Chart>().GetChildren<DataLayer>()?.ToList();
+                var series = this.GetParent<Chart>()?.GetChildren<DataLayer>()?.ToList();
+
+                if (series == null) return;
 
                 foreach (var item in series)
                 {
@@ -97,7 +99,9 @@ namespace HeBianGu.Control.Chart2D
         {
             List<StackLegendItem> items = new List<StackLegendItem>();
 
-            var series = this.GetParent<Chart>().GetChildren<StackBarBase>()?.ToList();
+            var series = this.GetParent<Chart>()?.GetChildren<StackBarBase>()?.ToList();
+
+            if (series == null) return;
 
             foreach (var item in series)
             {

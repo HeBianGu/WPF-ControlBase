@@ -14,6 +14,7 @@ namespace HeBianGu.Base.WpfBase
     /// see http://code.msdn.microsoft.com/getwpfcode/Release/ProjectReleases.aspx?ReleaseId=1445
     /// for the original source code and project.
     /// </summary>
+    /// <summary> 同ScrollbarPreviewBehavior 只是这个会自动查找子元素中的ScrollBar </summary>
     public class ScrollingPreviewBehavior : Behavior<Control>
     {
         #region VerticalScrollingPreviewTemplate
@@ -167,9 +168,9 @@ namespace HeBianGu.Base.WpfBase
                 // The ScrollBar's value isn't updated quite yet, so wait until Input priority
                 AssociatedObject.Dispatcher.BeginInvoke((Action)(() =>
                      {
-                         ScrollingPreviewData data = (ScrollingPreviewData) _previewToolTip.Content;
-                         data.UpdateScrollingValues(scrollBar);
-                         data.UpdateItem(AssociatedObject as ItemsControl, scrollBar.Orientation == Orientation.Vertical);
+                         ScrollingPreviewData data = (ScrollingPreviewData) _previewToolTip?.Content;
+                         data?.UpdateScrollingValues(scrollBar);
+                         data?.UpdateItem(AssociatedObject as ItemsControl, scrollBar.Orientation == Orientation.Vertical);
                      }
                     ), DispatcherPriority.Input);
             }

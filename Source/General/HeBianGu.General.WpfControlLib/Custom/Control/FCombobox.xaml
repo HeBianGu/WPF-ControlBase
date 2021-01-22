@@ -201,17 +201,24 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:FComboBoxItem}">
-                    <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}">
-                        <Border x:Name="bdrMain" Background="Transparent" />
-                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                    <Grid Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" Margin="0,0.5">
+
+                        <Border x:Name="bdrMain" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
+                            <Grid>
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           x:Name="txtContent" Opacity="0.8" ContentSource="Content" />
 
-                        <local:FButton x:Name="btnDelete" Opacity="0.7" Style="{DynamicResource S.FButton.Style.Transparent}" Foreground="{TemplateBinding Foreground}"
+                                <local:FButton x:Name="btnDelete" Opacity="0.7" Style="{DynamicResource S.FButton.Style.Transparent}" Foreground="{TemplateBinding Foreground}"
                                         Command="{Binding DeleteCommand,RelativeSource={RelativeSource AncestorType=ComboBoxItem}}"
                                         CommandParameter="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}}" Width="35"
                                         Cursor="Arrow" VerticalAlignment="Top"
-                                        HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Content="×"></local:FButton>
+                                        HorizontalAlignment="Right" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="20" Content="×">
+
+                                </local:FButton>
+                            </Grid>
+                        </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="CanDelete" Value="False">
@@ -230,6 +237,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style TargetType="{x:Type local:FComboBox}" x:Key="S.FComboBox.Single.Label" BasedOn="{StaticResource S.FComboBox.Single}">
         <Setter Property="h:Cattach.LabelTemplate" >
             <Setter.Value>

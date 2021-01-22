@@ -7,6 +7,7 @@ namespace HeBianGu.Base.WpfBase
     /// This behavior tracks two ScrollViewer based controls and keeps their 
     /// Horizontal and Vertical positions synchronized.
     /// </summary>
+    /// <summary> 设置两个滚动条滚动同步行为 </summary>
     public class SynchronizedScrollingBehavior : Behavior<UIElement>
     {
         /// <summary>

@@ -909,6 +909,20 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+    /// <summary> 值为空转false </summary> 
+    public class NullToEmptyConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value == null ? string.Empty : value; 
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
 
     /// <summary> 绑定图标转换 </summary>
     [ValueConversion(typeof(Icon), typeof(ImageSource))]

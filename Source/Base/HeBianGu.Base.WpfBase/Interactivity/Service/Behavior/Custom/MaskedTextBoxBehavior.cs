@@ -6,9 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace HeBianGu.Base.WpfBase
 {
-    /// <summary>
-    /// WPF attached behavior which attaches a regular expression to a TextBox.
-    /// </summary>
+    /// <summary> 显示输入内容 目前测试输入法输入时有问题 </summary>
     public class MaskedTextBoxBehavior : Behavior<TextBox>
     {
         #region MaskProperty
@@ -31,6 +29,7 @@ namespace HeBianGu.Base.WpfBase
             return (string) textBox.GetValue(MaskProperty);
         }
 
+       
         /// <summary>
         /// Adds MaskedTextBoxBehavior to TextBox
         /// </summary>

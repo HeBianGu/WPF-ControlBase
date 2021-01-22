@@ -5,21 +5,53 @@
 
     <!--默认样式-->
     <Style x:Key="S.ListBoxItem.Default" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="MinHeight" Value="{DynamicResource S.Window.Item.Height}"/>
+        <Setter Property="MinHeight" Value="{DynamicResource S.Window.Row.Height}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="h:Cattach.IsUseClose" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=(h:Cattach.IsUseClose)}"/>
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
+        <Setter Property="Padding" Value="10,0"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Grid Background="Transparent">
-                        <Border x:Name="boder"/>
-                        <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                    <Grid Background="Transparent"> 
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"/>
+                        
+                        <Border x:Name="boder_mouseover" BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{DynamicResource S.Brush.Accent.MouseOver.Background}"
+                                Opacity="0"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"/>
+
+                        <Border x:Name="boder" BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{DynamicResource S.Brush.Accent}"
+                                Opacity="0"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"/>
+                        
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+
+                            <local:FButton Style="{DynamicResource S.FButton.Close}"
+                                       Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.IsUseClose),Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
+                                       FIconSize="{DynamicResource S.FIcon.Size.Small}">
+                                <h:Interaction.Triggers>
+                                    <h:EventTrigger EventName="Click">
+                                        <h:CloseItemsAction ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                        Item="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}}"/>
+                                    </h:EventTrigger>
+                                </h:Interaction.Triggers>
+                            </local:FButton>
+                        </Grid>
+
                     </Grid>
 
                     <ControlTemplate.Triggers>
-                        <MultiTrigger>
+                        <!--<MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="true"/>
                                 <Condition Property="IsMouseOver" Value="true"/>
@@ -27,42 +59,50 @@
 
                             <Setter Property="Background" TargetName="boder" Value="{DynamicResource S.Brush.Accent.Opacity.8}"/>
                             <Setter Property="Foreground"  Value="{DynamicResource S.Brush.White.Notice}"/>
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="false"/>
-                                <Condition Property="IsMouseOver" Value="true"/>
-                            </MultiTrigger.Conditions>
-                            <Setter Property="Background" TargetName="boder" Value="{DynamicResource S.Brush.Accent.Opacity.2}"/>
-                            <MultiTrigger.EnterActions>
+                        </MultiTrigger>-->
+
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0.1" Duration="0:0:0" />
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.4" />
+                                        <DoubleAnimation Storyboard.TargetName="boder_mouseover" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.3" />
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </MultiTrigger.EnterActions>
+                            </Trigger.EnterActions>
 
-                            <MultiTrigger.ExitActions>
+                            <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0" />
+                                        <DoubleAnimation Storyboard.TargetName="boder_mouseover" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:1" />
                                     </Storyboard>
                                 </BeginStoryboard>
-                            </MultiTrigger.ExitActions>
-                        </MultiTrigger>
-
-                        <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Background" TargetName="boder" Value="{DynamicResource S.Brush.Accent}"/>
-                            <Setter Property="Foreground"  Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                            </Trigger.ExitActions>
                         </Trigger>
 
-                        <Trigger Property="h:Cattach.Bool" Value="true">
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Foreground"  Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.3" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:1" />
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+
+                        <Trigger Property="h:Cattach.IsDragEnter" Value="true">
                             <Setter Property="BorderBrush" TargetName="boder" Value="{DynamicResource S.Brush.Accent}"/>
                             <Setter Property="BorderThickness" TargetName="boder"   Value="0,1,0,0"/>
                         </Trigger>
-
-
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -75,9 +115,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid Background="Transparent">
-                        <Border x:Name="boder"/>
+                        
+                        <Border x:Name="boder" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"/>
+                        
                         <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="Left" Margin="20,0"/>
-                        <Border x:Name="left" HorizontalAlignment="Left" Visibility="Collapsed" Background="{DynamicResource S.Brush.Accent}" Width="8"/>
+                        
+                        <Border x:Name="left" HorizontalAlignment="Left" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Left}" Visibility="Collapsed" Background="{DynamicResource S.Brush.Accent}" Width="8"/>
                     </Grid>
 
                     <ControlTemplate.Triggers>
@@ -134,7 +177,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Grid VerticalAlignment="Center" Height="{TemplateBinding Height}"  Margin="{TemplateBinding Padding}">
+                    <Grid Background="Transparent" VerticalAlignment="Center" Height="{TemplateBinding Height}"  Margin="{TemplateBinding Padding}">
                         <Border x:Name="underline"  BorderThickness="0,0,0,2" BorderBrush="{DynamicResource S.Brush.Accent}"/>
                         <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}" HorizontalAlignment="Left"  Margin="15,0" />
                     </Grid>
@@ -183,6 +226,7 @@
                             </Setter>
                         </Style>
                     </ControlTemplate.Resources>
+                    
                     <Border  x:Name="IconBorder" Background="Transparent" BorderThickness="0,0,0,0.2"  BorderBrush="LightGray">
                         <Border>
                             <CheckBox Content="{Binding Name}" 
@@ -192,6 +236,7 @@
                                                       Foreground="{TemplateBinding Foreground}" x:Name="cb"/>
                         </Border>
                     </Border>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
                             <Setter TargetName="IconBorder" Property="BitmapEffect">
@@ -216,6 +261,61 @@
         </Setter>
     </Style>
 
+    <!--带有边框样式-->
+    <Style x:Key="S.ListBoxItem.Border" TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource S.ListBoxItem.Default}">
+        <Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Grid Background="Transparent">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"/>
+
+                        <Grid Margin="{TemplateBinding Padding}">
+                            
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+
+                            <local:FButton Style="{DynamicResource S.FButton.Close}"
+                                       Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.IsUseClose),Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
+                                       FIconSize="{DynamicResource S.FIcon.Size.Small}">
+                                <h:Interaction.Triggers>
+                                    <h:EventTrigger EventName="Click">
+                                        <h:CloseItemsAction ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                        Item="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}}"/>
+                                    </h:EventTrigger>
+                                </h:Interaction.Triggers>
+                            </local:FButton>
+                        </Grid>
+
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground"  Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                            <Setter Property="BorderBrush"  Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                        </Trigger>
+
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Foreground"  Value="{DynamicResource S.Brush.Accent}"/>
+                            <Setter Property="BorderBrush"  Value="{DynamicResource S.Brush.Accent}"/>
+                        </Trigger>
+
+                        <Trigger Property="h:Cattach.IsDragEnter" Value="true">
+                            <!--<Setter Property="BorderBrush" TargetName="boder" Value="{DynamicResource S.Brush.Accent}"/>
+                            <Setter Property="BorderThickness" TargetName="boder"   Value="0,1,0,0"/>-->
+
+                            <Setter Property="Foreground"  Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                            <Setter Property="BorderBrush"  Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!-- CheckBox.Box 带有边框样式-->
     <Style x:Key="S.ListBoxItem.CheckBox.Box" TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource S.ListBoxItem.Default}">
         <Setter Property="Margin" Value="2,2"/>
@@ -224,7 +324,8 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <CheckBox Margin="{TemplateBinding Padding}" Style="{DynamicResource S.CheckBox.Box}" VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                             IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}">
+                                            
+                              IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}">
                         <CheckBox.Content>
                             <ContentPresenter/>
                         </CheckBox.Content>
@@ -240,14 +341,34 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border x:Name="boder">
-                        <ContentPresenter/>
+                        <!--<ContentPresenter/>-->
+
+                        <Grid Margin="{TemplateBinding Padding}">
+
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+
+                            <local:FButton Style="{DynamicResource S.FButton.Close}"
+                                       Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.IsUseClose),Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
+                                       FIconSize="{DynamicResource S.FIcon.Size.Small}">
+                                <h:Interaction.Triggers>
+                                    <h:EventTrigger EventName="Click">
+                                        <h:CloseItemsAction ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                        Item="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}}"/>
+                                    </h:EventTrigger>
+                                </h:Interaction.Triggers>
+                            </local:FButton>
+                        </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="true">
                             <Setter Property="Foreground"  Value="{DynamicResource S.Brush.Accent}"/>
                         </Trigger>
 
-                        <MultiTrigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Foreground"  Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+                        </Trigger>
+
+                        <!--<MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="true"/>
                                 <Condition Property="IsMouseOver" Value="true"/>
@@ -261,12 +382,30 @@
                                 <Condition Property="IsMouseOver" Value="true"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
-                        </MultiTrigger>
+                        </MultiTrigger>--> 
+                        
+                        <Trigger Property="h:Cattach.IsDragEnter" Value="true">
+                            <Setter Property="BorderBrush" TargetName="boder" Value="{DynamicResource S.Brush.Accent}"/>
+                            <Setter Property="BorderThickness" TargetName="boder"   Value="0,1,0,0"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="S.ListBoxItem.Clear" TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource S.ListBoxItem.Default}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="boder">
+                        <ContentPresenter/>
+                    </Border> 
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <!--允许拖拽的项-->
     <Style x:Key="S.ListBoxItem.AllowDrop" TargetType="ListBoxItem" BasedOn="{StaticResource S.ListBoxItem.Default}">

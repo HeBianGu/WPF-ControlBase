@@ -76,6 +76,8 @@ namespace HeBianGu.Base.WpfBase
             Panel.SetZIndex(element, Reverse ? 0 : 1);
 
             element.RenderTransformOrigin = RenderTransformOrigin;
+
+            complate?.Invoke();
         }
 
         public virtual void BeginCurrent(UIElement element, Action complate = null)
@@ -103,6 +105,12 @@ namespace HeBianGu.Base.WpfBase
                 Storyboard.SetTarget(frames, element);
                 Storyboard.SetTargetProperty(frames, new PropertyPath(FrameworkElement.VisibilityProperty));
                 storyboard.Children.Add(frames);
+
+                //  ToEdit ：20210118
+                storyboard.Completed += (l, k) =>
+              {
+                  complate?.Invoke();
+              }; 
 
                 storyboard.Begin();
             }
@@ -164,12 +172,12 @@ namespace HeBianGu.Base.WpfBase
     {
         public override void BeginCurrent(UIElement element, Action complate = null)
         {
-            base.BeginCurrent(element);
+            base.BeginCurrent(element, complate);
         }
 
         public override void BeginPrevious(UIElement element, Action complate = null)
         {
-            base.BeginPrevious(element);
+            base.BeginPrevious(element, complate);
 
             element.Visibility = Visibility.Collapsed;
         }
@@ -520,7 +528,7 @@ namespace HeBianGu.Base.WpfBase
                     complate?.Invoke();
                 };
 
-                element.Wait( this.HideDuration, action);
+                element.Wait(this.HideDuration, action);
             }
             else
             {

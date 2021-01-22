@@ -17,7 +17,7 @@ namespace HeBianGu.General.WpfControlLib
         }
     }
 
-    internal static class BlurWindowExtensions
+    public static class BlurWindowExtensions
     {
         internal static class NativeMethods
         {

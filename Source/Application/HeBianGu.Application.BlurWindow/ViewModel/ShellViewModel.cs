@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
+using System.Windows.Media;
 using System.Windows.Shell;
 
 namespace HeBianGu.Application.BlurWindow
@@ -658,7 +659,17 @@ namespace HeBianGu.Application.BlurWindow
                 });
 
             }
+            //  Do：任务栏消息
+            else if (command == "Button.Taskbar.Image")
+            {
+                Drawing drawing= System.Windows.Application.Current.FindResource("S.Drawing.Database") as Drawing;
 
+                MessageService.ShowTaskbarImage(new DrawingImage(drawing));
+
+            }
+
+
+            
 
         }
 

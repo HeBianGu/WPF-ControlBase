@@ -1,11 +1,13 @@
-﻿using System.Windows;
-using System.Windows.Controls; 
+﻿using System.Diagnostics;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace HeBianGu.Base.WpfBase
 {
     /// <summary>
     /// A trigger that fires when scrolling to a specific element in a ScrollViewer.
     /// </summary>
+    /// <summary> 当滚动到绑定的一个子元素时触发 </summary>
     [TypeConstraint(typeof(ScrollViewer))]
     public class ScrollingTrigger : TriggerBase<ScrollViewer>
     {
@@ -65,6 +67,30 @@ namespace HeBianGu.Base.WpfBase
             {
                 InvokeActions(null);
             }
+
+            //if (e.VerticalChange > 0)
+            //{
+            //    //  Do ：向下移动
+
+            //    currentScrollPosition = currentScrollPosition + e.ViewportHeight;
+
+            //    if (currentScrollPosition >= targetBound.Y && currentScrollPosition <= targetBound.Y + targetBound.Height)
+            //    {
+            //        InvokeActions(null);
+            //    }
+            //}
+            //else
+            //{
+            //    //  Do ：向上移动
+            //    if (currentScrollPosition <= targetBound.Y + targetBound.Height)
+            //    {
+            //        InvokeActions(null);
+            //    }
+            //}
+
+
+            Debug.WriteLine(e.ViewportHeight);
+
         }
     }
 }

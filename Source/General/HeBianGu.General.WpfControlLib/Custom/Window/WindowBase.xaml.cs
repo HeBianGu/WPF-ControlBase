@@ -1,18 +1,10 @@
 ﻿using HeBianGu.Base.WpfBase;
 using System;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
-using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using static HeBianGu.General.WpfControlLib.BlurWindowExtensions;
 
 namespace HeBianGu.General.WpfControlLib
 {
@@ -238,6 +230,26 @@ namespace HeBianGu.General.WpfControlLib
             }));
         #endregion
 
+        /// <summary> 是否启用磨砂效果 </summary>
+        public bool IsUseBlur
+        {
+            get { return (bool)GetValue(IsUseBlurProperty); }
+            set { SetValue(IsUseBlurProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsUseBlurProperty =
+            DependencyProperty.Register("IsUseBlur", typeof(bool), typeof(WindowBase), new PropertyMetadata(default(bool), (d, e) =>
+             {
+                 WindowBase control = d as WindowBase;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+             }));
+
+
         /// <summary> 显示时的动画效果 </summary>
         public Action<WindowBase> ShowAnimation
         {
@@ -400,6 +412,12 @@ namespace HeBianGu.General.WpfControlLib
             this.Loaded += (l, k) =>
               {
                   this.ShowAnimation?.Invoke(this);
+
+                  if (this.IsUseBlur)
+                  {
+                      this.EnableBlur();
+                  }
+
               };
 
 
@@ -414,6 +432,12 @@ namespace HeBianGu.General.WpfControlLib
             this.Loaded += (l, k) =>
             {
                 this.ShowAnimation?.Invoke(this);
+
+
+                if (this.IsUseBlur)
+                {
+                    this.EnableBlur();
+                }
             };
 
             base.Show();

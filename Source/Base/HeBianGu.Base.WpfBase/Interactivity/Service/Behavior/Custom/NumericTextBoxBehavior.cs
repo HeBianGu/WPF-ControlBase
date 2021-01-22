@@ -9,9 +9,7 @@ using System.Windows.Media;
 
 namespace HeBianGu.Base.WpfBase
 {
-    /// <summary>
-    /// WPF attached behavior which attaches the NumericTextBoxBehavior to any TextBox.
-    /// </summary>
+    /// <summary> TextBox支持数值输入，鼠标滚动 拖动改变值等效果的行为 </summary>
     public class NumericTextBoxBehavior : Behavior<TextBox>
     {
         #region IsEnabledProperty

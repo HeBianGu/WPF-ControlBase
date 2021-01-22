@@ -192,5 +192,11 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary> 应用动画隐藏效果 </summary>
         public static ActionHiddenCommand ActionHiddenCommand { get; } = new ActionHiddenCommand();
 
+        public static ShowMessageWindowCommand ShowMessageWindowCommand { get; } = new ShowMessageWindowCommand();
+
+        public static ShowCopyWindowCommand ShowCopyWindowCommand { get; } = new ShowCopyWindowCommand();
+
+        
+
     }
 }

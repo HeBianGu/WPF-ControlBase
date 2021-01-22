@@ -1,10 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
-                    xmlns:h="QQ:908293466">
+                    xmlns:h="QQ:908293466" xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="../../Custom/System/DataGrid.xaml"/>
+        <ResourceDictionary Source="../../Custom/System/TreeView.Material.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="S.Explorer.Template.Default"  TargetType="{x:Type local:Explorer}">
@@ -24,8 +25,8 @@
                     <!--<local:FTextBox Style="{DynamicResource S.FTextBox.Single.LabelClear}"  h:Cattach.Label="当前路径:" Grid.Column="0" Grid.ColumnSpan="5"/>-->
 
                     <UniformGrid Columns="3">
-                        <local:FButton Content="&lt;" Margin="-10" Command="{x:Static local:Explorer.Next}" ToolTip="返回"/>
-                        <local:FButton Content="&gt;" Margin="-10"  Command="{x:Static local:Explorer.Previous}"  ToolTip="前进"/>
+                        <local:FButton Content="&lt;" Margin="-10" Style="{DynamicResource S.FButton.Style.Transparent}" Command="{x:Static local:Explorer.Next}" ToolTip="返回"/>
+                        <local:FButton Content="&gt;" Margin="-10" Style="{DynamicResource S.FButton.Style.Transparent}" Command="{x:Static local:Explorer.Previous}"  ToolTip="前进"/>
                         <ToggleButton x:Name="tb" Style="{DynamicResource ComboToggleButton}" Foreground="{DynamicResource S.Brush.TextForeground.Default}" HorizontalAlignment="Center" ToolTip="最近浏览的位置"/>
                     </UniformGrid>
 
@@ -80,7 +81,7 @@
                                <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Total}"/>
                                <Run Text="项目"/>
                         </TextBlock>
-                    </StackPanel> 
+                    </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <local:Pagination MaxPageCount="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid},Path=TotalPage,Mode=TwoWay}"  Width="600"
@@ -97,7 +98,7 @@
                           BorderThickness="1">
                         <StackPanel>
                             <GroupBox Header="最近浏览的位置" Style="{DynamicResource S.GroupBox.UnderLine}">
-                                <ListBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=History}" Style="{DynamicResource S.ListBox.Sinple}" SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=HistorySelectedItem}">
+                                <ListBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=History}" Style="{DynamicResource S.ListBox.Single}" SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=HistorySelectedItem}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate DataType="{x:Type local:DirectoryModel}">
                                             <Grid Background="Transparent" Height="{DynamicResource S.Window.Row.Height}">
@@ -141,7 +142,6 @@
 
     <Style  BasedOn="{StaticResource S.Explorer.Default}" TargetType="{x:Type local:Explorer}"/>
 
-
     <Style TargetType="{x:Type local:NavigationBar}">
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -170,18 +170,29 @@
             <Setter.Value>
                 <DataTemplate DataType="{x:Type local:DirectoryModel}">
                     <StackPanel Orientation="Horizontal">
-                        <local:FButton x:Name="btn" Content="{Binding Model.Name}" Width="Auto" Style="{DynamicResource S.FButton.Style.Link}" Margin="0">
+                        <!--<local:FButton x:Name="btn" Content="{Binding Model.Name}" Width="Auto" Style="{DynamicResource S.FButton.Style.Link}" Margin="0">
                             <h:Interaction.Behaviors>
                                 <h:SelectListBoxItemElementBehavior/>
                             </h:Interaction.Behaviors>
-                        </local:FButton>
+                        </local:FButton>-->
+
+                        <TextBlock x:Name="txt" Cursor="Hand" VerticalAlignment="Center" Style="{DynamicResource S.TextBlock.Default}" Margin="5,0" TextDecorations="UnderLine" Text="{Binding Model.Name,Mode=OneWay}">
+                              <!--<h:Interaction.Behaviors>
+                                <h:SelectListBoxItemElementBehavior/>
+                                 </h:Interaction.Behaviors>-->
+                        </TextBlock>
+
                         <TextBlock x:Name="flag" Text="&gt;" VerticalAlignment="Center" Foreground="{DynamicResource S.Brush.TextForeground.Default}"/>
                     </StackPanel>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Converter= {x:Static h:XConverter.IsLastItemInContainerConverter}}" Value="True">
                             <Setter Property="Visibility" Value="Collapsed" TargetName="flag"/>
                             <Setter Property="IsHitTestVisible" Value="False"/>
-                            <Setter Property="Style" Value="{DynamicResource S.FButton.Style.Transparent}" TargetName="btn"/>
+                            <Setter Property="TextDecorations" Value="{x:Null}" TargetName="txt"/>
+                            <!--<Setter Property="Style" Value="{DynamicResource S.FButton.Style.Transparent}" TargetName="btn"/>-->
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsMouseOver}" Value="true">
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"  TargetName="txt"/>
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>
@@ -210,4 +221,67 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+
+    <HierarchicalDataTemplate ItemsSource="{Binding Path=Collection}" DataType="{x:Type local:RootModel}">
+        <StackPanel  Orientation="Horizontal">
+            <TextBlock Text="{Binding Path=FIcon}" FontSize="15" Style="{DynamicResource FIcon}" VerticalAlignment="Center"/>
+            <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}"/>
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate ItemsSource="{Binding Path=Collection}" DataType="{x:Type local:SystemInfoModel}">
+        <StackPanel Orientation="Horizontal">
+            <Image Source="{Binding Logo,Converter={x:Static h:XConverter.IconToImageSourceConverter}}" Margin="0"/>
+            <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}"/>
+        </StackPanel>
+    </HierarchicalDataTemplate>
+
+    <HierarchicalDataTemplate ItemsSource="{Binding Path=Collection}" DataType="{x:Type local:DirectoryModel}">
+        <Grid>
+            <StackPanel Orientation="Horizontal">
+                <Image Source="{Binding Logo,Converter={x:Static h:XConverter.IconToImageSourceConverter}}" Margin="0"/>
+                <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}"/>
+            </StackPanel>
+            <ProgressBar IsIndeterminate="{Binding IsBuzy}"  Style="{DynamicResource S.ProgressBar.Base}" Opacity="0.5" BorderThickness="0" Visibility="{Binding IsBuzy,Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"/>
+
+            <!--<ProgressBar IsIndeterminate="True" Style="{StaticResource S.ProgressBar.Base}" Opacity="0.5" BorderThickness="0"/>-->
+        </Grid>
+    </HierarchicalDataTemplate>
+
+    <Style x:Key="S.ExplorerTree.Default" TargetType="{x:Type local:ExplorerTree}" BasedOn="{StaticResource S.TreeView.Material}">
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource S.TreeViewItem.Default}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.ExplorerTree.Single" TargetType="{x:Type local:ExplorerTree}" BasedOn="{StaticResource S.ExplorerTree.Default}">
+        <Setter Property="Customs">
+            <Setter.Value>
+                <local:RootModelCollection>
+                    <local:RootModel DisplayName="快速访问" IsExpanded="True" FIcon="&#xe90c;">
+                        <local:DirectoryModel>Desktop</local:DirectoryModel>
+                        <local:DirectoryModel>Recent</local:DirectoryModel>
+                        <local:DirectoryModel>MyDocuments</local:DirectoryModel>
+                        <local:DirectoryModel>Favorites</local:DirectoryModel>
+                        <local:DirectoryModel>MyMusic</local:DirectoryModel>
+                        <local:DirectoryModel>MyVideos</local:DirectoryModel>
+                    </local:RootModel>
+
+                    <!--<local:RootModel DisplayName="自定义位置" FIcon="&#xe927;">
+                        <local:DirectoryModel>D:\ProgramData</local:DirectoryModel>
+                        <local:DirectoryModel>D:\ProgramData</local:DirectoryModel>
+                        <local:DirectoryModel>D:\ProgramData</local:DirectoryModel>
+                    </local:RootModel>-->
+                </local:RootModelCollection>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:ExplorerTree}" BasedOn="{StaticResource S.ExplorerTree.Default}"/>
+
 </ResourceDictionary>

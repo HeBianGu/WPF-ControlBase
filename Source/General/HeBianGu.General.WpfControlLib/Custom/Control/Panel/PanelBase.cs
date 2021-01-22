@@ -136,7 +136,7 @@ namespace HeBianGu.General.WpfControlLib
 
             return result;
         }
- 
+
     }
 
     public abstract class AnimationPanel : PanelBase

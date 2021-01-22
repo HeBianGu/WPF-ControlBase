@@ -69,5 +69,15 @@ namespace HeBianGu.Application.ManagerWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Explorer()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> ExplorerTree()
+        {
+            return await ViewAsync();
+        }
     }
 }

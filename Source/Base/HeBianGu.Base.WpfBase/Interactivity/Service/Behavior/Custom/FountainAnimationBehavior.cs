@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,6 +9,7 @@ using System.Windows.Media;
 namespace HeBianGu.Base.WpfBase
 {
     /// <summary> 容器内子控件加载时触发喷泉效果</summary>
+    [Obsolete("使用 InvokeTimeSplitAnimationAction 更灵活,后面不继续使用")]
     public class FountainAnimationBehavior : Behavior<FrameworkElement>
     {
 

@@ -13,15 +13,18 @@
         <Setter Property="Padding" Value="10,0" />
         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=ComboBox},Path=Height}" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
-                    <Grid Background="{TemplateBinding Background}" Margin="0,0" Width="{Binding RelativeSource={RelativeSource AncestorType=ComboBox},Path=Weight}">
+                    <Grid Background="{TemplateBinding Background}" Margin="0,0.5" Width="{Binding RelativeSource={RelativeSource AncestorType=ComboBox},Path=Weight}">
                         <Border x:Name="ItemBackground" IsHitTestVisible="False" 
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                 BorderThickness="{TemplateBinding BorderThickness}"  
                                 BorderBrush="{TemplateBinding BorderBrush}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 Background="{TemplateBinding Background}" />
+                        
                         <ContentPresenter x:Name="contentPresenter" 
                                           Margin="{TemplateBinding Padding}" 
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -138,7 +141,7 @@
                         </Border>
                         <Polygon  HorizontalAlignment="Right" Fill="{DynamicResource S.Brush.Accent}" Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}" Points="0,5 5,0 10,5 0,5" Margin="0,-5,8,0" FillRule="Nonzero"/>
 
-                        <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" VerticalAlignment="Top" Margin="2,3">
+                        <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" VerticalAlignment="Top" Margin="2">
                             <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" Height="Auto"/>
                         </ScrollViewer>
 
@@ -187,7 +190,6 @@
                 <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>
             </Trigger>
 
-
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
@@ -203,7 +205,7 @@
                 </Grid.ColumnDefinitions>
 
                 <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" Margin="{TemplateBinding Padding}"
                                 BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="3"
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="{TemplateBinding Background}" />
@@ -282,7 +284,7 @@
                                   MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
 
 
-                    <Grid x:Name="grid_auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top"  Margin="0,10,0,0">
+                    <Grid x:Name="grid_auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top"  Margin="0,5,0,0">
                         <!--<Path Data="{TemplateBinding h:Cattach.Path}" Stroke="{DynamicResource S.Brush.Accent}" 
                           Fill="{DynamicResource S.Brush.TextBackground.Default}" StrokeThickness="1" Height="{Binding ElementName=grid_auto,Path=ActualHeight}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill"/>-->
 
@@ -291,7 +293,7 @@
                         <Polygon  HorizontalAlignment="Right" Fill="{DynamicResource S.Brush.Accent}" Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}" Points="0,5 5,0 10,5 0,5" Margin="0,-5,8,0" FillRule="Nonzero"/>
 
                         
-                        <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" Margin="2,3">
+                        <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" Margin="2">
                             <ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained"/>
                         </ScrollViewer>
                     </Grid>
@@ -479,5 +481,4 @@
     </Style>
 
 
-    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource S.ComboBox.Default}"></Style>
 </ResourceDictionary>

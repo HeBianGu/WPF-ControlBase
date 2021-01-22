@@ -63,6 +63,19 @@ namespace HeBianGu.Application.MainWindow
 
         static Random random = new Random();
 
+        public Student()
+        {
+            this.Name = "HeBianGu";
+            this.Class = random.Next(1, 20).ToString();
+            this.Address = random.Next(30, 50).ToString();
+            this.Emall = random.Next(30, 50).ToString();
+            this.IsEnbled = random.Next(1, 3) == 2;
+            this.Time = DateTime.Now.AddDays(random.Next(-50, 50));
+            this.Age = random.Next(30, 50);
+            this.Score = random.Next(90, 100);
+            this.Tel = random.NextDouble().ToString();
+        }
+
         public static Student Random()
         {
             Student student = new Student();

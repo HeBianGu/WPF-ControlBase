@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
@@ -19,12 +20,14 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Resources;
 using System.Windows.Shapes;
+using System.Xaml;
+using System.Xml;
 
 namespace HeBianGu.Application.MainWindow
 {
@@ -36,6 +39,48 @@ namespace HeBianGu.Application.MainWindow
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            //var ass = Assembly.GetEntryAssembly();
+
+            //var asses = ass.GetReferencedAssemblies();
+
+          
+
+            //foreach (var item in asses)
+            //{
+            //    if (!item.Name.Contains("HeBianGu"))
+            //        continue;
+
+            //    var ll = Assembly.Load(item.FullName);
+
+            //    var types = ll.GetTypes();
+
+            //    foreach (var type in types)
+            //    {
+            //        if (!type.IsSubclassOf(typeof(FrameworkElement))) continue;
+                
+
+            //        try
+            //        {
+            //            var instance = Activator.CreateInstance(type) as FrameworkElement;
+
+            //            if (instance == null) continue;
+
+            //            this.sp_toolbox.Children.Add(instance);
+ 
+            //            Debug.WriteLine(type.FullName);
+            //        }
+            //        catch (Exception)
+            //        {
+            //            Debug.WriteLine("Error : "+type.FullName);
+            //        }
+            //    }
+            //}
         }
 
         public void Method()
@@ -147,13 +192,7 @@ namespace HeBianGu.Application.MainWindow
 
 
             this.grid.BegionDoubleStoryBoard(1, 0, 3, "OpacityMask.(DrawingBrush.Drawing).(GeometryDrawing.Brush).(LinearGradientBrush.GradientStops)[1].Offset", l => this.grid.Visibility = Visibility.Hidden);
-        }
-
-        private void ListBox_GiveFeedback(object sender, GiveFeedbackEventArgs e)
-        {
-            Mouse.SetCursor(Cursors.Help);
-            e.Handled = true;
-        }
+        } 
 
         private void ListBoxItem_PreviewGiveFeedback(object sender, GiveFeedbackEventArgs e)
         {
@@ -181,9 +220,66 @@ namespace HeBianGu.Application.MainWindow
 
             //mmm.Source = new BitmapImage(new Uri(@"E:/Github/Document/火器营二期_slices/右侧栏_bg@2x.png", UriKind.RelativeOrAbsolute));
 
-           
+
         }
 
+        private void ListBoxItem_MouseMove(object sender, MouseEventArgs e)
+        {
+            ListBoxItem _dragSource = sender as ListBoxItem;
+
+            DragDropAdorner adorner = new DragDropAdorner(_dragSource);
+
+
+
+            string _dragData = "erere";
+
+            var data = new DataObject("Custom", _dragData);
+            //DragDrop.DoDragDrop(_dragSource, data, DragDropEffects.Copy);
+            var result = DragDrop.DoDragDrop(_dragSource, data, DragDropEffects.Move);
+        }
+
+        private void ListBoxItem_GiveFeedback(object sender, GiveFeedbackEventArgs e)
+        {
+            ListBoxItem item = sender as ListBoxItem;
+
+
+            Mouse.SetCursor(Cursors.Help);
+            e.Handled = true;
+        }
+
+        private void gggg_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            GroupBox g = sender as GroupBox;
+
+            FrameworkElement elment = g.Content as FrameworkElement;
+
+            Uri uri = new Uri("/HeBianGu.Application.MainWindow;component/MainWindow.xaml", UriKind.Relative);
+
+            StreamResourceInfo info = System.Windows.Application.GetResourceStream(uri);
+
+            using (StreamReader sr = new StreamReader(info.Stream))
+            {
+                string str = sr.ReadToEnd();
+
+                //Debug.WriteLine(str);
+
+
+                //using (XmlTextReader read = new XmlTextReader(sr))
+                //{
+
+                //}
+
+                StringReader reader = new StringReader(str);
+
+               string sssss= reader.ReadToEnd();
+            }
+
+                
+
+            //XmlTextReader read = new XmlTextReader(reader);
+
+            
+        }
 
 
         //Point last;
@@ -199,6 +295,15 @@ namespace HeBianGu.Application.MainWindow
 
         //    last = current;
         //}
+    }
+
+
+    public class DragDropAdorner : Adorner
+    {
+        public DragDropAdorner(UIElement element):base(element)
+        {
+            AdornerLayer.GetAdornerLayer(element);
+        }
     }
 
 
@@ -270,7 +375,7 @@ namespace HeBianGu.Application.MainWindow
 
     }
 
-    public class EnumBindingSourceExtension : MarkupExtension
+    public class EnumBindingSourceExtension : System.Windows.Markup.MarkupExtension
     {
         private Type _enumType;
         public Type EnumType

@@ -162,6 +162,8 @@ namespace HeBianGu.Base.WpfBase
 
             items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
 
+            items = items.Where(l => (l as FrameworkElement)?.Tag?.ToString() != "Except" && !InvokeRandomSplitAnimationAction.GetIsExcept(l));
+
             var controls = items?.ToList();
 
             if (controls == null || controls.Count == 0) return;
@@ -212,6 +214,8 @@ namespace HeBianGu.Base.WpfBase
             var items = element.GetChildren<UIElement>().Where(l => l.RenderTransform is TransformGroup);
 
             items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
+
+            items = items.Where(l => (l as FrameworkElement)?.Tag?.ToString() != "Except" && !InvokeRandomSplitAnimationAction.GetIsExcept(l));
 
             var controls = items?.ToList();
 

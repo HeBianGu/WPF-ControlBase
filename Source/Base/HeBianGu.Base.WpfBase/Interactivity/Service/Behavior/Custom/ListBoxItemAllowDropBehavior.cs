@@ -25,20 +25,18 @@ namespace HeBianGu.Base.WpfBase
 
         private void AssociatedObject_DragLeave(object sender, DragEventArgs e)
         {
-            Cattach.SetBool(this.AssociatedObject, false);
+            Cattach.SetIsDragEnter(this.AssociatedObject, false);
         }
 
         private void AssociatedObject_DragEnter(object sender, DragEventArgs e)
         {
-            Cattach.SetBool(this.AssociatedObject, true);
+            Cattach.SetIsDragEnter(this.AssociatedObject, true);
         }
 
         private void AssociatedObjectOnDrop(object sender, DragEventArgs dragEventArgs)
         {
-            Cattach.SetBool(this.AssociatedObject,false);
+            Cattach.SetIsDragEnter(this.AssociatedObject,false);
         }
-
-
 
         public static readonly DependencyProperty IsActiveProperty =
             DependencyProperty.RegisterAttached("IsActive", typeof(bool), typeof(ListBoxItemAllowDropBehavior),

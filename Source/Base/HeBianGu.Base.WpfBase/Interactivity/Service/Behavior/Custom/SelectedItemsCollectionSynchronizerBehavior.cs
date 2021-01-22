@@ -11,6 +11,8 @@ namespace HeBianGu.Base.WpfBase
     /// a WPF multi-select list.  This includes ListBox, ListView, DataGrid, Calendar, and anything
     /// else which supports the Selector or MultiSelector base class.
     /// </summary>
+    /// 
+    /// <summary> 支持列表控件绑定多选的行为 </summary>
     public class SelectedItemsCollectionSynchronizerBehavior : Behavior<Selector>
     {
         private volatile bool _updatingList;

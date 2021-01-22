@@ -20,6 +20,28 @@ namespace HeBianGu.Base.WpfBase
     /// <summary> 根据输入动画执行渐进效果 </summary>
     public class InvokeTimeSplitAnimationAction : TriggerAction<DependencyObject>
     {
+        /// <summary>
+        /// 是否过滤不应用动画
+        /// </summary>
+        public static readonly DependencyProperty IsExceptProperty = DependencyProperty.RegisterAttached(
+            "IsExcept", typeof(bool), typeof(InvokeTimeSplitAnimationAction), new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsExceptChanged));
+
+        public static bool GetIsExcept(DependencyObject d)
+        {
+            return (bool)d.GetValue(IsExceptProperty);
+        }
+
+        public static void SetIsExcept(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsExceptProperty, value);
+        }
+
+        static void OnIsExceptChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
         /// <summary> 绑定的容器对象 </summary>
         public DependencyObject Target
         {
@@ -252,6 +274,11 @@ namespace HeBianGu.Base.WpfBase
     /// <summary> 根据输入动画执行渐进效果 </summary>
     public sealed class InvokeRandomSplitAnimationAction : InvokeTimeSplitAnimationAction
     {
+
+
+
+
+
         /// <summary> 参考点随机 </summary>
         public bool UseOrigin
         {
@@ -361,7 +388,7 @@ namespace HeBianGu.Base.WpfBase
 
                 children = children.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
 
-                children = children.Where(l => (l as FrameworkElement)?.Tag?.ToString() != "Except");
+                children = children.Where(l => (l as FrameworkElement)?.Tag?.ToString() != "Except" && !InvokeRandomSplitAnimationAction.GetIsExcept(l));
             }
             else
             {
@@ -369,7 +396,7 @@ namespace HeBianGu.Base.WpfBase
                 {
                     children = panel.Children?.Cast<UIElement>()?.Where(l => l.RenderTransform is TransformGroup);
 
-                    children = children.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
+                    children = children.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4 && !InvokeRandomSplitAnimationAction.GetIsExcept(l));
                 }
             }
 
@@ -506,5 +533,11 @@ namespace HeBianGu.Base.WpfBase
             return animation;
 
         }
+    }
+
+
+    public class TimelineCollection : List<Timeline>
+    {
+
     }
 }
