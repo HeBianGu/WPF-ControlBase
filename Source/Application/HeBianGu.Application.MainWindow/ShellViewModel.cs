@@ -183,11 +183,11 @@ namespace HeBianGu.Application.MainWindow
             //_autoCompleteSource.Add("123456789");
             _autoCompleteSource.Add("abcdefghijklmnopqrstuvwxyz");
 
-            BitmapImage bitmap = new BitmapImage(new Uri(@"C:\Users\Administrator\Desktop\新建文件夹\vs图标.PNG", UriKind.RelativeOrAbsolute));
+            //BitmapImage bitmap = new BitmapImage(new Uri(@"C:\Users\Administrator\Desktop\新建文件夹\vs图标.PNG", UriKind.RelativeOrAbsolute));
 
-            ImageSource grayImage = new FormatConvertedBitmap(bitmap, PixelFormats.Pbgra32, null, 0);
+            //ImageSource grayImage = new FormatConvertedBitmap(bitmap, PixelFormats.Pbgra32, null, 0);
 
-            this.ImageSource = grayImage;
+            //this.ImageSource = grayImage;
 
             _selectedItems.CollectionChanged +=(l, k) =>
              {
