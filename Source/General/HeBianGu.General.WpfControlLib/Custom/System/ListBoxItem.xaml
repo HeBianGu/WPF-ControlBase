@@ -11,8 +11,12 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="h:Cattach.IsUseClose" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=(h:Cattach.IsUseClose)}"/>
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
-        <Setter Property="Padding" Value="10,0"/>
+        <Setter Property="Padding" Value="10,0,0,0"/>
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -22,13 +26,13 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
                         
                         <Border x:Name="boder_mouseover" BorderBrush="{TemplateBinding BorderBrush}" 
-                                Background="{DynamicResource S.Brush.Accent.MouseOver.Background}"
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBackground)}"
                                 Opacity="0"
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
 
                         <Border x:Name="boder" BorderBrush="{TemplateBinding BorderBrush}" 
-                                Background="{DynamicResource S.Brush.Accent}"
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.SelectBackground)}"
                                 Opacity="0"
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
@@ -36,16 +40,16 @@
                         <Grid Margin="{TemplateBinding Padding}">
                             <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
 
-                            <local:FButton Style="{DynamicResource S.FButton.Close}"
+                            <Button Style="{DynamicResource S.Button.Close}" Margin="0" Background="Transparent" Foreground="{TemplateBinding Foreground}"
                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.IsUseClose),Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
-                                       FIconSize="{DynamicResource S.FIcon.Size.Small}">
+                                      h:Cattach.FIconSize="{DynamicResource S.FIcon.Size.Small}">
                                 <h:Interaction.Triggers>
                                     <h:EventTrigger EventName="Click">
                                         <h:CloseItemsAction ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}" 
                                                         Item="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}}"/>
                                     </h:EventTrigger>
-                                </h:Interaction.Triggers>
-                            </local:FButton>
+                                </h:Interaction.Triggers> 
+                            </Button>
                         </Grid>
 
                     </Grid>
@@ -63,6 +67,8 @@
 
 
                         <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.MouseOverForeground)}" />
+
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -81,11 +87,12 @@
                         </Trigger>
 
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Foreground"  Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.SelectForeground)}" />
+
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.3" />
+                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -93,7 +100,7 @@
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:1" />
+                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
@@ -337,11 +344,15 @@
 
     <!--文本高亮效果-->
     <Style x:Key="S.ListBoxItem.Accent" TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource S.ListBoxItem.Default}">
-        <Setter Property="Template">
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
+        <!--<Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border x:Name="boder">
-                        <!--<ContentPresenter/>-->
+                        --><!--<ContentPresenter/>--><!--
 
                         <Grid Margin="{TemplateBinding Padding}">
 
@@ -368,7 +379,7 @@
                             <Setter Property="Foreground"  Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
                         </Trigger>
 
-                        <!--<MultiTrigger>
+                        --><!--<MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="true"/>
                                 <Condition Property="IsMouseOver" Value="true"/>
@@ -382,7 +393,7 @@
                                 <Condition Property="IsMouseOver" Value="true"/>
                             </MultiTrigger.Conditions>
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
-                        </MultiTrigger>--> 
+                        </MultiTrigger>--><!-- 
                         
                         <Trigger Property="h:Cattach.IsDragEnter" Value="true">
                             <Setter Property="BorderBrush" TargetName="boder" Value="{DynamicResource S.Brush.Accent}"/>
@@ -391,7 +402,7 @@
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
     </Style>
 
     <Style x:Key="S.ListBoxItem.Clear" TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource S.ListBoxItem.Default}">
@@ -406,6 +417,12 @@
         </Setter>
     </Style>
 
+    <Style x:Key="S.ListBoxItem.Single" TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource S.ListBoxItem.Default}">
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.TextForeground.MouseOver}"/>
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.TextForeground.Selected}"/>
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/> 
+    </Style> 
 
     <!--允许拖拽的项-->
     <Style x:Key="S.ListBoxItem.AllowDrop" TargetType="ListBoxItem" BasedOn="{StaticResource S.ListBoxItem.Default}">

@@ -163,7 +163,6 @@ namespace HeBianGu.General.WpfControlLib
             //  Do ：都是隐藏的
             if (!isAll) return value;
 
-
             return new Size(this.Len * 2, this.Len * 2);
         }
     }

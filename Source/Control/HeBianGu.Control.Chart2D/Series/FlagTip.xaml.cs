@@ -98,8 +98,8 @@ namespace HeBianGu.Control.Chart2D
 
 
 
-                    double my = this.xAxis.Min(l => Math.Abs(l - yValue));
-                    var yFind = this.xAxis.FirstOrDefault(l => Math.Abs(l - yValue) == my);
+                    double my = this.yAxis.Min(l => Math.Abs(l - yValue));
+                    var yFind = this.yAxis.FirstOrDefault(l => Math.Abs(l - yValue) == my);
 
                     Canvas.SetBottom(this.X, this.GetY(yFind));
                     this.LabelY.Content = $"{xFind}";

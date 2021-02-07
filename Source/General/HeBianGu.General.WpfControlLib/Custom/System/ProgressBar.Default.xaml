@@ -260,7 +260,7 @@
     </Style>
 
     <Style TargetType="ProgressBar" x:Key="S.Progessbar.WaittingPercent"  BasedOn="{StaticResource S.ProgressBar.Base}">
-        <Setter Property="Background" Value="{DynamicResource S.Brush.Dark.4}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="Width" Value="300"/>
         <Setter Property="Height" Value="30"/>
@@ -281,28 +281,33 @@
                     <Grid Background="{TemplateBinding Background}">
 
                         <ProgressBar Value="{TemplateBinding Value}" Foreground="{TemplateBinding Foreground}" Background="Transparent"
-                                         Maximum="{TemplateBinding Maximum}" BorderThickness="{TemplateBinding BorderThickness}" Opacity="{TemplateBinding Value,Converter={x:Static h:XConverter.OpacityProgressBarConverter}}"
-                                         Minimum="{TemplateBinding Minimum}"/>
+                                     Style="{DynamicResource S.ProgressBar.Base}"
+                                     Maximum="{TemplateBinding Maximum}" BorderThickness="{TemplateBinding BorderThickness}" Opacity="{TemplateBinding Value,Converter={x:Static h:XConverter.OpacityProgressBarConverter}}"
+                                     Minimum="{TemplateBinding Minimum}"/>
 
-                        <ProgressBar Value="{TemplateBinding Value}" 
-                                     Background="Transparent"  BorderThickness="{TemplateBinding BorderThickness}"
-                                     Opacity="0.5" 
-                                     Foreground="{StaticResource S.Brush.TextForeground.White}" 
+                        <ProgressBar Background="Transparent"  BorderThickness="{TemplateBinding BorderThickness}"
+                                     Opacity="0.5" Style="{DynamicResource S.ProgressBar.Base}"
+                                     Foreground="{DynamicResource S.Brush.TextForeground.White}" 
                                      Maximum="100" Minimum="0" IsIndeterminate="True"/>
-
-                        <TextBlock HorizontalAlignment="Center" FontWeight="Bold"
+ 
+                            <TextBlock HorizontalAlignment="Center"
                                    Foreground="{DynamicResource S.Brush.TextForeground.White}" 
                                    VerticalAlignment="Center"
                                    FontSize="{TemplateBinding FontSize}">
                             <Run Text="{TemplateBinding h:Cattach.Label}"/>
                             <Run Text="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar},Path=Value,Converter={x:Static h:XConverter.DoubleRoundConverter}}"/>
                             <Run Text="%"/>
-                            <TextBlock.Triggers>
-                                <EventTrigger RoutedEvent="Loaded">
-                                    <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.OpacityForever}"/>
-                                </EventTrigger>
-                            </TextBlock.Triggers>
-                        </TextBlock>
+                                <!--<TextBlock.Triggers>
+                                    <EventTrigger RoutedEvent="Loaded">
+                                        <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.OpacityForever}"/>
+                                    </EventTrigger>
+                                </TextBlock.Triggers>-->
+
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="{DynamicResource AccentColor}" ShadowDepth="0" BlurRadius="3"/>
+                            </TextBlock.Effect>
+                            </TextBlock>
+ 
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -310,7 +315,7 @@
     </Style>
 
     <Style TargetType="ProgressBar" x:Key="S.Progessbar.CriclePercent" BasedOn="{StaticResource S.ProgressBar.Base}">
-        <Setter Property="Background" Value="{DynamicResource S.Brush.Dark.4}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="Height" Value="100"/>
         <Setter Property="Width" Value="100"/>

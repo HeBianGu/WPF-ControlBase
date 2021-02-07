@@ -5,10 +5,12 @@
 
     <Style x:Key="S.FDrawer.Default" TargetType="{x:Type local:FDrawer}">
         <Setter Property="ClipToBounds" Value="False"/>
-        <!--<Setter Property="Background" Value="Transparent"/>-->
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="Padding" Value="0"/>
+        <Setter Property="h:Cattach.FIconMargin" Value="0"/>
+        <Setter Property="h:Cattach.FIcon" Value="&#xe71b;"/> 
         <Setter Property="h:Cattach.VisibleActions">
             <Setter.Value>
                 <h:ActionCollection>
@@ -62,10 +64,10 @@
                         </Grid>
 
                         <Grid x:Name="PART_Center" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" h:Cattach.VisibleActions="{TemplateBinding h:Cattach.VisibleActions}">
-                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
+                            <Border Background="Transparent" BorderBrush="{TemplateBinding BorderBrush}"
                                     BorderThickness="{TemplateBinding BorderThickness}"/>
 
-                            <GroupBox Header="{TemplateBinding Header}" Style="{DynamicResource S.GroupBox.Default.WithClose}" local:ShadowAssist.ShadowDepth="{StaticResource S.EffectShadow.2}">
+                            <GroupBox Header="{TemplateBinding Header}" Background="{TemplateBinding Background}" Style="{DynamicResource S.GroupBox.Default.WithClose}" local:ShadowAssist.ShadowDepth="{StaticResource S.EffectShadow.2}">
                                 <!--内容区域-->
                                 <ContentPresenter/>
                             </GroupBox>
@@ -180,11 +182,12 @@
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="HorizontalOpenContentAlignment" Value="Right"/>
-        <Setter Property="VerticalOpenContentAlignment" Value="Center"/>
+        <Setter Property="VerticalOpenContentAlignment" Value="Center"/> 
         <Setter Property="OpenContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}" 
+                    <local:FButton Style="{DynamicResource S.FButton.Style.MouseOverOpacity}"  
+                               Margin="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=(h:Cattach.FIconMargin)}"
                                HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=HorizontalOpenContentAlignment}"
                                VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=VerticalOpenContentAlignment}" FIcon="&#xe71b;"
                                Command="{x:Static h:CommandService.Open}"/>
@@ -219,7 +222,9 @@
         <Setter Property="OpenContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}"  FIcon="&#xe71b;"
+                    <local:FButton Style="{DynamicResource S.FButton.Style.MouseOverOpacity}"
+                                   FIcon="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=(h:Cattach.FIcon)}"
+                               Margin="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=(h:Cattach.FIconMargin)}"
                                HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=HorizontalOpenContentAlignment}"
                                VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=VerticalOpenContentAlignment}"
                                Command="{x:Static h:CommandService.Open}"/>
@@ -247,8 +252,10 @@
         <Setter Property="OpenContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}" FIcon="&#xe71b;"
-                                                                  HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=HorizontalOpenContentAlignment}"
+                    <local:FButton Style="{DynamicResource S.FButton.Style.MouseOverOpacity}"
+                                   FIcon="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=(h:Cattach.FIcon)}"
+                               Margin="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=(h:Cattach.FIconMargin)}"
+                               HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=HorizontalOpenContentAlignment}"
                                VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=VerticalOpenContentAlignment}"
                                Command="{x:Static h:CommandService.Open}"/>
                 </ControlTemplate>
@@ -273,7 +280,9 @@
         <Setter Property="OpenContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton Style="{DynamicResource S.FButton.Style.Transparent}" FIcon="&#xe71b;"
+                    <local:FButton Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" 
+                                   FIcon="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=(h:Cattach.FIcon)}"
+                               Margin="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=(h:Cattach.FIconMargin)}"
                                HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=HorizontalOpenContentAlignment}"
                                VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType=local:FDrawer},Path=VerticalOpenContentAlignment}"
                                Command="{x:Static h:CommandService.Open}"/>

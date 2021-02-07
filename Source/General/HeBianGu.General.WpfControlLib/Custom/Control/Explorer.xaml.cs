@@ -578,7 +578,7 @@ namespace HeBianGu.General.WpfControlLib
              {
                  List<SystemInfoModel> from = new List<SystemInfoModel>();
 
-                 var all = this.Model.GetFileSystemInfos().Where(l => !l.Attributes.HasFlag(FileAttributes.System)&& !l.Attributes.HasFlag(FileAttributes.Hidden));
+                 var all = this.Model.GetFileSystemInfos().Where(l => !l.Attributes.HasFlag(FileAttributes.System));
 
                  from.AddRange(all.OfType<DirectoryInfo>().Select(l => new DirectoryModel(l) { FileInfoVisible = this.FileInfoVisible }));
 
@@ -662,10 +662,7 @@ namespace HeBianGu.General.WpfControlLib
 
             foreach (var item in drives)
             {
-                if (!item.IsReady) continue;
-
                 DirectoryModel directory = new DirectoryModel(item.RootDirectory);
-
 
                 directory.FileInfoVisible = this.FileInfoVisible;
 

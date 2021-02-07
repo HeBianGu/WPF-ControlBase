@@ -76,7 +76,7 @@ namespace HeBianGu.Base.WpfBase
 
             if (localConfig == null) return false;
 
-            return localConfig.SaveTheme(ThemeService.Current.ConvertTo());
+            return localConfig.SaveTheme(ThemeService.Current.SaveTo());
         }
     }
 }

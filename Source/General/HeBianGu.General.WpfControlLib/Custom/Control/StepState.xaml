@@ -82,7 +82,6 @@
     </DataTemplate>
 
     <DataTemplate x:Key="S.StepItem.Unkown" DataType="{x:Type local:StepItem}">
-
         <StackPanel x:Name="unkown" Orientation="Horizontal" HorizontalAlignment="Left">
             <Grid  x:Name="line"   Margin="0,-30,0,0">
                 <Line Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}" X1="0" X2="100" Y1="0" Y2="0" Width="Auto" StrokeThickness="2" VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
@@ -222,14 +221,14 @@
                         <TextBlock Text="{Binding DisplayName}" Style="{DynamicResource S.TextBlock.Default}" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
                     </Grid>
 
-                    <TextBlock Text="{Binding Message}"  Style="{DynamicResource S.TextBlock.Default}" Margin="-50,10,-50,0" Foreground="{DynamicResource S.Brush.Accent}"/>
+                    <TextBlock x:Name="txt" Text="{Binding Message}" Style="{DynamicResource S.TextBlock.Default}" Margin="-50,10,-50,0" Foreground="{DynamicResource S.Brush.Accent}"/>
 
                 </StackPanel>
 
                 <StackPanel.Triggers>
                     <EventTrigger RoutedEvent="Loaded">
                         <BeginStoryboard Storyboard="{StaticResource S.Storyboard.OpacityForever}"/>
-                    </EventTrigger>
+                    </EventTrigger> 
                 </StackPanel.Triggers>
             </StackPanel>
 
@@ -297,6 +296,10 @@
                 <Setter Property="Visibility" Value="Collapsed" TargetName="line2"/>
                 <Setter Property="Visibility" Value="Collapsed" TargetName="line3"/>
                 <Setter Property="Visibility" Value="Collapsed" TargetName="line4"/>
+            </DataTrigger> 
+
+            <DataTrigger Binding="{Binding Message}" Value="{x:Null}">
+                <Setter Property="Height" Value="0" TargetName="txt"/>
             </DataTrigger>
 
             <DataTrigger Binding="{Binding State}" Value="-1">

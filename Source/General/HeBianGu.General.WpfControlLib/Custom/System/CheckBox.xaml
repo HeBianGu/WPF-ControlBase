@@ -30,13 +30,41 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Text" Value="&#xe624;" TargetName="icon" ></Setter>
-                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"></Setter>
+                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/> 
                         </Trigger>
                         <Trigger Property="IsChecked" Value="{x:Null}">
                             <Setter Property="Text" Value="&#xe62b;" TargetName="icon" ></Setter>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"></Setter>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.98" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.98" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" TargetName="grid" ></Setter>
@@ -58,36 +86,69 @@
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
         <Setter Property="h:Cattach.UnSelectedText" Value="&#xe843;"/>
         <Setter Property="h:Cattach.SelectedText" Value="&#xe841;"/>
-        <Setter Property="h:Cattach.SelectedForegroundBrush" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="h:Cattach.FIcon" Value="&#xe842;"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <TextBlock  x:Name="icon" Style="{DynamicResource FIcon}" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.UnSelectedText) }" 
                                 VerticalAlignment="Center" HorizontalAlignment="Center"
-                                        FontSize="{TemplateBinding h:Cattach.FIconSize}"
-                                        Margin="{TemplateBinding h:Cattach.FIconMargin}"
-                                        Foreground="{TemplateBinding Foreground}"/>
+                                FontSize="{TemplateBinding h:Cattach.FIconSize}"
+                                Margin="{TemplateBinding h:Cattach.FIconMargin}"
+                                RenderTransform="{StaticResource S.TransformGroup.Default}"
+                                RenderTransformOrigin="0.5,0.5"  h:InvokeTimeSplitAnimationAction.IsExcept="True"
+                                Foreground="{TemplateBinding Foreground}"/>
+                    
                     <!--触发器：设置选中状态符号-->
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Text" Value="{Binding RelativeSource={RelativeSource AncestorType=CheckBox},Path=(h:Cattach.SelectedText)}" TargetName="icon"/>
-                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=CheckBox},Path=(h:Cattach.SelectedForegroundBrush)}"></Setter>
+                            <Setter Property="Text" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(h:Cattach.SelectedText)}" TargetName="icon"/>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(h:Cattach.SelectForeground)}"  TargetName="icon"/>
                         </Trigger>
                         
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Text" Value="{Binding RelativeSource={RelativeSource AncestorType=CheckBox},Path=(h:Cattach.UnSelectedText)}" TargetName="icon"/>
+                            <Setter Property="Text" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(h:Cattach.UnSelectedText)}" TargetName="icon"/>
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter Property="Text" Value="{Binding RelativeSource={RelativeSource AncestorType=CheckBox},Path=(h:Cattach.UnSelectedText)}" TargetName="icon"/>
+                            <Setter Property="Text" Value="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(h:Cattach.UnSelectedText)}" TargetName="icon"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"></Setter>
                         </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="icon">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.55" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"  Storyboard.TargetName="icon">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.55" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"   Storyboard.TargetName="icon">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"   Storyboard.TargetName="icon">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" TargetName="icon" ></Setter>
                         </Trigger>
+                        
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -111,7 +172,7 @@
                     <Grid x:Name="grid" Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                             <TextBlock x:Name="icon" Text="&#xe630;" Style="{DynamicResource FIcon}" SnapsToDevicePixels="True"
-                                       FontSize="{TemplateBinding h:Cattach.FIconSize}"
+                                       FontSize="{TemplateBinding h:Cattach.FIconSize}" 
                                         Margin="{TemplateBinding h:Cattach.FIconMargin}"
                                         Foreground="{TemplateBinding Foreground}"/>
                             <ContentPresenter VerticalAlignment="Center"/>
@@ -126,6 +187,35 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"></Setter>
                         </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.90" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.90" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                        
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" TargetName="grid" ></Setter>
                         </Trigger>
@@ -153,7 +243,9 @@
                     <Grid x:Name="grid" VerticalAlignment="Center">
                         <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"  Height="{TemplateBinding Height}" HorizontalAlignment="Stretch"
                                 Background="{TemplateBinding Background}" Width="{TemplateBinding Width}">
-                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <ContentPresenter x:Name="con" RenderTransform="{StaticResource S.TransformGroup.Default}"
+                                               RenderTransformOrigin="0.5,0.5" h:InvokeTimeSplitAnimationAction.IsExcept="True" 
+                                              VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                         <!--选中的状态标识-->
                         <TextBlock Text="&#xe627;" x:Name="checkState" Style="{DynamicResource FIcon}" VerticalAlignment="Bottom" Visibility="Collapsed"
@@ -174,6 +266,34 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"></Setter>
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" TargetName="checkState"></Setter>
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"></Setter>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"  Storyboard.TargetName="con">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"  Storyboard.TargetName="con">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"  Storyboard.TargetName="con">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"  Storyboard.TargetName="con">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" TargetName="grid" ></Setter>
@@ -199,9 +319,11 @@
                 <ControlTemplate TargetType="{x:Type CheckBox}">
                     <Grid x:Name="grid" VerticalAlignment="Center">
                         <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}"  Height="{TemplateBinding Height}" HorizontalAlignment="Stretch"
-                                Background="{TemplateBinding Background}" Width="{TemplateBinding Width}"
+                                Background="{TemplateBinding Background}" Width="{TemplateBinding Width}" 
                                 CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
-                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            <ContentPresenter x:Name="con" RenderTransform="{StaticResource S.TransformGroup.Default}"
+                                               RenderTransformOrigin="0.5,0.5" h:InvokeTimeSplitAnimationAction.IsExcept="True" 
+                                               VerticalAlignment="Center" HorizontalAlignment="Center" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                         <!--选中的状态标识-->
                         <TextBlock Text="&#xe627;" x:Name="checkState" Style="{DynamicResource FIcon}" VerticalAlignment="Bottom" Visibility="Collapsed"
@@ -222,6 +344,34 @@
                             <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent}"></Setter>
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}" TargetName="checkState"></Setter>
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"></Setter>
+                        </Trigger>
+
+                        <Trigger Property="IsPressed" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"  Storyboard.TargetName="con">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"  Storyboard.TargetName="con">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.EnterActions>
+
+                            <Trigger.ExitActions>
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"  Storyboard.TargetName="con">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"  Storyboard.TargetName="con">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </Trigger.ExitActions>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" TargetName="grid" ></Setter>

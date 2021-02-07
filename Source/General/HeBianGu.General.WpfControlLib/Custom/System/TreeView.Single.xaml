@@ -8,7 +8,7 @@
 
 
 
-    <Style x:Key="S.TreeView.Single.ToggleButton" TargetType="ToggleButton">
+    <Style x:Key="S.TreeView.Handy.ToggleButton" TargetType="ToggleButton">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Width" Value="16"/>
         <Setter Property="Height" Value="16"/>
@@ -36,11 +36,12 @@
         </Setter>
     </Style>
 
-    <Style x:Key="S.TreeView.Single.TreeViewItem" TargetType="TreeViewItem">
+    <Style x:Key="S.TreeView.Handy.TreeViewItem" TargetType="TreeViewItem">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="Padding" Value="10,0"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="h:Cattach.CornerRadius" Value="{Binding RelativeSource={RelativeSource AncestorType=TreeView},Path=(h:Cattach.CornerRadius)}"/>
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=TreeView},Path=Foreground}"/>
         <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -52,18 +53,18 @@
                         </Grid.RowDefinitions>
 
                         <Border x:Name="boder_mouseover" BorderBrush="{TemplateBinding BorderBrush}" 
-                                Background="{DynamicResource S.Brush.Accent.MouseOver.Background}"
+                                Background="{Binding RelativeSource={RelativeSource AncestorType=TreeView},Path=(h:Cattach.MouseOverBackground)}"
                                 Opacity="0" CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
 
                         <Border x:Name="boder" BorderBrush="{TemplateBinding BorderBrush}" 
-                                Background="{DynamicResource S.Brush.Accent}"
+                                 Background="{Binding RelativeSource={RelativeSource AncestorType=TreeView},Path=(h:Cattach.SelectBackground)}"
                                 Opacity="0" CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
 
                         <StackPanel Orientation="Horizontal" Margin="{TemplateBinding Padding}" Height="{DynamicResource S.Window.Row.Height}">
                             <ToggleButton x:Name="Expander" ClickMode="Press" IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}" 
-                                              Style="{StaticResource S.TreeView.Single.ToggleButton}"/>
+                                              Style="{StaticResource S.TreeView.Handy.ToggleButton}"/>
                             <ContentPresenter VerticalAlignment="Center" x:Name="PART_Header" ContentSource="Header" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </StackPanel>
 
@@ -103,11 +104,11 @@
                         </MultiTrigger>
 
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Foreground"  Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                            <Setter Property="Foreground"  Value="{Binding RelativeSource={RelativeSource AncestorType=TreeView},Path=(h:Cattach.SelectForeground)}"/>
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.3" />
+                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -115,7 +116,7 @@
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:1" />
+                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.3" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
@@ -138,8 +139,8 @@
                                 <Condition Property="IsSelected" Value="true"/>
                                 <Condition Property="IsSelectionActive" Value="false"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Background" TargetName="boder" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+                            <Setter Property="Opacity" TargetName="boder" Value="{DynamicResource S.Opacity.Disable}"/>
+                            <!--<Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>-->
                         </MultiTrigger>
                         
                         <Trigger Property="IsEnabled" Value="false">
@@ -151,10 +152,15 @@
         </Setter>
     </Style>
 
-    <Style x:Key="S.TreeView.Single" TargetType="TreeView">
+    <Style x:Key="S.TreeView.Handy.Accent" TargetType="TreeView">
         <Setter Property="Focusable" Value="False"/>
-        <Setter Property="ItemContainerStyle"  Value="{StaticResource S.TreeView.Single.TreeViewItem}"/>
+        <Setter Property="ItemContainerStyle"  Value="{StaticResource S.TreeView.Handy.TreeViewItem}"/>
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="0"/>
@@ -201,4 +207,10 @@
         </Style.Triggers>
     </Style>
 
+    <Style x:Key="S.TreeView.Handy.Default" TargetType="{x:Type TreeView}" BasedOn="{StaticResource S.TreeView.Handy.Accent}">
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.TextForeground.MouseOver}"/>
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.TextForeground.Selected}"/>
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+    </Style>
 </ResourceDictionary>

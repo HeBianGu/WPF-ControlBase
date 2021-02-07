@@ -203,6 +203,46 @@ namespace HeBianGu.Control.Chart2D
 
              }));
 
+
+
+        public Func<double, string> xConvert
+        {
+            get { return (Func<double, string>)GetValue(xConvertProperty); }
+            set { SetValue(xConvertProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty xConvertProperty =
+            DependencyProperty.Register("xConvert", typeof(Func<double, string>), typeof(ViewLayerGroup), new PropertyMetadata(default(Func<double, string>), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                Func<double, string> config = e.NewValue as Func<double, string>;
+
+            }));
+
+
+        public Func<double, string> yConvert
+        {
+            get { return (Func<double, string>)GetValue(yConvertProperty); }
+            set { SetValue(yConvertProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty yConvertProperty =
+            DependencyProperty.Register("yConvert", typeof(Func<double, string>), typeof(ViewLayerGroup), new PropertyMetadata(default(Func<double, string>), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                Func<double, string> config = e.NewValue as Func<double, string>;
+
+            }));
+
+
     }
 
     public class PolarChart : Chart
@@ -239,7 +279,13 @@ namespace HeBianGu.Control.Chart2D
 
             this.toolBar.ValueChanged += (l, k) =>
             {
-                this.BeginRefresh();
+                //  Do ：工具栏操作刷新
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                {
+                    this.BeginRefresh();
+                }));
+
+                //this.BeginRefresh();
             };
 
             if (this.Chart != null)
@@ -253,12 +299,24 @@ namespace HeBianGu.Control.Chart2D
             this.SizeChanged += (l, k) =>
             {
                 if (this.IsLoaded)
-                    this.RefreshByData();
+                {
+                    //  Do ：尺寸改变刷新
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                    {
+                        this.RefreshByData();
+                    }));
+                }
+                    //this.RefreshByData();
             };
 
             this.Loaded += (l, k) =>
             {
-                this.RefreshByData();
+                //  Do ：加载时刷新
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                {
+                    this.RefreshByData();
+                }));
+                //this.RefreshByData();
             };
 
         }
@@ -341,7 +399,12 @@ namespace HeBianGu.Control.Chart2D
             this.toolBar.LeftPercent = lp;
             this.toolBar.RightPercent = rp;
 
-            this.BeginRefresh();
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+            {
+                this.BeginRefresh();
+            }));
+
+            //this.BeginRefresh();
         }
 
         void BeginRefresh()

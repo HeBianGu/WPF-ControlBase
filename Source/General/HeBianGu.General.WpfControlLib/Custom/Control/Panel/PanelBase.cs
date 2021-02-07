@@ -142,6 +142,25 @@ namespace HeBianGu.General.WpfControlLib
     public abstract class AnimationPanel : PanelBase
     {
 
+        public AnimationMode AnimationMode
+        {
+            get { return (AnimationMode)GetValue(AnimationModeProperty); }
+            set { SetValue(AnimationModeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty AnimationModeProperty =
+            DependencyProperty.Register("AnimationMode", typeof(AnimationMode), typeof(AnimationPanel), new PropertyMetadata(default(AnimationMode), (d, e) =>
+             {
+                 AnimationPanel control = d as AnimationPanel;
+
+                 if (control == null) return;
+
+                 //AnimationMode config = e.NewValue as AnimationMode;
+
+             }));
+
+
         public double Duration
         {
             get { return (double)GetValue(DurationProperty); }
@@ -150,7 +169,7 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DurationProperty =
-            DependencyProperty.Register("Duration", typeof(double), typeof(AnimationPanel), new PropertyMetadata(200.0, (d, e) =>
+            DependencyProperty.Register("Duration", typeof(double), typeof(AnimationPanel), new PropertyMetadata(500.0, (d, e) =>
             {
                 AnimationPanel control = d as AnimationPanel;
 
@@ -228,5 +247,11 @@ namespace HeBianGu.General.WpfControlLib
         {
 
         }
+    }
+
+
+    public enum AnimationMode
+    {
+        Postion=0,FromCenter
     }
 }

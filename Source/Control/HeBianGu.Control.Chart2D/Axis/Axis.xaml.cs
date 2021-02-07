@@ -218,6 +218,7 @@ namespace HeBianGu.Control.Chart2D
                 l.Y1 = 0;
                 l.Y2 = this.AlignLenght;
                 l.Style = this.LineStyle;
+                l.Width = 1;
 
                 if (this.xAxis.Count == 1)
                 {
@@ -225,7 +226,7 @@ namespace HeBianGu.Control.Chart2D
                 }
                 else
                 {
-                    Canvas.SetLeft(l, this.GetX(item + span / 2, this.ActualWidth));
+                    Canvas.SetLeft(l, this.GetX(item + span / 2));
                 }
 
                 Canvas.SetBottom(l, this.ActualHeight - this.GetY(y) + (this.DockAlignment == Dock.Top || this.DockAlignment == Dock.Left ? 0 : -this.AlignLenght));
@@ -235,8 +236,16 @@ namespace HeBianGu.Control.Chart2D
                 //  Do ：显示文本
                 Label t = new Label();
 
-                t.Content = this.xDisplay.Count > this.xAxis.IndexOf(item) ? this.xDisplay[this.xAxis.IndexOf(item)] : item.ToString("G4");
-                t.Style = this.LabelStyle;
+                if (this.xConvert == null)
+                {
+                    t.Content = this.xDisplay.Count > this.xAxis.IndexOf(item) ? this.xDisplay[this.xAxis.IndexOf(item)] : item.ToString("G4");
+                }
+                else
+                {
+                    t.Content = this.xConvert(item);
+                }
+
+                t.Style = this.LabelStyle; 
 
                 t.Loaded += (o, e) =>
                 {

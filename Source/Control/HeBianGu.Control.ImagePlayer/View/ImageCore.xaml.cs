@@ -95,7 +95,7 @@ namespace HeBianGu.Control.ImagePlayer
         /// <summary> 图片的高度 </summary>
         internal double imgHeight;
 
-        //List<IBehavior> behaviors = new List<IBehavior>();
+        //List<IBehavior> behaviors = new List<IBehavior>();  
 
         #endregion
 
@@ -129,14 +129,6 @@ namespace HeBianGu.Control.ImagePlayer
                });
 
             this.CommandBindings.Add(command);
-
-            ////  Do ：绑定自定义行为
-
-            //this.behaviors.Add(new ImageBaseMouseWheelBehavior(this));
-            //this.behaviors.Add(new ImageBaseMouseEnlargeBehavior(this));
-            //this.behaviors.Add(new ImageBaseMouseDragBehavior(this));
-            //this.behaviors.Add(new ImageBaseMouseSignBehavior(this));
-            //this.behaviors.Add(new ImageBaseMouseBubbleBehavior(this));
         }
 
         public override void OnApplyTemplate()
@@ -183,8 +175,10 @@ namespace HeBianGu.Control.ImagePlayer
 
             this.NoticeMessaged += (m, n) => Debug.WriteLine(this.Message);
 
-            //this.behaviors.ForEach(l => l.RegisterBehavior());
+            //this.behaviors.ForEach(l => l.RegisterBehavior()); 
+
         }
+
 
         #endregion
 
@@ -196,6 +190,26 @@ namespace HeBianGu.Control.ImagePlayer
         public int MaxScale { get; set; } = 25;
 
         #endregion
+
+        /// <summary> 嵌套在图片上的内容 </summary>
+        public object InnerContent
+        {
+            get { return (object)GetValue(InnerContentProperty); }
+            set { SetValue(InnerContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty InnerContentProperty =
+            DependencyProperty.Register("InnerContent", typeof(object), typeof(ImageCore), new PropertyMetadata(default(object), (d, e) =>
+             {
+                 ImageCore control = d as ImageCore;
+
+                 if (control == null) return;
+
+                 object config = e.NewValue as object;
+
+             }));
+
 
         [Browsable(false)]
         [Category("Appearance")]
@@ -496,8 +510,6 @@ namespace HeBianGu.Control.ImagePlayer
 
              }));
 
-
-
         internal void AddShape(Rect rect)
         {
             SampleShape resultStroke = new SampleShape(this._dynamic);
@@ -592,6 +604,28 @@ namespace HeBianGu.Control.ImagePlayer
 
             this.RefreshMarkVisible();
         }
+
+
+        public Rect Location
+        {
+            get { return (Rect)GetValue(LocationProperty); }
+            set { SetValue(LocationProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LocationProperty =
+            DependencyProperty.Register("Location", typeof(Rect), typeof(ImageCore), new PropertyMetadata(default(Rect), (d, e) =>
+             {
+                 ImageCore control = d as ImageCore;
+
+                 if (control == null) return;
+
+                 Rect config = (Rect)e.NewValue;
+
+                 control.ShowShape(config);
+
+             }));
+
     }
 
 

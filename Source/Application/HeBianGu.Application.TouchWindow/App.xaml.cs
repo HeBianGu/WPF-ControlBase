@@ -91,6 +91,8 @@ namespace HeBianGu.Application.TouchWindow
                 l.ThemeType = ThemeType.Light;
 
                 l.Language = Language.Chinese;
+
+                l.AccentBrushType = AccentBrushType.LinearGradientBrush;
             });
 
             app.UseTheme(l => l.DialogCoverBrush = new SolidColorBrush(Color.FromRgb(0, 0, 0)) { Opacity = 0.80 });

@@ -81,6 +81,8 @@ namespace HeBianGu.Application.LinkWindow
 
                 l.DialogCoverBrush = new SolidColorBrush(Colors.Black) { Opacity = 0.6 };
 
+                l.AccentBrushType = AccentBrushType.LinearGradientBrush;
+
             });
 
             //app.UseTheme(l => l.DialogCoverBrush = new SolidColorBrush(Colors.Black) { Opacity = 0.6 });

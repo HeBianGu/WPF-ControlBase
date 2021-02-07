@@ -2,8 +2,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -825,8 +827,8 @@ namespace HeBianGu.Base.WpfBase
           DependencyProperty.RegisterAttached("Password",
           typeof(string), typeof(Cattach),
           new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
-        public static readonly DependencyProperty AttachProperty = DependencyProperty.RegisterAttached("Attach",typeof(bool), typeof(Cattach), new PropertyMetadata(false, Attach));
-       
+        public static readonly DependencyProperty AttachProperty = DependencyProperty.RegisterAttached("Attach", typeof(bool), typeof(Cattach), new PropertyMetadata(false, Attach));
+
         private static readonly DependencyProperty IsUpdatingProperty = DependencyProperty.RegisterAttached("IsUpdating", typeof(bool), typeof(Cattach));
 
         public static void SetAttach(DependencyObject dp, bool value)
@@ -1197,7 +1199,7 @@ namespace HeBianGu.Base.WpfBase
 
     }
 
- 
+
     static partial class Cattach
     {
         /// <summary>
@@ -1310,7 +1312,7 @@ namespace HeBianGu.Base.WpfBase
         static void OnIsSelectedChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
         {
 
-        } 
+        }
 
         /// <summary>
         /// 值
@@ -1443,6 +1445,363 @@ namespace HeBianGu.Base.WpfBase
 
         }
 
+        #region - 标题相关 - 
+
+
+        /// <summary>
+        /// 标题
+        /// </summary>
+        public static readonly DependencyProperty TitleProperty = DependencyProperty.RegisterAttached(
+            "Title", typeof(object), typeof(Cattach), new FrameworkPropertyMetadata(default(object), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleChanged));
+
+        public static object GetTitle(DependencyObject d)
+        {
+            return (object)d.GetValue(TitleProperty);
+        }
+
+        public static void SetTitle(DependencyObject obj, object value)
+        {
+            obj.SetValue(TitleProperty, value);
+        }
+
+        static void OnTitleChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 标题模板
+        /// </summary>
+        public static readonly DependencyProperty TitleTemplateProperty = DependencyProperty.RegisterAttached(
+            "TitleTemplate", typeof(ControlTemplate), typeof(Cattach), new FrameworkPropertyMetadata(default(ControlTemplate), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleTemplateChanged));
+
+        public static ControlTemplate GetTitleTemplate(DependencyObject d)
+        {
+            return (ControlTemplate)d.GetValue(TitleTemplateProperty);
+        }
+
+        public static void SetTitleTemplate(DependencyObject obj, ControlTemplate value)
+        {
+            obj.SetValue(TitleTemplateProperty, value);
+        }
+
+        static void OnTitleTemplateChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 标题背景色
+        /// </summary>
+        public static readonly DependencyProperty TitleBackgroundProperty = DependencyProperty.RegisterAttached(
+            "TitleBackground", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleBackgroundChanged));
+
+        public static Brush GetTitleBackground(DependencyObject d)
+        {
+            return (Brush)d.GetValue(TitleBackgroundProperty);
+        }
+
+        public static void SetTitleBackground(DependencyObject obj, Brush value)
+        {
+            obj.SetValue(TitleBackgroundProperty, value);
+        }
+
+        static void OnTitleBackgroundChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 标题前景色
+        /// </summary>
+        public static readonly DependencyProperty TitleForegroundProperty = DependencyProperty.RegisterAttached(
+            "TitleForeground", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleForegroundChanged));
+
+        public static Brush GetTitleForeground(DependencyObject d)
+        {
+            return (Brush)d.GetValue(TitleForegroundProperty);
+        }
+
+        public static void SetTitleForeground(DependencyObject obj, Brush value)
+        {
+            obj.SetValue(TitleForegroundProperty, value);
+        }
+
+        static void OnTitleForegroundChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 标题边框线颜色
+        /// </summary>
+        public static readonly DependencyProperty TitleBorderBrushProperty = DependencyProperty.RegisterAttached(
+            "TitleBorderBrush", typeof(Brush), typeof(Cattach), new FrameworkPropertyMetadata(default(Brush), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleBorderBrushChanged));
+
+        public static Brush GetTitleBorderBrush(DependencyObject d)
+        {
+            return (Brush)d.GetValue(TitleBorderBrushProperty);
+        }
+
+        public static void SetTitleBorderBrush(DependencyObject obj, Brush value)
+        {
+            obj.SetValue(TitleBorderBrushProperty, value);
+        }
+
+        static void OnTitleBorderBrushChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 标题边框
+        /// </summary>
+        public static readonly DependencyProperty TitleBorderThicknessProperty = DependencyProperty.RegisterAttached(
+            "TitleBorderThickness", typeof(Thickness), typeof(Cattach), new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleBorderThicknessChanged));
+
+        public static Thickness GetTitleBorderThickness(DependencyObject d)
+        {
+            return (Thickness)d.GetValue(TitleBorderThicknessProperty);
+        }
+
+        public static void SetTitleBorderThickness(DependencyObject obj, Thickness value)
+        {
+            obj.SetValue(TitleBorderThicknessProperty, value);
+        }
+
+        static void OnTitleBorderThicknessChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        #endregion
+
+        #region - 历史记录相关 -
+
+        /// <summary>
+        /// 是否启用历史数据
+        /// </summary>
+        public static readonly DependencyProperty IsUseHistoryProperty = DependencyProperty.RegisterAttached(
+            "IsUseHistory", typeof(bool), typeof(Cattach), new FrameworkPropertyMetadata(default(bool), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnIsUseHistoryChanged));
+
+        public static bool GetIsUseHistory(DependencyObject d)
+        {
+            return (bool)d.GetValue(IsUseHistoryProperty);
+        }
+
+        public static void SetIsUseHistory(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsUseHistoryProperty, value);
+        }
+
+        static void OnIsUseHistoryChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var textBox = sender as TextBox;
+
+            if (textBox == null) return;
+
+            if (args.NewValue is bool b == true)
+            {
+                textBox.LostFocus -= TextBox_LostFocus;
+                textBox.LostFocus += TextBox_LostFocus;
+            }
+            else
+            {
+                textBox.LostFocus -= TextBox_LostFocus;
+            }
+        }
+
+        private static void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+
+            var datas = Cattach.GetHistoryData(textBox);
+
+            var capacity = Cattach.GetCapacity(textBox);
+
+            var regex = Cattach.GetRegex(textBox);
+
+            if (datas.Count > capacity)
+            {
+                datas = datas.Take(capacity)?.ToObservable();
+            }
+
+            if (!Regex.IsMatch(textBox.Text, regex)) return;
+
+            datas.Remove(textBox.Text);
+            datas.Insert(0, textBox.Text);
+
+            Cattach.SetHistoryData(textBox, datas);
+        }
+
+
+        /// <summary>
+        /// 历史数据
+        /// </summary>
+        public static readonly DependencyProperty HistoryDataProperty = DependencyProperty.RegisterAttached(
+            "HistoryData", typeof(ObservableCollection<string>), typeof(Cattach), new FrameworkPropertyMetadata(new ObservableCollection<string>(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnHistoryDataChanged));
+
+        public static ObservableCollection<string> GetHistoryData(DependencyObject d)
+        {
+            return (ObservableCollection<string>)d.GetValue(HistoryDataProperty);
+        }
+
+        public static void SetHistoryData(DependencyObject obj, ObservableCollection<string> value)
+        {
+            obj.SetValue(HistoryDataProperty, value);
+        }
+
+        static void OnHistoryDataChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 数据容量
+        /// </summary>
+        public static readonly DependencyProperty CapacityProperty = DependencyProperty.RegisterAttached(
+            "Capacity", typeof(int), typeof(Cattach), new FrameworkPropertyMetadata(10, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCapacityChanged));
+
+        public static int GetCapacity(DependencyObject d)
+        {
+            return (int)d.GetValue(CapacityProperty);
+        }
+
+        public static void SetCapacity(DependencyObject obj, int value)
+        {
+            obj.SetValue(CapacityProperty, value);
+        }
+
+        static void OnCapacityChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 验证数据的正则表达式 默认不等于空
+        /// </summary>
+        public static readonly DependencyProperty RegexProperty = DependencyProperty.RegisterAttached(
+            "Regex", typeof(string), typeof(Cattach), new FrameworkPropertyMetadata(@"\S", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnRegexChanged));
+
+        public static string GetRegex(DependencyObject d)
+        {
+            return (string)d.GetValue(RegexProperty);
+        }
+
+        public static void SetRegex(DependencyObject obj, string value)
+        {
+            obj.SetValue(RegexProperty, value);
+        }
+
+        static void OnRegexChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 选中历史数据改变
+        /// </summary>
+        public static readonly DependencyProperty SelectedHistroyItemProperty = DependencyProperty.RegisterAttached(
+            "SelectedHistroyItem", typeof(string), typeof(Cattach), new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedHistroyItemChanged));
+
+        public static string GetSelectedHistroyItem(DependencyObject d)
+        {
+            return (string)d.GetValue(SelectedHistroyItemProperty);
+        }
+
+        public static void SetSelectedHistroyItem(DependencyObject obj, string value)
+        {
+            obj.SetValue(SelectedHistroyItemProperty, value);
+        }
+
+        static void OnSelectedHistroyItemChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var textBox = sender as TextBox;
+
+            string config = args.NewValue as string;
+
+            if (config == null) return;
+
+            var regex = Cattach.GetRegex(textBox);
+
+            if (!Regex.IsMatch(config, regex)) return;
+
+            textBox.Text = config;
+        }
+
+        #endregion
+    }
+
+    static partial class Cattach
+    {
+        /// <summary>
+        /// 要注册的行为
+        /// </summary>
+        public static readonly DependencyProperty BehaviorsProperty = DependencyProperty.RegisterAttached(
+            "Behaviors", typeof(Behaviors), typeof(Cattach), new FrameworkPropertyMetadata(new Behaviors(), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnBehaviorsChanged));
+
+        public static Behaviors GetBehaviors(DependencyObject d)
+        {
+            return (Behaviors)d.GetValue(BehaviorsProperty);
+        }
+
+        public static void SetBehaviors(DependencyObject obj, Behaviors value)
+        {
+            obj.SetValue(BehaviorsProperty, value);
+        }
+
+        static void OnBehaviorsChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            Behaviors o = args.OldValue as Behaviors;
+
+            Behaviors n = args.NewValue as Behaviors;
+
+            BehaviorCollection bc = Interaction.GetBehaviors(sender);
+
+            //  Do ：先删除
+            if (o != null)
+            {
+                foreach (var b in o)
+                {
+                    var behavior = bc.FirstOrDefault(beh => beh.GetType() == b.GetType());
+
+                    if (behavior != null)
+                        bc.Remove(behavior);
+                }
+            }
+
+            //  Do ：再更新
+            if (n != null)
+            {
+                foreach (var b in n)
+                {
+                    var behavior = bc.FirstOrDefault(beh => beh.GetType() == b.GetType());
+
+                    if (behavior != null)
+                    {
+                        bc.Remove(behavior);
+                    }
+
+                    var instance = Activator.CreateInstance(b.GetType()) as Behavior;
+
+                    bc.Add(instance);
+                }
+            }
+
+        }
+    }
+
+    public class Behaviors : ObservableCollection<Behavior>
+    {
 
     }
 }

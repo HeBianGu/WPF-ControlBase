@@ -5,7 +5,9 @@ namespace HeBianGu.Base.WpfBase
     using System;
     using System.Diagnostics;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Windows;
+    using System.Windows.Controls;
     using System.Windows.Input;
     using System.Windows.Media;
 
@@ -13,7 +15,7 @@ namespace HeBianGu.Base.WpfBase
     /// Repositions the attached element in response to mouse drag gestures on the element.
     /// </summary>
     public class MouseDragElementBehavior : Behavior<FrameworkElement>
-    {
+    { 
         #region Fields
 
         private bool settingPosition;
@@ -285,7 +287,7 @@ namespace HeBianGu.Base.WpfBase
         /// </summary>
         /// <param name="x">The X component of the translation in parent coordinates.</param>
         /// <param name="y">The Y component of the translation in parent coordinates.</param>
-        internal void ApplyTranslationTransform(double x, double y)
+        protected virtual void ApplyTranslationTransform(double x, double y)
         {
             Transform renderTransform = this.RenderTransform;
             // todo jekelly: what if its frozen?
@@ -558,4 +560,16 @@ namespace HeBianGu.Base.WpfBase
             this.AssociatedObject.RemoveHandler(UIElement.MouseLeftButtonDownEvent, new MouseButtonEventHandler(this.OnMouseLeftButtonDown));
         }
     }
+
+
+    /// <summary> 应用到Canvas的拖拽 </summary>
+    public class CanvasMouseDragElementBehavior : MouseDragElementBehavior
+    {  
+        protected override void ApplyTranslationTransform(double x, double y)
+        {
+            Canvas.SetLeft(this.AssociatedObject, Canvas.GetLeft(this.AssociatedObject) + x);
+            Canvas.SetTop(this.AssociatedObject, Canvas.GetTop(this.AssociatedObject) + y);
+        }
+    }
+
 }

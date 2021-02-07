@@ -20,6 +20,8 @@ namespace HeBianGu.Base.WpfBase
 
             //this.Error = froms.FirstOrDefault();
 
+            this.Error = "ddgd";
+
         }
         #region - 属性 -
 
@@ -51,7 +53,9 @@ namespace HeBianGu.Base.WpfBase
                     }
                 }
 
-               return this.Error = results.FirstOrDefault();
+                return this.Error = results.FirstOrDefault();
+
+                //return this.Error = results.FirstOrDefault();
 
                 //return string.Join(Environment.NewLine, results);
 

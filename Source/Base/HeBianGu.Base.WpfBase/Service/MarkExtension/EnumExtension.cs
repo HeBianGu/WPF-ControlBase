@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HeBianGu.Base.WpfBase
 {
-
+    /// <summary> 显示枚举中所有选项 </summary>
     public class EnumSourceExtension : MarkupExtension
     {
         private Type _enumType;
@@ -63,6 +63,7 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+    /// <summary> 根据DisplayAttribute特性中组名显示选项 </summary>
     public class EnumGroupSourceExtension : MarkupExtension
     {
         private Type _enumType;

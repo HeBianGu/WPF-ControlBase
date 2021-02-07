@@ -68,6 +68,8 @@ namespace HeBianGu.Application.ToolWindow
                 l.ThemeType = ThemeType.Light;
 
                 l.Language = Language.Chinese;
+
+                l.AccentBrushType = AccentBrushType.LinearGradientBrush;
             });
         }
 

@@ -38,6 +38,7 @@ namespace HeBianGu.Base.WpfBase
             //  Do：通过反射调用指定名称的方法
             return method.Invoke(controller, args);
 
+
         }
 
         public static object GetViewModel(string controlName)

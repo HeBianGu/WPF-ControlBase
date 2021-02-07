@@ -147,7 +147,7 @@ namespace HeBianGu.Base.WpfBase
 
     public class VisibleSplitAnimationCommand : ICommand
     {
-        public int SplitMilliSecond { get; set; } = 10;
+        public int SplitMilliSecond { get; set; } = 50;
 
         public bool CanExecute(object parameter)
         {

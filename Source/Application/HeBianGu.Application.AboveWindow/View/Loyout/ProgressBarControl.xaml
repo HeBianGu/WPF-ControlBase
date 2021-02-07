@@ -26,7 +26,7 @@
                         </h:EventTrigger>
                     </h:Interaction.Triggers>
 
-                    <GroupBox Header="S.Button.Default">
+                    <GroupBox Header="S.ProgressBar.Base">
                         <ProgressBar Margin="15" Value="{Binding Percent,Mode=OneWay}"  h:Cattach.CornerRadius="28" Style="{StaticResource S.ProgressBar.Base}" IsIndeterminate="True"></ProgressBar>
 
                         <h:Cattach.Text>
@@ -36,8 +36,19 @@
                         </h:Cattach.Text>
                     </GroupBox>
 
-                    <GroupBox Header="h:Cattach.FIcon">
-                        <ProgressBar Style="{DynamicResource S.Progessbar.WaittingPercent}" Width="300" Value="{Binding ElementName=slide,Path=Value}"/>
+                    <GroupBox Header="S.Progessbar.WaittingPercent">
+                        <ProgressBar Style="{DynamicResource S.Progessbar.WaittingPercent}" Width="300" >
+                            <ProgressBar.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="0" To="100" Duration="00:00:05" Storyboard.TargetProperty="Value" RepeatBehavior="Forever" AutoReverse="True"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ProgressBar.Triggers>
+                        </ProgressBar>
+                                     
 
                         <h:Cattach.Text>
                             <![CDATA[ 
@@ -46,9 +57,18 @@
                         </h:Cattach.Text>
                     </GroupBox>
 
-                    <GroupBox Header="h:Cattach.IsBuzy">
-                        <ProgressBar Style="{DynamicResource S.Progessbar.CriclePercent}" Value="{Binding ElementName=slide,Path=Value}"/>
-
+                    <GroupBox Header="S.Progessbar.CriclePercent">
+                        <ProgressBar Style="{DynamicResource S.Progessbar.CriclePercent}">
+                            <ProgressBar.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="0" To="100" Duration="00:00:05" Storyboard.TargetProperty="Value" RepeatBehavior="Forever" AutoReverse="True"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ProgressBar.Triggers>
+                        </ProgressBar>
 
                         <h:Cattach.Text>
                             <![CDATA[ 
@@ -56,8 +76,18 @@
                     ]]>
                         </h:Cattach.Text>
                     </GroupBox>
-                    <GroupBox Header="h:Cattach.Value">
-                        <h:FProgressBar Value="{Binding ElementName=slide,Path=Value}" Style="{DynamicResource S.MetroProgressBar.CornerRadius.30}"/>
+                    <GroupBox Header="S.FProgressBar.Default">
+                        <h:FProgressBar Style="{DynamicResource S.FProgressBar.Default}">
+                            <h:FProgressBar.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="0" To="100" Duration="00:00:05" Storyboard.TargetProperty="Value" RepeatBehavior="Forever" AutoReverse="True"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </h:FProgressBar.Triggers>
+                        </h:FProgressBar>
 
 
                         <h:Cattach.Text>
@@ -70,31 +100,42 @@
                         </h:Cattach.Text>
                     </GroupBox>
 
-                    <GroupBox Header="ClickSelectedStateBehavior">
-                        <h:FProgressBar Value="{Binding ElementName=slide,Path=Value}" Style="{DynamicResource S.MetroProgressBar.CornerRadius.30}"  CornerRadius="15"/>
+                    <GroupBox Header="S.FProgressBar.Default">
+                        <h:FProgressBar Style="{DynamicResource S.FProgressBar.Default}" CornerRadius="20">
+                            <h:FProgressBar.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="0" To="100" Duration="00:00:05" Storyboard.TargetProperty="Value" RepeatBehavior="Forever" AutoReverse="True"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </h:FProgressBar.Triggers>
+                        </h:FProgressBar>
 
 
                         <h:Cattach.Text>
                             <![CDATA[ 
-                  <Button Content="默认按钮" h:Cattach.SelectBackground="Green">
-                    <h:Interaction.Behaviors>
-                        <h:ClickSelectedStateBehavior/>
-                    </h:Interaction.Behaviors>
-                  </Button>
+               <Button Content="默认按钮" 
+                                    h:Cattach.IsIndeterminate="False"
+                                    h:Cattach.IsBuzy="{Binding ElementName=cbb,Path=IsChecked}" 
+                                    h:Cattach.Value="{Binding ElementName=sl,Path=Value}" h:Cattach.BuzyText="正在运行"/>
                     ]]>
                         </h:Cattach.Text>
                     </GroupBox>
-                    <GroupBox Header="S.Button.Transparent">
-                        <h:FProgressBar Value="{Binding ElementName=slide,Path=Value}"/>
 
-                        <h:Cattach.Text>
-                            <![CDATA[ 
-                <Button Style="{StaticResource S.Button.Transparent}" Content="透明按钮"/>
-                    ]]>
-                        </h:Cattach.Text>
-                    </GroupBox>
-                    <GroupBox Header="h:Cattach.Transparent">
-                        <h:WaveProgressBar  Value="{Binding ElementName=slide,Path=Value}" Style="{DynamicResource ProgressBarWaveBaseStyle}"  />
+                    <GroupBox Header="S.WaveProgressBar.Default">
+                        <h:WaveProgressBar>
+                            <h:WaveProgressBar.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="0" To="100" Duration="00:00:05" Storyboard.TargetProperty="Value" RepeatBehavior="Forever" AutoReverse="True"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </h:WaveProgressBar.Triggers>
+                        </h:WaveProgressBar>
 
                         <h:Cattach.Text>
                             <![CDATA[ 
@@ -102,8 +143,18 @@
                     ]]>
                         </h:Cattach.Text>
                     </GroupBox>
-                    <GroupBox Header="S.Button.Link">
-                        <ProgressBar Style="{DynamicResource S.ProgressBar.Handy.Default}" Height="30" Value="{Binding ElementName=slide,Path=Value}" />
+                    <GroupBox Header="S.ProgressBar.Handy.Default">
+                        <ProgressBar Style="{DynamicResource S.ProgressBar.Handy.Default}">
+                            <ProgressBar.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="0" To="100" Duration="00:00:05" Storyboard.TargetProperty="Value" RepeatBehavior="Forever" AutoReverse="True"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ProgressBar.Triggers>
+                        </ProgressBar>
 
                         <h:Cattach.Text>
                             <![CDATA[ 
@@ -111,84 +162,22 @@
                     ]]>
                         </h:Cattach.Text>
                     </GroupBox>
-                    <GroupBox Header="S.Button.Circle">
-                        <ProgressBar Style="{DynamicResource S.ProgressBar.Handy.Stripe}"  Height="30"  Value="{Binding ElementName=slide,Path=Value}" />
+                    <GroupBox Header="S.ProgressBar.Handy.Stripe">
+                        <ProgressBar Style="{DynamicResource S.ProgressBar.Handy.Stripe}"  Height="30"  >
+                            <ProgressBar.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation From="0" To="100" Duration="00:00:05" Storyboard.TargetProperty="Value" RepeatBehavior="Forever" AutoReverse="True"/>
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </ProgressBar.Triggers>
+                        </ProgressBar>
 
                         <h:Cattach.Text>
                             <![CDATA[ 
                 <Button Style="{StaticResource S.Button.Circle}"  h:Cattach.FIcon="&#xe69e;"/>
-                    ]]>
-                        </h:Cattach.Text>
-                    </GroupBox>
-                    <GroupBox Header="S.Button.Circle.Transparent">
-                        <Button Style="{StaticResource S.Button.Circle.Transparent}"  h:Cattach.FIcon="&#xe69e;"/>
-                        <h:Cattach.Text>
-                            <![CDATA[ 
-                <Button Style="{StaticResource S.Button.Circle.Transparent}"  h:Cattach.FIcon="&#xe69e;"/>
-                    ]]>
-                        </h:Cattach.Text>
-                    </GroupBox>
-                    <GroupBox Header="S.Button.Circle.Transparent">
-                        <Button Style="{StaticResource S.Button.Circle.Transparent}"  h:Cattach.FIcon="&#xe69e;"/>
-                        <h:Cattach.Text>
-                            <![CDATA[ 
-                <Button Style="{StaticResource S.Button.Circle.Transparent}"  h:Cattach.FIcon="&#xe69e;"/>
-                    ]]>
-                        </h:Cattach.Text>
-                    </GroupBox>
-                    <GroupBox Header="S.Button.Transparent.BorderBrush">
-                        <Button Style="{StaticResource S.Button.Transparent.BorderBrush}"  h:Cattach.FIcon="&#xe69e;"/>
-                        <h:Cattach.Text>
-                            <![CDATA[ 
-                <Button Style="{StaticResource S.Button.Transparent.BorderBrush}"  h:Cattach.FIcon="&#xe69e;"/>
-                    ]]>
-                        </h:Cattach.Text>
-                    </GroupBox>
-                    <GroupBox Header="S.Button.MouseOver">
-                        <Button Style="{StaticResource S.Button.MouseOver}"  h:Cattach.FIcon="&#xe69e;"/>
-                        <h:Cattach.Text>
-                            <![CDATA[ 
-                    Button Style="{StaticResource S.Button.MouseOver}"  h:Cattach.FIcon="&#xe69e;"/>
-                    ]]>
-                        </h:Cattach.Text>
-                    </GroupBox>
-                    <GroupBox Header="S.Button.Close">
-                        <Button Style="{StaticResource S.Button.Close}"/>
-                        <h:Cattach.Text>
-                            <![CDATA[ 
-                    Button Style="{StaticResource S.Button.Close}"/>
-                    ]]>
-                        </h:Cattach.Text>
-                    </GroupBox>
-                    <GroupBox Header="S.Button.Close.MouseOver">
-                        <Button Style="{StaticResource S.Button.Close.MouseOver}"/>
-                        <h:Cattach.Text>
-                            <![CDATA[ 
-                   Button Style="{StaticResource S.Button.Close.MouseOver}"/>
-                    ]]>
-                        </h:Cattach.Text>
-                    </GroupBox>
-                    <GroupBox Header="S.Button.Close.Transparent">
-                        <Button Style="{StaticResource S.Button.Close.Transparent}"/>
-                        <h:Cattach.Text>
-                            <![CDATA[ 
-                    Button Style="{StaticResource S.Button.Close.Transparent}"/>
-                    ]]>
-                        </h:Cattach.Text>
-                    </GroupBox>
-                    <GroupBox Header="S.Button.Left">
-                        <Button Style="{StaticResource S.Button.Left}"/>
-                        <h:Cattach.Text>
-                            <![CDATA[ 
-                    <Button Style="{StaticResource S.Button.Left}"/>
-                    ]]>
-                        </h:Cattach.Text>
-                    </GroupBox>
-                    <GroupBox Header="S.Button.Right">
-                        <Button Style="{StaticResource S.Button.Right}"/>
-                        <h:Cattach.Text>
-                            <![CDATA[ 
-                    <Button Style="{StaticResource S.Button.Right}"/>
                     ]]>
                         </h:Cattach.Text>
                     </GroupBox>

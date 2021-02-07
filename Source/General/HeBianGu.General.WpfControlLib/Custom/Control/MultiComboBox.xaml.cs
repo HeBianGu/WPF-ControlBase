@@ -27,7 +27,7 @@ namespace HeBianGu.General.WpfControlLib
         /// </summary>
         public IList SelectedItems
         {
-            get { return this._ListBox.SelectedItems; }
+            get { return this._ListBox?.SelectedItems; }
         }
 
         /// <summary>

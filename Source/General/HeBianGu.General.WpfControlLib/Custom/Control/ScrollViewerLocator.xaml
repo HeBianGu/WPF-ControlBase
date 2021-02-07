@@ -1,0 +1,144 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+    xmlns:h="QQ:908293466"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style  x:Key="S.ScrollViewerLocator.Default"  TargetType="{x:Type local:ScrollViewerLocator}">
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Dialog.Cover}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+        <Setter Property="CoverBackground" Value="{DynamicResource S.Brush.Dialog.Cover}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScrollViewerLocator}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.Background>
+                                <VisualBrush Visual="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Visual}" Stretch="Uniform"/>
+                            </Grid.Background>
+
+                            <Canvas x:Name="PART_Visual" Background="{TemplateBinding CoverBackground}" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <local:MaskGrid x:Name="PART_MASK">
+                                    <Grid.Background>
+                                        <VisualBrush Visual="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Visual}"/>
+                                    </Grid.Background>
+                                    <h:Interaction.Behaviors>
+                                        <local:MaskMouseDragElementBehavior ConstrainToParentBounds="True"/>
+                                    </h:Interaction.Behaviors>
+                                </local:MaskGrid>
+                            </Canvas>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:ScrollViewerLocator}" BasedOn="{StaticResource S.ScrollViewerLocator.Default}"/>
+
+    <Style  x:Key="S.ScrollViewerTransfor.Default"  TargetType="{x:Type local:ScrollViewerTransfor}">
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Dark.10}"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <h:MouseGestureScrollViewerBehavior/>
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScrollViewerTransfor}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="Storyboard1">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_VerticalScrollBar">
+                                <EasingDoubleKeyFrame KeyTime="0:0:.2" Value=".8"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_HorizontalScrollBar">
+                                <EasingDoubleKeyFrame KeyTime="0:0:.2" Value=".8"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="Storyboard2">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_VerticalScrollBar">
+                                <EasingDoubleKeyFrame KeyTime="0:0:.2" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PART_HorizontalScrollBar">
+                                <EasingDoubleKeyFrame KeyTime="0:0:.2" Value="0"/>
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+
+                    <Grid x:Name="PART_Grid_All" Background="{TemplateBinding Background}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" x:Name="leftColumn" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" 
+                                                CanContentScroll="{TemplateBinding CanContentScroll}"
+                                                CanHorizontallyScroll="False" CanVerticallyScroll="False" ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                Margin="{TemplateBinding Padding}"
+                                                Grid.Row="0" Grid.Column="0">
+                            <ScrollContentPresenter.Content>
+                                <Viewbox x:Name="PART_ViewBox_Default"  Stretch="Uniform" >
+                                    <Grid x:Name="PART_Grid_Center" Background="{TemplateBinding Background}">
+                                        <Viewbox Stretch="Uniform" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                            <ContentControl  Content="{TemplateBinding Content}"/>
+                                        </Viewbox>
+                                    </Grid>
+                                </Viewbox>
+
+                            </ScrollContentPresenter.Content>
+
+                        </ScrollContentPresenter>
+
+                        <!--垂直滚动条 -->
+                        <ScrollBar x:Name="PART_VerticalScrollBar" AutomationProperties.AutomationId="VerticalScrollBar"
+                                   ViewportSize="{TemplateBinding ViewportHeight}" Opacity="0" HorizontalAlignment="Right"
+                                   Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}"
+                                   Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                   Value="{Binding VerticalOffset,Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}">
+                            <!--<h:Interaction.Behaviors>
+                                <h:ScrollbarPreviewBehavior>
+                                    <h:ScrollbarPreviewBehavior.ScrollingPreviewTemplate>
+                                        <DataTemplate>
+                                            <Grid>
+                                                <TextBlock Text="{Binding Offset}"/>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </h:ScrollbarPreviewBehavior.ScrollingPreviewTemplate>
+                                </h:ScrollbarPreviewBehavior>
+                            </h:Interaction.Behaviors>-->
+                        </ScrollBar>
+
+                        <!--水平底部滚动条-->
+                        <ScrollBar x:Name="PART_HorizontalScrollBar" AutomationProperties.AutomationId="HorizontalScrollBar"
+                                   Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}"
+                                   Minimum="0" Orientation="Horizontal" Grid.Row="1" Opacity="0" VerticalAlignment="Bottom"
+                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                   Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                   ViewportSize="{TemplateBinding ViewportWidth}" />
+
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard Storyboard="{StaticResource Storyboard1}"/>
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard Storyboard="{StaticResource Storyboard2}"/>
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:ScrollViewerTransfor}" BasedOn="{StaticResource S.ScrollViewerTransfor.Default}"/>
+
+</ResourceDictionary>

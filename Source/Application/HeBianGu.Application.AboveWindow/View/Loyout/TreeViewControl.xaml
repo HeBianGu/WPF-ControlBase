@@ -7,8 +7,8 @@
              xmlns:h="QQ:908293466" xmlns:cl="clr-namespace:System.Collections;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <UniformGrid Columns="2" VerticalAlignment="Stretch">
+    <ScrollViewer>
+        <UniformGrid Columns="2" VerticalAlignment="Stretch" Height="800">
 
             <h:Interaction.Triggers>
                 <h:EventTrigger EventName="Loaded">
@@ -24,7 +24,7 @@
             </h:Interaction.Triggers>
             
             <GroupBox Header="S.TreeView.Default">
-                <TreeView ItemsSource="{Binding Source={StaticResource xdp}}">
+                <TreeView ItemsSource="{Binding Source={StaticResource xdp}}" >
                     
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding XPath=Folder}">
@@ -43,9 +43,48 @@
                 </h:Cattach.Text>
             </GroupBox>
 
+            <GroupBox Header="S.TreeView.Accent">
+                <TreeView ItemsSource="{Binding Source={StaticResource xdp}}" Style="{StaticResource S.TreeView.Accent}">
 
-            <GroupBox Header="S.Button.Default">
-                <TreeView ItemsSource="{Binding Source={StaticResource xdp}}" Style="{StaticResource S.TreeView.Single}">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding XPath=Folder}">
+                            <StackPanel  Orientation="Horizontal">
+                                <TextBlock Text="{Binding XPath=@FIcon}" FontSize="15" Style="{DynamicResource FIcon}" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="a" Text="{Binding XPath=@Name}"  VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+
+                <h:Cattach.Text>
+                    <![CDATA[ 
+                     <TreeView/>
+                    ]]>
+                </h:Cattach.Text>
+            </GroupBox>
+
+            <GroupBox Header="S.TreeView.Handy.Accent">
+                <TreeView ItemsSource="{Binding Source={StaticResource xdp}}" Style="{StaticResource S.TreeView.Handy.Accent}">
+
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding XPath=Folder}">
+                            <StackPanel  Orientation="Horizontal">
+                                <TextBlock Text="{Binding XPath=@FIcon}" FontSize="15" Margin="5,0" Style="{DynamicResource FIcon}" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="a" Text="{Binding XPath=@Name}"  VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                </TreeView>
+
+                <h:Cattach.Text>
+                    <![CDATA[ 
+                        <TreeView Style="{StaticResource S.TreeView.Single}">
+                    ]]>
+                </h:Cattach.Text>
+            </GroupBox>
+
+            <GroupBox Header="S.TreeView.Handy.Default">
+                <TreeView ItemsSource="{Binding Source={StaticResource xdp}}" Style="{StaticResource S.TreeView.Handy.Default}">
 
                     <TreeView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding XPath=Folder}">
@@ -64,5 +103,5 @@
                 </h:Cattach.Text>
             </GroupBox>
         </UniformGrid>
-    </Grid>
+    </ScrollViewer>
 </UserControl>

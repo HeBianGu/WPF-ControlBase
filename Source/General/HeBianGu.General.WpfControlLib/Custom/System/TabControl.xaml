@@ -16,6 +16,10 @@
         <Setter Property="h:Cattach.IsUseClose" Value="{Binding RelativeSource={RelativeSource AncestorType=TabControl},Path=(h:Cattach.IsUseClose)}"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="h:Cattach.CellMargin" Value="{Binding RelativeSource={RelativeSource AncestorType=TabControl},Path=(h:Cattach.CellMargin)}"/>
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
@@ -26,13 +30,13 @@
                                 BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}"/>-->
 
                         <Border x:Name="boder_mouseover" BorderBrush="{TemplateBinding BorderBrush}" 
-                                Background="{DynamicResource S.Brush.Accent.MouseOver.Background}"
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBackground)}"
                                 Opacity="0"
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
 
                         <Border x:Name="boder" BorderBrush="{TemplateBinding BorderBrush}" 
-                                Background="{DynamicResource S.Brush.Accent}"
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.SelectBackground)}"
                                 Opacity="0"
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
@@ -72,7 +76,11 @@
                     </ControlTemplate.Triggers>-->
 
                     <ControlTemplate.Triggers>
+
                         <Trigger Property="IsMouseOver" Value="True">
+                            
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.MouseOverForeground)}" />
+
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -91,11 +99,11 @@
                         </Trigger>
 
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Foreground"  Value="{DynamicResource S.Brush.TextForeground.White}"/>
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.SelectForeground)}" />
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.3" />
+                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -103,7 +111,7 @@
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:1" />
+                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
@@ -233,6 +241,13 @@
         </Setter>
     </Style>
 
+    <Style  x:Key="S.TabItem.Single" BasedOn="{StaticResource S.TabItem.Default}" TargetType="TabItem">
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.TextForeground.MouseOver}"/>
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.TextForeground.Selected}"/>
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/> 
+    </Style>
+    
     <!--默认样式-->
     <Style x:Key="S.TabControl.Default" TargetType="{x:Type TabControl}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
@@ -317,5 +332,6 @@
             </Setter.Value>
         </Setter>
     </Style>
+
 
 </ResourceDictionary>

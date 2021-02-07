@@ -30,7 +30,7 @@
         <Setter Property="MinWidth" Value="5" />
         <!--<Setter Property="MinHeight" Value="35" />-->
         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=ColumnHeaderHeight}" />
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <!--<Setter Property="Padding" Value="10,4,4,7" />-->
@@ -40,8 +40,8 @@
         <!--<Setter Property="FontWeight" Value="SemiBold"></Setter>-->
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}" />
         <Setter Property="BorderThickness" Value="1,0,1,2" />
-        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.RowIndex.BackGround}" />
-        <Setter Property="Background" Value="{DynamicResource S.Brush.RowIndex.BackGround}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent.Opacity.2}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.2}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
@@ -120,21 +120,25 @@
         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=RowHeight}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Margin" Value="0,0,0,0" />
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type DataGridRow}">
                     <Grid Background="{TemplateBinding Background}">
-                        
+
                         <Border x:Name="boder_mouseover" BorderBrush="{TemplateBinding BorderBrush}" 
-                                Background="{DynamicResource S.Brush.Accent.MouseOver.Background}"
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBackground)}"
                                 Opacity="0"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
 
                         <Border x:Name="boder" BorderBrush="{TemplateBinding BorderBrush}" 
-                                Background="{DynamicResource S.Brush.Accent}"
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.SelectBackground)}"
                                 Opacity="0"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
-                        
+
                         <SelectiveScrollingGrid  Margin="{TemplateBinding Padding}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
@@ -159,7 +163,7 @@
                                                Grid.RowSpan="2"
                                                Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Row}}"/>
 
-                            <local:FButton Style="{DynamicResource S.FButton.Close}"
+                            <local:FButton Style="{DynamicResource S.FButton.Close}" HorizontalAlignment="Right" Grid.Column="2"
                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.IsUseClose),Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
                                        FIconSize="{DynamicResource S.FIcon.Size.Small}">
                                 <h:Interaction.Triggers>
@@ -174,6 +178,8 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.MouseOverForeground)}" />
+
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -192,11 +198,12 @@
                         </Trigger>
 
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Foreground"  Value="{DynamicResource S.Brush.TextForeground.White}"/>
+
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.SelectForeground)}" />
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.3" />
+                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -204,7 +211,7 @@
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:1" />
+                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
@@ -216,7 +223,7 @@
                         </Trigger>
 
                         <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                            <Setter Property="Background" Value="{DynamicResource S.Brush.RowIndex.BackGround}"/>
+                            <Setter Property="Background" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
                             <!--#FFE4EFF9-->
                         </Trigger>
 
@@ -336,7 +343,7 @@
                 <MultiTrigger.Conditions>
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="ItemsControl.AlternationIndex" Value="1" />
-                </MultiTrigger.Conditions>
+                </MultiTrigger.Conditions> 
                 <Setter  Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.3}"/>
                 <MultiTrigger.EnterActions>
                     <BeginStoryboard>
@@ -417,6 +424,7 @@
     <Style x:Key="S.DataGrid.DataGridCell.Default" TargetType="{x:Type DataGridCell}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow},Path=Foreground}" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -446,11 +454,11 @@
 
                         </ContentPresenter>
                     </Border>
-                    <ControlTemplate.Triggers>
+                    <!--<ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}" />
                         </Trigger>
-                    </ControlTemplate.Triggers>
+                    </ControlTemplate.Triggers>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -584,11 +592,23 @@
             <Setter.Value>
                 <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource S.DataGrid.DataGridColumnHeader.Default}">
                     <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}" />
-                    <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent.Opacity.2}" />
-                    <Setter Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.2}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
+                    <Setter Property="Background" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
                 </Style>
             </Setter.Value>
         </Setter>
+
+        <Setter Property="RowStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource S.DataGrid.DataGridRow.Default}">
+                    <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.TextForeground.MouseOver}"/>
+                    <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+                    <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.TextForeground.Selected}"/>
+                    <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/> 
+                </Style>
+            </Setter.Value>
+        </Setter>
+ 
     </Style>
 
 

@@ -4,6 +4,7 @@ namespace HeBianGu.Base.WpfBase
 {
     using System;
     using System.Globalization;
+    using System.Linq;
     using System.Windows;
     using System.Windows.Media.Animation;
 
@@ -33,7 +34,7 @@ namespace HeBianGu.Base.WpfBase
         protected new T AssociatedObject
         {
             get { return (T)base.AssociatedObject; }
-        }
+        } 
     }
 
     /// <summary>
@@ -167,5 +168,9 @@ namespace HeBianGu.Base.WpfBase
         }
 
         #endregion
+
+
+   
+
     }
 }

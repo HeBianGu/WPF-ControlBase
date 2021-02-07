@@ -247,40 +247,40 @@ namespace HeBianGu.Control.Chart2D
 
         public virtual void ForceDraw()
         {
-            try
-            {
-                if (!this.IsLoaded) return;
+            //try
+            //{
+            if (!this.IsLoaded) return;
 
-                this.Draw(this);
+            this.Draw(this);
 
-                this.OnDrawed();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
+            this.OnDrawed();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine(ex);
 
-                //Trace.Fail(ex.Message);
-            }
+            //    //Trace.Fail(ex.Message);
+            //}
         }
 
         public virtual void TryDraw()
         {
-            try
-            {
-                if (this.TryFreeze) return;
+            //try
+            //{
+            if (this.TryFreeze) return;
 
-                if (!this.IsLoaded) return;
+            if (!this.IsLoaded) return;
 
-                this.Draw(this);
+            this.Draw(this);
 
-                this.OnDrawed();
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
+            this.OnDrawed();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Debug.WriteLine(ex);
 
-                //Trace.Fail(ex.Message);
-            }
+            //    //Trace.Fail(ex.Message);
+            //}
         }
 
 
@@ -550,6 +550,16 @@ namespace HeBianGu.Control.Chart2D
             return bottom;
         }
 
+        /// <summary> 获取Canvas位置对应的y值 </summary>
+        public virtual double GetValueY(double value)
+        {
+            if (this.maxY == this.minY) return this.minY;
+
+            var bottom = ((this.ActualHeight - value) / this.ActualHeight) * (this.maxY - this.minY) + this.minY;
+
+            return bottom;
+        }
+
         /// <summary> 获取值对应Canvas的位置 </summary>
         public virtual double GetY(double value)
         {
@@ -719,6 +729,46 @@ namespace HeBianGu.Control.Chart2D
                  ObservableCollection<double[]> config = e.NewValue as ObservableCollection<double[]>;
 
              }));
+
+
+
+        public Func<double, string> xConvert
+        {
+            get { return (Func<double, string>)GetValue(xConvertProperty); }
+            set { SetValue(xConvertProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty xConvertProperty =
+            DependencyProperty.Register("xConvert", typeof(Func<double, string>), typeof(XyLayer), new PropertyMetadata(default(Func<double, string>), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                Func<double, string> config = e.NewValue as Func<double, string>;
+
+            }));
+
+
+        public Func<double, string> yConvert
+        {
+            get { return (Func<double, string>)GetValue(yConvertProperty); }
+            set { SetValue(yConvertProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty yConvertProperty =
+            DependencyProperty.Register("yConvert", typeof(Func<double, string>), typeof(XyLayer), new PropertyMetadata(default(Func<double, string>), (d, e) =>
+            {
+                XyLayer control = d as XyLayer;
+
+                if (control == null) return;
+
+                Func<double, string> config = e.NewValue as Func<double, string>;
+
+            }));
+
 
     }
 

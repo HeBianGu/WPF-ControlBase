@@ -140,6 +140,8 @@ namespace HeBianGu.Control.Chart2D
             {
                 double value = data[i];
 
+                if (double.IsNaN(value)) continue;
+
                 Point start;
 
                 Point end;

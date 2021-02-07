@@ -148,7 +148,19 @@ namespace HeBianGu.Control.Chart2D
                 l.X2 = 0;
                 l.Width = 1;
 
-                Canvas.SetLeft(l, this.GetX(item, this.ActualWidth));
+                //Canvas.SetLeft(l, this.GetX(item, this.ActualWidth));
+
+                l.Loaded += (o, e) =>
+                {
+                    if (this.xAxis.Count == 1)
+                    {
+                        Canvas.SetLeft(l, this.ActualWidth / 2);
+                    }
+                    else
+                    {
+                        Canvas.SetLeft(l, this.GetX(item));
+                    }
+                };
                 this.Children.Add(l);
             }
         }

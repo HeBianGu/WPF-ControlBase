@@ -29,12 +29,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 CommandBinding command = new CommandBinding(CommandService.Open, (l, k) =>
                 {
-                    Cattach.SetIsVisible(this._center, true);
-
-                    if (this.UseShowAction)
-                        Cattach.SetIsVisible(this._show, false);
-
-                    Panel.SetZIndex(this, 1);
+                    this.Open();
                 });
 
                 this.CommandBindings.Add(command);
@@ -44,18 +39,78 @@ namespace HeBianGu.General.WpfControlLib
             {
                 CommandBinding command = new CommandBinding(CommandService.Close, (l, k) =>
                 {
-                    Cattach.SetIsVisible(this._center, false);
-
-                    if (this.UseShowAction)
-                        Cattach.SetIsVisible(this._show, true);
-
-
-                    Panel.SetZIndex(this, 0);
+                    this.Close();
                 });
 
                 this.CommandBindings.Add(command);
             }
 
+            this.Loaded += (l, k) =>
+            {
+                this.RefreshState(this.IsExpanded);
+            };
+
+        }
+
+
+        void Open()
+        {
+            if (this._center == null || this._show == null) return;
+
+            Cattach.SetIsVisible(this._center, true);
+
+            if (this.UseShowAction)
+                Cattach.SetIsVisible(this._show, false);
+
+            Panel.SetZIndex(this, 1);
+        }
+
+        void Close()
+        {
+            if (this._center == null || this._show == null) return;
+
+            Cattach.SetIsVisible(this._center, false);
+
+            if (this.UseShowAction)
+                Cattach.SetIsVisible(this._show, true);
+
+
+            Panel.SetZIndex(this, 0);
+        }
+
+        public bool IsExpanded
+        {
+            get { return (bool)GetValue(IsExpandedProperty); }
+            set { SetValue(IsExpandedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsExpandedProperty =
+            DependencyProperty.Register("IsExpanded", typeof(bool), typeof(FDrawer), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (d, e) =>
+             {
+                 FDrawer control = d as FDrawer;
+
+                 if (control == null) return;
+
+                 //bool config = e.NewValue as bool;
+
+                 if (e.NewValue is bool b)
+                 {
+                     control.RefreshState(b);
+                 }
+             }));
+
+        void RefreshState(bool operate)
+        {
+            if (operate)
+            {
+                this.Open();
+            }
+            else
+            {
+
+                this.Close();
+            }
         }
 
 

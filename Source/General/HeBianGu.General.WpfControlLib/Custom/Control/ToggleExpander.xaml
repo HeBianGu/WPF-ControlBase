@@ -44,6 +44,7 @@
                             <ToggleButton x:Name="tg" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                       Content="&#xe639;" h:Cattach.FIcon="&#xe635;"
                                       h:Cattach.FIconSize="{TemplateBinding h:Cattach.FIconSize}"  
+                                      h:InvokeTimeSplitAnimationAction.IsExcept="True" 
                                       Style="{DynamicResource S.ToggleButton.DoubleFIconChecked}">
                                 <!--<h:Interaction.Triggers>
                                     <h:EventTrigger EventName="MouseEnter">
@@ -92,15 +93,15 @@
         <Setter Property="DockPanel.Dock" Value="Top"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="ItemsControl">
+                <ControlTemplate TargetType="{x:Type local:ToggleExpander}">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
                             BorderThickness="{TemplateBinding BorderThickness}" 
                             CornerRadius="{TemplateBinding h:Cattach.CornerRadius}">
                         <DockPanel HorizontalAlignment="Left" VerticalAlignment="Center">
 
                             <ToggleButton x:Name="tg" HorizontalAlignment="Center"  h:InvokeTimeSplitAnimationAction.IsExcept="True" VerticalAlignment="Center" DockPanel.Dock="{TemplateBinding DockPanel.Dock}"
-                                      Content="&#xe639;" h:Cattach.FIcon="&#xe635;"
-                                      
+                                      Content="&#xe639;" h:Cattach.FIcon="&#xe635;"   
+                                      IsChecked="{TemplateBinding IsExpanded}"
                                       Foreground="{TemplateBinding Foreground}" Margin="5,0"
                                       h:Cattach.FIconSize="{TemplateBinding h:Cattach.FIconSize}"  
                                       Style="{DynamicResource S.ToggleButton.DoubleFIconChecked}">
@@ -151,6 +152,8 @@
                             <ToggleButton x:Name="tg" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                           DockPanel.Dock="{TemplateBinding DockPanel.Dock}"
                                           Content="&#xe639;" h:Cattach.FIcon="&#xe635;"
+                                          IsChecked="{TemplateBinding IsExpanded}"
+                                           h:InvokeTimeSplitAnimationAction.IsExcept="True" 
                                           h:Cattach.FIconSize="{TemplateBinding h:Cattach.FIconSize}"  
                                           Style="{DynamicResource S.ToggleButton.DoubleFIconChecked}">
                                 <h:Interaction.Triggers>
@@ -187,6 +190,52 @@
     </Style>
 
     <Style TargetType="{x:Type local:ToggleExpander}" BasedOn="{StaticResource S.ToggleExpander.Default}"/>
+
+
+    <Style x:Key="S.ElementExpander.MouseEnter" TargetType="{x:Type local:ElementExpander}" BasedOn="{StaticResource S.ToggleExpander.Single}">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="h:Cattach.FIconSize" Value="50"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="250"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:ElementExpander">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding h:Cattach.CornerRadius}">
+                        <Grid>
+                            <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained"/>
+                            <ContentControl Content="{TemplateBinding Content}"/>
+                        </Grid>
+
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="MouseEnter">
+                                <h:InvokeCommandAction Command="{x:Static local:CommandService.VisibleSplitAnimationCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                            </h:EventTrigger>
+
+                            <h:EventTrigger EventName="MouseLeave">
+                                <h:InvokeCommandAction Command="{x:Static local:CommandService.CollapsedSplitAnimationCommand}"  CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity"  Value="{DynamicResource S.Opacity.Disable}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <local:CirclePanel Len="60" Margin="25" IsAnimation="False"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>
 

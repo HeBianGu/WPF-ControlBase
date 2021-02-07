@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Base.WpfBase
 {
-
+    /// <summary> 根据DisplayAttribute显示枚举名称 </summary>
     public class DisplayConverter : EnumConverter
     {
         public DisplayConverter(Type type) : base(type)

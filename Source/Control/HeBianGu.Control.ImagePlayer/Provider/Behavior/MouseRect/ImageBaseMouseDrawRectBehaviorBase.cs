@@ -30,6 +30,9 @@ namespace HeBianGu.Control.ImagePlayer
             AssociatedObject._centerCanvas.MouseDown += InkCanvas_MouseDown;
             AssociatedObject._centerCanvas.MouseUp += InkCanvas_MouseUp;
             AssociatedObject._centerCanvas.MouseLeave += InkCanvas_MouseLeave;
+
+            //  Do ：刷新初始化定位
+            AssociatedObject.ShowShape(AssociatedObject.Location);
         }
 
 

@@ -62,14 +62,14 @@ namespace HeBianGu.Control.Chart2D
 
             foreach (var layer in layers)
             {
-                try
-                {
+                //try
+                //{
                     layer.ForceDraw();
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex);
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                //    Debug.WriteLine(ex);
+                //}
             }
 
 

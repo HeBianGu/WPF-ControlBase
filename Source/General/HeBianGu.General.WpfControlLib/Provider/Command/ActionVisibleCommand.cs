@@ -37,7 +37,7 @@ namespace HeBianGu.Base.WpfBase
                 Cattach.SetIsVisible(element, false);
             }
         }
-
+         
         public event EventHandler CanExecuteChanged;
     }
 

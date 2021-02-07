@@ -71,6 +71,8 @@ namespace HeBianGu.Application.PhoneWindow
                 l.ThemeType = ThemeType.Light;
 
                 l.Language = Language.Chinese;
+
+                l.AccentBrushType = AccentBrushType.LinearGradientBrush;
             });
         }
 

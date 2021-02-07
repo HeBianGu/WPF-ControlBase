@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -21,7 +24,7 @@ namespace HeBianGu.Base.WpfBase
     {
         public Color AccentColor { get; set; }
 
-        public Color ForegroundColor { get; set; }
+        //public Color ForegroundColor { get; set; }
 
         public FontSize FontSize { get; set; }
 
@@ -48,13 +51,15 @@ namespace HeBianGu.Base.WpfBase
         public bool IsUseAnimal { get; set; }
 
         public int Version { get; set; }
+
+        public AccentBrushType AccentBrushType { get; set; }
     }
 
     public interface IThemeService
     {
         Color AccentColor { get; set; }
 
-        Color ForegroundColor { get; set; }
+        //Color ForegroundColor { get; set; }
 
         FontSize FontSize { get; set; }
 
@@ -81,10 +86,12 @@ namespace HeBianGu.Base.WpfBase
         bool IsUseAnimal { get; set; }
 
         int Version { get; set; }
+
+        AccentBrushType AccentBrushType { get; set; }
     }
 
     /// <summary> 主题颜色管理器 </summary>
-    public class ThemeService : NotifyPropertyChanged, IThemeService
+    public class ThemeService : NotifyPropertyChanged
     {
         private ThemeService()
         {
@@ -92,31 +99,311 @@ namespace HeBianGu.Base.WpfBase
             {
                 Application.Current?.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
                  {
-                     this.AccentColor = _type == 0 ? wpAccentColors[_random.Next(wpAccentColors.Length)] : metroAccentColors[_random.Next(metroAccentColors.Length)];
+                     this.AccentColor = this.SelectColorSource.Colors[_random.Next(this.SelectColorSource.Colors.Count)];
                  }));
             };
+
+
+            #region - 颜色 -
+
+            this.ColorSource.Add(new AccentColorSource() { DispalyName = "适中", Colors = ColorSourceFactory.Create(0.6).ToObservable() });
+
+            this.ColorSource.Add(new AccentColorSource() { DispalyName = "浅色", Colors = ColorSourceFactory.Create(0.8).ToObservable() });
+
+            this.ColorSource.Add(new AccentColorSource() { DispalyName = "深色", Colors = ColorSourceFactory.Create(0.3).ToObservable() });
+
+            this.ColorSource.Add(new AccentColorSource() { DispalyName = "高亮", Colors = ColorSourceFactory.Create(1.0).ToObservable() });
+
+            this.SelectColorSource = this.ColorSource?.FirstOrDefault();
+
+            #endregion
+
+            #region - 主题 - 
+
+            this.ColorLinks.Add(new ColorLink { ThemeType = ThemeType.Light, DisplayName = "浅色调", Source = ThemeService.LightThemeSource, Color = Brushes.White, Text = Brushes.Black });
+            this.ColorLinks.Add(new ColorLink { ThemeType = ThemeType.Dark, DisplayName = "深色调", Source = ThemeService.DarkThemeSource, Color = Brushes.Black, Text = Brushes.White });
+            this.ColorLinks.Add(new ColorLink { ThemeType = ThemeType.Gray, DisplayName = "灰色调", Source = ThemeService.GrayThemeSource, Color = Brushes.Gray, Text = Brushes.White });
+            this.ColorLinks.Add(new ColorLink { ThemeType = ThemeType.Accent, DisplayName = "主色调", Source = ThemeService.AccentThemeSource, Color = Brushes.White, Text = Brushes.Black });
+
+            this.SelectedColorLink = this.ColorLinks?.FirstOrDefault();
+
+            #endregion
+
         }
 
-        /// <summary> 深颜色主题 </summary> 
-        public static readonly Uri DarkThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/DarkThemeResource.xaml", UriKind.Relative);
+        #region - 依赖属性 -
 
-        /// <summary> 浅颜色主题 </summary>
-        public static readonly Uri LightThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/LightThemeResource.xaml", UriKind.Relative);
+        private AccentColorSource _selectColorSource;
+        /// <summary> 选中的颜色集合  </summary>
+        public AccentColorSource SelectColorSource
+        {
+            get { return _selectColorSource; }
+            set
+            {
+                _selectColorSource = value;
+                RaisePropertyChanged("SelectColorSource");
+            }
+        }
 
-        /// <summary> 灰色主题 </summary>
-        public static readonly Uri GrayThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/GrayThemeResource.xaml", UriKind.Relative);
+        private ObservableCollection<ColorLink> _colorLink = new ObservableCollection<ColorLink>();
+        /// <summary> 颜色集合  </summary>
+        public ObservableCollection<ColorLink> ColorLinks
+        {
+            get { return _colorLink; }
+            set
+            {
+                _colorLink = value;
+                RaisePropertyChanged("ColorLinks");
+            }
+        }
 
-        /// <summary> Accent主题 </summary>
-        public static readonly Uri AccentThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/AccentThemeResource.xaml", UriKind.Relative);
+        private ColorLink _selectedColorLink;
+        /// <summary> 说明  </summary>
+        public ColorLink SelectedColorLink
+        {
+            get { return _selectedColorLink; }
+            set
+            {
+                _selectedColorLink = value;
+                RaisePropertyChanged("SelectedColorLink");
+            }
+        }
 
-        public static ThemeService Current = new ThemeService();
+        public double SmallFontSize
+        {
+            get
+            {
+                return (double)Application.Current.Resources["S.FontSize.Small"];
+            }
+            set
+            {
+                Application.Current.Resources["S.FontSize.Small"] = value;
 
-        static readonly Uri LanguageChineseSource = new Uri("/HeBianGu.Base.WpfBase;component/Resources/zh-cn.xml", UriKind.RelativeOrAbsolute);
-        static readonly Uri LanguageEnglishSource = new Uri("/HeBianGu.Base.WpfBase;component/Resources/en-us.xml", UriKind.RelativeOrAbsolute);
+                RaisePropertyChanged("SmallFontSize");
+            }
+        }
 
-        public double SmallFontSize { get; set; } = 13D;
 
-        public double LargeFontSize { get; set; } = 15D;
+
+        public double LargeFontSize
+        {
+            get
+            {
+                return (double)Application.Current.Resources["S.FontSize.Large"];
+            }
+            set
+            {
+                Application.Current.Resources["S.FontSize.Large"] = value;
+
+                RaisePropertyChanged("LargeFontSize");
+            }
+        }
+
+        /// <summary> 字体大小 </summary>
+        public FontSize FontSize
+        {
+            get
+            {
+                var defaultFontSize = Application.Current.Resources["S.FontSize.Default"] as double?;
+
+                if (defaultFontSize.HasValue)
+                {
+                    return defaultFontSize.Value == SmallFontSize ? FontSize.Small : FontSize.Large;
+                }
+
+                return FontSize.Small;
+            }
+            set
+            {
+                Application.Current.Resources["S.FontSize.Default"] = value == FontSize.Small ? this.SmallFontSize : this.LargeFontSize;
+                Application.Current.Resources["S.FontSize.Fixed"] = value == FontSize.Small ? this.SmallFontSize - 1.5 : this.LargeFontSize - 1.5;
+
+                RaisePropertyChanged("FontSize");
+            }
+        }
+
+        private AccentBrushType _accentBrushType = AccentBrushType.LinearGradientBrush;
+        /// <summary> 主题颜色刷类型  </summary>
+        public AccentBrushType AccentBrushType
+        {
+            get { return _accentBrushType; }
+            set
+            {
+                _accentBrushType = value;
+
+                this.AccentColor = this.AccentColor;
+
+                RaisePropertyChanged("AccentBrushType");
+            }
+        }
+
+        /// <summary> 主色调 </summary>
+        public Color AccentColor
+        {
+            get
+            {
+                var accentColor = Application.Current.Resources["AccentColor"] as Color?;
+
+                if (accentColor.HasValue)
+                {
+                    return accentColor.Value;
+                }
+
+                return Color.FromArgb(0xff, 0x1b, 0xa1, 0xe2);
+            }
+            set
+            {
+                Application.Current.Resources["AccentColor"] = value;
+
+                Application.Current.Resources["Accent"] = new SolidColorBrush(value);
+
+                if (this.AccentBrushType == AccentBrushType.SolidColorBrush)
+                {
+                    Application.Current.Resources["S.Brush.Accent"] = new SolidColorBrush(value);
+                }
+                else if (this.AccentBrushType == AccentBrushType.LinearGradientBrush)
+                {
+                    LinearGradientBrush radial = new LinearGradientBrush();
+                    radial.StartPoint = new Point(-3, 0);
+                    radial.EndPoint = new Point(1, 0);
+                    radial.GradientStops.Add(new GradientStop(Colors.White, 0.0));
+                    radial.GradientStops.Add(new GradientStop(value, 1.0));
+
+                    Application.Current.Resources["S.Brush.Accent"] = radial;
+                }
+                else
+                {
+
+                }
+
+
+                List<string> findAll = new List<string>();
+
+                var oldThemeDict = GetThemeDictionary();
+
+                foreach (DictionaryEntry item in oldThemeDict)
+                {
+                    var ss = item.Key;
+
+                    if (item.Key.ToString().StartsWith("S.Brush.Accent"))
+                    {
+                        findAll.Add(item.Key.ToString());
+                    }
+                }
+
+                foreach (var item in findAll)
+                {
+
+                    SolidColorBrush brush = Application.Current.Resources[item] as SolidColorBrush;
+
+                    SolidColorBrush result = new SolidColorBrush(value);
+
+                    if (brush != null)
+                        result.Opacity = brush.Opacity;
+
+                    Application.Current.Resources[item] = result;
+                }
+
+                RaisePropertyChanged("AccentColor");
+            }
+        }
+
+        /// <summary> 项的高度 </summary>
+        public double ItemHeight
+        {
+            set
+            {
+                Application.Current.Resources["S.Window.Item.Height"] = value;
+
+                Application.Current.Resources["S.Window.Item.CornerRadius.Circle"] = new CornerRadius(value / 2);
+
+                RaisePropertyChanged("ItemHeight");
+            }
+            get
+            {
+                return (double)Application.Current.Resources["S.Window.Item.Height"];
+            }
+        }
+
+        /// <summary> 项的宽度 </summary>
+        public double ItemWidth
+        {
+            set
+            {
+                Application.Current.Resources["S.Window.Item.Width"] = value;
+                RaisePropertyChanged("ItemWidth");
+            }
+            get
+            {
+                return (double)Application.Current.Resources["S.Window.Item.Width"];
+            }
+        }
+
+        /// <summary> 项的边角 </summary>
+        public double ItemCornerRadius
+        {
+            set
+            {
+                Application.Current.Resources["S.Window.Item.CornerRadius.Value"] = value;
+
+                Application.Current.Resources["S.Window.Item.CornerRadius"] = new CornerRadius(value, value, value, value);
+
+                Application.Current.Resources["S.Window.Item.CornerRadius.Left"] = new CornerRadius(value, 0, 0, value);
+                Application.Current.Resources["S.Window.Item.CornerRadius.Right"] = new CornerRadius(0, value, value, 0);
+                Application.Current.Resources["S.Window.Item.CornerRadius.Top"] = new CornerRadius(value, value, 0, 0);
+                Application.Current.Resources["S.Window.Item.CornerRadius.Bottom"] = new CornerRadius(0, 0, value, value);
+
+                Application.Current.Resources["S.Window.Item.CornerRadius.LeftTop"] = new CornerRadius(value, 0, 0, 0);
+                Application.Current.Resources["S.Window.Item.CornerRadius.RightTop"] = new CornerRadius(0, value, 0, 0);
+                Application.Current.Resources["S.Window.Item.CornerRadius.LeftBottom"] = new CornerRadius(0, 0, value, 0);
+                Application.Current.Resources["S.Window.Item.CornerRadius.RightBottom"] = new CornerRadius(0, 0, 0, value);
+
+                RaisePropertyChanged("ItemCornerRadius");
+            }
+            get
+            {
+                return (double)Application.Current.Resources["S.Window.Item.CornerRadius.Value"];
+            }
+        }
+
+        /// <summary> 行的高度 </summary>
+        public double RowHeight
+        {
+            set
+            {
+                Application.Current.Resources["S.Window.Row.Height"] = value;
+
+                RaisePropertyChanged("RowHeight");
+            }
+            get
+            {
+                return (double)Application.Current.Resources["S.Window.Row.Height"];
+            }
+        }
+
+
+        private bool _isFollowSystemSysteme;
+        /// <summary> 是否跟随系统  </summary>
+        public bool IsFollowSystemSystem
+        {
+            get { return _isFollowSystemSysteme; }
+            set
+            {
+                _isFollowSystemSysteme = value;
+
+
+                if (value == true)
+                {
+                    ThemeService.Current.AccentColor = SystemColors.DesktopColor;
+                }
+                else
+                {
+                    ThemeService.Current.AccentColor = this.SelectColorSource.Colors.FirstOrDefault();
+                }
+
+                RaisePropertyChanged("IsFollowSystemSystem");
+            }
+        }
 
         Language _language;
         /// <summary> 设置语言 </summary>
@@ -154,81 +441,39 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
-        /// <summary> 获取第一个带有WindowBackground的资源字典作为主题 </summary>
-        private ResourceDictionary GetThemeDictionary()
+        private ObservableCollection<AccentColorSource> _colorSource = new ObservableCollection<AccentColorSource>();
+        /// <summary> 颜色选择类型  </summary>
+        public ObservableCollection<AccentColorSource> ColorSource
         {
-            var result = (from dict in Application.Current.Resources.MergedDictionaries
-                          where dict.Contains("S.DropShadowEffect.Window")
-                          select dict).FirstOrDefault();
-            return result;
+            get { return _colorSource; }
+            set
+            {
+                _colorSource = value;
+                RaisePropertyChanged("ColorSource");
+            }
         }
 
-
+        /// <summary> 主题类型 </summary>
         public ThemeType ThemeType
         {
             get
             {
-                if (ThemeSource == LightThemeSource)
-                {
-                    return ThemeType.Light;
-                }
-                else if (ThemeSource == DarkThemeSource)
-                {
-                    return ThemeType.Dark;
-                }
-                else if (ThemeSource == GrayThemeSource)
-                {
-                    return ThemeType.Gray;
-                }
-                else if (ThemeSource == AccentThemeSource)
-                {
-                    return ThemeType.Accent;
-                }
+                var uri = this.GetThemeDictionary()?.Source;
 
-                return ThemeType.Light;
+                var find = this.ColorLinks.FirstOrDefault(l => l.Source == uri);
+
+                return find == null ? ThemeType.Light : find.ThemeType;
             }
             set
             {
 
-                Uri uri = null;
-
-                if (value == ThemeType.Light)
-                {
-                    uri = LightThemeSource;
-                }
-                else if (value == ThemeType.Dark)
-                {
-                    uri = DarkThemeSource;
-                }
-                else if (value == ThemeType.Gray)
-                {
-                    uri = GrayThemeSource;
-                }
-                else if (value == ThemeType.Accent)
-                {
-                    uri = AccentThemeSource;
-                }
-
-                ThemeSource = uri;
-            }
-        }
-
-        /// <summary> 主题地址 </summary>
-        public Uri ThemeSource
-        {
-            get
-            {
-                return this.GetThemeDictionary()?.Source;
-            }
-            set
-            {
-                if (value == null) return;
+                var find = this.ColorLinks.FirstOrDefault(l => l.ThemeType == value);
 
                 var oldThemeDict = GetThemeDictionary();
 
                 var dictionaries = Application.Current.Resources.MergedDictionaries;
 
-                var themeDict = new ResourceDictionary { Source = value };
+                var themeDict = new ResourceDictionary { Source = find.Source };
 
                 dictionaries.Add(themeDict);
 
@@ -237,199 +482,8 @@ namespace HeBianGu.Base.WpfBase
                     dictionaries.Remove(oldThemeDict);
                 }
 
-                RaisePropertyChanged("ThemeSource");
+                RaisePropertyChanged("ThemeType");
             }
-        }
-
-        /// <summary> 字体大小 </summary>
-        public FontSize FontSize
-        {
-            get
-            {
-                var defaultFontSize = Application.Current.Resources["S.FontSize.Default"] as double?;
-
-                if (defaultFontSize.HasValue)
-                {
-                    return defaultFontSize.Value == SmallFontSize ? FontSize.Small : FontSize.Large;
-                }
-
-                return FontSize.Small;
-            }
-            set
-            {
-
-                Application.Current.Resources["S.FontSize.Default"] = value == FontSize.Small ? SmallFontSize : LargeFontSize;
-
-                Application.Current.Resources["S.FontSize.Fixed"] = value == FontSize.Small ? SmallFontSize - 1.5 : LargeFontSize - 1.5;
-
-                RaisePropertyChanged("FontSize");
-            }
-        }
-
-
-        private AccentBrushType _accentBrushType= AccentBrushType.LinearGradientBrush;
-        /// <summary> 说明  </summary>
-        public AccentBrushType AccentBrushType
-        {
-            get { return _accentBrushType; }
-            set
-            {
-                _accentBrushType = value;
-                RaisePropertyChanged("hType AccentBrushType");
-            }
-        }
-
-
-        /// <summary> 主色调 </summary>
-        public Color AccentColor
-        {
-            get
-            {
-                var accentColor = Application.Current.Resources["AccentColor"] as Color?;
-
-                if (accentColor.HasValue)
-                {
-                    return accentColor.Value;
-                }
-
-                return Color.FromArgb(0xff, 0x1b, 0xa1, 0xe2);
-            }
-            set
-            {
-                Application.Current.Resources["AccentColor"] = value;
-
-                Application.Current.Resources["Accent"] = new SolidColorBrush(value);
-       
-                if(this.AccentBrushType==AccentBrushType.SolidColorBrush)
-                {
-                    Application.Current.Resources["S.Brush.Accent"] = new SolidColorBrush(value);
-                }
-                else if (this.AccentBrushType == AccentBrushType.LinearGradientBrush)
-                {
-                    LinearGradientBrush radial = new LinearGradientBrush();
-                    radial.StartPoint = new Point(-3, 0);
-                    radial.EndPoint = new Point(1, 0);
-                    radial.GradientStops.Add(new GradientStop(Colors.White, 0.0));
-                    radial.GradientStops.Add(new GradientStop(value, 1.0));
-
-                    Application.Current.Resources["S.Brush.Accent"] = radial;
-                }
-                else
-                {
-
-                }
-         
-
-                List<string> findAll = new List<string>();
-
-                var oldThemeDict = GetThemeDictionary();
-
-                foreach (DictionaryEntry item in oldThemeDict)
-                {
-                    var ss = item.Key;
-
-                    if (item.Key.ToString().StartsWith("S.Brush.Accent"))
-                    {
-                        findAll.Add(item.Key.ToString());
-                    }
-                }
-
-                foreach (var item in findAll)
-                {
-
-                    SolidColorBrush brush = Application.Current.Resources[item] as SolidColorBrush;
-
-                    SolidColorBrush result = new SolidColorBrush(value);
-
-                    result.Opacity = brush.Opacity;
-
-                    Application.Current.Resources[item] = result;
-                }
-
-                RaisePropertyChanged("AccentColor");
-            }
-        }
-
-
-        /// <summary> 前景色 </summary>
-        public Color ForegroundColor
-        {
-            get
-            {
-                var foreColor = Application.Current.Resources["S.Brush.TextForeground.Default"] as SolidColorBrush;
-
-                return foreColor.Color;
-            }
-            set
-            {
-                Application.Current.Resources["S.Brush.TextForeground.Default"] = new SolidColorBrush(value);
-
-                RaisePropertyChanged("ForegroundColor");
-            }
-        }
-
-        private Color[] metroAccentColors = new Color[]{
-            Color.FromRgb(0x33, 0x99, 0xff),   // blue
-            Color.FromRgb(0x00, 0xab, 0xa9),   // teal
-            Color.FromRgb(0x33, 0x99, 0x33),   // green
-            Color.FromRgb(0x8c, 0xbf, 0x26),   // lime
-            Color.FromRgb(0xf0, 0x96, 0x09),   // orange
-            Color.FromRgb(0xff, 0x45, 0x00),   // orange red
-            Color.FromRgb(0xe5, 0x14, 0x00),   // red
-            Color.FromRgb(0xff, 0x00, 0x97),   // magenta
-            Color.FromRgb(0xa2, 0x00, 0xff),   // purple            
-        };
-
-        //  Message：主题颜色
-        private Color[] wpAccentColors = new Color[]{
-            Color.FromRgb(0xa4, 0xc4, 0x00),   // lime
-            Color.FromRgb(0x60, 0xa9, 0x17),   // green
-            Color.FromRgb(0x00, 0x8a, 0x00),   // emerald
-            Color.FromRgb(0x00, 0xab, 0xa9),   // teal
-            Color.FromRgb(0x1b, 0xa1, 0xe2),   // cyan
-            Color.FromRgb(0x00, 0x50, 0xef),   // cobalt
-            Color.FromRgb(0x6a, 0x00, 0xff),   // indigo
-            Color.FromRgb(0xaa, 0x00, 0xff),   // violet
-            Color.FromRgb(0xf4, 0x72, 0xd0),   // pink
-            Color.FromRgb(0xd8, 0x00, 0x73),   // magenta
-            Color.FromRgb(0xa2, 0x00, 0x25),   // crimson
-            Color.FromRgb(0xe5, 0x14, 0x00),   // red
-            Color.FromRgb(0xfa, 0x68, 0x00),   // orange
-            Color.FromRgb(0xf0, 0xa3, 0x0a),   // amber
-            Color.FromRgb(0xe3, 0xc8, 0x00),   // yellow
-            Color.FromRgb(0x82, 0x5a, 0x2c),   // brown
-            Color.FromRgb(0x6d, 0x87, 0x64),   // olive
-            Color.FromRgb(0x64, 0x76, 0x87),   // steel
-            Color.FromRgb(0x76, 0x60, 0x8a),   // mauve
-            Color.FromRgb(0x87, 0x79, 0x4e),   // taupe
-        };
-
-        //  Message：主题颜色
-        private Color[] customAccentColors = new Color[]{
-            Color.FromRgb(0xa4, 0xc4, 0x00),   // lime
-        };
-
-        #region - 设置随机播放颜色 -
-
-        Timer _timer = new Timer(1000);
-
-        int _type;
-
-        Random _random = new Random();
-
-        private void StartAnimationTheme(int timespan = 5000, int type = 0)
-        {
-            _timer.Interval = timespan;
-
-            _type = type;
-
-            _timer.Start();
-
-        }
-
-        private void StopAnimationTheme()
-        {
-            _timer.Stop();
         }
 
 
@@ -450,7 +504,7 @@ namespace HeBianGu.Base.WpfBase
 
                 if (value)
                 {
-                    this.StartAnimationTheme(AnimalSpeed, this.AccentColorSelectType);
+                    this.StartAnimationTheme(AnimalSpeed);
                 }
                 else
                 {
@@ -473,74 +527,18 @@ namespace HeBianGu.Base.WpfBase
         }
 
 
-        public int AccentColorSelectType { get; set; } = 0;
-
-
-        #endregion
-
-        /// <summary> 项的高度 </summary>
-        public double ItemHeight
+        public int AccentColorSelectType
         {
-            set
-            {
-                Application.Current.Resources["S.Window.Item.Height"] = value;
-            }
             get
             {
-                return (double)Application.Current.Resources["S.Window.Item.Height"];
+                return this.ColorSource.IndexOf(this.SelectColorSource);
+            }
+            set
+            {
+                this.SelectColorSource = this.ColorSource[value];
             }
         }
 
-        /// <summary> 项的宽度 </summary>
-        public double ItemWidth
-        {
-            set
-            {
-                Application.Current.Resources["S.Window.Item.Width"] = value;
-            }
-            get
-            {
-                return (double)Application.Current.Resources["S.Window.Item.Width"];
-            }
-        }
-
-        /// <summary> 项的边角 </summary>
-        public double ItemCornerRadius
-        {
-            set
-            {
-                Application.Current.Resources["S.Window.Item.CornerRadius.Value"] = value;
-
-                Application.Current.Resources["S.Window.Item.CornerRadius"] = new CornerRadius(value, value, value, value);
-
-                Application.Current.Resources["S.Window.Item.CornerRadius.Left"] = new CornerRadius(value, 0, 0, value);
-                Application.Current.Resources["S.Window.Item.CornerRadius.Right"] = new CornerRadius(0, value, value, 0);
-                Application.Current.Resources["S.Window.Item.CornerRadius.Top"] = new CornerRadius(value, value, 0, 0);
-                Application.Current.Resources["S.Window.Item.CornerRadius.Bottom"] = new CornerRadius(0, 0, value, value);
-
-                Application.Current.Resources["S.Window.Item.CornerRadius.LeftTop"] = new CornerRadius(value, 0, 0, 0);
-                Application.Current.Resources["S.Window.Item.CornerRadius.RightTop"] = new CornerRadius(0, value, 0, 0);
-                Application.Current.Resources["S.Window.Item.CornerRadius.LeftBottom"] = new CornerRadius(0, 0, value, 0);
-                Application.Current.Resources["S.Window.Item.CornerRadius.RightBottom"] = new CornerRadius(0, 0, 0, value);
-            }
-            get
-            {
-                return (double)Application.Current.Resources["S.Window.Item.CornerRadius.Value"];
-            }
-        }
-
-        /// <summary> 行的高度 </summary>
-        public double RowHeight
-        {
-            set
-            {
-                Application.Current.Resources["S.Window.Row.Height"] = value;
-            }
-            get
-            {
-                return (double)Application.Current.Resources["S.Window.Row.Height"];
-            }
-        }
 
         /// <summary> 消息弹窗背景色 </summary>
         public SolidColorBrush DialogCoverBrush
@@ -555,8 +553,61 @@ namespace HeBianGu.Base.WpfBase
             }
         }
 
+        #endregion
+        /// <summary> 深颜色主题 </summary> 
+        public static readonly Uri DarkThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/DarkThemeResource.xaml", UriKind.Relative);
 
-        public ThemeLocalizeConfig ConvertTo()
+        /// <summary> 浅颜色主题 </summary>
+        public static readonly Uri LightThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/LightThemeResource.xaml", UriKind.Relative);
+
+        /// <summary> 灰色主题 </summary>
+        public static readonly Uri GrayThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/GrayThemeResource.xaml", UriKind.Relative);
+
+        /// <summary> Accent主题 </summary>
+        public static readonly Uri AccentThemeSource = new Uri("/HeBianGu.Base.WpfBase;component/Theme/Color/AccentThemeResource.xaml", UriKind.Relative);
+
+        public static ThemeService Current = new ThemeService();
+
+        static readonly Uri LanguageChineseSource = new Uri("/HeBianGu.Base.WpfBase;component/Resources/zh-cn.xml", UriKind.RelativeOrAbsolute);
+        static readonly Uri LanguageEnglishSource = new Uri("/HeBianGu.Base.WpfBase;component/Resources/en-us.xml", UriKind.RelativeOrAbsolute);
+
+        /// <summary> 获取第一个带有WindowBackground的资源字典作为主题 </summary>
+        private ResourceDictionary GetThemeDictionary()
+        {
+            var result = (from dict in Application.Current.Resources.MergedDictionaries
+                          where dict.Contains("S.DropShadowEffect.Window")
+                          select dict).FirstOrDefault();
+            return result;
+
+
+
+        }
+
+        #region - 设置随机播放颜色 -
+
+        Timer _timer = new Timer(1000);
+
+        Random _random = new Random();
+
+        void StartAnimationTheme(int timespan = 5000)
+        {
+            _timer.Interval = timespan;
+
+            _timer.Start();
+
+        }
+
+        void StopAnimationTheme()
+        {
+            _timer.Stop();
+        } 
+
+        #endregion
+
+
+
+
+        public ThemeLocalizeConfig SaveTo()
         {
             ThemeLocalizeConfig themeLocalize = new ThemeLocalizeConfig();
 
@@ -576,7 +627,7 @@ namespace HeBianGu.Base.WpfBase
             //themeLocalize.IsUseAnimal = this.IsUseAnimal;
             //themeLocalize.Version = this.Version;
 
-             var ps=this.GetType().GetProperties();
+            var ps = this.GetType().GetProperties();
 
             foreach (var p in ps)
             {
@@ -594,8 +645,6 @@ namespace HeBianGu.Base.WpfBase
 
         public void LoadFrom(ThemeLocalizeConfig config)
         {
-           
-
             this.AccentColor = config.AccentColor == default(Color) ? this.AccentColor : config.AccentColor;
             this.SmallFontSize = config.SmallFontSize == default(double) ? this.SmallFontSize : config.SmallFontSize;
             this.LargeFontSize = config.LargeFontSize == default(double) ? this.LargeFontSize : config.LargeFontSize;
@@ -604,7 +653,13 @@ namespace HeBianGu.Base.WpfBase
             this.ItemWidth = config.ItemWidth == default(double) ? this.ItemWidth : config.ItemWidth;
             this.ItemCornerRadius = config.ItemCornerRadius == default(double) ? this.ItemCornerRadius : config.ItemCornerRadius;
             this.RowHeight = config.RowHeight == default(double) ? this.RowHeight : config.RowHeight;
-
+            this.Language = config.Language;
+            this.ThemeType = config.ThemeType;
+            this.AnimalSpeed = config.AnimalSpeed;
+            this.AccentColorSelectType = config.AccentColorSelectType;
+            this.IsUseAnimal = config.IsUseAnimal;
+            this.Version = config.Version;
+            this.AccentBrushType = config.AccentBrushType;
 
             //this.ForegroundColor = config.ForegroundColor == Colors.White ? this.ForegroundColor : config.ForegroundColor;
 
@@ -622,18 +677,18 @@ namespace HeBianGu.Base.WpfBase
             //    find.SetValue(this, p.GetValue(config));
             //}
 
-            this.Language = config.Language;
-            this.ThemeType = config.ThemeType;
-            this.AnimalSpeed = config.AnimalSpeed;
-            this.AccentColorSelectType = config.AccentColorSelectType;
-            this.IsUseAnimal = config.IsUseAnimal;
-            this.Version = config.Version;
+
         }
 
         public int Version { get; set; }
-
     }
 
+    public class ColorLink : Link
+    {
+        public ThemeType ThemeType { get; set; }
+        public Brush Color { get; set; }
+        public Brush Text { get; set; }
+    }
 
     public class LanguageService
     {
@@ -679,16 +734,75 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+
+    /// <summary> 说明</summary>
+    public class AccentColorSource : NotifyPropertyChanged
+    {
+        #region - 属性 - 
+
+        private string _displayName;
+        /// <summary> 显示名称  </summary>
+        public string DispalyName
+        {
+            get { return _displayName; }
+            set
+            {
+                _displayName = value;
+                RaisePropertyChanged("DispalyName");
+            }
+        }
+
+
+        private ObservableCollection<Color> _colors = new ObservableCollection<Color>();
+        /// <summary> 颜色列表  </summary>
+        public ObservableCollection<Color> Colors
+        {
+            get { return _colors; }
+            set
+            {
+                _colors = value;
+                RaisePropertyChanged("Colors");
+            }
+        }
+
+
+        #endregion
+    }
+
+    /// <summary> 颜色生成 </summary>
+    public static class ColorSourceFactory
+    {
+        public static List<Color> Create(double b = 0.5)
+        {
+            List<Color> result = new List<Color>();
+
+            for (int i = 0; i < 100; i++)
+            {
+                if (i % 3 == 0)
+                {
+                    result.Add(new HsbaColor(3.6 * i, 1.0, b, 1.0).Color);
+                }
+            }
+
+            return result;
+        }
+    }
+
+    [TypeConverter(typeof(DisplayConverter))]
     public enum FontSize
     {
         /// <summary>
-        /// Large fonts.
-        /// </summary>
-        Large,
-        /// <summary>
         /// Small fonts.
         /// </summary>
-        Small
+        [Display(Name = "小")]
+        Small,
+
+        /// <summary>
+        /// Large fonts.
+        /// </summary>
+        [Display(Name = "大")]
+        Large
+
     }
 
     public enum Language
@@ -703,14 +817,28 @@ namespace HeBianGu.Base.WpfBase
         English
     }
 
+    [TypeConverter(typeof(DisplayConverter))]
     public enum ThemeType
     {
-        Light, Dark, Gray, Accent
+        [Display(Name = "浅主题")]
+        Light,
+        [Display(Name = "深主题")]
+        Dark,
+        [Display(Name = "灰主题")]
+        Gray,
+        [Display(Name = "主色调")]
+        Accent
     }
 
+    [TypeConverter(typeof(DisplayConverter))]
     public enum AccentBrushType
     {
-        SolidColorBrush, LinearGradientBrush, RadialGradientBrush
+        [Display(Name = "纯色")]
+        SolidColorBrush,
+        [Display(Name = "线性渐变")]
+        LinearGradientBrush,
+        [Display(Name = "径向渐变")]
+        RadialGradientBrush
     }
 
 }

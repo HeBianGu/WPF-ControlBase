@@ -61,7 +61,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 var elment = children[i];
 
-                double angle = (360.0 / children.Count) * i;  
+                double angle = (360.0 / children.Count) * i;
 
                 Matrix matrix = new Matrix();
 
@@ -75,13 +75,22 @@ namespace HeBianGu.General.WpfControlLib
 
                 end = new Point(end.X - elment.DesiredSize.Width / 2, end.Y - elment.DesiredSize.Height / 2);
 
-                if(this.IsAnimation)
+                if (this.IsAnimation)
                 {
                     elment.Arrange(new Rect(new Point(0, 0), elment.DesiredSize));
 
                     if (elment.CheckDefaultTransformGroup())
                     {
-                        elment.BeginAnimationXY(end.X, end.Y, this.Duration);
+                        if(this.AnimationMode==AnimationMode.Postion)
+                        {
+                            elment.BeginAnimationXY(end.X, end.Y, this.Duration);
+                        }
+                        else
+                        {
+                            elment.BeginAnimationX(center.X - elment.DesiredSize.Width / 2, end.X, this.Duration);
+                            elment.BeginAnimationY(center.Y - elment.DesiredSize.Height / 2, end.Y, this.Duration);
+                        }
+
 
                         if (this.AngleToCenter)
                         {

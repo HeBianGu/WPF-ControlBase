@@ -27,7 +27,7 @@ namespace HeBianGu.Base.WpfBase
             DependencyProperty.Register("EnableInertia", typeof (bool), typeof (MouseGestureScrollViewerBehavior), new PropertyMetadata(true));
 
         /// <summary>
-        /// Enables gesture inertia (flings)
+        /// 启用惯性
         /// </summary>
         public bool EnableInertia
         {
@@ -42,7 +42,7 @@ namespace HeBianGu.Base.WpfBase
             DependencyProperty.Register("EnablePageSwipe", typeof (bool), typeof (MouseGestureScrollViewerBehavior), new PropertyMetadata(default(bool)));
 
         /// <summary>
-        /// True to not perform pixel movement, but instead move enter page at a time.
+        /// True to not perform pixel movement, but instead move enter page at a time. 按页移动
         /// </summary>
         public bool EnablePageSwipe
         {

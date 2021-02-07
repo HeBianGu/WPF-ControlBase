@@ -17,11 +17,11 @@ namespace HeBianGu.General.WpfControlLib
     {
          public ApplicationBase()
         {
-            DispatcherUnhandledException += App_DispatcherUnhandledException;
+            //DispatcherUnhandledException += App_DispatcherUnhandledException;
 
-            AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            //AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+            //TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
             ServiceRegistry.Instance.Register<IServiceCollection, ServiceCollection>();
             ServiceRegistry.Instance.Register<IApplicationBuilder, ApplicationBuilder>();

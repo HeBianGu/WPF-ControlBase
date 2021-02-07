@@ -185,7 +185,7 @@ namespace HeBianGu.Control.Chart2D
              }));
 
 
-        Point GetPoint()
+       protected Point GetPoint()
         {
             if (this.MarkValueType == MarkValueType.Default) return this.Point;
 
@@ -193,7 +193,19 @@ namespace HeBianGu.Control.Chart2D
 
             double itemWidth = span * this.WidthPercent;
 
-            double v = (this.MarkValueType == MarkValueType.Max) ? this.Data.Max() : this.Data.Min();
+            double v = double.NaN;
+
+            if (this.MarkValueType == MarkValueType.Max)
+                v = this.Data.Max();
+
+            if (this.MarkValueType == MarkValueType.Min)
+                v = this.Data.Min();
+
+            if (this.MarkValueType == MarkValueType.First)
+                v = this.Data.FirstOrDefault();
+
+            if (this.MarkValueType == MarkValueType.Last)
+                v = this.Data.LastOrDefault();
 
             int index = this.Data.IndexOf(v);
 
@@ -202,11 +214,8 @@ namespace HeBianGu.Control.Chart2D
             return new Point((x - itemWidth / 2) + (this.MulIndex + 0.5) * (itemWidth / this.MulCount), v);
         }
 
-
-        public override void Draw(Canvas canvas)
+        public virtual void DrawMark()
         {
-            base.Draw(canvas);
-
             Point point = this.GetPoint();
 
             //  Do ：显示文本
@@ -223,7 +232,7 @@ namespace HeBianGu.Control.Chart2D
                 if (this.xAxis.Count == 1)
                 {
                     Canvas.SetLeft(t, this.ActualWidth / 2 - t.ActualWidth / 2);
-                    Canvas.SetTop(t, this.ActualHeight / 2 - t.ActualHeight *1.2);
+                    Canvas.SetTop(t, this.ActualHeight / 2 - t.ActualHeight * 1.2);
                 }
                 else
                 {
@@ -232,14 +241,23 @@ namespace HeBianGu.Control.Chart2D
                     Canvas.SetTop(t, this.GetY(point.Y) - t.ActualHeight * 1.2);
                 }
             };
-            canvas.Children.Add(t);
+
+            this.Children.Add(t);
+        }
+
+
+        public override void Draw(Canvas canvas)
+        {
+            base.Draw(canvas);
+
+            this.DrawMark();
         }
     }
 
 
     public enum MarkValueType
     {
-        Default = 0, Max, Min
+        Default = 0, Max, Min, First, Last, Drag, DragStepX
     }
 
 }

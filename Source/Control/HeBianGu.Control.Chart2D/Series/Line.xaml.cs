@@ -60,6 +60,16 @@ namespace HeBianGu.Control.Chart2D
                 this.minX = this.minX - span / 2;
             }
         }
+
+        public override void Draw(Canvas canvas)
+        {
+            //base.Draw(canvas);
+
+            this.InitX();
+
+            this.InitY();
+
+        }
     }
 
     /// <summary> 曲线视图 </summary>
@@ -102,6 +112,8 @@ namespace HeBianGu.Control.Chart2D
 
                 var v = this.Polyline(points, brush, thickness);
 
+                this.Clear();
+
                 this.AddVisual(v);
             }
             else
@@ -134,6 +146,8 @@ namespace HeBianGu.Control.Chart2D
                 PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
 
                 path.Data = pg;
+
+                this.Clear();
 
                 this.Children.Add(path);
             }
@@ -178,6 +192,8 @@ namespace HeBianGu.Control.Chart2D
             PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
 
             path.Data = pg;
+
+            this.Clear();
 
             this.Children.Add(path);
 
@@ -251,6 +267,8 @@ namespace HeBianGu.Control.Chart2D
 
             path.Data = pg;
 
+            this.Clear();
+
             this.Children.Add(path);
 
             path.Loaded += (l, k) =>
@@ -306,6 +324,8 @@ namespace HeBianGu.Control.Chart2D
             PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
 
             path.Data = pg;
+
+            this.Clear();
 
             this.Children.Add(path);
 
@@ -376,6 +396,8 @@ namespace HeBianGu.Control.Chart2D
             PathGeometry pg = new PathGeometry(new List<PathFigure>() { pf });
 
             path.Data = pg;
+
+            this.Clear();
 
             this.Children.Add(path);
 
@@ -568,6 +590,8 @@ namespace HeBianGu.Control.Chart2D
 
             path.Data = pg;
 
+            this.Clear();
+
             this.Children.Add(path);
 
         }
@@ -673,6 +697,8 @@ namespace HeBianGu.Control.Chart2D
 
             double itemWidth = span * this.WidthPercent;
 
+            this.Clear();
+
             if (this.Data == null || this.xAxis == null) return;
 
             for (int i = 0; i < this.xAxis.Count; i++)
@@ -726,7 +752,7 @@ namespace HeBianGu.Control.Chart2D
                 path.Data = pg;
 
                 //  Do ：用于标识Legend显示信息
-                path.Tag = this.xDisplay.Count > i ? this.xDisplay[i] : this.Data[i].ToString();
+                path.Tag = this.xDisplay.Count > i ? this.xDisplay[i] : this.Data[i].ToString(); 
 
                 this.Children.Add(path);
             }

@@ -105,6 +105,15 @@ namespace HeBianGu.Application.AboveWindow
             return await ViewAsync();
         }
 
+        public async Task<IActionResult> GroupBox()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> ScrollViewer()
+        {
+            return await ViewAsync();
+        }
     }
 
 }
