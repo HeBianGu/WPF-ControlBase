@@ -249,6 +249,10 @@ namespace HeBianGu.Base.WpfBase
             get { return new NullToEmptyConverter(); }
         }
 
+        public static ByteSizeDisplayConverter ByteSizeDisplayConverter
+        {
+            get { return new ByteSizeDisplayConverter(); }
+        }
         
         //public static SelectTextConverter SelectTextConverter
         //{

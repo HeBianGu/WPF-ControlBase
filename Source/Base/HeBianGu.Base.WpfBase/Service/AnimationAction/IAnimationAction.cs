@@ -68,6 +68,9 @@ namespace HeBianGu.Base.WpfBase
 
         public Double BeginTime { get; set; } = 0.0;
 
+        public Visibility HiddenOrCollapsed { get; set; } = Visibility.Hidden;
+
+
         //  Do ：切页反转
         public bool Reverse { get; set; }
 
@@ -133,6 +136,7 @@ namespace HeBianGu.Base.WpfBase
 
         public double EndOpacity { get; set; }
 
+
         public OpacityAction()
         {
             this.StartOpacity = 0;
@@ -147,7 +151,7 @@ namespace HeBianGu.Base.WpfBase
 
             element.BeginAnimationOpacity(1, this.StartOpacity, this.HideDuration, l =>
             {
-                element.Visibility = Visibility.Hidden;
+                element.Visibility = HiddenOrCollapsed;
                 complate?.Invoke();
             });
 
@@ -269,11 +273,11 @@ namespace HeBianGu.Base.WpfBase
 
             element.RenderTransformOrigin = this.RenderTransformOrigin;
 
-            element.BeginAnimationScaleX(1, this.EndX, this.HideDuration, l => element.Visibility = Visibility.Hidden, l => l.FillBehavior = FillBehavior.Stop);
+            element.BeginAnimationScaleX(1, this.EndX, this.HideDuration, l => element.Visibility = HiddenOrCollapsed, l => l.FillBehavior = FillBehavior.Stop);
 
             element.BeginAnimationScaleY(1, this.EndY, this.HideDuration, l =>
             {
-                element.Visibility = Visibility.Hidden;
+                element.Visibility = HiddenOrCollapsed;
                 complate?.Invoke();
 
             }, l => l.FillBehavior = FillBehavior.Stop);
@@ -305,10 +309,10 @@ namespace HeBianGu.Base.WpfBase
 
             element.BeginAnimationX(0, this.EndPoint.X, this.HideDuration, l =>
             {
-                element.Visibility = Visibility.Hidden;
+                element.Visibility = HiddenOrCollapsed;
                 complate?.Invoke();
             }, l => l.FillBehavior = FillBehavior.Stop);
-            element.BeginAnimationY(0, this.EndPoint.Y, this.HideDuration, l => element.Visibility = Visibility.Hidden, l => l.FillBehavior = FillBehavior.Stop);
+            element.BeginAnimationY(0, this.EndPoint.Y, this.HideDuration, l => element.Visibility = HiddenOrCollapsed, l => l.FillBehavior = FillBehavior.Stop);
 
         }
     }
@@ -332,7 +336,7 @@ namespace HeBianGu.Base.WpfBase
 
             element.BeginAnimationX(0, (element as FrameworkElement).ActualWidth, this.HideDuration, l =>
             {
-                //element.Visibility = Visibility.Hidden;
+                //element.Visibility = HiddenOrCollapsed;
                 element.Visibility = Visibility.Collapsed;
                 complate?.Invoke();
             }, l => l.FillBehavior = FillBehavior.Stop);
@@ -358,7 +362,7 @@ namespace HeBianGu.Base.WpfBase
 
             element.BeginAnimationY(0, (element as FrameworkElement).ActualHeight, this.HideDuration, l =>
             {
-                element.Visibility = Visibility.Hidden;
+                element.Visibility = HiddenOrCollapsed;
                 complate?.Invoke();
             }, l => l.FillBehavior = FillBehavior.Stop);
         }
@@ -434,7 +438,7 @@ namespace HeBianGu.Base.WpfBase
 
             Action action = () =>
               {
-                  element.Visibility = Visibility.Hidden;
+                  element.Visibility = HiddenOrCollapsed;
                   complate?.Invoke();
               };
 
@@ -524,7 +528,7 @@ namespace HeBianGu.Base.WpfBase
             {
                 Action<UIElement> action = l =>
                 {
-                    element.Visibility = Visibility.Hidden;
+                    element.Visibility = HiddenOrCollapsed;
                     complate?.Invoke();
                 };
 
@@ -534,7 +538,7 @@ namespace HeBianGu.Base.WpfBase
             {
                 Action action = () =>
                 {
-                    element.Visibility = Visibility.Hidden;
+                    element.Visibility = HiddenOrCollapsed;
                     complate?.Invoke();
                 };
 
@@ -555,7 +559,7 @@ namespace HeBianGu.Base.WpfBase
 
             Action action = () =>
             {
-                element.Visibility = Visibility.Hidden;
+                element.Visibility = HiddenOrCollapsed;
                 complate?.Invoke();
             };
 
@@ -808,7 +812,7 @@ namespace HeBianGu.Base.WpfBase
 
             Panel.SetZIndex(element, 0);
 
-            element.BeginAnimationOpacity(1, 0.9, this.HideDuration, l => element.Visibility = Visibility.Hidden);
+            element.BeginAnimationOpacity(1, 0.9, this.HideDuration, l => element.Visibility = HiddenOrCollapsed);
         }
 
         public override void BeginHidden(UIElement element, Action complate = null)
@@ -816,7 +820,7 @@ namespace HeBianGu.Base.WpfBase
             this.Begin(element, 1, 0, this.HideDuration, () =>
              {
                  //  Message：Visibility.Hidden 当设置成折叠时，显示时窗口布局没有更新会产生异常
-                 element.Visibility = Visibility.Hidden;
+                 element.Visibility = HiddenOrCollapsed;
                  complate?.Invoke();
              });
         }

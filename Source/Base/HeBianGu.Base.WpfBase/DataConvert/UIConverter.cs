@@ -990,4 +990,40 @@ namespace HeBianGu.Base.WpfBase
             throw new NotImplementedException();
         }
     }
+
+    /// <summary> 转换成GB MB KB 显示 </summary> 
+    public class ByteSizeDisplayConverter : IValueConverter
+    {
+        const int GB = 1024 * 1024 * 1024;
+
+        const int MB = 1024 * 1024;
+
+        const int KB = 1024;
+
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            if(int.TryParse(value?.ToString(), out int KSize))
+            {
+                if (KSize / GB >= 1)
+
+                    return (Math.Round(KSize / (float)GB, 2)).ToString() + "GB";
+                else if (KSize / MB >= 1)
+
+                    return (Math.Round(KSize / (float)MB, 2)).ToString() + "MB";
+                else if (KSize / KB >= 1)
+
+                    return (Math.Round(KSize / (float)KB, 2)).ToString() + "KB";
+                else
+                    return KSize.ToString() + "Byte";
+            }
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return null;
+        }
+    }
 }

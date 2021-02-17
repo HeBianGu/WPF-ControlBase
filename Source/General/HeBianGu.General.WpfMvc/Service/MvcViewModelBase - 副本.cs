@@ -203,32 +203,44 @@ namespace HeBianGu.General.WpfMvc
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
-    public class MvcViewModelBase<R, M> : MvcEntityViewModelBase<M> where M : new()
+    public class MvcViewModel<R> : MvcViewModelBase 
     {
-        public R Respository { get; set; } = ServiceRegistry.Instance.GetInstance<R>();
+        public R Service { get; set; } = ServiceRegistry.Instance.GetInstance<R>();
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
-    public class MvcViewModelBase<R1, R2, M> : MvcViewModelBase<R1, M> where M : new()
+    public class MvcViewModel<R1, R2> : MvcViewModel<R1> 
     {
         public R2 Service1 { get; set; } = ServiceRegistry.Instance.GetInstance<R2>();
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
-    public class MvcViewModelBase<R1, R2, R3, M> : MvcViewModelBase<R1, R2, M> where M : new()
+    public class MvcViewModel<R1, R2, R3> : MvcViewModel<R1, R2>
     {
         public R3 Service2 { get; set; } = ServiceRegistry.Instance.GetInstance<R3>();
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
-    public class MvcViewModelBase<R1, R2, R3, R4, M> : MvcViewModelBase<R1, R2, R3, M> where M : new()
+    public class MvcViewModel<R1, R2, R3, R4> : MvcViewModel<R1, R2, R3>
     {
         public R4 Service3 { get; set; } = ServiceRegistry.Instance.GetInstance<R4>();
     }
 
     /// <summary> 带有依赖注入Respository的基类 </summary>
-    public class MvcViewModelBase<R1, R2, R3, R4, R5, M> : MvcViewModelBase<R1, R2, R3, R4, M> where M : new()
+    public class MvcViewModel<R1, R2, R3, R4, R5> : MvcViewModel<R1, R2, R3, R4> 
     {
         public R5 Service4 { get; set; } = ServiceRegistry.Instance.GetInstance<R5>();
+    }
+
+    /// <summary> 带有依赖注入Respository的基类 </summary>
+    public class MvcViewModel<R1, R2, R3, R4, R5, R6> : MvcViewModel<R1, R2, R3, R4, R5>
+    {
+        public R6 Service5 { get; set; } = ServiceRegistry.Instance.GetInstance<R6>();
+    }
+
+    /// <summary> 带有依赖注入Respository的基类 </summary>
+    public class MvcViewModel<R1, R2, R3, R4, R5, R6, R7> : MvcViewModel<R1, R2, R3, R4, R5, R6>
+    {
+        public R7 Servicey6 { get; set; } = ServiceRegistry.Instance.GetInstance<R7>();
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace HeBianGu.Application.MainWindow
@@ -31,10 +32,30 @@ namespace HeBianGu.Application.MainWindow
             GeometryModel3D model = new GeometryModel3D();
 
             model.Geometry = Tessellate(ThetaDiv, PhiDiv, Radius);
-            model.Material = new DiffuseMaterial(System.Windows.Media.Brushes.Blue);
+            model.Material = new DiffuseMaterial(this.MaterialBrush);
 
             Model = model;
         }
+
+
+        public Brush MaterialBrush
+        {
+            get { return (Brush)GetValue(MaterialBrushProperty); }
+            set { SetValue(MaterialBrushProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaterialBrushProperty =
+            DependencyProperty.Register("MaterialBrush", typeof(Brush), typeof(Sphere), new PropertyMetadata(new SolidColorBrush(Colors.Red), (d, e) =>
+             {
+                 Sphere control = d as Sphere;
+
+                 if (control == null) return;
+
+                 Brush config = e.NewValue as Brush;
+
+             }));
+
 
         // The Model property for the sphere
         private static readonly DependencyProperty ModelProperty =

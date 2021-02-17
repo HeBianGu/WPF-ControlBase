@@ -1191,7 +1191,7 @@ namespace HeBianGu.Base.WpfBase
 
         /// <summary> 显示隐藏过度效果 </summary>
         public static readonly DependencyProperty VisibleActionsProperty =
-            DependencyProperty.RegisterAttached("VisibleActions", typeof(ActionCollection), typeof(Cattach), new PropertyMetadata(new ActionCollection()));
+            DependencyProperty.RegisterAttached("VisibleActions", typeof(ActionCollection), typeof(Cattach), new PropertyMetadata(new ActionCollection() { new OpacityAction() }));
 
         #endregion
 
