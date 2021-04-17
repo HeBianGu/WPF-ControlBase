@@ -78,16 +78,16 @@ namespace HeBianGu.Control.Chart2D
 
                     Canvas.SetTop(this.Marker, this.GetY(data));
 
-                    this.Marker.Content = data.ToString("G3");
+                    this.Marker.Content = $"({xFind.ToString("G3")},{data.ToString("G3")})";
                 }
                 else
                 {
                     double my = this.yAxis.Min(l => Math.Abs(l - yValue));
                     var yFind = this.yAxis.FirstOrDefault(l => Math.Abs(l - yValue) == my);
 
-                    Canvas.SetBottom(this.Marker, this.GetY(yFind));
+                    Canvas.SetBottom(this.Marker, this.GetY(yFind)); 
 
-                    this.Marker.Content = yFind.ToString("G3");
+                    this.Marker.Content = $"({xFind.ToString("G3")},{yFind.ToString("G3")})";
                 } 
             }
             else
@@ -96,7 +96,7 @@ namespace HeBianGu.Control.Chart2D
                 Canvas.SetLeft(this.Marker, position.X);
                 Canvas.SetTop(this.Marker, position.Y);
 
-                this.Marker.Content = this.GetValueY(position.Y).ToString("G3");
+                this.Marker.Content = $"({position.X.ToString("G3")},{position.Y.ToString("G3")})";
             }
         }
 
@@ -118,7 +118,7 @@ namespace HeBianGu.Control.Chart2D
 
             Point point = this.GetPoint();
 
-            t.Content = point.Y.ToString("G3");
+            t.Content = $"({point.X.ToString("G3")},{point.Y.ToString("G3")})";
 
             t.Loaded += (o, e) =>
             {

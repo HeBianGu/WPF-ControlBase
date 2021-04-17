@@ -15,7 +15,7 @@ namespace HeBianGu.Base.WpfBase
     /// Repositions the attached element in response to mouse drag gestures on the element.
     /// </summary>
     public class MouseDragElementBehavior : Behavior<FrameworkElement>
-    { 
+    {
         #region Fields
 
         private bool settingPosition;
@@ -154,13 +154,33 @@ namespace HeBianGu.Base.WpfBase
         /// Gets the parent element of the associated object.
         /// </summary>
         /// <value>The parent element of the associated object.</value>
-        private FrameworkElement ParentElement
+        //private FrameworkElement ParentElement
+        //{
+        //    get
+        //    {
+        //        return this.AssociatedObject.Parent as FrameworkElement;
+        //    }
+        //}
+
+
+        public FrameworkElement ParentElement
         {
-            get
-            {
-                return this.AssociatedObject.Parent as FrameworkElement;
-            }
+            get { return (FrameworkElement)GetValue(ParentElementProperty); }
+            set { SetValue(ParentElementProperty, value); }
         }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ParentElementProperty =
+            DependencyProperty.Register("ParentElement", typeof(FrameworkElement), typeof(MouseDragElementBehavior), new PropertyMetadata(default(FrameworkElement), (d, e) =>
+             {
+                 MouseDragElementBehavior control = d as MouseDragElementBehavior;
+
+                 if (control == null) return;
+
+                 FrameworkElement config = e.NewValue as FrameworkElement;
+
+             }));
+
 
         /// <summary>
         /// Gets the root element of the scene in which the associated object is located.
@@ -232,54 +252,59 @@ namespace HeBianGu.Base.WpfBase
         /// <param name="y">The Y component of the desired translation in root coordinates.</param>
         private void ApplyTranslation(double x, double y)
         {
-            if (this.ParentElement != null)
+            if (this.ParentElement == null)
             {
-                GeneralTransform rootToParent = this.RootElement.TransformToVisual(this.ParentElement);
-                Point transformedPoint = MouseDragElementBehavior.TransformAsVector(rootToParent, x, y);
-                x = transformedPoint.X;
-                y = transformedPoint.Y;
+                this.ParentElement = this.AssociatedObject.Parent as FrameworkElement;
+            }
 
-                if (this.ConstrainToParentBounds)
+            if (this.ParentElement == null) return;
+
+            GeneralTransform rootToParent = this.RootElement.TransformToVisual(this.ParentElement);
+            Point transformedPoint = MouseDragElementBehavior.TransformAsVector(rootToParent, x, y);
+            x = transformedPoint.X;
+            y = transformedPoint.Y;
+
+            if (this.ConstrainToParentBounds)
+            {
+                FrameworkElement parentElement = this.ParentElement;
+                Rect parentBounds = new Rect(0, 0, parentElement.ActualWidth, parentElement.ActualHeight);
+
+                GeneralTransform objectToParent = this.AssociatedObject.TransformToVisual(parentElement);
+                Rect objectBoundingBox = this.ElementBounds;
+                objectBoundingBox = objectToParent.TransformBounds(objectBoundingBox);
+
+                Rect endPosition = objectBoundingBox;
+                endPosition.X += x;
+                endPosition.Y += y;
+
+                if (!MouseDragElementBehavior.RectContainsRect(parentBounds, endPosition))
                 {
-                    FrameworkElement parentElement = this.ParentElement;
-                    Rect parentBounds = new Rect(0, 0, parentElement.ActualWidth, parentElement.ActualHeight);
-
-                    GeneralTransform objectToParent = this.AssociatedObject.TransformToVisual(parentElement);
-                    Rect objectBoundingBox = this.ElementBounds;
-                    objectBoundingBox = objectToParent.TransformBounds(objectBoundingBox);
-
-                    Rect endPosition = objectBoundingBox;
-                    endPosition.X += x;
-                    endPosition.Y += y;
-
-                    if (!MouseDragElementBehavior.RectContainsRect(parentBounds, endPosition))
+                    if (endPosition.X < parentBounds.Left)
                     {
-                        if (endPosition.X < parentBounds.Left)
-                        {
-                            double diff = endPosition.X - parentBounds.Left;
-                            x -= diff;
-                        }
-                        else if (endPosition.Right > parentBounds.Right)
-                        {
-                            double diff = endPosition.Right - parentBounds.Right;
-                            x -= diff;
-                        }
+                        double diff = endPosition.X - parentBounds.Left;
+                        x -= diff;
+                    }
+                    else if (endPosition.Right > parentBounds.Right)
+                    {
+                        double diff = endPosition.Right - parentBounds.Right;
+                        x -= diff;
+                    }
 
-                        if (endPosition.Y < parentBounds.Top)
-                        {
-                            double diff = endPosition.Y - parentBounds.Top;
-                            y -= diff;
-                        }
-                        else if (endPosition.Bottom > parentBounds.Bottom)
-                        {
-                            double diff = endPosition.Bottom - parentBounds.Bottom;
-                            y -= diff;
-                        }
+                    if (endPosition.Y < parentBounds.Top)
+                    {
+                        double diff = endPosition.Y - parentBounds.Top;
+                        y -= diff;
+                    }
+                    else if (endPosition.Bottom > parentBounds.Bottom)
+                    {
+                        double diff = endPosition.Bottom - parentBounds.Bottom;
+                        y -= diff;
                     }
                 }
-
-                this.ApplyTranslationTransform(x, y);
             }
+
+            this.ApplyTranslationTransform(x, y);
+
         }
 
         /// <summary>
@@ -564,7 +589,7 @@ namespace HeBianGu.Base.WpfBase
 
     /// <summary> 应用到Canvas的拖拽 </summary>
     public class CanvasMouseDragElementBehavior : MouseDragElementBehavior
-    {  
+    {
         protected override void ApplyTranslationTransform(double x, double y)
         {
             Canvas.SetLeft(this.AssociatedObject, Canvas.GetLeft(this.AssociatedObject) + x);

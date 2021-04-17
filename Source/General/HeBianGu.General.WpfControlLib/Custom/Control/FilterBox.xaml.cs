@@ -414,6 +414,9 @@ namespace HeBianGu.General.WpfControlLib
             }
             else if (this.Operate == FilterOperate.SelectSource)
             {
+                //  Do ：没有勾选默认表示全选
+                if (this.SelectedSource.Count == 0) return true;
+
                 return this.SelectedSource.Any(l => l == v);
             }
             else if (this.Operate == FilterOperate.Setted)

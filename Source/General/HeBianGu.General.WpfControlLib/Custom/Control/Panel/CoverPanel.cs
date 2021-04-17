@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -146,7 +147,7 @@ namespace HeBianGu.General.WpfControlLib
 
                 end = new Point(end.X - elment.DesiredSize.Width / 2, end.Y - elment.DesiredSize.Height / 2);
 
-                if(this.IsAnimation)
+                if (this.IsAnimation)
                 {
                     elment.Arrange(new Rect(new Point(0, 0), elment.DesiredSize));
 
@@ -160,7 +161,7 @@ namespace HeBianGu.General.WpfControlLib
                 {
                     elment.Arrange(new Rect(end, elment.DesiredSize));
                 }
-                
+
             }
 
             return base.ArrangeOverride(finalSize);
@@ -174,4 +175,6 @@ namespace HeBianGu.General.WpfControlLib
             return base.MeasureOverride(availableSize);
         }
     }
+
+
 }

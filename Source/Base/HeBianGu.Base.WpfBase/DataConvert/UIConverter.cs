@@ -1,20 +1,4 @@
-﻿#region <版 本 注 释>
-/*
- * ========================================================================
- * Copyright(c) 四川*******有限公司, All Rights Reserved.
- * ========================================================================
- *    
- * 作者：[河边骨]   时间：2017/11/21 15:37:56 
- * 文件名：UIConverter 
- * 说明：
- * 
- * 
- * 修改者：           时间：               
- * 修改说明：
- * ========================================================================
-*/
-#endregion
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -1025,5 +1009,36 @@ namespace HeBianGu.Base.WpfBase
         {
             return null;
         }
+    }
+
+    /// <summary> 根据映射转换显示 </summary>
+    public class DisplayMapConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            IEnumerable array = parameter as IEnumerable;
+
+            foreach (var item in array.Cast<DisplayMap>())
+            {
+                if (item.Key.ToString() == value.ToString())
+                {
+                    return item.Value;
+                }
+            }
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class DisplayMap
+    {
+        public object Key { get; set; }
+
+        public object Value { get; set; }
     }
 }

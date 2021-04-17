@@ -736,6 +736,18 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 调用主窗口任务栏缩略图 显示任务完成百分比</summary>
+        public static void ShowTaskbarNormal(Action<TaskbarItemInfo> action)
+        {
+            var bar = Application.Current.MainWindow.TaskbarItemInfo;
+
+            if (bar == null) return;
+
+            bar.ProgressState = TaskbarItemProgressState.Normal;
+
+            action?.Invoke(bar);
+        }
+
+        /// <summary> 调用主窗口任务栏缩略图 显示任务完成百分比</summary>
         public static async Task ShowTaskbarPercent(Action<TaskbarItemInfo> action)
         {
             var bar = Application.Current.MainWindow.TaskbarItemInfo;

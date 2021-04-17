@@ -6,30 +6,54 @@
 
     <DataTemplate DataType="{x:Type h:StringPropertyItem}">
         <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" 
-              Height="{DynamicResource S.Window.Row.Height}" Margin="5,0,5,15" Visibility="{Binding Visibility}">
+              Height="{DynamicResource S.Window.Row.Height}" Visibility="{Binding Visibility}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="2*"/>
+                <!--<ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>-->
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="{Binding Name}"  Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+            <!--<TextBlock Text="{Binding Name}"  Foreground="{DynamicResource S.Brush.TextForeground.Default}"
                        HorizontalAlignment="Center" 
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center"/>-->
 
-            <TextBlock Text="{Binding Flag}" 
+            <!--<TextBlock Text="{Binding Flag}" 
                        Grid.Column="1" Margin="5,0" Foreground="{DynamicResource S.Brush.Red.Notice}" 
                        HorizontalAlignment="Right" 
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center"/>-->
 
-            <local:FTextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" 
+            <!--<local:FTextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" 
                             Style="{DynamicResource S.FTextBox.Default}"  Width="Auto"  IsEnabled="{Binding ReadOnly}"
-                     Grid.Column="2" h:Cattach.FIcon=""
+                     Grid.Column="2" h:Cattach.FIcon="" 
                      VerticalContentAlignment="Center"  h:Cattach.Watermark="{Binding Message}"
-                     HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                     HorizontalAlignment="Stretch" VerticalAlignment="Center"/>-->
 
-            <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource FIcon }"
+            <TextBox Style="{DynamicResource S.TextBox.LabelClear}" Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" 
+                     IsEnabled="{Binding ReadOnly}" h:Cattach.Watermark="{Binding Message}"
+                     Grid.Column="0" h:Cattach.Label="{Binding Name}">
+                <h:Cattach.LabelTemplate>
+                    <ControlTemplate TargetType="ContentControl">
+                        <Border Background="Transparent" Width="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleWidth)}" 
+                                Margin="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleMargin)}">
+                            <DockPanel>
+                                <TextBlock Text="{Binding Flag}" DockPanel.Dock="Right"
+                                           Margin="2,0" Foreground="{DynamicResource S.Brush.Red.Notice}"
+                                           VerticalAlignment="Center"/>
+                                
+                                <TextBlock x:Name="txt" VerticalAlignment="Center" 
+                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleForeground)}" 
+                                   Background="Transparent"
+                                   FontSize="{TemplateBinding FontSize}"
+                                   HorizontalAlignment="Left"
+                                   Text="{TemplateBinding Content}"/> 
+                            </DockPanel>
+                        </Border>
+                    </ControlTemplate>
+                </h:Cattach.LabelTemplate>
+            </TextBox>
+
+            <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource S.TextBlock.FIcon }"
                        Foreground="{DynamicResource S.Brush.Red.Notice}" 
                        Visibility="{Binding Message,Converter={x:Static h:XConverter.VisibilityWithOutStringConverter},ConverterParameter={x:Null},Mode=TwoWay}"
                        FontSize="14" TextTrimming="CharacterEllipsis" ToolTip="{Binding Message}"
@@ -39,15 +63,15 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type h:BoolPropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="2*"/>
+                <!--<ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>-->
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="{Binding Name}" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+            <!--<TextBlock Text="{Binding Name}" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"/>
 
@@ -58,27 +82,29 @@
                        VerticalAlignment="Center"/>
             <local:FCheckBox IsChecked="{Binding Value}" FontSize="14" Grid.Column="2" Height="30" 
                      VerticalContentAlignment="Center"  IsEnabled="{Binding ReadOnly}"
-                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                     HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
 
 
-            <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource FIcon }"
+            <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource S.TextBlock.FIcon }"
                        Foreground="{DynamicResource S.Brush.Red.Notice}" Visibility="{Binding Message,Converter={x:Static h:XConverter.VisibilityWithOutStringConverter},ConverterParameter={x:Null}}"
                        FontSize="14"   TextTrimming="CharacterEllipsis" ToolTip="{Binding Message}"
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"/>
+
+            <CheckBox Style="{DynamicResource S.CheckBox.Single.Label}" h:Cattach.Label="{Binding Name}"/>
         </Grid>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type h:DateTimePropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="2*"/>
+                <!--<ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="2*"/>-->
                 <ColumnDefinition Width="30"/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="{Binding Name}" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
+            <!--<TextBlock Text="{Binding Name}" Foreground="{DynamicResource S.Brush.TextForeground.Default}"
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"/>
 
@@ -86,14 +112,13 @@
                        Grid.Column="1" Margin="5,0"
                        FontSize="14"  Foreground="{DynamicResource S.Brush.Red.Notice}" 
                        HorizontalAlignment="Right" 
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center"/>-->
             
-            <DatePicker SelectedDate="{Binding Value}"  Grid.Column="2" Height="30" 
-                     VerticalContentAlignment="Center"  Width="Auto" IsEnabled="{Binding ReadOnly}"
-                     HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+            <DatePicker SelectedDate="{Binding Value}"  Grid.Column="0"  Style="{DynamicResource S.DatePicker.Single.Label}"
+                        h:Cattach.Label="{Binding Name}" IsEnabled="{Binding ReadOnly}"/>
 
 
-            <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource FIcon }"
+            <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource S.TextBlock.FIcon }"
                        Foreground="{DynamicResource S.Brush.Red.Notice}" Visibility="{Binding Message,Converter={x:Static h:XConverter.VisibilityWithOutStringConverter},ConverterParameter={x:Null}}"
                        FontSize="14"   TextTrimming="CharacterEllipsis" ToolTip="{Binding Message}"
                        HorizontalAlignment="Center" 
@@ -102,7 +127,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type h:IntPropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -125,7 +150,7 @@
                      HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
 
-            <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource FIcon }"
+            <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource S.TextBlock.FIcon }"
                        Foreground="{DynamicResource S.Brush.Red.Notice}" Visibility="{Binding Message,Converter={x:Static h:XConverter.VisibilityWithOutStringConverter},ConverterParameter={x:Null}}"
                        FontSize="14"   TextTrimming="CharacterEllipsis" ToolTip="{Binding Message}"
                        HorizontalAlignment="Center" 
@@ -134,7 +159,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type h:DoublePropertyItem}">
-        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}" Margin="5">
+        <Grid  Visibility="{Binding Visibility}" Width="{Binding RelativeSource={RelativeSource AncestorType=local:ObjectPropertyForm},Path=Width-5}" Height="{DynamicResource S.Window.Row.Height}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -156,13 +181,13 @@
                      HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
 
 
-            <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource FIcon }"
+            <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource S.TextBlock.FIcon }"
                        Foreground="{DynamicResource S.Brush.Red.Notice}" Visibility="{Binding Message,Converter={x:Static h:XConverter.VisibilityWithOutStringConverter},ConverterParameter={x:Null}}"
                        FontSize="14"   TextTrimming="CharacterEllipsis" ToolTip="{Binding Message}"
                        HorizontalAlignment="Center" 
                        VerticalAlignment="Center"/>
         </Grid>
-    </DataTemplate>
+    </DataTemplate> 
 
     <Style x:Key="S.ObjectPropertyForm.Default" TargetType="local:ObjectPropertyForm">
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackgroud.Default}"/>
@@ -195,18 +220,14 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-
+                            <StackPanel> 
+                                
                                 <ItemsPresenter/>
 
-                                <Border Grid.Row="0" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="0,0,0,1"/>
+                                <Separator Style="{DynamicResource S.Separator.Default}" Margin="0,5"/>
 
                                 <ContentPresenter Grid.Row="1" Content="{TemplateBinding BottomContent}"/>
-                            </Grid>
+                            </StackPanel>
                         </Border>
                     </GroupBox>
                 </ControlTemplate>
@@ -248,7 +269,7 @@
     <Style x:Key="S.ObjectPropertyForm.Default.WithSumit" TargetType="local:ObjectPropertyForm" BasedOn="{StaticResource S.ObjectPropertyForm.Default}">
         <Setter Property="BottomContent">
             <Setter.Value>
-                <StackPanel Margin="0,10,0,0">
+                <StackPanel Margin="0,5,0,0">
                     <local:FButton  Content="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Sumit,Mode=TwoWay}"
                                    Command="{x:Static local:CommandService.Sure}"/>
                 </StackPanel>
@@ -259,7 +280,7 @@
     <Style x:Key="S.ObjectPropertyForm.Default.WithSumitClose" TargetType="local:ObjectPropertyForm" BasedOn="{StaticResource S.ObjectPropertyForm.Default}">
         <Setter Property="BottomContent">
             <Setter.Value>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,5,0,0">
                     <local:FButton  Content="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Sumit,Mode=TwoWay}"
                                    Command="{x:Static local:CommandService.Sure}"/>
 

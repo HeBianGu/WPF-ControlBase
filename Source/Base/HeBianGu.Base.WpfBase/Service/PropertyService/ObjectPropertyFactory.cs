@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
@@ -13,6 +14,17 @@ namespace HeBianGu.Base.WpfBase
         /// <summary> 根据属性创建实体类型 </summary>
         public static ObjectPropertyItem Create(PropertyInfo info, object obj)
         {
+
+            var editor = info.GetCustomAttribute<EditorAttribute>();
+
+            if(editor!=null)
+            {
+                if(editor.EditorTypeName== "Combobox")
+                {
+                    return new ComboboxPropertyItem(info, obj);
+                }
+            }
+
             if (info.PropertyType == typeof(int))
             {
                 return new IntPropertyItem(info, obj);
@@ -56,7 +68,7 @@ namespace HeBianGu.Base.WpfBase
                     {
                         string display = item.GetCustomAttributes<DisplayAttribute>()?.FirstOrDefault()?.Name;
 
-                        errors.Add(r.ErrorMessage ?? r.FormatErrorMessage(display??item.Name));
+                        errors.Add(r.ErrorMessage ?? r.FormatErrorMessage(display ?? item.Name));
                     }
                 }
             }

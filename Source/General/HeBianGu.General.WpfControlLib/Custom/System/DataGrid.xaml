@@ -65,7 +65,7 @@
                                           RecognizesAccessKey="True"
                                           SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
-                        <TextBlock x:Name="SortArrow" Style="{DynamicResource FIcon}" Text="&#xe8af;" Grid.Column="1"
+                        <TextBlock x:Name="SortArrow" Style="{DynamicResource S.TextBlock.FIcon}" Text="&#xe8af;" Grid.Column="1"
                                        Visibility="Hidden" FontSize="10" Margin="0,1,0,-3" VerticalAlignment="Center" />
 
                         <Thumb x:Name="PART_LeftHeaderGripper" HorizontalAlignment="Left" HorizontalContentAlignment="Left"
@@ -120,6 +120,7 @@
         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=RowHeight}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Margin" Value="0,0,0,0" />
+        <Setter Property="Padding" Value="0,0,0,0" />
         <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}" />
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.Accent}" />
@@ -604,11 +605,11 @@
                     <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.TextForeground.MouseOver}"/>
                     <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
                     <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.TextForeground.Selected}"/>
-                    <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/> 
+                    <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
                 </Style>
             </Setter.Value>
         </Setter>
- 
+
     </Style>
 
 
@@ -626,11 +627,157 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="S.DataGrid.Clear" TargetType="DataGrid" BasedOn="{StaticResource S.DataGrid.Single}">
         <Setter Property="HorizontalGridLinesBrush" Value="Transparent" />
         <Setter Property="VerticalGridLinesBrush" Value="Transparent" />
         <Setter Property="RowStyle" Value="{StaticResource S.DataGrid.DataGridRow.Clear}" />
+    </Style>
+
+    <Style x:Key="S.DataGrid.Vertical.Default" TargetType="DataGrid" BasedOn="{StaticResource S.DataGrid.Default}">
+        <Setter Property="HorizontalGridLinesBrush" Value="Transparent" />
+        <Setter Property="VerticalGridLinesBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
+        <Setter Property="GridLinesVisibility" Value="Vertical"/>
+        <Setter Property="h:Cattach.CellMargin" Value="0,0,0,0" />
+        <Setter Property="RowStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridRow" BasedOn="{StaticResource S.DataGrid.DataGridRow.Default}">
+                    <!--<Setter Property="Height" Value="150"/>-->
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridColumnHeader" BasedOn="{StaticResource S.DataGrid.DataGridColumnHeader.Default}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
+                    <Setter Property="Width" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=ColumnHeaderHeight}" />
+                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridColumnHeader}">
+                                <Grid RenderTransformOrigin="0.5,0.5">
+                                    <Grid.RenderTransform>
+                                        <TransformGroup>
+                                            <RotateTransform Angle="90"/>
+                                        </TransformGroup>
+                                    </Grid.RenderTransform>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Border x:Name="BackgroundBorder" 
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Grid.ColumnSpan="2" Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" />
+
+                                    <ContentPresenter x:Name="HeaderContent"
+                                          Content="{TemplateBinding Content}" Grid.ColumnSpan="2"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          RecognizesAccessKey="True"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                                    <TextBlock x:Name="SortArrow" Style="{DynamicResource S.TextBlock.FIcon}" Text="&#xe8af;" Grid.Column="1"
+                                       Visibility="Hidden" FontSize="10" Margin="0,0,10,0" VerticalAlignment="Center" />
+
+                                    <Thumb x:Name="PART_LeftHeaderGripper" HorizontalAlignment="Left" HorizontalContentAlignment="Left"
+                               Style="{StaticResource S.DataGrid.HeaderGripper.Default}" />
+
+                                    <Thumb x:Name="PART_RightHeaderGripper" HorizontalAlignment="Right" HorizontalContentAlignment="Right" Background="Transparent"
+                               Style="{StaticResource S.DataGrid.HeaderGripper.Default}" Grid.Column="1" />
+                                </Grid>
+                                <ControlTemplate.Triggers>
+
+                                    <!--显示排序标示-->
+                                    <!--
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="True" />
+                                <Condition Property="SortDirection" Value="{x:Null}" />
+                                <Condition Property="CanUserSort" Value="true" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="SortArrow" Property="Visibility" Value="Visible" />
+                        </MultiTrigger>-->
+
+                                    <!--可排序列鼠标样式-->
+                                    <Trigger Property="CanUserSort" Value="True">
+                                        <Setter Property="Cursor" Value="Hand"></Setter>
+                                    </Trigger>
+
+
+                                    <!--升序-->
+                                    <Trigger Property="SortDirection" Value="Ascending">
+                                        <Setter TargetName="SortArrow" Property="Visibility" Value="Visible" />
+                                    </Trigger>
+
+                                    <!--降序-->
+                                    <Trigger Property="SortDirection" Value="Descending">
+                                        <Setter TargetName="SortArrow" Property="Visibility" Value="Visible" />
+                                        <Setter TargetName="SortArrow" Property="Text" Value="&#xe8ae;"/>
+                                    </Trigger>
+
+                                    <!--第一列左边不显示分割线-->
+                                    <Trigger Property="DisplayIndex" Value="2">
+                                        <Setter Property="Visibility" Value="Collapsed" TargetName="PART_LeftHeaderGripper" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="CellStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridCell" BasedOn="{StaticResource S.DataGrid.DataGridCell.Default}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Top" />
+                    <!--<Setter Property="Background" Value="Red" />-->
+                    <Setter Property="Width" Value="Auto" />
+                    <Setter Property="Height" Value="Auto" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                                        Background="{TemplateBinding Background}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+
+                                    <ContentPresenter ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}" ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                          Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" RenderTransformOrigin="0.5,0.5"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
+                                        <ContentPresenter.RenderTransform>
+                                            <TransformGroup>
+                                                <RotateTransform Angle="90"/>
+                                            </TransformGroup>
+                                        </ContentPresenter.RenderTransform>
+                                    </ContentPresenter>
+
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="LayoutTransform">
+            <Setter.Value>
+                <RotateTransform Angle="-90"/>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

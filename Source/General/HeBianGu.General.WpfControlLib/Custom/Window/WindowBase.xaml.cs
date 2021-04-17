@@ -303,6 +303,11 @@ namespace HeBianGu.General.WpfControlLib
                 if ((bool)k.Parameter)
                 {
                     this.CloseAnimation?.Invoke(this);
+
+                    if(this is MainWindowBase main)
+                    {
+                       
+                    }
                 }
             };
 
@@ -402,32 +407,7 @@ namespace HeBianGu.General.WpfControlLib
              {
                  this.Show(false);
              };
-        }
 
-
-        /// <summary> 按照动画方式显示 </summary>
-        public new bool? ShowDialog()
-        {
-            //this.ShowAnimation?.Invoke(this);
-            this.Loaded += (l, k) =>
-              {
-                  this.ShowAnimation?.Invoke(this);
-
-                  if (this.IsUseBlur)
-                  {
-                      this.EnableBlur();
-                  }
-
-              };
-
-
-            return base.ShowDialog();
-        }
-
-        /// <summary> 按照动画方式显示 </summary>
-        public new void Show()
-        {
-            //this.ShowAnimation?.Invoke(this);
 
             this.Loaded += (l, k) =>
             {
@@ -439,6 +419,43 @@ namespace HeBianGu.General.WpfControlLib
                     this.EnableBlur();
                 }
             };
+        }
+
+
+        /// <summary> 按照动画方式显示 </summary>
+        public new bool? ShowDialog()
+        {
+            //this.ShowAnimation?.Invoke(this);
+            //this.Loaded += (l, k) =>
+            //  {
+            //      this.ShowAnimation?.Invoke(this);
+
+            //      if (this.IsUseBlur)
+            //      {
+            //          this.EnableBlur();
+            //      }
+
+            //  };
+
+
+            return base.ShowDialog();
+        }
+
+        /// <summary> 按照动画方式显示 </summary>
+        public new void Show()
+        {
+            //this.ShowAnimation?.Invoke(this);
+
+            //this.Loaded += (l, k) =>
+            //{
+            //    this.ShowAnimation?.Invoke(this);
+
+
+            //    if (this.IsUseBlur)
+            //    {
+            //        this.EnableBlur();
+            //    }
+            //};
 
             base.Show();
 
@@ -458,64 +475,31 @@ namespace HeBianGu.General.WpfControlLib
 
         internal void Show(bool value)
         {
+            var ss = Cattach.GetIsClose(this);
             Cattach.SetIsClose(this, value);
         }
 
     }
-
-
-    //partial class WindowBase
-    //{
-    //    private int WM_SYSCOMMAND = 0x112;
-    //    private long SC_MAXIMIZE = 0xF030;
-    //    private long SC_MINIMIZE = 0xF020;
-    //    private long SC_CLOSE = 0xF060;
-    //    private long SC_DESMINIMIZE = 0x0000f120;
-
-    //    protected override void OnSourceInitialized(EventArgs e)
-    //    {
-    //        base.OnSourceInitialized(e);
-    //        HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
-    //        source.AddHook(WndProc);
-    //    }
-
-
-
-    //    private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-    //    {
-    //        //Debug.WriteLine(WM_SYSCOMMAND + " - " + wParam.ToInt64());
-
-    //        if (msg == WM_SYSCOMMAND)
-    //        {
-    //            //Debug.WriteLine(WM_SYSCOMMAND + " = " + wParam.ToInt64());
-
-    //            if (wParam.ToInt64() == SC_DESMINIMIZE)
-    //            {
-
-    //                DoubleStoryboardEngine.Create(this.Top, this.Top - 200, 0.3, Window.TopProperty.Name).Start(this);
-    //                DoubleStoryboardEngine.Create(0, 1, 0.3, UIElement.OpacityProperty.Name).Start(this);
-
-    //                return hwnd;
-    //            }
-    //            if (wParam.ToInt64() == SC_MINIMIZE)
-    //            {
-    //                //  Do ：当点击任务栏，最小化时发生
-    //                var engine = DoubleStoryboardEngine.Create(this.Top, this.Top + 200, 0.2, Window.TopProperty.Name);
-    //                engine.CompletedEvent += (l, k) => this.WindowState = WindowState.Minimized;
-    //                DoubleStoryboardEngine.Create(1, 0, 0.3, UIElement.OpacityProperty.Name).Start(this);
-    //                engine.Start(this);
-    //                handled = true;
-
-    //                return IntPtr.Zero;
-    //            }
-    //            if (wParam.ToInt64() == SC_CLOSE)
-    //            {
-    //                MessageBox.Show("CLOSE ");
-    //                return hwnd;
-    //            }
-    //        }
-
-    //        return hwnd;
-    //    }
-    //}
 }
+
+
+//partial class WindowBase
+//{
+//    private int WM_SYSCOMMAND = 0x112;
+//    private long SC_MAXIMIZE = 0xF030;
+//    private long SC_MINIMIZE = 0xF020;
+//    private long SC_CLOSE = 0xF060;
+//    private long SC_DESMINIMIZE = 0x0000f120;
+
+//    protected override void OnSourceInitialized(EventArgs e)
+//    {
+//        base.OnSourceInitialized(e);
+//        HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+//        source.AddHook(WndProc);
+//    }
+
+
+
+//    private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+//    {
+//        //Debug.WriteLine(WM_SYSCOMMAND +                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

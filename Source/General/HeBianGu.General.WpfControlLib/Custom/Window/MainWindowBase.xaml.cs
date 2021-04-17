@@ -40,36 +40,39 @@ namespace HeBianGu.General.WpfControlLib
             //    Cattach.SetIsClose(this, true);
             //};
 
-            //this.CloseAnimation = l =>
-            //{
-            //    //this.BegionStoryClose();
-            //    Cattach.SetIsClose(this, false);
-            //};
-
-            this.BindCommand(CommandService.Close, async (s, e) =>
+            this.CloseAnimation = l =>
             {
-                Action<object, DialogClosingEventArgs> action = (l, k) =>
-                {
-                    if ((bool)k.Parameter)
-                    {
-                        this.CloseAnimation?.Invoke(this);
-                    }
-                };
+                this.Show(false);
 
-                if (Application.Current.MainWindow == this)
-                {
-                    await MessageService.ShowResultMessge("确认要退出系统?", action);
-                }
-                else
-                {
-                    this.CloseAnimation?.Invoke(this);
-                }
-            });
+                //  Do ：释放托盘图标
+                this._notifyIcon.Dispose();
+            };
+
+            //  ToEdit ：20210414
+            //this.BindCommand(CommandService.Close, async (s, e) =>
+            //{
+            //    Action<object, DialogClosingEventArgs> action = (l, k) =>
+            //    {
+            //        if ((bool)k.Parameter)
+            //        { 
+            //            this.CloseAnimation?.Invoke(this);
+            //        }
+            //    };
+
+            //    if (Application.Current.MainWindow == this)
+            //    {
+            //        await MessageService.ShowResultMessge("确认要退出系统?", action);
+            //    }
+            //    else
+            //    {
+            //        this.CloseAnimation?.Invoke(this);
+            //    }
+            //});
 
             //this.MouseDown +=(l, k) =>
             // {
             //     this.DragMove();
- 
+
             // };
 
         }
@@ -92,50 +95,6 @@ namespace HeBianGu.General.WpfControlLib
                 ImageSource config = e.NewValue as ImageSource;
 
             }));
-
-
-
-        //public bool ShowWindow
-        //{
-        //    get { return (bool)GetValue(ShowWindowProperty); }
-        //    set { SetValue(ShowWindowProperty, value); }
-        //}
-
-        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty ShowWindowProperty =
-        //    DependencyProperty.Register("ShowWindow", typeof(bool), typeof(MainWindowBase), new PropertyMetadata(true, (d, e) =>
-        //    {
-        //        MainWindowBase control = d as MainWindowBase;
-
-        //        if (control == null) return;
-
-        //        bool config = (bool)e.NewValue;
-
-        //        if (config)
-        //        {
-        //            control.ShowOfScaleEnlarge();
-
-        //            control.ScaleEnlarge(new Point(1, 1), 0.5, 5);
-        //        }
-        //        else
-        //        {
-        //            control.HideOfScaleReduce();
-        //        }
-
-        //    }));
-
-
-        ///// <summary> 用于重写关闭到那个花 </summary>
-        //public virtual void BegionStoryClose()
-        //{
-        //    if (this._notifyIcon != null)
-        //    {
-        //        this._notifyIcon.Visibility = Visibility.Collapsed;
-        //        this._notifyIcon.Dispose();
-        //    }
-
-        //    this.CloseDownToUpOps();
-        //}
     }
 
     [TemplatePart(Name = "PART_SnackBar", Type = typeof(Snackbar))]
@@ -173,7 +132,7 @@ namespace HeBianGu.General.WpfControlLib
                 };
             }
         }
-   
+
         /// <summary> 输出消息 </summary>
         public void AddSnackMessage(object message)
         {

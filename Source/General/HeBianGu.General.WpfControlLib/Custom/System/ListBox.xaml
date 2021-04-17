@@ -86,6 +86,11 @@
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="h:Cattach.Bool" Value="False"/>
         <Setter Property="ItemContainerStyle" Value="{DynamicResource S.ListBoxItem.Default}"/>
+
+        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
+        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource S.Window.Title.Width}"/>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
@@ -103,6 +108,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -113,13 +119,14 @@
     </Style>
 
     <!--选中文本高亮-->
-    <Style x:Key="S.ListBox.Single" TargetType="ListBox">
+    <Style x:Key="S.ListBox.Single" TargetType="ListBox" BasedOn="{StaticResource S.ListBox.Default}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="BorderThickness" Value="0"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ItemContainerStyle" Value="{DynamicResource S.ListBoxItem.Single}"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -130,11 +137,29 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <ScrollViewer>
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </ScrollViewer>
-                    </Border>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Label区域-->
+                        <ContentControl x:Name="Label" 
+                                            Template="{TemplateBinding h:Cattach.LabelTemplate}" 
+                                            IsTabStop="False" IsHitTestVisible="False" 
+                                            Background="{TemplateBinding BorderBrush}"
+                                            Content="{TemplateBinding h:Cattach.Label}" 
+                                            Margin="1,1,0,1"/>
+
+                        <Border Grid.Column="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
+                            CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.CornerRadius) }">
+                            <ScrollViewer>
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity"  Value="{DynamicResource S.Opacity.Disable}"/>
@@ -146,11 +171,12 @@
     </Style>
 
     <Style x:Key="S.ListBox.Clear" TargetType="ListBox" BasedOn="{StaticResource S.ListBox.Single}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource S.ListBoxItem.Clear}"/> 
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource S.ListBoxItem.Clear}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.CornerRadius) }">
                         <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -170,7 +196,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
-                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                    <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true"
+                            CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.CornerRadius) }">
                         <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Height="Auto">
                                 <h:Interaction.Behaviors>
@@ -231,16 +258,47 @@
         </Setter>
     </Style>
 
-    <!--多选效果--><!--
+    <!--多选效果-->
+    <!--
     <Style x:Key="S.ListBox.MultipleSelect.Default" TargetType="ListBox" BasedOn="{StaticResource S.ListBox.Default}">
-        --><!--<Setter Property="ItemsPanel">
+        -->
+    <!--<Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
                 </ItemsPanelTemplate>
             </Setter.Value>
-        </Setter>--><!--
+        </Setter>-->
+    <!--
         <Setter Property="SelectionMode" Value="Multiple"/>
         <Setter Property="BorderThickness" Value="0"/>
     </Style>-->
+
+    <Style TargetType="{x:Type ListBox}" x:Key="S.ListBox.Label" BasedOn="{StaticResource S.ListBox.Single}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource S.ListBoxItem.CheckBox.Box}"/>
+        <Setter Property="h:Cattach.LabelTemplate" >
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border  Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=(h:Cattach.TitleWidth)}"  
+                             Margin="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=(h:Cattach.TitleMargin)}">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=(h:Cattach.TitleForeground)}" 
+                                   Text="{TemplateBinding Content}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 </ResourceDictionary>

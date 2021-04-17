@@ -335,7 +335,15 @@ namespace HeBianGu.Control.Chart2D
 
                 // Todo ：绘制文本 
                 Label t = new Label();
-                t.Content = this.yDisplay.Count > this.yAxis.IndexOf(item) ? this.yDisplay[this.yAxis.IndexOf(item)] : item.ToString("G4");
+
+                if (this.yConvert == null)
+                {
+                    t.Content = this.yDisplay.Count > this.yAxis.IndexOf(item) ? this.yDisplay[this.yAxis.IndexOf(item)] : item.ToString("G4");
+                }
+                else
+                {
+                    t.Content = this.yConvert(item);
+                }
                 t.Style = this.LabelStyle;
 
                 t.Loaded += (o, e) =>

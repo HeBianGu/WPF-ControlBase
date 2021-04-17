@@ -43,7 +43,7 @@ namespace HeBianGu.Control.ImagePlayer
 
         Point mouseXY;
 
-        void control_MouseMove(object sender, MouseEventArgs e)
+        protected void control_MouseMove(object sender, MouseEventArgs e)
         {
             if ((AssociatedObject.OperateType != OperateType.Default) && e.MiddleButton == MouseButtonState.Released)
             {
@@ -64,12 +64,12 @@ namespace HeBianGu.Control.ImagePlayer
             }
         }
 
-        private void Domousemove(UIElement img, MouseEventArgs e)
+        void Domousemove(UIElement img, MouseEventArgs e)
         {
             if ((AssociatedObject.OperateType != OperateType.Default) && e.MiddleButton == MouseButtonState.Released)
             {
                 return;
-            } 
+            }
 
             var position = e.GetPosition(img);
             double X = mouseXY.X - position.X;
@@ -83,12 +83,12 @@ namespace HeBianGu.Control.ImagePlayer
             AssociatedObject.GetOffSetRate();
         }
 
-        void control_MouseUp(object sender, MouseButtonEventArgs e)
+        protected void control_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if ((AssociatedObject.OperateType != OperateType.Default && e.ChangedButton != MouseButton.Middle))
             {
                 return;
-            } 
+            }
 
             var img = sender as UIElement;
 
@@ -105,7 +105,7 @@ namespace HeBianGu.Control.ImagePlayer
             //this.RefreshCursor();
         }
 
-        void control_MouseDown(object sender, MouseButtonEventArgs e)
+        protected void control_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if ((AssociatedObject.OperateType != OperateType.Default && e.ChangedButton != MouseButton.Middle))
             {
@@ -122,7 +122,7 @@ namespace HeBianGu.Control.ImagePlayer
             //{
             //    if ((AssociatedObject.OperateType != OperateType.Default)) return;
             //}
-             
+
             var img = sender as UIElement;
 
             if (img == null)
@@ -137,7 +137,31 @@ namespace HeBianGu.Control.ImagePlayer
             mouseXY = e.GetPosition(img);
 
         }
-       
-        #endregion 
+
+        #endregion
+    }
+
+    public class ImageBaseMouseRightDragBehavior : ImageBaseMouseDragBehavior
+    {
+        protected override void OnAttached()
+        {
+            AssociatedObject.Loaded += AssociatedObject_Loaded;
+        }
+
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+        {
+            AssociatedObject.grid_Mouse_drag.PreviewMouseRightButtonDown += control_MouseDown;
+            AssociatedObject.grid_Mouse_drag.PreviewMouseRightButtonUp += control_MouseUp;
+            AssociatedObject.grid_Mouse_drag.PreviewMouseMove += control_MouseMove;
+        }
+
+        protected override void OnDetaching()
+        {
+            AssociatedObject.grid_Mouse_drag.PreviewMouseRightButtonDown -= control_MouseDown;
+            AssociatedObject.grid_Mouse_drag.PreviewMouseRightButtonUp -= control_MouseUp;
+            AssociatedObject.grid_Mouse_drag.PreviewMouseMove -= control_MouseMove;
+
+            AssociatedObject.Loaded -= AssociatedObject_Loaded;
+        }
     }
 }

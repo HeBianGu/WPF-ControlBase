@@ -217,6 +217,26 @@ namespace HeBianGu.General.WpfControlLib
 
         /// <summary> 刷新时间 </summary>
         int Sleep { get; set; } = 1000;
+
+
+        public Brush RunningForegroundBrush
+        {
+            get { return (Brush)GetValue(RunningForegroundBrushProperty); }
+            set { SetValue(RunningForegroundBrushProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty RunningForegroundBrushProperty =
+            DependencyProperty.Register("RunningForegroundBrush", typeof(Brush), typeof(PingState), new PropertyMetadata(default(Brush), (d, e) =>
+             {
+                 PingState control = d as PingState;
+
+                 if (control == null) return;
+
+                 Brush config = e.NewValue as Brush;
+
+             }));
+
     }
 
 

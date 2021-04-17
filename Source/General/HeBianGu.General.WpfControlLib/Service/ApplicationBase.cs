@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
@@ -145,18 +146,34 @@ namespace HeBianGu.General.WpfControlLib
             }
         }
 
+        Mutex mutex;
         /// <summary> 只创建一个实例 </summary>
         public void UseSingleInstance()
         {
+            //Process thisProc = Process.GetCurrentProcess();
+
+            //var p = Process.GetProcessesByName(thisProc.ProcessName);
+
+            //if (p.Length > 1)
+            //{
+            //    MessageWindow.ShowSumit("当前程序已经运行！");
+
+            //    this.Shutdown();
+            //}
+
             Process thisProc = Process.GetCurrentProcess();
 
-            var p = Process.GetProcessesByName(thisProc.ProcessName);
+            //互斥量创建成功标志
+            bool createdNew;
 
-            if (p.Length > 1)
+            //创建互斥量
+            mutex = new Mutex(true, thisProc.ProcessName, out createdNew);
+
+            if (!createdNew)
             {
                 MessageWindow.ShowSumit("当前程序已经运行！");
 
-                this.Shutdown();
+                Application.Current.Shutdown();
             }
         }
 

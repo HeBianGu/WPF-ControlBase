@@ -35,6 +35,16 @@ namespace HeBianGu.Application.ManagerWindow
             return await ViewAsync();
         }
 
+        public async Task<IActionResult> Dock()
+        {
+            return await ViewAsync();
+        }
+
+        public async Task<IActionResult> Cross()
+        {
+            return await ViewAsync();
+        }
+
         public async Task<IActionResult> Hex()
         {
             return await ViewAsync();

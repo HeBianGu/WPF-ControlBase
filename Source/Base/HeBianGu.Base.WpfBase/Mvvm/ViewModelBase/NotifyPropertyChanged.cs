@@ -15,6 +15,8 @@ namespace HeBianGu.Base.WpfBase
     {
         public RelayCommand RelayCommand { get; set; }
 
+        public RelayCommand LoadedCommand { get; set; }
+
         protected virtual void RelayMethod(object obj)
         {
 
@@ -22,11 +24,14 @@ namespace HeBianGu.Base.WpfBase
 
         public NotifyPropertyChanged()
         {
-            RelayCommand = new RelayCommand(RelayMethod);
+            RelayCommand = new RelayCommand(RelayMethod); 
+
+            LoadedCommand = new RelayCommand(Loaded);
 
             RelayMethod("init");
 
             Init();
+
 
         }
 
@@ -36,6 +41,11 @@ namespace HeBianGu.Base.WpfBase
 
         }
 
+        /// <summary> 加载方法 </summary>
+        protected virtual void Loaded(object obj)
+        {
+
+        } 
 
         #region - MVVM -
 

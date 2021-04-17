@@ -47,7 +47,7 @@ namespace HeBianGu.General.WpfControlLib
             MessageWindow m = new MessageWindow();
 
             m.messageText.Text = messge;
-            var array = messge.ToArray();
+            var array = messge?.ToArray();
 
             var c = array.ToList().Count(l => l == '\r');
 

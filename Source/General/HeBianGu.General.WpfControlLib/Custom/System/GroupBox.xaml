@@ -21,6 +21,9 @@
         <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
         <Setter Property="h:Cattach.TitleBorderBrush" Value="Transparent"/>
         <Setter Property="h:Cattach.TitleBorderThickness" Value="1"/>
+        <Setter Property="h:Cattach.TitleHorizontalAlignment" Value="Left"/>
+        <Setter Property="h:Cattach.TitleVerticalAlignment" Value="Center"/>
+        <Setter Property="h:Cattach.TitleHeight" Value="{DynamicResource S.Window.Row.Height}"/>
         <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
         <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent}" /> 
@@ -28,6 +31,7 @@
         <!--<Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>-->
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Header.5}"/>
         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupBox}">
@@ -66,19 +70,21 @@
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <Grid Height="{DynamicResource S.Window.Row.Height}">
+                    <Grid Height="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.TitleHeight)}">
                         <Border x:Name="border" Background="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.TitleBackground)}"  
                                 BorderThickness="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.TitleBorderThickness)}"
                                 BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.TitleBorderBrush)}"
                                 CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Top}" Margin="0,-1,0,0">
-                            <StackPanel x:Name="sp" Orientation="Horizontal" TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.TitleForeground)}">
+                            <StackPanel x:Name="sp" Orientation="Horizontal" HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.TitleHorizontalAlignment)}"
+                                        TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.TitleForeground)}">
 
-                                <TextBlock Style="{DynamicResource FIcon}" TextTrimming="CharacterEllipsis"
+                                <TextBlock Style="{DynamicResource S.TextBlock.FIcon}" TextTrimming="CharacterEllipsis" Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.TitleForeground)}"
                                            FontSize="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIconSize)}"
                                            Margin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIconMargin)}"
                                            Text="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIcon)}"/>
 
-                                <TextBlock Text="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="{DynamicResource S.FontSize.Default}"/>
+                                <TextBlock Text="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="{DynamicResource S.FontSize.Default}"
+                                           Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.TitleForeground)}"/>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -112,33 +118,70 @@
         </Setter> 
     </Style>
 
-    <Style x:Key="S.GroupBox.System" TargetType="{x:Type GroupBox}">
+    <Style x:Key="S.GroupBox.System" TargetType="{x:Type GroupBox}" BasedOn="{StaticResource S.GroupBox.Default}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="Margin" Value="5"/>
-        <Setter Property="Padding" Value="15"/>
+        <Setter Property="Padding" Value="2,-8,2,0"/>
         <Setter Property="h:Cattach.FIcon" Value="&#xea5e;"/>
         <Setter Property="h:Cattach.FIconSize" Value="14"/>
         <Setter Property="h:Cattach.FIconMargin" Value="5,0"/>
+        <Setter Property="local:ShadowAssist.ShadowDepth" Value="{x:Null}"/>
         <Setter Property="HeaderTemplate">
             <Setter.Value>
                 <DataTemplate>
                     <Grid Height="{DynamicResource S.Window.Row.Height}">
                         <Border>
-                            <StackPanel Orientation="Horizontal" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
+                            <StackPanel HorizontalAlignment="Left" Margin="5,0" Background="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=Background}" Orientation="Horizontal" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.Default}">
 
-                                <TextBlock Style="{DynamicResource FIcon}"
+                                <TextBlock Style="{DynamicResource S.TextBlock.FIcon}"
                                            FontSize="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIconSize)}"
                                            Margin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIconMargin)}"
                                            Text="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIcon)}"/>
 
-                                <TextBlock Text="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="{DynamicResource S.FontSize.Default}"/>
+                                <TextBlock Margin="1,0" Text="{Binding}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="{DynamicResource S.FontSize.Default}"/>
                             </StackPanel>
                         </Border>
                     </Grid>
                 </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.RowSpan="2" Margin="0,20,0,0" x:Name="bordercenter"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{TemplateBinding Background}" 
+                                Effect="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(local:ShadowAssist.ShadowDepth)}"
+                                BorderThickness="1" CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(h:Cattach.CornerRadius)}" Opacity="1">
+                        </Border>
+
+                        <ContentPresenter ContentSource="Header"/>
+
+                        <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}"/>
+
+                        <ContentControl Template="{TemplateBinding h:Cattach.AttachContent}" HorizontalAlignment="Right"/>
+
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <!--<Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.MouseOverBorderBrush)}" />
+                        </Trigger>-->
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
@@ -164,7 +207,7 @@
                                 BorderThickness="0,0,0,1.5" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Top}">
 
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Style="{DynamicResource FIcon}" 
+                                <TextBlock Style="{DynamicResource S.TextBlock.FIcon}" 
                                            FontSize="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIconSize)}"
                                            Margin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIconMargin)}"
                                            Text="{Binding RelativeSource={RelativeSource AncestorType=GroupBox},Path=(h:Cattach.FIcon)}"/>
@@ -189,6 +232,7 @@
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/> 
     </Style>
+    
     <Style x:Key="S.GroupBox.ShowCode" TargetType="GroupBox" BasedOn="{StaticResource S.GroupBox.Default}">
         <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
         <Setter Property="h:Cattach.AttachContent">
@@ -204,5 +248,50 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="S.GroupBox.HeaderBottom" TargetType="{x:Type GroupBox}" BasedOn="{StaticResource S.GroupBox.UnderLine}">
+        <Setter Property="h:Cattach.TitleBorderThickness" Value="0,1,0,0"/>
+        <Setter Property="h:Cattach.TitleHorizontalAlignment" Value="Center"/>
+        <Setter Property="h:Cattach.FIcon" Value="{x:Null}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Grid>
+                        <Border Margin="0,0,0,0" x:Name="bordercenter"
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{TemplateBinding Background}" 
+                                Effect="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(local:ShadowAssist.ShadowDepth)}"
+                                BorderThickness="1" CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent},Path=(h:Cattach.CornerRadius)}" Opacity="1">
+                        </Border>
+
+                        <DockPanel>
+                            <ContentPresenter ContentSource="Header" DockPanel.Dock="Bottom"/>
+
+                            <ContentPresenter Margin="{TemplateBinding Padding}"/>
+
+                            <ContentControl Template="{TemplateBinding h:Cattach.AttachContent}" HorizontalAlignment="Right"/>
+
+                        </DockPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.MouseOverBorderBrush)}" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.Group.ToolBar" TargetType="{x:Type GroupBox}" BasedOn="{StaticResource S.GroupBox.HeaderBottom}">
+        <Setter Property="h:Cattach.TitleHeight" Value="25"/>
+        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Padding" Value="2,0"/>
+        <Setter Property="h:Cattach.FIconMargin" Value="0"/>
     </Style>
 </ResourceDictionary>

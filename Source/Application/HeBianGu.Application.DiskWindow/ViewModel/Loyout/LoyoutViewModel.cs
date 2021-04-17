@@ -21,17 +21,17 @@ namespace HeBianGu.Application.DiskWindow
     [ViewModel("Loyout")]
     class LoyoutViewModel : MvcViewModelBase
     {
-        private DataFileViewModel _dataFile=new DataFileViewModel();
-        /// <summary> 说明  </summary>
-        public DataFileViewModel DataFile
-        {
-            get { return _dataFile; }
-            set
-            {
-                _dataFile = value;
-                RaisePropertyChanged("DataFile");
-            }
-        }
+        //private DataFileViewModel _dataFile=new DataFileViewModel();
+        ///// <summary> 说明  </summary>
+        //public DataFileViewModel DataFile
+        //{
+        //    get { return _dataFile; }
+        //    set
+        //    {
+        //        _dataFile = value;
+        //        RaisePropertyChanged("DataFile");
+        //    }
+        //}
 
 
         private string _path;

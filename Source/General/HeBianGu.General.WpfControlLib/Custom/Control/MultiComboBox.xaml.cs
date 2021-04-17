@@ -35,7 +35,7 @@ namespace HeBianGu.General.WpfControlLib
         /// </summary>
         public new int SelectedIndex
         {
-            get { return this._ListBox.SelectedIndex; }
+            get { return this._ListBox == null ? 0 : this._ListBox.SelectedIndex; }
             set { this._ListBox.SelectedIndex = value; }
         }
 
@@ -57,7 +57,7 @@ namespace HeBianGu.General.WpfControlLib
         {
             StringBuilder sb = new StringBuilder();
 
-            string str=string.Empty;
+            string str = string.Empty;
 
             foreach (var item in this.SelectedItems)
             {
@@ -114,7 +114,7 @@ namespace HeBianGu.General.WpfControlLib
             control.Text = e.NewValue.ToString();
 
             control.RefreshList();
-        
+
         }
 
 

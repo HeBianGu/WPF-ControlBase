@@ -20,6 +20,47 @@ namespace HeBianGu.Base.WpfBase
             AssociatedObject.PreviewMouseLeftButtonUp += ListBoxOnPreviewMouseLeftButtonUp;
         }
 
+
+        /// <summary> 判断可否放置的分组 </summary>
+        public string DragGroup
+        {
+            get { return (string)GetValue(DragGroupProperty); }
+            set { SetValue(DragGroupProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DragGroupProperty =
+            DependencyProperty.Register("DragGroup", typeof(string), typeof(ListDragBlendBehavior), new PropertyMetadata("DragGroup", (d, e) =>
+             {
+                 ListDragBlendBehavior control = d as ListDragBlendBehavior;
+
+                 if (control == null) return;
+
+                 string config = e.NewValue as string;
+
+             }));
+
+
+        public DragDropEffects DragDropEffects
+        {
+            get { return (DragDropEffects)GetValue(DragDropEffectsProperty); }
+            set { SetValue(DragDropEffectsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DragDropEffectsProperty =
+            DependencyProperty.Register("DragDropEffects", typeof(DragDropEffects), typeof(ListDragBlendBehavior), new PropertyMetadata(DragDropEffects.Move, (d, e) =>
+             {
+                 ListDragBlendBehavior control = d as ListDragBlendBehavior;
+
+                 if (control == null) return;
+
+                 //DragDropEffects config = e.NewValue as DragDropEffects;
+
+             }));
+
+
+
         private void ListBoxOnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
             _dragStart = mouseButtonEventArgs.GetPosition(null);
@@ -40,9 +81,9 @@ namespace HeBianGu.Base.WpfBase
                 ((Math.Abs(difference.X) > SystemParameters.MinimumHorizontalDragDistance) ||
                  (Math.Abs(difference.Y) > SystemParameters.MinimumVerticalDragDistance)))
             {
-                var data = new DataObject("Custom", _dragData);
+                var data = new DataObject(this.DragGroup, _dragData);
                 //DragDrop.DoDragDrop(_dragSource, data, DragDropEffects.Copy);
-                var result = DragDrop.DoDragDrop(_dragSource, data, DragDropEffects.Move);
+                var result = DragDrop.DoDragDrop(_dragSource, data, DragDropEffects);
 
                 //  Do ：移动成功清理数据
                 if(result==DragDropEffects.Move)

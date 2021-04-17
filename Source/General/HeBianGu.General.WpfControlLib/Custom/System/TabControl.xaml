@@ -155,7 +155,7 @@
                                 </h:Interaction.Triggers>
                             </local:FButton>
 
-                            <TextBlock VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.FIcon)}" Style="{DynamicResource FIcon}" DockPanel.Dock="Right" Margin="5,0"/>
+                            <TextBlock VerticalAlignment="Center" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.FIcon)}" Style="{DynamicResource S.TextBlock.FIcon}" DockPanel.Dock="Right" Margin="5,0"/>
 
                             <ContentPresenter  x:Name="Content" ContentSource="Header" 
                                            VerticalAlignment="Center" ContentTemplate="{TemplateBinding HeaderTemplate}"
@@ -247,12 +247,22 @@
         <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.TextForeground.Selected}"/>
         <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/> 
     </Style>
-    
+
+    <Style  x:Key="S.TabItem.Office" BasedOn="{StaticResource S.TabItem.Default}" TargetType="TabItem">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius.Top}"/>
+    </Style>
+
     <!--默认样式-->
     <Style x:Key="S.TabControl.Default" TargetType="{x:Type TabControl}">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
-        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Padding" Value="10,6"/>
         <!--<Setter Property="ItemContainerStyle" Value="{StaticResource TabItemStyle}"/>-->
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
@@ -276,13 +286,13 @@
                             <RowDefinition x:Name="RowDefinition1" Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Border Grid.RowSpan="2" Grid.ColumnSpan="2" Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"/>
+                        <Border Grid.RowSpan="2" Grid.ColumnSpan="2" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"/>
 
                         <ScrollViewer x:Name="HeaderPanel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                            <TabPanel Grid.Column="0" Margin="10,6" IsItemsHost="True" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                            <TabPanel Grid.Column="0" Margin="{TemplateBinding Padding}" IsItemsHost="True" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
                         </ScrollViewer>
 
-                        <Border x:Name="ContentPanel"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                        <Border x:Name="ContentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
                             <ContentPresenter x:Name="PART_SelectedContentHost" ContentTemplate="{TemplateBinding SelectedContentTemplate}" Content="{TemplateBinding SelectedContent}" ContentStringFormat="{TemplateBinding SelectedContentStringFormat}" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                     </Grid>
@@ -333,5 +343,11 @@
         </Setter>
     </Style>
 
-
+    <Style x:Key="S.TabControl.Office" TargetType="{x:Type TabControl}" BasedOn="{StaticResource S.TabControl.Default}">
+        <Setter Property="ItemContainerStyle" Value="{StaticResource S.TabItem.Office}"/>
+        <Setter Property="Padding" Value="0,0"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+    </Style>
 </ResourceDictionary>

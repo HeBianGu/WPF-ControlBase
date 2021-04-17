@@ -6,135 +6,181 @@
     <local:FTextBoxHistoryConverter x:Key="S.Converter.History"/>
 
     <ControlTemplate x:Key="S.TextBox.Template.Default" TargetType="{x:Type TextBox}">
-        <Grid x:Name="PART_Root">
-            <Grid x:Name="PART_InnerGrid">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition  Width="Auto" />
-                    <ColumnDefinition  Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition  Width="Auto" />
-                </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="Auto" />
+                <ColumnDefinition  Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition  Width="Auto" />
+            </Grid.ColumnDefinitions>
 
-                <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+            <!--背景-->
+            <Border x:Name="Bg" 
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="3"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Background="{TemplateBinding Background}"/>
+
+            <!--<Border SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="3"
                                 BorderThickness="{TemplateBinding BorderThickness}" 
-                                Background="{TemplateBinding Background}" />
+                                Background="Transparent" />-->
 
-                <!--Label区域-->
-                <ContentControl x:Name="Label" Margin="1" Background="Transparent" Foreground="{TemplateBinding Foreground}"
-                                 Template="{TemplateBinding h:Cattach.LabelTemplate}"
+            <!--鼠标悬停-->
+            <Border x:Name="boder_mouseover"
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBackground)}"
+                                Opacity="0.5" Grid.Column="1" Grid.ColumnSpan="3"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"/>
+
+            <!--获取焦点-->
+            <Border x:Name="boder"
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.FocusBackground)}"
+                                Opacity="0" Grid.Column="1" Grid.ColumnSpan="3"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"/>
+
+            <!--Label区域-->
+            <ContentControl x:Name="Label" Margin="1" Background="Transparent" Foreground="{TemplateBinding Foreground}"
+                                 Template="{TemplateBinding h:Cattach.LabelTemplate}" 
                                  Content="{TemplateBinding h:Cattach.Label}"/>
-                <!--Foreground="{TemplateBinding Foreground}"
+
+            <!--Foreground="{TemplateBinding Foreground}"
                                             Background="{TemplateBinding Background}"-->
 
-                <TextBlock x:Name="ficon" Style="{DynamicResource FIcon}" HorizontalAlignment="Center"  Foreground="{TemplateBinding Foreground}"
-                                       VerticalAlignment="Center" Grid.Column="1"
+            <TextBlock x:Name="ficon" Style="{DynamicResource S.TextBlock.FIcon}" HorizontalAlignment="Center"  Foreground="{TemplateBinding Foreground}"
+                                       VerticalAlignment="Center" Grid.Column="1" 
                                        FontSize="{TemplateBinding h:Cattach.FIconSize}"
                                        Margin="{TemplateBinding h:Cattach.FIconMargin}" 
                                        Text="{TemplateBinding h:Cattach.FIcon}"/>
 
-                <ContentControl  x:Name="title" Grid.Column="1" Foreground="{TemplateBinding Foreground}"
-                                Template="{TemplateBinding h:Cattach.TitleTemplate}"
+            <ContentControl  x:Name="title" Grid.Column="1" Foreground="{TemplateBinding Foreground}"
+                                Template="{TemplateBinding h:Cattach.TitleTemplate}" 
                                 Content="{TemplateBinding h:Cattach.Title}"/>
 
-                <!--内容区域-->
-                <ScrollViewer x:Name="PART_ContentHost" BorderThickness="0" Grid.Column="2" IsTabStop="False" Margin="2"
+            <!--内容区域-->
+            <ScrollViewer x:Name="PART_ContentHost" BorderThickness="0" Grid.Column="2"  IsTabStop="False" Margin="2"
                                           VerticalAlignment="Stretch" Background="{x:Null}" />
-                <!--水印-->
-                <TextBlock x:Name="Message"  Padding="{TemplateBinding Padding}" Visibility="Collapsed"
+            <!--水印-->
+            <TextBlock x:Name="Message"  Padding="{TemplateBinding Padding}" Visibility="Collapsed"
                                        Text="{TemplateBinding h:Cattach.Watermark}" Grid.Column="2"
                                        Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" 
                                        Opacity="{DynamicResource S.Opacity.Watermark}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="5,2,5,2" />
-                <!--附加内容区域-->
-                <Border Grid.Column="3" Margin="1" 
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center">
-                    <ContentControl  x:Name="PART_AttachContent"  Foreground="{TemplateBinding Foreground}" VerticalAlignment="Top" VerticalContentAlignment="Top" 
+            <!--附加内容区域-->
+            <Border Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <ContentControl  x:Name="PART_AttachContent"  Foreground="{TemplateBinding Foreground}" VerticalAlignment="Top" VerticalContentAlignment="Top" 
                                                 Template="{TemplateBinding h:Cattach.AttachContent}" />
-                </Border>
+            </Border>
 
-                <Popup x:Name="PART_Popup" PlacementTarget="{Binding ElementName=Bg}"
+            <Popup x:Name="PART_Popup" PlacementTarget="{Binding ElementName=Bg}"
                                AllowsTransparency="True"
                                Focusable="False" VerticalOffset="10"
                                Visibility="Collapsed" IsHitTestVisible="False"
                                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                Placement="Bottom">
 
-                    <Grid HorizontalAlignment="Stretch" Margin="0,10,0,0" Width="{Binding ActualWidth,ElementName=Bg}" MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
-                        
-                        <Polygon HorizontalAlignment="Right" Fill="{DynamicResource S.Brush.Red.Notice}"  Points="0,5 5,0 10,5 0,5" Margin="10,-5,8,0" FillRule="Nonzero"/>
+                <Grid HorizontalAlignment="Stretch" Margin="0,10,0,0" Width="{Binding ActualWidth,ElementName=Bg}" MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
 
-                        <Border CornerRadius="{DynamicResource S.Window.Item.CornerRadius}" IsHitTestVisible="False" 
+                    <Polygon HorizontalAlignment="Right" Fill="{DynamicResource S.Brush.Red.Notice}"  Points="0,5 5,0 10,5 0,5" Margin="10,-5,8,0" FillRule="Nonzero"/>
+
+                    <Border CornerRadius="{DynamicResource S.Window.Item.CornerRadius}" IsHitTestVisible="False" 
                                 Background="{DynamicResource S.Brush.Red.Notice}"
                                 Height="{DynamicResource S.Window.Row.Height}">
-                            <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(Validation.Errors)[0].ErrorContent}"
+                        <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(Validation.Errors)[0].ErrorContent}"
                                        Foreground="White" Margin="8,5,8,6" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                            <!--<TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=Popup},Path=PlacementTarget.(Validation.Errors)[0].ErrorContent}"
+                        <!--<TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=Popup},Path=PlacementTarget.(Validation.Errors)[0].ErrorContent}"
                                        Foreground="White" Margin="8,5,8,6" TextWrapping="Wrap" VerticalAlignment="Center"/>-->
-                        </Border>
-                    </Grid>
-                </Popup>
+                    </Border>
+                </Grid>
+            </Popup>
 
-                <Popup x:Name="PART_Popup_History" PlacementTarget="{Binding ElementName=Bg}"
+            <Popup x:Name="PART_Popup_History" PlacementTarget="{Binding ElementName=Bg}"
                                AllowsTransparency="True" Grid.Column="1"
                                Focusable="False" VerticalOffset="0"
                                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                Placement="Bottom">
-                    <Popup.IsOpen>
-                        <MultiBinding Mode="OneWay" Converter="{StaticResource S.Converter.History}">
-                            <Binding Path="IsFocused" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
-                            <Binding Path="(h:Cattach.IsUseHistory)" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
-                            <Binding Path="(h:Cattach.HistoryData)" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
-                        </MultiBinding>
-                    </Popup.IsOpen>
+                <Popup.IsOpen>
+                    <MultiBinding Mode="OneWay" Converter="{StaticResource S.Converter.History}">
+                        <Binding Path="IsFocused" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
+                        <Binding Path="(h:Cattach.IsUseHistory)" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
+                        <Binding Path="(h:Cattach.HistoryData)" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
+                    </MultiBinding>
+                </Popup.IsOpen>
 
-                    <Grid Width="{Binding ActualWidth,ElementName=Bg}" MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
+                <Grid Width="{Binding ActualWidth,ElementName=Bg}" MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
 
-                        <Grid x:Name="grid_auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,5,0,0">
-                            <Border Background="{DynamicResource S.Brush.TextBackground.Default}" BorderBrush="{DynamicResource S.Brush.Accent}" BorderThickness="1" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
-                            </Border>
-                            <Polygon  HorizontalAlignment="Right" Fill="{DynamicResource S.Brush.Accent}" Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}" Points="0,5 5,0 10,5 0,5" Margin="0,-5,8,0" FillRule="Nonzero"/>
+                    <Grid x:Name="grid_auto" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,5,0,0">
+                        <Border Background="{DynamicResource S.Brush.TextBackground.Default}" BorderBrush="{DynamicResource S.Brush.Accent}" BorderThickness="1" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
+                        </Border>
+                        <Polygon  HorizontalAlignment="Right" Fill="{DynamicResource S.Brush.Accent}" Stroke="{DynamicResource S.Brush.TextBorderBrush.Default}" Points="0,5 5,0 10,5 0,5" Margin="0,-5,8,0" FillRule="Nonzero"/>
 
-                            <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" VerticalAlignment="Top" Margin="2,3">
-                                <ListBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.HistoryData)}"
+                        <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" VerticalAlignment="Top" Margin="2,3">
+                            <ListBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.HistoryData)}"
                                          SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.SelectedHistroyItem)}"/>
-                            </ScrollViewer>
-
-                        </Grid>
+                        </ScrollViewer>
 
                     </Grid>
-                </Popup>
 
-            </Grid>
+                </Grid>
+            </Popup>
 
         </Grid>
+        
         <ControlTemplate.Triggers>
             <!--显示水印-->
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
                 <Setter TargetName="Message" Property="Visibility" Value="Visible" />
             </DataTrigger>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <!--<Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>-->
                 <Setter  Property="Foreground" TargetName="ficon" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                <!--<Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>-->
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                <!--<Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>-->
                 <Setter  Property="Foreground" TargetName="title" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+                
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder_mouseover" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.3" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder_mouseover" Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter  Property="BorderBrush" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <!--<Setter  Property="BorderBrush" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>-->
                 <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                 <Setter  Property="Foreground" TargetName="ficon" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                 <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                 <Setter  Property="Foreground" TargetName="title" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
             </Trigger>
             <!--不可用-->
             <Trigger Property="IsEnabled" Value="False">
-                <Setter TargetName="PART_Root" Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" />
+                <Setter Property="Opacity" Value="{DynamicResource S.Opacity.Disable}" />
             </Trigger>
             <!--只读时，禁用PART_AttachContent-->
             <Trigger Property="IsReadOnly" Value="True">
@@ -193,7 +239,8 @@
         <Setter Property="SelectionBrush" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="FontFamily" Value="{StaticResource S.FontFamily.Default}"/>
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderThickness" Value="1.5"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="MinHeight" Value="26"/>
         <Setter Property="Width" Value="Auto"/>
         <Setter Property="Height" Value="{DynamicResource S.Window.Item.Height}"/>
@@ -205,15 +252,25 @@
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         <Setter Property="h:Cattach.FIconMargin" Value="5,0,0,0"/>
         <Setter Property="Padding" Value="0" />
-        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
+        <!--<Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />-->
+        <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+        <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource S.Brush.TextForeground.Selected}" />
+
         <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.TextForeground.MouseOver}"/>
+
+        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="Template" Value="{StaticResource S.TextBox.Template.Default}"/>
         <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
         <Setter Property="ClipToBounds" Value="False" />
+
+        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
+
+        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource S.Window.Title.Width}"/>
 
         <!--<Setter Property="Validation.ErrorTemplate">
             <Setter.Value>
@@ -280,8 +337,6 @@
     </Style>
 
     <Style TargetType="{x:Type TextBox}" x:Key="S.TextBox.Single" BasedOn="{StaticResource S.TextBox.Default}">
-        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Assist}"/>
-        <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
@@ -293,12 +348,12 @@
         <Setter Property="h:Cattach.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Background="Transparent" Margin="10,0" >
+                    <Border Background="Transparent" Width="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleMargin)}">
                         <TextBlock x:Name="txt" VerticalAlignment="Center" 
-                                   Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Foreground}" 
+                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleForeground)}" 
                                    Background="Transparent"
                                    FontSize="{TemplateBinding FontSize}"
-                                   HorizontalAlignment="Right"
+                                   HorizontalAlignment="Left"
                                    Text="{TemplateBinding Content}"/>
                     </Border>
                 </ControlTemplate>
@@ -307,7 +362,7 @@
     </Style>
 
     <Style TargetType="{x:Type TextBox}" x:Key="S.TextBox.Single.Label" BasedOn="{StaticResource S.TextBox.Label}">
-        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Assist}"/>
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
@@ -319,7 +374,7 @@
         <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton FIcon="&#xe6f4;" 
+                    <!--<local:FButton FIcon="&#xe6f4;" 
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" 
                                    FIconMargin="0"
@@ -329,7 +384,13 @@
                                    Margin="1,3,1,4" 
                                    FIconSize="14" 
                                    Foreground="{TemplateBinding Foreground}" 
-                                   Cursor="Arrow"/>
+                                   Cursor="Arrow"/>-->
+
+                    <Button Style="{DynamicResource S.Button.Close}" Width="Auto"
+                                h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}"
+                            Command="h:Cattach.ClearTextCommand"/>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -348,17 +409,22 @@
         <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton FIcon="&#xe6f4;" 
+                    <!--<local:FButton FIcon="&#xe6f4;"
                                    Style="{DynamicResource S.FButton.Style.Transparent}" 
                                    IsTabStop="False" 
                                    FIconMargin="0"
                                    h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
                                    Command="h:Cattach.ClearTextCommand" 
-                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}"
                                    Margin="1,3,1,4" 
                                    FIconSize="14" 
                                    Foreground="{TemplateBinding Foreground}" 
-                                   Cursor="Arrow"/>
+                                   Cursor="Arrow"/>-->
+
+                    <Button Style="{DynamicResource S.Button.Close}"
+                                h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}"
+                            Command="h:Cattach.ClearTextCommand"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -399,9 +465,11 @@
                 <ControlTemplate TargetType="ContentControl">
                     <Border MinWidth="90" Background="Transparent">
                         <TextBlock  Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right">
-                            <Run  Text="{TemplateBinding Content}"  Foreground="{TemplateBinding Foreground}"/>
+                            <Run  Text="{TemplateBinding Content}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleForeground)}" 
+/>
                             <Run  Text="*"  Foreground="{DynamicResource S.Brush.Red.Notice}"/>
-                            <Run  Text="：" Foreground="{TemplateBinding Foreground}"/>
+                            <Run  Text="：" Foreground="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleForeground)}" 
+/>
                         </TextBlock>
                     </Border>
                 </ControlTemplate>

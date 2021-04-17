@@ -219,7 +219,7 @@ namespace HeBianGu.Application.MainWindow
             //vw.GroupDescriptions.Add(new PropertyGroupDescription("Class"));
 
             _xConvert = l =>
-              {  
+              {
                   //return $"10^{l}"; 
                   return l.ToString();
               };
@@ -247,7 +247,7 @@ namespace HeBianGu.Application.MainWindow
 
                     //this.xAxis.Add(log);
                 }
-                
+
             }
 
             double p = Math.Log10(count);
@@ -639,5 +639,5 @@ namespace HeBianGu.Application.MainWindow
 
             this.Name = this.GetType().Name + Count;
         }
-    }
+    } 
 }

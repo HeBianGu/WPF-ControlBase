@@ -97,4 +97,5 @@ namespace HeBianGu.Base.WpfBase
             return true;
         }
     }
+
 }

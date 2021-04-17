@@ -306,7 +306,7 @@ namespace HeBianGu.Application.SceneWindow
 
                 await Task.Run(() =>
                  {
-                     for (int i = 0; i < 100; i++)
+                     for (int i = 0; i <= 100; i++)
                      {
                          this.Percent = i;
 

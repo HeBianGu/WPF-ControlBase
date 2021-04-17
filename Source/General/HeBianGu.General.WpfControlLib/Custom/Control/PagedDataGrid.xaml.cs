@@ -248,6 +248,45 @@ namespace HeBianGu.General.WpfControlLib
              }));
 
 
+        public Visibility PageCountVisible
+        {
+            get { return (Visibility)GetValue(PageCountVisibleProperty); }
+            set { SetValue(PageCountVisibleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PageCountVisibleProperty =
+            DependencyProperty.Register("PageCountVisible", typeof(Visibility), typeof(PagedDataGrid), new PropertyMetadata(default(Visibility), (d, e) =>
+             {
+                 PagedDataGrid control = d as PagedDataGrid;
+
+                 if (control == null) return;
+
+                 //Visibility config = e.NewValue as Visibility;
+
+             }));
+
+
+
+        public object HeaderContent
+        {
+            get { return (object)GetValue(HeaderContentProperty); }
+            set { SetValue(HeaderContentProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty HeaderContentProperty =
+            DependencyProperty.Register("HeaderContent", typeof(object), typeof(PagedDataGrid), new PropertyMetadata(default(object), (d, e) =>
+             {
+                 PagedDataGrid control = d as PagedDataGrid;
+
+                 if (control == null) return;
+
+                 object config = e.NewValue as object;
+
+             }));
+
+
 
         public PagedDataGrid()
         {

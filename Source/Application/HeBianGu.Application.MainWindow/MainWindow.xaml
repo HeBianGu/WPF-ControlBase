@@ -11,13 +11,444 @@
         xmlns:h="QQ:908293466" 
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib" xmlns:image="clr-namespace:HeBianGu.Control.ImagePlayer;assembly=HeBianGu.Control.ImagePlayer"
-        Height= "800" Width="1350" CaptionHeight="35" FIconSize="30">
+        Height= "700" Width="1250" CaptionHeight="35" FIconSize="30">
 
     <Window.Resources>
         <ImageSource x:Key="image">../Resources/组 4@2x.png</ImageSource>
     </Window.Resources>
 
     <TabControl TabStripPlacement="Left" ItemContainerStyle="{StaticResource S.TabItem.Line.Default}">
+
+        
+        <TabItem Header="横表">
+            <Grid>
+                <DataGrid ItemsSource="{Binding Students}" RowHeight="150" ColumnHeaderHeight="150" Style="{StaticResource S.DataGrid.Vertical.Default}" 
+                          AutoGenerateColumns="True">
+                    <!--<DataGrid.Columns>
+                        <DataGridTextColumn Header="地址" Binding="{Binding Address}" Width="*"/>
+                        <DataGridTextColumn Header="地址"  Binding="{Binding Age}" Width="*"/>
+                        <DataGridTextColumn Header="地址"  Binding="{Binding Name}" Width="*"/>
+                        <DataGridTextColumn Header="地址"  Binding="{Binding Time}" Width="*"/>
+                    </DataGrid.Columns>-->
+                </DataGrid>
+            </Grid>
+        </TabItem>
+        
+        <TabItem Header="数据源合并">
+            <Grid>
+                <ListBox>
+                    <ListBox.ItemsSource>
+                        <CompositeCollection> 
+                            <CollectionContainer Collection="{StaticResource D.ArrayList.Items}"/>
+                            <TextBlock Text="" HorizontalAlignment="Right">
+                                <Run Text="合计："/>
+                                <Run Text="{Binding Source={StaticResource D.ArrayList.Items},Path=Count,Mode=OneWay}"/>
+                            </TextBlock>
+                            <CollectionContainer Collection="{StaticResource D.ArrayList.LargeSource}"/>
+                            <TextBlock Text=""  HorizontalAlignment="Right">
+                                <Run Text="合计："/>
+                                <Run Text="{Binding Source={StaticResource D.ArrayList.LargeSource},Path=Count,Mode=OneWay}"/>
+                            </TextBlock>
+                        </CompositeCollection>
+                    </ListBox.ItemsSource>
+                </ListBox>
+            </Grid>
+        </TabItem>
+        <TabItem Header="ArcSegment">
+            <Grid>
+                <Path Stroke="Red" HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathFigure IsClosed="True" StartPoint="50,50">
+
+                                <LineSegment  Point="0,50"/>
+                                
+                                <ArcSegment  Point="50,0" RotationAngle="270" IsLargeArc="True" Size="50,50" SweepDirection="Counterclockwise"/>
+
+                                <LineSegment  Point="50,50"/>
+                                <!--<ArcSegment Point="50,50" RotationAngle="120"  IsLargeArc="False" Size="50,50" SweepDirection="Counterclockwise"/>-->
+
+                            </PathFigure>
+                        </PathGeometry>
+                    </Path.Data>
+                </Path>
+            </Grid>
+        </TabItem>
+        <TabItem Header="滚动劫持">
+            <ScrollViewer>
+                <Grid Background="Gray">
+                    <UniformGrid Height="1000">
+                        <h:FScrollView Height="300">
+                            <Grid Height="1000" Background="Red"/>
+                        </h:FScrollView>
+
+                        <h:FScrollView Height="300">
+                            <Grid Height="1000"  Background="Yellow"/>
+                        </h:FScrollView>
+
+                        <h:FScrollView Height="300">
+                            <Grid Height="1000"  Background="Orange"/>
+                        </h:FScrollView>
+
+                        <h:FScrollView Height="300">
+                            <Grid Height="1000"  Background="Purple"/>
+                        </h:FScrollView>
+                    </UniformGrid>
+                </Grid>
+            </ScrollViewer>
+        </TabItem>
+        
+        <TabItem Header="表单">
+            <DockPanel LastChildFill="False">
+                <h:Row Style="{StaticResource S.Row.Column.1}">
+                    <TextBox Style="{StaticResource S.TextBox.LabelClear}" h:Cattach.Label="标题标题"/>
+                </h:Row>
+
+                <h:Row Style="{StaticResource S.Row.Column.1}">
+                    <ComboBox  Style="{StaticResource S.ComboBox.Single.LabelClear}" ItemsSource="{StaticResource D.ArrayList.Items}" h:Cattach.Watermark="sss" h:Cattach.Label="标题"/>
+                </h:Row>
+
+                <h:Row Style="{StaticResource S.Row.Column.1}">
+                    <DatePicker Style="{StaticResource S.DatePicker.Single.LabelClear}" h:Cattach.Label="标题"/>
+                </h:Row>
+
+                <h:Row Style="{StaticResource S.Row.Column.1}">
+                    <CheckBox h:Cattach.Label="标题" Style="{StaticResource S.CheckBox.Single.Label}"/>
+                </h:Row>
+
+                <h:Row Style="{StaticResource S.Row.Column.1}">
+                    <Slider h:Cattach.Label="标题" Style="{StaticResource S.Slider.Label}"/>
+                </h:Row>
+
+                <h:Row Style="{StaticResource S.Row.Column.1}">
+                    <PasswordBox Password="123456" Style="{StaticResource S.PasswordBox.Single.LabelClear}" h:Cattach.Label="标题"/>
+                </h:Row>
+
+                <h:Row Style="{StaticResource S.Row.Column.1}">
+                    <Label Content="Label" Style="{StaticResource S.Label.Label}" h:Cattach.Label="标题"/>
+                </h:Row> 
+
+                <h:Row Style="{StaticResource S.Row.Column.1}">
+                    <Button Content="Button" h:Cattach.Label="标题" Style="{StaticResource S.Button.Label}"/>
+                </h:Row>
+
+                <h:Row Style="{StaticResource S.Row.Column.1}">
+                    <ProgressBar Value="50" h:Cattach.Label="标题" Style="{StaticResource S.ProgressBar.Handy.Label}"/>
+                </h:Row>
+
+                <h:Row Style="{StaticResource S.Row.Column.1}" Height="Auto">
+                    <ListBox ItemsSource="{StaticResource D.ArrayList.Source}"
+                             Style="{StaticResource S.ListBox.Label}" 
+                             h:Cattach.Label="标题" />
+                </h:Row>
+            </DockPanel>
+        </TabItem>
+        
+        <TabItem Header="拖拽">
+            <UniformGrid Columns="2">
+                <GroupBox Header="拖">
+                    <UniformGrid  Rows="2">
+                        <ListBox ItemsSource="{StaticResource D.ArrayList.Source}" AllowDrop="True" ItemContainerStyle="{StaticResource S.ListBoxItem.AllowDrop}">
+
+                            <h:Interaction.Behaviors>
+                                <h:ListDragBlendBehavior/>
+                            </h:Interaction.Behaviors>
+                        </ListBox>
+
+                        <ListBox ItemsSource="{StaticResource D.ArrayList.Source}" AllowDrop="True" ItemContainerStyle="{StaticResource S.ListBoxItem.AllowDrop}">
+
+                            <h:Interaction.Behaviors>
+                                <h:ListDragBlendBehavior DragGroup="435"/>
+                            </h:Interaction.Behaviors>
+                        </ListBox>
+                    </UniformGrid>
+                </GroupBox>
+
+                <GroupBox Header="放">
+                    <UniformGrid Rows="2">
+                        <ListBox Background="Red">
+                            <h:Interaction.Behaviors>
+                                <!--<h:ListDragBlendBehavior/>-->
+                                <h:ListDropBlendBehavior/>
+                            </h:Interaction.Behaviors>
+                        </ListBox>
+                        <ListBox Background="Red">
+                            <h:Interaction.Behaviors>
+                                <!--<h:ListDragBlendBehavior/>-->
+                                <h:ListDropBlendBehavior DragGroup="435"/>
+                            </h:Interaction.Behaviors>
+                        </ListBox>
+                    </UniformGrid>
+                </GroupBox>
+            </UniformGrid>
+        </TabItem>
+        
+        <TabItem Header="扇形">
+            <GroupBox Header="Sector">
+                <DockPanel>
+                    <Slider DockPanel.Dock="Top" Value="{Binding ElementName=st,Path=Start,Mode=TwoWay}" Minimum="0" Maximum="360"/>
+                    <Slider DockPanel.Dock="Top" Margin="0,20" Value="{Binding ElementName=st,Path=End,Mode=TwoWay}" Minimum="0" Maximum="360"/>
+                    <Slider DockPanel.Dock="Top" Value="{Binding ElementName=st,Path=OffSet,Mode=TwoWay}" Minimum="0" Maximum="360"/>
+                    <Slider DockPanel.Dock="Top" Margin="0,20" Value="{Binding ElementName=st,Path=Len,Mode=TwoWay}" Minimum="0" Maximum="360"/>
+
+                    <!--<Grid>
+                       
+                    </Grid>-->
+
+                        <h:Sector x:Name="st" Start="2" End="90" StrokeThickness="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <h:Sector.Fill>
+                                <LinearGradientBrush>
+                                    <GradientStop Offset="-0.5" Color="Transparent"/>
+                                    <GradientStop Offset="1" Color="Red"/>
+                                </LinearGradientBrush>
+                            </h:Sector.Fill>
+
+                            <h:Sector.Style>
+                                <Style TargetType="h:Sector">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Fill" Value="Yellow"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="False">
+                                            <Setter Property="Fill" Value="Green"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </h:Sector.Style>
+                        </h:Sector> 
+                </DockPanel>
+            </GroupBox>
+        </TabItem>
+        
+        <TabItem Header="Menu Bind">
+            <GroupBox Header="Menu Bind">
+                <DockPanel>
+                    <Menu  Grid.Column="0" HorizontalAlignment="Stretch"
+                   ItemsSource="{Binding Source={StaticResource xdp}}" BorderThickness="0"
+                   x:Name="TreeRoot" >
+                        <Menu.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding XPath=Folder}">
+                                <StackPanel  Orientation="Horizontal">
+                                    <TextBlock Text="{Binding XPath=@FIcon}" FontSize="15" Style="{DynamicResource S.TextBlock.FIcon}" VerticalAlignment="Center"/>
+                                    <TextBlock x:Name="a" Text="{Binding XPath=@Name}"  VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                        </Menu.ItemTemplate>
+                    </Menu>
+                </DockPanel>
+            </GroupBox>
+        </TabItem>
+        <TabItem Header="FilterColumn">
+            <GroupBox Header="FilterColumn">
+                <DockPanel>
+                    <DataGrid  AutoGenerateColumns="True">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn>
+                                <DataGridTemplateColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <h:FilterColumn x:Name="fc" DataSource="{Binding Source={StaticResource S.DataSource.Locator},Path=ShellViewModel.Students}"
+                                                            Margin="2,0" PropertyName="Class" DockPanel.Dock="Right"
+                                                            OutSource="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=ItemsSource,Mode=TwoWay}"/> 
+                                            <TextBlock Text="班级"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.HeaderTemplate>
+
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <TextBlock Text="{Binding Class}"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </DockPanel>
+            </GroupBox>
+        </TabItem>
+        <TabItem Header="h:DockPanel测试">
+            <GroupBox Header="h:DockPanel">
+                <Grid>
+                    <h:CrossPanel  SmallSize="70" StartIndex="4" IsFull="True">
+                        <Grid Background="Purple"/>
+                        <Grid Background="Green"/>
+                        <Grid Background="Orange"/>
+                        <Grid Background="Gray"/>
+                        <Grid Background="Red"/>
+                        <Grid Background="Blue"/>
+                        <Grid Background="Purple"/>
+                        <Grid Background="Green"/>
+                        <Grid Background="Orange"/>
+                        <Grid Background="Gray"/>
+                        <Grid Background="Red"/>
+                        <Grid Background="Blue"/>
+                        <Grid Background="Purple"/>
+                        <Grid Background="Green"/>
+                        <Grid Background="Orange"/>
+                        <Grid Background="Gray"/>
+                        <Grid Background="Red"/>
+                        <Grid Background="Blue"/>
+                        <!--<Grid Background="Orange"/>-->
+                    </h:CrossPanel>
+                </Grid>
+            </GroupBox>
+        </TabItem>
+
+        <TabItem Header="h:DockPanel测试">
+
+            <GroupBox Header="TopAndBottom">
+                <ItemsControl>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <h:DockPanel Dock="Left" SmallSize="70" StartIndex="0" IsFull="True">
+                                <h:Interaction.Behaviors>
+                                    <h:FluidMoveBehavior AppliesTo="Children" Duration="00:00:00.5"/>
+                                </h:Interaction.Behaviors>
+                            </h:DockPanel>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.Template>
+                        <ControlTemplate TargetType="ItemsControl">
+                            <DockPanel>
+                                <h:Row DockPanel.Dock="Top">
+                                    <h:FButton Style="{StaticResource S.FButton.Style.Transparent}" 
+                                                   Command="{x:Static h:CommandService.Prev}" 
+                                                   Grid.Column="0" FIcon="&#xe8b7;" 
+                                                   CommandTarget="{Binding ElementName=items,Converter={x:Static h:XConverter.ItemPanelConverter}}"/>
+
+                                    <h:FButton Style="{StaticResource S.FButton.Style.Transparent}" 
+                                                   Command="{x:Static h:CommandService.Next}" 
+                                                   Grid.Column="1" FIcon="&#xe8b6;" 
+                                                   CommandTarget="{Binding ElementName=items,Converter={x:Static h:XConverter.ItemPanelConverter}}"/>
+                                </h:Row>
+
+                                <ItemsPresenter x:Name="items"/>
+                            </DockPanel>
+                        </ControlTemplate>
+                    </ItemsControl.Template>
+
+                    <Grid Background="Purple"/>
+                    <Grid Background="Green"/>
+                    <Grid Background="Orange"/>
+                    <Grid Background="Gray"/>
+                    <Grid Background="Red"/>
+                    <Grid Background="Blue"/>
+                    <Grid Background="Purple"/>
+                    <Grid Background="Green"/>
+                    <Grid Background="Orange"/>
+                    <Grid Background="Gray"/>
+                    <Grid Background="Red"/>
+                    <Grid Background="Blue"/>
+                    <Grid Background="Purple"/>
+                    <Grid Background="Green"/>
+                    <Grid Background="Orange"/>
+                    <Grid Background="Gray"/>
+                    <Grid Background="Red"/>
+                    <Grid Background="Blue"/>
+                    <Grid Background="Orange"/>
+                </ItemsControl>
+            </GroupBox>
+
+            <!--<GroupBox Header="h:DockPanel">
+                <Grid> 
+
+                    <h:DockPanel Dock="Left" SmallSize="70" StartIndex="0">
+                        <Grid Background="Purple"/>
+                        <Grid Background="Green"/>
+                        <Grid Background="Orange"/>
+                        <Grid Background="Gray"/>
+                        <Grid Background="Red"/>
+                        <Grid Background="Blue"/>
+                        <Grid Background="Purple"/>
+                        <Grid Background="Green"/>
+                        <Grid Background="Orange"/>
+                        <Grid Background="Gray"/>
+                        <Grid Background="Red"/>
+                        <Grid Background="Blue"/>
+                        <Grid Background="Purple"/>
+                        <Grid Background="Green"/>
+                        <Grid Background="Orange"/>
+                        <Grid Background="Gray"/>
+                        <Grid Background="Red"/>
+                        <Grid Background="Blue"/>
+                        <Grid Background="Orange"/>
+                    </h:DockPanel>
+                </Grid>
+            </GroupBox>-->
+        </TabItem>
+
+
+        <TabItem Header="ElementExpander右侧停靠">
+            <GroupBox Header="ElementExpander">
+                <Grid Background="Purple" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <!--<h:ArcPanel StartAngle="90" EndAngle="180" Len="130" Background="Red" Margin="0,0,-65,-65" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        <Button Content="1"/>
+                        <Button Content="2"/>
+                        <Button Content="3"/>
+                        <Button Content="4"/>
+                        <Button Content="5"/>
+                        <Button Content="6"/>
+                    </h:ArcPanel>-->
+
+
+
+                    <h:ElementExpander Style="{StaticResource S.ElementExpander.MouseEnter}">
+                        <h:ToggleExpander.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <h:ArcPanel Len="120" StartAngle="90" EndAngle="180" IsAnimation="False" Margin="0,0,-65,-65"/>
+                            </ItemsPanelTemplate>
+                        </h:ToggleExpander.ItemsPanel>
+
+                        <h:ElementExpander.Content>
+                            <TextBlock Text="鼠标放进来" Foreground="Red" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                        </h:ElementExpander.Content>
+
+                        <Button Content="1" Visibility="Collapsed"/>
+                        <Button Content="2" Visibility="Collapsed"/>
+                        <Button Content="3" Visibility="Collapsed"/>
+                        <Button Content="4" Visibility="Collapsed"/>
+                    </h:ElementExpander>
+                </Grid>
+            </GroupBox>
+        </TabItem>
+
+        <TabItem Header="MarkTip测试">
+            <GroupBox Header="曲线图">
+                <Grid Background="Purple" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    <!--<h:ArcPanel StartAngle="90" EndAngle="180" Len="130" Background="Red" Margin="0,0,-65,-65" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        <Button Content="1"/>
+                        <Button Content="2"/>
+                        <Button Content="3"/>
+                        <Button Content="4"/>
+                        <Button Content="5"/>
+                        <Button Content="6"/>
+                    </h:ArcPanel>-->
+
+
+
+                    <h:ElementExpander Style="{StaticResource S.ElementExpander.MouseEnter}">
+                        <h:ToggleExpander.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <h:ArcPanel Len="120" StartAngle="90" EndAngle="180" IsAnimation="False" Margin="0,0,-65,-65"/>
+                            </ItemsPanelTemplate>
+                        </h:ToggleExpander.ItemsPanel>
+
+                        <h:ElementExpander.Content>
+                            <TextBlock Text="鼠标放进来" Foreground="Red" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                        </h:ElementExpander.Content>
+
+                        <Button Content="1" Visibility="Collapsed"/>
+                        <Button Content="2" Visibility="Collapsed"/>
+                        <Button Content="3" Visibility="Collapsed"/>
+                        <Button Content="4" Visibility="Collapsed"/>
+                    </h:ElementExpander>
+                </Grid>
+            </GroupBox>
+        </TabItem>
+
         <TabItem Header="MarkTip测试">
             <GroupBox Header="曲线图">
                 <GroupBox Header="曲线图" Height="470">
@@ -460,13 +891,13 @@
         <TabItem Header="行为 - 当拖动滚动条时显示当前滚动信息">
             <GroupBox Header="ScrollingPreviewBehavior">
                 <h:TimeAnimation Style="{StaticResource S.TimeAnimation.Random.OST}">
-                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource FIcon}"/>
-                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource FIcon}"/>
-                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource FIcon}"/>
-                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource FIcon}"/>
-                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource FIcon}"/>
-                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource FIcon}"/>
-                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource FIcon}"/>
+                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
+                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
+                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
+                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
+                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
+                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
+                    <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
                 </h:TimeAnimation>
             </GroupBox>
         </TabItem>
@@ -1305,7 +1736,8 @@
                         <GroupBox.Background>
                             <DrawingBrush Stretch="Uniform" Drawing="{StaticResource S.Drawing.DatabaseColumn.16x}"/>
                         </GroupBox.Background>
-                    </GroupBox>--><!--
+                    </GroupBox>-->
+                    <!--
 
                     <GroupBox Header="ImageBrush">
                         <GroupBox.Background>

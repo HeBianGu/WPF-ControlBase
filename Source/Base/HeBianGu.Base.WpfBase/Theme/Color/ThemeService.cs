@@ -271,9 +271,33 @@ namespace HeBianGu.Base.WpfBase
 
                     Application.Current.Resources["S.Brush.Accent"] = radial;
                 }
+                else if (this.AccentBrushType == AccentBrushType.LinearGradientBrushReverse)
+                {
+                    LinearGradientBrush radial = new LinearGradientBrush();
+                    radial.StartPoint = new Point(0, 0);
+                    radial.EndPoint = new Point(4, 0);
+                    radial.GradientStops.Add(new GradientStop(Colors.White, 1.0));
+                    radial.GradientStops.Add(new GradientStop(value, 0.0));
+
+                    Application.Current.Resources["S.Brush.Accent"] = radial;
+                }
+                else if (this.AccentBrushType == AccentBrushType.RadialGradientBrush)
+                {
+                    RadialGradientBrush radial = new RadialGradientBrush();
+                    radial.Center = new Point(0.5, 0.5);
+                    radial.GradientStops.Add(new GradientStop(Colors.White, -3.0));
+                    radial.GradientStops.Add(new GradientStop(value, 1.0));
+
+                    Application.Current.Resources["S.Brush.Accent"] = radial;
+                }
                 else
                 {
+                    RadialGradientBrush radial = new RadialGradientBrush();
+                    radial.Center = new Point(0.5, 0.5); 
+                    radial.GradientStops.Add(new GradientStop(Colors.White, 8.0));
+                    radial.GradientStops.Add(new GradientStop(value, 0.0));
 
+                    Application.Current.Resources["S.Brush.Accent"] = radial;
                 }
 
 
@@ -835,10 +859,14 @@ namespace HeBianGu.Base.WpfBase
     {
         [Display(Name = "纯色")]
         SolidColorBrush,
-        [Display(Name = "线性渐变")]
+        [Display(Name = "线性渐变(左右)")]
         LinearGradientBrush,
-        [Display(Name = "径向渐变")]
-        RadialGradientBrush
+        [Display(Name = "线性渐变(右左)")]
+        LinearGradientBrushReverse,
+        [Display(Name = "径向渐变(外内)")]
+        RadialGradientBrush,
+        [Display(Name = "径向渐变(内外)")]
+        RadialGradientBrushReverse
     }
 
 }

@@ -14,10 +14,13 @@
         <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=ComboBox},Path=Height}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
+        
         <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}" />
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
+        
         <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.White}" />
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ComboBoxItem">
@@ -67,7 +70,9 @@
                         </Trigger>
 
                         <Trigger Property="IsSelected" Value="true">
+                            
                             <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.SelectForeground)}" />
+                            
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -98,12 +103,24 @@
                                 BorderBrush="{TemplateBinding BorderBrush}" Padding="{TemplateBinding Padding}"
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="{TemplateBinding Background}" />
+
+            <Border x:Name="boder_mouseover" BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBackground)}"
+                                Opacity="0.5" 
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"/>
+
+            <Border x:Name="boder" BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.FocusBackground)}"
+                                Opacity="0"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="25" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 
                 <!--Label区域-->
@@ -122,14 +139,26 @@
                                                 Template="{TemplateBinding h:Cattach.AttachContent}" />
                 </Border>
 
-                <!--下拉按钮-->
-                <ToggleButton x:Name="PART_DropDownToggle" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" h:Cattach.FIconSize="15"
-                              h:Cattach.FIconMargin="{TemplateBinding h:Cattach.FIconMargin}"
-                                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                         Grid.Column="1" Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent},
-                                          Converter={x:Static h:XConverter.TrueToFalseConverter},Mode=OneWay}"
-                                          Foreground="{TemplateBinding Foreground}" 
-                                          Background="{TemplateBinding h:Cattach.FocusBackground}"/>
+                <Border Grid.Column="3" Width="{DynamicResource S.Window.Item.Height}" HorizontalAlignment="Center">
+                    <!--下拉按钮-->
+                    <ToggleButton x:Name="PART_DropDownToggle" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" h:Cattach.FIconSize="15"
+                                         IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                         IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent},
+                                         Converter={x:Static h:XConverter.TrueToFalseConverter},Mode=OneWay}"
+                                         HorizontalAlignment="Center"
+                                         Foreground="{TemplateBinding Foreground}" />
+                </Border>
+
+                <ToggleButton Grid.Column="1" Grid.ColumnSpan="55" HorizontalAlignment="Stretch"  Style="{x:Null}"
+                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              Background="Transparent">
+                    <ToggleButton.Template>
+                        <ControlTemplate>
+                            <Grid Background="Transparent"/>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+                
                 <!--水印-->
                 <Border Grid.Column="1">
                     <TextBlock x:Name="Message" Visibility="Collapsed" 
@@ -153,7 +182,7 @@
                                                   SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                         <!--文本编辑-->
-                        <TextBox  x:Name="PART_EditableTextBox" 
+                        <TextBox  x:Name="PART_EditableTextBox" Background="Transparent"
                                          Style="{DynamicResource EditableTextBoxStyle}" 
                                          Visibility="Collapsed"
                                          HorizontalAlignment="Stretch" 
@@ -163,8 +192,7 @@
                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                          IsReadOnly="{TemplateBinding IsReadOnly}" 
                                          FontFamily="{TemplateBinding FontFamily}" 
-                                         Foreground="{TemplateBinding Foreground}"
-                                         Background="{TemplateBinding Background}"
+                                         Foreground="{TemplateBinding Foreground}" 
                                          Text="{TemplateBinding Text}" 
                                          FontSize="{TemplateBinding FontSize}" />
                     </Grid>
@@ -224,6 +252,23 @@
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
                 <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder_mouseover" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.3" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder_mouseover" Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+                
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
@@ -234,6 +279,22 @@
                 <Setter  Property="Foreground" TargetName="Label" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{DynamicResource S.Brush.Accent}"/>
                 <Setter  Property="Foreground" TargetName="Message" Value="{DynamicResource S.Brush.Accent}"/>
+
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
             </Trigger>
 
         </ControlTemplate.Triggers>
@@ -245,16 +306,29 @@
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="25" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <Border x:Name="Bg" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" Padding="{TemplateBinding Padding}"
-                                BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="3"
+                                BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="4"
                                 BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="{TemplateBinding Background}" />
+
+                <Border x:Name="boder_mouseover" BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBackground)}"
+                                Opacity="0.5"  Grid.Column="1" Grid.ColumnSpan="4"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"/>
+
+                <Border x:Name="boder" BorderBrush="{TemplateBinding BorderBrush}" 
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.FocusBackground)}"
+                                Opacity="0"  Grid.Column="1" Grid.ColumnSpan="4"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                BorderThickness="{TemplateBinding BorderThickness}"/>
 
                 <!--Label区域-->
                 <ContentControl x:Name="Label" 
@@ -264,24 +338,45 @@
                                             Content="{TemplateBinding h:Cattach.Label}" 
                                             Margin="1,1,0,1"/>
 
+                <TextBlock x:Name="ficon" Style="{DynamicResource S.TextBlock.FIcon}" HorizontalAlignment="Center"  Foreground="{TemplateBinding Foreground}"
+                                       VerticalAlignment="Center" Grid.Column="1" 
+                                       FontSize="{TemplateBinding h:Cattach.FIconSize}"
+                                       Margin="{TemplateBinding h:Cattach.FIconMargin}" 
+                                       Text="{TemplateBinding h:Cattach.FIcon}"/>
+                
                 <!--附加内容区域-->
-                <Border  Panel.ZIndex="2" Grid.Column="2" 
-                                    VerticalAlignment="Center" HorizontalAlignment="Center" >
-                    <ContentControl VerticalAlignment="Center" x:Name="PART_AttachContent" Foreground="{DynamicResource S.Brush.TextForeground.Assist}"
-                                                VerticalContentAlignment="Center" 
-                                                Template="{TemplateBinding h:Cattach.AttachContent}" />
+                <Border  Panel.ZIndex="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                    <ContentControl VerticalAlignment="Center" x:Name="PART_AttachContent" 
+                                    Foreground="{TemplateBinding Foreground}" 
+                                    VerticalContentAlignment="Center" 
+                                    Template="{TemplateBinding h:Cattach.AttachContent}" />
                 </Border>
 
-                <!--下拉按钮-->
-                <ToggleButton x:Name="PART_DropDownToggle" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" h:Cattach.FIconSize="15"
+
+
+                <Border Grid.Column="4" Width="{DynamicResource S.Window.Item.Height}" HorizontalAlignment="Center">
+                    <!--下拉按钮-->
+                    <ToggleButton x:Name="PART_DropDownToggle" IsTabStop="False" Style="{DynamicResource ComboToggleButton}" h:Cattach.FIconSize="15"
                                          IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                         h:Cattach.FIconMargin="{TemplateBinding h:Cattach.FIconMargin}"
-                                         Grid.Column="1"  Grid.ColumnSpan="3" IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent},
+                                         IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource TemplatedParent},
                                          Converter={x:Static h:XConverter.TrueToFalseConverter},Mode=OneWay}"
+                                         HorizontalAlignment="Center"
                                          Foreground="{TemplateBinding Foreground}" />
+                </Border>
+
+                <ToggleButton Grid.Column="1" Grid.ColumnSpan="55" HorizontalAlignment="Stretch"  Style="{x:Null}"
+                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              Background="Transparent">
+                    <ToggleButton.Template>
+                        <ControlTemplate>
+                            <Grid Background="Transparent"/>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+
                 <!--水印-->
-                <Border Grid.Column="1">
-                    <TextBlock x:Name="Message"  Padding="0" Visibility="Collapsed" 
+                <Border Grid.Column="2">
+                    <TextBlock x:Name="Message" Visibility="Collapsed" 
                                        Text="{TemplateBinding h:Cattach.Watermark}" 
                                        Foreground="{TemplateBinding Foreground}" IsHitTestVisible="False" 
                                        Opacity="{DynamicResource S.Opacity.Watermark}" HorizontalAlignment="Left" 
@@ -290,7 +385,7 @@
                 </Border>
 
                 <!--主内容区域-->
-                <Grid Grid.Column="1" x:Name="ContentSite"  Margin="{TemplateBinding Padding}">
+                <Grid Grid.Column="2" x:Name="ContentSite"  Margin="{TemplateBinding Padding}">
                     <ContentPresenter x:Name="PART_SelectedItem" 
                                                   ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                                                   ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
@@ -312,7 +407,7 @@
                                           IsReadOnly="{TemplateBinding IsReadOnly}" 
                                           FontFamily="{TemplateBinding FontFamily}" 
                                           Foreground="{TemplateBinding Foreground}"
-                                          Background="{TemplateBinding Background}"
+                                          Background="Transparent"
                                           Text="{TemplateBinding Text}" 
                                           FontSize="{TemplateBinding FontSize}" />
                 </Grid>
@@ -360,22 +455,53 @@
             </DataTrigger>
 
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <!--<Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>-->
                 <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                 <Setter  Property="Foreground" TargetName="PART_DropDownToggle" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                 <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
 
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder_mouseover" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.3" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder_mouseover" Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
             </Trigger>
             <Trigger Property="IsFocused" Value="True">
                 <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
-                <Setter  Property="BorderBrush"  Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <!--<Setter  Property="BorderBrush"  Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>-->
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
-                <Setter  Property="BorderBrush" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>
+                <!--<Setter  Property="BorderBrush" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>-->
                 <Setter  Property="Foreground" TargetName="Label" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                 <Setter  Property="Foreground" TargetName="PART_AttachContent" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
                 <Setter  Property="Foreground" TargetName="Message" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Mode=TemplatedParent}}"/>
+
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0.5" Duration="0:0:0.1" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
             </Trigger>
 
             <Trigger Property="IsEnabled" Value="False">
@@ -387,7 +513,7 @@
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Default">
         <Setter Property="Height" Value="{DynamicResource S.Window.Item.Height}" />
         <Setter Property="Width" Value="Auto" />
-        <Setter Property="Margin" Value="{DynamicResource S.Thickness.Margin.10.0}" />
+        <Setter Property="Margin" Value="0" />
         <Setter Property="h:Cattach.FIconMargin" Value="0,0,7,0" />
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}" />
@@ -395,8 +521,13 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
-        <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource S.Brush.Dark.4}" />
+        <!--<Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource S.Brush.Dark.4}" />-->
         <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource S.Brush.Accent}" />
+
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.TextForeground.MouseOver}"/>
+        <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource S.Brush.TextForeground.Selected}" />
+        
+        <Setter Property="Padding" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
         <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}" />
         <Setter Property="FontFamily" Value="{DynamicResource  S.FontFamily.Default}" />
@@ -408,12 +539,21 @@
         <!--<Setter Property="h:Cattach.Path" Value="{StaticResource S.Geometry.Rectangle.Rounded.TopRight}"/>-->
         <Setter Property="Template" Value="{StaticResource S.Combobox.Tempalte.Default}"/>
         <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+        
+        <Setter Property="h:Cattach.FIcon" Value="&#xe6ed;"/>
+        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource S.FIcon.Size.Default}"/>
+        <Setter Property="h:Cattach.FIconMargin" Value="5,0,0,0"/>
+        
+        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/> 
+        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
+        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource S.Window.Title.Width}"/> 
     </Style>
 
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Single" BasedOn="{StaticResource S.ComboBox.Default}">
         <Setter Property="Template" Value="{StaticResource S.Combobox.Tempalte.Single}"/>
         <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource S.Brush.TextForeground.Title}" />
         <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
                 <Style TargetType="ComboBoxItem" BasedOn="{StaticResource S.ComboBoxItem.Default}">
@@ -451,7 +591,7 @@
         <Setter Property="h:Cattach.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border MinWidth="70"  Background="{DynamicResource S.Brush.Accent}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Left}">
+                    <Border  Background="{DynamicResource S.Brush.Accent}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius.Left}">
                         <TextBlock Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right"  Foreground="{DynamicResource S.Brush.TextForeground.White}" Text="{TemplateBinding Content}"></TextBlock>
                     </Border>
                 </ControlTemplate>
@@ -482,8 +622,11 @@
         <Setter Property="h:Cattach.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border MinWidth="70" Margin="3">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"/>
+                    <Border  Width="{Binding RelativeSource={RelativeSource AncestorType=ComboBox},Path=(h:Cattach.TitleWidth)}"  
+                             Margin="{Binding RelativeSource={RelativeSource AncestorType=ComboBox},Path=(h:Cattach.TitleMargin)}">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ComboBox},Path=(h:Cattach.TitleForeground)}" 
+                                   Text="{TemplateBinding Content}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
@@ -495,30 +638,33 @@
         <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}" IsTabStop="False" FIconMargin="0"
+                    <Grid>
+                        <!--<local:FButton FIcon="&#xe6f4;" Style="{DynamicResource S.FButton.Style.Transparent}" IsTabStop="False" FIconMargin="0"
                                h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
-                               Command="h:Cattach.ClearTextCommand" 
+                               Command="h:Cattach.ClearTextCommand" Visibility="Collapsed"
                                CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type ComboBox}}}"
                                IsEnabled="{Binding Path=IsReadOnly,RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type ComboBox}},
                                Converter={x:Static h:XConverter.TrueToFalseConverter},Mode=OneWay}" HorizontalAlignment="Center"
-                               Margin="0,0,-2,0" FIconSize="14" Foreground="{TemplateBinding Foreground}" Cursor="Arrow"/>
+                               Margin="0,0,0,0" FIconSize="14" Foreground="{TemplateBinding Foreground}" Cursor="Arrow"/>-->
+
+                        <Button Style="{DynamicResource S.Button.Close}" Width="Auto"
+                                h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type ComboBox}}}"
+                            Command="h:Cattach.ClearTextCommand"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Circle" BasedOn="{StaticResource S.ComboBox.Default}">
-        <Setter Property="Padding" Value="15,0,0,0"/>
         <Setter Property="IsEditable" Value="False"/>
-        <Setter Property="h:Cattach.FIconMargin" Value="0,0,22,0"/>
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
     </Style>
 
     <Style TargetType="{x:Type ComboBox}" x:Key="S.ComboBox.Circle.Label" BasedOn="{StaticResource S.ComboBox.Label}">
-        <Setter Property="Padding" Value="0,0,20,0"/>
         <Setter Property="IsEditable" Value="False"/>
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
-        <Setter Property="h:Cattach.FIconMargin" Value="0,0,13,0"/>
         <Setter Property="h:Cattach.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">

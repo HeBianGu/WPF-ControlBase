@@ -12,6 +12,6 @@ namespace HeBianGu.Application.ChartWindow
 {
     public class AssemblyDomain : IAssemblyDomain
     {
-
+      
     }
 }

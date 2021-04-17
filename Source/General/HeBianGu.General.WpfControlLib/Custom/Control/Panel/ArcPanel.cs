@@ -55,9 +55,9 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StartAngleProperty =
-            DependencyProperty.Register("StartAngle", typeof(double), typeof(CirclePanel), new PropertyMetadata(0.0, (d, e) =>
+            DependencyProperty.Register("StartAngle", typeof(double), typeof(ArcPanel), new PropertyMetadata(0.0, (d, e) =>
              {
-                 CirclePanel control = d as CirclePanel;
+                 ArcPanel control = d as ArcPanel;
 
                  if (control == null) return;
 
@@ -98,7 +98,7 @@ namespace HeBianGu.General.WpfControlLib
             //  Do ：中心点
             Point center = new Point(finalSize.Width / 2, finalSize.Height / 2);
 
-            Point start = new Point(finalSize.Width / 2 - Len, finalSize.Height / 2);
+            Point start = new Point(finalSize.Width / 2 + Len, finalSize.Height / 2);
 
             double totalAngle = this.EndAngle - this.StartAngle;
 
@@ -106,7 +106,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 var elment = children[i];
 
-                double angle = (totalAngle / (children.Count - 1)) * i + this.StartAngle;
+                double angle = -this.StartAngle - (totalAngle / (children.Count - 1)) * i;
 
                 Matrix matrix = new Matrix();
 

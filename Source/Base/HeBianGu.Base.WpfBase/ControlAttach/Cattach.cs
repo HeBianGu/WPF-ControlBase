@@ -1448,6 +1448,135 @@ namespace HeBianGu.Base.WpfBase
         #region - 标题相关 - 
 
 
+        //public Thickness TitleMargin
+        //{
+        //    get { return (Thickness)GetValue(TitleMarginProperty); }
+        //    set { SetValue(TitleMarginProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty TitleMarginProperty =
+        //    DependencyProperty.Register("TitleMargin", typeof(Thickness), typeof(Cattach), new PropertyMetadata(default(Thickness), (d, e) =>
+        //     {
+        //         Cattach control = d as Cattach;
+
+        //         if (control == null) return;
+
+        //         Thickness config = e.NewValue as Thickness;
+
+        //     }));
+
+        /// <summary>
+        /// 标题水平布局
+        /// </summary>
+        public static readonly DependencyProperty TitleHorizontalAlignmentProperty = DependencyProperty.RegisterAttached(
+            "TitleHorizontalAlignment", typeof(HorizontalAlignment), typeof(Cattach), new FrameworkPropertyMetadata(default(HorizontalAlignment), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleHorizontalAlignmentChanged));
+
+        public static HorizontalAlignment GetTitleHorizontalAlignment(DependencyObject d)
+        {
+            return (HorizontalAlignment)d.GetValue(TitleHorizontalAlignmentProperty);
+        }
+
+        public static void SetTitleHorizontalAlignment(DependencyObject obj, HorizontalAlignment value)
+        {
+            obj.SetValue(TitleHorizontalAlignmentProperty, value);
+        }
+
+        static void OnTitleHorizontalAlignmentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 标题垂直布局
+        /// </summary>
+        public static readonly DependencyProperty TitleVerticalAlignmentProperty = DependencyProperty.RegisterAttached(
+            "TitleVerticalAlignment", typeof(VerticalAlignment), typeof(Cattach), new FrameworkPropertyMetadata(default(VerticalAlignment), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleVerticalAlignmentChanged));
+
+        public static VerticalAlignment GetTitleVerticalAlignment(DependencyObject d)
+        {
+            return (VerticalAlignment)d.GetValue(TitleVerticalAlignmentProperty);
+        }
+
+        public static void SetTitleVerticalAlignment(DependencyObject obj, VerticalAlignment value)
+        {
+            obj.SetValue(TitleVerticalAlignmentProperty, value);
+        }
+
+        static void OnTitleVerticalAlignmentChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+
+        /// <summary>
+        /// 标题间距
+        /// </summary>
+        public static readonly DependencyProperty TitleMarginProperty = DependencyProperty.RegisterAttached(
+            "TitleMargin", typeof(Thickness), typeof(Cattach), new FrameworkPropertyMetadata(default(Thickness), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleMarginChanged));
+
+        public static Thickness GetTitleMargin(DependencyObject d)
+        {
+            return (Thickness)d.GetValue(TitleMarginProperty);
+        }
+
+        public static void SetTitleMargin(DependencyObject obj, Thickness value)
+        {
+            obj.SetValue(TitleMarginProperty, value);
+        }
+
+        static void OnTitleMarginChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 标题宽度
+        /// </summary>
+        public static readonly DependencyProperty TitleWidthProperty = DependencyProperty.RegisterAttached(
+            "TitleWidth", typeof(double), typeof(Cattach), new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleWidthChanged));
+
+        public static double GetTitleWidth(DependencyObject d)
+        {
+            return (double)d.GetValue(TitleWidthProperty);
+        }
+
+        public static void SetTitleWidth(DependencyObject obj, double value)
+        {
+            obj.SetValue(TitleWidthProperty, value);
+        }
+
+        static void OnTitleWidthChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
+        /// <summary>
+        /// 标题高度
+        /// </summary>
+        public static readonly DependencyProperty TitleHeightProperty = DependencyProperty.RegisterAttached(
+            "TitleHeight", typeof(double), typeof(Cattach), new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleHeightChanged));
+
+        public static double GetTitleHeight(DependencyObject d)
+        {
+            return (double)d.GetValue(TitleHeightProperty);
+        }
+
+        public static void SetTitleHeight(DependencyObject obj, double value)
+        {
+            obj.SetValue(TitleHeightProperty, value);
+        }
+
+        static void OnTitleHeightChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+
+        }
+
+
         /// <summary>
         /// 标题
         /// </summary>

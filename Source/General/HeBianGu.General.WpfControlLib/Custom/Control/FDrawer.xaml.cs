@@ -49,7 +49,6 @@ namespace HeBianGu.General.WpfControlLib
             {
                 this.RefreshState(this.IsExpanded);
             };
-
         }
 
 
@@ -69,13 +68,18 @@ namespace HeBianGu.General.WpfControlLib
         {
             if (this._center == null || this._show == null) return;
 
-            Cattach.SetIsVisible(this._center, false);
+            this.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle,new Action(() =>
+            {
+                Cattach.SetIsVisible(this._center, false);
 
-            if (this.UseShowAction)
-                Cattach.SetIsVisible(this._show, true);
+                if (this.UseShowAction)
+                    Cattach.SetIsVisible(this._show, true);
+
+                Panel.SetZIndex(this, 0);
+            }));
 
 
-            Panel.SetZIndex(this, 0);
+            this.IsExpanded = false;
         }
 
         public bool IsExpanded
@@ -108,7 +112,6 @@ namespace HeBianGu.General.WpfControlLib
             }
             else
             {
-
                 this.Close();
             }
         }
@@ -183,6 +186,8 @@ namespace HeBianGu.General.WpfControlLib
             this._center = Template.FindName("PART_Center", this) as Grid;
 
             this._show = Template.FindName("PART_Show", this) as Grid;
+
+            this.RefreshState(this.IsExpanded);
         }
 
 

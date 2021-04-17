@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -33,6 +34,33 @@ namespace HeBianGu.Base.WpfBase
                 }
             }
         }
+
+        private TestViewModel _parent;
+        /// <summary> 父节点  </summary>
+        public TestViewModel Parent
+        {
+            get { return _parent; }
+            set
+            {
+                _parent = value;
+                RaisePropertyChanged("Parent");
+            }
+        }
+
+
+        private ObservableCollection<TestViewModel> _children = new ObservableCollection<TestViewModel>();
+        /// <summary> 子节点  </summary>
+        public ObservableCollection<TestViewModel> Children
+        {
+            get { return _children; }
+            set
+            {
+                _children = value;
+                RaisePropertyChanged("Children");
+            }
+        }
+
+
         private string _value;
         /// <summary> 说明  </summary>
         public string Value

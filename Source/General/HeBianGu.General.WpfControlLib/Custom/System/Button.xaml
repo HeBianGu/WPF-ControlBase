@@ -5,55 +5,68 @@
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <ControlTemplate x:Key="S.Button.Template.Default" TargetType="{x:Type Button}">
-        <Grid >
-            <Border x:Name="border" Background="{TemplateBinding Background}"
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <!--Label区域-->
+            <ContentControl x:Name="Label" Template="{TemplateBinding h:Cattach.LabelTemplate}" 
+                                            IsTabStop="False" IsHitTestVisible="False" 
+                                            Background="{TemplateBinding BorderBrush}"
+                                            Content="{TemplateBinding h:Cattach.Label}"/>
+
+            <Grid Grid.Column="1">
+                <Border x:Name="border" Background="{TemplateBinding Background}"
                                     CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.CornerRadius)}" 
                                     BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-            </Border>
+                </Border>
 
-            <Border x:Name="boder_mouseover" BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBorderBrush)}" 
+                <Border x:Name="boder_mouseover" BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBorderBrush)}" 
                                 Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBackground)}"
                                 Opacity="0"
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
-            
-            <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
-                <Grid.LayoutTransform>
-                    <TransformGroup>
-                        <ScaleTransform x:Name="grid_scale" ScaleX="1" ScaleY="1" />
-                    </TransformGroup>
-                </Grid.LayoutTransform>
 
-                <!--Icon/Text-->
-                <StackPanel Orientation="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.Orientation)}" 
+                <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
+                    <Grid.LayoutTransform>
+                        <TransformGroup>
+                            <ScaleTransform x:Name="grid_scale" ScaleX="1" ScaleY="1" />
+                        </TransformGroup>
+                    </Grid.LayoutTransform>
+
+                    <!--Icon/Text-->
+                    <StackPanel Orientation="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.Orientation)}" 
                             VerticalAlignment="Center" Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}">
 
-                    <TextBlock x:Name="icon" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        <TextBlock x:Name="icon" HorizontalAlignment="Center" VerticalAlignment="Center"
                                Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.FIconMargin)}" 
-                               RenderTransformOrigin="0.5,0.5" Style="{DynamicResource FIcon}"
+                               RenderTransformOrigin="0.5,0.5" Style="{DynamicResource S.TextBlock.FIcon}"
                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FIcon)}"
                                FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FIconSize)}" 
                                Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}">
-                        <TextBlock.RenderTransform>
-                            <RotateTransform x:Name="transIcon" Angle="0"/>
-                        </TextBlock.RenderTransform>
-                    </TextBlock>
+                            <TextBlock.RenderTransform>
+                                <RotateTransform x:Name="transIcon" Angle="0"/>
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
 
-                    <Label x:Name="txt" VerticalAlignment="Center" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}" FontSize="{TemplateBinding FontSize}"
+                        <Label x:Name="txt" VerticalAlignment="Center" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Content}" FontSize="{TemplateBinding FontSize}"
                            Foreground="{TemplateBinding Foreground}"/>
 
-                </StackPanel>
-            </Grid>
+                    </StackPanel>
+                </Grid>
 
-            <ProgressBar  Style="{DynamicResource S.ProgressBar.Buzy}"
-                          Foreground="{TemplateBinding Foreground}"
+                <ProgressBar  Style="{DynamicResource S.ProgressBar.Buzy}"
+                          Foreground="{TemplateBinding Foreground}" Height="Auto"
                           Opacity="0.5" Value="{TemplateBinding h:Cattach.Value}"
                           IsIndeterminate="{TemplateBinding h:Cattach.IsIndeterminate}"
                           Visibility="{TemplateBinding h:Cattach.IsBuzy,Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
-            </ProgressBar>
+                </ProgressBar>
 
+            </Grid>
         </Grid>
-
         <ControlTemplate.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.MouseOverForeground)}"/>
@@ -108,7 +121,7 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="grid">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
                             </DoubleAnimationUsingKeyFrames>
-                            
+
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"  Storyboard.TargetName="grid">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
                             </DoubleAnimationUsingKeyFrames>
@@ -122,14 +135,14 @@
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"   Storyboard.TargetName="grid">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
                             </DoubleAnimationUsingKeyFrames>
-                            
+
                             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"   Storyboard.TargetName="grid">
                                 <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
                             </DoubleAnimationUsingKeyFrames>
                         </Storyboard>
                     </BeginStoryboard>
                 </Trigger.ExitActions>
-            </Trigger> 
+            </Trigger>
 
             <Trigger Property="h:Cattach.IsBuzy" Value="true">
                 <Setter Property="Content" Value="{Binding Path=(h:Cattach.BuzyText),RelativeSource={RelativeSource TemplatedParent}}" TargetName="txt"/>
@@ -157,11 +170,12 @@
     <Style x:Key="S.Button.Default" TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}" />
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/> 
         <Setter Property="Width" Value="120"/>
         <Setter Property="Height" Value="{DynamicResource S.Window.Item.Height}" />
         <Setter Property="Template" Value="{StaticResource S.Button.Template.Default}"/>
-        <Setter Property="Padding" Value="3,1,3,1" />
+        <Setter Property="Padding" Value="{DynamicResource S.Thickness.Margin.2.0}" />
         <Setter Property="Content" Value="{x:Null}" />
         <Setter Property="Cursor" Value="Hand" />
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}" />
@@ -183,6 +197,10 @@
 
         <Setter Property="RenderTransform" Value="{DynamicResource S.TransformGroup.Default}"/>
         <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+
+        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
+        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource S.Window.Title.Width}"/>
 
     </Style>
 
@@ -209,7 +227,7 @@
         <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
         <!--<Setter Property="Height" Value="Auto"/>-->
         <Setter Property="Width" Value="Auto"/>
-        <Setter Property="h:Cattach.FIconMargin" Value="0" /> 
+        <Setter Property="h:Cattach.FIconMargin" Value="0" />
     </Style>
 
     <Style x:Key="S.Button.Link" TargetType="{x:Type Button}" BasedOn="{StaticResource S.Button.Transparent}">
@@ -268,7 +286,7 @@
                 </Grid.LayoutTransform>
 
                 <TextBlock x:Name="icon"  Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.FIconMargin)}" 
-                           RenderTransformOrigin="0.5,0.5" Style="{DynamicResource FIcon}"
+                           RenderTransformOrigin="0.5,0.5" Style="{DynamicResource S.TextBlock.FIcon}"
                            Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FIcon)}"
                            FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FIconSize)}" 
                            Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"
@@ -394,14 +412,16 @@
 
     <Style x:Key="S.Button.Close"  TargetType="{x:Type Button}" BasedOn="{StaticResource S.Button.Default}">
         <Setter Property="Width" Value="{DynamicResource S.Window.Item.Height}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" /> 
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
         <Setter Property="h:Cattach.FIcon" Value="&#xe6f4;"/>
         <Setter Property="h:Cattach.AllowsAnimation" Value="True"/>
         <Setter Property="h:Cattach.CornerRadius" Value="200"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="h:Cattach.MouseOverBackground"  Value="Transparent"/>
-        <Setter Property="Background"  Value="Transparent"/> 
+        <Setter Property="h:Cattach.MouseOverForeground"  Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="h:Cattach.PressForeground"  Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="Background"  Value="Transparent"/>
     </Style>
 
     <Style x:Key="S.Button.Close.MouseOver"  TargetType="{x:Type Button}" BasedOn="{StaticResource S.Button.MouseOver}">
@@ -432,5 +452,33 @@
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="h:Cattach.FIcon" Value="&#xe9bf;"/>
         <Setter Property="Command" Value="{x:Static h:CommandService.Next}"/>
+    </Style>
+
+    <Style x:Key="S.Button.Label"  TargetType="{x:Type Button}" BasedOn="{StaticResource S.Button.Default}">
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="h:Cattach.LabelTemplate" >
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border  Width="{Binding RelativeSource={RelativeSource AncestorType=Button},Path=(h:Cattach.TitleWidth)}"  
+                             Margin="{Binding RelativeSource={RelativeSource AncestorType=Button},Path=(h:Cattach.TitleMargin)}">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" 
+                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button},Path=(h:Cattach.TitleForeground)}" 
+                                   Text="{TemplateBinding Content}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="S.Button.Vertical.ToolBar"  TargetType="{x:Type Button}" BasedOn="{StaticResource S.Button.Transparent}">
+        <Setter Property="h:Cattach.Orientation" Value="Vertical"/>
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
+        <Setter Property="Padding" Value="6,10"/>
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="h:Cattach.FIconSize" Value="22"/> 
     </Style>
 </ResourceDictionary>

@@ -79,5 +79,11 @@ namespace HeBianGu.Application.ManagerWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> FilterColumn()
+        {
+            return await ViewAsync();
+        }
+        
     }
 }

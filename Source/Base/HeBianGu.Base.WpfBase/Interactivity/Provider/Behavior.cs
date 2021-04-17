@@ -141,10 +141,10 @@ namespace HeBianGu.Base.WpfBase
                 // todo jekelly: what do we do if dependencyObject is null?
 
                 // Ensure the type constraint is met
-                if (dependencyObject != null && !this.AssociatedType.IsAssignableFrom(dependencyObject.GetType()))
-                {
-                    throw new InvalidOperationException();
-                }
+                //if (dependencyObject != null && !this.AssociatedType.IsAssignableFrom(dependencyObject.GetType()))
+                //{
+                //    throw new InvalidOperationException();
+                //}
 
                 this.WritePreamble();
                 this.associatedObject = dependencyObject;

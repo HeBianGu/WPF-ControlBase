@@ -19,7 +19,7 @@
 
     <Style x:Key="S.ProgressBar.Handy.Default" TargetType="ProgressBar">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
-        <Setter Property="h:Cattach.Label">
+        <Setter Property="h:Cattach.Title">
             <Setter.Value>
                 <MultiBinding Converter="{x:Static h:XConverter.Number2PercentageConverter}" StringFormat="{}{0} %">
                     <Binding Path="Value" RelativeSource="{RelativeSource Self}"/>
@@ -32,25 +32,45 @@
         <Setter Property="Background" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="BorderThickness" Value="0"/>
+        
+        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
+        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource S.Window.Title.Width}"/>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ProgressBar">
-                    <Grid x:Name="TemplateRoot">
-                        <Border CornerRadius="{Binding Path=(h:Cattach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" 
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!--Label区域-->
+                        <ContentControl x:Name="Label" 
+                                            Template="{TemplateBinding h:Cattach.LabelTemplate}" 
+                                            IsTabStop="False" IsHitTestVisible="False" 
+                                            Background="{TemplateBinding BorderBrush}"
+                                            Content="{TemplateBinding h:Cattach.Label}" 
+                                            Margin="1,1,0,1"/>
+
+                        <Grid x:Name="TemplateRoot" Grid.Column="2">
+                            <Border CornerRadius="{Binding Path=(h:Cattach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" 
                                 BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
                                 Background="{Binding Path=Background,RelativeSource={RelativeSource TemplatedParent}}"/>
-                        
-                        <Rectangle x:Name="PART_Track"/>
-                        <Grid HorizontalAlignment="Left">
-                            <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
-                                <Border CornerRadius="{Binding Path=(h:Cattach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="Animation" ClipToBounds="true" Background="{TemplateBinding Foreground}">
-                                    <Rectangle x:Name="PART_GlowRect" Fill="{StaticResource ProgressBarIndicatorAnimatedFill}" HorizontalAlignment="Left" Margin="-100,0,0,0" Width="100"/>
-                                </Border>
-                            </Decorator>
-                            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource S.Brush.TextForeground.White}" Text="{Binding Path=(h:Cattach.Label),RelativeSource={RelativeSource TemplatedParent}}"/>
-                        </Grid>
 
-                      
+                            <Rectangle x:Name="PART_Track"/>
+                            <Grid HorizontalAlignment="Left">
+                                <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
+                                    <Border CornerRadius="{Binding Path=(h:Cattach.CornerRadius),RelativeSource={RelativeSource TemplatedParent}}" x:Name="Animation" ClipToBounds="true" Background="{TemplateBinding Foreground}">
+                                        <Rectangle x:Name="PART_GlowRect" Fill="{StaticResource ProgressBarIndicatorAnimatedFill}" HorizontalAlignment="Left" Margin="-100,0,0,0" Width="100"/>
+                                    </Border>
+                                </Decorator>
+                                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource S.Brush.TextForeground.White}" Text="{Binding Path=(h:Cattach.Title),RelativeSource={RelativeSource TemplatedParent}}"/>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -123,4 +143,19 @@
     </Style>
 
 
+    <Style x:Key="S.ProgressBar.Handy.Label" TargetType="{x:Type ProgressBar}"  BasedOn="{StaticResource S.ProgressBar.Handy.Default}">
+        <Setter Property="Padding" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
+        <Setter Property="h:Cattach.LabelTemplate" >
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border  Width="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar},Path=(h:Cattach.TitleWidth)}"  
+                             Margin="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar},Path=(h:Cattach.TitleMargin)}">
+                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left"
+                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar},Path=(h:Cattach.TitleForeground)}" 
+                                   Text="{TemplateBinding Content}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

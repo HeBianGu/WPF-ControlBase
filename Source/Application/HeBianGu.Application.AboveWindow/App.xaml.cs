@@ -24,6 +24,16 @@ namespace HeBianGu.Application.AboveWindow
             shellWindow.Show();
 
             base.OnStartup(e);
+
+            //string sss = "1.80706845E-08";
+
+            //double m = Math.Pow(0.1111111,10);
+
+            //string ss = m.ToString();
+
+            //bool r = double.TryParse(sss, out double dd);
+
+            //decimal sssss = (decimal)dd;
         }
 
 
@@ -57,7 +67,7 @@ namespace HeBianGu.Application.AboveWindow
 
                 l.ItemHeight = 35;
                 //l.ItemWidth = 120;
-                l.ItemCornerRadius = 5;
+                l.ItemCornerRadius = 2;
 
                 l.AnimalSpeed = 5000;
 
@@ -69,9 +79,10 @@ namespace HeBianGu.Application.AboveWindow
 
                 l.Language = Language.Chinese;
 
-                l.AccentBrushType = AccentBrushType.LinearGradientBrush;
+                l.AccentBrushType = AccentBrushType.RadialGradientBrushReverse;
             });
         }
 
     }
+
 }

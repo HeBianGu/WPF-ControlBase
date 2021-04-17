@@ -55,13 +55,13 @@ namespace HeBianGu.General.WpfControlLib
             //  Do ：中心点
             Point center = new Point(finalSize.Width / 2, finalSize.Height / 2);
 
-            Point start = new Point(finalSize.Width / 2 - Len, finalSize.Height / 2);
+            Point start = new Point(finalSize.Width / 2 + Len, finalSize.Height / 2);
 
             for (int i = 0; i < children.Count; i++)
             {
                 var elment = children[i];
 
-                double angle = (360.0 / children.Count) * i;
+                double angle = -(360.0 / children.Count) * i;
 
                 Matrix matrix = new Matrix();
 

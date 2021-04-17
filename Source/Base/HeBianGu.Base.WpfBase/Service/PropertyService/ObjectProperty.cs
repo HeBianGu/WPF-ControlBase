@@ -33,13 +33,16 @@ namespace HeBianGu.Base.WpfBase
             Obj = obj;
 
 
-            var hidden = property.GetCustomAttribute<ReadOnlyAttribute>();
+            var readyOnly = property.GetCustomAttribute<ReadOnlyAttribute>();
 
-            var readyOnly = property.GetCustomAttribute<EditableAttribute>();
+            //var readyOnly = property.GetCustomAttribute<EditableAttribute>();
 
-            this.ReadOnly = readyOnly == null ? true : false;
+            this.ReadOnly = readyOnly == null || readyOnly.IsReadOnly == false ? true : false;
 
-            this.Visibility = hidden == null ? Visibility.Visible : Visibility.Collapsed;
+            //  Do ：用于控制显示和隐藏
+            var browsable = property.GetCustomAttribute<BrowsableAttribute>();
+
+            this.Visibility = browsable == null || browsable.Browsable ? Visibility.Visible : Visibility.Collapsed;
         }
 
 
@@ -165,5 +168,17 @@ namespace HeBianGu.Base.WpfBase
         public BoolPropertyItem(PropertyInfo property, object obj) : base(property, obj)
         {
         }
+    }
+
+
+    /// <summary> 下拉类型属性类型 </summary>
+    public class ComboboxPropertyItem : ObjectPropertyItem<object>
+    {
+        public ComboboxPropertyItem(PropertyInfo property, object obj) : base(property, obj)
+        {
+
+        }
+
+       
     }
 }

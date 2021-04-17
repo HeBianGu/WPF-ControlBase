@@ -1140,9 +1140,9 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary>
         ///     计算控件在窗口中的可见坐标
         /// </summary>
-        public static Point CalSafePoint(FrameworkElement element, FrameworkElement showElement, Thickness thickness = default)
+        public static Point CalSafePoint(FrameworkElement element, FrameworkElement showElement, Thickness thickness = default(Thickness))
         {
-            if (element == null || showElement == null) return default;
+            if (element == null || showElement == null) return default(Point);
             var point = element.PointToScreen(new Point(0, 0));
 
             if (point.X < 0) point.X = 0;
@@ -1252,7 +1252,7 @@ namespace HeBianGu.General.WpfControlLib
         /// <param name="thickness"></param>
         /// <param name="milliseconds"></param>
         /// <returns></returns>
-        public static ThicknessAnimation CreateAnimation(Thickness thickness = default, double milliseconds = 200)
+        public static ThicknessAnimation CreateAnimation(Thickness thickness = default(Thickness), double milliseconds = 200)
         {
             return new ThicknessAnimation(thickness, new Duration(TimeSpan.FromMilliseconds(milliseconds)))
             {
