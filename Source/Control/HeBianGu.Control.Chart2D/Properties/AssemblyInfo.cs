@@ -9,9 +9,9 @@ using System.Windows.Markup;
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("HeBianGu.Control.Chart2D")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("图标控件")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("HeBianGu")]
 [assembly: AssemblyProduct("HeBianGu.Control.Chart2D")]
 [assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
