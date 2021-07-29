@@ -8,14 +8,8 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Base.WpfBase
 { 
-    public partial class SelectViewModel<T> : ModelViewModel<T> where T:new()
+    public partial class SelectViewModel<T> : ModelViewModel<T> 
     {
-
-        public SelectViewModel()
-        {
-            this.Model = new T();
-        }
-
         public SelectViewModel(T t):base(t)
         {
 

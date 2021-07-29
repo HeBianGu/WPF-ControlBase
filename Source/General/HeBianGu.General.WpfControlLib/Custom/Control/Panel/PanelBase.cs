@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeBianGu.General.WpfControlLib;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Windows.Media.Animation;
 
 namespace HeBianGu.General.WpfControlLib
 {
-    public abstract class PanelBase : Panel
+    public abstract class PanelBase : System.Windows.Controls.Panel
     {
         public PanelBase()
         {

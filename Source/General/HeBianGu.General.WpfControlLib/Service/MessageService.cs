@@ -362,69 +362,69 @@ namespace HeBianGu.General.WpfControlLib
 
         static ManualResetEvent _asyncShowWaitHandle = new ManualResetEvent(false);
 
-        /// <summary> 显示蒙版 </summary>
-        public static async Task<bool> ShowObjectWithPropertyForm<T>(T value, Predicate<T> match = null, string title = null, int layerIndex = 0)
-        {
-            bool result = false;
+        ///// <summary> 显示蒙版 </summary>
+        //public static async Task<bool> ShowObjectWithPropertyForm<T>(T value, Predicate<T> match = null, string title = null, int layerIndex = 0)
+        //{
+        //    bool result = false;
 
-            await Application.Current.Dispatcher.Invoke(async () =>
-             {
-                 if (Application.Current.MainWindow is IWindowBase window)
-                 {
-                     ObjectPropertyForm form = new ObjectPropertyForm();
+        //    await Application.Current.Dispatcher.Invoke(async () =>
+        //     {
+        //         if (Application.Current.MainWindow is IWindowBase window)
+        //         {
+        //             PropertyGrid form = new PropertyGrid();
 
-                     form.Title = title;
+        //             form.Title = title;
 
-                     form.Style = Application.Current.FindResource("S.ObjectPropertyForm.Default.WithSumit") as Style;
+        //             form.Style = Application.Current.FindResource("S.PropertyGrid.Default.WithSumit") as Style;
 
-                     form.SelectObject = value;
+        //             form.SelectObject = value;
 
-                     form.Close += (l, k) =>
-                     {
-                         CloseLayer();
-                         _asyncShowWaitHandle.Set();
-                         result = false;
-                     };
+        //             form.Close += (l, k) =>
+        //             {
+        //                 CloseLayer();
+        //                 _asyncShowWaitHandle.Set();
+        //                 result = false;
+        //             };
 
-                     form.Sumit += (l, k) =>
-                     {
-                         var check = form.ModelState(out List<string> errors);
+        //             form.Sumit += (l, k) =>
+        //             {
+        //                 var check = form.ModelState(out List<string> errors);
 
-                         if (!check)
-                         {
-                             MessageService.ShowSnackMessageWithNotice(errors.FirstOrDefault());
-                             return;
-                         }
+        //                 if (!check)
+        //                 {
+        //                     MessageService.ShowSnackMessageWithNotice(errors.FirstOrDefault());
+        //                     return;
+        //                 }
 
-                         if (match != null && !match(value))
-                         {
-                             return;
-                         }
+        //                 if (match != null && !match(value))
+        //                 {
+        //                     return;
+        //                 }
 
-                         CloseLayer();
-                         _asyncShowWaitHandle.Set();
-                         result = true;
+        //                 CloseLayer();
+        //                 _asyncShowWaitHandle.Set();
+        //                 result = true;
 
-                     };
+        //             };
 
-                     window.ShowLayer(form);
+        //             window.ShowLayer(form);
 
-                     _asyncShowWaitHandle.Reset();
+        //             _asyncShowWaitHandle.Reset();
 
-                     var task = new Task(() =>
-                     {
-                         _asyncShowWaitHandle.WaitOne();
-                     });
+        //             var task = new Task(() =>
+        //             {
+        //                 _asyncShowWaitHandle.WaitOne();
+        //             });
 
-                     task.Start();
+        //             task.Start();
 
-                     await task;
-                 }
-             });
+        //             await task;
+        //         }
+        //     });
 
-            return result;
+        //    return result;
 
-        }
+        //}
 
         /// <summary> 显示蒙版 </summary>
         public static async Task<bool> ShowObjectWithContent<T>(T value, Predicate<T> match = null, string title = null)
@@ -442,7 +442,7 @@ namespace HeBianGu.General.WpfControlLib
 
                     content.Title = title;
 
-                    //content.Style = Application.Current.FindResource("S.ObjectPropertyForm.Default.WithSumit") as Style;
+                    //content.Style = Application.Current.FindResource("S.PropertyGrid.Default.WithSumit") as Style;
 
                     //content.SelectObject = value;
 

@@ -52,6 +52,8 @@
 
                                     <Border Grid.ColumnSpan="2" Grid.RowSpan="2"/>
 
+                                    <ContentControl Content="{TemplateBinding TitleContent}"  WindowChrome.IsHitTestVisibleInChrome="True"/>
+
                                     <!--Header部分-->
                                     <StackPanel x:Name="PART_Header" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <TextBlock VerticalAlignment="Center"
@@ -122,7 +124,9 @@
                                                     <Grid>
                                                         <ContentControl Content="{TemplateBinding ToolContent}"/>
                                                         
-                                                        <Button Content="文件" Width="60" Style="{DynamicResource S.Button.Transparent}" Foreground="{DynamicResource S.Brush.TextForeground.White}" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                        <Button Content="文件" Width="60" Height="{DynamicResource S.Window.Row.Height}" Style="{DynamicResource S.Button.Transparent}" 
+                                                                h:Cattach.MouseOverBackground="{DynamicResource S.Brush.TextForeground.White.Opacity.1}"
+                                                                Foreground="{DynamicResource S.Brush.TextForeground.White}" HorizontalAlignment="Left" VerticalAlignment="Top">
                                                             <h:Interaction.Triggers>
                                                                 <h:EventTrigger EventName="Click">
                                                                     <h:ChangePropertyAction PropertyName="IsChecked" Value="True" TargetObject="{Binding ElementName=cb}"/>
@@ -159,7 +163,11 @@
                                                             </h:EventTrigger>
                                                         </h:Interaction.Triggers>
                                                     </Button>
-                                                    <ListBox  Style="{DynamicResource S.ListBox.Single}" ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=LinkActions}">
+                                                    
+                                                    <ListBox  Style="{DynamicResource S.ListBox.Single}"
+                                                              ItemContainerStyle="{DynamicResource S.ListBoxItem.AccentBack}"
+                                                              ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=LinkActions}"
+                                                              SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}">
                                                         <ListBox.ItemTemplate>
                                                             <DataTemplate>
                                                                 <TextBlock Text="{Binding DisplayName}" Margin="20,0" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
@@ -168,7 +176,12 @@
                                                     </ListBox>
                                                 </DockPanel>
 
-                                                <Grid Background="{TemplateBinding Background}"/>
+                                                <DockPanel Background="{TemplateBinding Background}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                                    <local:LinkActionFrame Grid.Row="1" Margin="15,10" BorderThickness="0,0,0,0" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}"/>
+                                                </DockPanel>
+
+
+
                                             </DockPanel>
 
 

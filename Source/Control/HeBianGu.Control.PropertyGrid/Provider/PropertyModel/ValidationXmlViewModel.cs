@@ -16,11 +16,6 @@ namespace HeBianGu.Control.PropertyGrid
 
         string unitPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "unit.xml");
 
-        public ValidationXmlViewModel() : base()
-        {
-
-        }
-
         public ValidationXmlViewModel(T t) : base(t)
         {
 

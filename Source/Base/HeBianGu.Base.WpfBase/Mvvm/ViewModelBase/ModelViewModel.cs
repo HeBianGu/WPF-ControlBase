@@ -8,15 +8,16 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Base.WpfBase
 {
-    public partial class ModelViewModel<T> : NotifyPropertyChanged where T : new()
+    public partial class ModelViewModel<T> : NotifyPropertyChanged
     {
-        public ModelViewModel()
-        {
-            this.Model = new T();
-        }
+        //public ModelViewModel()
+        //{
+        //    this.Model = new T();
+        //}
         public ModelViewModel(T t)
         {
             Model = t;
+
         }
 
         private T _model;

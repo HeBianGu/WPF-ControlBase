@@ -19,5 +19,10 @@ namespace HeBianGu.Application.AboveWindow
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Property()
+        {
+            return await ViewAsync();
+        }
     }
 }

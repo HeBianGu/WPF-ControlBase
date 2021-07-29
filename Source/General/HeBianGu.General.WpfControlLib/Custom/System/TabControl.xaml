@@ -5,7 +5,7 @@
     <!--默认样式-->
     <Style TargetType="{x:Type TabItem}" x:Key="S.TabItem.Default">
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+        <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
         <Setter Property="Height" Value="{DynamicResource S.Window.Row.Height}"/>
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
@@ -26,8 +26,8 @@
 
                     <Grid Margin="{TemplateBinding Padding}">
 
-                        <!--<Border x:Name="boder" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}"/>-->
+                        <Border x:Name="boder_back" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}"/>
 
                         <Border x:Name="boder_mouseover" BorderBrush="{TemplateBinding BorderBrush}" 
                                 Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBackground)}"
@@ -251,9 +251,9 @@
     <Style  x:Key="S.TabItem.Office" BasedOn="{StaticResource S.TabItem.Default}" TargetType="TabItem">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}"/>
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.TextForeground.White.Opacity.1}"/>
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
-        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.Dark.1}"/>
         <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius.Top}"/>
     </Style>
@@ -345,9 +345,85 @@
 
     <Style x:Key="S.TabControl.Office" TargetType="{x:Type TabControl}" BasedOn="{StaticResource S.TabControl.Default}">
         <Setter Property="ItemContainerStyle" Value="{StaticResource S.TabItem.Office}"/>
+        <Setter Property="Background" Value="{DynamicResource S.Brush.Dark.1}"/>
         <Setter Property="Padding" Value="0,0"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid ClipToBounds="True" SnapsToDevicePixels="True" KeyboardNavigation.TabNavigation="Local">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="ColumnDefinition0"/>
+                            <ColumnDefinition x:Name="ColumnDefinition1" Width="0"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="RowDefinition0" Height="Auto"/>
+                            <RowDefinition x:Name="RowDefinition1" Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.RowSpan="2" Grid.ColumnSpan="2" BorderThickness="{TemplateBinding BorderThickness}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"/>
+
+                        <Border x:Name="ContentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                            <ContentPresenter x:Name="PART_SelectedContentHost" ContentTemplate="{TemplateBinding SelectedContentTemplate}" Content="{TemplateBinding SelectedContent}" ContentStringFormat="{TemplateBinding SelectedContentStringFormat}" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </Border>
+                        
+                        <ScrollViewer x:Name="HeaderPanel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <DockPanel LastChildFill="False">
+                                <TabPanel Grid.Column="0" Margin="{TemplateBinding Padding}" IsItemsHost="True" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+
+                                <DockPanel DockPanel.Dock="Right" Margin="2,0">
+                                    <CheckBox  Style="{DynamicResource S.CheckBox.Single}"  h:Cattach.SelectedText="&#xe66e;"
+                  h:Cattach.UnSelectedText="&#xe66f;" Margin="5,0" IsChecked="{Binding ElementName=ContentPanel,Path=Visibility,Converter={x:Static h:XConverter.VisibilityToBoolenConverter}}"
+                  Foreground="{DynamicResource S.Brush.TextForeground.White}"
+                  h:Cattach.SelectForeground="{DynamicResource S.Brush.TextForeground.White}"
+                  h:Cattach.MouseOverBackground="{DynamicResource S.Brush.TextForeground.White.Opacity.2}"
+                  h:Cattach.FIconSize="{DynamicResource S.FIcon.Size.Small}"/>
+                                </DockPanel>
+                            </DockPanel>
+                        </ScrollViewer>
+
+                     
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="TabStripPlacement" Value="Bottom">
+                            <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="1"/>
+                            <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="Auto"/>
+                            <Setter Property="Margin" TargetName="HeaderPanel" Value="2,0,2,2"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Left">
+                            <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
+                            <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="ContentPanel" Value="1"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="Auto"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                            <Setter Property="Margin" TargetName="HeaderPanel" Value="2,2,0,2"/>
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Right">
+                            <Setter Property="Grid.Row" TargetName="HeaderPanel" Value="0"/>
+                            <Setter Property="Grid.Row" TargetName="ContentPanel" Value="0"/>
+                            <Setter Property="Grid.Column" TargetName="HeaderPanel" Value="1"/>
+                            <Setter Property="Grid.Column" TargetName="ContentPanel" Value="0"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition0" Value="*"/>
+                            <Setter Property="Width" TargetName="ColumnDefinition1" Value="Auto"/>
+                            <Setter Property="Height" TargetName="RowDefinition0" Value="*"/>
+                            <Setter Property="Height" TargetName="RowDefinition1" Value="0"/>
+                            <Setter Property="Margin" TargetName="HeaderPanel" Value="0,2,2,2"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

@@ -538,7 +538,7 @@ namespace HeBianGu.Application.BlurWindow
             {
                 Student student = new Student();
 
-                await MessageService.ShowObjectWithPropertyForm(student, l => true, "修改学生信息");
+                //await MessageService.ShowObjectWithPropertyForm(student, l => true, "修改学生信息");
 
             }
 

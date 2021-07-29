@@ -43,7 +43,7 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsExpendedProperty =
-            DependencyProperty.Register("IsExpended", typeof(bool), typeof(LeftMenu), new PropertyMetadata(default(bool), (d, e) =>
+            DependencyProperty.Register("IsExpended", typeof(bool), typeof(LeftMenu), new PropertyMetadata(true, (d, e) =>
              {
                  LeftMenu control = d as LeftMenu;
 
@@ -61,7 +61,7 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FIconSizeProperty =
-            DependencyProperty.Register("FIconSize", typeof(double), typeof(LeftMenu), new PropertyMetadata(default(double), (d, e) =>
+            DependencyProperty.Register("FIconSize", typeof(double), typeof(LeftMenu), new PropertyMetadata(20.0, (d, e) =>
              {
                  LeftMenu control = d as LeftMenu;
 

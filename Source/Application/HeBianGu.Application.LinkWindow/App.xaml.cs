@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
@@ -24,20 +25,48 @@ namespace HeBianGu.Application.LinkWindow
 
             MainWindow shellWindow = new MainWindow();
 
-            LoginWindow loginWindow = new LoginWindow();
+            LoginWindow login = new LoginWindow();
 
-            loginWindow.Title = this.GetWpfControlLibVersonInfo();
-
-             loginWindow.ShowDialog();
-
-            if (loginWindow.Result)
+            login.Title = this.GetVersonInfo();
+        
+            login.InitAccount(()=>
             {
-                shellWindow.Show();
-            }
-            else
+                Thread.Sleep(1000);
+
+                return Tuple.Create("HeBianGu","89757",true);
+            });
+
+
+            login.IsMatch = () =>
             {
-                shellWindow.Close();
-            }
+                string name = login.UseName;
+                string password = login.PassWord;
+                bool remenber = login.Remenber;
+
+                return Task.Run(() =>
+                {
+                    Thread.Sleep(1000);
+
+                    var result = AssemblyDomain.Instance.Login(name, password, remenber, out string error);
+
+                    if (!result)
+                    {
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            login.LoginMessage = error;
+                        });
+                    }
+
+                    return result;
+                });
+
+            };
+
+            var r = login.ShowDialog();
+
+            if (r != true) return;
+
+            shellWindow.Show(); 
 
         }
 

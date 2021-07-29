@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -39,10 +40,17 @@ namespace HeBianGu.Base.WpfBase
 
             this.ReadOnly = readyOnly == null || readyOnly.IsReadOnly == false ? true : false;
 
+            if (!this.PropertyInfo.CanWrite)
+            {
+                this.ReadOnly = false;
+            }
+
             //  Do ：用于控制显示和隐藏
             var browsable = property.GetCustomAttribute<BrowsableAttribute>();
 
             this.Visibility = browsable == null || browsable.Browsable ? Visibility.Visible : Visibility.Collapsed;
+
+
         }
 
 
@@ -84,6 +92,12 @@ namespace HeBianGu.Base.WpfBase
                 _value = value;
 
                 RaisePropertyChanged("Value");
+
+                if (!this.PropertyInfo.CanWrite)
+                {
+                    this.ReadOnly = true;
+                    return;
+                }
 
                 this.SetValue(value);
             }
@@ -170,15 +184,46 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
-
-    /// <summary> 下拉类型属性类型 </summary>
-    public class ComboboxPropertyItem : ObjectPropertyItem<object>
+    /// <summary> 枚举类型 </summary>
+    public class EnumPropertyItem : ObjectPropertyItem<Enum>
     {
-        public ComboboxPropertyItem(PropertyInfo property, object obj) : base(property, obj)
+        public EnumPropertyItem(PropertyInfo property, object obj) : base(property, obj)
         {
+        }
+    }
 
+    /// <summary> 集合类型 </summary>
+    public class IEnumerablePropertyItem : ObjectPropertyItem<IEnumerable>
+    {
+        public IEnumerablePropertyItem(PropertyInfo property, object obj) : base(property, obj)
+        {
+            var tt = property.PropertyType.GetGenericTypeDefinition();
+
+            var sss = property.PropertyType.GetElementType();
+
+            this.AddCommand = new RelayCommand(l =>
+              {
+                  if(this.Value is IList list)
+                  {
+                      if (property.PropertyType.IsGenericType)
+                      {
+                          Type type = property.PropertyType.GetGenericArguments()?.FirstOrDefault();
+
+                          if (type == null) return;
+
+                          var instance = Activator.CreateInstance(type);
+
+                          if (instance != null)
+                          {
+                              list.Add(instance);
+
+                              //  Do ：此处需要有ObservableCollection才会更新显示
+                          }
+                      }
+                  }
+              });
         }
 
-       
+        public RelayCommand AddCommand { get; set; }
     }
 }

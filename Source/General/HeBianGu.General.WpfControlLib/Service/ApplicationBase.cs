@@ -57,7 +57,7 @@ namespace HeBianGu.General.WpfControlLib
 
             this.Configure(this.IApplicationBuilder);
 
-            this.UseSingleInstance();
+            this.CheckInstance();
 
             base.OnStartup(e);
         }
@@ -111,12 +111,12 @@ namespace HeBianGu.General.WpfControlLib
             return $"V{version.Major}.{version.Minor}.{version.Build}";
         }
 
-        protected string GetWpfControlLibVersonInfo()
-        {
-            var version = Assembly.GetExecutingAssembly().GetName().Version;
+        //protected string GetVersonInfo()
+        //{
+        //    var version = Assembly.GetExecutingAssembly().GetName().Version;
 
-            return $"V{version.Major}.{version.Minor}.{version.Build}";
-        }
+        //    return $"V{version.Major}.{version.Minor}.{version.Build}";
+        //}
 
         protected abstract void ConfigureServices(IServiceCollection services);
 
@@ -148,7 +148,7 @@ namespace HeBianGu.General.WpfControlLib
 
         Mutex mutex;
         /// <summary> 只创建一个实例 </summary>
-        public void UseSingleInstance()
+        public virtual void CheckInstance()
         {
             //Process thisProc = Process.GetCurrentProcess();
 

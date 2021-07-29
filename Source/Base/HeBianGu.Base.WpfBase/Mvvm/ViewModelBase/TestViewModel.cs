@@ -15,7 +15,11 @@ namespace HeBianGu.Base.WpfBase
     /// <summary> 开发原型用的模型 </summary>
     public partial class TestViewModel : SelectViewModel<DateTime>
     {
-       static  Random _random = new Random();
+        public TestViewModel() : base(DateTime.Now)
+        {
+
+        }
+        static Random _random = new Random();
 
         protected override void Init()
         {
@@ -29,7 +33,7 @@ namespace HeBianGu.Base.WpfBase
                 {
                     if (item.CanWrite)
                     {
-                        item.SetValue(this, Math.Round(_random.NextDouble() * 100,2));
+                        item.SetValue(this, Math.Round(_random.NextDouble() * 100, 2));
                     }
                 }
             }
@@ -436,7 +440,7 @@ namespace HeBianGu.Base.WpfBase
     }
 
 
-    public class Student
+    public class Student : ICloneable
     {
         [Display(Name = "姓名")]
         [Required()]
@@ -502,6 +506,11 @@ namespace HeBianGu.Base.WpfBase
             student.Score = random.Next(90, 100);
             student.Tel = random.NextDouble().ToString();
             return student;
+        }
+
+        public object Clone()
+        {
+            return Student.Random();
         }
     }
 }

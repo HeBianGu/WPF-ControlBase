@@ -116,7 +116,7 @@ namespace HeBianGu.General.WpfMvc
 
         protected virtual void Loaded(string args)
         {
-            if(!string.IsNullOrEmpty(args))
+            if (!string.IsNullOrEmpty(args))
             {
                 this.GoToLink(args);
             }
@@ -142,7 +142,7 @@ namespace HeBianGu.General.WpfMvc
         /// <summary> 异步运行 </summary>
         public void RunAsync(Action action)
         {
-             Task.Run(action);
+            Task.Run(action);
         }
 
         /// <summary> 使用主线程运行 </summary>
@@ -151,15 +151,15 @@ namespace HeBianGu.General.WpfMvc
             Application.Current.Dispatcher.Invoke(action);
         }
 
-        /// <summary> 验证实体模型是否可用 </summary>
-        protected bool ModelState(object obj, out string message)
-        {
-            var result = ObjectPropertyFactory.ModelState(obj,out List<string> errors);
+        ///// <summary> 验证实体模型是否可用 </summary>
+        //protected bool ModelState(object obj, out string message)
+        //{
+        //    var result = ObjectPropertyFactory.ModelState(obj, out List<string> errors);
 
-            message = errors.FirstOrDefault();
+        //    message = errors.FirstOrDefault();
 
-            return result;
-        }
+        //    return result;
+        //}
     }
 
     /// <summary> 带有封装好集合实体的基类 </summary>

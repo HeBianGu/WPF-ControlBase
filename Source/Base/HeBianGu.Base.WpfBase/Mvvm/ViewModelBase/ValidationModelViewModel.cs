@@ -10,12 +10,8 @@ namespace HeBianGu.Base.WpfBase
 {
 
     /// <summary> 拥有根据Model验证特性判断用户输入数据是否合法的绑定模型基类 </summary>
-    public class ValidationModelViewModel<T> : ModelViewModel<T> where T : new()
+    public class ValidationModelViewModel<T> : ModelViewModel<T>
     {
-        public ValidationModelViewModel() : base()
-        {
-
-        }
 
         public ValidationModelViewModel(T t) : base(t)
         {

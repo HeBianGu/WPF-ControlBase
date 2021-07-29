@@ -73,8 +73,12 @@ namespace HeBianGu.Application.BlurWindow
         public string Tel { get; set; }
     }
 
-    class StudentViewModel : ValidationModelViewModel<Student>
+    internal class StudentViewModel : ValidationModelViewModel<Student>
     {
+        public StudentViewModel():base(new Student())
+        {
+
+        }
         private ValidationProperty<string> _tel;
 
         public ValidationProperty<string> Tel

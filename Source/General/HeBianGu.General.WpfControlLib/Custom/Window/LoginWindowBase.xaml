@@ -147,7 +147,7 @@
                                           h:Cattach.Watermark="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=Account}"
                                           CaretBrush="{DynamicResource S.Brush.TextForeground.Title}"
                                           h:Cattach.FIconSize="14"
-                                          h:Cattach.FIconMargin="5" Text="{Binding LoginUseName}"
+                                          h:Cattach.FIconMargin="5" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=UseName,Mode=TwoWay}"
                                           Style="{DynamicResource S.FTextBox.Clear}"/>
 
 
@@ -159,32 +159,22 @@
                                           CaretBrush="{DynamicResource S.Brush.TextForeground.Title}"
                                           h:Cattach.FIconSize="14"
                                           h:Cattach.FIconMargin="5"
-                                          PassWord="{Binding LoginPassWord,Mode=TwoWay}"  />
+                                          PassWord="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=PassWord,Mode=TwoWay}"  />
 
                                             <!--记住密码-->
                                             <local:FCheckBox Grid.Row="2" h:Cattach.FIconMargin="0,0,4,0"
                                            Content="{Binding Source={StaticResource S.XmlDataProvider.Language},XPath=RememberPassword}" Margin="69,0" FontSize="12"
-                                           h:Cattach.FIconSize="12" IsChecked="{Binding Remenber}"
+                                           h:Cattach.FIconSize="12" IsChecked="{TemplateBinding Remenber}"
                                            Style="{DynamicResource S.CheckBox.Default}"/>
-
-                                            <!--登录--><!--
-                                            <local:FButton Grid.Row="3" Command="{Binding RelayCommand}" CommandParameter="Sumit"
-                                         CornerRadius="22" Height="38"
-                                         h:Cattach.IsBuzy="{Binding IsBuzy}"
-                                         h:Cattach.BuzyText="登录中..."
-                                         IsEnabled="{Binding IsEnbled}"
-                                         ToolTip="{Binding LoginMessage}"
-                                         Content="{Binding LoginMessage}" Width="220">
-                                            </local:FButton>-->
-
+                                            
                                             <!--登录-->
-                                            <Button Grid.Row="3" Command="{Binding RelayCommand}" CommandParameter="Sumit"
+                                            <Button x:Name="PART_BUTTON_SUMIT" Grid.Row="3"
                                          h:Cattach.CornerRadius="22" Height="38"
-                                         h:Cattach.IsBuzy="{Binding IsBuzy}"
+                                         h:Cattach.IsBuzy="{TemplateBinding IsBuzy}"
                                          h:Cattach.BuzyText="登录中..."
-                                         IsEnabled="{Binding IsEnbled}"
-                                         ToolTip="{Binding LoginMessage}"
-                                         Content="{Binding LoginMessage}" Width="220">
+                                         IsEnabled="{TemplateBinding IsLoginEnbled}"
+                                         ToolTip="{TemplateBinding LoginMessage}"
+                                         Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=LoginMessage,Mode=TwoWay}" Width="220">
                                             </Button>
                                         </Grid>
                                     </Grid>

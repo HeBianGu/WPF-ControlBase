@@ -28,7 +28,9 @@ namespace HeBianGu.General.WpfControlLib
 
         protected override Size ArrangeOverride(Size finalSize)
         {
-            var children = this.GetChildren().OfType<FrameworkElement>()?.ToList();
+            //var children = this.GetChildren().OfType<FrameworkElement>()?.ToList();
+
+            var children = this.Children;
 
             if (children == null || children.Count == 0) return finalSize;
 
@@ -46,8 +48,30 @@ namespace HeBianGu.General.WpfControlLib
                 {
                     elment.Height = finalSize.Height;
                 }
+
+                //if(elment is PropertyGrid pg)
+                //{
+                //    System.Collections.Generic.List<object> ss = new System.Collections.Generic.List<object>();
+
+                //    foreach (var item in pg.Items)
+                //    {
+                //        var sssss = item;
+
+                //        if(item is ListPropertyItem)
+                //        { 
+                //            ss.Add(item);
+                //        } 
+                //    }
+
+                //    foreach (var item in ss)
+                //    {
+                //        pg.Items.Remove(item);
+                //    }  
+                //}
+
                 elment.Measure(finalSize);
                 elment.Arrange(new Rect(finalSize));
+
 
                 //elment.InvalidateVisual();
                 //elment.InvalidateMeasure();

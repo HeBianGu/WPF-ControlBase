@@ -86,7 +86,7 @@
 
                     <Border CornerRadius="{DynamicResource S.Window.Item.CornerRadius}" IsHitTestVisible="False" 
                                 Background="{DynamicResource S.Brush.Red.Notice}"
-                                Height="{DynamicResource S.Window.Row.Height}">
+                                MinHeight="{DynamicResource S.Window.Row.Height}">
                         <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(Validation.Errors)[0].ErrorContent}"
                                        Foreground="White" Margin="8,5,8,6" TextWrapping="Wrap" VerticalAlignment="Center"/>
                         <!--<TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=Popup},Path=PlacementTarget.(Validation.Errors)[0].ErrorContent}"
@@ -192,11 +192,11 @@
 
             <Trigger Property="Validation.HasError" Value="true">
                 <Setter Property="ToolTip" Value="{Binding RelativeSource= {x:Static RelativeSource.Self},Path=(Validation.Errors)[0].ErrorContent}"/>
-                <Setter Property="BorderBrush" Value="{StaticResource S.Brush.Red.Notice}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Red.Notice}"/>
                 <Setter Property="ToolTip">
                     <Setter.Value>
                         <ToolTip Padding="0" BorderThickness="0" Background="Transparent" StaysOpen="True">
-                            <Border Background="{StaticResource S.Brush.Red.Notice}"
+                            <Border Background="{DynamicResource S.Brush.Red.Notice}"
                                     CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"
                                     Height="{DynamicResource S.Window.Item.Height}" BorderBrush="Transparent">
                                 <TextBlock VerticalAlignment="Center" FontSize="{DynamicResource S.FontSize.Default}" 
@@ -265,7 +265,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="CaretBrush" Value="{DynamicResource S.Brush.Accent}"/>
         <Setter Property="Template" Value="{StaticResource S.TextBox.Template.Default}"/>
-        <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+        <Setter Property="RenderTransform" Value="{DynamicResource S.TransformGroup.Default}"/>
         <Setter Property="ClipToBounds" Value="False" />
 
         <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
@@ -351,7 +351,7 @@
                     <Border Background="Transparent" Width="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleMargin)}">
                         <TextBlock x:Name="txt" VerticalAlignment="Center" 
                                    Foreground="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleForeground)}" 
-                                   Background="Transparent"
+                                   Background="Transparent" TextTrimming="CharacterEllipsis"
                                    FontSize="{TemplateBinding FontSize}"
                                    HorizontalAlignment="Left"
                                    Text="{TemplateBinding Content}"/>
@@ -388,6 +388,22 @@
 
                     <Button Style="{DynamicResource S.Button.Close}" Width="Auto"
                                 h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
+                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}"
+                            Command="h:Cattach.ClearTextCommand"/>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style TargetType="{x:Type TextBox}" x:Key="S.TextBox.Search" BasedOn="{StaticResource S.TextBox.Default}">
+        <Setter Property="h:Cattach.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>  
+                    <Button Style="{DynamicResource S.Button.Transparent}" Width="Auto"
+                            h:Cattach.FIcon="&#xe787;"
+                            h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
                             CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}"
                             Command="h:Cattach.ClearTextCommand"/>
 
@@ -464,7 +480,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <Border MinWidth="90" Background="Transparent">
-                        <TextBlock  Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <TextBlock  Margin="3" VerticalAlignment="Center" HorizontalAlignment="Right" TextTrimming="CharacterEllipsis">
                             <Run  Text="{TemplateBinding Content}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=TextBox},Path=(h:Cattach.TitleForeground)}" 
 />
                             <Run  Text="*"  Foreground="{DynamicResource S.Brush.Red.Notice}"/>
@@ -476,6 +492,72 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--S.FTextBox.OpenFile-->
+    <Style TargetType="{x:Type TextBox}" x:Key="S.TextBox.OpenFile" BasedOn="{StaticResource S.TextBox.LabelClear}">
+        <Setter Property="h:Cattach.Label" Value="文件路径 "/>
+        <Setter Property="h:Cattach.Watermark" Value="选择文件路径 "/>
+        <Setter Property="h:Cattach.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:FButton FIcon="&#xe611;" Style="{DynamicResource S.FButton.Style.Transparent}" 
+                                   IsTabStop="False" FIconMargin="0"
+                                   h:Cattach.IsOpenFileButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.OpenFileCommand" 
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}"
+                                   Margin="0,1,0,2"  
+                                   FIconSize="18" 
+                                   Foreground="{TemplateBinding Foreground}" 
+                                   Cursor="Arrow"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--S.FTextBox.OpenFolder-->
+    <Style TargetType="{x:Type TextBox}" x:Key="S.TextBox.OpenFolder" BasedOn="{StaticResource S.TextBox.LabelClear}">
+        <Setter Property="h:Cattach.Label" Value="设置路径 "/>
+        <Setter Property="h:Cattach.Watermark" Value="选择文件夹路径 "/>
+        <Setter Property="h:Cattach.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:FButton FIcon="&#xe611;" 
+                                   Style="{DynamicResource S.FButton.Style.Transparent}" 
+                                   IsTabStop="False" FIconMargin="0" VerticalAlignment="Center"
+                                   h:Cattach.IsOpenFolderButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.OpenFolderCommand" 
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}"
+                                   Margin="0,1,0,2"  FIconSize="18" 
+                                   Foreground="{TemplateBinding Foreground}" 
+                                   Cursor="Arrow"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--S.FTextBox.SaveFile-->
+    <Style TargetType="{x:Type TextBox}" x:Key="S.TextBox.SaveFile" BasedOn="{StaticResource S.TextBox.LabelClear}">
+        <Setter Property="h:Cattach.Label" Value="保存路径 "/>
+        <Setter Property="h:Cattach.Watermark" Value="选择文件保存路径 "/>
+        <Setter Property="h:Cattach.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <local:FButton FIcon="&#xe611;" 
+                                   Style="{DynamicResource S.FButton.Style.Transparent}" 
+                                   IsTabStop="False" 
+                                   FIconMargin="0"
+                                   h:Cattach.IsSaveFileButtonBehaviorEnabled="True" 
+                                   Command="h:Cattach.SaveFileCommand" 
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type local:FTextBox}}}"
+                                   Margin="0,1,0,2"  
+                                   FIconSize="18" 
+                                   Foreground="{TemplateBinding Foreground}"  
+                                   Cursor="Arrow"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <Style TargetType="{x:Type TextBox}" x:Key="S.TextBox.Inner" BasedOn="{StaticResource S.TextBox.Default}">
         <Setter Property="Padding" Value="0,0,0,0"/>

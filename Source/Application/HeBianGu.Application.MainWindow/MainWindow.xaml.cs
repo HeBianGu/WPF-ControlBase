@@ -1,4 +1,5 @@
-﻿using HeBianGu.Control.Chart2D;
+﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.Chart2D;
 using HeBianGu.General.WpfControlLib;
 using System;
 using System.Collections;
@@ -12,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +22,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -28,6 +31,8 @@ using System.Windows.Resources;
 using System.Windows.Shapes;
 using System.Xaml;
 using System.Xml;
+using XamlReader = System.Windows.Markup.XamlReader;
+using XamlWriter = System.Windows.Markup.XamlWriter;
 
 namespace HeBianGu.Application.MainWindow
 {
@@ -45,11 +50,15 @@ namespace HeBianGu.Application.MainWindow
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+
+            TextBox t;
+
+          
             //var ass = Assembly.GetEntryAssembly();
 
             //var asses = ass.GetReferencedAssemblies();
 
-          
+
 
             //foreach (var item in asses)
             //{
@@ -63,7 +72,7 @@ namespace HeBianGu.Application.MainWindow
             //    foreach (var type in types)
             //    {
             //        if (!type.IsSubclassOf(typeof(FrameworkElement))) continue;
-                
+
 
             //        try
             //        {
@@ -72,7 +81,7 @@ namespace HeBianGu.Application.MainWindow
             //            if (instance == null) continue;
 
             //            this.sp_toolbox.Children.Add(instance);
- 
+
             //            Debug.WriteLine(type.FullName);
             //        }
             //        catch (Exception)
@@ -192,7 +201,7 @@ namespace HeBianGu.Application.MainWindow
 
 
             this.grid.BegionDoubleStoryBoard(1, 0, 3, "OpacityMask.(DrawingBrush.Drawing).(GeometryDrawing.Brush).(LinearGradientBrush.GradientStops)[1].Offset", l => this.grid.Visibility = Visibility.Hidden);
-        } 
+        }
 
         private void ListBoxItem_PreviewGiveFeedback(object sender, GiveFeedbackEventArgs e)
         {
@@ -208,17 +217,6 @@ namespace HeBianGu.Application.MainWindow
 
         private void FButton_Click_1(object sender, RoutedEventArgs e)
         {
-            //this.Dispatcher.Invoke(() =>
-            //{
-            //    var image = this.FindResource("image");
-
-            //    image = new BitmapImage(new Uri(@"E:/Github/Document/火器营二期_slices/右侧栏_bg@2x.png", UriKind.RelativeOrAbsolute));
-
-            //});
-
-            //System.Windows.Application.Current.Resources["image"] = new BitmapImage(new Uri(@"E:/Github/Document/火器营二期_slices/右侧栏_bg@2x.png", UriKind.RelativeOrAbsolute));
-
-            //mmm.Source = new BitmapImage(new Uri(@"E:/Github/Document/火器营二期_slices/右侧栏_bg@2x.png", UriKind.RelativeOrAbsolute));
 
 
         }
@@ -226,10 +224,6 @@ namespace HeBianGu.Application.MainWindow
         private void ListBoxItem_MouseMove(object sender, MouseEventArgs e)
         {
             ListBoxItem _dragSource = sender as ListBoxItem;
-
-            DragDropAdorner adorner = new DragDropAdorner(_dragSource);
-
-
 
             string _dragData = "erere";
 
@@ -261,51 +255,15 @@ namespace HeBianGu.Application.MainWindow
             {
                 string str = sr.ReadToEnd();
 
-                //Debug.WriteLine(str);
-
-
-                //using (XmlTextReader read = new XmlTextReader(sr))
-                //{
-
-                //}
-
                 StringReader reader = new StringReader(str);
 
-               string sssss= reader.ReadToEnd();
+                string sssss = reader.ReadToEnd();
             }
 
-                
 
-            //XmlTextReader read = new XmlTextReader(reader);
-
-            
         }
 
-
-        //Point last;
-
-        //private void Chart_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //    Point current = e.GetPosition(sender as IInputElement);
-
-        //    if (e.MouseDevice.LeftButton == MouseButtonState.Pressed)
-        //    {
-        //        double offset_x = current.X - last.X;
-        //    }
-
-        //    last = current;
-        //}
     }
-
-
-    public class DragDropAdorner : Adorner
-    {
-        public DragDropAdorner(UIElement element):base(element)
-        {
-            AdornerLayer.GetAdornerLayer(element);
-        }
-    }
-
 
     public class MyEnumConverter : EnumConverter
     {
@@ -457,4 +415,6 @@ namespace HeBianGu.Application.MainWindow
 
         }
     }
+
+
 }

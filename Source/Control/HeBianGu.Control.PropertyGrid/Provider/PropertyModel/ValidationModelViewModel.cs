@@ -12,12 +12,7 @@ namespace HeBianGu.Control.PropertyGrid
 {
     /// <summary> 拥有根据Model验证特性判断用户输入数据是否合法的绑定模型基类 </summary>
     public class ValidationAttributeViewModel<T> : ModelViewModel<T> where T : new()
-    {
-        public ValidationAttributeViewModel() : base()
-        {
-
-        }
-
+    { 
         public ValidationAttributeViewModel(T t) : base(t)
         {
 

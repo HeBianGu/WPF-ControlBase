@@ -1,4 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.Explorer;
+using HeBianGu.Control.PropertyGrid;
 using HeBianGu.General.WpfControlLib;
 using System;
 using System.Collections;
@@ -7,6 +9,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -24,7 +28,45 @@ namespace HeBianGu.Application.MainWindow
     /// <summary> 说明</summary>
     internal class ShellViewModel : NotifyPropertyChanged
     {
-        #region - 属性 -
+        #region - 属性 - 
+        private double _value = 334;
+        /// <summary> 说明  </summary>
+
+        public double Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                RaisePropertyChanged("Value");
+            }
+        }
+
+        private double _value1 = 334;
+        /// <summary> 说明  </summary>
+
+        public double Value1
+        {
+            get { return _value1; }
+            set
+            {
+                _value1 = value;
+                RaisePropertyChanged("Value1");
+            }
+        }
+
+
+        private Config _config;
+        /// <summary> 说明  </summary>
+        public Config Config
+        {
+            get { return _config; }
+            set
+            {
+                _config = value;
+                RaisePropertyChanged("Config");
+            }
+        }
 
         private ObservableCollection<TestViewModel> _collection = new ObservableCollection<TestViewModel>();
         /// <summary> 说明  </summary>
@@ -66,7 +108,31 @@ namespace HeBianGu.Application.MainWindow
             }
         }
 
+        private Student _student = new Student();
+        /// <summary> 说明  </summary>
+        public Student Student
+        {
+            get { return _student; }
+            set
+            {
+                _student = value;
+                RaisePropertyChanged("Student");
+            }
+        }
 
+
+
+        private Property _property = new Property();
+        /// <summary> 说明  </summary>
+        public Property Property
+        {
+            get { return _property; }
+            set
+            {
+                _property = value;
+                RaisePropertyChanged("Property");
+            }
+        }
 
         private ObservableCollection<double> _datas = new ObservableCollection<double>();
         /// <summary> 说明  </summary>
@@ -195,6 +261,17 @@ namespace HeBianGu.Application.MainWindow
         }
 
 
+        private ObservableCollection<string> _collection1 = new ObservableCollection<string>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<string> Collection1
+        {
+            get { return _collection1; }
+            set
+            {
+                _collection1 = value;
+                RaisePropertyChanged("Collection1");
+            }
+        }
 
 
         #endregion
@@ -207,11 +284,21 @@ namespace HeBianGu.Application.MainWindow
 
         protected override void Init()
         {
+
             base.Init();
 
-            for (int i = 0; i < 2000; i++)
+           
+
+            //for (int i = 0; i < 200; i++)
+            //{
+            //    this.Students.Add(Student.Random());
+            //}
+
+            this.Students = Enumerable.Range(0, 200).Select(l=> Student.Random()).ToObservable();
+
+            for (int i = 0; i < 10; i++)
             {
-                this.Students.Add(Student.Random());
+                this.Collection1.Add(i.ToString());
             }
 
             //ICollectionView vw = CollectionViewSource.GetDefaultView(this.Students);
@@ -276,6 +363,13 @@ namespace HeBianGu.Application.MainWindow
                   Debug.WriteLine(this.SelectedItems.Count);
               };
 
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "PropertyConfig.xml");
+
+            Config testConfig = new Config();
+
+            testConfig = testConfig.LoadFromFile(filePath);
+
+            this.Config = testConfig;
         }
 
         Random random = new Random();
@@ -355,6 +449,13 @@ namespace HeBianGu.Application.MainWindow
             {
 
             }
+        }
+
+
+
+        public void Method()
+        {
+            Debug.WriteLine("Method");
 
         }
 
@@ -639,5 +740,27 @@ namespace HeBianGu.Application.MainWindow
 
             this.Name = this.GetType().Name + Count;
         }
-    } 
+    }
+
+    public class StudentPropertyTemplateSelector : PropertyGridTemplateSelector
+    {
+        public DataTemplate UnkownTempate { get; set; }
+
+        public DataTemplate RunningTempate { get; set; }
+
+        public DataTemplate ErrorTempate { get; set; }
+
+        public DataTemplate SuccessTempate { get; set; }
+
+        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        {
+
+            if (item is ObjectPropertyItem objectItem)
+            {
+                if (objectItem.PropertyInfo.Name == "Age") return RunningTempate;
+            }
+
+            return base.SelectTemplate(item, container);
+        }
+    }
 }

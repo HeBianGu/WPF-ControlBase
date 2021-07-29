@@ -10,16 +10,459 @@
         NotifyIconSource="/HeBianGu.General.WpfControlLib;component/Resources/iBook.ico"
         xmlns:h="QQ:908293466" 
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib" xmlns:image="clr-namespace:HeBianGu.Control.ImagePlayer;assembly=HeBianGu.Control.ImagePlayer"
-        Height= "700" Width="1250" CaptionHeight="35" FIconSize="30">
+        xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib" xmlns:image="clr-namespace:HeBianGu.Control.ImagePlayer;assembly=HeBianGu.Control.ImagePlayer" xmlns:panel="clr-namespace:HeBianGu.Control.Panel.Panel;assembly=HeBianGu.Control.Panel"
+                  Height= "700" Width="1250" CaptionHeight="35" FIconSize="30">
 
     <Window.Resources>
         <ImageSource x:Key="image">../Resources/组 4@2x.png</ImageSource>
     </Window.Resources>
 
-    <TabControl TabStripPlacement="Left" ItemContainerStyle="{StaticResource S.TabItem.Line.Default}">
+    <TabControl x:Name="tc_all" TabStripPlacement="Left" ItemContainerStyle="{StaticResource S.TabItem.Line.Default}">
+        <!--<h:Interaction.Behaviors>
+            <h:LoadedAdornerBehavior AdornerType="{x:Type h:ToolTipAdorner}" Child="{Binding ElementName=bttt}"/>
+            -->
+        <!--<h:LoadedAdornerBehavior AdornerType="{x:Type h:ToolTipAdorner}" Child="{Binding ElementName=bttt1}"/>
+            <h:LoadedAdornerBehavior AdornerType="{x:Type h:ToolTipAdorner}" Child="{Binding ElementName=bttt2}"/>-->
+        <!--
+
+            <h:GuideAdornerBehavior>
+                <h:GuideAdornerBehavior.ToolTips>
+                    <h:ToolTipAdorners>
+                        <h:ToolTipAdorner e/>
+                    </h:ToolTipAdorners>
+                </h:GuideAdornerBehavior.ToolTips>
+            </h:GuideAdornerBehavior>
+        </h:Interaction.Behaviors>-->
+
+        <!--<TabItem Header="ToolTipAdorner">
+            <UniformGrid>
+                <Button x:Name="bttt"/>
+                <Button x:Name="bttt1"/>
+                <Button x:Name="bttt2"/>
+                -->
+        <!--<h:Interaction.Behaviors>
+                        <h:LoadedAdornerBehavior AdornerType="{x:Type h:ToolTipAdorner}"/>
+                    </h:Interaction.Behaviors>-->
+        <!--
+
+            </UniformGrid>
+        </TabItem>-->
+
+
+        <!--<TabItem Header="PropertyGrid">
+            <Path>
+                <Path.p>
+                    <BezierSegment Point1="0,0" Point2="50,50" Point3="100,100" /> 
+                </Path.p>
+            </Path>
+        </TabItem>-->
+
+
+
+        <TabItem Header="SelectionBox">
+            <DockPanel>
+                <h:SearchBox x:Name="search1" InSource="{Binding Students}" IsAaZz="True" IsAsync="False" DockPanel.Dock="Top"/>
+               
+                <h:SelectionBox x:Name="selectionbox" PropertyName="Class"
+                                InitSource="{Binding Students}"  IsAsync="False"
+                                InSource="{Binding ElementName=search1,Path=OutSource}" DockPanel.Dock="Top"/>
+                
+                <h:SelectionBox x:Name="selectionbox1" PropertyName="Age" 
+                                InitSource="{Binding Students}" IsAsync="True"
+                                InSource="{Binding ElementName=selectionbox,Path=OutSource}" DockPanel.Dock="Top"/>
+                
+                <ListBox ItemsSource="{Binding ElementName=selectionbox1,Path=OutSource}"/>
+            </DockPanel>
+        </TabItem>
+
+        <TabItem Header="SearchBox">
+            <DockPanel>
+                <h:SelectionBox x:Name="search" InitSource="{Binding Students}" IsUseCheckAll="True" PropertyName="Class"  DockPanel.Dock="Top"/>
+
+                <ListBox ItemsSource="{Binding ElementName=search,Path=OutSource}"/>
+            </DockPanel>
+        </TabItem>
+
+
+        <TabItem Header="SearchBox">
+            <DockPanel> 
+                <h:SearchBox x:Name="search3" InSource="{Binding Students}" IsAaZz="True" DockPanel.Dock="Top"/>
+
+                <ListBox ItemsSource="{Binding ElementName=search3,Path=OutSource}"/>
+            </DockPanel>
+        </TabItem>
 
         
+
+        <TabItem Header="PropertyGrid">
+            <h:PropertyGrid SelectObject="{Binding Property}"/>
+        </TabItem>
+
+
+        <TabItem Header="输入小数点">
+            <StackPanel>
+                <TextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged,Converter={x:Static h:XConverter.DoubleTextConverter}}"/>
+                <TextBox Text="{Binding Value1,UpdateSourceTrigger=PropertyChanged,NotifyOnValidationError=True}"/>
+                <TextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" Style="{x:Null}"/>
+            </StackPanel>
+        </TabItem>
+
+        <TabItem Header="AnimationCanvas">
+            <ListBox ItemsSource="{Binding Students}"/>
+        </TabItem>
+
+        <TabItem Header="AnimationCanvas">
+            <Grid Background="Green">
+                <Canvas>
+                    <Grid Width="100" Height="50" Background="Red" Canvas.Left="500" Canvas.Top="100">
+                        <h:Interaction.Behaviors>
+                            <h:CanvasMouseDragElementBehavior/>
+                        </h:Interaction.Behaviors>
+                    </Grid>
+                </Canvas>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="AnimationCanvas">
+            <Grid>
+                <panel:AnimationCanvas>
+                    <Button Canvas.Left="100" Canvas.Top="300"/>
+                </panel:AnimationCanvas>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="TransformAdorner">
+            <Canvas Background="Red">
+                <Button Width="100" Height="50" Content="按钮"  Background="{DynamicResource S.Brush.Accent}"  h:TransformAttach.IsVisible="True" Canvas.Left="100" Canvas.Top="500">
+                    <h:TransformAttach.ThumbStyle>
+                        <Style TargetType="{x:Type Thumb}">
+                            <Setter Property="Height" Value="10"/>
+                            <Setter Property="Width" Value="10"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type Thumb}">
+                                        <Grid>
+                                            <Ellipse Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Fill="Green" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </Grid>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </h:TransformAttach.ThumbStyle>
+                </Button>
+            </Canvas>
+        </TabItem>
+
+        <TabItem Header="网格">
+            <Grid>
+                <!--<Label Content="33" FontSize="155">
+                    <Label.Template>
+                        <ControlTemplate TargetType="Label">
+                            <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=Label},Path=Content}" FontSize="{TemplateBinding FontSize}"/>
+                        </ControlTemplate>
+                    </Label.Template>
+                </Label>-->
+
+                <Button Command="{Binding CallMethodCommand}" Content="CallMethodCommand" CommandParameter="Method"/>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="带有选中效果的图表">
+            <Grid>
+                <h:Chart  Style="{StaticResource S.Chart.Coord}" yAxis="0,1,2,3,4,5,6,7,8,9,10" xAxis="0,1,2,3,4,5,6,7,8,9,10,11" Padding="100,50">
+                    <h:Series>
+                        <ListBox>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <Canvas/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+
+                            <Point X="100" Y="200"/>
+                            <Point X="300" Y="100"/>
+                            <Point X="0" Y="0"/>
+
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock>
+                                        <Run Text="X:"/>
+                                           <Run Text="{Binding X}"/>
+                                           <Run Text="X:"/>
+                                           <Run Text="{Binding Y}"/>
+                                    </TextBlock>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem" BasedOn="{StaticResource S.ListBoxItem.Default}">
+                                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <!--<Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="VerticalAlignment" Value="Center"/>-->
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </h:Series>
+                </h:Chart>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="网格">
+            <Canvas Background="Red">
+                <Grid Width="100" Height="50" Background="{DynamicResource S.Brush.Accent}" Canvas.Left="100" Canvas.Top="500">
+                    <h:Interaction.Behaviors>
+                        <h:LoadedAdornerBehavior AdornerType="{x:Type h:TransformAdorner}"/>
+                    </h:Interaction.Behaviors>
+                </Grid>
+            </Canvas>
+        </TabItem>
+
+        <TabItem Header="向导提示">
+            <UniformGrid>
+                <CheckBox h:GuideAttach.GuideParent="{Binding ElementName=tc_all}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        h:GuideAttach.IsVisible="{Binding RelativeSource={RelativeSource Mode=Self},Path=IsChecked}" Content="第一步"
+                        h:GuideAttach.Text="这是一个向导说明示例说明1">
+                </CheckBox>
+
+                <h:SwitchToggleButton h:GuideAttach.GuideParent="{Binding ElementName=tc_all}"
+                        h:GuideAttach.IsVisible="{Binding RelativeSource={RelativeSource Mode=Self},Path=IsChecked}" 
+                        Content="第三步"
+                        h:GuideAttach.Text="这是一个向导说明示例说明3">
+                </h:SwitchToggleButton>
+
+                <h:BulletCheckBox h:GuideAttach.GuideParent="{Binding ElementName=tc_all}"
+                        h:GuideAttach.IsVisible="{Binding RelativeSource={RelativeSource Mode=Self},Path=IsChecked}" 
+                        Content="第四步"
+                        h:GuideAttach.Text="这是一个第四部">
+                </h:BulletCheckBox>
+            </UniformGrid>
+        </TabItem>
+
+        <TabItem Header="散点">
+            <Grid>
+                <h:Chart yAxis="-200,-150,-100,-50,0,50,100,150,200" xAxis="-200,-150,-100,-50,50,100,150,200" Padding="100,50">
+                    <h:ViewLayerGroup>
+                        <h:yAxis HorizontalAlignment="Center"/>
+                        <h:xAxis VerticalAlignment="Center" />
+
+                        <h:Grid Style="{DynamicResource S.Grid.Cross}"/>
+                    </h:ViewLayerGroup>
+
+                    <h:Series>
+                        <h:AreaScatter Data="[-161.2, -151.6], [167.5, -59.0],[-157.0, 63.0], [155.8, 53.6],
+                [20.0, 59.0], [59.1, 47.6], [166.0, 69.8], [-76.2, 66.8], [160.2, 175.2]"/>
+                    </h:Series>
+                </h:Chart>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="行为 - 拖拽添加到Canvas容器内">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <ListBox ItemsSource="{Binding AutoCompleteSource}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem" BasedOn="{StaticResource S.ListBoxItem.AllowDrop}">
+                            <Setter Property="h:Cattach.Behaviors">
+                                <Setter.Value>
+                                    <h:Behaviors>
+                                        <h:ElementAllowDrapBehavior DropAdornerMode="Both" />
+                                    </h:Behaviors>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+
+                <ListBox ItemsSource="{Binding AutoCompleteSelecteds}"  Background="LightGray" Grid.Column="1" 
+                         Style="{DynamicResource S.ListBox.AllowDrag}">
+                    <!--<ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <Canvas>
+                                -->
+                    <!--<h:Interaction.Behaviors>
+                                    <h:DropAdornerCanvasBehavior/>
+                                </h:Interaction.Behaviors>-->
+                    <!--
+                    
+                            </Canvas>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>-->
+                </ListBox>
+
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="行为 - 拖拽添加到Canvas容器内">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <Rectangle Height="80" Width="80">
+                        <h:Interaction.Behaviors>
+                            <h:DrapAdornerBehavior/>
+                        </h:Interaction.Behaviors>
+                        <Rectangle.Fill>
+                            <LinearGradientBrush>
+                                <GradientStop Color="Red" Offset="0"/>
+                                <GradientStop Color="Green" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+
+                    <Ellipse Height="80" Width="80" Margin="0,10">
+                        <h:Interaction.Behaviors>
+                            <h:DrapAdornerBehavior/>
+                        </h:Interaction.Behaviors>
+                        <Ellipse.Fill>
+                            <LinearGradientBrush>
+                                <GradientStop Color="Red" Offset="0"/>
+                                <GradientStop Color="Green" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                    <Polyline Margin="0,10" Points="0,0 100,50 0,100 0,0" Fill="{DynamicResource S.Brush.Accent}">
+                        <h:Interaction.Behaviors>
+                            <h:DrapAdornerBehavior/>
+                        </h:Interaction.Behaviors>
+                    </Polyline>
+
+                    <Button Content="按钮" Margin="0,10" IsEnabled="True">
+                        <h:Interaction.Behaviors>
+                            <h:DrapAdornerBehavior/>
+                        </h:Interaction.Behaviors>
+                    </Button>
+
+                    <ComboBox Margin="0,10" Width="100" ItemsSource="{StaticResource D.ArrayList.Items}" SelectedIndex="0">
+                        <h:Interaction.Behaviors>
+                            <h:DrapAdornerBehavior/>
+                        </h:Interaction.Behaviors>
+                    </ComboBox>
+
+                    <Border Background="Transparent" Margin="0,10"  >
+                        <TextBox Text="TextBox"  Width="100"  IsHitTestVisible="False"/>
+
+                        <h:Interaction.Behaviors>
+                            <h:DrapAdornerBehavior/>
+                        </h:Interaction.Behaviors>
+                    </Border>
+
+                    <Border Background="Transparent" Margin="0,10"  >
+                        <DatePicker Focusable="False" Width="100"   IsHitTestVisible="False"/>
+                        <h:Interaction.Behaviors>
+                            <h:DrapAdornerBehavior/>
+                        </h:Interaction.Behaviors>
+                    </Border>
+                </StackPanel>
+
+                <Canvas AllowDrop="True" Background="LightGray" Grid.Column="1">
+                    <h:Interaction.Behaviors>
+                        <h:DropAdornerCanvasBehavior/>
+                    </h:Interaction.Behaviors>
+                </Canvas>
+
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="行为 - DropAdornerBehavior">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <AdornerDecorator Width="50">
+                    <Rectangle>
+                        <h:Interaction.Behaviors>
+                            <h:DrapAdornerBehavior DropAdornerMode="OnlyX"/>
+                        </h:Interaction.Behaviors>
+                        <Rectangle.Fill>
+                            <LinearGradientBrush>
+                                <GradientStop Color="Red" Offset="0"/>
+                                <GradientStop Color="Green" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </AdornerDecorator>
+
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="PropertyGrid - 自定义模板">
+            <Grid>
+                <Grid.Resources>
+                    <DataTemplate x:Key="S.ObjectPropertItem.Age">
+                        <Grid  Visibility="{Binding Visibility}" Height="{DynamicResource S.Window.Row.Height}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="30"/>
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox Style="{DynamicResource S.ComboBox.Single.Label}" SelectedItem="{Binding Value}" 
+                                      h:Cattach.TitleWidth="{Binding RelativeSource={RelativeSource AncestorType=h:PropertyGrid},Path=(h:Cattach.TitleWidth)}"
+                                  h:Cattach.Label="{Binding Name}">
+                                <system:Int32>1</system:Int32>
+                                <system:Int32>2</system:Int32>
+                                <system:Int32>3</system:Int32>
+                            </ComboBox>
+
+
+                            <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource S.TextBlock.FIcon}"
+                       Foreground="{DynamicResource S.Brush.Red.Notice}" Visibility="{Binding Message,Converter={x:Static h:XConverter.VisibilityWithOutStringConverter},ConverterParameter={x:Null}}"
+                       FontSize="14"   TextTrimming="CharacterEllipsis" ToolTip="{Binding Message}"
+                       HorizontalAlignment="Center" 
+                       VerticalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </Grid.Resources>
+
+                <ScrollViewer>
+                    <h:PropertyGrid SelectObject="{Binding Student}" h:Cattach.TitleWidth="100" VerticalAlignment="Stretch">
+                        <h:PropertyGrid.ItemTemplateSelector>
+                            <local:StudentPropertyTemplateSelector RunningTempate="{StaticResource S.ObjectPropertItem.Age}"/>
+                        </h:PropertyGrid.ItemTemplateSelector>
+                    </h:PropertyGrid>
+                </ScrollViewer>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="PropertyGrid - 复杂类型显示">
+            <Grid>
+                <ScrollViewer>
+                    <h:PropertyGrid SelectObject="{Binding Config}" h:Cattach.TitleWidth="100" VerticalAlignment="Stretch"/>
+                </ScrollViewer>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="行为 - 集合显示行号">
+            <Grid>
+                <ListBox ItemsSource="{Binding Students}" h:Cattach.IsUseClose="True">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock>
+                                <h:Interaction.Behaviors>
+                                    <h:ItemsControlItemIndexBehavior/>
+                                </h:Interaction.Behaviors>
+                                </TextBlock>
+
+                                <TextBlock Text="{Binding Name}" Margin="50,0"/>
+
+                                <TextBlock Text="{Binding Address}" Margin="50,0"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </TabItem>
+
         <TabItem Header="横表">
             <Grid>
                 <DataGrid ItemsSource="{Binding Students}" RowHeight="150" ColumnHeaderHeight="150" Style="{StaticResource S.DataGrid.Vertical.Default}" 
@@ -33,12 +476,12 @@
                 </DataGrid>
             </Grid>
         </TabItem>
-        
+
         <TabItem Header="数据源合并">
             <Grid>
                 <ListBox>
                     <ListBox.ItemsSource>
-                        <CompositeCollection> 
+                        <CompositeCollection>
                             <CollectionContainer Collection="{StaticResource D.ArrayList.Items}"/>
                             <TextBlock Text="" HorizontalAlignment="Right">
                                 <Run Text="合计："/>
@@ -62,7 +505,7 @@
                             <PathFigure IsClosed="True" StartPoint="50,50">
 
                                 <LineSegment  Point="0,50"/>
-                                
+
                                 <ArcSegment  Point="50,0" RotationAngle="270" IsLargeArc="True" Size="50,50" SweepDirection="Counterclockwise"/>
 
                                 <LineSegment  Point="50,50"/>
@@ -97,7 +540,7 @@
                 </Grid>
             </ScrollViewer>
         </TabItem>
-        
+
         <TabItem Header="表单">
             <DockPanel LastChildFill="False">
                 <h:Row Style="{StaticResource S.Row.Column.1}">
@@ -126,7 +569,7 @@
 
                 <h:Row Style="{StaticResource S.Row.Column.1}">
                     <Label Content="Label" Style="{StaticResource S.Label.Label}" h:Cattach.Label="标题"/>
-                </h:Row> 
+                </h:Row>
 
                 <h:Row Style="{StaticResource S.Row.Column.1}">
                     <Button Content="Button" h:Cattach.Label="标题" Style="{StaticResource S.Button.Label}"/>
@@ -143,23 +586,23 @@
                 </h:Row>
             </DockPanel>
         </TabItem>
-        
+
         <TabItem Header="拖拽">
             <UniformGrid Columns="2">
                 <GroupBox Header="拖">
                     <UniformGrid  Rows="2">
                         <ListBox ItemsSource="{StaticResource D.ArrayList.Source}" AllowDrop="True" ItemContainerStyle="{StaticResource S.ListBoxItem.AllowDrop}">
 
-                            <h:Interaction.Behaviors>
+                            <!--<h:Interaction.Behaviors>
                                 <h:ListDragBlendBehavior/>
-                            </h:Interaction.Behaviors>
+                            </h:Interaction.Behaviors>-->
                         </ListBox>
 
                         <ListBox ItemsSource="{StaticResource D.ArrayList.Source}" AllowDrop="True" ItemContainerStyle="{StaticResource S.ListBoxItem.AllowDrop}">
 
-                            <h:Interaction.Behaviors>
+                            <!--<h:Interaction.Behaviors>
                                 <h:ListDragBlendBehavior DragGroup="435"/>
-                            </h:Interaction.Behaviors>
+                            </h:Interaction.Behaviors>-->
                         </ListBox>
                     </UniformGrid>
                 </GroupBox>
@@ -182,7 +625,7 @@
                 </GroupBox>
             </UniformGrid>
         </TabItem>
-        
+
         <TabItem Header="扇形">
             <GroupBox Header="Sector">
                 <DockPanel>
@@ -195,31 +638,31 @@
                        
                     </Grid>-->
 
-                        <h:Sector x:Name="st" Start="2" End="90" StrokeThickness="5" HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <h:Sector.Fill>
-                                <LinearGradientBrush>
-                                    <GradientStop Offset="-0.5" Color="Transparent"/>
-                                    <GradientStop Offset="1" Color="Red"/>
-                                </LinearGradientBrush>
-                            </h:Sector.Fill>
+                    <h:Sector x:Name="st" Start="2" End="90" StrokeThickness="5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <h:Sector.Fill>
+                            <LinearGradientBrush>
+                                <GradientStop Offset="-0.5" Color="Transparent"/>
+                                <GradientStop Offset="1" Color="Red"/>
+                            </LinearGradientBrush>
+                        </h:Sector.Fill>
 
-                            <h:Sector.Style>
-                                <Style TargetType="h:Sector">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Fill" Value="Yellow"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" Value="False">
-                                            <Setter Property="Fill" Value="Green"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </h:Sector.Style>
-                        </h:Sector> 
+                        <h:Sector.Style>
+                            <Style TargetType="h:Sector">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Fill" Value="Yellow"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="False">
+                                        <Setter Property="Fill" Value="Green"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </h:Sector.Style>
+                    </h:Sector>
                 </DockPanel>
             </GroupBox>
         </TabItem>
-        
+
         <TabItem Header="Menu Bind">
             <GroupBox Header="Menu Bind">
                 <DockPanel>
@@ -249,7 +692,7 @@
                                         <DockPanel>
                                             <h:FilterColumn x:Name="fc" DataSource="{Binding Source={StaticResource S.DataSource.Locator},Path=ShellViewModel.Students}"
                                                             Margin="2,0" PropertyName="Class" DockPanel.Dock="Right"
-                                                            OutSource="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=ItemsSource,Mode=TwoWay}"/> 
+                                                            OutSource="{Binding RelativeSource={RelativeSource AncestorType=DataGrid},Path=ItemsSource,Mode=TwoWay}"/>
                                             <TextBlock Text="班级"/>
                                         </DockPanel>
                                     </DataTemplate>
@@ -1392,7 +1835,7 @@
                         <TabControl.ContentTemplate>
                             <DataTemplate>
                                 <ScrollViewer>
-                                    <h:ObjectPropertyForm SelectObject="{Binding}"/>
+                                    <h:PropertyGrid SelectObject="{Binding}"/>
                                 </ScrollViewer>
                             </DataTemplate>
                         </TabControl.ContentTemplate>
@@ -2115,14 +2558,14 @@
                         <h:Series >
                             <h:Line Style="{StaticResource S.Line.Single}"  yAxis="0,1,2,3,4,5,6,7,8,9,10" xAxis="{Binding ChartxAxis}" Data="{Binding Datas}"/>
                         </h:Series>
-                        <h:StoryBoardToolBar x:Name="tool" Grid.Column="1" LeftPercent="{Binding LeftPercent,Mode=TwoWay}" Height="30"
+                        <h:ThumbToolBar x:Name="tool" Grid.Column="1" LeftPercent="{Binding LeftPercent,Mode=TwoWay}" Height="30"
                                                              RightPercent="{Binding RightPercent,Mode=TwoWay}" MaxValue="1000">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="ValueChanged">
                                     <h:InvokeCommandAction Command="{Binding RelayCommand}" CommandParameter="ToolBar.ValueChanged.RefreshData"/>
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </h:StoryBoardToolBar>
+                        </h:ThumbToolBar>
                     </Grid>
 
                     <h:Chart Background="Transparent" Style="{StaticResource S.Chart.Coord}"  yAxis="0,1,2,3,4,5,6,7,8,9,10" Padding="100,50" xAxis="{Binding DynimacxAxis}">
@@ -2183,38 +2626,38 @@
 
         </TabItem>
 
-        <TabItem Header="FDrawer"  h:Cattach.FIcon="&#xe89a;">
+        <TabItem Header="Drawer"  h:Cattach.FIcon="&#xe89a;">
             <Grid>
                 <Grid>
-                    <h:FDrawer Style="{StaticResource S.FDrawer.Geomotry.Default}">
+                    <h:Drawer Style="{DynamicResource S.Drawer.Geomotry.Default}">
                         <ListBox  Background="Purple" Width="500" Height="300">
                             <h:FTextBox UseHistory="False"/>
                             <h:FTextBox/>
                         </ListBox>
-                    </h:FDrawer>
+                    </h:Drawer>
                 </Grid>
 
                 <Grid>
-                    <h:FDrawer Style="{StaticResource S.FDrawer.Geomotry.Default}" HorizontalContentAlignment="Left">
+                    <h:Drawer Style="{DynamicResource S.Drawer.Geomotry.Default}" HorizontalContentAlignment="Left">
                         <ListBox  Background="Red" Width="500" Height="300">
                             <h:FTextBox UseHistory="False"/>
                             <h:FTextBox/>
                         </ListBox>
-                    </h:FDrawer>
+                    </h:Drawer>
                 </Grid>
             </Grid>
         </TabItem>
 
-        <TabItem Header="FDrawer"  h:Cattach.FIcon="&#xe89a;">
+        <TabItem Header="Drawer"  h:Cattach.FIcon="&#xe89a;">
             <Grid Background="Yellow">
-                <h:FDrawer Style="{StaticResource S.FDrawer.Right.Default}" Background="Red">
+                <h:Drawer Style="{DynamicResource S.Drawer.Right.Default}" Background="Red">
                     <ListBox HorizontalAlignment="Stretch" Grid.Row="1" Width="200">
                         <h:FTextBox UseHistory="False"/>
                         <h:FTextBox/>
                     </ListBox>
-                </h:FDrawer>
+                </h:Drawer>
 
-                <h:FDrawer Style="{StaticResource S.FDrawer.Left.Default}" Background="Red">
+                <h:Drawer Style="{DynamicResource S.Drawer.Left.Default}" Background="Red">
                     <h:Cattach.VisibleActions>
                         <h:ScaleAction/>
                     </h:Cattach.VisibleActions>
@@ -2223,9 +2666,9 @@
                         <h:FTextBox UseHistory="False"/>
                         <h:FTextBox/>
                     </ListBox>
-                </h:FDrawer>
+                </h:Drawer>
 
-                <h:FDrawer Style="{StaticResource S.FDrawer.Bottom.Default}" Background="Red">
+                <h:Drawer Style="{DynamicResource S.Drawer.Bottom.Default}" Background="Red">
                     <h:Cattach.VisibleActions>
                         <h:ActionCollection>
                             <h:HorizontalAction/>
@@ -2236,9 +2679,9 @@
                         <h:FTextBox UseHistory="False"/>
                         <h:FTextBox/>
                     </ListBox>
-                </h:FDrawer>
+                </h:Drawer>
 
-                <h:FDrawer Style="{StaticResource S.FDrawer.Top.Default}" Background="Red">
+                <h:Drawer Style="{DynamicResource S.Drawer.Top.Default}" Background="Red">
                     <h:Cattach.VisibleActions>
                         <h:ActionCollection>
                             <h:TranslateAction StartPoint="0,-100" EndPoint="0,-100"/>
@@ -2249,7 +2692,7 @@
                         <h:FTextBox UseHistory="False"/>
                         <h:FTextBox/>
                     </ListBox>
-                </h:FDrawer>
+                </h:Drawer>
             </Grid>
         </TabItem>
 
@@ -3000,7 +3443,7 @@
         <TabItem Header="TupleGroup">
             <!--<Ellipse-->
 
-            <h:EffectBox Style="{StaticResource S.EffectBox.CircleWave}"/>
+            <h:EffectBox Style="{DynamicResource S.EffectBox.CircleWave}"/>
 
             <!--<Grid>
                 <Ellipse Fill="Red">
@@ -3333,42 +3776,42 @@
 
         <TabItem Header="StepStateTest">
             <StackPanel>
-                <h:StepState>
+                <h:Step>
                     <h:StepItem DisplayName="1" Message="步骤一" Percent="50" State="2"/>
                     <h:StepItem DisplayName="2" Message="步骤二" Percent="10"  State="-1"/>
                     <h:StepItem DisplayName="3" Message="步骤三" Percent="80"  State="0"/>
                     <h:StepItem DisplayName="4" Message="步骤四" Percent="30" State="0"/>
-                </h:StepState>
+                </h:Step>
 
-                <h:StepState>
+                <h:Step>
                     <h:StepItem DisplayName="1" Message="步骤一" Percent="50" State="2"/>
                     <h:StepItem DisplayName="2" Message="步骤二" Percent="10"  State="1"/>
                     <h:StepItem DisplayName="3" Message="步骤三" Percent="80"  State="0"/>
                     <h:StepItem DisplayName="4" Message="步骤四" Percent="30" State="0"/>
-                </h:StepState>
+                </h:Step>
 
-                <h:StepState>
+                <h:Step>
                     <h:StepItem DisplayName="1" Message="步骤一" Percent="50" State="2"/>
                     <h:StepItem DisplayName="2" Message="步骤二" Percent="10"  State="2"/>
                     <h:StepItem DisplayName="3" Message="步骤三" Percent="80"  State="2"/>
                     <h:StepItem DisplayName="4" Message="步骤四" Percent="30" State="2"/>
-                </h:StepState>
+                </h:Step>
             </StackPanel>
         </TabItem>
 
         <TabItem Header="PingStateTest">
             <StackPanel>
-                <h:PingState Start="True" IP="192.168.18.1"/>
-                <h:PingState Start="True" IP="www.baidu.com"/>
+                <h:Ping Start="True" IP="192.168.18.1"/>
+                <h:Ping Start="True" IP="www.baidu.com"/>
 
-                <h:PingState Start="False"  IP="192.168.18.1"/>
-                <h:PingState Start="False"  IP="www.baidu.com"/>
+                <h:Ping Start="False"  IP="192.168.18.1"/>
+                <h:Ping Start="False"  IP="www.baidu.com"/>
 
-                <h:PingState Start="True" IP="192.168.18.1" Style="{DynamicResource S.PingState.Single}"/>
-                <h:PingState Start="True" IP="www.baidu.com"  Style="{DynamicResource S.PingState.Single}"/>
+                <h:Ping Start="True" IP="192.168.18.1" Style="{DynamicResource S.Ping.Single}"/>
+                <h:Ping Start="True" IP="www.baidu.com"  Style="{DynamicResource S.Ping.Single}"/>
 
-                <h:PingState Start="False" IP="192.168.18.1" Style="{DynamicResource S.PingState.Single}"/>
-                <h:PingState  Start="False" IP="www.baidu.com"  Style="{DynamicResource S.PingState.Single}"/>
+                <h:Ping Start="False" IP="192.168.18.1" Style="{DynamicResource S.Ping.Single}"/>
+                <h:Ping  Start="False" IP="www.baidu.com"  Style="{DynamicResource S.Ping.Single}"/>
             </StackPanel>
         </TabItem>
     </TabControl>

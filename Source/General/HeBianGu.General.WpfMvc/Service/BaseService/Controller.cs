@@ -17,23 +17,23 @@ namespace HeBianGu.General.WpfMvc
     {
         public M ViewModel { get; set; } = ServiceRegistry.Instance.GetInstance<M>();
 
-        /// <summary> 验证实体模型是否可用 </summary>
-        public bool ModelState(object obj, out string message)
-        {
-            var result = ObjectPropertyFactory.ModelState(obj, out List<string> errors);
+        ///// <summary> 验证实体模型是否可用 </summary>
+        //public bool ModelState(object obj, out string message)
+        //{
+        //    var result = ObjectPropertyFactory.ModelState(obj, out List<string> errors);
 
-            message = errors.FirstOrDefault();
+        //    message = errors.FirstOrDefault();
 
-            return result;
-        }
+        //    return result;
+        //}
 
-        /// <summary> 验证实体模型是否可用 </summary>
-        public bool ModelState(object obj)
-        {
-            string message;
+        ///// <summary> 验证实体模型是否可用 </summary>
+        //public bool ModelState(object obj)
+        //{
+        //    string message;
 
-            return this.ModelState(obj, out message);
-        }
+        //    return this.ModelState(obj, out message);
+        //}
     }
 
     /// <summary> 带有Dispatcher的控制器 </summary>

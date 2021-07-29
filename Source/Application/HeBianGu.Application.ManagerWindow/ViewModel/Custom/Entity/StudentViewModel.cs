@@ -11,107 +11,107 @@ using System.Windows;
 
 namespace HeBianGu.Application.ManagerWindow
 {
-    public class StudentViewModel : ValidationXmlViewModel<Student>
-    {
+    //public class StudentViewModel : ValidationXmlViewModel<Student>
+    //{
 
-        public StudentViewModel()
-        {
-        }
+    //    public StudentViewModel() : base(new Student())
+    //    {
+    //    }
 
-        public StudentViewModel(Student signl) : base(signl)
-        {
+    //    public StudentViewModel(Student signl) : base(signl)
+    //    {
 
-        }
-        #region - 属性 -
+    //    }
+    //    #region - 属性 -
 
-        private StringProperty _name;
-        [XmlIndex("1")]
-        public StringProperty Name
-        {
-            get
-            {
-                //  Do ：只有第一遍从实体里面加载数据
-                return _name = _name ?? this.CreateProperty<StringProperty>();
-            }
-            set
-            {
-                _name = value;
-                RaisePropertyChanged();
-            }
-        }
+    //    private StringProperty _name;
+    //    [XmlIndex("1")]
+    //    public StringProperty Name
+    //    {
+    //        get
+    //        {
+    //            //  Do ：只有第一遍从实体里面加载数据
+    //            return _name = _name ?? this.CreateProperty<StringProperty>();
+    //        }
+    //        set
+    //        {
+    //            _name = value;
+    //            RaisePropertyChanged();
+    //        }
+    //    }
 
-        private XhtypeProperty _xh;
-        /// <summary> 说明  </summary>
-        [XmlIndex("2")]
-        public XhtypeProperty Xh
-        {
-            get
-            {
-                //  Do ：只有第一遍从实体里面加载数据
-                return _xh = _xh ?? this.CreateProperty<XhtypeProperty>();
-            }
-            set
-            {
-                _xh = value;
-                RaisePropertyChanged();
-            }
-        }
+    //    private XhtypeProperty _xh;
+    //    /// <summary> 说明  </summary>
+    //    [XmlIndex("2")]
+    //    public XhtypeProperty Xh
+    //    {
+    //        get
+    //        {
+    //            //  Do ：只有第一遍从实体里面加载数据
+    //            return _xh = _xh ?? this.CreateProperty<XhtypeProperty>();
+    //        }
+    //        set
+    //        {
+    //            _xh = value;
+    //            RaisePropertyChanged();
+    //        }
+    //    }
 
-        #endregion
+    //    #endregion
 
-        #region - 命令 -
+    //    #region - 命令 -
 
-        #endregion
+    //    #endregion
 
-        #region - 方法 -
+    //    #region - 方法 -
 
-        protected override void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
+    //    protected override void RelayMethod(object obj)
+    //    {
+    //        string command = obj.ToString();
 
-            ////  Do：应用
-            //if (command == "Button.Click.Sumit")
-            //{
-            //    List<string> errors;
+    //        ////  Do：应用
+    //        //if (command == "Button.Click.Sumit")
+    //        //{
+    //        //    List<string> errors;
 
-            //    if (!this.ModelState(out errors) || !this.SelectItem.ModelState(out errors))
-            //    {
-            //        MessageBox.Show(errors?.FirstOrDefault());
+    //        //    if (!this.ModelState(out errors) || !this.SelectItem.ModelState(out errors))
+    //        //    {
+    //        //        MessageBox.Show(errors?.FirstOrDefault());
 
-            //    }
-            //    else
-            //    {
-            //        MessageBox.Show("验证成功");
-            //    }
+    //        //    }
+    //        //    else
+    //        //    {
+    //        //        MessageBox.Show("验证成功");
+    //        //    }
 
-            //    this.Model.Xh = this.SelectItem.GetModel<IXh>();
+    //        //    this.Model.Xh = this.SelectItem.GetModel<IXh>();
 
-            //    string json = JsonConvert.SerializeObject(this.Model);
+    //        //    string json = JsonConvert.SerializeObject(this.Model);
 
-            //    Debug.WriteLine(json);
+    //        //    Debug.WriteLine(json);
 
-            //}
-            ////  Do：取消
-            //else if (command == "Button.Click.LoadDefault")
-            //{
+    //        //}
+    //        ////  Do：取消
+    //        //else if (command == "Button.Click.LoadDefault")
+    //        //{
 
-            //    this.LoadDefault();
+    //        //    this.LoadDefault();
 
-            //    this.SelectItem.LoadDefault();
+    //        //    this.SelectItem.LoadDefault();
 
-            //}
-        }
+    //        //}
+    //    }
 
-        public override void LoadDefault()
-        {
-            base.LoadDefault();
+    //    public override void LoadDefault()
+    //    {
+    //        base.LoadDefault();
 
 
-            this.Xh?.LoadDefault();
-        }
+    //        this.Xh?.LoadDefault();
+    //    }
 
-        #endregion
-    }
+    //    #endregion
+    //}
 
 
 }

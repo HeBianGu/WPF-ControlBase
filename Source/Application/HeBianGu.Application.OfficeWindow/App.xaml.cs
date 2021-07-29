@@ -1,5 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.General.WpfMvc;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -28,6 +29,9 @@ namespace HeBianGu.Application.OfficeWindow
 
         protected override void ConfigureServices(IServiceCollection services)
         {
+            //  Do：注册Mvc模式
+            services.UseMvc();
+
             //  Do ：注册本地化配置读写服务
             services.AddSingleton<IThemeLocalizeService, LocalizeService>();
 

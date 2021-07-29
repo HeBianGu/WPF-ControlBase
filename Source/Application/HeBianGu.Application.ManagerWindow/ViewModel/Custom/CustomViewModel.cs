@@ -1,5 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.PropertyGrid;
+using HeBianGu.Control.Shuttle;
+using HeBianGu.Control.Step;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.General.WpfMvc;
 using System;
@@ -24,17 +26,17 @@ namespace HeBianGu.Application.ManagerWindow
     [ViewModel("Custom")]
     class CustomViewModel : MvcViewModelBase
     {
-        private StudentViewModel _student = new StudentViewModel();
-        /// <summary> 说明  </summary>
-        public StudentViewModel Student
-        {
-            get { return _student; }
-            set
-            {
-                _student = value;
-                RaisePropertyChanged("Student");
-            }
-        }
+        //private StudentViewModel _student = new StudentViewModel();
+        ///// <summary> 说明  </summary>
+        //public StudentViewModel Student
+        //{
+        //    get { return _student; }
+        //    set
+        //    {
+        //        _student = value;
+        //        RaisePropertyChanged("Student");
+        //    }
+        //}
 
 
         //Shuttles
@@ -175,7 +177,7 @@ namespace HeBianGu.Application.ManagerWindow
 
         protected override void Loaded(string args)
         {
-            this.Student.LoadDefault();
+            //this.Student.LoadDefault();
 
 
         

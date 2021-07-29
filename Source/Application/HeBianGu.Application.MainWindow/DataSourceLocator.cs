@@ -23,6 +23,32 @@ namespace HeBianGu.Application.MainWindow
 
     }
 
+    public class Property
+    {
+        [Display(Name = "double")]
+        public double Score { get; set; }
+
+        [Display(Name = "int")]
+        public int Age { get; set; }
+
+        [Display(Name = "double[]")]
+        public double[] Scores { get; set; }
+
+        [Display(Name = "int[]")]
+        public int[] Scores1 { get; set; }
+
+        [Display(Name = "List<double>")]
+        public List<double> Ages { get; set; }
+
+        [Display(Name = "List<int>")]
+        public List<int> Ages1 { get; set; } 
+
+
+        [Display(Name = "byte[]")]
+        public byte[] Bytes { get; set; }
+
+    }
+
     public class Student
     {
         [Display(Name = "姓名")]
@@ -55,6 +81,8 @@ namespace HeBianGu.Application.MainWindow
 
         [Display(Name = "平均分")]
         public double Score { get; set; }
+
+
 
         [Display(Name = "电话号码")]
         [Required]
@@ -94,6 +122,10 @@ namespace HeBianGu.Application.MainWindow
 
     class StudentViewModel : ValidationModelViewModel<Student>
     {
+        public StudentViewModel() : base(new Student())
+        {
+
+        }
         private ValidationProperty<string> _tel;
 
         public ValidationProperty<string> Tel

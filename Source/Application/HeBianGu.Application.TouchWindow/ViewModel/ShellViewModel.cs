@@ -25,6 +25,8 @@ namespace HeBianGu.Application.TouchWindow
             this.CurrentLink = this.TabLinks.FirstOrDefault();
 
             base.Init();
+
+            
         }
 
         protected async override void RelayMethod(object obj)

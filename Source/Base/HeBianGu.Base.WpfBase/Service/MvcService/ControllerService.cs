@@ -14,6 +14,11 @@ namespace HeBianGu.Base.WpfBase
         {
             IController control = GetController(controlName, args);
 
+            if (control == null)
+            {
+                throw new ArgumentException($"没有找到控制器{controlName}，请添加控制器并使用services.UseMvc()");
+            }
+
             return GetActionResult(control, name, args) as Task<IActionResult>;
         }
 

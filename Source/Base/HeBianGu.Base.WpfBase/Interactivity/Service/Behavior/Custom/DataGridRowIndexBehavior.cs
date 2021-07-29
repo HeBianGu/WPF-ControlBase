@@ -26,15 +26,15 @@ namespace HeBianGu.Base.WpfBase
         /// DataGridRow this behavior uses to determine the proper row index.
         /// </summary>
         public static readonly DependencyProperty DataGridRowProperty =
-            DependencyProperty.Register("DataGridRow", typeof (DataGridRow), typeof (DataGridRowIndexBehavior), new FrameworkPropertyMetadata(OnDataGridRowChanged));
-        
+            DependencyProperty.Register("DataGridRow", typeof(DataGridRow), typeof(DataGridRowIndexBehavior), new FrameworkPropertyMetadata(OnDataGridRowChanged));
+
         /// <summary>
         /// DataGridRow this behavior uses to determine the proper row index.
         /// </summary>
         public DataGridRow DataGridRow
         {
-            get { return (DataGridRow) GetValue(DataGridRowProperty); }
-            set { SetValue(DataGridRowProperty, value);}
+            get { return (DataGridRow)GetValue(DataGridRowProperty); }
+            set { SetValue(DataGridRowProperty, value); }
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace HeBianGu.Base.WpfBase
                 AssociatedObject.Text = index.ToString();
 
             // Hook into the DataGridRow
-            BindingOperations.SetBinding(this, TargetProperty, new Binding("Item") {Source = dgr});
+            BindingOperations.SetBinding(this, TargetProperty, new Binding("Item") { Source = dgr });
 
             // Hook into the DataGrid owner.
             DataGrid dg = dgr.GetParent<DataGrid>();
@@ -104,7 +104,7 @@ namespace HeBianGu.Base.WpfBase
         /// <param name="e"></param>
         static void DgRowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
-            DataGrid dg = (DataGrid) sender;
+            DataGrid dg = (DataGrid)sender;
             dg.Dispatcher.BeginInvoke(DispatcherPriority.Background, (Action)(delegate
             {
                 // Toggle the state so we insert the placeholder again.
@@ -144,6 +144,52 @@ namespace HeBianGu.Base.WpfBase
             }
 
             base.OnDetaching();
+        }
+    }
+
+    /// <summary> ItemsControl支持显示行号 </summary>
+    public class ItemsControlItemIndexBehavior : Behavior<TextBlock>
+    {
+        //public FrameworkElement Item
+        //{
+        //    get { return (FrameworkElement)GetValue(ItemProperty); }
+        //    set { SetValue(ItemProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty ItemProperty =
+        //    DependencyProperty.Register("Item", typeof(FrameworkElement), typeof(ItemsControlItemIndexBehavior), new PropertyMetadata(default(FrameworkElement), (d, e) =>
+        //     {
+        //         ItemsControlItemIndexBehavior control = d as ItemsControlItemIndexBehavior;
+
+        //         if (control == null) return;
+
+        //         FrameworkElement config = e.NewValue as FrameworkElement;
+
+        //     }));
+
+        protected override void OnAttached()
+        {
+            AssociatedObject.Loaded += AssociatedObject_Loaded;
+        }
+
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+        { 
+            var item = this.AssociatedObject.GetParent<ListBoxItem>();
+
+            if (item == null) return;
+
+            var items = item.GetParent<ItemsControl>();
+
+            var index = items.ItemContainerGenerator.Items.IndexOf(item.DataContext);
+
+            AssociatedObject.Text = index.ToString();
+
+        }
+
+        protected override void OnDetaching()
+        {
+            AssociatedObject.Loaded -= AssociatedObject_Loaded;
         }
     }
 }

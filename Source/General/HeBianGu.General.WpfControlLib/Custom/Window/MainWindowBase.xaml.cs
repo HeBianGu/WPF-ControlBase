@@ -10,6 +10,46 @@ namespace HeBianGu.General.WpfControlLib
 
     public partial class MainWindowBase : WindowBase
     {
+
+        public double ViewBoxWidth
+        {
+            get { return (double)GetValue(ViewBoxWidthProperty); }
+            set { SetValue(ViewBoxWidthProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ViewBoxWidthProperty =
+            DependencyProperty.Register("ViewBoxWidth", typeof(double), typeof(MainWindowBase), new PropertyMetadata(1920.0, (d, e) =>
+             {
+                 MainWindowBase control = d as MainWindowBase;
+
+                 if (control == null) return;
+
+                 //double config = e.NewValue as double;
+
+             }));
+
+
+        public double ViewBoxHeight
+        {
+            get { return (double)GetValue(ViewBoxHeightProperty); }
+            set { SetValue(ViewBoxHeightProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ViewBoxHeightProperty =
+            DependencyProperty.Register("ViewBoxHeight", typeof(double), typeof(MainWindowBase), new PropertyMetadata(1055.0, (d, e) =>
+             {
+                 MainWindowBase control = d as MainWindowBase;
+
+                 if (control == null) return;
+
+                 //double config = e.NewValue as double;
+
+             }));
+
+
+
         public ICommand NotifyWindowCommand { get; protected set; }
 
         public MainWindowBase()

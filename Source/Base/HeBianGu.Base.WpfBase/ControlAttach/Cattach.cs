@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -1538,12 +1539,13 @@ namespace HeBianGu.Base.WpfBase
         /// </summary>
         public static readonly DependencyProperty TitleWidthProperty = DependencyProperty.RegisterAttached(
             "TitleWidth", typeof(double), typeof(Cattach), new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleWidthChanged));
-
+        
+        [TypeConverter(typeof(LengthConverter))]
         public static double GetTitleWidth(DependencyObject d)
         {
             return (double)d.GetValue(TitleWidthProperty);
         }
-
+        [TypeConverter(typeof(LengthConverter))]
         public static void SetTitleWidth(DependencyObject obj, double value)
         {
             obj.SetValue(TitleWidthProperty, value);
@@ -1560,12 +1562,13 @@ namespace HeBianGu.Base.WpfBase
         /// </summary>
         public static readonly DependencyProperty TitleHeightProperty = DependencyProperty.RegisterAttached(
             "TitleHeight", typeof(double), typeof(Cattach), new FrameworkPropertyMetadata(default(double), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnTitleHeightChanged));
-
+        
+        [TypeConverter(typeof(LengthConverter))]
         public static double GetTitleHeight(DependencyObject d)
         {
             return (double)d.GetValue(TitleHeightProperty);
         }
-
+        [TypeConverter(typeof(LengthConverter))]
         public static void SetTitleHeight(DependencyObject obj, double value)
         {
             obj.SetValue(TitleHeightProperty, value);
@@ -1915,22 +1918,76 @@ namespace HeBianGu.Base.WpfBase
                 {
                     var behavior = bc.FirstOrDefault(beh => beh.GetType() == b.GetType());
 
+                    var instance = Activator.CreateInstance(b.GetType()) as Behavior;
+
                     if (behavior != null)
                     {
-                        bc.Remove(behavior);
+                        bc.Remove(behavior); 
                     }
 
-                    var instance = Activator.CreateInstance(b.GetType()) as Behavior;
+
+                    foreach (var property in b.GetType().GetProperties())
+                    {
+                        if (property.CanRead && property.CanWrite)
+                        {
+                            property.SetValue(instance, property.GetValue(b));
+                        }
+                    }
 
                     bc.Add(instance);
                 }
             }
 
         }
+
+
+
+        /// <summary>
+        /// 枚举类型数据源
+        /// </summary>
+        public static readonly DependencyProperty EnumTypeSourceProperty = DependencyProperty.RegisterAttached(
+            "EnumTypeSource", typeof(Type), typeof(Cattach), new FrameworkPropertyMetadata(default(Type), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnEnumTypeSourceChanged));
+
+        public static Type GetEnumTypeSource(DependencyObject d)
+        {
+            return (Type)d.GetValue(EnumTypeSourceProperty);
+        }
+
+        public static void SetEnumTypeSource(DependencyObject obj, Type value)
+        {
+            obj.SetValue(EnumTypeSourceProperty, value);
+        }
+
+        static void OnEnumTypeSourceChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+        {
+            var items = sender as ItemsControl;
+
+            Type type = args.NewValue as Type;
+
+            if (type != null)
+            { 
+                Type actualEnumType = Nullable.GetUnderlyingType(type) ?? type;
+                Array enumVlues = Enum.GetValues(actualEnumType);
+
+                if (actualEnumType == type)
+                {
+                    items.ItemsSource = enumVlues;
+                    return;
+                }
+               
+
+                Array tempArray = Array.CreateInstance(actualEnumType, enumVlues.Length + 1);
+
+                enumVlues.CopyTo(tempArray, 1);
+
+                items.ItemsSource = tempArray;
+            }
+        }
+
     }
 
     public class Behaviors : ObservableCollection<Behavior>
     {
 
-    }
+    } 
 }

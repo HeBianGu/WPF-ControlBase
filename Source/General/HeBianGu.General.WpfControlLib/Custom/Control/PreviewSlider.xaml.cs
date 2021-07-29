@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -51,12 +52,12 @@ namespace HeBianGu.General.WpfControlLib
         /// </summary>
         public static readonly RoutedEvent PreviewPositionChangedEvent =
             EventManager.RegisterRoutedEvent("PreviewPositionChanged", RoutingStrategy.Bubble,
-                typeof(EventHandler<FunctionEventArgs<double>>), typeof(PreviewSlider));
+                typeof(EventHandler<ObjectRoutedEventArgs<double>>), typeof(PreviewSlider));
 
         /// <summary>
         ///     值改变事件
         /// </summary>
-        public event EventHandler<FunctionEventArgs<double>> PreviewPositionChanged
+        public event EventHandler<ObjectRoutedEventArgs<double>> PreviewPositionChanged
         {
             add => AddHandler(PreviewPositionChangedEvent, value);
             remove => RemoveHandler(PreviewPositionChangedEvent, value);
@@ -70,9 +71,9 @@ namespace HeBianGu.General.WpfControlLib
             _transform.X = p.X - _previewContent.ActualWidth / 2;
 
             PreviewPosition = p.X / _track.ActualWidth * Maximum;
-            RaiseEvent(new FunctionEventArgs<double>(PreviewPositionChangedEvent, this)
-            {
-                Info = PreviewPosition
+            RaiseEvent(new ObjectRoutedEventArgs<double>(PreviewPositionChangedEvent, this)
+            { 
+                Entity = PreviewPosition
             });
         }
 

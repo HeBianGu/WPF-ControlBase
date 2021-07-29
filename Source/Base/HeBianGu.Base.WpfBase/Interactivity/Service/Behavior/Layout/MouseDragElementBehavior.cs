@@ -462,6 +462,13 @@ namespace HeBianGu.Base.WpfBase
             this.AssociatedObject.MouseMove += this.OnMouseMove;
             this.AssociatedObject.LostMouseCapture += this.OnLostMouseCapture;
             this.AssociatedObject.AddHandler(UIElement.MouseLeftButtonUpEvent, new MouseButtonEventHandler(this.OnMouseLeftButtonUp), false /* handledEventsToo */);
+
+            this.BeforeDragging();
+        }
+
+        protected virtual void BeforeDragging()
+        {
+
         }
 
         internal void HandleDrag(Point newPositionInElementCoordinates)
@@ -483,6 +490,14 @@ namespace HeBianGu.Base.WpfBase
             this.AssociatedObject.MouseMove -= this.OnMouseMove;
             this.AssociatedObject.LostMouseCapture -= this.OnLostMouseCapture;
             this.AssociatedObject.RemoveHandler(UIElement.MouseLeftButtonUpEvent, new MouseButtonEventHandler(this.OnMouseLeftButtonUp));
+
+
+            this.AfterDragging();
+        }
+
+        protected virtual void AfterDragging()
+        {
+
         }
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

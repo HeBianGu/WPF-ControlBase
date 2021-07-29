@@ -28,9 +28,9 @@
     <!--带等待框的-->
     <ControlTemplate x:Key="ListBox_Buzy" TargetType="{x:Type ListBox}">
         <Grid>
-            <ScrollViewer>
+            <local:FScrollView>
                 <StackPanel IsItemsHost="True"/>
-            </ScrollViewer>
+            </local:FScrollView>
             <local:WaitingBox IsBusy="{TemplateBinding h:Cattach.IsBuzy}"/>
         </Grid>
     </ControlTemplate>
@@ -69,7 +69,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
                     <Grid>
-                        <Border BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="1"
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"/>
                         <ItemsPresenter/>
                     </Grid>
@@ -90,15 +90,15 @@
         <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
         <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource S.Window.Title.Width}"/>
-
+        <Setter Property="h:Cattach.CellMargin" Value="{DynamicResource S.Thickness.Margin.10.0}"/> 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
-                        <ScrollViewer>
+                        <local:FScrollView>
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </ScrollViewer>
+                        </local:FScrollView>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -155,9 +155,9 @@
 
                         <Border Grid.Column="2" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" 
                             CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.CornerRadius) }">
-                            <ScrollViewer>
+                            <local:FScrollView>
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </ScrollViewer>
+                            </local:FScrollView>
                         </Border>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -198,13 +198,13 @@
                 <ControlTemplate TargetType="{x:Type ListBox}">
                     <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true"
                             CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.CornerRadius) }">
-                        <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                        <local:FScrollView Focusable="false" Padding="{TemplateBinding Padding}">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Height="Auto">
                                 <h:Interaction.Behaviors>
                                     <h:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>
                                 </h:Interaction.Behaviors>
                             </ItemsPresenter>
-                        </ScrollViewer>
+                        </local:FScrollView>
                     </Border>
                     <!--<ControlTemplate.Triggers>
                         <MultiTrigger>
@@ -244,9 +244,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                        <ScrollViewer>
+                        <local:FScrollView>
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                        </ScrollViewer>
+                        </local:FScrollView>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -279,7 +279,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Padding" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
-        <Setter Property="ItemContainerStyle" Value="{StaticResource S.ListBoxItem.CheckBox.Box}"/>
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource S.ListBoxItem.CheckBox.Box}"/>
         <Setter Property="h:Cattach.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
@@ -301,4 +301,15 @@
         </Setter>
     </Style>
 
+     <!--可以拖拽的样式-->
+    <Style x:Key="S.ListBox.AllowDrag" TargetType="ListBox" BasedOn="{StaticResource S.ListBox.Default}">
+        <Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <h:ListDropBlendBehavior/>
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource S.ListBoxItem.AllowDrop}"/> 
+    </Style>
 </ResourceDictionary>

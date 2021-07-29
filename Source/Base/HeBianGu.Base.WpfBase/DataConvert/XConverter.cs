@@ -237,7 +237,17 @@ namespace HeBianGu.Base.WpfBase
         {
             get { return new ByteSizeDisplayConverter(); }
         }
-        
+
+        public static GetTypeDisplayConverter GetTypeDisplayConverter
+        {
+            get { return new GetTypeDisplayConverter(); }
+        }
+
+        public static DoubleTextConverter DoubleTextConverter
+        {
+            get { return new DoubleTextConverter(); }
+        }
+
         //public static SelectTextConverter SelectTextConverter
         //{
         //    get { return Singleton<SelectTextConverter>.GetInstance(); }

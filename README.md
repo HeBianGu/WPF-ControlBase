@@ -22,7 +22,3 @@ https://blog.csdn.net/u010975589/article/details/100019431
 
 https://blog.csdn.net/u010975589/article/details/103083605
 
-### 支持
-![支付宝](https://github.com/HeBianGu/WPF-ControlBase/tree/master/Document/Resource/z.png)
-![微信](https://github.com/HeBianGu/WPF-ControlBase/tree/master/Document/Resource/w.png)
-

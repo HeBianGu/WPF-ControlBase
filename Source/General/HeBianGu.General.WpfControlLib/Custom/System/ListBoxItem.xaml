@@ -11,7 +11,8 @@
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="h:Cattach.IsUseClose" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=(h:Cattach.IsUseClose)}"/>
         <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
-        <Setter Property="Padding" Value="10,0,0,0"/>
+        <!--<Setter Property="Padding" Value="10,0,0,0"/>-->
+        <Setter Property="Padding" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=(h:Cattach.CellMargin)}"/> 
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource S.Window.Item.CornerRadius}"/>
         <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.Accent.MouseOver.Background}" />
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}" />
@@ -21,7 +22,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid Background="Transparent"> 
-                        <Border BorderBrush="{TemplateBinding BorderBrush}" 
+                        <Border x:Name="boder" BorderBrush="{TemplateBinding BorderBrush}" Background="{TemplateBinding Background}"
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
                         
@@ -31,16 +32,20 @@
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
 
-                        <Border x:Name="boder" BorderBrush="{TemplateBinding BorderBrush}" 
+                        <Border x:Name="boder_selected" BorderBrush="{TemplateBinding BorderBrush}" 
                                 Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.SelectBackground)}"
                                 Opacity="0"
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
                         
                         <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
                             <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
 
-                            <Button Style="{DynamicResource S.Button.Close}" Margin="0" Background="Transparent" Foreground="{TemplateBinding Foreground}"
+                            <Button Grid.Column="1" Style="{DynamicResource S.Button.Close}" Width="{DynamicResource S.Window.Row.Height}" HorizontalAlignment="Center" Margin="0" Background="Transparent" Foreground="{TemplateBinding Foreground}"
                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.IsUseClose),Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
                                       h:Cattach.FIconSize="{DynamicResource S.FIcon.Size.Small}">
                                 <h:Interaction.Triggers>
@@ -92,7 +97,7 @@
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
+                                        <DoubleAnimation Storyboard.TargetName="boder_selected" Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.1" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
@@ -100,7 +105,7 @@
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="boder" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
+                                        <DoubleAnimation Storyboard.TargetName="boder_selected" Storyboard.TargetProperty="Opacity" To="0" Duration="0:0:0.5" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>
@@ -109,6 +114,7 @@
                         <Trigger Property="h:Cattach.IsDragEnter" Value="true">
                             <Setter Property="BorderBrush" TargetName="boder" Value="{DynamicResource S.Brush.Accent}"/>
                             <Setter Property="BorderThickness" TargetName="boder"   Value="0,1,0,0"/>
+                            <Setter Property="CornerRadius" TargetName="boder"   Value="0"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -282,19 +288,22 @@
                                 BorderThickness="{TemplateBinding BorderThickness}"/>
 
                         <Grid Margin="{TemplateBinding Padding}">
-                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
                             <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
 
-                            <local:FButton Style="{DynamicResource S.FButton.Close}"
+                            <Button Grid.Column="1" Style="{DynamicResource S.Button.Close}" Width="{DynamicResource S.Window.Row.Height}" HorizontalAlignment="Center" Margin="0" Background="Transparent" Foreground="{TemplateBinding Foreground}"
                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.IsUseClose),Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
-                                       FIconSize="{DynamicResource S.FIcon.Size.Small}">
+                                      h:Cattach.FIconSize="{DynamicResource S.FIcon.Size.Small}">
                                 <h:Interaction.Triggers>
                                     <h:EventTrigger EventName="Click">
                                         <h:CloseItemsAction ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}" 
                                                         Item="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}}"/>
                                     </h:EventTrigger>
                                 </h:Interaction.Triggers>
-                            </local:FButton>
+                            </Button>
                         </Grid>
 
                     </Grid>
@@ -330,8 +339,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <CheckBox Margin="{TemplateBinding Padding}" Style="{DynamicResource S.CheckBox.Box}" VerticalAlignment="{TemplateBinding VerticalAlignment}"
-                                            
+                    <CheckBox Margin="{TemplateBinding Padding}" Style="{DynamicResource S.CheckBox.Box}" 
+                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
                               IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}">
                         <CheckBox.Content>
                             <ContentPresenter/>
@@ -410,7 +419,24 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border x:Name="boder">
-                        <ContentPresenter/>
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+
+                            <Button Grid.Column="1" Style="{DynamicResource S.Button.Close}" Width="{DynamicResource S.Window.Row.Height}" HorizontalAlignment="Center" Margin="0" Background="Transparent" Foreground="{TemplateBinding Foreground}"
+                                       Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.IsUseClose),Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
+                                      h:Cattach.FIconSize="{DynamicResource S.FIcon.Size.Small}">
+                                <h:Interaction.Triggers>
+                                    <h:EventTrigger EventName="Click">
+                                        <h:CloseItemsAction ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}" 
+                                                        Item="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}}"/>
+                                    </h:EventTrigger>
+                                </h:Interaction.Triggers>
+                            </Button>
+                        </Grid>
                     </Border> 
                 </ControlTemplate>
             </Setter.Value>
@@ -424,6 +450,13 @@
         <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/> 
     </Style>
 
+    <Style x:Key="S.ListBoxItem.AccentBack" TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource S.ListBoxItem.Default}">
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.White.Opactiy.1}"/>
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.White.Opactiy.3}"/>
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+    </Style>
+
     <Style x:Key="S.ListBoxItem.Office" TargetType="{x:Type ListBoxItem}"  BasedOn="{StaticResource S.ListBoxItem.Default}">
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
@@ -435,8 +468,28 @@
     </Style>
 
     <!--允许拖拽的项-->
-    <Style x:Key="S.ListBoxItem.AllowDrop" TargetType="ListBoxItem" BasedOn="{StaticResource S.ListBoxItem.Default}">
+    <Style x:Key="S.ListBoxItem.AllowDrop" TargetType="ListBoxItem" BasedOn="{StaticResource S.ListBoxItem.Single}">
         <Setter Property="AllowDrop" Value="True"/>
-        <Setter Property="h:ListBoxItemAllowDropBehavior.IsActive" Value="True"/>
+        <!--<Setter Property="h:ElementAllowDrapBehavior.IsActive" Value="True"/>-->
+        <Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <local:ElementAllowDrapBehavior DropAdornerMode="OnlyY" DragDropEffects="Move"/> 
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--允许拖拽的项-->
+    <Style x:Key="S.ListBoxItem.AllowDrop.Both" TargetType="ListBoxItem" BasedOn="{StaticResource S.ListBoxItem.Default}">
+        <Setter Property="AllowDrop" Value="True"/>
+        <!--<Setter Property="h:ElementAllowDropBehavior.IsActive" Value="True"/>-->
+        <Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <local:ElementAllowDrapBehavior DropAdornerMode="Both" DragDropEffects="Move"/>
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>
     </Style>
 </ResourceDictionary>

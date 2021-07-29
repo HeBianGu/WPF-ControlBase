@@ -6,7 +6,7 @@ namespace HeBianGu.Application.TouchWindow
     {
         public DataSourceLocator()
         {
-           
+          
         }
 
 

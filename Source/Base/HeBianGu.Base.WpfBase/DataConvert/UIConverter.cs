@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -898,7 +899,7 @@ namespace HeBianGu.Base.WpfBase
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return value == null ? string.Empty : value; 
+            return value == null ? string.Empty : value;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -987,7 +988,7 @@ namespace HeBianGu.Base.WpfBase
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if(int.TryParse(value?.ToString(), out int KSize))
+            if (int.TryParse(value?.ToString(), out int KSize))
             {
                 if (KSize / GB >= 1)
 
@@ -1011,6 +1012,44 @@ namespace HeBianGu.Base.WpfBase
         }
     }
 
+
+    /// <summary> 显示类型的Display名称 </summary>
+    public class GetTypeDisplayConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var display = value.GetType().GetCustomAttributes(typeof(DescriptionAttribute), false)?.FirstOrDefault() as DescriptionAttribute;
+
+            return display == null ? value.GetType().Name : display.Description; 
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    /// <summary> 设置文本框PropertyChanged 可以输入小数点 </summary>
+    public class DoubleTextConverter : IValueConverter
+    {
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            string str = value.ToString();
+
+            if (str.EndsWith(".")) return ".";
+
+            if (str.Contains(".") && str.EndsWith("0")) return ".";
+
+            return value;
+        }
+    }
     /// <summary> 根据映射转换显示 </summary>
     public class DisplayMapConverter : IValueConverter
     {

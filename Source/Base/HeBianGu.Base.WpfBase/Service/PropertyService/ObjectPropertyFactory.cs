@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,17 +15,6 @@ namespace HeBianGu.Base.WpfBase
         /// <summary> 根据属性创建实体类型 </summary>
         public static ObjectPropertyItem Create(PropertyInfo info, object obj)
         {
-
-            var editor = info.GetCustomAttribute<EditorAttribute>();
-
-            if(editor!=null)
-            {
-                if(editor.EditorTypeName== "Combobox")
-                {
-                    return new ComboboxPropertyItem(info, obj);
-                }
-            }
-
             if (info.PropertyType == typeof(int))
             {
                 return new IntPropertyItem(info, obj);
@@ -45,8 +35,20 @@ namespace HeBianGu.Base.WpfBase
             {
                 return new BoolPropertyItem(info, obj);
             }
+            else if (info.PropertyType.IsEnum)
+            {
+                return new EnumPropertyItem(info, obj);
+            }
+            else if (typeof(IEnumerable).IsAssignableFrom(info.PropertyType))
+            {
+                return new IEnumerablePropertyItem(info, obj);
+            }
+            else
+            {
+                return new ObjectPropertyItem<object>(info, obj);
 
-            return null;
+                //return new ObjectPropertyItem(info, obj);
+            } 
         }
 
         /// <summary> 模型有效信息验证 </summary>

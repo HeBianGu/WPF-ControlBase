@@ -22,26 +22,27 @@ namespace HeBianGu.Base.WpfBase
         protected override void OnAttached()
         {
             AssociatedObject.AllowDrop = true;
+
             AssociatedObject.Drop += AssociatedObjectOnDrop;
 
             AssociatedObject.DragEnter += AssociatedObject_DragEnter;
 
             //AssociatedObject.DragLeave += AssociatedObject_DragLeave;
 
-            AssociatedObject.MouseMove += AssociatedObject_MouseMove;  
+            AssociatedObject.MouseMove += AssociatedObject_MouseMove;
         }
 
         private void AssociatedObject_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (AssociatedObject.AllowDrop) return;
 
-             AssociatedObject.AllowDrop = true;
+            AssociatedObject.AllowDrop = true;
         }
 
         private void AssociatedObject_DragLeave(object sender, DragEventArgs e)
         {
             AssociatedObject.AllowDrop = true;
-        } 
+        }
         private void AssociatedObject_DragEnter(object sender, DragEventArgs e)
         {
             AssociatedObject.AllowDrop = e.Data.GetDataPresent(this.DragGroup);
@@ -107,7 +108,23 @@ namespace HeBianGu.Base.WpfBase
 
             //(dropTarget.ItemsSource as IList).Add(dragEventArgs.Data.GetData("Custom"));
 
-            (dropTarget.ItemsSource as IList).Insert(index, dragEventArgs.Data.GetData(this.DragGroup));
+            var dragData = dragEventArgs.Data.GetData(this.DragGroup);
+
+            if (dragEventArgs.AllowedEffects == DragDropEffects.Copy)
+            {
+                if (dragData is ICloneable cloneable)
+                {
+                    (dropTarget.ItemsSource as IList).Insert(index, cloneable.Clone());
+                }
+                else
+                {
+                    (dropTarget.ItemsSource as IList).Insert(index, dragData);
+                }
+            }
+            else
+            {
+                (dropTarget.ItemsSource as IList).Insert(index, dragData);
+            }
         }
 
         object GetDataByMousePoint(Point point)

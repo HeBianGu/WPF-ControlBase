@@ -59,9 +59,14 @@ namespace HeBianGu.Base.WpfBase
         protected override void OnAttached()
         {
             base.OnAttached();
-            AssociatedObject.PreviewMouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
-            AssociatedObject.PreviewMouseMove += OnPreviewMouseMove;
-            AssociatedObject.PreviewMouseLeftButtonUp += OnPreviewMouseLeftButtonUp;
+            //AssociatedObject.MouseLeftButtonDown += OnPreviewMouseLeftButtonDown;
+            //AssociatedObject.MouseMove += OnPreviewMouseMove;
+            //AssociatedObject.MouseLeftButtonUp += OnPreviewMouseLeftButtonUp;
+
+            AssociatedObject.AddHandler(UIElement.MouseRightButtonDownEvent,new MouseButtonEventHandler(OnPreviewMouseLeftButtonDown), true);
+            AssociatedObject.AddHandler(UIElement.MouseMoveEvent, new MouseEventHandler(OnPreviewMouseMove), true); 
+            AssociatedObject.AddHandler(UIElement.MouseRightButtonUpEvent, new MouseButtonEventHandler(OnPreviewMouseLeftButtonUp), true);
+
         }
 
         /// <summary>
@@ -73,9 +78,13 @@ namespace HeBianGu.Base.WpfBase
         protected override void OnDetaching()
         {
             base.OnDetaching();
-            AssociatedObject.PreviewMouseLeftButtonDown -= OnPreviewMouseLeftButtonDown;
-            AssociatedObject.PreviewMouseMove -= OnPreviewMouseMove;
-            AssociatedObject.PreviewMouseLeftButtonUp -= OnPreviewMouseLeftButtonUp;
+            //AssociatedObject.MouseLeftButtonDown -= OnPreviewMouseLeftButtonDown;
+            //AssociatedObject.MouseMove -= OnPreviewMouseMove;
+            //AssociatedObject.MouseLeftButtonUp -= OnPreviewMouseLeftButtonUp;
+
+            AssociatedObject.RemoveHandler(UIElement.MouseRightButtonDownEvent, new MouseButtonEventHandler(OnPreviewMouseLeftButtonDown));
+            AssociatedObject.RemoveHandler(UIElement.MouseMoveEvent, new MouseEventHandler(OnPreviewMouseMove));
+            AssociatedObject.RemoveHandler(UIElement.MouseRightButtonUpEvent, new MouseButtonEventHandler(OnPreviewMouseLeftButtonUp));
 
             if (_timer != null)
             {
@@ -103,7 +112,7 @@ namespace HeBianGu.Base.WpfBase
             _isCaptured = true;
             _startDrag = DateTime.Now;
 
-            AssociatedObject.CaptureMouse();
+            //AssociatedObject.CaptureMouse();
         }
 
         /// <summary>
@@ -113,7 +122,7 @@ namespace HeBianGu.Base.WpfBase
         /// <param name="e"></param>
         void OnPreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (!_isCaptured || e.LeftButton != MouseButtonState.Pressed)
+            if (!_isCaptured || e.RightButton != MouseButtonState.Pressed)
                 return;
 
             Point point = e.GetPosition(AssociatedObject);

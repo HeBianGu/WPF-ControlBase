@@ -483,6 +483,7 @@
         <Setter Property="EnableRowVirtualization" Value="True" />
         <Setter Property="EnableColumnVirtualization" Value="False" />
         <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="ColumnWidth" Value="*" />
         <Setter Property="IsReadOnly" Value="True" />
         <Setter Property="SelectionMode" Value="Single" />
         <Setter Property="SelectionUnit" Value="FullRow" />
@@ -608,8 +609,7 @@
                     <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
                 </Style>
             </Setter.Value>
-        </Setter>
-
+        </Setter> 
     </Style>
 
 
@@ -631,7 +631,26 @@
     <Style x:Key="S.DataGrid.Clear" TargetType="DataGrid" BasedOn="{StaticResource S.DataGrid.Single}">
         <Setter Property="HorizontalGridLinesBrush" Value="Transparent" />
         <Setter Property="VerticalGridLinesBrush" Value="Transparent" />
-        <Setter Property="RowStyle" Value="{StaticResource S.DataGrid.DataGridRow.Clear}" />
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type DataGridColumnHeader}" BasedOn="{StaticResource S.DataGrid.DataGridColumnHeader.Default}">
+                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Title}" />
+                    <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
+                    <Setter Property="Background" Value="{DynamicResource S.Brush.TextBorderBrush.Default}" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="RowStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type DataGridRow}" BasedOn="{StaticResource S.DataGrid.DataGridRow.Clear}">
+                    <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource S.Brush.TextForeground.MouseOver}"/>
+                    <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+                    <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.TextForeground.Selected}"/>
+                    <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="S.DataGrid.Vertical.Default" TargetType="DataGrid" BasedOn="{StaticResource S.DataGrid.Default}">
