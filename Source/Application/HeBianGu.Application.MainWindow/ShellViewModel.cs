@@ -274,6 +274,20 @@ namespace HeBianGu.Application.MainWindow
         }
 
 
+        private ObservableCollection<TreeNodeBase<Student>> _treeSource = new ObservableCollection<TreeNodeBase<Student>>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<TreeNodeBase<Student>> TreeSource
+        {
+            get { return _treeSource; }
+            set
+            {
+                _treeSource = value;
+                RaisePropertyChanged("TreeSource");
+            }
+        }
+
+
+
         #endregion
 
         #region - 命令 -
@@ -370,6 +384,28 @@ namespace HeBianGu.Application.MainWindow
             testConfig = testConfig.LoadFromFile(filePath);
 
             this.Config = testConfig;
+
+
+            //  Do ：构造树节点
+            for (int i = 0; i < 5; i++)
+            {
+                TreeNodeBase<Student> l1 = new TreeNodeBase<Student>(Student.Random());
+
+                for (int j = 0; j < 3; j++)
+                {
+                    TreeNodeBase<Student> l2 = new TreeNodeBase<Student>(Student.Random());
+
+                    l1.AddNode(l2);
+
+                    for (int k = 0; k < 5; k++)
+                    {
+                        TreeNodeBase<Student> l3 = new TreeNodeBase<Student>(Student.Random());
+
+                        l2.AddNode(l3);
+                    }
+                }
+                this.TreeSource.Add(l1);
+            }
         }
 
         Random random = new Random();

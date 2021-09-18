@@ -89,10 +89,9 @@
                             <ColumnDefinition  Width="Auto" />
                         </Grid.ColumnDefinitions>
  
-                        <ContentControl x:Name="Label" 
+                        <ContentControl x:Name="Label"
                                             Template="{TemplateBinding h:Cattach.LabelTemplate}" 
                                             IsTabStop="False" IsHitTestVisible="False" 
-                                            Background="{TemplateBinding BorderBrush}"
                                             Content="{TemplateBinding h:Cattach.Label}" 
                                             Margin="1,1,0,1"/>
 
@@ -103,9 +102,12 @@
                                        Text="{TemplateBinding h:Cattach.FIcon}"/>
 
 
-                        <TextBlock Grid.Column="2" x:Name="txt" Text="{TemplateBinding Content}" Style="{DynamicResource S.TextBlock.Default}"
+                        <!--<TextBlock Grid.Column="2" x:Name="txt" Text="{TemplateBinding Content}" Style="{DynamicResource S.TextBlock.Default}"
                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}"
-                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>-->
+
+                        <ContentPresenter Grid.Column="2" x:Name="txt" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                           Margin="{TemplateBinding Padding}"  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -116,12 +118,11 @@
         <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
         <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
         <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource S.Window.Title.Width}"/>
-        
         <Setter Property="h:Cattach.LabelTemplate" >
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border  Width="{Binding RelativeSource={RelativeSource AncestorType=Label},Path=(h:Cattach.TitleWidth)}"  
-                             Margin="{Binding RelativeSource={RelativeSource AncestorType=Label},Path=(h:Cattach.TitleMargin)}">
+                    <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Label},Path=(h:Cattach.TitleWidth)}"
+                            Margin="{Binding RelativeSource={RelativeSource AncestorType=Label},Path=(h:Cattach.TitleMargin)}">
                         <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" 
                                    Foreground="{Binding RelativeSource={RelativeSource AncestorType=Label},Path=(h:Cattach.TitleForeground)}" 
                                    Text="{TemplateBinding Content}"/>

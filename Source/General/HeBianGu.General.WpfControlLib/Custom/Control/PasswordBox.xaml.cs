@@ -18,20 +18,18 @@ using System.Windows.Shapes;
 namespace HeBianGu.General.WpfControlLib
 {
     /// <summary> 可以绑定的密码框 </summary>
-    [TemplatePart(Name = "PART_PassWord", Type = typeof(PasswordBox))]
+    [TemplatePart(Name = "PART_PassWord", Type = typeof(System.Windows.Controls.PasswordBox))]
     [TemplatePart(Name = "PART_TextBox", Type = typeof(TextBox))]
-
-
-    public partial class BindPassWordBox : ContentControl
+    public partial class PasswordBox : ContentControl
     {
-        PasswordBox _password = null;
+        System.Windows.Controls.PasswordBox _password = null;
         TextBox _textbox = null;
         public override void OnApplyTemplate()
         {
 
             base.OnApplyTemplate();
 
-            this._password = Template.FindName("PART_PassWord", this) as PasswordBox;
+            this._password = Template.FindName("PART_PassWord", this) as System.Windows.Controls.PasswordBox;
 
             this._textbox = Template.FindName("PART_TextBox", this) as TextBox;
 
@@ -53,9 +51,9 @@ namespace HeBianGu.General.WpfControlLib
         }
 
 
-        static BindPassWordBox()
+        static PasswordBox()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(BindPassWordBox), new FrameworkPropertyMetadata(typeof(BindPassWordBox)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(PasswordBox), new FrameworkPropertyMetadata(typeof(PasswordBox)));
         }
 
         public string PassWord
@@ -66,9 +64,9 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PassWordProperty =
-            DependencyProperty.Register("PassWord", typeof(string), typeof(BindPassWordBox), new PropertyMetadata(default(string), (d, e) =>
+            DependencyProperty.Register("PassWord", typeof(string), typeof(PasswordBox), new PropertyMetadata(default(string), (d, e) =>
             {
-                BindPassWordBox control = d as BindPassWordBox;
+                PasswordBox control = d as PasswordBox;
 
                 if (control == null) return;
 
@@ -84,7 +82,7 @@ namespace HeBianGu.General.WpfControlLib
             }));
 
 
-        private static void SetPasswordBoxSelection(PasswordBox passwordBox, int start, int length)
+        private static void SetPasswordBoxSelection(System.Windows.Controls.PasswordBox passwordBox, int start, int length)
         {
             var select = passwordBox.GetType().GetMethod("Select",
                             BindingFlags.Instance | BindingFlags.NonPublic);
@@ -103,9 +101,9 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectionBrushProperty =
-            DependencyProperty.Register("SelectionBrush", typeof(Brush), typeof(BindPassWordBox), new PropertyMetadata(default(Brush), (d, e) =>
+            DependencyProperty.Register("SelectionBrush", typeof(Brush), typeof(PasswordBox), new PropertyMetadata(default(Brush), (d, e) =>
             {
-                BindPassWordBox control = d as BindPassWordBox;
+                PasswordBox control = d as PasswordBox;
 
                 if (control == null) return;
 
@@ -122,9 +120,9 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PasswordCharProperty =
-            DependencyProperty.Register("PasswordChar", typeof(string), typeof(BindPassWordBox), new PropertyMetadata(default(string), (d, e) =>
+            DependencyProperty.Register("PasswordChar", typeof(string), typeof(PasswordBox), new PropertyMetadata(default(string), (d, e) =>
             {
-                BindPassWordBox control = d as BindPassWordBox;
+                PasswordBox control = d as PasswordBox;
 
                 if (control == null) return;
 
@@ -141,9 +139,9 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty CaretBrushProperty =
-            DependencyProperty.Register("CaretBrush", typeof(Brush), typeof(BindPassWordBox), new PropertyMetadata(default(Brush), (d, e) =>
+            DependencyProperty.Register("CaretBrush", typeof(Brush), typeof(PasswordBox), new PropertyMetadata(default(Brush), (d, e) =>
             {
-                BindPassWordBox control = d as BindPassWordBox;
+                PasswordBox control = d as PasswordBox;
 
                 if (control == null) return;
 

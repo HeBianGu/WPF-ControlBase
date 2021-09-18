@@ -12,12 +12,13 @@
                 <ColumnDefinition  Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition  Width="Auto" />
+                <ColumnDefinition  Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <!--背景-->
             <Border x:Name="Bg" 
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="3"
+                                BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="8"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 Background="{TemplateBinding Background}"/>
 
@@ -30,13 +31,13 @@
             <!--鼠标悬停-->
             <Border x:Name="boder_mouseover"
                                 Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBackground)}"
-                                Opacity="0.5" Grid.Column="1" Grid.ColumnSpan="3"
+                                Opacity="0.5" Grid.Column="1" Grid.ColumnSpan="8"
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"/>
 
             <!--获取焦点-->
             <Border x:Name="boder"
                                 Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.FocusBackground)}"
-                                Opacity="0" Grid.Column="1" Grid.ColumnSpan="3"
+                                Opacity="0" Grid.Column="1" Grid.ColumnSpan="8"
                                 CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"/>
 
             <!--Label区域-->
@@ -67,8 +68,13 @@
                                        Opacity="{DynamicResource S.Opacity.Watermark}"
                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="5,2,5,2" />
+
+            <ToggleButton Grid.Column="3" Style="{DynamicResource S.ToggleButton.Rotate.90}" ToolTip="历史记录"
+                          Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.IsUseHistory),Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
+                          IsChecked="{Binding ElementName=PART_Popup_History,Path=IsOpen}"/>
+
             <!--附加内容区域-->
-            <Border Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Border Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <ContentControl  x:Name="PART_AttachContent"  Foreground="{TemplateBinding Foreground}" VerticalAlignment="Top" VerticalContentAlignment="Top" 
                                                 Template="{TemplateBinding h:Cattach.AttachContent}" />
             </Border>
@@ -97,16 +103,16 @@
 
             <Popup x:Name="PART_Popup_History" PlacementTarget="{Binding ElementName=Bg}"
                                AllowsTransparency="True" Grid.Column="1"
-                               Focusable="False" VerticalOffset="0"
+                               Focusable="False" VerticalOffset="0" StaysOpen="False"
                                PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
                                Placement="Bottom">
-                <Popup.IsOpen>
+                <!--<Popup.IsOpen>
                     <MultiBinding Mode="OneWay" Converter="{StaticResource S.Converter.History}">
                         <Binding Path="IsFocused" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
                         <Binding Path="(h:Cattach.IsUseHistory)" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
                         <Binding Path="(h:Cattach.HistoryData)" RelativeSource="{RelativeSource TemplatedParent}" Mode="OneWay"/>
                     </MultiBinding>
-                </Popup.IsOpen>
+                </Popup.IsOpen>-->
 
                 <Grid Width="{Binding ActualWidth,ElementName=Bg}" MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
 
@@ -386,7 +392,7 @@
                                    Foreground="{TemplateBinding Foreground}" 
                                    Cursor="Arrow"/>-->
 
-                    <Button Style="{DynamicResource S.Button.Close}" Width="Auto"
+                    <Button Style="{DynamicResource S.Button.Clear}" Width="Auto" h:Cattach.FIcon="&#xe701;" h:Cattach.FIconSize="18"
                                 h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
                             CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}"
                             Command="h:Cattach.ClearTextCommand"/>
@@ -437,7 +443,7 @@
                                    Foreground="{TemplateBinding Foreground}" 
                                    Cursor="Arrow"/>-->
 
-                    <Button Style="{DynamicResource S.Button.Close}"
+                    <Button Style="{DynamicResource S.Button.Clear}"
                                 h:Cattach.IsClearTextButtonBehaviorEnabled="True" 
                             CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}"
                             Command="h:Cattach.ClearTextCommand"/>

@@ -43,6 +43,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
+                            
                             <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
 
                             <Button Grid.Column="1" Style="{DynamicResource S.Button.Close}" Width="{DynamicResource S.Window.Row.Height}" HorizontalAlignment="Center" Margin="0" Background="Transparent" Foreground="{TemplateBinding Foreground}"
@@ -489,6 +490,46 @@
                 <h:Behaviors>
                     <local:ElementAllowDrapBehavior DropAdornerMode="Both" DragDropEffects="Move"/>
                 </h:Behaviors>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <!--多选项样式-->
+    <Style x:Key="S.ListBoxItem.CheckBox.Default" TargetType="{x:Type ListBoxItem}" >
+        <Setter Property="Height"  Value="{DynamicResource S.Window.Item.Height}" />
+        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Padding" Value="10,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}" >
+                    <Border x:Name="Border" Background="{TemplateBinding Background}" Margin="0,0.5" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"  Margin="{TemplateBinding Padding}">
+                            <CheckBox x:Name="cbx" IsChecked="{Binding Path=IsSelected,RelativeSource={RelativeSource TemplatedParent},Mode=TwoWay}">
+                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </CheckBox>
+                        </StackPanel>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource S.Brush.Accent}" />
+                            <Setter Property="Foreground"  TargetName="cbx" Value="{DynamicResource S.Brush.White.Notice}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="{DynamicResource S.Brush.Accent.MouseOver}" />
+                            <Setter Property="Foreground" TargetName="cbx" Value="{DynamicResource S.Brush.White.Notice}" />
+
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Opacity" Value="{StaticResource S.Opacity.Disable}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>

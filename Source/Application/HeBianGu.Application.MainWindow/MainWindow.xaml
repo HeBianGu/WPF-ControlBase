@@ -10,8 +10,10 @@
         NotifyIconSource="/HeBianGu.General.WpfControlLib;component/Resources/iBook.ico"
         xmlns:h="QQ:908293466" 
         xmlns:system="clr-namespace:System;assembly=mscorlib"
-        xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib" xmlns:image="clr-namespace:HeBianGu.Control.ImagePlayer;assembly=HeBianGu.Control.ImagePlayer" xmlns:panel="clr-namespace:HeBianGu.Control.Panel.Panel;assembly=HeBianGu.Control.Panel"
-                  Height= "700" Width="1250" CaptionHeight="35" FIconSize="30">
+        xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib" 
+        xmlns:image="clr-namespace:HeBianGu.Control.ImagePlayer;assembly=HeBianGu.Control.ImagePlayer" 
+        xmlns:panel="clr-namespace:HeBianGu.Control.Panel.Panel;assembly=HeBianGu.Control.Panel" 
+        Height= "700" Width="1250" CaptionHeight="35" FIconSize="30">
 
     <Window.Resources>
         <ImageSource x:Key="image">../Resources/组 4@2x.png</ImageSource>
@@ -56,7 +58,101 @@
                 </Path.p>
             </Path>
         </TabItem>-->
+        <TabItem Header="TreeListView">
+            <DockPanel>
+                <h:TreeListView ItemsSource="{Binding TreeSource}">
+                    
+                    <h:TreeListView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Nodes}"/>
+                    </h:TreeListView.ItemTemplate>
+                    
+                    <h:TreeListView.Columns>
+                        <GridViewColumnCollection>
+                            <GridViewColumn Header="姓名"  Width="300">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}" 
+                                                  Margin="{Binding Path=Level, Converter={StaticResource LevelIndentConverter},RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}"
+                                                  IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}"
+                                                  ClickMode="Press"/>
 
+                                            <CheckBox IsChecked="{Binding IsSelected}" Margin="15,0"/>
+                                            
+                                            <!--首列绑定值-->
+                                            <TextBlock Margin="0,0">
+                                                <Run Text="{Binding Model.Name}"/>
+                                            </TextBlock>
+                                        </DockPanel>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding Path=HasItems,RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}" Value="False">
+                                                <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Header="时间"   DisplayMemberBinding="{Binding Model.Time}" Width="200" />
+                            <GridViewColumn Header="班级"   DisplayMemberBinding="{Binding Model.Class}" Width="200" />
+                            <GridViewColumn Header="年龄"   DisplayMemberBinding="{Binding Model.Age}" Width="200" />
+                        </GridViewColumnCollection>
+                    </h:TreeListView.Columns>
+                </h:TreeListView>
+            </DockPanel>
+        </TabItem>
+
+
+        <TabItem Header="SearchComboBox">
+            <DockPanel>
+                <DockPanel.Resources>
+                    <!--交替行样式 通过索引转换颜色 ContentProperty和IList-->
+                    <AlternationConverter x:Key="conBack">
+                        <SolidColorBrush/>
+                        <SolidColorBrush Color="Red"/>
+                    </AlternationConverter>
+                </DockPanel.Resources>
+            </DockPanel>
+        </TabItem>
+
+        <TabItem Header="SearchComboBox">
+            <DockPanel>
+                <h:SearchComboBox MyItemsSource="{Binding Students}"/>
+            </DockPanel>
+        </TabItem>
+
+        <TabItem Header="AnimatedTabControl">
+            <DockPanel>
+                <h:AnimatedTabControl>
+                    <TabItem Header="Tab1">
+                        <Grid Background="Red"/>
+                    </TabItem>
+                    <TabItem Header="Tab2">
+                        <Grid Background="Blue"/>
+                    </TabItem>
+                    <TabItem Header="Tab3">
+                        <Grid Background="Green"/>
+                    </TabItem>
+                </h:AnimatedTabControl>
+            </DockPanel>
+        </TabItem>
+        
+        <TabItem Header="PropertyView">
+            <DockPanel>
+                <h:PropertyView SelectObject="{Binding Student}" h:Cattach.TitleWidth="100" h:Cattach.TitleMargin="5,0">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </h:PropertyView>
+            </DockPanel>
+        </TabItem>
+
+        <TabItem Header="MultiComboBox">
+            <DockPanel>
+                <h:MultiComboBox ItemsSource="{Binding Students}"/>
+            </DockPanel>
+        </TabItem>
 
 
         <TabItem Header="SelectionBox">
@@ -1331,9 +1427,9 @@
             </ScrollViewer>
         </TabItem>
 
-        <TabItem Header="行为 - 当拖动滚动条时显示当前滚动信息">
-            <GroupBox Header="ScrollingPreviewBehavior">
-                <h:TimeAnimation Style="{StaticResource S.TimeAnimation.Random.OST}">
+        <TabItem Header="AnimationBox">
+            <GroupBox Header="AnimationBox">
+                <h:AnimationBox Style="{StaticResource S.AnimationBox.Random.OST}">
                     <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
                     <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
                     <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
@@ -1341,7 +1437,7 @@
                     <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
                     <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
                     <TextBlock RenderTransform="{StaticResource S.TransformGroup.Default}" FontSize="100" RenderTransformOrigin="0.5,0.5" Text="&#xe90c;" Foreground="Orange" Style="{DynamicResource S.TextBlock.FIcon}"/>
-                </h:TimeAnimation>
+                </h:AnimationBox>
             </GroupBox>
         </TabItem>
 

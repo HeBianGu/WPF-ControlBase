@@ -31,7 +31,7 @@ namespace HeBianGu.Application.ToolWindow
 
             ObservableCollection<FileBindModel> b = s.SerializeDeJson<ObservableCollection<FileBindModel>>();
 
-            return b;
+            return b??new ObservableCollection<FileBindModel>();
         }
 
        public void SaveCommons(ObservableCollection<FileBindModel> collection)
