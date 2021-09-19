@@ -17,6 +17,8 @@ namespace HeBianGu.Application.ToolWindow
     class ShellViewModel : WindowLinkViewModel
     {
 
+       
+
 
         private ObservableCollection<ClickAction> _clickActions = new ObservableCollection<ClickAction>();
         /// <summary> 说明  </summary>
