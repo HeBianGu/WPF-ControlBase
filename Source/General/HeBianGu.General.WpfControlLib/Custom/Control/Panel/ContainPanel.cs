@@ -171,7 +171,7 @@ namespace HeBianGu.General.WpfControlLib
                 this.Remove(this.Children[0]);
             } 
 
-            var result = await this.LinkAction.ActionResult();
+            var result = await this.LinkAction.CreateActionResult();
 
             this.Add(result.View as UIElement);
         }

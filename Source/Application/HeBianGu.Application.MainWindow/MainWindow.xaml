@@ -58,14 +58,109 @@
                 </Path.p>
             </Path>
         </TabItem>-->
+
+
+        <TabItem Header="ArcSegment">
+            <Grid>
+                <Path Stroke="Red" HorizontalAlignment="Left" VerticalAlignment="Top" StrokeThickness="10">
+                    <Path.Data>
+                        <PathGeometry>
+                            <PathFigure IsClosed="True" StartPoint="50,50">
+
+                                <LineSegment  Point="0,50"/>
+
+                                <ArcSegment  Point="50,0" RotationAngle="270" IsLargeArc="True" Size="50,50" SweepDirection="Counterclockwise"/>
+
+                                <LineSegment  Point="50,50"/>
+                                <!--<ArcSegment Point="50,50" RotationAngle="120"  IsLargeArc="False" Size="50,50" SweepDirection="Counterclockwise"/>-->
+
+                            </PathFigure>
+                        </PathGeometry>
+                    </Path.Data>
+                    <Path.Style>
+                        <Style TargetType="Path">
+                            <Setter Property="Fill" Value="Gray"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Fill" Value="Purple"/>
+                                </Trigger>
+                                <!--<Trigger Property="IsMouseOver" Value="False">
+                                    <Setter Property="Fill" Value="Yellow"/>
+                                </Trigger>-->
+                            </Style.Triggers>
+                        </Style>
+                    </Path.Style>
+                </Path>
+            </Grid>
+        </TabItem>
+        <TabItem Header="ContextMenuService">
+            <GroupBox Header="Alt键启用 用下划线来指定用作访问键的字符">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <ContextMenu x:Key="myContextMenu">
+                            <MenuItem Header="Item"/>
+                        </ContextMenu>
+                    </StackPanel.Resources>
+
+                    <!--Both buttons use the same ContextMenu but use the
+    properties on ContextMenuService to position them
+    differently.-->
+                    <Button ContextMenu="{StaticResource myContextMenu}" 
+          ContextMenuService.HasDropShadow="False" 
+          ContextMenuService.Placement="Relative"
+          ContextMenuService.HorizontalOffset="50"
+          ContextMenuService.VerticalOffset="-10">
+                        button 1
+                    </Button>
+
+                    <Button ContextMenu="{StaticResource myContextMenu}" 
+          ContextMenuService.HasDropShadow="True"
+          ContextMenuService.Placement="Right"
+          ContextMenuService.PlacementRectangle="0,0,30,30">
+                        button 2
+                    </Button>
+
+                    <Button Height="30" Content="Disabled Button" IsEnabled="False"
+     ContextMenuService.ShowOnDisabled="True">
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Item 1"/>
+                                <MenuItem Header="Item 2"/>
+                                <MenuItem Header="Item 3"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                </StackPanel>
+            </GroupBox>
+        </TabItem>
+        
+        <TabItem Header="AccessText">
+            <GroupBox Header="Alt键启用 用下划线来指定用作访问键的字符">
+                <DockPanel LastChildFill="False">
+
+                    <Button Command="{Binding RelayCommand}" DockPanel.Dock="Top">
+                        <AccessText>_Edit</AccessText>
+                    </Button>
+
+                    <Button Command="{Binding RelayCommand}" DockPanel.Dock="Top">
+                        <AccessText Text="_停止"></AccessText>
+                    </Button>
+
+                    <Button Command="{Binding RelayCommand}" Content="用户名(_C)" DockPanel.Dock="Top"/>
+
+                    <TextBox x:Name="tbbb" DockPanel.Dock="Top"/>
+                    <Label Content="输入文本(_T)" Target="{Binding ElementName=tbbb}" DockPanel.Dock="Top"/>
+                </DockPanel> 
+            </GroupBox>
+        </TabItem>
         <TabItem Header="TreeListView">
             <DockPanel>
                 <h:TreeListView ItemsSource="{Binding TreeSource}">
-                    
+
                     <h:TreeListView.ItemTemplate>
                         <HierarchicalDataTemplate ItemsSource="{Binding Nodes}"/>
                     </h:TreeListView.ItemTemplate>
-                    
+
                     <h:TreeListView.Columns>
                         <GridViewColumnCollection>
                             <GridViewColumn Header="姓名"  Width="300">
@@ -78,7 +173,7 @@
                                                   ClickMode="Press"/>
 
                                             <CheckBox IsChecked="{Binding IsSelected}" Margin="15,0"/>
-                                            
+
                                             <!--首列绑定值-->
                                             <TextBlock Margin="0,0">
                                                 <Run Text="{Binding Model.Name}"/>
@@ -135,7 +230,7 @@
                 </h:AnimatedTabControl>
             </DockPanel>
         </TabItem>
-        
+
         <TabItem Header="PropertyView">
             <DockPanel>
                 <h:PropertyView SelectObject="{Binding Student}" h:Cattach.TitleWidth="100" h:Cattach.TitleMargin="5,0">
@@ -158,15 +253,15 @@
         <TabItem Header="SelectionBox">
             <DockPanel>
                 <h:SearchBox x:Name="search1" InSource="{Binding Students}" IsAaZz="True" IsAsync="False" DockPanel.Dock="Top"/>
-               
+
                 <h:SelectionBox x:Name="selectionbox" PropertyName="Class"
                                 InitSource="{Binding Students}"  IsAsync="False"
                                 InSource="{Binding ElementName=search1,Path=OutSource}" DockPanel.Dock="Top"/>
-                
+
                 <h:SelectionBox x:Name="selectionbox1" PropertyName="Age" 
                                 InitSource="{Binding Students}" IsAsync="True"
                                 InSource="{Binding ElementName=selectionbox,Path=OutSource}" DockPanel.Dock="Top"/>
-                
+
                 <ListBox ItemsSource="{Binding ElementName=selectionbox1,Path=OutSource}"/>
             </DockPanel>
         </TabItem>
@@ -181,14 +276,14 @@
 
 
         <TabItem Header="SearchBox">
-            <DockPanel> 
+            <DockPanel>
                 <h:SearchBox x:Name="search3" InSource="{Binding Students}" IsAaZz="True" DockPanel.Dock="Top"/>
 
                 <ListBox ItemsSource="{Binding ElementName=search3,Path=OutSource}"/>
             </DockPanel>
         </TabItem>
 
-        
+
 
         <TabItem Header="PropertyGrid">
             <h:PropertyGrid SelectObject="{Binding Property}"/>
@@ -660,7 +755,7 @@
                 </h:Row>
 
                 <h:Row Style="{StaticResource S.Row.Column.1}">
-                    <PasswordBox Password="123456" Style="{StaticResource S.PasswordBox.Single.LabelClear}" h:Cattach.Label="标题"/>
+                    <h:Password PassWord="123456" Style="{StaticResource S.Password.Sinple.LabelClear}" h:Cattach.Label="标题"/>
                 </h:Row>
 
                 <h:Row Style="{StaticResource S.Row.Column.1}">
@@ -1005,7 +1100,7 @@
                 <Grid>
                     <h:ScrollViewerTransfor x:Name="svt" IsFullParent="True">
                         <h:Interaction.Behaviors>
-                            <h:MouseGestureScrollViewerBehavior/>
+                            <h:MouseGestureScrollViewerBehavior ChangeButton="Right"/>
                         </h:Interaction.Behaviors>
                         <Grid Height="1500" Width="1500">
                             <Grid.Background>

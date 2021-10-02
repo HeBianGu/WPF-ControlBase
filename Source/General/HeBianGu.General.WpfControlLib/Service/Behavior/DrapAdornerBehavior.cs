@@ -102,8 +102,8 @@ namespace HeBianGu.General.WpfControlLib
         protected override void OnAttached()
         {
             AssociatedObject.AllowDrop = true;
-            AssociatedObject.MouseDown += AssociatedObject_MouseDown;
-            AssociatedObject.MouseUp += AssociatedObject_MouseUp;
+            AssociatedObject.PreviewMouseDown += AssociatedObject_MouseDown;
+            AssociatedObject.PreviewMouseUp += AssociatedObject_MouseUp;
             AssociatedObject.PreviewMouseMove += AssociatedObject_MouseMove;
 
             AssociatedObject.GiveFeedback += AssociatedObject_GiveFeedback;
@@ -113,8 +113,8 @@ namespace HeBianGu.General.WpfControlLib
         {
             AssociatedObject.AllowDrop = false;
 
-            AssociatedObject.MouseDown -= AssociatedObject_MouseDown;
-            AssociatedObject.MouseUp -= AssociatedObject_MouseUp;
+            AssociatedObject.PreviewMouseDown -= AssociatedObject_MouseDown;
+            AssociatedObject.PreviewMouseUp -= AssociatedObject_MouseUp;
             AssociatedObject.PreviewMouseMove -= AssociatedObject_MouseMove;
             AssociatedObject.GiveFeedback -= AssociatedObject_GiveFeedback;
         }
@@ -133,6 +133,8 @@ namespace HeBianGu.General.WpfControlLib
 
         private void AssociatedObject_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            if (!_isCapture) return;
+
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 var source = sender as UIElement;
@@ -190,14 +192,21 @@ namespace HeBianGu.General.WpfControlLib
             DragDrop.DoDragDrop(this.AssociatedObject, dragData, DragDropEffects);
         }
 
+
+        bool _isCapture;
+
         private void AssociatedObject_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Mouse.OverrideCursor = Cursors.Arrow;
+
+            _isCapture = false;
         }
 
         private void AssociatedObject_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             startPoint = e.GetPosition(sender as UIElement);
+
+            _isCapture = true;
         }
 
         [DllImport("user32.dll")]

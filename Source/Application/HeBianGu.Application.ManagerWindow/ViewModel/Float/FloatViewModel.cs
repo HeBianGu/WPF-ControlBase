@@ -1,7 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.PropertyGrid;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
+
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

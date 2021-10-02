@@ -301,8 +301,6 @@ namespace HeBianGu.Application.MainWindow
 
             base.Init();
 
-           
-
             //for (int i = 0; i < 200; i++)
             //{
             //    this.Students.Add(Student.Random());

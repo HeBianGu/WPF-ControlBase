@@ -12,11 +12,11 @@ using System.Windows.Media.Imaging;
 using HeBianGu.Application.TouchWindow.View.Share;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
+
 
 namespace HeBianGu.Application.TouchWindow
 {
-    [Route("Loyout")]
+    [Controller("Loyout")]
     internal class LoyoutController : LoyoutControllerBase
     {
         public async Task<IActionResult> Home()

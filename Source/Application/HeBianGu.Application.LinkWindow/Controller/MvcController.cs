@@ -1,6 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ using System.Windows;
 
 namespace HeBianGu.Application.LinkWindow
 {
-    [Route("Mvc")]
+    [Controller("Mvc")]
     class MvcController : Controller<MvcViewModel>
     {
         public async Task<IActionResult> MvcCenter()

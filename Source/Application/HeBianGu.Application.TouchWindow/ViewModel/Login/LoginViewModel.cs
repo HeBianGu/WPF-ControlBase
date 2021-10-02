@@ -13,7 +13,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
+using HeBianGu.Base.WpfBase;
 
 namespace HeBianGu.Application.TouchWindow
 {

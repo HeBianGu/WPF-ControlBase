@@ -1,6 +1,5 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;

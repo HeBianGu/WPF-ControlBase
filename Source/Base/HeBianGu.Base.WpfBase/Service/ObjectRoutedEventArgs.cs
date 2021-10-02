@@ -18,6 +18,11 @@ namespace HeBianGu.Base.WpfBase
         public ObjectRoutedEventArgs(RoutedEvent routedEvent, object source) : base(routedEvent, source)
         {
         }
+        public ObjectRoutedEventArgs(RoutedEvent routedEvent, object source,T entity) : base(routedEvent, source)
+        {
+            Entity = entity;
+        }
+
 
         public T Entity { get; set; }
     }

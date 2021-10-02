@@ -65,7 +65,7 @@ namespace HeBianGu.General.WpfControlLib
 
                 var result = await Task.Run(() =>
                 {
-                    return linkActionBase?.ActionResult();
+                    return linkActionBase?.CreateActionResult();
                 });
 
                 //var result = await MessageService.ShowWaittingResultMessge(() =>

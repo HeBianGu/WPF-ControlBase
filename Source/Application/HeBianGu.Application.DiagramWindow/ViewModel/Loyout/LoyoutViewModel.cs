@@ -2,7 +2,7 @@
 using HeBianGu.Common.LocalConfig;
 using HeBianGu.Control.Diagram;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
+
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -130,6 +131,7 @@ namespace HeBianGu.Application.DiagramWindow
                 }
 
                 foreach (var item in nodes)
+
                 {
                     for (int i = 0; i < 5; i++)
                     {
@@ -283,6 +285,32 @@ namespace HeBianGu.Application.DiagramWindow
                 xmlProvider.Save(filePath, data);
 
             }
+
+            //  Do：等待消息
+            else if (command == "Button.Click.OpenDll")
+            {
+                OpenFileDialog dialog = new OpenFileDialog();
+
+                dialog.Title = "文件加载路径";
+                dialog.Filter = "配置文件(*.dll)|*.dll";
+
+                //dialog.InitialDirectory = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory); 
+
+                dialog.RestoreDirectory = true;
+
+                var r = dialog.ShowDialog();
+
+                if (!r==true) return;
+
+                string filePath = dialog.FileName;
+
+                Assembly assembly = Assembly.LoadFile(filePath); 
+
+                TypeTreeGraphSource source = new TypeTreeGraphSource(assembly);
+
+                this.TypeTreeNodes = source.NodeSource?.ToObservable(); ;
+            }
+            
         }
 
         void RefreshTreeNodes()

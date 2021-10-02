@@ -52,7 +52,6 @@ namespace HeBianGu.General.WpfControlLib
 
         protected override void OnStartup(StartupEventArgs e)
         {
-
             this.ILogger?.Info("系统启动");
 
             this.Configure(this.IApplicationBuilder);

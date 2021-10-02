@@ -1,6 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace HeBianGu.Application.ChartWindow
 {
-    [Route("Map")]
+    [Controller("Map")]
     internal class MapController : Controller<MapViewModel>
     {
         public async Task<IActionResult> China()

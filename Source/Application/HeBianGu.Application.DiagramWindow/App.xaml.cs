@@ -1,7 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.Diagram;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
+
 using System;
 using System.Collections.Generic;
 using System.Configuration;

@@ -8,7 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <Style TargetType="h:FButton" BasedOn="{StaticResource S.FButton.Style.Transparent}">
+        <Style TargetType="{x:Type h:FButton}" BasedOn="{StaticResource S.FButton.Style.Transparent}">
             <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
             <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
             <Setter Property="Width" Value="Auto"/>
@@ -19,24 +19,24 @@
             <Setter Property="IsHitTestVisible" Value="False"/>
         </Style>
 
-        <Style TargetType="Label">
+        <Style x:Key="S.Label.TextBlock" TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
             <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
             <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
             <Setter Property="Width" Value="Auto"/>
             <Setter Property="Height" Value="Auto"/>
             <Setter Property="FontSize" Value="200"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Label">
+                        <TextBlock Text="{Binding Content}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
     
     <ScrollViewer>
         <StackPanel>
-
-            <GroupBox Header="跑马灯" Height="500">
-                <Grid>
-                    <Label Content="5" FontSize="55"/>
-                    <TextBlock Text="44" FontSize="55"/>
-                </Grid>
-            </GroupBox>
             <GroupBox Header="跑马灯" Height="500">
                 <Grid>
                     <h:FlashPanel SplitMilliSecond="-1200" Height="400" Width="400">
@@ -45,11 +45,28 @@
                                 <DoubleAnimation Duration="00:00:02" From="-1000" To="1000"  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"/>
                             </cl:ArrayList>
                         </h:FlashPanel.Timelines>
-                        <Label  Content="5" FontSize="55" Style="{x:Null}"/>
-                        <Label  Content="4"/>
-                        <Label  Content="3"/>
-                        <Label Content="2"/>
-                        <Label  Content="1"/>
+
+                        <h:FlashPanel.Resources>
+                            <Style x:Key="S.Label.TextBlock" TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
+                                <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+                                <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+                                <Setter Property="Width" Value="Auto"/>
+                                <Setter Property="Height" Value="Auto"/>
+                                <Setter Property="FontSize" Value="200"/>
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Label">
+                                            <TextBlock Text="{Binding Content}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </h:FlashPanel.Resources>
+                        <Label  Content="5" Style="{DynamicResource S.Label.TextBlock}"/>
+                        <Label  Content="4" Style="{DynamicResource S.Label.TextBlock}"/>
+                        <Label  Content="3" Style="{DynamicResource S.Label.TextBlock}"/>
+                        <Label Content="2" Style="{DynamicResource S.Label.TextBlock}"/>
+                        <Label  Content="1" Style="{DynamicResource S.Label.TextBlock}"/>
                     </h:FlashPanel>
                 </Grid>
             </GroupBox>
@@ -68,11 +85,11 @@
                                 <DoubleAnimation Duration="00:00:01.2" From="1" To="0"  Storyboard.TargetProperty="Opacity"/>
                             </cl:ArrayList>
                         </h:FlashPanel.Timelines>
-                        <h:FButton  Content="5"/>
-                        <h:FButton  Content="4"/>
-                        <h:FButton  Content="3"/>
-                        <h:FButton  Content="2"/>
-                        <h:FButton  Content="1"/>
+                        <Label  Content="5" FontSize="77"/>
+                        <Label  Content="4"/>
+                        <Label  Content="3"/>
+                        <Label  Content="2"/>
+                        <Label  Content="1"/>
                     </h:FlashPanel>
                 </Grid>
             </GroupBox>
@@ -202,7 +219,7 @@
                             </cl:ArrayList>
                         </h:FlashPanel.Timelines>
 
-                        <h:FButton  Content="5"/>
+                        <h:FButton  Content="5" FIcon="5"/>
                         <h:FButton  Content="4"/>
                         <h:FButton  Content="3"/>
                         <h:FButton  Content="2"/>

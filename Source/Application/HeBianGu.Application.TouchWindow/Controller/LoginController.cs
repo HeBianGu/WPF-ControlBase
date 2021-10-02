@@ -8,11 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using HeBianGu.Base.WpfBase;
-using HeBianGu.General.WpfMvc;
+
 
 namespace HeBianGu.Application.TouchWindow
 {
-    [Route("Login")]
+    [Controller("Login")]
     internal class LoginController : Controller<LoginViewModel>
     {
         public async Task<IActionResult> Login()

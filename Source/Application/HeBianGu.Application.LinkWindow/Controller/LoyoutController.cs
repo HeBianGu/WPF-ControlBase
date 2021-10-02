@@ -1,6 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace HeBianGu.Application.LinkWindow
 {
-    [Route("Loyout")]
+    [Controller("Loyout")]
     class LoyoutController : MvcNavigationControllerBase<LoyoutViewModel>
     {
 
@@ -26,7 +26,7 @@ namespace HeBianGu.Application.LinkWindow
             return await ViewAsync();
         }
 
-        [Route("OverView/Button")]
+        [Controller("OverView/Button")]
         public async Task<IActionResult> Mdi()
         {
             return await ViewAsync();
@@ -52,97 +52,97 @@ namespace HeBianGu.Application.LinkWindow
             return await ViewAsync();
         }
 
-        [Route("OverView/Toggle")]
+        [Controller("OverView/Toggle")]
         public async Task<IActionResult> Toggle()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Carouse")]
+        [Controller("OverView/Carouse")]
         public async Task<IActionResult> Carouse()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Evaluate")]
+        [Controller("OverView/Evaluate")]
         public async Task<IActionResult> Evaluate()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Expander")]
+        [Controller("OverView/Expander")]
         public async Task<IActionResult> Expander()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Gif")]
+        [Controller("OverView/Gif")]
         public async Task<IActionResult> Gif()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Message")]
+        [Controller("OverView/Message")]
         public async Task<IActionResult> Message()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Upgrade")]
+        [Controller("OverView/Upgrade")]
         public async Task<IActionResult> Upgrade()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Property")]
+        [Controller("OverView/Property")]
         public async Task<IActionResult> Property()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/ProgressBar")]
+        [Controller("OverView/ProgressBar")]
         public async Task<IActionResult> ProgressBar()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Slider")]
+        [Controller("OverView/Slider")]
         public async Task<IActionResult> Slider()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Tab")]
+        [Controller("OverView/Tab")]
         public async Task<IActionResult> Tab()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Tree")]
+        [Controller("OverView/Tree")]
         public async Task<IActionResult> Tree()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Observable")]
+        [Controller("OverView/Observable")]
         public async Task<IActionResult> Observable()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Brush")]
+        [Controller("OverView/Brush")]
         public async Task<IActionResult> Brush()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Shadow")]
+        [Controller("OverView/Shadow")]
         public async Task<IActionResult> Shadow()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Button")]
+        [Controller("OverView/Button")]
         public async Task<IActionResult> Button()
         {
             await MessageService.ShowWaittingMessge(() => Thread.Sleep(500));
@@ -155,19 +155,19 @@ namespace HeBianGu.Application.LinkWindow
 
 
 
-        [Route("OverView/Grid")]
+        [Controller("OverView/Grid")]
         public async Task<IActionResult> Grid()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Combobox")]
+        [Controller("OverView/Combobox")]
         public async Task<IActionResult> Combobox()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView")]
+        [Controller("OverView")]
         public async Task<IActionResult> OverView()
         {
             await MessageService.ShowWaittingMessge(() => Thread.Sleep(500));
@@ -177,100 +177,100 @@ namespace HeBianGu.Application.LinkWindow
             return await ViewAsync();
         }
 
-        [Route("OverView/TextBox")]
+        [Controller("OverView/TextBox")]
         public async Task<IActionResult> TextBox()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Book")]
+        [Controller("OverView/Book")]
         public async Task<IActionResult> Book()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Xaml")]
+        [Controller("OverView/Xaml")]
         public async Task<IActionResult> Xaml()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Dimension")]
+        [Controller("OverView/Dimension")]
         public async Task<IActionResult> Dimension()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Geometry")]
+        [Controller("OverView/Geometry")]
         public async Task<IActionResult> Geometry()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Panel")]
+        [Controller("OverView/Panel")]
         public async Task<IActionResult> Panel()
         {
             return await ViewAsync();
         }
-        [Route("OverView/Transform3D")]
+        [Controller("OverView/Transform3D")]
         public async Task<IActionResult> Transform3D()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Drawer")]
+        [Controller("OverView/Drawer")]
         public async Task<IActionResult> Drawer()
         {
             return await ViewAsync();
         }
 
 
-        [Route("OverView/MessageContainer")]
+        [Controller("OverView/MessageContainer")]
         public async Task<IActionResult> MessageContainer()
         {
             return await ViewAsync();
         }
 
 
-        [Route("OverView/DatePicker")]
+        [Controller("OverView/DatePicker")]
         public async Task<IActionResult> DatePicker()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Password")]
+        [Controller("OverView/Password")]
         public async Task<IActionResult> Password()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/ListBox")]
+        [Controller("OverView/ListBox")]
         public async Task<IActionResult> ListBox()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Document")]
+        [Controller("OverView/Document")]
         public async Task<IActionResult> Document()
         {
             return await ViewAsync();
         }
 
 
-        [Route("OverView/StoryBoardPlayer")]
+        [Controller("OverView/StoryBoardPlayer")]
         public async Task<IActionResult> StoryBoardPlayer()
         {
             return await ViewAsync();
         }
 
 
-        [Route("OverView/System")]
+        [Controller("OverView/System")]
         public async Task<IActionResult> System()
         {
             return await ViewAsync();
         }
 
-        [Route("OverView/Zoom")]
+        [Controller("OverView/Zoom")]
         public async Task<IActionResult> Zoom()
         {
             return await ViewAsync();

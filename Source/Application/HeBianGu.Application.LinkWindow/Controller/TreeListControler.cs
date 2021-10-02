@@ -1,6 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +14,10 @@ using System.Windows.Controls;
 
 namespace HeBianGu.Application.LinkWindow
 {
-    [Route("TreeList")]
+    [Controller("TreeList")]
     public class TreeListController : Controller
     {
-        [Route("TreeList")]
+        [Controller("TreeList")]
         public async Task<IActionResult> TreeList()
         {
             await MessageService.ShowWaittingMessge(() => Thread.Sleep(1000));

@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Media;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
+
 
 namespace HeBianGu.Application.TouchWindow
 {

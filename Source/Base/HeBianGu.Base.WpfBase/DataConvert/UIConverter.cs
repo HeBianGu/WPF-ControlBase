@@ -1018,6 +1018,7 @@ namespace HeBianGu.Base.WpfBase
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null) return null;
             var display = value.GetType().GetCustomAttributes(typeof(DescriptionAttribute), false)?.FirstOrDefault() as DescriptionAttribute;
 
             return display == null ? value.GetType().Name : display.Description; 

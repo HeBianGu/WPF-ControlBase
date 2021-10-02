@@ -9,11 +9,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using HeBianGu.Base.WpfBase;
-using HeBianGu.General.WpfMvc;
+
 
 namespace HeBianGu.Application.TouchWindow
 {
-    [Route("Report")]
+    [Controller("Report")]
     internal class ReportController : Controller<ReportViewModel>
     {
         public async Task<IActionResult> Report(ObservableCollection<LinkActionEntity> link, bool runSumit = true)

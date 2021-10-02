@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.General.WpfMvc;
+
 
 namespace HeBianGu.Application.ToolWindow
 {

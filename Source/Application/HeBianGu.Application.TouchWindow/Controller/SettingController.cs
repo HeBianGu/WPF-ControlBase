@@ -8,11 +8,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using HeBianGu.Base.WpfBase;
-using HeBianGu.General.WpfMvc;
+
 
 namespace HeBianGu.Application.TouchWindow
 {
-    [Route("Setting")]
+    [Controller("Setting")]
     internal class SettingController : Controller<SettingViewModel>
     {
         public async Task<IActionResult> Setting()
