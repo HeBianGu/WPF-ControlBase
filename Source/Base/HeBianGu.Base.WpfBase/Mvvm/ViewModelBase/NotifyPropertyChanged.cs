@@ -7,19 +7,23 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace HeBianGu.Base.WpfBase
 {
     /// <summary> Mvvm绑定模型基类 </summary>
-    public abstract class NotifyPropertyChanged : INotifyPropertyChanged
+    public abstract class NotifyPropertyChanged : NotifyPropertyChangedBase
     {
         [Browsable(false)]
+        [XmlIgnore]
         public RelayCommand RelayCommand { get; set; }
 
         [Browsable(false)]
+        [XmlIgnore]
         public RelayCommand LoadedCommand { get; set; }
 
         [Browsable(false)]
+        [XmlIgnore]
         public RelayCommand CallMethodCommand { get; set; }
 
         protected virtual void RelayMethod(object obj)
@@ -67,18 +71,6 @@ namespace HeBianGu.Base.WpfBase
             }
 
             method.Invoke(this,null);
-        }
-
-        #region - MVVM -
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void RaisePropertyChanged([CallerMemberName] string propertyName = "")
-        {
-            if (PropertyChanged != null)
-                this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        #endregion
+        } 
     }
 }

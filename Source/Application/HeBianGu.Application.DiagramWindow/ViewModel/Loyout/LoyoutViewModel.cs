@@ -1,28 +1,15 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Common.LocalConfig;
 using HeBianGu.Control.Diagram;
-using HeBianGu.General.WpfControlLib;
 
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using System.Xml;
-using System.Xml.Serialization;
 using Link = HeBianGu.Control.Diagram.Link;
 
 namespace HeBianGu.Application.DiagramWindow
