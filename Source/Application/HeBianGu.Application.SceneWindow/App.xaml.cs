@@ -1,5 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Window.Start;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -17,10 +19,8 @@ namespace HeBianGu.Application.SceneWindow
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override void OnMainWindow(StartupEventArgs e)
         {
-            base.OnStartup(e);
-
             ShellWindow shellWindow = new ShellWindow();
 
             StartWindow startWindow = new StartWindow();
@@ -44,13 +44,19 @@ namespace HeBianGu.Application.SceneWindow
         protected override void ConfigureServices(IServiceCollection services)
         {
             //  Do ：注册本地化配置读写服务
-            services.AddSingleton<IThemeLocalizeService, LocalizeService>();
+            services.AddSingleton<IThemeSerializeService, LocalizeService>();
 
             //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
 
             ////  Do ：注册日志服务
             //services.AddSingleton<ILogService, AssemblyDomain>();
+
+            services.UseMessageWindow();
+
+            services.UseWindowAnimation();
+
+            services.UseThemeSave();
 
         }
 

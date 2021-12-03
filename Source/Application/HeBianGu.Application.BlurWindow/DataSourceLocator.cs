@@ -9,6 +9,7 @@ using System.Windows.Media;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using System.Reflection;
+using HeBianGu.Service.Validation;
 
 namespace HeBianGu.Application.BlurWindow
 {

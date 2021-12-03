@@ -1,5 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Common.LocalConfig;
+using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
 using Newtonsoft.Json;
 using System;
@@ -11,7 +12,7 @@ using System.Windows;
 
 namespace HeBianGu.Application.LinkWindow
 {
-    public class AssemblyDomain : IThemeLocalizeService,ILogService
+    public class AssemblyDomain : IThemeSerializeService,ILogService
     {
         public static AssemblyDomain Instance = new AssemblyDomain();
 
@@ -91,12 +92,12 @@ namespace HeBianGu.Application.LinkWindow
 
         LocalConfigService _localConfigService = new LocalConfigService();
 
-        public ThemeLocalizeConfig LoadTheme()
+        public ThemeConfig LoadTheme()
         {
-            return _localConfigService.LoadConfig<ThemeLocalizeConfig>(); 
+            return _localConfigService.LoadConfig<ThemeConfig>(); 
         }
 
-        public bool SaveTheme(ThemeLocalizeConfig theme)
+        public bool SaveTheme(ThemeConfig theme)
         {
             return _localConfigService.SaveConfig(theme); 
         }

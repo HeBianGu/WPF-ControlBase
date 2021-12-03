@@ -1,5 +1,6 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Common.LocalConfig;
+using HeBianGu.Control.ThemeSet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Application.TouchWindow
 {
-    class ThemeLocalizeService : IThemeLocalizeService
+    class ThemeLocalizeService : IThemeSerializeService
     {
     
         LocalConfigService _localConfigService = new LocalConfigService();
 
-        public ThemeLocalizeConfig LoadTheme()
+        public ThemeConfig LoadTheme()
         {
-            return _localConfigService.LoadConfig<ThemeLocalizeConfig>();
+            return _localConfigService.LoadConfig<ThemeConfig>();
         }
 
-        public bool SaveTheme(ThemeLocalizeConfig theme)
+        public bool SaveTheme(ThemeConfig theme)
         {
             return _localConfigService.SaveConfig(theme);
         }

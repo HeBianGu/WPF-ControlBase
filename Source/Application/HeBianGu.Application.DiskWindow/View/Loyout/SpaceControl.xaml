@@ -12,14 +12,22 @@
                         RenderTransform="{StaticResource S.TransformGroup.Default}" RenderTransformOrigin="0.5,0.5">
                 <TextBlock.Triggers>
                     <EventTrigger RoutedEvent="Button.Loaded">
-                        <BeginStoryboard Storyboard="{StaticResource S.Storyboard.RenderTransform.Shake}"/>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation From="-10" To="0"  Duration="0:0:0.2" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" RepeatBehavior="Forever">
+                                    <DoubleAnimation.EasingFunction>
+                                        <ElasticEase/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                            </Storyboard>
+                        </BeginStoryboard>
                     </EventTrigger>
                 </TextBlock.Triggers>
             </TextBlock>
 
             <TextBlock Text="私密文件存在这里更安全" Margin="0,20" Style="{DynamicResource S.TextBlock.Default}" Foreground="{DynamicResource S.Brush.TextForeground.Title}"/>
 
-            <h:Password HorizontalAlignment="Stretch" Margin="0,15,0,20" BorderBrush="{DynamicResource S.Brush.Dark.3}"/>
+            <h:PasswordBox HorizontalAlignment="Stretch" Margin="0,15,0,20" BorderBrush="{DynamicResource S.Brush.Dark.3}"/>
 
             <h:FButton Content="进入隐藏空间" Style="{DynamicResource S.FButton.Style.Default}" Width="Auto"/>
         </StackPanel>

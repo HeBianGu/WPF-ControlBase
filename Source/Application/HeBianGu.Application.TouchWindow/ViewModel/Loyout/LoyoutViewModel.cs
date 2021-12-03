@@ -15,7 +15,7 @@ using System.Windows.Data;
 using HeBianGu.Application.TouchWindow.View.Share;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
-
+using HeBianGu.Service.Mvc;
 
 namespace HeBianGu.Application.TouchWindow
 {

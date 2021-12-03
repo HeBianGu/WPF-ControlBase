@@ -1,5 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Service.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -16,13 +18,11 @@ namespace HeBianGu.Application.AboveWindow
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
         {
-            ShellWindow shellWindow = new ShellWindow();
+            return new ShellWindow(); 
 
-            shellWindow.Show();
-
-            base.OnStartup(e);
+            //base.OnStartup(e);
 
             //string sss = "1.80706845E-08";
 
@@ -38,11 +38,8 @@ namespace HeBianGu.Application.AboveWindow
 
         protected override void ConfigureServices(IServiceCollection services)
         {
-            //  Do：注册Mvc模式
-            services.UseMvc();
-
             //  Do ：注册本地化配置读写服务
-            services.AddSingleton<IThemeLocalizeService, LocalizeService>();
+            services.AddSingleton<IThemeSerializeService, LocalizeService>();
 
             //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
@@ -50,10 +47,19 @@ namespace HeBianGu.Application.AboveWindow
             ////  Do ：注册日志服务
             //services.AddSingleton<ILogService, AssemblyDomain>();
 
+
+            //services.UseMessageWindow();
+
+            services.UseWindowAnimation(); 
+
         }
 
         protected override void Configure(IApplicationBuilder app)
         {
+
+            //  Do：注册Mvc模式
+            app.UseMvc(); 
+
             //  Do：设置默认主题
             app.UseLocalTheme(l =>
             {

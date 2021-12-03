@@ -1,7 +1,8 @@
 ﻿using HeBianGu.Applications.ControlBase.LinkWindow;
 using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
-
+using HeBianGu.Window.Login;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -19,10 +20,8 @@ namespace HeBianGu.Application.LinkWindow
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override void OnMainWindow(StartupEventArgs e)
         {
-            base.OnStartup(e);
-
             MainWindow shellWindow = new MainWindow();
 
             LoginWindow login = new LoginWindow();
@@ -76,10 +75,16 @@ namespace HeBianGu.Application.LinkWindow
             services.UseMvc();
 
             //  Do ：注册本地化配置读写服务
-            services.AddSingleton<IThemeLocalizeService, AssemblyDomain>();
+            services.AddSingleton<IThemeSerializeService, AssemblyDomain>();
 
             ////  Do ：注册日志服务
             //services.AddSingleton<ILogService, AssemblyDomain>();
+
+            services.UseMessageWindow();
+
+            services.UseWindowAnimation();
+
+            services.UseThemeSave();
 
 
         }

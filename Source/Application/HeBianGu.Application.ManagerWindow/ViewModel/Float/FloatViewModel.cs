@@ -1,7 +1,8 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.PropertyGrid;
 using HeBianGu.General.WpfControlLib;
-
+using HeBianGu.Service.Mvc;
+using HeBianGu.Window.Float;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

@@ -14,6 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.Base.WpfBase;
+using HeBianGu.Service.Mvc;
 
 namespace HeBianGu.Application.TouchWindow
 {

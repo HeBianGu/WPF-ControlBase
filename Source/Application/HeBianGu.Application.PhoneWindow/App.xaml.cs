@@ -1,4 +1,5 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
 
 using System;
@@ -17,15 +18,11 @@ namespace HeBianGu.Application.PhoneWindow
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override void OnMainWindow(StartupEventArgs e)
         {
-
-            base.OnStartup(e);
-
             ShellWindow shellWindow = new ShellWindow();
 
             shellWindow.Show();
-
         }
 
 
@@ -35,13 +32,19 @@ namespace HeBianGu.Application.PhoneWindow
             services.UseMvc();
 
             //  Do ：注册本地化配置读写服务
-            services.AddSingleton<IThemeLocalizeService, LocalizeService>();
+            services.AddSingleton<IThemeSerializeService, LocalizeService>();
 
             //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
 
             ////  Do ：注册日志服务
             //services.AddSingleton<ILogService, AssemblyDomain>();
+
+            services.UseMessageWindow();
+
+            services.UseWindowAnimation();
+
+            services.UseThemeSave();
 
         }
 

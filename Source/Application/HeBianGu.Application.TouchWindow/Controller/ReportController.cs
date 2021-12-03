@@ -9,7 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using HeBianGu.Base.WpfBase;
-
+using HeBianGu.Service.Mvc;
 
 namespace HeBianGu.Application.TouchWindow
 {

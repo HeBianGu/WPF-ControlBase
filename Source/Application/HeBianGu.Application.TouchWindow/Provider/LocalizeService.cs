@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Application.TouchWindow
 {
-    //class LocalizeService : IThemeLocalizeService
+    //class LocalizeService : IThemeSerializeService
     //{
     //    LocalConfigService _localConfigService = new LocalConfigService();
 
-    //    public ThemeLocalizeConfig LoadTheme()
+    //    public ThemeConfig LoadTheme()
     //    {
-    //        return _localConfigService.LoadConfig<ThemeLocalizeConfig>();
+    //        return _localConfigService.LoadConfig<ThemeConfig>();
     //    }
 
-    //    public bool SaveTheme(ThemeLocalizeConfig theme)
+    //    public bool SaveTheme(ThemeConfig theme)
     //    {
     //        return _localConfigService.SaveConfig(theme);
     //    }

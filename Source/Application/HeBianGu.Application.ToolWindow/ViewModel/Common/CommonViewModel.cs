@@ -1,6 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
-
+using HeBianGu.Service.Mvc;
+using HeBianGu.Window.Notify;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -52,8 +53,8 @@ namespace HeBianGu.Application.ToolWindow
                 var find = this.Respository.GetClipBoardFile();
 
                 if(find==null)
-                {
-                    MessageService.ShowSysInfoMessage("请先复制文件或文件夹");
+                { 
+                    NotifyMessageService.ShowSysInfoMessage("请先复制文件或文件夹");
                     return;
                 }
 
@@ -61,7 +62,7 @@ namespace HeBianGu.Application.ToolWindow
 
                 this.Respository.SaveCommons(this.Collection);
 
-                MessageService.ShowSysSuccessMessage("添加成功！");
+                NotifyMessageService.ShowSysSuccessMessage("添加成功！");
             }
 
             //  Do：等待消息
@@ -73,7 +74,7 @@ namespace HeBianGu.Application.ToolWindow
 
                 this.Respository.SaveCommons(this.Collection);
 
-                MessageService.ShowSysSuccessMessage("移除成功！");
+                NotifyMessageService.ShowSysSuccessMessage("移除成功！");
             }
         }
 

@@ -1,8 +1,8 @@
-﻿
-
-using HeBianGu.Applications.ControlBase.Demo;
+﻿using HeBianGu.Applications.ControlBase.Demo;
 using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Window.Login;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -10,7 +10,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
+using System.Windows.Media; 
 
 namespace HeBianGu.Application.BlurWindow
 {
@@ -19,25 +19,28 @@ namespace HeBianGu.Application.BlurWindow
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override void OnMainWindow(StartupEventArgs e)
         {
-            base.OnStartup(e);
-
             MainWindow shellWindow = new MainWindow();
 
             shellWindow.Show();
         }
 
 
+     
         protected override void ConfigureServices(IServiceCollection services)
         {
             //  Do ：注册本地化配置读写服务
-            services.AddSingleton<IThemeLocalizeService, AssemblyDomain>();
+            services.AddSingleton<IThemeSerializeService, AssemblyDomain>();
 
             ////  Do ：注册日志服务
             //services.AddSingleton<ILogService, AssemblyDomain>();
 
+            services.UseMessageWindow();
 
+            services.UseWindowAnimation(); 
+
+            services.UseThemeSave(); 
         }
 
         protected override void Configure(IApplicationBuilder app)

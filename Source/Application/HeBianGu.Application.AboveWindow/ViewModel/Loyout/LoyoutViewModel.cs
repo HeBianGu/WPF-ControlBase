@@ -1,5 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Service.Mvc;
+using HeBianGu.Service.Validation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

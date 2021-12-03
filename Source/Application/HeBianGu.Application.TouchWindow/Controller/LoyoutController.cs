@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using HeBianGu.Application.TouchWindow.View.Share;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
-
+using HeBianGu.Service.Mvc;
 
 namespace HeBianGu.Application.TouchWindow
 {

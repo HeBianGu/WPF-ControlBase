@@ -1,4 +1,5 @@
 ﻿using HeBianGu.General.WpfControlLib;
+using HeBianGu.Window.Link;
 using System;
 using System.Collections.Generic;
 using System.Linq;

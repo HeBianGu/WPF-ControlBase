@@ -1,6 +1,7 @@
 ﻿using HeBianGu.Application.SceneWindow.View.Dialog;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Window.Notify;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -332,7 +333,7 @@ namespace HeBianGu.Application.SceneWindow
 
             ManualResetEvent waitHandle = new ManualResetEvent(false);
 
-            await MessageService.ShowWinProgressBarMessage<bool>(l =>
+            await NotifyMessageService.ShowWinProgressBarMessage<bool>(l =>
              {
                  l.Message = "读取文件中...";
 

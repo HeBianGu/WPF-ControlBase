@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
-
+using HeBianGu.Window.Start;
 
 namespace HeBianGu.Application.TouchWindow
 {
@@ -18,10 +19,8 @@ namespace HeBianGu.Application.TouchWindow
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override void OnMainWindow(StartupEventArgs e)
         {
-            base.OnStartup(e);
-
             ShellWindow shellWindow = new ShellWindow();
 
             StartWindow startWindow = new StartWindow();
@@ -57,10 +56,16 @@ namespace HeBianGu.Application.TouchWindow
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
 
             //  Do ：注册本地化配置读写服务
-            services.AddSingleton<IThemeLocalizeService, ThemeLocalizeService>();
+            services.AddSingleton<IThemeSerializeService, ThemeLocalizeService>();
 
             ////  Do ：注册日志服务
             //services.AddSingleton<ILogService, AssemblyDomain>();
+
+            services.UseMessageWindow();
+
+            services.UseWindowAnimation();
+
+            services.UseThemeSave();
 
         }
 

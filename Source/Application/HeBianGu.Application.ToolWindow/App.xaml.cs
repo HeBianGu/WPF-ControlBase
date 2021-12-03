@@ -1,4 +1,5 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
 
 using System;
@@ -19,13 +20,11 @@ namespace HeBianGu.Application.ToolWindow
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override void OnStartup(StartupEventArgs e)
+        protected override void OnMainWindow(StartupEventArgs e)
         {
             ShellWindow shellWindow = new ShellWindow();
 
             shellWindow.Show();
-
-            base.OnStartup(e);
         }
 
 
@@ -38,12 +37,18 @@ namespace HeBianGu.Application.ToolWindow
             services.UseMvc();
 
             //  Do ：注册本地化配置读写服务
-            services.AddSingleton<IThemeLocalizeService, LocalizeService>();
+            services.AddSingleton<IThemeSerializeService, LocalizeService>();
 
 
 
             ////  Do ：注册日志服务
             //services.AddSingleton<ILogService, AssemblyDomain>();
+
+            services.UseMessageWindow();
+
+            services.UseWindowAnimation();
+
+            services.UseThemeSave();
 
         }
 

@@ -1,7 +1,12 @@
 ﻿using HeBianGu.Applications.ControlBase.LinkWindow;
 using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.MessageContainer;
 using HeBianGu.General.WpfControlLib;
-
+using HeBianGu.Service.Mvc;
+using HeBianGu.Service.Validation;
+using HeBianGu.Window.Message;
+using HeBianGu.Window.Notify;
+using HeBianGu.Window.Version;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -183,7 +188,7 @@ namespace HeBianGu.Application.LinkWindow
             //  Do：气泡消息
             else if (command == "Button.ShowIdentifyNotifyMessage")
             {
-                MessageService.ShowNotifyDialogMessage("自定义气泡消息" + DateTime.Now.ToString("yyyy-mm-dd HH:mm:ss"), "友情提示", 5);
+                NotifyMessageService.ShowNotifyDialogMessage("自定义气泡消息" + DateTime.Now.ToString("yyyy-mm-dd HH:mm:ss"), "友情提示", 5);
             }
 
             //  Do：气泡消息
@@ -202,12 +207,12 @@ namespace HeBianGu.Application.LinkWindow
             else if (command == "Button.ShowWindowIndentifyMessage")
             {
 
-                List<Tuple<string, Action<MessageWindow>>> acts = new List<Tuple<string, Action<MessageWindow>>>();
+                List<Tuple<string, Action<IMessageWindow>>> acts = new List<Tuple<string, Action<IMessageWindow>>>();
 
 
-                Action<MessageWindow> action = l =>
+                Action<IMessageWindow> action = l =>
                   {
-                      l.CloseAnimation(l);
+                      l.CloseAnimation(l as WindowBase);
 
                       l.Result = true;
 
@@ -349,12 +354,11 @@ namespace HeBianGu.Application.LinkWindow
         {
             if (command.EndsWith("System"))
             {
-                MessageService.ShowSysMessage(message);
+                NotifyMessageService.ShowSysMessage(message);
             }
             else if (command.EndsWith("Window"))
             {
-
-                MessageService.ShowWinMessage(message);
+                NotifyMessageService.ShowWinMessage(message);
             }
             else
             {

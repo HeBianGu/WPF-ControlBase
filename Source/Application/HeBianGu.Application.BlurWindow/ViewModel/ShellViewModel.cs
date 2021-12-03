@@ -1,6 +1,10 @@
 ﻿using HeBianGu.Applications.ControlBase.LinkWindow;
 using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.MessageContainer;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Service.Validation;
+using HeBianGu.Window.Message;
+using HeBianGu.Window.Notify; 
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -307,7 +311,7 @@ namespace HeBianGu.Application.BlurWindow
             //  Do：气泡消息
             else if (command == "Button.ShowIdentifyNotifyMessage")
             {
-                MessageService.ShowNotifyDialogMessage("自定义气泡消息" + DateTime.Now.ToString("yyyy-mm-dd HH:mm:ss"), "友情提示", 5);
+                NotifyMessageService.ShowNotifyDialogMessage("自定义气泡消息" + DateTime.Now.ToString("yyyy-mm-dd HH:mm:ss"), "友情提示", 5);
             }
 
             //  Do：气泡消息
@@ -326,12 +330,12 @@ namespace HeBianGu.Application.BlurWindow
             else if (command == "Button.ShowWindowIndentifyMessage")
             {
 
-                List<Tuple<string, Action<MessageWindow>>> acts = new List<Tuple<string, Action<MessageWindow>>>();
+                List<Tuple<string, Action<IMessageWindow>>> acts = new List<Tuple<string, Action<IMessageWindow>>>();
 
 
-                Action<MessageWindow> action = l =>
+                Action<IMessageWindow> action = l =>
                   {
-                      l.CloseAnimation(l);
+                      l.CloseAnimation(l as WindowBase);
 
                       l.Result = true;
 
@@ -345,31 +349,31 @@ namespace HeBianGu.Application.BlurWindow
                 MessageWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒", true, acts.ToArray());
             }
 
-            //  Do：气泡消息
-            else if (command == "Button.Upgrade")
-            {
-                UpgradeWindow window = new UpgradeWindow();
-                window.TitleMessage = "发现新版本：V3.0.1";
-                List<string> message = new List<string>();
-                message.Add("1、增加了检验更新和版本下载");
-                message.Add("2、增加了Mvc跳转页面方案");
-                message.Add("3、修改了一些已知BUG");
-                window.Message = message;
+            ////  Do：气泡消息
+            //else if (command == "Button.Upgrade")
+            //{
+            //    UpgradeWindow window = new UpgradeWindow();
+            //    window.TitleMessage = "发现新版本：V3.0.1";
+            //    List<string> message = new List<string>();
+            //    message.Add("1、增加了检验更新和版本下载");
+            //    message.Add("2、增加了Mvc跳转页面方案");
+            //    message.Add("3、修改了一些已知BUG");
+            //    window.Message = message;
 
-                var find = window.ShowDialog();
+            //    var find = window.ShowDialog();
 
-                if (find.HasValue && find.Value)
-                {
-                    DownLoadWindow downLoad = new DownLoadWindow();
-                    downLoad.TitleMessage = "正在下载新版本：V3.0.1";
-                    downLoad.Url = @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4";
-                    downLoad.Message = message;
-                    downLoad.ShowDialog();
-                }
+            //    if (find.HasValue && find.Value)
+            //    {
+            //        DownLoadWindow downLoad = new DownLoadWindow();
+            //        downLoad.TitleMessage = "正在下载新版本：V3.0.1";
+            //        downLoad.Url = @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4";
+            //        downLoad.Message = message;
+            //        downLoad.ShowDialog();
+            //    }
 
-                //UpgradeWindow.BeginUpgrade("发现新版本：V3.0.1", @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
-                //   message.ToArray());
-            }
+            //    //UpgradeWindow.BeginUpgrade("发现新版本：V3.0.1", @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
+            //    //   message.ToArray());
+            //}
 
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Error"))
@@ -438,7 +442,7 @@ namespace HeBianGu.Application.BlurWindow
                        return true;
                    };
 
-                var result = await MessageService.ShowWinWaittingMessage(func);
+                var result = await NotifyMessageService.ShowWinWaittingMessage(func);
 
                 if (result)
                 {
@@ -465,7 +469,7 @@ namespace HeBianGu.Application.BlurWindow
                     return true;
                 };
 
-                var result = await MessageService.ShowWinProgressStrMessage(func);
+                var result = await NotifyMessageService.ShowWinProgressStrMessage(func);
 
                 if (result)
                 {
@@ -491,7 +495,7 @@ namespace HeBianGu.Application.BlurWindow
                     return true;
                 };
 
-                var result = await MessageService.ShowWinProgressBarMessage(func);
+                var result = await NotifyMessageService.ShowWinProgressBarMessage(func);
 
                 if (result)
                 {
@@ -677,12 +681,12 @@ namespace HeBianGu.Application.BlurWindow
         {
             if (command.EndsWith("System"))
             {
-                MessageService.ShowSysMessage(message);
+                NotifyMessageService.ShowSysMessage(message);
             }
             else if (command.EndsWith("Window"))
             {
 
-                MessageService.ShowWinMessage(message);
+                NotifyMessageService.ShowWinMessage(message);
             }
             else
             {
