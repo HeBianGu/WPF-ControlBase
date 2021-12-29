@@ -239,12 +239,12 @@ namespace HeBianGu.Application.ManagerWindow
 
                          if (v == 1)
                          {
-                             MessageService.ShowSnackMessage("运行错误，请重新运行");
+                             Message.Instance.ShowSnackMessage("运行错误，请重新运行");
                              return;
                          }
                      }
 
-                     MessageService.ShowSnackMessage("运行完成");
+                     Message.Instance.ShowSnackMessage("运行完成");
                  });
             }
         }

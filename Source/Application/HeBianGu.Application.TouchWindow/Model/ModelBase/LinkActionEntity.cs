@@ -79,23 +79,6 @@ namespace HeBianGu.Application.TouchWindow
             }
         }
 
-        protected override void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
-
-            //  Do：应用
-            if (command == "Loaded")
-            {
-
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-
-            }
-        }
-
        public bool IsCancel { get; private set; }
 
         public void Stop()

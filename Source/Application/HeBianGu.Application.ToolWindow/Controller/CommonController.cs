@@ -15,7 +15,7 @@ namespace HeBianGu.Application.ToolWindow
     [Controller("Common")]
     internal class CommonController : Controller<CommonViewModel>
     {
-        public async Task<IActionResult> Home()
+        public async Task<IActionResult> Common()
         {
             return await ViewAsync();
         }

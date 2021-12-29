@@ -447,7 +447,7 @@ namespace HeBianGu.Application.LinkWindow
             //  Do：取消
             else if (command == "TreeList.Load")
             {
-                await MessageService.ShowWaittingMessge(() =>
+                await Message.Instance.ShowWaittingMessge(() =>
                 {
                     //  Do：加载TreeList数据源
                     string url = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "data.json");
@@ -463,7 +463,7 @@ namespace HeBianGu.Application.LinkWindow
 
                 });
 
-                MessageService.ShowSnackMessageWithNotice("加载完成！");
+                Message.Instance.ShowSnackMessageWithNotice("加载完成！");
             }
         }
     }

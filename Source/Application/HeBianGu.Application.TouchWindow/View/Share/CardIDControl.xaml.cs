@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HeBianGu.Control.Message;
 using HeBianGu.General.WpfControlLib;
 
 namespace HeBianGu.Application.TouchWindow.View.Share
@@ -48,7 +49,7 @@ namespace HeBianGu.Application.TouchWindow.View.Share
             }
             else
             {
-                MessageService.ShowSnackMessageWithNotice("身份证号不合法，情检查！");
+                Message.Instance.ShowSnackMessageWithNotice("身份证号不合法，情检查！");
                 this.txt_value.Focus();
             }
 

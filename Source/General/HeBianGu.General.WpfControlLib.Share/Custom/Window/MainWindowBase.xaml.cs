@@ -109,13 +109,13 @@ namespace HeBianGu.General.WpfControlLib
 
         protected override async void OnCloseAnimation()
         {
-            Action<object, DialogClosingEventArgs> action = (l, k) =>
-            {
-                if ((bool)k.Parameter)
-                {
-                    this.CloseAnimation?.Invoke(this);
-                }
-            };
+            //Action<object, RoutedEventArgs> action = (l, k) =>
+            //{
+            //    if ((bool)k.Parameter)
+            //    {
+            //        this.CloseAnimation?.Invoke(this);
+            //    }
+            //};
 
             if (Application.Current.MainWindow == this)
             {
@@ -137,11 +137,21 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (project?.Save(out message) == false)
                 {
-                    await MessageService.ShowResultMessge(message + "，确定要退出系统？", action);
+                    bool r = await Message.Instance.ShowResultMessge(message + "，确定要退出系统？");
+
+                    if (r)
+                    {
+                        this.CloseAnimation?.Invoke(this);
+                    }
                 }
                 else
                 {
-                    await MessageService.ShowResultMessge("确定要退出系统？", action);
+                    bool r = await Message.Instance.ShowResultMessge("确定要退出系统？");
+
+                    if (r)
+                    {
+                        this.CloseAnimation?.Invoke(this);
+                    }
                 }
             }
             else
@@ -151,21 +161,17 @@ namespace HeBianGu.General.WpfControlLib
         }
     }
 
-    [TemplatePart(Name = "PART_SnackBar", Type = typeof(Snackbar))]
     [TemplatePart(Name = "PART_NotifyIcon", Type = typeof(NotifyIcon))]
     //[TemplatePart(Name = "PART_Message", Type = typeof(MessageContainer))]
 
     abstract partial class MainWindowBase : IMainWindow
     {
-        Snackbar _snackbar;
-
         NotifyIcon _notifyIcon;
 
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
-            this._snackbar = Template.FindName("PART_SnackBar", this) as Snackbar;
             this._notifyIcon = Template.FindName("PART_NotifyIcon", this) as NotifyIcon;
 
             if (this._notifyIcon != null)
@@ -178,29 +184,14 @@ namespace HeBianGu.General.WpfControlLib
         }
 
         /// <summary> 输出消息 </summary>
-        public void AddSnackMessage(object message)
-        {
-            SnackbarMessageQueue queue = _snackbar.MessageQueue;
-
-            Task.Factory.StartNew(() => queue.Enqueue(message));
-        }
+        public abstract void AddSnackMessage(object message);
 
         /// <summary> 输出消息和操作按钮 </summary>
-        public void AddSnackMessage(object message, object actionContent, Action actionHandler)
-        {
-            SnackbarMessageQueue queue = _snackbar.MessageQueue;
-
-            Task.Factory.StartNew(() => queue.Enqueue(message, actionContent, actionHandler));
-        }
+        public abstract void AddSnackMessage(object message, object actionContent, Action actionHandler);
 
         /// <summary> 输出消息、按钮和参数 </summary>
-        public void AddSnackMessage<TArgument>(object message, object actionContent, Action<TArgument> actionHandler,
-            TArgument actionArgument)
-        {
-            SnackbarMessageQueue queue = _snackbar.MessageQueue;
-
-            Task.Factory.StartNew(() => queue.Enqueue(message, actionContent, actionHandler, actionArgument));
-        }
+        public abstract void AddSnackMessage<TArgument>(object message, object actionContent, Action<TArgument> actionHandler,
+            TArgument actionArgument);
 
         public abstract void ShowLayer(FrameworkElement element);
 
@@ -221,5 +212,5 @@ namespace HeBianGu.General.WpfControlLib
     }
 
 
-  
+
 }

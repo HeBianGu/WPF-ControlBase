@@ -31,19 +31,19 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         Random random = new Random();
         private async void FButton_Click(object sender, RoutedEventArgs e)
         {
-            await MessageService.ShowWaittingMessge(() =>
+            await Message.Instance.ShowWaittingMessge(() =>
             {
                 Thread.Sleep(1000);
             });
 
             if (random.Next(5) == 1)
             {
-                await MessageService.ShowSumitMessge("查询错误，请检查！");
+                await Message.Instance.ShowSumitMessge("查询错误，请检查！");
             }
             else
             {
-                MessageService.CloseLayer();
-                MessageService.ShowSnackMessageWithNotice("查询完成");
+                Message.Instance.CloseLayer();
+                Message.Instance.ShowSnackMessageWithNotice("查询完成");
             }
         }
     }

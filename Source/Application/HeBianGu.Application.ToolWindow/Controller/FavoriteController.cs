@@ -15,7 +15,7 @@ namespace HeBianGu.Application.ToolWindow
     [Controller("Favorite")]
     internal class FavoriteController : Controller<FavoriteViewModel>
     {
-        public async Task<IActionResult> Home()
+        public async Task<IActionResult> Favorite()
         {
             return await ViewAsync();
         }

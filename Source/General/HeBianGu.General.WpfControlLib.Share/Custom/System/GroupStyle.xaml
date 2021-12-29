@@ -10,9 +10,9 @@
                 <ControlTemplate TargetType="{x:Type GroupItem}">
                     <Expander IsExpanded="True">
                         <Expander.Header>
-                            <TextBlock Text="{Binding Path=Name}"/>
+                            <TextBlock Text="{Binding Path=Name}" />
                         </Expander.Header>
-                        <ItemsPresenter/>
+                        <ItemsPresenter />
                     </Expander>
                 </ControlTemplate>
             </Setter.Value>
@@ -20,18 +20,24 @@
     </Style>
 
     <Style x:Key="S.GroupItem.Transparent" TargetType="{x:Type GroupItem}">
-        <Setter Property="h:Cattach.FIcon" Value="&#xe826;"/>
+        <Setter Property="h:Cattach.Icon" Value="&#xe826;" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupItem}">
-                    <Expander IsExpanded="True" Style="{DynamicResource S.Expander.Transparent}">
+                    <Expander IsExpanded="True" Style="{DynamicResource {x:Static h:ExpanderKeys.Transparent}}">
                         <Expander.Header>
                             <DockPanel>
-                                <TextBlock Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.FIcon)}" Foreground="Red" FontSize="14" Style="{DynamicResource S.TextBlock.FIcon}"/> 
-                                <TextBlock Margin="10,0" Text="{Binding Path=Name}" Style="{DynamicResource S.TextBlock.Default}" HorizontalAlignment="Left"/>
+                                <TextBlock FontSize="14"
+                                           Foreground="Red"
+                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                           Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.Icon)}" />
+                                <TextBlock Margin="10,0"
+                                           HorizontalAlignment="Left"
+                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
+                                           Text="{Binding Path=Name}" />
                             </DockPanel>
                         </Expander.Header>
-                        <ItemsPresenter/>
+                        <ItemsPresenter />
                     </Expander>
                 </ControlTemplate>
             </Setter.Value>
@@ -39,28 +45,38 @@
     </Style>
 
     <Style x:Key="S.GroupItem.Clear" TargetType="{x:Type GroupItem}">
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.Accent}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GroupItem}">
                     <DockPanel>
                         <local:Row>
-                            <TextBlock Grid.ColumnSpan="12" Text="{Binding Path=Name}" Style="{DynamicResource S.TextBlock.Default}"
-                                       Foreground="{TemplateBinding Foreground}"
+                            <TextBlock Grid.ColumnSpan="12"
+                                       HorizontalAlignment="Left"
                                        Background="{TemplateBinding Background}"
-                                       HorizontalAlignment="Left"/>
+                                       Foreground="{TemplateBinding Foreground}"
+                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
+                                       Text="{Binding Path=Name}" />
                         </local:Row>
-                        <ItemsPresenter/>
+                        <ItemsPresenter />
                     </DockPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <GroupStyle x:Key="S.GroupStyle.Default" ContainerStyle="{StaticResource S.GroupHeader.Default}">
+    <!--<GroupStyle x:Key="S.GroupStyle.Default" ContainerStyle="{StaticResource S.GroupHeader.Default}">
         <GroupStyle.Panel>
             <ItemsPanelTemplate>
                 <DataGridRowsPresenter/>
+            </ItemsPanelTemplate>
+        </GroupStyle.Panel>
+    </GroupStyle>-->
+
+    <GroupStyle x:Key="S.GroupStyle.Default" ContainerStyle="{StaticResource S.GroupItem.Default}">
+        <GroupStyle.Panel>
+            <ItemsPanelTemplate>
+                <DataGridRowsPresenter />
             </ItemsPanelTemplate>
         </GroupStyle.Panel>
     </GroupStyle>

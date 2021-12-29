@@ -1,4 +1,6 @@
 ﻿
+using System.Windows;
+
 namespace HeBianGu.General.WpfControlLib
 {
     /// <summary>
@@ -6,8 +8,8 @@ namespace HeBianGu.General.WpfControlLib
     /// </summary>
     public interface IWindowAnimationService
     {
-        void CloseAnimation(WindowBase window);
+        void CloseAnimation(Window window);
 
-        void ShowAnimation(WindowBase window);
+        void ShowAnimation(Window window);
     }
 }

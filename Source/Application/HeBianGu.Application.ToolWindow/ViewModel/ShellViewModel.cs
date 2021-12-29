@@ -64,7 +64,7 @@ namespace HeBianGu.Application.ToolWindow
                 Logo = "\xe799",
                 Action = () =>
                 {
-                    var result = MessageWindow.ShowDialog("确定开启60s倒计时关机?");
+                    var result = MessageDialog.Instance.ShowDialog("确定开启60s倒计时关机?");
                     if (result)
                     {
                         Process.Start("shutdown");

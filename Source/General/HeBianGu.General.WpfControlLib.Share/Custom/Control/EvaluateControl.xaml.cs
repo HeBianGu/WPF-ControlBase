@@ -12,7 +12,7 @@ namespace HeBianGu.General.WpfControlLib
 {
     public partial class EvaluateControl : ListBox
     {
-        public string FIcon
+        public string Icon
         {
             get { return (string)GetValue(FIconProperty); }
             set { SetValue(FIconProperty, value); }
@@ -20,7 +20,7 @@ namespace HeBianGu.General.WpfControlLib
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FIconProperty =
-            DependencyProperty.Register("FIcon", typeof(string), typeof(EvaluateControl), new PropertyMetadata("\xecfd", (d, e) =>
+            DependencyProperty.Register("Icon", typeof(string), typeof(EvaluateControl), new PropertyMetadata("\xecfd", (d, e) =>
              {
                  EvaluateControl control = d as EvaluateControl;
 

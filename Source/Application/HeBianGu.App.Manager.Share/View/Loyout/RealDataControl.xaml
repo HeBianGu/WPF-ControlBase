@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="HeBianGu.App.Manager.View.Loyout.RealDataControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.App.Manager.View.Loyout"
+             xmlns:h="QQ:908293466"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Grid Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}">
+        <Border Margin="20,5">
+            <DockPanel>
+                <h:Row DockPanel.Dock="Top" Height="70" Style="{DynamicResource S.Row.Column.5}">
+
+                    <h:FTextBox h:Cattach.Label="人员信息：" h:Cattach.Watermark="请输入身份证号或姓名" Grid.ColumnSpan="2"  Width="Auto" Style="{DynamicResource S.FTextBox.Single.LabelClear}" />
+
+             
+
+                    <h:FButton Content="查询" Grid.ColumnSpan="12"   HorizontalAlignment="Right"/>
+                </h:Row>
+
+                <h:Row DockPanel.Dock="Top" Height="50">
+                    <!--<StackPanel Orientation="Horizontal" Grid.Column="0" Grid.ColumnSpan="12" HorizontalAlignment="Left">
+                        <TextBlock Text="运行状态：" Style="{StaticResource {x:Static h:TextBlockKeys.Default}}" Margin="6,0" HorizontalAlignment="Left"/>
+                        <RadioButton Content="全部" IsChecked="True"/>
+                        <RadioButton Content="未处理" Margin="15,0,0,0"/>
+                        <RadioButton Content="处理中" Margin="15,0,0,0"/>
+                        <RadioButton Content="已处理" Margin="15,0,0,0"/>
+                    </StackPanel>-->
+
+                    <DatePicker h:Cattach.Label="申请日期：" Width="Auto" Grid.Column="0" Grid.ColumnSpan="3"  Style="{DynamicResource {x:Static h:DatePickerKeys.LabelSingle}}"/>
+
+                    <DatePicker h:Cattach.Label="审核日期：" Width="Auto" Grid.Column="3" Grid.ColumnSpan="3" Style="{DynamicResource {x:Static h:DatePickerKeys.LabelSingle}}"/>
+
+                    <ComboBox h:Cattach.Label="申请项目" Padding="0"   Grid.Column="6"  Grid.ColumnSpan="3" h:Cattach.Watermark="请选择申请项目" SelectedIndex="0" Style="{DynamicResource {x:Static h:ComboBoxKeys.LabelSingle}}" Width="Auto" >
+                        <system:String>全部</system:String>
+                        <system:String>自费</system:String>
+                        <system:String>半自费</system:String>
+                        <system:String>公费</system:String>
+                    </ComboBox>
+
+                    <StackPanel HorizontalAlignment="Right" Grid.ColumnSpan="12" Orientation="Horizontal">
+                        <h:FButton Content="新增"  Margin="0,0,20,0"/>
+                        <h:FButton Content="删除" />
+                    </StackPanel>
+
+                    <Border Grid.ColumnSpan="12" BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,1,0,0"/>
+                </h:Row>
+
+                <!--<h:FTabControl x:Name="TabControlDemo" IsEnableAnimation="True" ShowCloseButton="True" IsDraggable="True" IsEnableTabFill="True" Margin="32,0,32,32" Width="800" Height="300">
+                    <h:FTabItem Header="TabItem1">
+                        <Grid Background="{DynamicResource RegionBrush}"/>
+                    </h:FTabItem>
+                    <h:FTabItem IsSelected="True" Header="TabItem2">
+                        <Grid Tag="123" Background="#FFE8563F"/>
+                    </h:FTabItem>
+                    <h:FTabItem Header="TabItem2222">
+                        <Grid Background="#FF3F4EE8"/>
+                    </h:FTabItem>
+                    <h:FTabItem Header="TabItem4">
+                        <Grid Background="#FFE83F6D"/>
+                    </h:FTabItem>
+                    <h:FTabItem Header="TabItem5">
+                        <Grid Background="#FFB23FE8"/>
+                    </h:FTabItem>
+                    <h:FTabItem Header="TabItem6">
+                        <Grid Background="#FF3FE8E8"/>
+                    </h:FTabItem>
+                    <h:FTabItem Header="TabItem7">
+                        <Grid Background="#FFE8E03F"/>
+                    </h:FTabItem>
+                </h:FTabControl>-->
+
+
+                <h:PagedDataGrid DataSource="{Binding Collection}" Margin="0,5,0,0" Style="{DynamicResource S.PagedDataGrid.Single}" TopVisibility="Collapsed" PageCount="17">
+                    <h:PagedDataGrid.Columns>
+                        <DataGridTemplateColumn Width="80">
+                            <DataGridTemplateColumn.HeaderTemplate>
+                                <DataTemplate>
+                                    <h:FCheckBox IsChecked="True" Content="全选" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.HeaderTemplate>
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <h:FCheckBox IsChecked="True" HorizontalAlignment="Center" Margin="8,0,0,0"/>
+                                    </Grid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <DataGridTextColumn Width="*" Header="姓名" Binding="{Binding Name.FullName}"/>
+
+                        <DataGridTextColumn Width="*" Header="身份证号" Binding="{Binding Card}"/>
+
+                        <DataGridTextColumn Width="1.5*" Header="联系方式" Binding="{Binding PhoneNumber.phone_number}" />
+
+                        <DataGridTextColumn Width="1.5*" Header="家庭住址"  Binding="{Binding Address.City}"/>
+
+                        <DataGridTextColumn Width="1.5*" Header="公司名称"  Binding="{Binding Company.name}"/>
+
+                        <DataGridTextColumn Width="0.8*" Header="毕业院校" Binding="{Binding Education.SchoolName}"/>
+
+                        <DataGridTextColumn Width="2*" Header="邮箱" Binding="{Binding Internet.Email}" />
+                    </h:PagedDataGrid.Columns>
+                </h:PagedDataGrid>
+
+
+            </DockPanel>
+        </Border>
+    </Grid>
+</UserControl>

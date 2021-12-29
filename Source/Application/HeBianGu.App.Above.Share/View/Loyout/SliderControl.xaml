@@ -1,0 +1,152 @@
+﻿<UserControl x:Class="HeBianGu.App.Above.View.Loyout.SliderControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cl="clr-namespace:System.Collections;assembly=mscorlib"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="QQ:908293466"
+             xmlns:local="clr-namespace:HeBianGu.App.Above.View.Loyout"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <ScrollViewer>
+        <UniformGrid Columns="1">
+
+            <h:Interaction.Triggers>
+                <h:EventTrigger EventName="Loaded">
+                    <h:InvokeTimeSplitAnimationAction SplitMilliSecond="-700">
+                        <h:InvokeTimeSplitAnimationAction.Timelines>
+                            <cl:ArrayList>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                                 From="1300" To="0"
+                                                 Duration="00:00:01" />
+                                <!--<DoubleAnimation Duration="00:00:01" From="1300" To="0"  Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"/>-->
+                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                 From="0" To="1"
+                                                 Duration="00:00:01" />
+                            </cl:ArrayList>
+                        </h:InvokeTimeSplitAnimationAction.Timelines>
+                    </h:InvokeTimeSplitAnimationAction>
+                </h:EventTrigger>
+            </h:Interaction.Triggers>
+
+            <GroupBox Header="S.Slider.Default">
+                <Slider Value="50" />
+                <h:Cattach.Text>
+                    <![CDATA[ 
+                     <Slider Value="50"/>
+                    ]]>
+                </h:Cattach.Text>
+            </GroupBox>
+
+            <GroupBox Header="h:Cattach.IsStayOpen">
+                <Slider h:Cattach.IsStayOpen="true" Value="50" />
+                <h:Cattach.Text>
+                    <![CDATA[ 
+                <Slider Value="50" h:Cattach.IsStayOpen="true"/>
+                    ]]>
+                </h:Cattach.Text>
+            </GroupBox>
+
+            <GroupBox Panel.ZIndex="1" Header="自定义提示消息">
+                <Slider Value="50">
+                    <h:Cattach.AttachContent>
+                        <ControlTemplate>
+                            <Grid Margin="0,0,0,-80">
+                                <Border Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                                        HorizontalAlignment="Center"
+                                        Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                                        BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                        BorderThickness="1"
+                                        CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
+                                    <TextBlock Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=Value}" />
+                                </Border>
+
+                                <Polygon Margin="0,-45,0,0"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"
+                                         Fill="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                         FillRule="Nonzero"
+                                         Points="0,5 5,0 10,5 0,5" />
+                            </Grid>
+                        </ControlTemplate>
+                    </h:Cattach.AttachContent>
+                </Slider>
+
+
+                <h:Cattach.Text>
+                    <![CDATA[ 
+               <Slider Value="50">
+                    <h:Cattach.AttachContent>
+                        <ControlTemplate>
+                            <Grid  Margin="0,0,0,-80">
+                                <Border HorizontalAlignment="Center" Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}" Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
+                                    <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=Slider},Path=Value}"  Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"/>
+                                </Border>
+
+                                <Polygon HorizontalAlignment="Center" VerticalAlignment="Center" Fill="{DynamicResource {x:Static h:BrushKeys.Accent}}"  Points="0,5 5,0 10,5 0,5" Margin="0,-45,0,0" FillRule="Nonzero"/>
+                            </Grid>
+                        </ControlTemplate>
+                    </h:Cattach.AttachContent>
+                </Slider>
+                    ]]>
+                </h:Cattach.Text>
+
+
+            </GroupBox>
+
+            <GroupBox Header="S.Slider.WithValue">
+                <Slider Style="{StaticResource {x:Static h:SliderKeys.Value}}" Value="50" />
+
+                <h:Cattach.Text>
+                    <![CDATA[ 
+                <Slider Value="50" Style="{StaticResource {x:Static h:SliderKeys.Value}}"/>
+                    ]]>
+                </h:Cattach.Text>
+            </GroupBox>
+
+            <!--<GroupBox Header="S.StoryBoardPlayer.Slider.Default">
+                <Slider Value="50" Style="{StaticResource S.StoryBoardPlayer.Slider.Default}"/>
+                <h:Cattach.Text>
+                    <![CDATA[
+                <Slider Value="50" Style="{StaticResource S.StoryBoardPlayer.Slider.Default}"/>
+                    ]]>
+                </h:Cattach.Text>
+            </GroupBox>-->
+
+
+
+            <GroupBox Header="S.Slider.Circle">
+                <Slider Style="{StaticResource {x:Static h:SliderKeys.Circle}}" Value="50" />
+
+                <h:Cattach.Text>
+                    <![CDATA[ 
+            <Slider Style="{StaticResource {x:Static h:SliderKeys.Circle}}"/>
+                    ]]>
+                </h:Cattach.Text>
+            </GroupBox>
+
+            <GroupBox Header="S.PreviewSlider.Default">
+                <h:PreviewSlider Value="5">
+                    <h:PreviewSlider.PreviewContent>
+                        <Label Background="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                               Content="{Binding PreviewPosition, ElementName=PreviewSlider}"
+                               ContentStringFormat="{}{0:#0.0}"
+                               Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                    </h:PreviewSlider.PreviewContent>
+                </h:PreviewSlider>
+
+                <h:Cattach.Text>
+                    <![CDATA[ 
+            <h:PreviewSlider Value="5">
+                <h:PreviewSlider.PreviewContent>
+                    <Label Background="{DynamicResource {x:Static h:BrushKeys.Accent}}" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" 
+                           Content="{Binding PreviewPosition,ElementName=PreviewSlider}" ContentStringFormat="{}{0:#0.0}"/>
+                </h:PreviewSlider.PreviewContent>
+            </h:PreviewSlider>
+                    ]]>
+                </h:Cattach.Text>
+            </GroupBox>
+        </UniformGrid>
+    </ScrollViewer>
+</UserControl>

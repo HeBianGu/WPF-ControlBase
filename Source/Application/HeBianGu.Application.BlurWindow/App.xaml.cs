@@ -19,32 +19,40 @@ namespace HeBianGu.Application.BlurWindow
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override void OnMainWindow(StartupEventArgs e)
+        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
         {
-            MainWindow shellWindow = new MainWindow();
-
-            shellWindow.Show();
+            return new MainWindow(); 
         }
 
 
      
         protected override void ConfigureServices(IServiceCollection services)
         {
-            //  Do ：注册本地化配置读写服务
-            services.AddSingleton<IThemeSerializeService, AssemblyDomain>();
+            base.ConfigureServices(services);
 
-            ////  Do ：注册日志服务
-            //services.AddSingleton<ILogService, AssemblyDomain>();
+            services.AddMessageDialog();
 
-            services.UseMessageWindow();
+            services.AddWindowAnimation();
 
-            services.UseWindowAnimation(); 
+            services.AddTheme();
 
-            services.UseThemeSave(); 
+            services.AddMessage();
+
+            services.AddXmlSerialize();
+
+            services.AddXmlMeta();
+
+            services.AddSetting();
+
+            services.AddSettingPath();
+
+            services.AddSettingViewPrenter();
         }
 
         protected override void Configure(IApplicationBuilder app)
         {
+            base.Configure(app);
+
             //  Do：设置默认主题
             app.UseLocalTheme(l =>
             {
@@ -71,6 +79,12 @@ namespace HeBianGu.Application.BlurWindow
 
                 l.AccentBrushType = AccentBrushType.LinearGradientBrush;
             });
+
+            app.UsePagedDataGrid();
+
+            app.UseMessage();
+
+            app.UseMainWindowSetting();
         }
     }
 }

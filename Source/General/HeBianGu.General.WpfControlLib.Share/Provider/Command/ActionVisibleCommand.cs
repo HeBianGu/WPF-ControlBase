@@ -54,7 +54,7 @@ namespace HeBianGu.Base.WpfBase
 
     //        MessageWindow.ShowSumit(parameter?.ToString(), null, true);
 
-    //        //await MessageService.ShowResultMessge(parameter?.ToString());
+    //        //await Message.Instance.ShowResultMessge(parameter?.ToString());
     //    }
 
     //    public event EventHandler CanExecuteChanged;
@@ -74,7 +74,7 @@ namespace HeBianGu.Base.WpfBase
 
             string txt = parameter?.ToString();
 
-            var tuple = Tuple.Create("复制", new Action<IMessageWindow>(l =>
+            var tuple = Tuple.Create("复制", new Action<IMessageDialogWindow>(l =>
              {
                  Clipboard.SetDataObject(txt);
 
@@ -83,7 +83,7 @@ namespace HeBianGu.Base.WpfBase
                  l.BeginClose();
              }));
 
-            var message = ServiceRegistry.Instance.GetInstance<IMessageWindowService>();
+            var message = ServiceRegistry.Instance.GetInstance<IMessageDialogService>();
 
             message.ShowDialogWith(txt, null, true, tuple);
 

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HeBianGu.Control.Message;
 using HeBianGu.General.WpfControlLib;
 
 namespace HeBianGu.Application.TouchWindow.View.Share
@@ -49,7 +50,7 @@ namespace HeBianGu.Application.TouchWindow.View.Share
             }
             else
             {
-                MessageService.ShowSnackMessageWithNotice("请输入有效年龄数据");
+                Message.Instance.ShowSnackMessageWithNotice("请输入有效年龄数据");
                 this.txt_value.Focus();
             }
 

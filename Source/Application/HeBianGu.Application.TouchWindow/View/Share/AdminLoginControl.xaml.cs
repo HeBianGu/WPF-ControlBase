@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HeBianGu.Control.Message;
 using HeBianGu.General.WpfControlLib;
 
 namespace HeBianGu.Application.TouchWindow.View.Share
@@ -39,7 +40,7 @@ namespace HeBianGu.Application.TouchWindow.View.Share
             }
             else
             {
-                MessageService.ShowSnackMessageWithNotice("密码不正确，请输入111111！");
+                Message.Instance.ShowSnackMessageWithNotice("密码不正确，请输入111111！");
 
                 this.pb_password.Focus();
             }

@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 
 namespace HeBianGu.Application.RibbonWindow
 {
-    class LocalizeService : IThemeSerializeService
-    {
-        LocalConfigService _localConfigService = new LocalConfigService();
+    //class LocalizeService : IThemeSerializeService
+    //{
+    //    LocalConfigService _localConfigService = new LocalConfigService();
 
-        public ThemeConfig LoadTheme()
-        {
-            return _localConfigService.LoadConfig<ThemeConfig>();
-        }
+    //    public ThemeConfig LoadTheme()
+    //    {
+    //        return _localConfigService.LoadConfig<ThemeConfig>();
+    //    }
 
-        public bool SaveTheme(ThemeConfig theme)
-        {
-            return _localConfigService.SaveConfig(theme);
-        }
+    //    public bool SaveTheme(ThemeConfig theme)
+    //    {
+    //        return _localConfigService.SaveConfig(theme);
+    //    }
 
-    }
+    //}
 }

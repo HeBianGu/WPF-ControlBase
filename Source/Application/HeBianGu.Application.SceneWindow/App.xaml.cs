@@ -19,49 +19,37 @@ namespace HeBianGu.Application.SceneWindow
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override void OnMainWindow(StartupEventArgs e)
+        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
         {
-            ShellWindow shellWindow = new ShellWindow();
-
-            StartWindow startWindow = new StartWindow();
-
-            Task.Run(() =>
-            {
-                Thread.Sleep(3000);
-
-                this.Dispatcher.Invoke(() =>
-                {
-                    startWindow.Close();
-                });
-            });
-
-            startWindow.ShowDialog();
-
-            shellWindow.Show();
+            return new ShellWindow();
         }
 
 
         protected override void ConfigureServices(IServiceCollection services)
         {
-            //  Do ：注册本地化配置读写服务
-            services.AddSingleton<IThemeSerializeService, LocalizeService>();
+            base.ConfigureServices(services);
+
+            //  Do ：启用窗口加载和隐藏动画 需要引用 HeBianGu.Service.Animation
+            services.AddWindowAnimation();
+
+            //  Do ：启用消息提示 需要引用 HeBianGu.Control.Message
+            services.AddMessage();
+
+            //  Do ：启用对话框 需要引用HeBianGu.Window.MessageDialog
+            services.AddMessageDialog();
+
+            //  Do ：启用和显示右上角主题设置
+            services.AddTheme();
 
             //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
-
-            ////  Do ：注册日志服务
-            //services.AddSingleton<ILogService, AssemblyDomain>();
-
-            services.UseMessageWindow();
-
-            services.UseWindowAnimation();
-
-            services.UseThemeSave();
 
         }
 
         protected override void Configure(IApplicationBuilder app)
         {
+            base.Configure(app);
+
             //  Do：设置默认主题
             app.UseLocalTheme(l =>
             {

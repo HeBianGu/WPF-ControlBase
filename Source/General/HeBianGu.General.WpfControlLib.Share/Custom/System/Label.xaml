@@ -3,35 +3,40 @@
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
 
-    <Style x:Key="S.Label.Default" TargetType="Label" BasedOn="{StaticResource {x:Type Label}}">
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Label.Default, TypeInTargetAssembly={x:Type local:LabelKeys}}" BasedOn="{StaticResource {x:Type Label}}" TargetType="Label">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
+        <Setter Property="Content" Value="S.Label.Label"/>
         <!--<Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Label">
-                    --><!--<TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=Label},Path=Content}"
+        -->
+        <!--<TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=Label},Path=Content}"
                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                               FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}"/>--><!--
+                               FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}"/>-->
+        <!--
                 </ControlTemplate>
             </Setter.Value>
         </Setter>-->
     </Style>
-    
-    <Style x:Key="S.Label.Flash" TargetType="Label">
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontSize" Value="{DynamicResource S.Brush.FontSize.Default}"/>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Label.Flash, TypeInTargetAssembly={x:Type local:LabelKeys}}" TargetType="Label">
+        <Setter Property="Content" Value="S.Label.Label"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Label">
-                    <TextBlock x:Name="txt" Text="{TemplateBinding Content}" 
-                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
-                               VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                    <TextBlock x:Name="txt"
+                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                               VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                               Text="{TemplateBinding Content}" />
 
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.OpacityForever}"/>
+                            <BeginStoryboard Storyboard="{DynamicResource {x:Static h:StoryBoardKeys.OpacityForever}}" />
                         </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -39,34 +44,38 @@
         </Setter>
     </Style>
 
-    <Style x:Key="S.Label.FIcon" TargetType="Label">
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontSize" Value="{DynamicResource S.Brush.FontSize.Default}"/>
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Label.Icon, TypeInTargetAssembly={x:Type local:LabelKeys}}" TargetType="Label">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Label">
-                    <TextBlock x:Name="txt" Text="{TemplateBinding Content}" Style="{DynamicResource S.TextBlock.FIcon}"
-                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
-                               VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                    <TextBlock x:Name="txt"
+                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                               VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                               Text="{TemplateBinding Content}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="S.Label.FIcon.Rotate" TargetType="Label" BasedOn="{StaticResource S.Label.FIcon}">
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-        <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Label.Icon.Rotate, TypeInTargetAssembly={x:Type local:LabelKeys}}" BasedOn="{StaticResource {x:Static h:LabelKeys.Icon}}" TargetType="Label">
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="RenderTransform" Value="{StaticResource {x:Static h:SystemKeys.TransformGroup}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Label">
-                    <TextBlock x:Name="txt" Text="{TemplateBinding Content}" Style="{DynamicResource S.TextBlock.FIcon}"
-                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}" 
-                               VerticalAlignment="{TemplateBinding VerticalAlignment}"/>
+                    <TextBlock x:Name="txt"
+                               HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                               VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                               Text="{TemplateBinding Content}" />
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard Storyboard="{DynamicResource S.Storyboard.RotateForever}"/>
+                            <BeginStoryboard Storyboard="{DynamicResource {x:Static h:StoryBoardKeys.RotateForever}}" />
                         </EventTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -74,58 +83,66 @@
         </Setter>
     </Style>
 
-
-
-
-    <Style x:Key="S.Label.Label" TargetType="Label" BasedOn="{StaticResource S.Label.Default}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Label.Label, TypeInTargetAssembly={x:Type local:LabelKeys}}" BasedOn="{StaticResource {x:Static h:LabelKeys.Default}}" TargetType="Label">
+        <Setter Property="h:Cattach.Label" Value="Label" />
+        <Setter Property="Content" Value="S.Label.Label"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Label">
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition  Width="Auto" />
-                            <ColumnDefinition  Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition  Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
- 
+
                         <ContentControl x:Name="Label"
-                                            Template="{TemplateBinding h:Cattach.LabelTemplate}" 
-                                            IsTabStop="False" IsHitTestVisible="False" 
-                                            Content="{TemplateBinding h:Cattach.Label}" 
-                                            Margin="1,1,0,1"/>
+                                        Margin="1,1,0,1"
+                                        Content="{TemplateBinding h:Cattach.Label}"
+                                        IsHitTestVisible="False"
+                                        IsTabStop="False"
+                                        Template="{TemplateBinding h:Cattach.LabelTemplate}" />
 
-                        <TextBlock x:Name="ficon" Style="{DynamicResource S.TextBlock.FIcon}" HorizontalAlignment="Center"  Foreground="{TemplateBinding Foreground}"
-                                       VerticalAlignment="Center" Grid.Column="1" 
-                                       FontSize="{TemplateBinding h:Cattach.FIconSize}"
-                                       Margin="{TemplateBinding h:Cattach.FIconMargin}" 
-                                       Text="{TemplateBinding h:Cattach.FIcon}"/>
+                        <TextBlock x:Name="ficon"
+                                   Grid.Column="1"
+                                   Margin="{TemplateBinding h:Cattach.FIconMargin}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="{TemplateBinding h:Cattach.FIconSize}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                   Text="{TemplateBinding h:Cattach.Icon}" />
 
 
-                        <!--<TextBlock Grid.Column="2" x:Name="txt" Text="{TemplateBinding Content}" Style="{DynamicResource S.TextBlock.Default}"
+                        <!--<TextBlock Grid.Column="2" x:Name="txt" Text="{TemplateBinding Content}" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}"
                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>-->
 
-                        <ContentPresenter Grid.Column="2" x:Name="txt" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                           Margin="{TemplateBinding Padding}"  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        <ContentPresenter x:Name="txt"
+                                          Grid.Column="2"
+                                          Margin="{TemplateBinding Padding}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          Content="{TemplateBinding Content}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
-        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource S.Thickness.Margin.10.0}"/>
-        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource S.Window.Title.Width}"/>
-        <Setter Property="h:Cattach.LabelTemplate" >
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
+        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
+        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource {x:Static h:SystemKeys.TitleWidth}}" />
+        <Setter Property="h:Cattach.LabelTemplate">
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Label},Path=(h:Cattach.TitleWidth)}"
-                            Margin="{Binding RelativeSource={RelativeSource AncestorType=Label},Path=(h:Cattach.TitleMargin)}">
-                        <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" 
-                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=Label},Path=(h:Cattach.TitleForeground)}" 
-                                   Text="{TemplateBinding Content}"/>
+                    <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Label}, Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=Label}, Path=(h:Cattach.TitleMargin)}">
+                        <TextBlock HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=Label}, Path=(h:Cattach.TitleForeground)}"
+                                   Text="{TemplateBinding Content}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

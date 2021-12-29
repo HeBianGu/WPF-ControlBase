@@ -32,7 +32,7 @@ namespace HeBianGu.General.WpfControlLib
         /// <summary>
         /// Identifies the IsActive property.
         /// </summary>
-        public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register("IsActive", typeof(bool), typeof(ModernProgressRing), new PropertyMetadata(false, OnIsActiveChanged));
+        public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register("IsActive", typeof(bool), typeof(ModernProgressRing), new PropertyMetadata(true, OnIsActiveChanged));
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ModernProgressRing"/> class.

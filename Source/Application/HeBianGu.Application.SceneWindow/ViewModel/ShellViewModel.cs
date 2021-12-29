@@ -241,7 +241,7 @@ namespace HeBianGu.Application.SceneWindow
             {
                 SelectTypeControl select = new SelectTypeControl();
 
-                var result = await MessageService.ShowCustomDialog<bool>(select);
+                var result = await Message.Instance.ShowCustomDialog<bool>(select);
 
                 if (!result) return;
 
@@ -253,7 +253,7 @@ namespace HeBianGu.Application.SceneWindow
 
                 config.Model.Value4 = select.Model?.Value1;
 
-                var result1 = await MessageService.ShowCustomDialog<bool?>(config);
+                var result1 = await Message.Instance.ShowCustomDialog<bool?>(config);
 
                 //  Do ：取消
                 if (result1 == false) return;
@@ -267,7 +267,7 @@ namespace HeBianGu.Application.SceneWindow
                 //  Do ：创建
                 if (string.IsNullOrEmpty(config.Model.Value) || string.IsNullOrEmpty(config.Model.Value1))
                 {
-                    MessageService.ShowSnackMessageWithNotice("数据不合法"); return;
+                    Message.Instance.ShowSnackMessageWithNotice("数据不合法"); return;
 
                 }
                 this.Scenes.Add(config.Model);
@@ -295,13 +295,13 @@ namespace HeBianGu.Application.SceneWindow
             {
                 if (string.IsNullOrEmpty(this.Title))
                 {
-                    MessageService.ShowSnackMessageWithNotice("请输入标题信息");
+                    Message.Instance.ShowSnackMessageWithNotice("请输入标题信息");
                     return;
                 }
 
                 if (this.Historys.FirstOrDefault(l => l.Value == this.Title) != null)
                 {
-                    MessageService.ShowSnackMessageWithNotice("存在重复的标题");
+                    Message.Instance.ShowSnackMessageWithNotice("存在重复的标题");
                     return;
                 }
 
@@ -315,7 +315,7 @@ namespace HeBianGu.Application.SceneWindow
                      }
                  });
 
-                MessageService.ShowSnackMessageWithNotice("提交成功");
+                Message.Instance.ShowSnackMessageWithNotice("提交成功");
 
                 this.Historys.Add(new TestViewModel() { Value = this.Title });
 
@@ -326,7 +326,7 @@ namespace HeBianGu.Application.SceneWindow
         {
             if (!Directory.Exists(this.CurrentScene.Value1))
             {
-                MessageService.ShowSnackMessageWithNotice("场景路径不存在，请检查"); return;
+                Message.Instance.ShowSnackMessageWithNotice("场景路径不存在，请检查"); return;
             }
 
             this.Files.Clear();
@@ -385,7 +385,7 @@ namespace HeBianGu.Application.SceneWindow
                  return true;
              });
 
-            MessageService.ShowSnackMessageWithNotice($"场景加载完成 <{this.CurrentScene.Value}>");
+            Message.Instance.ShowSnackMessageWithNotice($"场景加载完成 <{this.CurrentScene.Value}>");
         }
 
 

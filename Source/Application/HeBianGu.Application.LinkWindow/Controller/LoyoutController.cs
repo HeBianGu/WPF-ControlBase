@@ -145,7 +145,7 @@ namespace HeBianGu.Application.LinkWindow
         [Controller("OverView/Button")]
         public async Task<IActionResult> Button()
         {
-            await MessageService.ShowWaittingMessge(() => Thread.Sleep(500));
+            await Message.Instance.ShowWaittingMessge(() => Thread.Sleep(500));
 
             this.ViewModel.ButtonContentText = DateTime.Now.ToString();
 
@@ -170,9 +170,9 @@ namespace HeBianGu.Application.LinkWindow
         [Controller("OverView")]
         public async Task<IActionResult> OverView()
         {
-            await MessageService.ShowWaittingMessge(() => Thread.Sleep(500));
+            await Message.Instance.ShowWaittingMessge(() => Thread.Sleep(500));
 
-            MessageService.ShowSnackMessageWithNotice("OverView");
+            Message.Instance.ShowSnackMessageWithNotice("OverView");
 
             return await ViewAsync();
         }

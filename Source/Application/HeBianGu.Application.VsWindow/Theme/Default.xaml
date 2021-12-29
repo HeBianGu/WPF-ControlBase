@@ -1,0 +1,209 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:HeBianGu.Application.VsWindow"
+                    xmlns:h="QQ:908293466">
+
+    <Style x:Key="C.MenuItem.Default" TargetType="MenuItem" BasedOn="{StaticResource S.MenuItem.Single}">
+        <Setter Property="Command" Value="{Binding RelayCommand}"/>
+        <Setter Property="IsEnabled" Value="True"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
+        <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Header}"/>
+    </Style>
+
+
+    <Style x:Key="C.MenuItem.Header" TargetType="MenuItem" BasedOn="{StaticResource S.MenuItem.Accent}">
+        <Setter Property="Command" Value="{Binding RelayCommand}"/>
+        <Setter Property="IsEnabled" Value="True"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+        <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=Header}"/>
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+        <Setter Property="h:Cattach.MouseOverBackground" Value="Transparent"/>
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent"/>
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource S.Brush.TextForeground.White}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.Accent}"/>
+    </Style>
+
+    <Style TargetType="MenuItem" BasedOn="{StaticResource C.MenuItem.Default}"/>
+
+    <Style x:Key="C.MenuItem.Menu" TargetType="MenuItem" BasedOn="{StaticResource S.MenuItem.Handy}">
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+        <Setter Property="Height" Value="Auto"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+    </Style>
+
+    <Style TargetType="ToggleButton" BasedOn="{StaticResource S.ToggleButton.Single}">
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Height" Value="60"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+    </Style>
+
+    <DataTemplate DataType="{x:Type h:TestViewModel}">
+        <Grid x:Name="grid" HorizontalAlignment="Stretch" Background="{DynamicResource S.Brush.Accent}" TextBlock.Foreground="{DynamicResource S.Brush.TextForeground.White}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Style="{StaticResource S.TextBlock.FIcon}" Margin="10,0" Grid.RowSpan="2" Text="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton},Path=Tag}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <TextBlock Text="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton},Path=(h:Cattach.Detail)}" Grid.Column="1" Grid.Row="0" VerticalAlignment="Bottom"/>
+
+            <TextBlock Text="{Binding Value}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" FontWeight="Black"/>
+
+            <!--<ToggleButton x:Name="tb" Style="{StaticResource ComboToggleButton}" h:Cattach.FIcon="&#xe63a;"  Margin="10,0" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton},Path=IsChecked}"
+                                      Grid.Column="2" Grid.RowSpan="2" Foreground="{DynamicResource S.Brush.TextForeground.White}"
+                                      VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+        </Grid>
+        <!--<DataTemplate.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton},Path=IsChecked}" Value="True">
+                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" TargetName="grid"/>
+                    <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" TargetName="tb"/>
+                    <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}" TargetName="grid"/>
+                </DataTrigger>
+            </DataTemplate.Triggers>-->
+    </DataTemplate>
+
+    <DataTemplate x:Key="C.TestViewModel.Item" DataType="{x:Type h:TestViewModel}">
+        <Grid x:Name="grid" HorizontalAlignment="Left" Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=ActualWidth}" TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Style="{StaticResource S.TextBlock.FIcon}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            <TextBlock Text="{Binding Value}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
+
+            <Button Style="{DynamicResource S.Button.Transparent}" h:Cattach.FIcon="&#xe7f3;" VerticalAlignment="Center" Grid.Column="2" Margin="0,0"/>
+
+            <Button x:Name="btn_close" Style="{DynamicResource S.Button.Close}" VerticalAlignment="Center" Grid.Column="3" Margin="15,0"/>
+            <!--<h:FButton x:Name="btn_close" Grid.Column="2" Style="{DynamicResource S.FButton.Close}" Margin="10,0"
+                                                   FIconSize="12" MouseOverForeground="{DynamicResource S.Brush.Red.Notice}" Visibility="Hidden"
+                                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}"/>-->
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsMouseOver}" Value="True">
+                <Setter Property="Visibility" Value="Visible" TargetName="btn_close"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="C.TestViewModel.Item.Checked" DataType="{x:Type h:TestViewModel}">
+        <Grid x:Name="grid" HorizontalAlignment="Stretch" TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <!--<TextBlock Style="{StaticResource S.TextBlock.FIcon}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+
+            <h:FCheckBox Margin="10,0" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+
+            <TextBlock Text="{Binding Value}" Foreground="{DynamicResource S.Brush.TextForeground.White}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
+
+
+            <h:FButton x:Name="btn_close" Grid.Column="2" Style="{DynamicResource S.FButton.Close}" 
+                                                   FIconSize="12" MouseOverForeground="{DynamicResource S.Brush.Red.Notice}" Visibility="Hidden"
+                                                   Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsMouseOver}" Value="True">
+                <Setter Property="Visibility" Value="Visible" TargetName="btn_close"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="C.TestViewModel.Item.Many" DataType="{x:Type h:TestViewModel}">
+        <Grid x:Name="grid" HorizontalAlignment="Stretch" TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1.2*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Text="{Binding Value}" Foreground="{DynamicResource S.Brush.TextForeground.White}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
+
+            <TextBlock Text="{Binding Value1}" Grid.Column="2" Foreground="{DynamicResource S.Brush.TextForeground.White}" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
+
+            <Border x:Name="tb_v2" MinWidth="60" Height="{DynamicResource S.Window.Item.Height}"  HorizontalAlignment="Center" Grid.Column="3" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
+                <TextBlock Text="{Binding Value2}"   Margin="2,0"  Foreground="{DynamicResource S.Brush.TextForeground.White}" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
+            </Border>
+
+            <h:FButton x:Name="btn_close" Grid.Column="4" Style="{DynamicResource S.FButton.Close}" 
+                                                   FIconSize="12" MouseOverForeground="{DynamicResource S.Brush.Red.Notice}" Visibility="Hidden"
+                                                   Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsMouseOver}" Value="True">
+                <Setter Property="Visibility" Value="Visible" TargetName="btn_close"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Value2}" Value="空闲">
+                <Setter Property="Background" Value="Gray" TargetName="tb_v2"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Value2}" Value="故障">
+                <Setter Property="Background" Value="Red" TargetName="tb_v2"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Value2}" Value="未连接">
+                <Setter Property="Background" Value="Black" TargetName="tb_v2"/>
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Value2}" Value="生成中">
+                <Setter Property="Background" Value="Green" TargetName="tb_v2"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate x:Key="C.TestViewModel.Item.Server" DataType="{x:Type h:TestViewModel}">
+        <Grid x:Name="grid" HorizontalAlignment="Stretch" TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <h:FCheckBox Margin="2,0" Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+
+            <TextBlock Text="{Binding Value}" Foreground="{DynamicResource S.Brush.TextForeground.White}" Grid.Column="2" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
+            <h:Ping IP="{Binding Value1}" RunningForegroundBrush="{DynamicResource S.Brush.TextForeground.White}" Style="{StaticResource S.PingState.Single}" Grid.Column="1"/>
+
+            <h:FButton x:Name="btn_close" Grid.Column="4" Style="{DynamicResource S.FButton.Close}" 
+                                                   FIconSize="12" MouseOverForeground="{DynamicResource S.Brush.Red.Notice}" Visibility="Hidden"
+                                                   Foreground="{DynamicResource S.Brush.TextForeground.White}"/>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsMouseOver}" Value="True">
+                <Setter Property="Visibility" Value="Visible" TargetName="btn_close"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,19 +1,23 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
 
-    <Style x:Key="S.ToolTip.Default" TargetType="ToolTip">
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource S.Brush.TextBorderBrush.Default}"/>
-        <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}"/>
-        <Setter Property="FontFamily" Value="{DynamicResource S.FontFamily.Default}"/>
-        <Setter Property="FontSize" Value="{DynamicResource S.FontSize.Default}"/>
-        <Setter Property="FontStyle" Value="Normal"/>
-        <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="HasDropShadow" Value="True"/>
+
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToolTip.Default, TypeInTargetAssembly={x:Type local:ToolTipkKeys}}" TargetType="ToolTip">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="FontFamily" Value="{DynamicResource {x:Static h:SystemKeys.FontFamily}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
+        <Setter Property="FontStyle" Value="Normal" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HasDropShadow" Value="True" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="Template">
             <Setter.Value>
@@ -21,19 +25,20 @@
                     <Grid Margin="4">
                         <Grid.Resources>
                             <Style TargetType="TextBlock">
-                                <Setter Property="LineHeight" Value="53"/>
+                                <Setter Property="LineHeight" Value="53" />
                             </Style>
                         </Grid.Resources>
-                        <Border Background="{TemplateBinding Background}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
+                        <Border MinHeight="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                                Padding="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                Padding="{TemplateBinding Padding}" MinHeight="{DynamicResource S.Window.Row.Height}"
-                                CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
-                            
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
+
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                              Margin="{TemplateBinding Padding}"
-                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </Border>
                     </Grid>
                 </ControlTemplate>
@@ -41,10 +46,17 @@
         </Setter>
     </Style>
 
-    <Style x:Key="S.ToolTip.Accent" TargetType="ToolTip" BasedOn="{StaticResource S.ToolTip.Default}">
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Background" Value="{DynamicResource S.Brush.Accent}"/>
-        <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.White}"/>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToolTip.Single, TypeInTargetAssembly={x:Type local:ToolTipkKeys}}" BasedOn="{StaticResource {x:Static h:ToolTipkKeys.Default}}" TargetType="ToolTip">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToolTip.Accent, TypeInTargetAssembly={x:Type local:ToolTipkKeys}}" BasedOn="{StaticResource {x:Static h:ToolTipkKeys.Default}}" TargetType="ToolTip">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
     </Style>
 
 </ResourceDictionary>

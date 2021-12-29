@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using HeBianGu.Base.WpfBase;
 
 namespace HeBianGu.Application.TouchWindow
 {
@@ -39,7 +40,7 @@ namespace HeBianGu.Application.TouchWindow
             {
                 this.Dispatcher.Invoke(() =>
                 {
-                    this.Background = System.Windows.Application.Current.FindResource("S.Brush.TextBackground.Default") as Brush;
+                    this.Background = System.Windows.Application.Current.FindResource(BrushKeys.BackgroundDefault) as Brush;
                 });
 
             });

@@ -27,15 +27,15 @@ namespace HeBianGu.General.WpfControlLib
     {
         #region - 依赖属性 -
 
-        #region 默认Header：窗体字体图标FIcon
+        #region 默认Header：窗体字体图标Icon
 
         public static readonly DependencyProperty FIconProperty =
-            DependencyProperty.Register("FIcon", typeof(string), typeof(WindowBase), new PropertyMetadata("\ue62e"));
+            DependencyProperty.Register("Icon", typeof(string), typeof(WindowBase), new PropertyMetadata("\ue62e"));
 
         /// <summary>
         /// 按钮字体图标编码
         /// </summary>
-        public string FIcon
+        public string Icon
         {
             get { return (string)GetValue(FIconProperty); }
             set { SetValue(FIconProperty, value); }
@@ -147,14 +147,14 @@ namespace HeBianGu.General.WpfControlLib
 
         #region MinboxEnable 是否显示设置按钮
 
-        public static readonly DependencyProperty SetboxEnableProperty = DependencyProperty.Register(
-            " SetboxEnable", typeof(bool), typeof(WindowBase), new PropertyMetadata(true));
+        //public static readonly DependencyProperty SetboxEnableProperty = DependencyProperty.Register(
+        //    " SetboxEnable", typeof(bool), typeof(WindowBase), new PropertyMetadata(true));
 
-        public bool SetboxEnable
-        {
-            get { return (bool)GetValue(SetboxEnableProperty); }
-            set { SetValue(SetboxEnableProperty, value); }
-        }
+        //public bool SetboxEnable
+        //{
+        //    get { return (bool)GetValue(SetboxEnableProperty); }
+        //    set { SetValue(SetboxEnableProperty, value); }
+        //}
 
 
         public bool IsClose

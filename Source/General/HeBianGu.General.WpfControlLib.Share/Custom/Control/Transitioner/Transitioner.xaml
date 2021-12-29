@@ -3,10 +3,10 @@
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
 
-    <local:TransitionerSlide x:Key="first" OpeningEffect="{local:TransitionEffect SlideInFromLeft }"/>
-    <local:TransitionerSlide x:Key="second" OpeningEffect="{local:TransitionEffect SlideInFromLeft }"/>
-    
-    <Style TargetType="{x:Type   local:Transitioner}">
+    <local:TransitionerSlide x:Key="first" OpeningEffect="{local:TransitionEffect SlideInFromLeft}" />
+    <local:TransitionerSlide x:Key="second" OpeningEffect="{local:TransitionEffect SlideInFromLeft}" />
+
+    <Style TargetType="{x:Type local:Transitioner}">
         <Setter Property="ClipToBounds" Value="True" />
         <Setter Property="ItemsPanel">
             <Setter.Value>
@@ -17,10 +17,8 @@
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type   local:Transitioner}">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
+                <ControlTemplate TargetType="{x:Type local:Transitioner}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <ItemsPresenter x:Name="ItemsPresenter" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -33,26 +31,27 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type   local:TransitioningContentBase}">
-        <Setter Property="KeyboardNavigation.IsTabStop" Value="False"/>
+    <Style TargetType="{x:Type local:TransitioningContentBase}">
+        <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type   local:TransitioningContentBase}">
-                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
-                            x:Name="Border">
-                        <ContentPresenter 
-                                x:Name="ContentPresenter"                    
-                                Margin="{TemplateBinding Padding}"                            
-                                Content="{TemplateBinding ContentControl.Content}" 
-                                ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}" 
-                                ContentTemplateSelector="{TemplateBinding ContentControl.ContentTemplateSelector}" 
-                                ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
-                                RenderTransformOrigin=".5,.5">
+                <ControlTemplate TargetType="{x:Type local:TransitioningContentBase}">
+                    <Border x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          Margin="{TemplateBinding Padding}"
+                                          Content="{TemplateBinding ContentControl.Content}"
+                                          ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
+                                          ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
+                                          ContentTemplateSelector="{TemplateBinding ContentControl.ContentTemplateSelector}"
+                                          RenderTransformOrigin=".5,.5">
                             <ContentPresenter.RenderTransform>
                                 <TransformGroup>
                                     <MatrixTransform x:Name="PART_MatrixTransform" />
                                     <RotateTransform x:Name="PART_RotateTransform" Angle="0" />
-                                    <ScaleTransform  x:Name="PART_ScaleTransform" ScaleX="1" ScaleY="1" />
+                                    <ScaleTransform x:Name="PART_ScaleTransform" ScaleX="1" ScaleY="1" />
                                     <SkewTransform x:Name="PART_SkewTransform" AngleX="0" AngleY="0" />
                                     <TranslateTransform x:Name="PART_TranslateTransform" X="0" Y="0" />
                                 </TransformGroup>
@@ -64,9 +63,9 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type   local:TransitioningContent}" BasedOn="{StaticResource {x:Type local:TransitioningContentBase}}" />
+    <Style BasedOn="{StaticResource {x:Type local:TransitioningContentBase}}" TargetType="{x:Type local:TransitioningContent}" />
 
-    <Style TargetType="{x:Type   local:TransitionerSlide}" BasedOn="{StaticResource {x:Type local:TransitioningContentBase}}">
+    <Style BasedOn="{StaticResource {x:Type local:TransitioningContentBase}}" TargetType="{x:Type local:TransitionerSlide}">
         <Setter Property="RenderTransformOrigin" Value=".5,.5" />
         <Setter Property="IsEnabled" Value="False" />
         <Setter Property="Visibility" Value="Hidden" />

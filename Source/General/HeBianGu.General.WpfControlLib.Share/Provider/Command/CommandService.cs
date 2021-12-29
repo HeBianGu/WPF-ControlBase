@@ -8,9 +8,6 @@ using System.Windows.Input;
 
 namespace HeBianGu.General.WpfControlLib
 {
-    /// <summary>
-    ///     控件库使用的所有命令（为了统一，不使用wpf自带的命令）
-    /// </summary>
     public static class CommandService
     {
         /// <summary>

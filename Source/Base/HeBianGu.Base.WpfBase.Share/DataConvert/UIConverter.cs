@@ -1023,7 +1023,7 @@ namespace HeBianGu.Base.WpfBase
             if (value == null) return null;
             var display = value.GetType().GetCustomAttributes(typeof(DescriptionAttribute), false)?.FirstOrDefault() as DescriptionAttribute;
 
-            return display == null ? value.GetType().Name : display.Description; 
+            return display == null ? value.GetType().Name : display.Description;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -1036,7 +1036,7 @@ namespace HeBianGu.Base.WpfBase
     public class WriteLineObjectConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        { 
+        {
             Debug.WriteLine(value);
 
             return value;
@@ -1099,4 +1099,25 @@ namespace HeBianGu.Base.WpfBase
 
         public object Value { get; set; }
     }
+
+    public class ServiceRegistryVisibleConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Type type)
+            {
+                var find = ServiceRegistry.Instance.GetService(type);
+
+                return find == null ? Visibility.Collapsed : Visibility.Visible;
+            }
+
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

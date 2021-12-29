@@ -257,8 +257,7 @@ namespace HeBianGu.Base.WpfBase
         {
             get { return new DisplayMapConverter(); }
         }
-
-
+        
         //public static SelectTextConverter SelectTextConverter
         //{
         //    get { return Singleton<SelectTextConverter>.GetInstance(); }

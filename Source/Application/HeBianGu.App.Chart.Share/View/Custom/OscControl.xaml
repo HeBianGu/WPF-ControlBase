@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="HeBianGu.App.Chart.View.Custom.OscControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.App.Chart.View.Custom"
+             xmlns:h="QQ:908293466"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <ScrollViewer>
+        <UniformGrid Columns="1">
+            <GroupBox Header="极坐标和区域">
+                <UniformGrid Columns="2">
+                    <h:PolarChart Style="{StaticResource S.PolarChart.Angle}" Len="160"
+                              xAxis="-150,-75,0,75,150">
+                        <h:Chart.LegendStyle>
+                            <Style TargetType="h:Legend">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </Style>
+                        </h:Chart.LegendStyle>
+
+                        <h:Series>
+                            <h:PolarLine  TryFreeze="False" Style="{StaticResource S.PolarLine.Single}" yAxis="{Binding WaveyAxis}" Data="{Binding WaveData2}"/>
+                        </h:Series>
+                    </h:PolarChart>
+
+                    <h:Chart Style="{StaticResource S.Chart.Coord}"  yAxis="-150,-100,-50,0,50,100,150" xAxis="0,1200,2400,3600" Padding="100,50">
+                        <h:Series xDatas="{Binding WaveyAxis}" yDatas="{Binding WaveData2}">
+                            <h:Area  TryFreeze="False" Style="{StaticResource S.Area.Single}"/>
+                            <h:MarkPosition  TryFreeze="False" Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Max"/>
+                            <h:MarkLine  TryFreeze="False" Style="{StaticResource S.MarkLine.Single}" MarkLineType="Average"/>
+                        </h:Series>
+
+                        <h:Chart.LegendStyle>
+                            <Style TargetType="h:Legend">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </Style>
+                        </h:Chart.LegendStyle>
+                    </h:Chart>
+                </UniformGrid>
+               
+            </GroupBox>
+
+            <GroupBox Header="曲线图">
+                <h:Chart Style="{StaticResource S.Chart.Coord}"  yAxis="-150,-100,-50,0,50,100,150" xAxis="0,600,1200,1800,2400,3000,3600" Padding="100,50">
+                    <h:Chart.LegendStyle>
+                        <Style TargetType="h:Legend">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                        </Style>
+                    </h:Chart.LegendStyle>
+                    <h:Series xDatas="{Binding WaveyAxis}" yDatas="{Binding WaveData2}">
+                        <h:Line  TryFreeze="False" Style="{StaticResource S.Line.Single}"/>
+                        <h:MarkLine  TryFreeze="False" Style="{StaticResource S.MarkLine.Single}" MarkLineType="Average"/>
+                        <h:MarkPosition  TryFreeze="False" Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Max"/>
+                    </h:Series>
+                </h:Chart>
+            </GroupBox>
+        </UniformGrid>
+    </ScrollViewer>
+</UserControl>

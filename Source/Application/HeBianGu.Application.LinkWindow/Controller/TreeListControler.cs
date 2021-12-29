@@ -20,7 +20,7 @@ namespace HeBianGu.Application.LinkWindow
         [Controller("TreeList")]
         public async Task<IActionResult> TreeList()
         {
-            await MessageService.ShowWaittingMessge(() => Thread.Sleep(1000));
+            await Message.Instance.ShowWaittingMessge(() => Thread.Sleep(1000));
 
             return await ViewAsync();
         }

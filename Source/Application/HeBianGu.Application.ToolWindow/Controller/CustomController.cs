@@ -15,7 +15,7 @@ namespace HeBianGu.Application.ToolWindow
     [Controller("Custom")]
     internal class CustomController : Controller<CustomViewModel>
     {
-        public async Task<IActionResult> Home()
+        public async Task<IActionResult> Custom()
         {
             return await ViewAsync();
         }

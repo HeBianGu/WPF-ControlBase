@@ -53,7 +53,7 @@ namespace HeBianGu.Application.ToolWindow
 
                 //if (find == null)
                 //{
-                //    MessageService.ShowSystemNotifyMessageWithInfo("请先复制文件或文件夹");
+                //    Message.Instance.ShowSystemNotifyMessageWithInfo("请先复制文件或文件夹");
                 //    return;
                 //}
 

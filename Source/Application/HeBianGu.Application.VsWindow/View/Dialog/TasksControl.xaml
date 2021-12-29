@@ -1,0 +1,140 @@
+﻿<UserControl x:Class="HeBianGu.Application.VsWindow.View.Dialog.TasksControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.Application.VsWindow.View.Dialog" xmlns:h="QQ:908293466" xmlns:system="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" Background="{DynamicResource S.Brush.TextBackground.Default}"
+             d:DesignHeight="450" d:DesignWidth="800" Width="900" Height="600">
+    <Grid Margin="50,30">
+        <Grid.Resources>
+            <Style TargetType="h:FButton" BasedOn="{StaticResource S.FButton.Circle.CornerRadius}">
+                <Setter Property="FIconSize" Value="50"/>
+                <Setter Property="Height" Value="Auto"/>
+                <Setter Property="Margin" Value="0,5,0,0"/>
+                <Setter Property="CornerRadius" Value="20"/>
+                <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>
+            </Style>
+        </Grid.Resources>
+
+        <h:Interaction.Behaviors>
+            <h:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="Opactiy" StartValue="0" EndValue="1" Split="0.05" End="0.2"/>
+        </h:Interaction.Behaviors>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition  Width="1.5*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.RowSpan="3">
+            <StackPanel>
+                <TextBlock Text="选择任务" Style="{DynamicResource S.TextBlock.Default}" HorizontalAlignment="Left" FontSize="25" Margin="-1,0,0,0" Foreground="{DynamicResource S.Brush.TextForeground.Title}"/>
+
+                <TextBlock Text="最近使用的任务" Style="{DynamicResource S.TextBlock.Default}" HorizontalAlignment="Left" FontSize="{DynamicResource S.FIcon.Size.Large}" Margin="0,25,0,10" Foreground="{DynamicResource S.Brush.TextForeground.Title}"/>
+
+                <ListBox SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:SelectTypeControl},Path=Model}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type h:TestViewModel}">
+                            <Grid>
+                                <StackPanel Orientation="Horizontal" Margin="10,0">
+                                    <h:FButton  IsHitTestVisible="False" FIcon="{Binding Value2}" Style="{StaticResource S.FButton.Style.Transparent}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}"/>
+                                    <TextBlock Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}" Text="{Binding Value}" Style="{DynamicResource S.TextBlock.Default}" Margin="5,0,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                    <h:Interaction.Triggers>
+                        <h:EventTrigger EventName="Loaded">
+                            <h:ChangePropertyAction PropertyName="SelectedIndex" Value="0"/>
+                        </h:EventTrigger>
+                    </h:Interaction.Triggers>
+
+                    <h:TestViewModel Value="任务一" Value1=".avi .mp4 .wav .wmv" Value2="&#xe781;"/>
+                    <h:TestViewModel Value="任务二" Value1=".jpg ,png .gif .ico .svg" Value2="&#xe845;"/>
+                    <h:TestViewModel Value="任务三" Value1=".sln" Value2="&#xe7d0;"/>
+                </ListBox>
+            </StackPanel>
+        </Grid>
+
+        <DockPanel Grid.Column="1" Grid.RowSpan="2">
+            <h:FTextBox DockPanel.Dock="Top" Margin="10" h:Cattach.Watermark="请输入筛选条件" h:Cattach.FIcon="&#xe787;"/>
+
+            <!--<ComboBox DockPanel.Dock="Top" SelectedIndex="0">
+                <system:String>所有模板</system:String>
+                <system:String>系统模板</system:String>
+                <system:String>自定义模板</system:String>
+            </ComboBox>-->
+
+            <ScrollViewer>
+                <ListBox Margin="5,0" SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:TasksControl},Path=Model}" Style="{StaticResource S.ListBox.Clear}" ItemsSource="{Binding Source={StaticResource S.DataSource.Locator},Path=ShellViewModel.Tasks}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type h:TestViewModel}">
+                            <Grid x:Name="grid" Margin="5">
+
+                                <Border x:Name="border" Background="Transparent" BorderBrush="{DynamicResource S.Brush.TextBorderBrush.Default}" BorderThickness="1" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}"/>
+
+                                <StackPanel Margin="10">
+                                    <h:FButton FIcon="&#xe7d5;" IsHitTestVisible="False"/>
+
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding Value}" Style="{DynamicResource S.TextBlock.Default}" Margin="0,10,0,0" FontSize="{DynamicResource S.FIcon.Size.Large}"  Foreground="{DynamicResource S.Brush.TextForeground.Title}"/>
+                                        <TextBlock Text="{Binding Value1}" Style="{DynamicResource S.TextBlock.Default}"  Margin="0,10,0,0"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.1}"/>
+                                    <!--<Setter TargetName="grid" Property="TextBlock.Foreground" Value="{DynamicResource S.Brush.Accent.MouseOver}"/>-->
+                                </Trigger>
+
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="true">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource S.Brush.Accent.Opacity.3}"/>
+                                    <!--<Setter TargetName="grid" Property="TextBlock.Foreground" Value="{DynamicResource S.Brush.Accent}"/>-->
+                                </DataTrigger>
+
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                    <!--<h:TestViewModel Value="空模板" Value1=".all" Value2="&#xe781;"/>
+                    <h:TestViewModel Value="视频" Value1=".avi .mp4 .wav .wmv" Value2="&#xe781;"/>
+                    <h:TestViewModel Value="音频" Value1=".mp3 .wma" Value2="&#xe6c0;"/>
+                    <h:TestViewModel Value="图像" Value1=".jpg ,png .gif .ico .svg" Value2="&#xe845;"/>
+                    <h:TestViewModel Value="办公文件" Value1=".xlsx .docx. xls .ppt" Value2="&#xe7fc;"/>
+                    <h:TestViewModel Value="解决方案" Value1=".sln" Value2="&#xe7d0;"/>-->
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ListBox>
+            </ScrollViewer>
+        </DockPanel>
+
+        <h:FButton Grid.Row="2" Content="确定" Style="{StaticResource S.FButton.Style.Default}" Grid.ColumnSpan="2"
+                IsDefault="True" Command="{x:Static h:DialogHost.CloseDialogCommand}" 
+                HorizontalAlignment="Right" Margin="0,0,0,0">
+            <h:FButton.CommandParameter>
+                <system:Boolean>True</system:Boolean>
+            </h:FButton.CommandParameter>
+        </h:FButton>
+
+        <h:FButton Grid.Row="0" Style="{DynamicResource S.FButton.Close}" Grid.ColumnSpan="2"
+                IsCancel="True" Command="{x:Static h:DialogHost.CloseDialogCommand}" Margin="-40,-20"
+                HorizontalAlignment="Right">
+            <h:FButton.CommandParameter>
+                <system:Boolean>False</system:Boolean>
+            </h:FButton.CommandParameter>
+        </h:FButton>
+    </Grid>
+</UserControl>

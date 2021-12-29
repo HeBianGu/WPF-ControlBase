@@ -23,13 +23,14 @@ namespace HeBianGu.General.WpfControlLib
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
-            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException; 
+
 
             ServiceRegistry.Instance.Register<IServiceCollection, ServiceCollection>();
             ServiceRegistry.Instance.Register<IApplicationBuilder, ApplicationBuilder>();
 
             this.ConfigureServices(this.IServiceCollection);
-        } 
+        }
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -46,12 +47,31 @@ namespace HeBianGu.General.WpfControlLib
 
         protected virtual void OnStart(StartupEventArgs e)
         {
-            this.CreateMainWindow(e);
+            this.InitResources();
+   
+            this.CreateMainWindow(e);  
 
             this.Initializeing();
 
             this.MainWindow.Show();
+        }
 
+        protected virtual void InitResources()
+        {
+            //  Do ：引用样式
+            this.Resources.MergedDictionaries.Add(new ResourceDictionary()
+            {
+                Source = new Uri("/HeBianGu.Base.WpfBase;component/Themes/Color/Light.xaml", UriKind.Relative)
+            });
+            //this.Resources.MergedDictionaries.Add(new ResourceDictionary()
+            //{
+            //    Source = new Uri("/HeBianGu.Base.WpfBase;component/Theme/HeBianGu.Theme.Default.xaml", UriKind.Relative)
+            //});
+
+            //this.Resources.MergedDictionaries.Add(new ResourceDictionary()
+            //{
+            //    Source = new Uri("/HeBianGu.General.WpfControlLib;component/Themes/Resource.xaml", UriKind.Relative)
+            //});
         }
 
         /// <summary>
@@ -67,66 +87,70 @@ namespace HeBianGu.General.WpfControlLib
         {
             VersionData versionData = null;
 
-            Func<IStartWindow,bool> func = l =>
-            {   
-                //  Do ：版本数据
-                IUpgradeService upgradeService = ServiceRegistry.Instance.GetInstance<IUpgradeService>();
+            Func<IStartWindow, bool> func = l =>
+             { 
+                 //  Do ：版本数据
+                 IUpgradeService upgradeService = ServiceRegistry.Instance.GetInstance<IUpgradeService>();
 
-                if (upgradeService!=null)
-                {
-                    l?.SetMessage("正在检查版本");
+                 if (upgradeService != null)
+                 {
+                     l?.SetMessage("正在检查版本");
 
 #if DEBUG
-                    Thread.Sleep(1000);
-#endif 
+                     Thread.Sleep(1000);
+#endif
 
-                    versionData = upgradeService.GetVersion(out string message);
+                     versionData = upgradeService.GetVersion(out string message);
 
-                    if (versionData != null)
-                    {
-                        //  Do ：存在版本升级
-                        return true;
-                    }
-                } 
+                     if (versionData != null)
+                     {
+                         //  Do ：存在版本升级
+                         return true;
+                     }
+                 }
 
-                //  Do ：加载工程
-                IProjectService project = ServiceRegistry.Instance.GetInstance<IProjectService>();
+                 //  Do ：加载工程
+                 IProjectService project = ServiceRegistry.Instance.GetInstance<IProjectService>();
 
-                if (project!=null)
-                {
-                    l?.SetMessage("正在加载工程");
+                 if (project != null)
+                 {
+                     l?.SetMessage("正在加载工程");
 #if DEBUG
-                    Thread.Sleep(1000);
-#endif 
-                    project?.Load();
-                } 
+                     Thread.Sleep(1000);
+#endif
+                     project?.Load();
+                 }
 
-                //  Do ：加载配置
-                ISystemSettingService setting = ServiceRegistry.Instance.GetInstance<ISystemSettingService>();
+                 //  Do ：加载配置
+                 ISystemSettingService setting = ServiceRegistry.Instance.GetInstance<ISystemSettingService>();
 
-                if (setting!=null)
-                {
-                    l?.SetMessage("正在加载配置");
+                 if (setting != null)
+                 {
+                     l?.SetMessage("正在加载配置");
 #if DEBUG
-                    Thread.Sleep(1000);
-#endif 
+                     Thread.Sleep(1000);
+#endif
 
-                    setting?.Load();
-                }
+                     setting?.Load();
+                 } 
 
-                l?.SetMessage("正在启动");
-                Thread.Sleep(1000);
+                 //  Do ：加载资源
+                 l?.SetMessage("正在资源");
+                 StyleLoader.Instance?.LoadWpfControlLib();
 
-                return true;
-            };
+                 l?.SetMessage("正在启动");
+                 Thread.Sleep(1000);
+
+                 return true;
+             };
 
             //  Do ：启动窗口服务
             IStartInitService start = ServiceRegistry.Instance.GetInstance<IStartInitService>();
 
-            if(start!=null)
-            { 
+            if (start != null)
+            {
                 start.Start(func);
-            } 
+            }
             else
             {
                 func(null);
@@ -137,7 +161,7 @@ namespace HeBianGu.General.WpfControlLib
 
             string error = null;
 
-            if (upgrade?.Init(versionData,out error) == false)
+            if (upgrade?.Init(versionData, out error) == false)
             {
                 this.ILogger?.Info(error);
             }
@@ -172,7 +196,7 @@ namespace HeBianGu.General.WpfControlLib
 
         void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            var message = ServiceRegistry.Instance.GetInstance<IMessageWindowService>();
+            var message = ServiceRegistry.Instance.GetInstance<IMessageDialogService>();
 
             Current.Dispatcher.Invoke(() => message.ShowSumit(e.Exception.Message, "系统异常", false, 5));
 
@@ -211,7 +235,7 @@ namespace HeBianGu.General.WpfControlLib
             this.ILogger?.Error("Task Exception");
             this.ILogger?.Error(sb.ToString());
 
-            var message = ServiceRegistry.Instance.GetInstance<IMessageWindowService>();
+            var message = ServiceRegistry.Instance.GetInstance<IMessageDialogService>();
 
             Current.Dispatcher.Invoke(() => message.ShowSumit(sb.ToString(), "系统任务异常", false, 5));
         }
@@ -236,13 +260,19 @@ namespace HeBianGu.General.WpfControlLib
         /// 注册服务
         /// </summary>
         /// <param name="services"></param>
-        protected abstract void ConfigureServices(IServiceCollection services);
+        protected virtual void ConfigureServices(IServiceCollection services)
+        { 
+            services.AddStyle();
+        }
 
         /// <summary>
         /// 配置数据
         /// </summary>
         /// <param name="app"></param>
-        protected abstract void Configure(IApplicationBuilder app);
+        protected virtual void Configure(IApplicationBuilder app)
+        {
+            app.UseStyle();
+        }
 
         public ILogService ILogger
         {
@@ -293,7 +323,7 @@ namespace HeBianGu.General.WpfControlLib
 
             if (!createdNew)
             {
-                var message = ServiceRegistry.Instance.GetInstance<IMessageWindowService>();
+                var message = ServiceRegistry.Instance.GetInstance<IMessageDialogService>();
 
 
                 if (message == null)

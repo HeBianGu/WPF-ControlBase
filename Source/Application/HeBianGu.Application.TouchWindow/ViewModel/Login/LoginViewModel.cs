@@ -79,7 +79,7 @@ namespace HeBianGu.Application.TouchWindow
                     _domain.GoToLinkAction("Loyout", "Home"); return;
                 }
 
-                MessageService.ShowSnackMessageWithNotice("身份证号正确，请输入111111");
+                Message.Instance.ShowSnackMessageWithNotice("身份证号正确，请输入111111");
             }
             //  Do：设置
             else if (command == "Button.Click.Setting")
@@ -90,7 +90,7 @@ namespace HeBianGu.Application.TouchWindow
 
                 AdminLoginControl adminLogin = new AdminLoginControl();
 
-                var result = await MessageService.ShowCustomDialog<bool>(adminLogin);
+                var result = await Message.Instance.ShowCustomDialog<bool>(adminLogin);
 
                 if (result) return;
 
@@ -129,7 +129,7 @@ namespace HeBianGu.Application.TouchWindow
                 this.IsActive = true;
             };
 
-            MessageService.ShowLayer(awaitControl);
+            Message.Instance.ShowLayer(awaitControl);
         }
 
     }

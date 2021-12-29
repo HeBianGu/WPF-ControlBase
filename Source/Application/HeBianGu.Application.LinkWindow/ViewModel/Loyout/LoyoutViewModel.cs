@@ -108,13 +108,13 @@ namespace HeBianGu.Application.LinkWindow
             //  Do：对话消息
             if (command == "Button.ShowDialogMessage")
             {
-                await MessageService.ShowSumitMessge("这是消息对话框？");
+                await Message.Instance.ShowSumitMessge("这是消息对话框？");
             }
 
             //  Do：等待消息
             else if (command == "Button.ShowWaittingMessge")
             {
-                await MessageService.ShowWaittingMessge(() => Thread.Sleep(2000));
+                await Message.Instance.ShowWaittingMessge(() => Thread.Sleep(2000));
             }
 
             //  Do：百分比进度对话框
@@ -131,9 +131,9 @@ namespace HeBianGu.Application.LinkWindow
 
                         Thread.Sleep(1000);
 
-                        MessageService.ShowSnackMessageWithNotice("加载完成！");
+                        Message.Instance.ShowSnackMessageWithNotice("加载完成！");
                     };
-                await MessageService.ShowPercentProgress(action);
+                await Message.Instance.ShowPercentProgress(action);
 
             }
 
@@ -151,38 +151,38 @@ namespace HeBianGu.Application.LinkWindow
 
                     Thread.Sleep(1000);
 
-                    MessageService.ShowSnackMessageWithNotice("提交完成：成功100条，失败0条！");
+                    Message.Instance.ShowSnackMessageWithNotice("提交完成：成功100条，失败0条！");
                 };
 
-                await MessageService.ShowStringProgress(action);
+                await Message.Instance.ShowStringProgress(action);
 
             }
 
             //  Do：确认取消对话框
             else if (command == "Button.ShowResultMessge")
             {
-                var result = await MessageService.ShowResultMessge("确认要退出系统?");
+                var result = await Message.Instance.ShowResultMessge("确认要退出系统?");
 
                 if (result)
                 {
-                    MessageService.ShowSnackMessageWithNotice("你点击了取消");
+                    Message.Instance.ShowSnackMessageWithNotice("你点击了取消");
                 }
                 else
                 {
-                    MessageService.ShowSnackMessageWithNotice("你点击了确定");
+                    Message.Instance.ShowSnackMessageWithNotice("你点击了确定");
                 }
             }
 
             //  Do：提示消息
             else if (command == "Button.ShowSnackMessage")
             {
-                MessageService.ShowSnackMessageWithNotice("这是提示消息？");
+                Message.Instance.ShowSnackMessageWithNotice("这是提示消息？");
             }
 
             //  Do：气泡消息
             else if (command == "Button.ShowNotifyMessage")
             {
-                MessageService.ShowNotifyMessage("你有一条报警信息需要处理，请检查", "Notify By HeBianGu");
+                Message.Instance.ShowNotifyMessage("你有一条报警信息需要处理，请检查", "Notify By HeBianGu");
             }
 
             //  Do：气泡消息
@@ -194,13 +194,13 @@ namespace HeBianGu.Application.LinkWindow
             //  Do：气泡消息
             else if (command == "Button.ShowWindowSumitMessage")
             {
-                MessageWindow.ShowSumit("这是窗口提示消息");
+                DialogWindow.ShowSumit("这是窗口提示消息");
             }
 
             //  Do：气泡消息
             else if (command == "Button.ShowWindowResultMessage")
             {
-                MessageWindow.ShowDialog("这是窗口提示消息");
+                DialogWindow.ShowDialog("这是窗口提示消息");
             }
 
             //  Do：气泡消息
@@ -216,14 +216,14 @@ namespace HeBianGu.Application.LinkWindow
 
                       l.Result = true;
 
-                      MessageService.ShowSnackMessageWithNotice("你点到我了！");
+                      Message.Instance.ShowSnackMessageWithNotice("你点到我了！");
                   };
 
                 acts.Add(Tuple.Create("按钮一", action));
                 acts.Add(Tuple.Create("按钮二", action));
                 acts.Add(Tuple.Create("按钮三", action));
 
-                MessageWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒",false, acts.ToArray());
+                DialogWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒",false, acts.ToArray());
             }
 
             //  Do：气泡消息
@@ -321,7 +321,7 @@ namespace HeBianGu.Application.LinkWindow
             else if (command.StartsWith("Button.ShowCoverMessge"))
             {
                 SettingControl setting = new SettingControl();
-                MessageService.ShowLayer(setting);
+                Message.Instance.ShowLayer(setting);
             }
 
             else if (command == "Button.Add")
@@ -329,7 +329,7 @@ namespace HeBianGu.Application.LinkWindow
 
                 if (this.StoryBoardPlayerViewModel.PlayMode)
                 {
-                    MessageService.ShowSnackMessageWithNotice("请先停止播放再进行添加！");
+                    Message.Instance.ShowSnackMessageWithNotice("请先停止播放再进行添加！");
                     return;
                 }
                 this.StoryBoardPlayerViewModel.Create();
@@ -593,7 +593,7 @@ namespace HeBianGu.Application.LinkWindow
                 {
                     this.PlayMode = false;
 
-                    MessageService.ShowSnackMessageWithNotice("请至少添加一个条目！");
+                    Message.Instance.ShowSnackMessageWithNotice("请至少添加一个条目！");
 
                     return;
                 }
@@ -757,11 +757,11 @@ namespace HeBianGu.Application.LinkWindow
             {
                 if (this._parent.PlayMode)
                 {
-                    MessageService.ShowSnackMessageWithNotice("请先停止播放再进行此操作！");
+                    Message.Instance.ShowSnackMessageWithNotice("请先停止播放再进行此操作！");
                     return;
                 }
 
-                var result = await MessageService.ShowResultMessge("确定要删除当前项目？");
+                var result = await Message.Instance.ShowResultMessge("确定要删除当前项目？");
 
                 if (!result) return;
 
@@ -927,11 +927,11 @@ namespace HeBianGu.Application.LinkWindow
             {
                 if (this.IsValid())
                 {
-                    MessageService.ShowSnackMessageWithNotice("数据校验成功！");
+                    Message.Instance.ShowSnackMessageWithNotice("数据校验成功！");
                 }
                 else
                 {
-                    MessageService.ShowSnackMessageWithNotice("数据校验错误 - " + this.Error);
+                    Message.Instance.ShowSnackMessageWithNotice("数据校验错误 - " + this.Error);
                 }
 
             }

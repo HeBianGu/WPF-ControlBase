@@ -42,7 +42,7 @@ namespace HeBianGu.Application.TouchWindow
 
                   SexControl sex = new SexControl();
 
-                  return await MessageService.ShowCustomDialog<bool>(sex);
+                  return await Message.Instance.ShowCustomDialog<bool>(sex);
 
               });
 
@@ -57,7 +57,7 @@ namespace HeBianGu.Application.TouchWindow
              {
                  AgrControl age = new AgrControl();
 
-                 return await MessageService.ShowCustomDialog<bool>(age);
+                 return await Message.Instance.ShowCustomDialog<bool>(age);
              });
 
             if (!result)
@@ -123,7 +123,7 @@ namespace HeBianGu.Application.TouchWindow
 
                      displayName = route.DisplayName;
 
-                     result = await MessageService.ShowCustomDialog<bool>(control);
+                     result = await Message.Instance.ShowCustomDialog<bool>(control);
                  }
              });
 

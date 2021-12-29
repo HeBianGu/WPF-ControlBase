@@ -270,7 +270,7 @@ namespace HeBianGu.General.WpfControlLib
                         Width = 10,
                         Height = 10,
                         CornerRadius = new CornerRadius(5),
-                        Background = this.TryFindResource("S.Brush.Dark.4") as Brush,
+                        Background = this.TryFindResource(BrushKeys.Dark4) as Brush,
                         Margin = new Thickness(5, 0, 5, 0),
                         BorderThickness = new Thickness(1)
                     }
@@ -291,14 +291,14 @@ namespace HeBianGu.General.WpfControlLib
 
             if (_selectedButton != null && _selectedButton.Content is Border borderOri)
             {
-                borderOri.Background = this.TryFindResource("S.Brush.Dark.4") as Brush;
+                borderOri.Background = this.TryFindResource(BrushKeys.Dark4) as Brush;
             }
 
             _selectedButton = e.OriginalSource as Button;
 
             if (_selectedButton != null && _selectedButton.Content is Border border)
             {
-                border.Background = this.TryFindResource("S.Brush.Accent") as Brush;
+                border.Background = this.TryFindResource(BrushKeys.Accent) as Brush;
             }
 
             var index = _panelPage.Children.IndexOf(_selectedButton);

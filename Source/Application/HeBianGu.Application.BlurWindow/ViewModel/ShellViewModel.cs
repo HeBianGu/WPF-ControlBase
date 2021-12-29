@@ -1,9 +1,11 @@
 ﻿using HeBianGu.Applications.ControlBase.LinkWindow;
 using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.Message;
 using HeBianGu.Control.MessageContainer;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.Service.Validation;
 using HeBianGu.Window.Message;
+using HeBianGu.Window.MessageDialog;
 using HeBianGu.Window.Notify; 
 using System;
 using System.Collections.Generic;
@@ -202,13 +204,13 @@ namespace HeBianGu.Application.BlurWindow
             //  Do：对话消息
             if (command == "Button.ShowDialogMessage")
             {
-                await MessageService.ShowSumitMessge("这是消息对话框？");
+                await Message.Instance.ShowSumitMessge("这是消息对话框？");
             }
 
             //  Do：等待消息
             else if (command == "Button.ShowWaittingMessge")
             {
-                await MessageService.ShowWaittingMessge(() => Thread.Sleep(2000));
+                await Message.Instance.ShowWaittingMessge(() => Thread.Sleep(2000));
             }
 
             //  Do：百分比进度对话框
@@ -225,9 +227,9 @@ namespace HeBianGu.Application.BlurWindow
 
                         Thread.Sleep(1000);
 
-                        MessageService.ShowSnackMessageWithNotice("加载完成！");
+                        Message.Instance.ShowSnackMessageWithNotice("加载完成！");
                     };
-                await MessageService.ShowPercentProgress(action);
+                await Message.Instance.ShowPercentProgress(action);
 
             }
 
@@ -245,10 +247,10 @@ namespace HeBianGu.Application.BlurWindow
 
                     Thread.Sleep(1000);
 
-                    MessageService.ShowSnackMessageWithNotice("提交完成：成功100条，失败0条！");
+                    Message.Instance.ShowSnackMessageWithNotice("提交完成：成功100条，失败0条！");
                 };
 
-                await MessageService.ShowStringProgress(action);
+                await Message.Instance.ShowStringProgress(action);
 
             }
             //  Do：文本进度对话框
@@ -265,12 +267,12 @@ namespace HeBianGu.Application.BlurWindow
 
                 //    Thread.Sleep(1000);
 
-                //    MessageService.ShowSnackMessageWithNotice("提交完成：成功100条，失败0条！");
+                //    Message.Instance.ShowSnackMessageWithNotice("提交完成：成功100条，失败0条！");
                 //};
 
                 StringProgressDialog dialog = new StringProgressDialog();
 
-                MessageService.ShowLayer(dialog);
+                Message.Instance.ShowLayer(dialog);
 
             }
 
@@ -278,15 +280,15 @@ namespace HeBianGu.Application.BlurWindow
             //  Do：确认取消对话框
             else if (command == "Button.ShowResultMessge")
             {
-                var result = await MessageService.ShowResultMessge("确认要退出系统?");
+                var result = await Message.Instance.ShowResultMessge("确认要退出系统?");
 
                 if (result)
                 {
-                    MessageService.ShowSnackMessageWithNotice("你点击了取消");
+                    Message.Instance.ShowSnackMessageWithNotice("你点击了取消");
                 }
                 else
                 {
-                    MessageService.ShowSnackMessageWithNotice("你点击了确定");
+                    Message.Instance.ShowSnackMessageWithNotice("你点击了确定");
                 }
             }
 
@@ -298,14 +300,14 @@ namespace HeBianGu.Application.BlurWindow
 
                 //MessageService.ShowSnackMessage(error);
 
-                MessageService.ShowSnackMessageWithNotice("这是提示消息？");
+                Message.Instance.ShowSnackMessageWithNotice("这是提示消息？");
 
             }
 
             //  Do：气泡消息
             else if (command == "Button.ShowNotifyMessage")
             {
-                MessageService.ShowNotifyMessage("你有一条报警信息需要处理，请检查", "Notify By HeBianGu");
+                Message.Instance.ShowNotifyMessage("你有一条报警信息需要处理，请检查", "Notify By HeBianGu");
             }
 
             //  Do：气泡消息
@@ -317,36 +319,36 @@ namespace HeBianGu.Application.BlurWindow
             //  Do：气泡消息
             else if (command == "Button.ShowWindowSumitMessage")
             {
-                MessageWindow.ShowSumit("这是窗口提示消息", "提示", true);
+                MessageDialogWindow.ShowSumit("这是窗口提示消息", "提示", true);
             }
 
             //  Do：气泡消息
             else if (command == "Button.ShowWindowResultMessage")
             {
-                MessageWindow.ShowDialog("这是窗口提示消息", "提示", -1, true);
+                MessageDialogWindow.ShowDialog("这是窗口提示消息", "提示", -1, true);
             }
 
             //  Do：气泡消息
             else if (command == "Button.ShowWindowIndentifyMessage")
             {
 
-                List<Tuple<string, Action<IMessageWindow>>> acts = new List<Tuple<string, Action<IMessageWindow>>>();
+                List<Tuple<string, Action<IMessageDialogWindow>>> acts = new List<Tuple<string, Action<IMessageDialogWindow>>>();
 
 
-                Action<IMessageWindow> action = l =>
+                Action<IMessageDialogWindow> action = l =>
                   {
                       l.CloseAnimation(l as WindowBase);
 
                       l.Result = true;
 
-                      MessageService.ShowSnackMessageWithNotice("你点到我了！");
+                      Message.Instance.ShowSnackMessageWithNotice("你点到我了！");
                   };
 
                 acts.Add(Tuple.Create("按钮一", action));
                 acts.Add(Tuple.Create("按钮二", action));
                 acts.Add(Tuple.Create("按钮三", action));
 
-                MessageWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒", true, acts.ToArray());
+                MessageDialogWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒", true, acts.ToArray());
             }
 
             ////  Do：气泡消息
@@ -446,7 +448,7 @@ namespace HeBianGu.Application.BlurWindow
 
                 if (result)
                 {
-                    MessageService.ShowSnackMessageWithNotice("加载完成");
+                    Message.Instance.ShowSnackMessageWithNotice("加载完成");
                 }
             }
 
@@ -473,7 +475,7 @@ namespace HeBianGu.Application.BlurWindow
 
                 if (result)
                 {
-                    MessageService.ShowSnackMessageWithNotice("运行成功");
+                    Message.Instance.ShowSnackMessageWithNotice("运行成功");
                 }
             }
 
@@ -499,7 +501,7 @@ namespace HeBianGu.Application.BlurWindow
 
                 if (result)
                 {
-                    MessageService.ShowSnackMessageWithNotice("运行成功");
+                    Message.Instance.ShowSnackMessageWithNotice("运行成功");
                 }
             }
 
@@ -514,12 +516,12 @@ namespace HeBianGu.Application.BlurWindow
                   {
                       if (random.Next(1, 3) == 1)
                       {
-                          MessageService.ShowSnackMessageWithNotice("保存成功");
+                          Message.Instance.ShowSnackMessageWithNotice("保存成功");
                           return true;
                       }
                       else
                       {
-                          MessageService.ShowSnackMessageWithNotice("保存失败");
+                          Message.Instance.ShowSnackMessageWithNotice("保存失败");
                           return false;
 
                       }
@@ -533,7 +535,7 @@ namespace HeBianGu.Application.BlurWindow
             {
                 SettingControl setting = new SettingControl();
 
-                MessageService.ShowLayer(setting);
+                Message.Instance.ShowLayer(setting);
 
             }
 
@@ -542,7 +544,7 @@ namespace HeBianGu.Application.BlurWindow
             {
                 Student student = new Student();
 
-                //await MessageService.ShowObjectWithPropertyForm(student, l => true, "修改学生信息");
+                //await Message.Instance.ShowObjectWithPropertyForm(student, l => true, "修改学生信息");
 
             }
 
@@ -555,17 +557,17 @@ namespace HeBianGu.Application.BlurWindow
                      {
                          if (this.random.Next(3) == 1)
                          {
-                             MessageService.ShowSnackMessageWithNotice("随机测试提交失败，请再试几次");
+                             Message.Instance.ShowSnackMessageWithNotice("随机测试提交失败，请再试几次");
                              return false;
                          }
                          else
                          {
-                             MessageService.ShowSnackMessageWithNotice("随机测试提交成功，请再试几次");
+                             Message.Instance.ShowSnackMessageWithNotice("随机测试提交成功，请再试几次");
                              return true;
                          }
                      };
 
-                await MessageService.ShowObjectWithContent(student, match, "修改学生信息");
+                await Message.Instance.ShowObjectWithContent(student, match, "修改学生信息");
 
             }
 
@@ -579,17 +581,17 @@ namespace HeBianGu.Application.BlurWindow
                     //if (ObjectPropertyFactory.ModelState(student.Model,out List<string> errors))
                     if (student.ModelState(out List<string> errors))
                     {
-                        MessageService.ShowSnackMessageWithNotice("提交成功");
+                        Message.Instance.ShowSnackMessageWithNotice("提交成功");
                         return true;
                     }
                     else
                     {
-                        MessageService.ShowSnackMessageWithNotice(errors?.FirstOrDefault());
+                        Message.Instance.ShowSnackMessageWithNotice(errors?.FirstOrDefault());
                         return false;
                     }
                 };
 
-                await MessageService.ShowObjectWithContent(student, match, "修改学生信息");
+                await Message.Instance.ShowObjectWithContent(student, match, "修改学生信息");
 
             }
             else if (command == "Button.Add")
@@ -597,7 +599,7 @@ namespace HeBianGu.Application.BlurWindow
 
                 if (this.StoryBoardPlayerViewModel.PlayMode)
                 {
-                    MessageService.ShowSnackMessageWithNotice("请先停止播放再进行添加！");
+                    Message.Instance.ShowSnackMessageWithNotice("请先停止播放再进行添加！");
                     return;
                 }
                 this.StoryBoardPlayerViewModel.Create();
@@ -618,25 +620,25 @@ namespace HeBianGu.Application.BlurWindow
             //  Do：任务栏消息
             else if (command == "Button.Taskbar.Error")
             {
-                MessageService.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Error);
+                Message.Instance.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Error);
             }
 
             //  Do：任务栏消息
             else if (command == "Button.Taskbar.Success")
             {
-                MessageService.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Normal);
+                Message.Instance.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Normal);
             }
 
             //  Do：任务栏消息
             else if (command == "Button.Taskbar.Warn")
             {
-               MessageService.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Paused);
+               Message.Instance.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Paused);
             }
 
             //  Do：任务栏消息
             else if (command == "Button.Taskbar.Percent")
             {
-                await MessageService.ShowTaskbarPercent(l =>
+                await Message.Instance.ShowTaskbarPercent(l =>
                 {
                     for (int i = 0; i < 100; i++)
                     {
@@ -655,7 +657,7 @@ namespace HeBianGu.Application.BlurWindow
             //  Do：任务栏消息
             else if (command == "Button.Taskbar.Waitting")
             {
-                await MessageService.ShowTaskbarWaitting(()=>
+                await Message.Instance.ShowTaskbarWaitting(()=>
                 {
                     Thread.Sleep(5000);
 
@@ -668,7 +670,7 @@ namespace HeBianGu.Application.BlurWindow
             {
                 Drawing drawing= System.Windows.Application.Current.FindResource("S.Drawing.Database") as Drawing;
 
-                MessageService.ShowTaskbarImage(new DrawingImage(drawing));
+                Message.Instance.ShowTaskbarImage(new DrawingImage(drawing));
 
             }
 
@@ -926,7 +928,7 @@ namespace HeBianGu.Application.BlurWindow
                 {
                     this.PlayMode = false;
 
-                    MessageService.ShowSnackMessageWithNotice("请至少添加一个条目！");
+                    Message.Instance.ShowSnackMessageWithNotice("请至少添加一个条目！");
 
                     return;
                 }
@@ -1090,11 +1092,11 @@ namespace HeBianGu.Application.BlurWindow
             {
                 if (this._parent.PlayMode)
                 {
-                    MessageService.ShowSnackMessageWithNotice("请先停止播放再进行此操作！");
+                    Message.Instance.ShowSnackMessageWithNotice("请先停止播放再进行此操作！");
                     return;
                 }
 
-                var result = await MessageService.ShowResultMessge("确定要删除当前项目？");
+                var result = await Message.Instance.ShowResultMessge("确定要删除当前项目？");
 
                 if (!result) return;
 
@@ -1254,11 +1256,11 @@ namespace HeBianGu.Application.BlurWindow
             {
                 if (this.IsValid())
                 {
-                    MessageService.ShowSnackMessageWithNotice("数据校验成功！");
+                    Message.Instance.ShowSnackMessageWithNotice("数据校验成功！");
                 }
                 else
                 {
-                    MessageService.ShowSnackMessageWithNotice("数据校验错误 - " + this.Error);
+                    Message.Instance.ShowSnackMessageWithNotice("数据校验错误 - " + this.Error);
                 }
 
             }

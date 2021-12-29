@@ -20,52 +20,54 @@ namespace HeBianGu.Application.LinkWindow
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override void OnMainWindow(StartupEventArgs e)
+        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
         {
-            MainWindow shellWindow = new MainWindow();
+            //MainWindow shellWindow = new MainWindow();
 
-            LoginWindow login = new LoginWindow();
+            //LoginWindow login = new LoginWindow();
 
-            login.Title = this.GetVersonInfo();
+            //login.Title = this.GetVersonInfo();
         
-            login.InitAccount(()=>
-            {
-                Thread.Sleep(1000);
+            //login.InitAccount(()=>
+            //{
+            //    Thread.Sleep(1000);
 
-                return Tuple.Create("HeBianGu","89757",true);
-            });
+            //    return Tuple.Create("HeBianGu","89757",true);
+            //});
 
 
-            login.IsMatch = () =>
-            {
-                string name = login.UseName;
-                string password = login.PassWord;
-                bool remenber = login.Remenber;
+            //login.IsMatch = () =>
+            //{
+            //    string name = login.UseName;
+            //    string password = login.PassWord;
+            //    bool remenber = login.Remenber;
 
-                return Task.Run(() =>
-                {
-                    Thread.Sleep(1000);
+            //    return Task.Run(() =>
+            //    {
+            //        Thread.Sleep(1000);
 
-                    var result = AssemblyDomain.Instance.Login(name, password, remenber, out string error);
+            //        var result = AssemblyDomain.Instance.Login(name, password, remenber, out string error);
 
-                    if (!result)
-                    {
-                        this.Dispatcher.Invoke(() =>
-                        {
-                            login.LoginMessage = error;
-                        });
-                    }
+            //        if (!result)
+            //        {
+            //            this.Dispatcher.Invoke(() =>
+            //            {
+            //                login.LoginMessage = error;
+            //            });
+            //        }
 
-                    return result;
-                });
+            //        return result;
+            //    });
 
-            };
+            //};
 
-            var r = login.ShowDialog();
+            //var r = login.ShowDialog();
 
-            if (r != true) return;
+            //if (r != true) return;
 
-            shellWindow.Show(); 
+            //shellWindow.Show();
+
+            return new ShellWindow();
 
         }
 
@@ -80,9 +82,9 @@ namespace HeBianGu.Application.LinkWindow
             ////  Do ：注册日志服务
             //services.AddSingleton<ILogService, AssemblyDomain>();
 
-            services.UseMessageWindow();
+            services.AddMessageWindow();
 
-            services.UseWindowAnimation();
+            services.AddWindowAnimation();
 
             services.UseThemeSave();
 

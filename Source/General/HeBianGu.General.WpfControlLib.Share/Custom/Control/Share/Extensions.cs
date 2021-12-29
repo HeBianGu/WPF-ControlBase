@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace HeBianGu.General.WpfControlLib
 {
-    internal static class Extensions
+    public static class Extensions
     {
         public static IEnumerable<DependencyObject> VisualDepthFirstTraversal(this DependencyObject node)
         {

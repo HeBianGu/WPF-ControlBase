@@ -12,7 +12,7 @@ using System.Windows;
 
 namespace HeBianGu.Application.BlurWindow
 {
-    public class AssemblyDomain : IThemeSerializeService,ILogService
+    public class AssemblyDomain : ILogService
     {
         public static AssemblyDomain Instance = new AssemblyDomain();
 

@@ -152,7 +152,7 @@ namespace HeBianGu.Application.TouchWindow
                 }
                 else
                 {
-                    MessageService.ShowSnackMessage("已是最后一项");
+                    Message.Instance.ShowSnackMessage("已是最后一项");
                 }
 
                 //this.RunNextEngine = false;
@@ -178,7 +178,7 @@ namespace HeBianGu.Application.TouchWindow
                 {
                     CardIDControl card = new CardIDControl();
 
-                    return await MessageService.ShowCustomDialog<bool>(card);
+                    return await Message.Instance.ShowCustomDialog<bool>(card);
                 });
 
                 _domain.GoToLinkAction("Report", "Report", new object[] { this.LinkActions, true });

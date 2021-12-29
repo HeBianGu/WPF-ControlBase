@@ -113,7 +113,7 @@ namespace HeBianGu.Application.TouchWindow
             {
                 if (AwaitControl.IsShowed) return;
 
-                MessageService.ShowLayer(AwaitControl.Create());
+                Message.Instance.ShowLayer(AwaitControl.Create());
             };
         }
 

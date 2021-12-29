@@ -1,0 +1,81 @@
+﻿<UserControl x:Class="HeBianGu.App.Touch.View.Report.ReportControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:HeBianGu.App.Touch.View.Report"
+             xmlns:local1="clr-namespace:HeBianGu.App.Touch"
+             xmlns:h="QQ:908293466"
+             mc:Ignorable="d"  Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity1}}"
+             d:DesignHeight="800" d:DesignWidth="1280">
+    <Grid Margin="40,35">
+        <Grid.Resources>
+            <Style TargetType="Border" BasedOn="{StaticResource C.Border.Default}"/> 
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="8*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <h:FButton Content="退出" Command="{Binding RelayCommand}" CommandParameter="Button.Click.LogOut"  HorizontalAlignment="Right" VerticalAlignment="Top" Margin="50"/>
+
+
+        <TextBlock Style="{StaticResource C.TextBlock.Title}" Text="体检结果报告" Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}" 
+                  VerticalAlignment="Top" Width="Auto"/>
+
+        <StackPanel  HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal" >
+            <local1:FButtonCountDown Content="退出" IsActive="{Binding RunNextEngine,Mode=TwoWay}" Count="16" Command="{Binding RelayCommand}" Style="{StaticResource C.FButton.Tranparent}" 
+                                    CommandParameter="Button.Click.LogOut"/>
+        </StackPanel>
+
+        <UniformGrid Columns="2" Grid.Row="1" Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}">
+            <UniformGrid.Resources>
+                <DataTemplate DataType="{x:Type local1:DataValueEntity}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Value}" Style="{StaticResource C.TextBlock.Title}"  Grid.Column="1" HorizontalAlignment="Left" Foreground="{Binding Foreground}"/>
+                        <TextBlock Text="{Binding Name,StringFormat={}{0}：}" Style="{StaticResource C.TextBlock.Default}" Grid.Column="0" HorizontalAlignment="Left" />
+                    </Grid>
+                </DataTemplate>
+            </UniformGrid.Resources>
+            <Border>
+                <UniformGrid Columns="1"  Margin="50,30">
+                    <ContentControl Content="{Binding LinkActions[0].Height}"/>
+                    <ContentControl Content="{Binding LinkActions[0].Weight}"/>
+                    <ContentControl Content="{Binding LinkActions[0].Bmi}"/>
+                </UniformGrid>
+            </Border>
+
+            <Border>
+                <UniformGrid Columns="1" Margin="50,30">
+                    <ContentControl Content="{Binding LinkActions[1].Fat}"/>
+                    <ContentControl Content="{Binding LinkActions[1].Rate}"/>
+                    <ContentControl Content="{Binding LinkActions[1].Basic}"/>
+                </UniformGrid>
+            </Border>
+
+            <Border>
+                <UniformGrid Columns="1"  Margin="50,30">
+                    <ContentControl Content="{Binding LinkActions[2].Oxygen}"/>
+                    <ContentControl Content="{Binding LinkActions[3].Dbp}"/>
+                    <ContentControl Content="{Binding LinkActions[3].Sbp}"/>
+                </UniformGrid>
+            </Border>
+
+            <Border>
+                <UniformGrid Columns="1"  Margin="50,30">
+                    <ContentControl Content="{Binding LinkActions[3].Pulse}"/>
+                    <ContentControl Content="{Binding LinkActions[4].Temperature}"/>
+                    <ContentControl>
+                    </ContentControl>
+                </UniformGrid>
+            </Border>
+        </UniformGrid>
+
+    </Grid>
+</UserControl>

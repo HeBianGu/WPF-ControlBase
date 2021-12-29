@@ -15,7 +15,7 @@ namespace HeBianGu.Base.WpfBase
         public void Execute(object parameter)
         {
             //int index = parameter == null ? 0 : int.Parse(parameter.ToString());
-            MessageService.CloseLayer();
+            Message.Instance.CloseLayer();
         }
 
         public event EventHandler CanExecuteChanged;

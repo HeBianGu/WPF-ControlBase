@@ -1,68 +1,86 @@
 ﻿<UserControl x:Class="HeBianGu.General.WpfControlLib.SpaceSpliterUserControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="QQ:908293466"
              xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
-             mc:Ignorable="d" 
-             Background="{DynamicResource S.Brush.Gray.Notice}" 
-             Foreground="{DynamicResource S.Brush.Accent.MouseOver}" x:Name="control"
-             d:DesignWidth="500">
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Name="control"
+             d:DesignWidth="500"
+             Background="{DynamicResource {x:Static h:BrushKeys.Gray}}"
+             Foreground="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}"
+             mc:Ignorable="d">
     <Grid>
-        <!--整体背景-->
+        <!--  整体背景  -->
         <!--<Border  CornerRadius="10"  Background="{Binding ElementName=control,Path=Background}"/>-->
         <Canvas VerticalAlignment="Bottom">
-            <Thumb Name="thumb1"  Background="{Binding ElementName=control,Path=Foreground}" Width="100"  DragDelta="DragDelta" 
-                   DragStarted="DragStarted"  DragCompleted="DragCompleted"  Canvas.Left="30" Canvas.Top="0">
+            <Thumb Name="thumb1"
+                   Canvas.Left="30"
+                   Canvas.Top="0"
+                   Width="100"
+                   Background="{Binding ElementName=control, Path=Foreground}"
+                   DragCompleted="DragCompleted"
+                   DragDelta="DragDelta"
+                   DragStarted="DragStarted">
                 <Thumb.Template>
                     <ControlTemplate TargetType="Thumb">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="5"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="5" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="5" />
                             </Grid.ColumnDefinitions>
 
-                            <Border x:Name="border" Background="{TemplateBinding Background}" Grid.ColumnSpan="3"/>
+                            <Border x:Name="border" Grid.ColumnSpan="3" Background="{TemplateBinding Background}" />
 
-                            <!--左侧按钮-->
-                            <Thumb Name="th_left" 
-                                   Background="{DynamicResource S.Brush.White.Notice}"  Grid.Column="0"  Margin="-5,0,0,0"  ToolTip="{Binding Left}"  DragDelta="Thumb_DragDelta">
+                            <!--  左侧按钮  -->
+                            <Thumb Name="th_left"
+                                   Grid.Column="0"
+                                   Margin="-5,0,0,0"
+                                   Background="{DynamicResource {x:Static h:BrushKeys.White}}"
+                                   DragDelta="Thumb_DragDelta"
+                                   ToolTip="{Binding Left}">
                                 <Thumb.Template>
                                     <ControlTemplate TargetType="Thumb">
                                         <Grid>
-                                            <TextBlock x:Name="txt"  Style="{DynamicResource S.TextBlock.FIcon}"  Text="&#xe6f9;" 
-                                                       ToolTip="{Binding Left}" Foreground="{DynamicResource S.Brush.Accent}" 
-                                                       Margin="-5,-25,-5,0"/>
+                                            <TextBlock x:Name="txt"
+                                                       Margin="-5,-25,-5,0"
+                                                       Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                       Text="&#xe6f9;"
+                                                       ToolTip="{Binding Left}" />
 
                                         </Grid>
                                         <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="true"> 
-                                                <Setter Property="Foreground" Value="{DynamicResource S.Brush.Gray.Notice}" TargetName="txt"/>
+                                            <Trigger Property="IsMouseOver" Value="true">
+                                                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Gray}}" />
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
                                 </Thumb.Template>
                             </Thumb>
 
-                            <Thumb Name="th_right" 
-                                   Background="{DynamicResource S.Brush.White.Notice}" 
-                                   Grid.Column="2"  
-                                   Margin="0,0,-5,0" 
-                                   ToolTip="{Binding Right}" 
-                                   DragDelta="Thumb_DragDelta_1"  >
+                            <Thumb Name="th_right"
+                                   Grid.Column="2"
+                                   Margin="0,0,-5,0"
+                                   Background="{DynamicResource {x:Static h:BrushKeys.White}}"
+                                   DragDelta="Thumb_DragDelta_1"
+                                   ToolTip="{Binding Right}">
                                 <Thumb.Template>
                                     <ControlTemplate TargetType="Thumb">
                                         <Grid>
-                                            <TextBlock x:Name="txt"  Style="{DynamicResource S.TextBlock.FIcon}" ToolTip="{Binding Right}" 
-                                                       Foreground="{DynamicResource S.Brush.Accent}" Text="&#xe6f9;" 
-                                                       Margin="-5,-25,-5,0"/>
+                                            <TextBlock x:Name="txt"
+                                                       Margin="-5,-25,-5,0"
+                                                       Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                       Text="&#xe6f9;"
+                                                       ToolTip="{Binding Right}" />
 
                                         </Grid>
 
                                         <ControlTemplate.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="true"> 
-                                                <Setter Property="Foreground" Value="{DynamicResource S.Brush.Gray.Notice}" TargetName="txt"/>
+                                            <Trigger Property="IsMouseOver" Value="true">
+                                                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Gray}}" />
                                             </Trigger>
                                         </ControlTemplate.Triggers>
                                     </ControlTemplate>
@@ -72,7 +90,7 @@
 
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
-                                <Setter Property="Background" Value="{DynamicResource S.Brush.Gray.Notice}" TargetName="border"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Gray}}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

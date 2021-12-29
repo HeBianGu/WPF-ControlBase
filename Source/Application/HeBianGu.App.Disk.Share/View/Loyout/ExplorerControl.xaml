@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="HeBianGu.App.Disk.ExplorerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="QQ:908293466"
+             xmlns:local="clr-namespace:HeBianGu.App.Disk"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Grid>
+        <DockPanel>
+            <StackPanel Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                        Background="{DynamicResource {x:Static h:BrushKeys.Dark1}}"
+                        DockPanel.Dock="Top"
+                        Orientation="Horizontal">
+
+                <h:Interaction.Behaviors>
+                    <h:LoadAnimationBehavior End="1" EndValue="0"
+                                             IsUseAll="True"
+                                             LoadAnimationType="HorizontalAlignment"
+                                             Split="0.2"
+                                             StartValue="1000" />
+                </h:Interaction.Behaviors>
+
+                <h:FButton Content="上传" Icon="&#xe892;" />
+                <h:FButton Content="下载" Icon="&#xe891;" />
+                <h:FButton Content="分享" Icon="&#xe763;" />
+                <h:FButton Content="删除" Icon="&#xe643;" />
+                <h:FButton Content="新建文件夹" Icon="&#xe688;" />
+                <h:FButton Content="离线下载" Icon="&#xe84f;" />
+            </StackPanel>
+
+            <h:Explorer Margin="0,0,10,0" CurrentPath="{Binding Path, Mode=TwoWay}" Style="{DynamicResource S.Explorer.Default}">
+                <h:Interaction.Behaviors>
+                    <h:LoadAnimationBehavior End="0.05"
+                                             EndValue="1"
+                                             IsUseAll="True"
+                                             LoadAnimationType="Opactiy"
+                                             Split="0.02"
+                                             StartValue="0" />
+                </h:Interaction.Behaviors>
+
+                <h:Explorer.Columns>
+                    <DataGridTemplateColumn Width="50" Header="">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <h:FCheckBox Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}, Path=Foreground}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <h:FCheckBox Margin="9,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="3*" Header="文件名">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Margin="5" Source="{Binding Logo, Converter={x:Static h:XConverter.IconToImageSourceConverter}}" />
+                                    <TextBlock Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" Style="{StaticResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding Model.Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Width="*" Binding="{Binding Model.LastWriteTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Header="修改时间" />
+                    <DataGridTextColumn Width="*" Header="大小" />
+                </h:Explorer.Columns>
+            </h:Explorer>
+        </DockPanel>
+    </Grid>
+</UserControl>
