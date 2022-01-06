@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HeBianGu.Applications.ControlBase.Demo
+namespace HeBianGu.Template.Main
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑

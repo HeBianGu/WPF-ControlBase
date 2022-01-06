@@ -96,21 +96,17 @@ namespace HeBianGu.General.WpfControlLib
         public static ComponentResourceKey Default => new ComponentResourceKey(typeof(ComboBoxItemKeys), "S.ComboBoxItem.Default"); 
     }
 
-
     public static class DataGridKeys
     {
-
         public static ComponentResourceKey Default => new ComponentResourceKey(typeof(DataGridKeys), "S.DataGrid.Default");
         public static ComponentResourceKey Single => new ComponentResourceKey(typeof(DataGridKeys), "S.DataGrid.Single");
         public static ComponentResourceKey Accent => new ComponentResourceKey(typeof(DataGridKeys), "S.DataGrid.Accent");
         public static ComponentResourceKey Clear => new ComponentResourceKey(typeof(DataGridKeys), "S.DataGrid.Clear");
         public static ComponentResourceKey VerticalDefault => new ComponentResourceKey(typeof(DataGridKeys), "S.DataGrid.Vertical.Default");
-
     }
 
     public static class DatePickerKeys
     {
-
         public static ComponentResourceKey Default => new ComponentResourceKey(typeof(DatePickerKeys), "S.DatePicker.Default");
         public static ComponentResourceKey Single => new ComponentResourceKey(typeof(DatePickerKeys), "S.DatePicker.Single");
         public static ComponentResourceKey Accent => new ComponentResourceKey(typeof(DatePickerKeys), "S.DatePicker.Accent");
@@ -122,7 +118,13 @@ namespace HeBianGu.General.WpfControlLib
         public static ComponentResourceKey LabelSingle => new ComponentResourceKey(typeof(DatePickerKeys), "S.DatePicker.Single.Label");
         public static ComponentResourceKey LabelClearSingle => new ComponentResourceKey(typeof(DatePickerKeys), "S.DatePicker.Single.LabelClear");
         public static ComponentResourceKey LabelCircle => new ComponentResourceKey(typeof(DatePickerKeys), "S.DatePicker.Circle.Label");
+    }
 
+    public static class CalendarKeys
+    {
+        public static ComponentResourceKey Default => new ComponentResourceKey(typeof(CalendarKeys), "S.Calendar.Default");
+        public static ComponentResourceKey Single => new ComponentResourceKey(typeof(CalendarKeys), "S.Calendar.Single");
+        public static ComponentResourceKey Accent => new ComponentResourceKey(typeof(CalendarKeys), "S.Calendar.Accent"); 
     }
 
     public static class ExpanderKeys
@@ -211,6 +213,15 @@ namespace HeBianGu.General.WpfControlLib
         public static ComponentResourceKey Accent => new ComponentResourceKey(typeof(MenuKeys), "S.Menu.Accent");
     }
 
+    public static class MenuItemKeys
+    {
+        public static ComponentResourceKey Default => new ComponentResourceKey(typeof(MenuItemKeys), "S.MenuItem.Default");
+        public static ComponentResourceKey Handy => new ComponentResourceKey(typeof(MenuItemKeys), "S.MenuItem.Handy");
+        public static ComponentResourceKey Single => new ComponentResourceKey(typeof(MenuItemKeys), "S.MenuItem.Single");
+        public static ComponentResourceKey Accent => new ComponentResourceKey(typeof(MenuItemKeys), "S.MenuItem.Accent");
+        public static ComponentResourceKey Icon => new ComponentResourceKey(typeof(MenuItemKeys), "S.MenuItem.Icon");
+    }
+
     public static class ContextMenuKeys
     {
         public static ComponentResourceKey Default => new ComponentResourceKey(typeof(ContextMenuKeys), "S.ContextMenu.Default");
@@ -242,6 +253,8 @@ namespace HeBianGu.General.WpfControlLib
         public static ComponentResourceKey CriclePercent => new ComponentResourceKey(typeof(ProgressBarKeys), "S.ProgressBar.CriclePercent");
 
         public static ComponentResourceKey Handy => new ComponentResourceKey(typeof(ProgressBarKeys), "S.ProgressBar.Handy.Default");
+        public static ComponentResourceKey HandySingle => new ComponentResourceKey(typeof(ProgressBarKeys), "S.ProgressBar.Handy.Single");
+
         public static ComponentResourceKey HandyAccent => new ComponentResourceKey(typeof(ProgressBarKeys), "S.ProgressBar.Handy.Accent");
         public static ComponentResourceKey HandyStripeBase => new ComponentResourceKey(typeof(ProgressBarKeys), "S.ProgressBar.Handy.Stripe.Base");
         public static ComponentResourceKey LabelHandy => new ComponentResourceKey(typeof(ProgressBarKeys), "S.ProgressBar.Handy.Label");
@@ -365,7 +378,8 @@ namespace HeBianGu.General.WpfControlLib
         public static ComponentResourceKey DoubleFIconCheckedSingle => new ComponentResourceKey(typeof(ToggleButtonKeys), "S.ToggleButton.DoubleFIconChecked.Single");
         public static ComponentResourceKey FIconSingle => new ComponentResourceKey(typeof(ToggleButtonKeys), "S.ToggleButton.FIconSingle");
         public static ComponentResourceKey Rotate90 => new ComponentResourceKey(typeof(ToggleButtonKeys), "S.ToggleButton.Rotate.90");
- 
+        public static ComponentResourceKey Tree => new ComponentResourceKey(typeof(ToggleButtonKeys), "S.ToggleButton.Tree");
+
     }
 
     public static class ToolTipkKeys

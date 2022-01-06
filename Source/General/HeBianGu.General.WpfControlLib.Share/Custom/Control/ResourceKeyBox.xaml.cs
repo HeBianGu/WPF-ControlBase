@@ -52,7 +52,7 @@ namespace HeBianGu.General.WpfControlLib
 
         void RefreshData()
         {
-            var properties = this.Type.GetProperties(BindingFlags.Static | BindingFlags.Public);
+            var properties = this.Type.GetProperties(BindingFlags.Static| BindingFlags.Public);
 
             List<ComponentResourceKey> source = new List<ComponentResourceKey>();
 
@@ -61,23 +61,11 @@ namespace HeBianGu.General.WpfControlLib
                 var key=item.GetValue(null) as ComponentResourceKey; 
 
                 if (key == null) continue;
-
                 source.Add(key);
-
-                //var style = Application.Current.TryFindResource(key) as Style;
-
-                //if (style == null) continue;
-
-                //var control = Activator.CreateInstance(style.TargetType) as Control;
-
-                //control.Style = style;
-
-                //this.Items.Add(control);
             }
 
             this.ItemsSource= source;
         }
-
     }
 
 
@@ -122,7 +110,10 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (this.Content is ItemsControl items)
                 {
-                    items.ItemsSource = Enumerable.Range(0, 5);
+                    if(items.Items==null&&items.ItemsSource==null)
+                    { 
+                        items.ItemsSource = Enumerable.Range(0, 5);
+                    }
                 }
             }
         }

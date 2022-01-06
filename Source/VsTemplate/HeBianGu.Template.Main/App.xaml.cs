@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
-using HeBianGu.Applications.ControlBase.Demo;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;

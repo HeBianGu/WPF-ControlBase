@@ -20,11 +20,8 @@ namespace HeBianGu.General.WpfControlLib
         public ApplicationBase()
         {
             DispatcherUnhandledException += App_DispatcherUnhandledException;
-
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
             TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException; 
-
 
             ServiceRegistry.Instance.Register<IServiceCollection, ServiceCollection>();
             ServiceRegistry.Instance.Register<IApplicationBuilder, ApplicationBuilder>();
@@ -37,20 +34,15 @@ namespace HeBianGu.General.WpfControlLib
             this.ILogger?.Info("系统启动");
 
             this.Configure(this.IApplicationBuilder);
-
             this.CheckInstance();
-
             base.OnStartup(e);
-
             this.OnStart(e);
         }
 
         protected virtual void OnStart(StartupEventArgs e)
         {
             this.InitResources();
-   
             this.CreateMainWindow(e);  
-
             this.Initializeing();
 
             this.MainWindow.Show();
@@ -58,11 +50,11 @@ namespace HeBianGu.General.WpfControlLib
 
         protected virtual void InitResources()
         {
-            //  Do ：引用样式
-            this.Resources.MergedDictionaries.Add(new ResourceDictionary()
-            {
-                Source = new Uri("/HeBianGu.Base.WpfBase;component/Themes/Color/Light.xaml", UriKind.Relative)
-            });
+            ////  Do ：引用样式
+            //this.Resources.MergedDictionaries.Add(new ResourceDictionary()
+            //{
+            //    Source = new Uri("/HeBianGu.Base.WpfBase;component/Themes/Color/Light.xaml", UriKind.Relative)
+            //});
             //this.Resources.MergedDictionaries.Add(new ResourceDictionary()
             //{
             //    Source = new Uri("/HeBianGu.Base.WpfBase;component/Theme/HeBianGu.Theme.Default.xaml", UriKind.Relative)
