@@ -1,47 +1,54 @@
 ﻿<Page x:Class="HeBianGu.Applications.ControlBase.Demo.Pages.DataGridPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.Demo.Pages"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:h="QQ:908293466"
-      DataContext="{Binding Source={StaticResource S.DataSource.Locator},Path=ShellViewModel}" 
-      Title="DataGridPage">
-    <Grid >
+      xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.Demo.Pages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="DataGridPage"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      DataContext="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel}"
+      mc:Ignorable="d">
+    <Grid>
         <h:Interaction.Behaviors>
-            <h:FountainAnimationBehavior IsUseAll="True" MiddleValue="0.1" EndValue="0.5"/>
+            <h:FountainAnimationBehavior EndValue="0.5" IsUseAll="True" MiddleValue="0.1" />
         </h:Interaction.Behaviors>
-        
-        <h:PagedDataGrid Style="{DynamicResource S.PagedDataGrid.Single}" PageCount="16" Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" DataSource="{Binding Collection,Mode=TwoWay}">
+
+        <h:PagedDataGrid Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                         DataSource="{Binding Collection, Mode=TwoWay}"
+                         PageCount="16"
+                         Style="{DynamicResource {x:Static h:PagedDataGrid.SingleKey}}">
             <h:PagedDataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.Header>
-                        <h:FCheckBox Content="全选"/>
+                        <h:FCheckBox Content="全选" />
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Grid>
-                                <h:FCheckBox HorizontalAlignment="Center" Margin="9,0,0,0" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell},Path=Foreground}"/>
+                                <h:FCheckBox Margin="9,0,0,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" />
                             </Grid>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                <DataGridTextColumn Header="序号" Binding="{Binding ID}" Width="0.5*"/>
-                <DataGridTextColumn Header="名称" Binding="{Binding Name}" Width="2*" />
-                <DataGridTextColumn Header="编码" Binding="{Binding Code}" Width="*" />
-                <DataGridTextColumn Header="父节点" Binding="{Binding ParentID}" Width="*" />
+                <DataGridTextColumn Width="0.5*" Binding="{Binding ID}" Header="序号" />
+                <DataGridTextColumn Width="2*" Binding="{Binding Name}" Header="名称" />
+                <DataGridTextColumn Width="*" Binding="{Binding Code}" Header="编码" />
+                <DataGridTextColumn Width="*" Binding="{Binding ParentID}" Header="父节点" />
                 <DataGridTemplateColumn Width="Auto">
                     <DataGridTemplateColumn.Header>
-                        <TextBlock Text="操作"/>
+                        <TextBlock Text="操作" />
                     </DataGridTemplateColumn.Header>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <h:FButton Content="详情" Style="{DynamicResource S.FButton.Style.Transparent}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell},Path=Foreground}"/>
-                                <h:FButton Content="编辑" Margin="2,0"  Style="{DynamicResource S.FButton.Style.Transparent}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell},Path=Foreground}"/>
-                                <h:FButton Content="删除"  Style="{DynamicResource S.FButton.Style.Transparent}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell},Path=Foreground}"/>
+                                <h:FButton Content="详情" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" Style="{DynamicResource S.FButton.Style.Transparent}" />
+                                <h:FButton Margin="2,0"
+                                           Content="编辑"
+                                           Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}"
+                                           Style="{DynamicResource S.FButton.Style.Transparent}" />
+                                <h:FButton Content="删除" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" Style="{DynamicResource S.FButton.Style.Transparent}" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

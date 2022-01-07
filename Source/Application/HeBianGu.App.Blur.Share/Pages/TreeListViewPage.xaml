@@ -1,52 +1,56 @@
 ﻿<Page x:Class="WpfControlDemo.View.TreeListViewPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:h="QQ:908293466"
-      mc:Ignorable="d" 
-     d:DesignHeight="1000" d:DesignWidth="1000"
-      Title="TreeViewPage">
+      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="TreeViewPage"
+      d:DesignHeight="1000"
+      d:DesignWidth="1000"
+      mc:Ignorable="d">
 
     <Grid>
         <!--<h:Interaction.Behaviors>
             <h:FountainAnimationBehavior IsUseAll="True"/>
         </h:Interaction.Behaviors>-->
-        
-        <h:TreeListView ItemsSource="{Binding Source={StaticResource S.DataSource.Locator},Path=ShellViewModel.Nodes}" Style="{DynamicResource S.TreeListView.Default}">
+
+        <h:TreeListView ItemsSource="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.Nodes}" Style="{DynamicResource S.TreeListView.Default}">
+            <h:TreeListView.Resources>
+                <h:LevelToIndentConverter x:Key="LevelIndentConverter" />
+            </h:TreeListView.Resources>
             <h:TreeListView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Nodes}"/>
+                <HierarchicalDataTemplate ItemsSource="{Binding Nodes}" />
             </h:TreeListView.ItemTemplate>
             <h:TreeListView.Columns>
                 <GridViewColumnCollection>
-                    <GridViewColumn Header="列头"  Width="500">
+                    <GridViewColumn Width="500" Header="列头">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <DockPanel>
-                                    <ToggleButton x:Name="Expander" Style="{StaticResource ExpandCollapseToggleStyle}" 
-                                                  Margin="{Binding Path=Level, Converter={StaticResource LevelIndentConverter}, 
-                                                            RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}"
+                                    <ToggleButton x:Name="Expander"
+                                                  Margin="{Binding Path=Level, Converter={StaticResource LevelIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}"
+                                                  ClickMode="Press"
                                                   IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}"
-                                                  ClickMode="Press"/>
-                                    <!--首列绑定值-->
+                                                  Style="{StaticResource {x:Static h:ToggleButtonKeys.Tree}}" />
+                                    <!--  首列绑定值  -->
                                     <TextBlock Margin="5,0">
-                <Run Text="{Binding Code}"/>
-                <Run Text="{Binding Name}"/>
+                                        <Run Text="{Binding Code}" />
+                                        <Run Text="{Binding Name}" />
                                     </TextBlock>
                                 </DockPanel>
                                 <DataTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding Path=HasItems,RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}" Value="False">
-                                        <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+                                    <DataTrigger Binding="{Binding Path=HasItems, RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}" Value="False">
+                                        <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
                                     </DataTrigger>
                                 </DataTemplate.Triggers>
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Header="名称"   DisplayMemberBinding="{Binding Name}" Width="200" />
-                    <GridViewColumn Header="编号"   DisplayMemberBinding="{Binding Code}" Width="200" />
-                    <GridViewColumn Header="类型"   DisplayMemberBinding="{Binding RootCode}" Width="200" />
-                    <GridViewColumn Header="父节点" DisplayMemberBinding="{Binding ParentID}" Width="200" />
+                    <GridViewColumn Width="200" DisplayMemberBinding="{Binding Name}" Header="名称" />
+                    <GridViewColumn Width="200" DisplayMemberBinding="{Binding Code}" Header="编号" />
+                    <GridViewColumn Width="200" DisplayMemberBinding="{Binding RootCode}" Header="类型" />
+                    <GridViewColumn Width="200" DisplayMemberBinding="{Binding ParentID}" Header="父节点" />
                 </GridViewColumnCollection>
             </h:TreeListView.Columns>
         </h:TreeListView>

@@ -1,87 +1,105 @@
 ﻿<Page x:Class="HeBianGu.Applications.ControlBase.Demo.Pages.FormPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:HeBianGu.App.Blur"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:h="QQ:908293466"
-      mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
-      Title="FormPage">
+      xmlns:local="clr-namespace:HeBianGu.App.Blur"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="FormPage"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      mc:Ignorable="d">
 
     <ScrollViewer>
         <StackPanel>
             <h:Interaction.Behaviors>
-                <h:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>
+                <h:FluidMoveBehavior AppliesTo="Self" FloatAbove="True" Duration="00:00:01" />
             </h:Interaction.Behaviors>
             <StackPanel.Resources>
-                <local:Student x:Key="S.Student.HeBianGu" 
-                       Name="河边骨" 
-                       Address="四川省成都市高新区" 
-                       Class="四年级" 
-                       Emall="7777777777@QQ.com" Age="33" Score="99.99" IsEnbled="True" time="2019-09-09"/>
+                <local:Student x:Key="S.Student.HeBianGu"
+                               Name="河边骨"
+                               Address="四川省成都市高新区"
+                               Age="33" Class="四年级"
+                               Emall="7777777777@QQ.com"
+                               IsEnbled="True"
+                               Score="99.99"
+                               time="2019-09-09" />
             </StackPanel.Resources>
             <GroupBox Header="S.PropertyGrid.Default">
                 <Viewbox Width="600">
-                    <h:PropertyGrid Title="学生信息"  SelectObject="{StaticResource S.Student.HeBianGu}"/>
+                    <h:PropertyGrid Title="学生信息" SelectObject="{StaticResource S.Student.HeBianGu}" />
                 </Viewbox>
             </GroupBox>
 
             <GroupBox Header="S.PropertyGrid.Default.WithSumit">
                 <Viewbox Width="600">
-                    <h:PropertyGrid  Title="学生信息"  SelectObject="{StaticResource S.Student.HeBianGu}" Style="{DynamicResource S.PropertyGrid.Default.WithSumit}"/>
+                    <h:PropertyGrid Title="学生信息" SelectObject="{StaticResource S.Student.HeBianGu}" Style="{DynamicResource {x:Static h:PropertyGrid.SumitKey}}" />
                 </Viewbox>
             </GroupBox>
 
 
             <GroupBox Header="S.PropertyGrid.Default.WithSumitClose">
                 <Viewbox Width="600">
-                    <h:PropertyGrid  Title="学生信息"  SelectObject="{StaticResource S.Student.HeBianGu}" Style="{DynamicResource S.PropertyGrid.Default.WithSumitClose}"/>
+                    <h:PropertyGrid Title="学生信息" SelectObject="{StaticResource S.Student.HeBianGu}" Style="{DynamicResource {x:Static h:PropertyGrid.SumitCloseKey}}" />
                 </Viewbox>
             </GroupBox>
 
             <GroupBox Header="S.PropertyGrid.Single">
                 <Viewbox Width="600">
-                    <h:PropertyGrid  Title="学生信息" Style="{DynamicResource S.PropertyGrid.Single}"  SelectObject="{StaticResource S.Student.HeBianGu}"/>
+                    <h:PropertyGrid Title="学生信息" SelectObject="{StaticResource S.Student.HeBianGu}" Style="{DynamicResource {x:Static h:PropertyGrid.SingleKey}}" />
                 </Viewbox>
             </GroupBox>
 
             <GroupBox Header="S.PropertyGrid.Single 自定义子项样式">
                 <Viewbox Width="600">
-                    <h:PropertyGrid Title="学生信息"  SelectObject="{StaticResource S.Student.HeBianGu}" >
+                    <h:PropertyGrid Title="学生信息" SelectObject="{StaticResource S.Student.HeBianGu}">
                         <h:PropertyGrid.Resources>
                             <DataTemplate DataType="{x:Type h:TextPropertyItem}">
-                                <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=h:PropertyGrid},Path=Width-5}" 
-              Height="35" Margin="5,0" Visibility="{Binding Visibility}">
+                                <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=h:PropertyGrid}, Path=Width-5}"
+                                      Height="35"
+                                      Margin="5,0"
+                                      Visibility="{Binding Visibility}">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="2*"/>
-                                        <ColumnDefinition Width="30"/>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="2*" />
+                                        <ColumnDefinition Width="30" />
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Text="{Binding Name}"  Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
-                       HorizontalAlignment="Center" 
-                       VerticalAlignment="Center"/>
+                                    <TextBlock HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                               Text="{Binding Name}" />
 
-                                    <TextBlock Text="{Binding Flag}" 
-                       Grid.Column="1" Margin="5,0"
-                       FontSize="14"  Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}" 
-                       HorizontalAlignment="Right" 
-                       VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="1"
+                                               Margin="5,0"
+                                               HorizontalAlignment="Right"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                                               Text="{Binding Flag}" />
 
-                                    <h:FTextBox Text="{Binding Value,UpdateSourceTrigger=PropertyChanged}" 
-                            Style="{DynamicResource S.FTextBox.UnderLine.Clear}"  Width="Auto" IsEnabled="{Binding ReadOnly}"
-                     Grid.Column="2" Height="30" h:Cattach.Icon=""
-                     VerticalContentAlignment="Center" 
-                     HorizontalAlignment="Stretch" VerticalAlignment="Center"/>
+                                    <h:FTextBox Grid.Column="2"
+                                                Width="Auto"
+                                                Height="30"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Center"
+                                                VerticalContentAlignment="Center"
+                                                h:Cattach.Icon=""
+                                                IsEnabled="{Binding ReadOnly}"
+                                                Style="{DynamicResource S.FTextBox.UnderLine.Clear}"
+                                                Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" />
 
-                                    <TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource S.TextBlock.Icon }"
-                       Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}" 
-                       Visibility="{Binding Message,Converter={x:Static h:XConverter.VisibilityWithOutStringConverter},ConverterParameter={x:Null},Mode=TwoWay}"
-                       FontSize="14" TextTrimming="CharacterEllipsis" ToolTip="{Binding Message}"
-                       HorizontalAlignment="Center" 
-                       VerticalAlignment="Center"/>
+                                    <TextBlock Grid.Column="3"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                                               Style="{DynamicResource S.TextBlock.Icon}"
+                                               Text="&#xe626;"
+                                               TextTrimming="CharacterEllipsis"
+                                               ToolTip="{Binding Message}"
+                                               Visibility="{Binding Message, Converter={x:Static h:XConverter.VisibilityWithOutStringConverter}, ConverterParameter={x:Null}, Mode=TwoWay}" />
                                 </Grid>
                             </DataTemplate>
                         </h:PropertyGrid.Resources>
@@ -92,16 +110,16 @@
 
             <GroupBox Header="S.PropertyGrid.Default 自定义按钮">
                 <Viewbox Width="600">
-                    <h:PropertyGrid Title="学生信息" Style="{DynamicResource S.PropertyGrid.Default}"  SelectObject="{StaticResource S.Student.HeBianGu}">
+                    <h:PropertyGrid Title="学生信息" SelectObject="{StaticResource S.Student.HeBianGu}" Style="{DynamicResource {x:Static h:PropertyGrid.DefaultKey}}">
                         <h:PropertyGrid.BottomContent>
-                            <StackPanel Orientation="Horizontal" Margin="0,10" HorizontalAlignment="Center">
-                                <h:FButton Content="自定义按钮"/>
-                                <h:FButton Content="自定义按钮" Margin="10,0,0,0"/>
+                            <StackPanel Margin="0,10" HorizontalAlignment="Center" Orientation="Horizontal">
+                                <h:FButton Content="自定义按钮" />
+                                <h:FButton Margin="10,0,0,0" Content="自定义按钮" />
                             </StackPanel>
                         </h:PropertyGrid.BottomContent>
                     </h:PropertyGrid>
                 </Viewbox>
             </GroupBox>
-        </StackPanel> 
+        </StackPanel>
     </ScrollViewer>
 </Page>

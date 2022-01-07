@@ -1,64 +1,75 @@
 ﻿<Page x:Class="WpfControlDemo.View.InlineDialogPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:WpfControlDemo.View"
       xmlns:av="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
-      mc:Ignorable="d" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:h="QQ:908293466"
-      d:DesignHeight="1000" d:DesignWidth="1000" x:Name="page"
-      Title="InlineDialogPage">
+      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      x:Name="page"
+      Title="InlineDialogPage"
+      d:DesignHeight="1000"
+      d:DesignWidth="1000"
+      mc:Ignorable="d">
 
     <FrameworkElement.Resources>
         <DataTemplate DataType="{x:Type local:DialogSampleContent}">
             <Grid>
-                <Button Click="Button_Click" Content="Open" Padding="20,0" />
+                <Button Padding="20,0" Click="Button_Click" Content="Open" />
             </Grid>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type local:ContainPanelSampleContent}">
             <Grid>
                 <Grid.Background>
-                    <SolidColorBrush Color="Yellow" Opacity="0.5"/>
+                    <SolidColorBrush Opacity="0.5" Color="Yellow" />
                 </Grid.Background>
-                <Button Click="Button_CP_Click_Close" HorizontalAlignment="Right" VerticalAlignment="Top" Content="Close" Padding="20,0" />
+                <Button Padding="20,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Click="Button_CP_Click_Close"
+                        Content="Close" />
 
-                <Button Click="Button_CP_Click" HorizontalAlignment="Center" VerticalAlignment="Center" Content="Open" Padding="20,0" />
+                <Button Padding="20,0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Click="Button_CP_Click"
+                        Content="Open" />
             </Grid>
         </DataTemplate>
-        
+
     </FrameworkElement.Resources>
 
     <ScrollViewer>
-        <UniformGrid Columns="1" Height="1200">
+        <UniformGrid Height="1200" Columns="1">
             <Grid>
-                <av:InlineModalDecorator  Target="{x:Reference page}">
+                <av:InlineModalDecorator Target="{x:Reference page}">
                     <Grid>
                         <Button Padding="50,0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Content="Show"
-                    Click="Button_Click" />
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Click="Button_Click"
+                                Content="Show" />
                     </Grid>
                 </av:InlineModalDecorator>
             </Grid>
 
             <h:ContainPanel x:Name="cp" Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}">
                 <h:ContainPanel.AnimationAction>
-                    <h:OpacityTransition/>
+                    <h:OpacityTransition />
                 </h:ContainPanel.AnimationAction>
 
-                <Grid Background="Red" Width="500" Height="400">
-                    <Button Height="50" Width="100"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Content="Show"
-                    Click="Button_CP_Click" />
+                <Grid Width="500" Height="400" Background="Red">
+                    <Button Width="100"
+                            Height="50"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Click="Button_CP_Click"
+                            Content="Show" />
                 </Grid>
             </h:ContainPanel>
         </UniformGrid>
     </ScrollViewer>
 
-    
+
 </Page>

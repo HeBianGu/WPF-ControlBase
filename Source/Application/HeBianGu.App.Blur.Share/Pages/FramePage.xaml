@@ -1,23 +1,23 @@
 ﻿<Page x:Class="WpfControlDemo.View.FramePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:h="QQ:908293466"
-      mc:Ignorable="d" 
-      d:DesignHeight="1000" d:DesignWidth="1000"
-      Title="FramePage">
+      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="FramePage"
+      d:DesignHeight="1000"
+      d:DesignWidth="1000"
+      mc:Ignorable="d">
 
     <Page.Resources>
-        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
             <XmlDataProvider x:Key="xdp" XPath="FileSystem/Folder">
                 <x:XData>
                     <FileSystem xmlns="">
-                        <Folder Name="导航配置" Value="../Controls/FrameUserControl.xaml"  Icon="&#xe785;">
-                            <Folder Name="按钮控件" Value="../Controls/FrameUserControl.xaml"  Icon="&#xe799;"/>
-                            <Folder Name="按钮控件" Value="../Controls/FrameUserControl1.xaml"  Icon="&#xe799;"/>
+                        <Folder Name="导航配置" Icon="&#xe785;" Value="../Controls/FrameUserControl.xaml">
+                            <Folder Name="按钮控件" Icon="&#xe799;" Value="../Controls/FrameUserControl.xaml" />
+                            <Folder Name="按钮控件" Icon="&#xe799;" Value="../Controls/FrameUserControl1.xaml" />
                         </Folder>
                     </FileSystem>
                 </x:XData>
@@ -26,9 +26,9 @@
             <XmlDataProvider x:Key="xdp1" XPath="FileSystem/Folder">
                 <x:XData>
                     <FileSystem xmlns="">
-                        <Folder Name="导航配置" Value="../Controls/FrameUserPage.xaml"  Icon="&#xe785;">
-                            <Folder Name="按钮控件" Value="../Controls/FrameUserPage.xaml"  Icon="&#xe799;"/>
-                            <Folder Name="按钮控件" Value="../Controls/FrameUsePage1.xaml"  Icon="&#xe799;"/>
+                        <Folder Name="导航配置" Icon="&#xe785;" Value="../Controls/FrameUserPage.xaml">
+                            <Folder Name="按钮控件" Icon="&#xe799;" Value="../Controls/FrameUserPage.xaml" />
+                            <Folder Name="按钮控件" Icon="&#xe799;" Value="../Controls/FrameUsePage1.xaml" />
                         </Folder>
                     </FileSystem>
                 </x:XData>
@@ -41,16 +41,19 @@
             <Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <TreeView  ItemsSource="{Binding Source={StaticResource xdp1}}" x:Name="TreeRoot" Background="{StaticResource {x:Static h:BrushKeys.LightGray}}">
+                    <TreeView x:Name="TreeRoot" Background="{StaticResource {x:Static h:BrushKeys.LightGray}}" ItemsSource="{Binding Source={StaticResource xdp1}}">
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding XPath=Folder}">
-                                <StackPanel  Height="25" Orientation="Horizontal">
-                                    <TextBlock Text="{Binding XPath=@Icon}" FontSize="15" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" VerticalAlignment="Center"/>
-                                    <TextBlock x:Name="a" Text="{Binding XPath=@Name}"  VerticalAlignment="Center"/>
+                                <StackPanel Height="25" Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontSize="15"
+                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                               Text="{Binding XPath=@Icon}" />
+                                    <TextBlock x:Name="a" VerticalAlignment="Center" Text="{Binding XPath=@Name}" />
                                 </StackPanel>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
@@ -63,7 +66,7 @@
 
                     </TreeView>
 
-                    <Frame Grid.Column="1" Source="{Binding ElementName=TreeRoot, Path=SelectedItem.Attributes[Value].Value}"/>
+                    <Frame Grid.Column="1" Source="{Binding ElementName=TreeRoot, Path=SelectedItem.Attributes[Value].Value}" />
                 </Grid>
             </Grid>
         </TabItem>
@@ -71,16 +74,19 @@
             <Grid>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <TreeView  ItemsSource="{Binding Source={StaticResource xdp}}" x:Name="TreeRoot1" Background="{StaticResource {x:Static h:BrushKeys.LightGray}}">
+                    <TreeView x:Name="TreeRoot1" Background="{StaticResource {x:Static h:BrushKeys.LightGray}}" ItemsSource="{Binding Source={StaticResource xdp}}">
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding XPath=Folder}">
-                                <StackPanel  Height="25" Orientation="Horizontal">
-                                    <TextBlock Text="{Binding XPath=@Icon}" FontSize="15" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" VerticalAlignment="Center"/>
-                                    <TextBlock x:Name="a" Text="{Binding XPath=@Name}"  VerticalAlignment="Center"/>
+                                <StackPanel Height="25" Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontSize="15"
+                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                               Text="{Binding XPath=@Icon}" />
+                                    <TextBlock x:Name="a" VerticalAlignment="Center" Text="{Binding XPath=@Name}" />
                                 </StackPanel>
                             </HierarchicalDataTemplate>
                         </TreeView.ItemTemplate>
@@ -93,9 +99,9 @@
 
                     </TreeView>
 
-                    <h:ModernFrame Background="Red" Grid.Column="1" Source="{Binding ElementName=TreeRoot1, Path=SelectedItem.Attributes[Value].Value}">
+                    <h:ModernFrame Grid.Column="1" Background="Red" Source="{Binding ElementName=TreeRoot1, Path=SelectedItem.Attributes[Value].Value}">
                         <h:ModernFrame.ContentLoader>
-                            <h:DefaultContentLoader/>
+                            <h:DefaultContentLoader />
                         </h:ModernFrame.ContentLoader>
                     </h:ModernFrame>
                 </Grid>

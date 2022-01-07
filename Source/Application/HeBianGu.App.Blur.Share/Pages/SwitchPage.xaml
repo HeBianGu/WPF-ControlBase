@@ -1,102 +1,108 @@
 ﻿<Page x:Class="HeBianGu.Applications.ControlBase.Demo.Pages.SwitchPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.Demo.Pages"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:h="QQ:908293466"
-      mc:Ignorable="d" d:DesignHeight="450" d:DesignWidth="800" Title="SwitchPage">
+      xmlns:local="clr-namespace:HeBianGu.Applications.ControlBase.Demo.Pages"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="SwitchPage"
+      d:DesignHeight="450"
+      d:DesignWidth="800"
+      mc:Ignorable="d">
     <Page.DataContext>
-        <local:SwitchViewModel/>
+        <local:SwitchViewModel />
     </Page.DataContext>
 
     <Page.Resources>
         <DataTemplate DataType="{x:Type h:CircleWipe}">
             <Grid Height="30" RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}">
-                <TextBlock VerticalAlignment="Center"  Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
-                         <Run Text="CircleWip:"/>
-                         <Run Text="过度(秒) = "/>
-                         <Run Text="{Binding MidTime.Seconds,Mode=OneWay}"/>
-                         <Run Text="时间(秒) = "/>
-                         <Run Text="{Binding Duration.Seconds,Mode=OneWay}"/>
-                         <Run Text="{Binding PointOriginType}"/>
+                <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
+                    <Run Text="CircleWip:" />
+                    <Run Text="过度(秒) = " />
+                    <Run Text="{Binding MidTime.Seconds, Mode=OneWay}" />
+                    <Run Text="时间(秒) = " />
+                    <Run Text="{Binding Duration.Seconds, Mode=OneWay}" />
+                    <Run Text="{Binding PointOriginType}" />
                 </TextBlock>
             </Grid>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type h:SlideWipe}">
-            <Grid Height="30"  RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}">
-                <TextBlock VerticalAlignment="Center"  Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
-                         <Run Text="SlideWipe:"/>
-                         <Run Text="方向 = "/>
-                         <Run Text="{Binding Direction}"/> 
-                         <Run Text="时间(秒) = "/>
-                         <Run Text="{Binding Duration.Seconds,Mode=OneWay}"/>
+            <Grid Height="30" RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}">
+                <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
+                    <Run Text="SlideWipe:" />
+                    <Run Text="方向 = " />
+                    <Run Text="{Binding Direction}" />
+                    <Run Text="时间(秒) = " />
+                    <Run Text="{Binding Duration.Seconds, Mode=OneWay}" />
                 </TextBlock>
             </Grid>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type h:SlideOutWipe}">
-            <Grid Height="30"  RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}">
-                <TextBlock VerticalAlignment="Center"  Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
-                         <Run Text="SlideOutWipe:"/>
+            <Grid Height="30" RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}">
+                <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
+                    <Run Text="SlideOutWipe:" />
                 </TextBlock>
             </Grid>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type h:FadeWipe}">
-            <Grid Height="30"  RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}">
-                <TextBlock VerticalAlignment="Center"  Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
-                         <Run Text="SlideWipe:"/>
-                         <Run Text="时间(秒) = "/>
-                         <Run Text="{Binding Duration.Seconds,Mode=OneWay}"/>
+            <Grid Height="30" RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}">
+                <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
+                    <Run Text="SlideWipe:" />
+                    <Run Text="时间(秒) = " />
+                    <Run Text="{Binding Duration.Seconds, Mode=OneWay}" />
                 </TextBlock>
             </Grid>
         </DataTemplate>
     </Page.Resources>
 
-    <Grid >
+    <Grid>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        
-        <h:SwtichTransitioner Grid.Column="0" Background="Black" x:Name="transitioner" CurrentContent="{Binding CurrentContent }"
-                                          ITransitionWipe="{Binding ElementName=selectwipe,Path=SelectItem}"/>
 
-        <Border  Grid.Column="1" Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}">
-            <h:GroupExpander x:Name="selectwipe" Command="{Binding SelectChangedCommand}" VerticalAlignment="Stretch">
+        <h:SwtichTransitioner x:Name="transitioner"
+                              Grid.Column="0"
+                              Background="Black"
+                              CurrentContent="{Binding CurrentContent}"
+                              ITransitionWipe="{Binding ElementName=selectwipe, Path=SelectItem}" />
+
+        <Border Grid.Column="1" Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}">
+            <h:GroupExpander x:Name="selectwipe" VerticalAlignment="Stretch" Command="{Binding SelectChangedCommand}">
                 <h:Interaction.Behaviors>
-                    <h:FountainAnimationBehavior IsUseAll="True"/>
+                    <h:FountainAnimationBehavior IsUseAll="True" />
                 </h:Interaction.Behaviors>
-                
+
                 <h:GroupObject DisplayName="CircleWipe" Logo="&#xe69f;">
-                    <h:CircleWipe/>
-                    <h:CircleWipe Duration="00:00:04"/>
-                    <h:CircleWipe MidTime="00:00:02" Duration="00:00:04"/>
-                    <h:CircleWipe PointOriginType="MousePosition"/>
-                    <h:CircleWipe PointOriginType="RandomInner"/>
-                    <h:CircleWipe PointOriginType="Center"/>
+                    <h:CircleWipe />
+                    <h:CircleWipe Duration="00:00:04" />
+                    <h:CircleWipe MidTime="00:00:02" Duration="00:00:04" />
+                    <h:CircleWipe PointOriginType="MousePosition" />
+                    <h:CircleWipe PointOriginType="RandomInner" />
+                    <h:CircleWipe PointOriginType="Center" />
                 </h:GroupObject>
-                <h:GroupObject DisplayName="SlideWipe"  Logo="&#xe69f;">
-                    <h:SlideWipe Direction="Left"/>
-                    <h:SlideWipe Direction="Right"/>
-                    <h:SlideWipe Direction="Down"/>
-                    <h:SlideWipe Direction="Up"/>
-                    <h:SlideWipe Direction="Left" Duration="00:00:01"/>
-                    <h:SlideWipe Direction="Right" Duration="00:00:02"/>
-                    <h:SlideWipe Direction="Down" Duration="00:00:03"/>
-                    <h:SlideWipe Direction="Up" Duration="00:00:04"/>
+                <h:GroupObject DisplayName="SlideWipe" Logo="&#xe69f;">
+                    <h:SlideWipe Direction="Left" />
+                    <h:SlideWipe Direction="Right" />
+                    <h:SlideWipe Direction="Down" />
+                    <h:SlideWipe Direction="Up" />
+                    <h:SlideWipe Direction="Left" Duration="00:00:01" />
+                    <h:SlideWipe Direction="Right" Duration="00:00:02" />
+                    <h:SlideWipe Direction="Down" Duration="00:00:03" />
+                    <h:SlideWipe Direction="Up" Duration="00:00:04" />
                 </h:GroupObject>
-                <h:GroupObject DisplayName="SlideOutWipe"  Logo="&#xe69f;">
-                    <h:SlideOutWipe/>
+                <h:GroupObject DisplayName="SlideOutWipe" Logo="&#xe69f;">
+                    <h:SlideOutWipe />
                 </h:GroupObject>
-                <h:GroupObject DisplayName="FadeWipe"  Logo="&#xe69f;">
-                    <h:FadeWipe/>
-                    <h:FadeWipe Duration="00:00:01"/>
-                    <h:FadeWipe Duration="00:00:02"/>
-                    <h:FadeWipe Duration="00:00:03"/>
+                <h:GroupObject DisplayName="FadeWipe" Logo="&#xe69f;">
+                    <h:FadeWipe />
+                    <h:FadeWipe Duration="00:00:01" />
+                    <h:FadeWipe Duration="00:00:02" />
+                    <h:FadeWipe Duration="00:00:03" />
                 </h:GroupObject>
             </h:GroupExpander>
         </Border>
@@ -104,7 +110,7 @@
 
     <h:Interaction.Triggers>
         <h:EventTrigger EventName="Loaded">
-            <h:InvokeCommandAction Command="{Binding LoadedCommand}"/>
+            <h:InvokeCommandAction Command="{Binding LoadedCommand}" />
         </h:EventTrigger>
     </h:Interaction.Triggers>
 </Page>

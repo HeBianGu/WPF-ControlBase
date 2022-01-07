@@ -1,48 +1,60 @@
 ﻿<UserControl x:Class="HeBianGu.App.Manager.View.Panel.AnimationControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:HeBianGu.App.Manager.View.Panel"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:h="QQ:908293466"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             xmlns:local="clr-namespace:HeBianGu.App.Manager.View.Panel"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
     <UserControl.Resources>
-        <Style TargetType="h:FButton" BasedOn="{StaticResource S.FButton.Style.Transparent}">
-            <Setter Property="FIconSize" Value="53"/>
-            <Setter Property="Height" Value="Auto"/>
-            <Setter Property="Icon" Value="&#xe602;"/>
+        <Style BasedOn="{StaticResource S.FButton.Style.Transparent}" TargetType="h:FButton">
+            <Setter Property="FIconSize" Value="53" />
+            <Setter Property="Height" Value="Auto" />
+            <Setter Property="Icon" Value="&#xe602;" />
         </Style>
 
         <DataTemplate DataType="{x:Type h:TestViewModel}">
             <Grid>
-                <h:FButton Content="{Binding Value}"/>
+                <h:FButton Content="{Binding Value}" />
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
     <ScrollViewer>
         <StackPanel>
             <h:Row>
-                <h:FButton Style="{StaticResource S.FButton.Style.Default}" Command="{Binding RelayCommand}" 
-                       CommandParameter="Button.Click.Add" Content="添加.."/>
+                <h:FButton Command="{Binding RelayCommand}"
+                           CommandParameter="Button.Click.Add"
+                           Content="添加.."
+                           Style="{StaticResource S.FButton.Style.Default}" />
 
-                <h:FButton Style="{StaticResource S.FButton.Style.Default}" Command="{Binding RelayCommand}" Grid.Column="1"
-                       CommandParameter="Button.Click.Delete" Content="删除.."/>
+                <h:FButton Grid.Column="1"
+                           Command="{Binding RelayCommand}"
+                           CommandParameter="Button.Click.Delete"
+                           Content="删除.."
+                           Style="{StaticResource S.FButton.Style.Default}" />
 
-                <h:FButton Style="{StaticResource S.FButton.Style.Default}" Command="{Binding RelayCommand}" Grid.Column="2"
-                       CommandParameter="Button.Click.Previous" Content="上一项.."/>
+                <h:FButton Grid.Column="2"
+                           Command="{Binding RelayCommand}"
+                           CommandParameter="Button.Click.Previous"
+                           Content="上一项.."
+                           Style="{StaticResource S.FButton.Style.Default}" />
 
-                <h:FButton Style="{StaticResource S.FButton.Style.Default}" Command="{Binding RelayCommand}" Grid.Column="3"
-                       CommandParameter="Button.Click.Next" Content="下一项.."/>
+                <h:FButton Grid.Column="3"
+                           Command="{Binding RelayCommand}"
+                           CommandParameter="Button.Click.Next"
+                           Content="下一项.."
+                           Style="{StaticResource S.FButton.Style.Default}" />
 
             </h:Row>
 
             <UniformGrid Columns="2">
-                <GroupBox Header="CirlePanel" Height="500">
+                <GroupBox Height="500" Header="CirlePanel">
                     <ListBox ItemsSource="{Binding Collection}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <h:CirclePanel AngleToCenter="True"/>
+                                <h:CirclePanel AngleToCenter="True" />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
 
@@ -50,18 +62,20 @@
                             <ControlTemplate TargetType="ListBox">
                                 <DockPanel>
                                     <h:Row DockPanel.Dock="Top">
-                                        <h:FButton Style="{StaticResource S.FButton.Style.Transparent}" 
-                                                   Command="{x:Static h:CommandService.Prev}" 
-                                                   Grid.Column="0" Icon="&#xe8b7;" 
-                                                   CommandTarget="{Binding ElementName=items,Converter={x:Static h:XConverter.ItemPanelConverter}}"/>
+                                        <h:FButton Grid.Column="0"
+                                                   Command="{x:Static h:CommandService.Prev}"
+                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                   Icon="&#xe8b7;"
+                                                   Style="{StaticResource S.FButton.Style.Transparent}" />
 
-                                        <h:FButton Style="{StaticResource S.FButton.Style.Transparent}" 
-                                                   Command="{x:Static h:CommandService.Next}" 
-                                                   Grid.Column="1" Icon="&#xe8b6;" 
-                                                   CommandTarget="{Binding ElementName=items,Converter={x:Static h:XConverter.ItemPanelConverter}}"/>
+                                        <h:FButton Grid.Column="1"
+                                                   Command="{x:Static h:CommandService.Next}"
+                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                   Icon="&#xe8b6;"
+                                                   Style="{StaticResource S.FButton.Style.Transparent}" />
                                     </h:Row>
-                                    
-                                    <ItemsPresenter x:Name="items"/>
+
+                                    <ItemsPresenter x:Name="items" />
                                 </DockPanel>
                             </ControlTemplate>
                         </ListBox.Template>
@@ -74,7 +88,7 @@
                             <ItemsPanelTemplate>
                                 <h:CirclePanel DisplayCount="8">
                                     <h:Interaction.Behaviors>
-                                        <h:FluidMoveBehavior AppliesTo="Children"/>
+                                        <h:FluidMoveBehavior AppliesTo="Children" />
                                     </h:Interaction.Behaviors>
                                 </h:CirclePanel>
                             </ItemsPanelTemplate>
@@ -84,18 +98,20 @@
                             <ControlTemplate TargetType="ListBox">
                                 <DockPanel>
                                     <h:Row DockPanel.Dock="Top">
-                                        <h:FButton Style="{StaticResource S.FButton.Style.Transparent}" 
-                                                   Command="{x:Static h:CommandService.Prev}" 
-                                                   Grid.Column="0" Icon="&#xe8b7;" 
-                                                   CommandTarget="{Binding ElementName=items,Converter={x:Static h:XConverter.ItemPanelConverter}}"/>
+                                        <h:FButton Grid.Column="0"
+                                                   Command="{x:Static h:CommandService.Prev}"
+                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                   Icon="&#xe8b7;"
+                                                   Style="{StaticResource S.FButton.Style.Transparent}" />
 
-                                        <h:FButton Style="{StaticResource S.FButton.Style.Transparent}" 
-                                                   Command="{x:Static h:CommandService.Next}" 
-                                                   Grid.Column="1" Icon="&#xe8b6;" 
-                                                   CommandTarget="{Binding ElementName=items,Converter={x:Static h:XConverter.ItemPanelConverter}}"/>
+                                        <h:FButton Grid.Column="1"
+                                                   Command="{x:Static h:CommandService.Next}"
+                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                   Icon="&#xe8b6;"
+                                                   Style="{StaticResource S.FButton.Style.Transparent}" />
                                     </h:Row>
 
-                                    <ItemsPresenter x:Name="items"/>
+                                    <ItemsPresenter x:Name="items" />
                                 </DockPanel>
                             </ControlTemplate>
                         </ListBox.Template>
@@ -118,43 +134,88 @@
                             <ControlTemplate TargetType="ListBox">
                                 <DockPanel>
                                     <h:Row DockPanel.Dock="Top">
-                                        <h:FButton Style="{StaticResource S.FButton.Style.Transparent}" 
-                                                   Command="{x:Static h:CommandService.Prev}" 
-                                                   Grid.Column="0" Icon="&#xe8b7;" 
-                                                   CommandTarget="{Binding ElementName=items,Converter={x:Static h:XConverter.ItemPanelConverter}}"/>
+                                        <h:FButton Grid.Column="0"
+                                                   Command="{x:Static h:CommandService.Prev}"
+                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                   Icon="&#xe8b7;"
+                                                   Style="{StaticResource S.FButton.Style.Transparent}" />
 
-                                        <h:FButton Style="{StaticResource S.FButton.Style.Transparent}" 
-                                                   Command="{x:Static h:CommandService.Next}" 
-                                                   Grid.Column="1" Icon="&#xe8b6;" 
-                                                   CommandTarget="{Binding ElementName=items,Converter={x:Static h:XConverter.ItemPanelConverter}}"/>
+                                        <h:FButton Grid.Column="1"
+                                                   Command="{x:Static h:CommandService.Next}"
+                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                   Icon="&#xe8b6;"
+                                                   Style="{StaticResource S.FButton.Style.Transparent}" />
                                     </h:Row>
 
-                                    <ItemsPresenter x:Name="items"/>
+                                    <ItemsPresenter x:Name="items" />
                                 </DockPanel>
                             </ControlTemplate>
                         </ListBox.Template>
 
-                        <h:FButton Width="300" Height="400" Background="Purple" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Gray" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Red" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Orange" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Green" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Beige" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Blue" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Beige" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Green" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Orange" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Red" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Gray" Icon=""/>
-                        <h:FButton Width="300" Height="400"  Background="Purple" Icon=""/>
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Purple"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Gray"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Red"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Orange"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Green"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Beige"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Blue"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Beige"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Green"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Orange"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Red"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Gray"
+                                   Icon="" />
+                        <h:FButton Width="300"
+                                   Height="400"
+                                   Background="Purple"
+                                   Icon="" />
                     </ListBox>
                 </GroupBox>
 
-                <GroupBox Header="ArcPanel" Height="500">
+                <GroupBox Height="500" Header="ArcPanel">
                     <ListBox ItemsSource="{Binding Collection}">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <h:ArcPanel StartAngle="280" EndAngle="440" HorizontalAlignment="Right" Margin="10" AngleToCenter="True"/>
+                                <h:ArcPanel Margin="10"
+                                            HorizontalAlignment="Right"
+                                            AngleToCenter="True"
+                                            EndAngle="440"
+                                            StartAngle="280" />
                             </ItemsPanelTemplate>
                         </ListBox.ItemsPanel>
 
@@ -162,18 +223,20 @@
                             <ControlTemplate TargetType="ListBox">
                                 <DockPanel>
                                     <h:Row DockPanel.Dock="Top">
-                                        <h:FButton Style="{StaticResource S.FButton.Style.Transparent}" 
-                                                   Command="{x:Static h:CommandService.Prev}" 
-                                                   Grid.Column="0" Icon="&#xe8b7;" 
-                                                   CommandTarget="{Binding ElementName=items,Converter={x:Static h:XConverter.ItemPanelConverter}}"/>
+                                        <h:FButton Grid.Column="0"
+                                                   Command="{x:Static h:CommandService.Prev}"
+                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                   Icon="&#xe8b7;"
+                                                   Style="{StaticResource S.FButton.Style.Transparent}" />
 
-                                        <h:FButton Style="{StaticResource S.FButton.Style.Transparent}" 
-                                                   Command="{x:Static h:CommandService.Next}" 
-                                                   Grid.Column="1" Icon="&#xe8b6;" 
-                                                   CommandTarget="{Binding ElementName=items,Converter={x:Static h:XConverter.ItemPanelConverter}}"/>
+                                        <h:FButton Grid.Column="1"
+                                                   Command="{x:Static h:CommandService.Next}"
+                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                   Icon="&#xe8b6;"
+                                                   Style="{StaticResource S.FButton.Style.Transparent}" />
                                     </h:Row>
 
-                                    <ItemsPresenter x:Name="items"/>
+                                    <ItemsPresenter x:Name="items" />
                                 </DockPanel>
                             </ControlTemplate>
                         </ListBox.Template>

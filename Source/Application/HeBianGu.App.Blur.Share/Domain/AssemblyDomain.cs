@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using HeBianGu.Base.WpfBase;
-using HeBianGu.Common.LocalConfig;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
 using Newtonsoft.Json;
@@ -54,19 +53,6 @@ namespace HeBianGu.App.Blur
             string txt = System.IO.File.ReadAllText(url, Encoding.UTF8);
 
             return JsonConvert.DeserializeObject<List<TreeNodeEntity>>(txt);
-        }
-
-
-        LocalConfigService _localConfigService = new LocalConfigService();
-
-        public ThemeConfig LoadTheme()
-        {
-            return _localConfigService.LoadConfig<ThemeConfig>();
-        }
-
-        public bool SaveTheme(ThemeConfig theme)
-        {
-            return _localConfigService.SaveConfig(theme);
         }
 
         public void Debug(params string[] messages)
