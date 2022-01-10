@@ -1,6 +1,8 @@
 ﻿using HeBianGu.Application.MapWindow.View.Dialog;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Window.Link;
+using HeBianGu.Window.Notify;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -485,7 +487,7 @@ namespace HeBianGu.Application.MapWindow
             {
                 SelectTypeControl select = new SelectTypeControl();
 
-                var result = await MessageService.ShowCustomDialog<bool>(select);
+                var result = await Message.Instance.ShowCustomDialog<bool>(select);
 
                 if (!result) return;
 
@@ -497,7 +499,7 @@ namespace HeBianGu.Application.MapWindow
 
                 config.Model.Value4 = select.Model?.Value1;
 
-                var result1 = await MessageService.ShowCustomDialog<bool?>(config);
+                var result1 = await Message.Instance.ShowCustomDialog<bool?>(config);
 
                 //  Do ：取消
                 if (result1 == false) return;
@@ -511,7 +513,7 @@ namespace HeBianGu.Application.MapWindow
                 //  Do ：创建
                 if (string.IsNullOrEmpty(config.Model.Value) || string.IsNullOrEmpty(config.Model.Value1))
                 {
-                    MessageService.ShowSnackMessageWithNotice("数据不合法"); return;
+                    Message.Instance.ShowSnackMessageWithNotice("数据不合法"); return;
 
                 }
                 this.Scenes.Add(config.Model);
@@ -559,7 +561,7 @@ namespace HeBianGu.Application.MapWindow
                      }
                  });
 
-                MessageService.ShowSnackMessageWithNotice("提交成功");
+                Message.Instance.ShowSnackMessageWithNotice("提交成功");
 
                 this.Historys.Add(new TestViewModel() { Value = this.Title });
 
@@ -624,7 +626,7 @@ namespace HeBianGu.Application.MapWindow
         {
             if (!Directory.Exists(this.CurrentScene.Value1))
             {
-                MessageService.ShowSnackMessageWithNotice("任务路径不存在，请检查"); return;
+                Message.Instance.ShowSnackMessageWithNotice("任务路径不存在，请检查"); return;
             }
 
             this.Files.Clear();
@@ -635,7 +637,7 @@ namespace HeBianGu.Application.MapWindow
 
             ManualResetEvent waitHandle = new ManualResetEvent(false);
 
-            await MessageService.ShowWinProgressBarMessage<bool>(l =>
+            await NotifyMessageService.ShowWinProgressBarMessage<bool>(l =>
              {
                  l.Message = "读取文件中...";
 
@@ -740,7 +742,7 @@ namespace HeBianGu.Application.MapWindow
                  return true;
              });
 
-            MessageService.ShowSnackMessageWithNotice($"任务加载完成 <{this.CurrentScene.Value}>");
+            Message.Instance.ShowSnackMessageWithNotice($"任务加载完成 <{this.CurrentScene.Value}>");
         }
 
 

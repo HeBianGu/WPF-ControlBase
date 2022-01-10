@@ -20,6 +20,7 @@ using HeBianGu.Control.Message;
 using HeBianGu.Control.MessageContainer;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.Service.Validation;
+using HeBianGu.Systems.Upgrade;
 using HeBianGu.Window.Message;
 using HeBianGu.Window.MessageDialog;
 using HeBianGu.Window.Notify;
@@ -351,31 +352,32 @@ namespace HeBianGu.App.Blur
                 MessageDialogWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒", true, acts.ToArray());
             }
 
-            ////  Do：气泡消息
-            //else if (command == "Button.Upgrade")
-            //{
-            //    UpgradeWindow window = new UpgradeWindow();
-            //    window.TitleMessage = "发现新版本：V3.0.1";
-            //    List<string> message = new List<string>();
-            //    message.Add("1、增加了检验更新和版本下载");
-            //    message.Add("2、增加了Mvc跳转页面方案");
-            //    message.Add("3、修改了一些已知BUG");
-            //    window.Message = message;
+            //  Do：气泡消息
+            else if (command == "Button.Upgrade")
+            {
 
-            //    var find = window.ShowDialog();
+                UpgradeWindow window = new UpgradeWindow();
+                window.TitleMessage = "发现新版本：V3.0.1";
+                List<string> message = new List<string>();
+                message.Add("1、增加了检验更新和版本下载");
+                message.Add("2、增加了Mvc跳转页面方案");
+                message.Add("3、修改了一些已知BUG");
+                window.Message = message;
 
-            //    if (find.HasValue && find.Value)
-            //    {
-            //        DownLoadWindow downLoad = new DownLoadWindow();
-            //        downLoad.TitleMessage = "正在下载新版本：V3.0.1";
-            //        downLoad.Url = @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4";
-            //        downLoad.Message = message;
-            //        downLoad.ShowDialog();
-            //    }
+                var find = window.ShowDialog();
 
-            //    //UpgradeWindow.BeginUpgrade("发现新版本：V3.0.1", @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
-            //    //   message.ToArray());
-            //}
+                if (find.HasValue && find.Value)
+                {
+                    DownLoadWindow downLoad = new DownLoadWindow();
+                    downLoad.TitleMessage = "正在下载新版本：V3.0.1";
+                    downLoad.Url = @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4";
+                    downLoad.Message = message;
+                    downLoad.ShowDialog();
+                }
+
+                //UpgradeWindow.BeginUpgrade("发现新版本：V3.0.1", @"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
+                //   message.ToArray());
+            }
 
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Error"))
