@@ -9,15 +9,13 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="h:Cattach.IsUseClose" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=(h:Cattach.IsUseClose)}" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
         <!--<Setter Property="Padding" Value="10,0,0,0"/>-->
         <Setter Property="Padding" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=(h:Cattach.CellMargin)}" />
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
-        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -51,14 +49,10 @@
                             <ContentPresenter VerticalAlignment="Center" />
                             <!--  VerticalAlignment="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=VerticalContentAlignment }"  -->
 
-                            <Button Grid.Column="1"
-                                    Width="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
-                                    Margin="0"
+                            <Button Grid.Column="1" Height="Auto"
                                     HorizontalAlignment="Center"
-                                    h:Cattach.FIconSize="{DynamicResource {x:Static h:IconSizeKeys.Small}}"
-                                    Background="Transparent"
-                                    Foreground="{TemplateBinding Foreground}"
-                                    Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
+                                    Foreground="{TemplateBinding Foreground}" VerticalAlignment="Center"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Clear}}"
                                     Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IsUseClose), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
                                 <h:Interaction.Triggers>
                                     <h:EventTrigger EventName="Click">
@@ -72,7 +66,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverForeground)}" />
-
+                            <Setter Property="Panel.ZIndex" Value="999"/>
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -131,10 +125,19 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Effect" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=(h:Cattach.MouseOverEffect)}"/>
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Effect" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=(h:Cattach.SelectEffect)}"/>
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.ListBoxItem.LeftAccent, TypeInTargetAssembly={x:Type local:ListBoxItemKeys}}" BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -210,17 +213,20 @@
     <Style x:Key="{ComponentResourceKey ResourceId=S.ListBoxItem.BottomAccent, TypeInTargetAssembly={x:Type local:ListBoxItemKeys}}" BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Header}}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Grid Height="{TemplateBinding Height}"
                           Margin="{TemplateBinding Padding}"
-                          VerticalAlignment="Center"
+                          VerticalAlignment="Stretch"
                           Background="Transparent">
-                        <Border x:Name="underline" BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}" BorderThickness="0,0,0,2" />
-                        
-                        <ContentPresenter Margin="15,0" HorizontalAlignment="Left" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <Border x:Name="underline"
+                                VerticalAlignment="Stretch"
+                                BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                BorderThickness="0,0,0,2" />
+
+                        <ContentPresenter Margin="0,0" HorizontalAlignment="Left" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsSelected" Value="false">
@@ -304,10 +310,12 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ListBoxItem.Border, TypeInTargetAssembly={x:Type local:ListBoxItemKeys}}" BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}" TargetType="{x:Type ListBoxItem}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ListBoxItem.BorderBrush, TypeInTargetAssembly={x:Type local:ListBoxItemKeys}}" BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}" TargetType="{x:Type ListBoxItem}">
         <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
         <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Margin" Value="2,2" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -319,13 +327,13 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+                            <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
 
                             <Button Grid.Column="1"
                                     Width="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
                                     Margin="0"
                                     HorizontalAlignment="Center"
-                                    h:Cattach.FIconSize="{DynamicResource {x:Static h:IconSizeKeys.Small}}"
+                                    h:Cattach.IconSize="{DynamicResource {x:Static h:IconSizeKeys.Small}}"
                                     Background="Transparent"
                                     Foreground="{TemplateBinding Foreground}"
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
@@ -415,7 +423,7 @@
                                     Width="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
                                     Margin="0"
                                     HorizontalAlignment="Center"
-                                    h:Cattach.FIconSize="{DynamicResource {x:Static h:IconSizeKeys.Small}}"
+                                    h:Cattach.IconSize="{DynamicResource {x:Static h:IconSizeKeys.Small}}"
                                     Background="Transparent"
                                     Foreground="{TemplateBinding Foreground}"
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
@@ -464,7 +472,6 @@
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}" />
     </Style>
 
-    <!--  多选项样式  -->
     <Style x:Key="{ComponentResourceKey ResourceId=S.ListBoxItem.CheckBox.Default, TypeInTargetAssembly={x:Type local:ListBoxItemKeys}}" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />

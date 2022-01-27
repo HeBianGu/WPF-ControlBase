@@ -21,6 +21,21 @@ namespace HeBianGu.General.WpfControlLib
 {
     public partial class DialogWindowBase : WindowBase
     {
+        public static new ComponentResourceKey DynamicKey => new ComponentResourceKey(typeof(DialogWindowBase), "S.Window.Dialog.Dynamic");
+
+        public static new ComponentResourceKey DefaultKey => new ComponentResourceKey(typeof(DialogWindowBase), "S.Window.Dialog.Default");
+        public static new ComponentResourceKey SingleKey => new ComponentResourceKey(typeof(DialogWindowBase), "S.Window.Dialog.Single");
+        public static new ComponentResourceKey AccentKey => new ComponentResourceKey(typeof(DialogWindowBase), "S.Window.Dialog.Accent");
+        public static new ComponentResourceKey ClearKey => new ComponentResourceKey(typeof(DialogWindowBase), "S.Window.Dialog.Clear");
+
+
+        static DialogWindowBase()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(DialogWindowBase), new FrameworkPropertyMetadata(typeof(DialogWindowBase)));
+
+            StyleLoader.Instance?.LoadDefault(typeof(DialogWindowBase));
+        }
+
         public DialogWindowBase()
         {
             this.BindCommand(CommandService.Close, (l, k) =>

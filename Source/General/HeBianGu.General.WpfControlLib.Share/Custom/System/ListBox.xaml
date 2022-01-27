@@ -2,9 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
-    <!--<Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Single, TypeInTargetAssembly={x:Type local:ListBoxKeys}}" BasedOn="{StaticResource {x:Static local:DatePickerKeys.Default}}" TargetType="{x:Type CheckBox}">-->
-
-    <!--  由下到上渐显模板  -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
     <ControlTemplate x:Key="ListBox_DownToUp" TargetType="{x:Type ListBox}">
         <Grid>
             <Grid.RenderTransform>
@@ -26,7 +27,6 @@
         </Grid>
     </ControlTemplate>
 
-    <!--  带等待框的  -->
     <ControlTemplate x:Key="ListBox_Buzy" TargetType="{x:Type ListBox}">
         <Grid>
             <local:FScrollView>
@@ -35,15 +35,15 @@
             <local:WaitingBox IsBusy="{TemplateBinding h:Cattach.IsBuzy}" />
         </Grid>
     </ControlTemplate>
-    <!--  默认样式  -->
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ListBox.Default, TypeInTargetAssembly={x:Type local:ListBoxKeys}}" TargetType="ListBox">
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ListBox.Dynamic, TypeInTargetAssembly={x:Type local:ListBoxKeys}}" BasedOn="{StaticResource {x:Static local:SelectorKeys.Dynamic}}" TargetType="ListBox">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="h:Cattach.Bool" Value="False" />
         <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:ListBoxItemKeys.Default}}" />
-        <Setter Property="h:Cattach.Label" Value="Label" />
+        <Setter Property="h:Cattach.Title" Value="Label" />
         <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
         <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource {x:Static h:SystemKeys.TitleWidth}}" />
@@ -63,10 +63,10 @@
                         <ContentControl x:Name="Label"
                                         Margin="1,1,0,1"
                                         Background="{TemplateBinding BorderBrush}"
-                                        Content="{TemplateBinding h:Cattach.Label}"
+                                        Content="{TemplateBinding h:Cattach.Title}"
                                         IsHitTestVisible="False"
                                         IsTabStop="False"
-                                        Template="{TemplateBinding h:Cattach.LabelTemplate}" />
+                                        Template="{TemplateBinding h:Cattach.TitleTemplate}" />
 
                         <Border Grid.Column="2"
                                 Background="{TemplateBinding Background}"
@@ -96,12 +96,19 @@
         </Setter>
     </Style>
 
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ListBox.Default, TypeInTargetAssembly={x:Type local:ListBoxKeys}}"  BasedOn="{StaticResource {x:Static h:ListBoxKeys.Dynamic}}" TargetType="ListBox">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
     <Style x:Key="{ComponentResourceKey ResourceId=S.ListBox.Single, TypeInTargetAssembly={x:Type local:ListBoxKeys}}" BasedOn="{StaticResource {x:Static h:ListBoxKeys.Default}}" TargetType="ListBox">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:ListBoxItemKeys.Single}}" />
+        <!--<Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:ListBoxItemKeys.Single}}" />-->
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.ListBox.Accent, TypeInTargetAssembly={x:Type local:ListBoxKeys}}" BasedOn="{StaticResource {x:Static h:ListBoxKeys.Default}}" TargetType="ListBox">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:ListBoxItemKeys.Accent}}" />
+        <!--<Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:ListBoxItemKeys.Accent}}" />-->
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.ListBox.Clear, TypeInTargetAssembly={x:Type local:ListBoxKeys}}" BasedOn="{StaticResource {x:Static h:ListBoxKeys.Single}}" TargetType="ListBox">
@@ -125,26 +132,13 @@
         </Setter>
     </Style>
 
-
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ListBox.Label, TypeInTargetAssembly={x:Type local:ListBoxKeys}}" BasedOn="{StaticResource {x:Static h:ListBoxKeys.Single}}" TargetType="{x:Type ListBox}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ListBox.Label, TypeInTargetAssembly={x:Type local:ListBoxKeys}}" BasedOn="{StaticResource {x:Static h:ListBoxKeys.Dynamic}}" TargetType="{x:Type ListBox}">
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:ListBoxItemKeys.CheckBoxBox}}" />
-        <Setter Property="h:Cattach.LabelTemplate">
-            <Setter.Value>
-                <ControlTemplate TargetType="ContentControl">
-                    <Border Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=(h:Cattach.TitleMargin)}">
-                        <TextBlock HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
-                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=(h:Cattach.TitleForeground)}"
-                                   Text="{TemplateBinding Content}" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}"/>
         <Setter Property="ItemsPanel">
             <Setter.Value>
                 <ItemsPanelTemplate>
@@ -153,7 +147,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!--  以WrapPanel为容器的选择列表  -->
+   
     <Style x:Key="{ComponentResourceKey ResourceId=S.ListBox.WrapPanelSelecter.CheckBox, TypeInTargetAssembly={x:Type local:ListBoxKeys}}" TargetType="ListBox">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="Background" Value="Transparent" />
@@ -169,7 +163,6 @@
         </Setter>
     </Style>
 
-    <!--  带有CheckBox.Box效果  -->
     <Style x:Key="{ComponentResourceKey ResourceId=S.ListBox.WrapPanelSelecter.Default, TypeInTargetAssembly={x:Type local:ListBoxKeys}}" TargetType="ListBox">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}" />
         <Setter Property="Background" Value="Transparent" />

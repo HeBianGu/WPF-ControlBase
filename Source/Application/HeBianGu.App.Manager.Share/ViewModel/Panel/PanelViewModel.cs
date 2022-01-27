@@ -1,23 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using HeBianGu.Base.WpfBase;
-using HeBianGu.Control.PropertyGrid;
-using HeBianGu.General.WpfControlLib;
+﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Service.Mvc;
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace HeBianGu.App.Manager
 {
@@ -55,7 +40,7 @@ namespace HeBianGu.App.Manager
         {
             for (int i = 0; i < 10; i++)
             {
-                this.Collection.Add(new TestViewModel() { Value = i.ToString() });
+                this.Collection.Add(new TestViewModel() { Value = i });
             }
 
         }
@@ -73,7 +58,7 @@ namespace HeBianGu.App.Manager
             //  Do：对话消息
             if (command == "Button.Click.Add")
             {
-                this.Collection.Add(new TestViewModel() { Value = (this.Collection.Count + 1).ToString() });
+                this.Collection.Add(new TestViewModel() { Value = (this.Collection.Count + 1) });
             }
 
             else if (command == "Button.Click.Delete")

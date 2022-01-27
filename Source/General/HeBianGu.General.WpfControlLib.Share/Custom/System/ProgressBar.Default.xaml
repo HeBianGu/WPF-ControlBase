@@ -4,42 +4,38 @@
                     xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-    <SolidColorBrush x:Key="ControlBorderBrush" Color="#999C9F" />
-    <SolidColorBrush x:Key="FocusBorderBrush" Color="#EBCECE" />
-    <SolidColorBrush x:Key="TextForeground" Color="White" />
-
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Default, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" TargetType="ProgressBar">
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Dynamic, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource S.RangeBase.Dynamic}" TargetType="ProgressBar">
         <Setter Property="Maximum" Value="100" />
-        <Setter Property="Value" Value="100" />
+        <Setter Property="Value" Value="50" />
         <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
         <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
-        <Setter Property="h:Cattach.Label" Value="Label" />
-        <Setter Property="h:Cattach.Watermark" Value="h:Cattach.Watermark " />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Buzy, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Default}}" TargetType="ProgressBar">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Default, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Dynamic}}" TargetType="ProgressBar">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Single, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Default}}" TargetType="ProgressBar">
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Accent, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Default}}" TargetType="ProgressBar">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Buzy, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Dynamic}}" TargetType="ProgressBar">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="IsIndeterminate" Value="True" />
-        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Single, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Default}}" TargetType="ProgressBar">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
-        <!--<Setter Property="h:Cattach.CornerRadius" Value="0" />-->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Corner, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Dynamic}}" TargetType="ProgressBar">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ProgressBar">
@@ -76,9 +72,10 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.RunningPoint, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Default}}" TargetType="ProgressBar">
-        <Setter Property="Foreground" Value="{DynamicResource Accent}" />
-        <Setter Property="Background" Value="{DynamicResource ProgressBackground}" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.RunningPoint, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Dynamic}}" TargetType="ProgressBar">
+        <!--<Setter Property="Foreground" Value="{DynamicResource Accent}" />
+        <Setter Property="Background" Value="Transparent" />-->
+        <Setter Property="IsIndeterminate" Value="True" />
         <Setter Property="FontSize" Value="10" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
@@ -235,9 +232,10 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.RunningWaitting, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Default}}" TargetType="ProgressBar">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.RunningWaitting, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Dynamic}}" TargetType="ProgressBar">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="IsIndeterminate" Value="True" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
@@ -281,25 +279,17 @@
                             </Border>
                         </Grid>
                     </Grid>
-
-                    <!--<ControlTemplate.Triggers>
-                        <EventTrigger RoutedEvent="Loaded">
-                            <BeginStoryboard Storyboard="{StaticResource {x:Static h:StoryBoardKeys.OpacityForever}}"/>
-                        </EventTrigger>
-                    </ControlTemplate.Triggers>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
 
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.WaittingPercent, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Default}}" TargetType="ProgressBar">
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.WaittingPercent, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Dynamic}}" TargetType="ProgressBar">
         <Setter Property="Width" Value="300" />
         <Setter Property="Height" Value="30" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="h:Cattach.Label" Value="当前进度" />
+        <Setter Property="h:Cattach.Title" Value="当前进度" />
         <Setter Property="Clip">
             <Setter.Value>
                 <RectangleGeometry RadiusX="15" RadiusY="15">
@@ -337,15 +327,9 @@
                                    VerticalAlignment="Center"
                                    FontSize="{TemplateBinding FontSize}"
                                    Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}">
-                            <Run Text="{TemplateBinding h:Cattach.Label}" />
+                            <Run Text="{TemplateBinding h:Cattach.Title}" />
                             <Run Text="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar}, Path=Value, Converter={x:Static h:XConverter.DoubleRoundConverter}}" />
                             <Run Text="%" />
-                            <!--<TextBlock.Triggers>
-                                    <EventTrigger RoutedEvent="Loaded">
-                                        <BeginStoryboard Storyboard="{DynamicResource {x:Static h:StoryBoardKeys.OpacityForever}}"/>
-                                    </EventTrigger>
-                                </TextBlock.Triggers>-->
-
                             <TextBlock.Effect>
                                 <DropShadowEffect BlurRadius="3" ShadowDepth="0" Color="{DynamicResource AccentColor}" />
                             </TextBlock.Effect>
@@ -357,13 +341,11 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.CriclePercent, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Default}}" TargetType="ProgressBar">
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.CriclePercent, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Dynamic}}" TargetType="ProgressBar">
         <Setter Property="Height" Value="100" />
         <Setter Property="Width" Value="100" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="h:Cattach.Label" Value="" />
+        <Setter Property="h:Cattach.Title" Value="" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ProgressBar">
@@ -397,7 +379,7 @@
                                        FontSize="{TemplateBinding FontSize}"
                                        FontWeight="Bold"
                                        Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}">
-                                <Run Text="{TemplateBinding h:Cattach.Label}" />
+                                <Run Text="{TemplateBinding h:Cattach.Title}" />
                                 <Run Text="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar}, Path=Value, Converter={x:Static h:XConverter.DoubleRoundConverter}}" /><Run Text="%" />
                                 <TextBlock.Triggers>
                                     <EventTrigger RoutedEvent="Loaded">
@@ -411,57 +393,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
-    <!--<Style TargetType="ProgressBar" x:Key="S.ProgressBar.WaittingIFcon" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Default}}">
-    -->
-    <!--<Setter Property="h:Cattach.CornerRadius" Value="0" />-->
-    <!--
-        <Setter Property="Height" Value="400"/>
-        <Setter Property="Width" Value="400"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ProgressBar">
-                    <Grid>
-                        <h:Interaction.Triggers>
-                            <h:EventTrigger EventName="Loaded">
-                                <h:InvokeRandomSplitAnimationAction SplitMilliSecond="-700" RepeatBehavior="Forever">
-                                    <h:InvokeRandomSplitAnimationAction.Timelines>
-                                        <cl:ArrayList>
-                                            <h:RandomDoubleAnimation Duration="00:00:01" UseFrom="False" UseTo="True" Max="3" Min="1" From="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"/>
-                                            <h:RandomDoubleAnimation Duration="00:00:01" UseFrom="False" UseTo="True"  Max="3" Min="1" From="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"/>
-
-                                            <h:RandomDoubleAnimation Duration="00:00:01" UseFrom="False" UseTo="True" Max="400" Min="-400" From="0"   Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"/>
-                                            <h:RandomDoubleAnimation Duration="00:00:01" UseFrom="False" UseTo="True" Max="400" Min="-400" From="0"   Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"/>
-                                            <h:RandomDoubleAnimation Duration="00:00:01" From="1" To="0"  Storyboard.TargetProperty="Opacity"/>
-                                        </cl:ArrayList>
-                                    </h:InvokeRandomSplitAnimationAction.Timelines>
-                                </h:InvokeRandomSplitAnimationAction>
-                            </h:EventTrigger>
-                        </h:Interaction.Triggers>
-
-    -->
-    <!--<h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>
-                                <h:FButton  Icon="&#xe90c;" Foreground="Orange"/>-->
-    <!--
-
-                        <ContentPresenter/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>-->
 </ResourceDictionary>

@@ -1,29 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using System.Windows.Shell;
-using HeBianGu.Applications.ControlBase.LinkWindow;
+﻿using HeBianGu.Applications.ControlBase.LinkWindow;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.Message;
 using HeBianGu.Control.MessageContainer;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.Service.Validation;
 using HeBianGu.Systems.Upgrade;
-using HeBianGu.Window.Message;
 using HeBianGu.Window.MessageDialog;
 using HeBianGu.Window.Notify;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading;
+using System.Windows;
+using System.Windows.Controls.Primitives;
+using System.Windows.Media;
+using System.Windows.Shell;
 
 namespace HeBianGu.App.Blur
 {
@@ -908,7 +901,7 @@ namespace HeBianGu.App.Blur
 
 
 
-        protected override async void RelayMethod(object obj)
+        protected override void RelayMethod(object obj)
         {
             string command = obj.ToString();
 
@@ -1067,9 +1060,9 @@ namespace HeBianGu.App.Blur
             }
         }
 
-        public RelayCommand<ToggleButton> ToggleButtonCheckChangedCommand => new Lazy<RelayCommand<ToggleButton>>(() => new RelayCommand<ToggleButton>(async l => await ToggleButtonCheckedChanged(l))).Value;
+        public RelayCommand<ToggleButton> ToggleButtonCheckChangedCommand => new Lazy<RelayCommand<ToggleButton>>(() => new RelayCommand<ToggleButton>(l => ToggleButtonCheckedChanged(l))).Value;
 
-        internal async Task ToggleButtonCheckedChanged(ToggleButton commandParamer)
+        internal void ToggleButtonCheckedChanged(ToggleButton commandParamer)
         {
             //  Do ：避免通过属性修改触发此事件
             if (!commandParamer.IsFocused) return;

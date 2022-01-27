@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using HeBianGu.Base.WpfBase;
+﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.Systems.Repository;
+using System;
+using System.Windows;
+using System.Windows.Media;
 
 namespace HeBianGu.App.Repository
 {
@@ -42,19 +36,14 @@ namespace HeBianGu.App.Repository
 
             services.AddStudentDemo();
 
-            //services.AddXmlThemeSerialize();
-
             services.AddXmlSerialize();
-
             services.AddXmlMeta();
 
             services.AddSetting();
-
             services.AddSettingPath();
+            services.AddSettingViewPrenter();
 
             services.AddMessage();
-
-            services.AddSettingViewPrenter();
 
             services.AddAutomation();
 

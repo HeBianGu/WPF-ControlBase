@@ -9,6 +9,6 @@ namespace HeBianGu.Base.WpfBase
 
     public interface IStartWindow
     {
-        void SetMessage(string message);
+        void SetMessage(string message); 
     }
 }

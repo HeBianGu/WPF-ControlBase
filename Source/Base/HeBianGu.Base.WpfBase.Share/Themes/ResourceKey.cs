@@ -131,12 +131,10 @@ namespace HeBianGu.Base.WpfBase
 
     public static class OpacityKeys
     {
-        public static ComponentResourceKey Watermark => new ComponentResourceKey(typeof(OpacityKeys), "S.Opacity.Watermark");
-
-        public static ComponentResourceKey Disable => new ComponentResourceKey(typeof(OpacityKeys), "S.Opacity.Disable");
-
+        public static ComponentResourceKey Watermark => new ComponentResourceKey(typeof(OpacityKeys), "S.Opacity.Watermark"); 
+        public static ComponentResourceKey Disable => new ComponentResourceKey(typeof(OpacityKeys), "S.Opacity.Disable"); 
         public static ComponentResourceKey Readonly => new ComponentResourceKey(typeof(OpacityKeys), "S.Opacity.Readonly");
-
+        public static ComponentResourceKey MouseOver => new ComponentResourceKey(typeof(OpacityKeys), "S.Opacity.MouseOver");
     }
 
 
@@ -163,7 +161,6 @@ namespace HeBianGu.Base.WpfBase
 
     public static class CornerRadiusKeys
     {
-        public static ComponentResourceKey Circle => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.Circle");
         public static ComponentResourceKey Value => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.Value");
         public static ComponentResourceKey CornerRadius => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius");
         public static ComponentResourceKey Left => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.Left");
@@ -172,9 +169,14 @@ namespace HeBianGu.Base.WpfBase
         public static ComponentResourceKey Bottom => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.Bottom");
         public static ComponentResourceKey LeftTop => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.LeftTop");
         public static ComponentResourceKey RightTop => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.RightTop");
-
         public static ComponentResourceKey LeftBottom => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.LeftBottom");
         public static ComponentResourceKey RightBottom => new ComponentResourceKey(typeof(CornerRadiusKeys), ".Window.Item.CornerRadius.RightBottom");
+
+        public static ComponentResourceKey Circle => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.Circle");
+        public static ComponentResourceKey CircleLeft => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.Circle.Left");
+        public static ComponentResourceKey CircleRight => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.Circle.Right");
+        public static ComponentResourceKey CircleTop => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.Circle.Top");
+        public static ComponentResourceKey CircleBottom => new ComponentResourceKey(typeof(CornerRadiusKeys), "S.Window.Item.CornerRadius.Circle.Bottom");
     }
 
 
@@ -198,6 +200,10 @@ namespace HeBianGu.Base.WpfBase
         public static ComponentResourceKey Padding_10_6 => new ComponentResourceKey(typeof(ThicknessKeys), "S.Thickness.Padding.10.6");
         public static ComponentResourceKey Margin_2_0 => new ComponentResourceKey(typeof(ThicknessKeys), "S.Thickness.Margin.2.0");
 
+        public static ComponentResourceKey UnderLine => new ComponentResourceKey(typeof(ThicknessKeys), "S.Thickness.UnderLine"); 
+        public static ComponentResourceKey TopLine => new ComponentResourceKey(typeof(ThicknessKeys), "S.Thickness.TopLine");
+        public static ComponentResourceKey LeftLine => new ComponentResourceKey(typeof(ThicknessKeys), "S.Thickness.LeftLine");
+        public static ComponentResourceKey RightLine => new ComponentResourceKey(typeof(ThicknessKeys), "S.Thickness.RightLine");
 
     }
 
@@ -222,22 +228,15 @@ namespace HeBianGu.Base.WpfBase
     public static class SystemKeys
     {
         public static ComponentResourceKey TransformGroup => new ComponentResourceKey(typeof(SystemKeys), "S.TransformGroup.Default");
-
         public static ComponentResourceKey FontFamily => new ComponentResourceKey(typeof(SystemKeys), "S.FontFamily.Default");
-
         public static ComponentResourceKey ColorAccent => new ComponentResourceKey(typeof(SystemKeys), "S.Color.Accent");
-
         public static ComponentResourceKey ItemHeight => new ComponentResourceKey(typeof(SystemKeys), "S.Window.Item.Height");
         public static ComponentResourceKey ItemWidth => new ComponentResourceKey(typeof(SystemKeys), "S.Window.Item.Width");
         public static ComponentResourceKey TitleWidth => new ComponentResourceKey(typeof(SystemKeys), "S.Window.Title.Width");
         public static ComponentResourceKey RowHeight => new ComponentResourceKey(typeof(SystemKeys), "S.Window.Row.Height");
         public static ComponentResourceKey ColumnWidth => new ComponentResourceKey(typeof(SystemKeys), "S.Window.Column.Width");
-
         public static ComponentResourceKey DateFormat => new ComponentResourceKey(typeof(SystemKeys), "S.DateFormat.Date");
-
         public static ComponentResourceKey DateTimeFormat => new ComponentResourceKey(typeof(SystemKeys), "S.DateFormat.Time");
-
-        
     }
 
     public static class DrawingKeys
@@ -283,7 +282,7 @@ namespace HeBianGu.Base.WpfBase
         public static ComponentResourceKey ScaleRecovery_1_2 => new ComponentResourceKey(typeof(StoryBoardKeys), "S.Storyboard.Scale.Recovery.1.2");
         public static ComponentResourceKey ScaleRecovery_1_4 => new ComponentResourceKey(typeof(StoryBoardKeys), "S.Storyboard.Scale.Recovery.1.4");
         public static ComponentResourceKey ScaleEnlarge_1_2 => new ComponentResourceKey(typeof(StoryBoardKeys), "S.Storyboard.Scale.Enlarge.1.2");
-        public static ComponentResourceKey ScaleEnlargeRecovery2_1_2 => new ComponentResourceKey(typeof(StoryBoardKeys), "S.Storyboard.Scale.Enlarge.1.2.Recovery2");
+        public static ComponentResourceKey ScaleEnlargeRecovery_1_2 => new ComponentResourceKey(typeof(StoryBoardKeys), "S.Storyboard.Scale.Enlarge.1.2.Recovery");
         public static ComponentResourceKey FontSizeRebound => new ComponentResourceKey(typeof(StoryBoardKeys), "S.Storyboard.FontSize.Rebound");
         public static ComponentResourceKey ColorFlash => new ComponentResourceKey(typeof(StoryBoardKeys), "S.Storyboard.Color.Flash");
     }

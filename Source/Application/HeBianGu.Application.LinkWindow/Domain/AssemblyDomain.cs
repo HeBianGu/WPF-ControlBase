@@ -5,14 +5,11 @@ using HeBianGu.General.WpfControlLib;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace HeBianGu.Application.LinkWindow
 {
-    public class AssemblyDomain : IThemeSerializeService,ILogService
+    public class AssemblyDomain : IThemeSerializeService, ILogService
     {
         public static AssemblyDomain Instance = new AssemblyDomain();
 
@@ -94,19 +91,19 @@ namespace HeBianGu.Application.LinkWindow
 
         public ThemeConfig LoadTheme()
         {
-            return _localConfigService.LoadConfig<ThemeConfig>(); 
+            return _localConfigService.LoadConfig<ThemeConfig>();
         }
 
         public bool SaveTheme(ThemeConfig theme)
         {
-            return _localConfigService.SaveConfig(theme); 
+            return _localConfigService.SaveConfig(theme);
         }
 
         public void Debug(params string[] messages)
         {
             foreach (var item in messages)
             {
-               System.Diagnostics.Debug.WriteLine(item);
+                System.Diagnostics.Debug.WriteLine(item);
             }
         }
 

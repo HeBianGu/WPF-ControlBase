@@ -3,6 +3,9 @@
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="S.Button.Template.Default" TargetType="{x:Type Button}">
 
@@ -12,15 +15,14 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <!--  Label区域  -->
             <ContentControl x:Name="Label"
                             Background="{TemplateBinding BorderBrush}"
-                            Content="{TemplateBinding h:Cattach.Label}"
+                            Content="{TemplateBinding h:Cattach.Title}"
                             IsHitTestVisible="False"
                             IsTabStop="False"
-                            Template="{TemplateBinding h:Cattach.LabelTemplate}" />
+                            Template="{TemplateBinding h:Cattach.TitleTemplate}" />
 
-            <Grid Grid.Column="1" Margin="{TemplateBinding Padding}">
+            <Grid Grid.Column="1">
                 <Border x:Name="border"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{TemplateBinding BorderBrush}"
@@ -34,7 +36,7 @@
                         CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
                         Opacity="0" />
 
-                <Grid x:Name="grid" RenderTransformOrigin="0.5,0.5">
+                <Grid x:Name="grid" Margin="{TemplateBinding Padding}" RenderTransformOrigin="0.5,0.5">
                     <Grid.LayoutTransform>
                         <TransformGroup>
                             <ScaleTransform x:Name="grid_scale" ScaleX="1" ScaleY="1" />
@@ -42,16 +44,16 @@
                     </Grid.LayoutTransform>
 
                     <!--  Icon/Text  -->
-                    <StackPanel Margin="{TemplateBinding Padding}"
+                    <StackPanel Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CellMargin)}"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="Center"
                                 Orientation="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.Orientation)}">
 
                         <TextBlock x:Name="icon"
-                                   Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FIconMargin)}"
+                                   Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IconMargin)}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FIconSize)}"
+                                   FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IconSize)}"
                                    Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"
                                    RenderTransformOrigin="0.5,0.5"
                                    Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
@@ -107,7 +109,6 @@
                 </Trigger.ExitActions>
             </Trigger>
 
-            <!--  Ficon的动画触发器  -->
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="IsMouseOver" Value="true" />
@@ -136,7 +137,6 @@
                 </MultiTrigger.ExitActions>
             </MultiTrigger>
 
-            <!--  鼠标按下时的前景、背景样式  -->
             <Trigger Property="IsPressed" Value="True">
                 <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.PressBorderBrush)}" />
                 <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.PressForeground)}" />
@@ -193,40 +193,24 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Default, TypeInTargetAssembly={x:Type local:ButtonKeys}}" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Width" Value="120" />
-        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+    <!--  Dynamic  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Dynamic, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource S.ButtonBase.Dynamic}" TargetType="{x:Type Button}">
         <Setter Property="Template" Value="{StaticResource S.Button.Template.Default}" />
-        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_2_0}}" />
         <Setter Property="Content" Value="{x:Null}" />
-        <Setter Property="Cursor" Value="Hand" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
-        <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
-        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}" />
-        <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
-        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Default}}" />
-        <Setter Property="h:Cattach.FIconMargin" Value="0" />
+        <Setter Property="h:Cattach.CellMargin" Value="0" />
+        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
+        <Setter Property="Margin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_2_0}}"/>
         <Setter Property="h:Cattach.Icon" Value="" />
-        <Setter Property="h:Cattach.AllowsAnimation" Value="False" />
+    </Style>
 
-        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.Red}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-
-        <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
-        <Setter Property="h:Cattach.Label" Value="Label" />
-        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
-        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource {x:Static h:SystemKeys.TitleWidth}}" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Default, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Dynamic}}" TargetType="{x:Type Button}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+    
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Label, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Dynamic}}" TargetType="{x:Type Button}">
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Single, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Default}}" TargetType="{x:Type Button}">
@@ -235,21 +219,40 @@
         <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <!--<Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent"/>-->
         <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <!--<Setter Property="Height" Value="Auto"/>-->
-        <!--<Setter Property="Width" Value="Auto"/>-->
-        <Setter Property="h:Cattach.FIconMargin" Value="0" />
+        <Setter Property="h:Cattach.IconMargin" Value="0" />
+
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Single.Label, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Single}}" TargetType="{x:Type Button}">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="h:Cattach.TitleBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Accent, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Default}}" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <!--<Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}" />
         <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
         <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="h:Cattach.FIconMargin" Value="0" />
+        <Setter Property="h:Cattach.IconMargin" Value="0" />-->
+
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Accent.Label, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Accent}}" TargetType="{x:Type Button}">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="h:Cattach.TitleBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Transparent, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Default}}" TargetType="{x:Type Button}">
@@ -260,16 +263,14 @@
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
         <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
-        <!--<Setter Property="Height" Value="Auto"/>-->
-        <Setter Property="Width" Value="Auto" />
-        <Setter Property="h:Cattach.FIconMargin" Value="0" />
+        <Setter Property="h:Cattach.UseBackground" Value="False" />
+        <Setter Property="Padding" Value="0"/>
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Transparent.AccentBack, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Transparent}}" TargetType="{x:Type Button}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
         <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy2}}" />
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <!--<Setter Property="Height" Value="Auto"/>-->
         <Setter Property="Width" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
     </Style>
 
@@ -286,8 +287,9 @@
         <Setter Property="Width" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
         <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
         <Setter Property="h:Cattach.CornerRadius" Value="200" />
-        <Setter Property="h:Cattach.FIconSize" Value="20" />
-        <Setter Property="h:Cattach.FIconMargin" Value="0,0,0,0" />
+        <Setter Property="h:Cattach.IconSize" Value="20" />
+        <Setter Property="h:Cattach.IconMargin" Value="0,0,0,0" />
+        <Setter Property="Padding" Value="0"/>
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Circle.Transparent, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Circle}}" TargetType="{x:Type Button}">
@@ -329,10 +331,10 @@
                 </Grid.LayoutTransform>
 
                 <TextBlock x:Name="icon"
-                           Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FIconMargin)}"
+                           Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IconMargin)}"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FIconSize)}"
+                           FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IconSize)}"
                            Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Foreground}"
                            RenderTransformOrigin="0.5,0.5"
                            Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
@@ -486,6 +488,7 @@
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="0"/>
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Close.Flag, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Default}}" TargetType="{x:Type Button}">
@@ -494,8 +497,8 @@
         <Setter Property="MinHeight" Value="5" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
         <Setter Property="h:Cattach.Icon" Value="&#xe6f4;" />
-        <Setter Property="h:Cattach.FIconSize" Value="8" />
-        <Setter Property="h:Cattach.FIconMargin" Value="0" />
+        <Setter Property="h:Cattach.IconSize" Value="8" />
+        <Setter Property="h:Cattach.IconMargin" Value="0" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="Margin" Value="-2,2" />
         <Setter Property="h:Cattach.AllowsAnimation" Value="True" />
@@ -534,7 +537,7 @@
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Window.Hide, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.MinimizeWindow}}" TargetType="{x:Type Button}">
         <Setter Property="h:Cattach.Icon" Value="&#xe820;" />
-        <Setter Property="h:Cattach.FIconSize" Value="20" />
+        <Setter Property="h:Cattach.IconSize" Value="20" />
         <Setter Property="Command" Value="{Binding Path=NotifyWindowCommand, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
         <Setter Property="ToolTip" Value="隐藏" />
     </Style>
@@ -554,7 +557,7 @@
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="h:Cattach.AllowsAnimation" Value="True" />
         <Setter Property="h:Cattach.Icon" Value="&#xe701;" />
-        <Setter Property="h:Cattach.FIconSize" Value="18" />
+        <Setter Property="h:Cattach.IconSize" Value="18" />
         <Setter Property="HorizontalAlignment" Value="Right" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="h:Cattach.MouseOverBackground" Value="Transparent" />
@@ -565,7 +568,7 @@
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Add.Transparent, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Close}}" TargetType="{x:Type Button}">
         <Setter Property="h:Cattach.Icon" Value="&#xe6e0;" />
-        <Setter Property="h:Cattach.FIconSize" Value="15" />
+        <Setter Property="h:Cattach.IconSize" Value="15" />
         <Setter Property="h:Cattach.AllowsAnimation" Value="False" />
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
         <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
@@ -576,79 +579,54 @@
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Add.Border, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.AddTransparent}}" TargetType="{x:Type Button}">
         <Setter Property="h:Cattach.Icon" Value="&#xe6e0;" />
-        <Setter Property="h:Cattach.FIconSize" Value="15" />
+        <Setter Property="h:Cattach.IconSize" Value="15" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Delete, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Transparent}}" TargetType="{x:Type Button}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Delete, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Default}}" TargetType="{x:Type Button}">
         <Setter Property="h:Cattach.Icon" Value="&#xe618;" />
-        <Setter Property="Padding" Value="10,0" />
-        <Setter Property="h:Cattach.FIconSize" Value="15" />
-        <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Red}}" />
         <Setter Property="h:Cattach.MouseOverBackground">
             <Setter.Value>
                 <SolidColorBrush Opacity="0.8" Color="{Binding Source={StaticResource {x:Static h:BrushKeys.Red}}, Path=Color}" />
             </Setter.Value>
         </Setter>
-
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent" />
-        <Setter Property="h:Cattach.PressBorderBrush" Value="Transparent" />
         <Setter Property="Content" Value="删除" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Edit, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Delete}}" TargetType="{x:Type Button}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Edit, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Default}}" TargetType="{x:Type Button}">
         <Setter Property="h:Cattach.Icon" Value="&#xe7f3;" />
         <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Green}}" />
-
-        <!--<Setter Property="h:Cattach.MouseOverBackground">
+        <Setter Property="h:Cattach.MouseOverBackground">
             <Setter.Value>
                 <SolidColorBrush Opacity="0.8" Color="{Binding Source={StaticResource {x:Static h:BrushKeys.Green}}, Path=Color}" />
             </Setter.Value>
-        </Setter>-->
+        </Setter>
 
         <!--<Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.Green}}" />-->
         <Setter Property="Content" Value="编辑" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Detial, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Delete}}" TargetType="{x:Type Button}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Detial, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Default}}" TargetType="{x:Type Button}">
         <Setter Property="h:Cattach.Icon" Value="&#xe741;" />
         <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Gray}}" />
-
-        <!--<Setter Property="h:Cattach.MouseOverBackground">
+        <Setter Property="h:Cattach.MouseOverBackground">
             <Setter.Value>
                 <SolidColorBrush Opacity="0.8" Color="{Binding Source={StaticResource {x:Static h:BrushKeys.Gray}}, Path=Color}" />
             </Setter.Value>
-        </Setter>-->
+        </Setter>
         <Setter Property="Content" Value="详情" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Add, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Delete}}" TargetType="{x:Type Button}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Add, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Dynamic}}" TargetType="{x:Type Button}">
         <Setter Property="h:Cattach.Icon" Value="&#xeaf3;" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="Content" Value="添加" />
-        <!--<Setter Property="h:Cattach.MouseOverBackground">
-            <Setter.Value>
-                <SolidColorBrush Opacity="0.8" Color="{Binding Source={StaticResource {x:Static h:BrushKeys.Accent}}, Path=Color}" />
-            </Setter.Value>
-        </Setter>-->
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Set, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Add}}" TargetType="{x:Type Button}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Set, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Dynamic}}" TargetType="{x:Type Button}">
         <Setter Property="h:Cattach.Icon" Value="&#xeaf3;" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="Content" Value="设置" />
-        <!--<Setter Property="h:Cattach.MouseOverBackground">
-            <Setter.Value>
-                <SolidColorBrush Opacity="0.8" Color="{Binding Source={StaticResource {x:Static h:BrushKeys.Accent}}, Path=Color}" />
-            </Setter.Value>
-        </Setter>-->
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Close.MouseOver, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.MouseOver}}" TargetType="{x:Type Button}">
@@ -683,31 +661,12 @@
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Start, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.MouseOver}}" TargetType="{x:Type Button}">
         <Setter Property="h:Cattach.Icon" Value="&#xe885;" />
-        <Setter Property="h:Cattach.FIconSize" Value="22" />
+        <Setter Property="h:Cattach.IconSize" Value="22" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Stop, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.MouseOver}}" TargetType="{x:Type Button}">
         <Setter Property="h:Cattach.Icon" Value="&#xe884;" />
-        <Setter Property="h:Cattach.FIconSize" Value="22" />
-    </Style>
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Label, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Default}}" TargetType="{x:Type Button}">
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Width" Value="Auto" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="h:Cattach.LabelTemplate">
-            <Setter.Value>
-                <ControlTemplate TargetType="ContentControl">
-                    <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=(h:Cattach.TitleMargin)}">
-                        <TextBlock HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
-                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=(h:Cattach.TitleForeground)}"
-                                   Text="{TemplateBinding Content}" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="h:Cattach.IconSize" Value="22" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Vertical.ToolBar, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Transparent}}" TargetType="{x:Type Button}">
@@ -716,11 +675,11 @@
         <Setter Property="Padding" Value="1,5" />
         <Setter Property="Height" Value="Auto" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="h:Cattach.FIconSize" Value="22" />
+        <Setter Property="h:Cattach.IconSize" Value="22" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Button.Transparent.Set, TypeInTargetAssembly={x:Type local:ButtonKeys}}" BasedOn="{StaticResource {x:Static local:ButtonKeys.Transparent}}" TargetType="{x:Type Button}">
-        <Setter Property="h:Cattach.FIconSize" Value="18" />
+        <Setter Property="h:Cattach.IconSize" Value="18" />
         <Setter Property="h:Cattach.Icon" Value="&#xe88e;" />
     </Style>
 </ResourceDictionary>

@@ -34,6 +34,8 @@ namespace HeBianGu.Base.WpfBase
 
         private void AssociatedObject_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
+            if (AssociatedObject == null) return;
+
             if (AssociatedObject.AllowDrop) return;
 
             AssociatedObject.AllowDrop = true;

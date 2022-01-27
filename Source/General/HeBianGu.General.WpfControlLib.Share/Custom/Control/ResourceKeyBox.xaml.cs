@@ -25,6 +25,11 @@ namespace HeBianGu.General.WpfControlLib
 {
     public class ResourceKeyBox : ListBox
     {
+        static ResourceKeyBox()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(ResourceKeyBox), new FrameworkPropertyMetadata(typeof(ResourceKeyBox)));
+        }
+
         public Type Type
         {
             get { return (Type)GetValue(TypeProperty); }
@@ -52,22 +57,23 @@ namespace HeBianGu.General.WpfControlLib
 
         void RefreshData()
         {
-            var properties = this.Type.GetProperties(BindingFlags.Static| BindingFlags.Public);
+            var properties = this.Type.GetProperties(BindingFlags.Static | BindingFlags.Public);
 
-            List<ComponentResourceKey> source = new List<ComponentResourceKey>();
+            List<ResourceKeyModel> source = new List<ResourceKeyModel>();
 
             foreach (var item in properties)
             {
-                var key=item.GetValue(null) as ComponentResourceKey; 
-
+                var key = item.GetValue(null) as ComponentResourceKey;
                 if (key == null) continue;
-                source.Add(key);
+                ResourceKeyModel resourceKey = new ResourceKeyModel(key);
+                resourceKey.Name = $"h:{this.Type.Name }.{item.Name}";
+                resourceKey.Display = "{DynamicResource {x:Static " + resourceKey.Name + "}}";
+                source.Add(resourceKey);
             }
 
-            this.ItemsSource= source;
+            this.ItemsSource = source;
         }
     }
-
 
     public class ResourceKeyItem : ContentControl
     {
@@ -99,7 +105,9 @@ namespace HeBianGu.General.WpfControlLib
 
         void RefreshData()
         {
-            if (Application.Current.TryFindResource(this.Key) is Style style)
+            var find = Application.Current.TryFindResource(this.Key);
+
+            if (find is Style style)
             {
                 this.Content = Activator.CreateInstance(style.TargetType);
 
@@ -110,12 +118,76 @@ namespace HeBianGu.General.WpfControlLib
 
                 if (this.Content is ItemsControl items)
                 {
-                    if(items.Items==null&&items.ItemsSource==null)
-                    { 
-                        items.ItemsSource = Enumerable.Range(0, 5);
+                    if (items.Items.Count == 0 && items.ItemsSource == null)
+                    {
+                        items.ItemsSource = Enumerable.Range(0, 5).Select(L => Student.Random());
+
+                       if(this.Content is DataGrid grid)
+                        {
+                            grid.AutoGenerateColumns = true;
+                        }
                     }
                 }
+                else if (this.Content is ContentControl content)
+                {
+                    if (this.Content is Button) return;
+
+                    content.Content = this.Key.ResourceId;
+                }
+                else if (this.Content is TextBlock textBlock)
+                {
+                    textBlock.Text = this.Key.ResourceId.ToString();
+                }
+                else if (this.Content is Hyperlink hyperlink)
+                {
+                    this.Content = new Hyperlink(new Run() { Text = this.Key.ResourceId.ToString() });
+                }
+
+
+                Cattach.SetTitle(this.Content as DependencyObject, "Title");
             }
         }
+    }
+
+    /// <summary> 说明</summary>
+    public class ResourceKeyModel : ModelViewModel<ComponentResourceKey>
+    {
+        public ResourceKeyModel(ComponentResourceKey component) : base(component)
+        {
+
+        }
+        #region - 属性 -
+
+        private string _name;
+        /// <summary> 说明  </summary>
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                _name = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string _display;
+        /// <summary> 说明  </summary>
+        public string Display
+        {
+            get { return _display; }
+            set
+            {
+                _display = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        #endregion
+    }
+
+    public class TypeListResourceKeyBox : ListBox
+    {
+
     }
 }

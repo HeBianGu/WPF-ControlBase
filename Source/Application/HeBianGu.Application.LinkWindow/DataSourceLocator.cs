@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using HeBianGu.Base.WpfBase;
-using HeBianGu.General.WpfControlLib;
+﻿using HeBianGu.Base.WpfBase;
 
 
 namespace HeBianGu.Application.LinkWindow

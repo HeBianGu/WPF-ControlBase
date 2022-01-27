@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using HeBianGu.App.Touch.View.Share;
+﻿using HeBianGu.App.Touch.View.Share;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
+using System;
 
 namespace HeBianGu.App.Touch
 {

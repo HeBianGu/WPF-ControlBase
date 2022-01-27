@@ -4,6 +4,10 @@
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
     <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity8}}" />
@@ -218,8 +222,8 @@
                 <Setter TargetName="BgInner" Property="Opacity" Value="0.5" />
             </Trigger>
         </ControlTemplate.Triggers>
-    </ControlTemplate>
-
+    </ControlTemplate> 
+    
     <Style x:Key="S.ScrollBar.Default" TargetType="{x:Type ScrollBar}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="true" />
@@ -250,11 +254,7 @@
         <Setter Property="h:Cattach.FocusBackground" Value="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:Cattach.FocusBackground)}" />
     </Style>
 
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.Default, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" TargetType="{x:Type ScrollViewer}">
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
-        <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity8}}" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.Dynamic, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource S.ScrollViewerBase.Dynamic}" TargetType="{x:Type ScrollViewer}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -358,20 +358,19 @@
         </Setter>
     </Style>
 
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.Default, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static local:ScrollViewerKeys.Dynamic}}" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
     <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.Single, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static h:ScrollViewerKeys.Default}}" TargetType="{x:Type ScrollViewer}">
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushTitle}}" />
-        <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.Dark3}}" />
-        <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.Accent, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static h:ScrollViewerKeys.Default}}" TargetType="{x:Type ScrollViewer}">
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushTitle}}" />
-        <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
     </Style>
 
-    <!--  带有拖拽效果的滚动条  -->
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.MouseGesture, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static h:ScrollViewerKeys.Default}}" TargetType="{x:Type ScrollViewer}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.MouseGesture, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static h:ScrollViewerKeys.Dynamic}}" TargetType="{x:Type ScrollViewer}">
         <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="h:Cattach.Behaviors">
             <Setter.Value>
@@ -382,8 +381,7 @@
         </Setter>
     </Style>
 
-    <!--  带有工具栏的滚动条  -->
-    <Style x:Key="S.ScrollView.Tool" BasedOn="{StaticResource {x:Static h:ScrollViewerKeys.Default}}" TargetType="{x:Type ScrollViewer}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.Tool, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static h:ScrollViewerKeys.Dynamic}}" TargetType="{x:Type ScrollViewer}">
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Bottom" />
         <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
@@ -392,102 +390,102 @@
                 <ControlTemplate TargetType="ContentControl">
                     <DockPanel Margin="10">
 
-                        <local:FButton Icon="&#xe671;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="向左滚动一行">
+                        <Button h:Cattach.Icon="&#xe671;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="向左滚动一行">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="LineLeft" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
 
-                        <local:FButton Icon="&#xe66d;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="向右滚动一行">
+                        <Button h:Cattach.Icon="&#xe66d;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="向右滚动一行">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="LineRight" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
 
-                        <local:FButton Icon="&#xe66e;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="向下滚动一行">
+                        <Button h:Cattach.Icon="&#xe66e;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="向下滚动一行">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="LineDown" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
 
-                        <local:FButton Icon="&#xe66f;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="向上滚动一行">
+                        <Button h:Cattach.Icon="&#xe66f;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="向上滚动一行">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="LineUp" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
 
-                        <local:FButton Icon="&#xe9cd;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="向左滚动一页">
+                        <Button h:Cattach.Icon="&#xe9cd;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="向左滚动一页">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="PageLeft" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
 
 
-                        <local:FButton Icon="&#xe9ce;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="向右滚动一页">
+                        <Button h:Cattach.Icon="&#xe9ce;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="向右滚动一页">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="PageRight" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
 
-                        <local:FButton Icon="&#xe9cc;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="向下滚动一页">
+                        <Button h:Cattach.Icon="&#xe9cc;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="向下滚动一页">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="PageDown" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
 
-                        <local:FButton Icon="&#xe9d3;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="向上滚动一页">
+                        <Button h:Cattach.Icon="&#xe9d3;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="向上滚动一页">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="PageUp" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
 
-                        <local:FButton Icon="&#xe684;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="水平滚动到开始">
+                        <Button h:Cattach.Icon="&#xe684;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="水平滚动到开始">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="ScrollToLeftEnd" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
 
-                        <local:FButton Icon="&#xe687;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="水平滚动到末尾">
+                        <Button h:Cattach.Icon="&#xe687;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="水平滚动到末尾">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="ScrollToRightEnd" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
 
-                        <local:FButton Icon="&#xe686;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="垂直滚动到末尾">
+                        <Button h:Cattach.Icon="&#xe686;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="垂直滚动到末尾">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="ScrollToBottom" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
 
-                        <local:FButton Icon="&#xe685;" Style="{DynamicResource S.FButton.Style.MouseOverOpacity}" ToolTip="垂直滚动到开始">
+                        <Button h:Cattach.Icon="&#xe685;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" ToolTip="垂直滚动到开始">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="Click">
                                     <h:CallMethodAction MethodName="ScrollToTop" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
-                        </local:FButton>
+                        </Button>
                     </DockPanel>
                 </ControlTemplate>
             </Setter.Value>

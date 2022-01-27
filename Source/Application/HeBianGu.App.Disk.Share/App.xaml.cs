@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using HeBianGu.Base.WpfBase;
+﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.Window.Start;
+using System;
+using System.Windows;
+using System.Windows.Media;
 
 namespace HeBianGu.App.Disk
 {
@@ -41,9 +34,10 @@ namespace HeBianGu.App.Disk
             //  Do ：启用和显示右上角主题设置
             services.AddTheme();
 
-            ////  Do ：启用右上见配置按钮 需要添加引用HeBianGu.Systems.Setting
-            //services.AddSetting();
-            //services.AddSettingViewPrenter();
+            //  Do ：启用右上见配置按钮 需要添加引用HeBianGu.Systems.Setting
+            services.AddSetting();
+            services.AddSettingViewPrenter();
+            services.AddSettingPath();
 
             //  Do ：启用启动窗口 需要添加引用HeBianGu.Window.Start
             services.AddStart();
@@ -53,6 +47,9 @@ namespace HeBianGu.App.Disk
 
             //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
+
+            services.AddXmlSerialize();
+            services.AddXmlMeta();
         }
 
         protected override void Configure(IApplicationBuilder app)

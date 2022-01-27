@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using HeBianGu.Base.WpfBase;
+﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.Service.Mvc;
+using System;
+using System.Windows;
+using System.Windows.Media;
 
 namespace HeBianGu.App.Above
 {

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using HeBianGu.Base.WpfBase;
+﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using System;
+using System.Windows;
+using System.Windows.Media;
 
 namespace HeBianGu.App.Office
 {
@@ -41,6 +36,14 @@ namespace HeBianGu.App.Office
 
             //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
+
+            //  Do ：启用右上见配置按钮 需要添加引用HeBianGu.Systems.Setting
+            services.AddSetting();
+            services.AddSettingViewPrenter();
+            services.AddSettingPath();
+
+            services.AddXmlSerialize();
+            services.AddXmlMeta();
 
         }
 

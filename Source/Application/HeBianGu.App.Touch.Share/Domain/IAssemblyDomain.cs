@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace HeBianGu.App.Touch
+﻿namespace HeBianGu.App.Touch
 {
     public interface IAssemblyDomain
     {

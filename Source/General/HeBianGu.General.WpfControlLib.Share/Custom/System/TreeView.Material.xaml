@@ -4,6 +4,10 @@
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
     <h:MathMultipleConverter x:Key="MathMlpMultipleConverter" Operation="Multiply" />
 
     <Style TargetType="{x:Type local:Ripple}">
@@ -154,7 +158,7 @@
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Width" Value="16" />
         <Setter Property="Height" Value="16" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=TreeView},Path=Foreground}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -241,12 +245,15 @@
     </Style>
 
     <Style x:Key="S.TreeViewItem.Default" TargetType="{x:Type TreeViewItem}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderThickness" Value="0" />
+        <!--<Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />-->
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type TreeView}}}" />
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type TreeView}}}" />
-        <Setter Property="Padding" Value="0" />
+        <!--<Setter Property="Padding" Value="0" />-->
+        <!--<Setter Property="h:Cattach.CornerRadius" Value="{Binding RelativeSource={RelativeSource AncestorType=TreeView}, Path=(h:Cattach.CornerRadius)}" />-->
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=TreeView},Path=Foreground}"/>
         <Setter Property="h:Cattach.CornerRadius" Value="{Binding RelativeSource={RelativeSource AncestorType=TreeView}, Path=(h:Cattach.CornerRadius)}" />
+        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}"/>
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
                 <Style>
@@ -259,8 +266,7 @@
                     </Setter>
                 </Style>
             </Setter.Value>
-        </Setter>
-        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type TreeView}}}" />
+        </Setter> 
         <Setter Property="IsExpanded" Value="{Binding IsExpanded}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -495,25 +501,14 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TreeView.Material, TypeInTargetAssembly={x:Type local:TreeViewKeys}}" TargetType="{x:Type TreeView}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="{x:Null}" />
-        <Setter Property="BorderThickness" Value="0" />
-        <Setter Property="Foreground" Value="{DynamicResource S.TextForeground.Default}" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TreeView.Material.Dynamic, TypeInTargetAssembly={x:Type local:TreeViewKeys}}" BasedOn="{StaticResource {x:Static local:SelectorKeys.Dynamic}}" TargetType="{x:Type TreeView}">
         <Setter Property="Padding" Value="1" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
         <Setter Property="ScrollViewer.PanningMode" Value="Both" />
         <Setter Property="Stylus.IsFlicksEnabled" Value="False" />
-        <!--<Setter Property="VerticalContentAlignment" Value="Center"/>-->
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
-        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource S.TreeViewItem.Default}" />
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeView}">
@@ -521,7 +516,7 @@
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             SnapsToDevicePixels="true">
-                        <ScrollViewer x:Name="_tv_scrollviewer_"
+                        <local:FScrollView x:Name="_tv_scrollviewer_"
                                       Padding="{TemplateBinding Padding}"
                                       Background="{TemplateBinding Background}"
                                       CanContentScroll="false"
@@ -530,7 +525,7 @@
                                       SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                       VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}">
                             <ItemsPresenter />
-                        </ScrollViewer>
+                        </local:FScrollView>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
@@ -556,44 +551,16 @@
         </Style.Triggers>
     </Style>
 
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TreeView.Default, TypeInTargetAssembly={x:Type local:TreeViewKeys}}" BasedOn="{StaticResource {x:Static h:TreeViewKeys.Material}}" TargetType="{x:Type TreeView}">
-        <!--<Setter Property="ItemContainerStyle" Value="{StaticResource S.TreeViewItem.Default}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
-        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />-->
-        <Setter Property="ItemContainerStyle" Value="{StaticResource S.TreeViewItem.Default}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
-        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
-
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TreeView.Material, TypeInTargetAssembly={x:Type local:TreeViewKeys}}"  BasedOn="{StaticResource {x:Static h:TreeViewKeys.MaterialDynamic}}" TargetType="{x:Type TreeView}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TreeView.Single, TypeInTargetAssembly={x:Type local:TreeViewKeys}}" BasedOn="{StaticResource {x:Static h:TreeViewKeys.Material}}" TargetType="{x:Type TreeView}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource S.TreeViewItem.Default}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
-        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TreeView.Material.Single, TypeInTargetAssembly={x:Type local:TreeViewKeys}}" BasedOn="{StaticResource {x:Static h:TreeViewKeys.Material}}" TargetType="{x:Type TreeView}">
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TreeView.Accent, TypeInTargetAssembly={x:Type local:TreeViewKeys}}" BasedOn="{StaticResource {x:Static h:TreeViewKeys.Material}}" TargetType="{x:Type TreeView}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource S.TreeViewItem.Default}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
-        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TreeView.Material.Accent, TypeInTargetAssembly={x:Type local:TreeViewKeys}}" BasedOn="{StaticResource {x:Static h:TreeViewKeys.Material}}" TargetType="{x:Type TreeView}">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
     </Style>
 
 </ResourceDictionary>

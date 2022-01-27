@@ -2,188 +2,144 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-    <!--<Style x:Key="{ComponentResourceKey ResourceId=S.Border.Card.Background, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource {x:Static local:BorderKeys.Single}}" TargetType="{x:Type Border}">-->
+    <ControlTemplate x:Key="S.CheckBox.Tempalte.Default" TargetType="{x:Type CheckBox}">
+        <Grid x:Name="grid" Margin="{TemplateBinding Padding}" VerticalAlignment="Stretch">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Default, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" TargetType="{x:Type CheckBox}">
-        <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="FontFamily" Value="{DynamicResource {x:Static h:SystemKeys.FontFamily}}" />
-        <Setter Property="Padding" Value="0" />
-        <!--<Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />-->
-        <Setter Property="h:Cattach.FIconMargin" Value="1,1,10,1" />
-        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Default}}" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
-        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
-        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource {x:Static h:SystemKeys.TitleWidth}}" />
-        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+            <ContentControl x:Name="Label" Background="{TemplateBinding BorderBrush}"
+                                        Content="{TemplateBinding h:Cattach.Title}"
+                                        IsHitTestVisible="False"
+                                        IsTabStop="False"
+                                        Template="{TemplateBinding h:Cattach.TitleTemplate}" />
+
+            <DockPanel x:Name="dp_center" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                   Grid.Column="1" TextElement.Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=Foreground}"
+                                   RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
+                                   RenderTransformOrigin="0.5,0.5">
+                <TextBlock x:Name="icon"
+                                       Grid.Column="2"
+                                       Margin="{TemplateBinding h:Cattach.IconMargin}"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                       FontSize="{TemplateBinding h:Cattach.IconSize}"
+                                       Foreground="{TemplateBinding Foreground}"
+                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" />
+                <ContentPresenter Grid.Column="3" Margin="{TemplateBinding Padding}"/>
+            </DockPanel>
+
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="true">
+                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectForeground)}" />
+                <Setter TargetName="icon" Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SelectedText)}" />
+                <Setter TargetName="icon" Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SelectForeground)}" />
+            </Trigger>
+
+            <Trigger Property="IsChecked" Value="False">
+                <Setter TargetName="icon" Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UnSelectedText)}" />
+            </Trigger>
+
+            <Trigger Property="IsChecked" Value="{x:Null}">
+                <Setter TargetName="icon" Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.NoneSelectedText)}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverForeground)}" />
+                <Setter TargetName="icon" Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.MouseOverForeground)}" />
+            </Trigger>
+
+            <Trigger Property="IsPressed" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dp_center" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.55" />
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dp_center" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.55" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dp_center" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dp_center" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="grid" Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Dynamic, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource S.ToggleButton.Dynamic}" TargetType="{x:Type CheckBox}">
         <Setter Property="h:Cattach.SelectedText" Value="&#xe624;" />
         <Setter Property="h:Cattach.UnSelectedText" Value="&#xe6ac;" />
         <Setter Property="h:Cattach.NoneSelectedText" Value="&#xe62b;" />
-        <Setter Property="h:Cattach.Label" Value="Label" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <!--<Grid x:Name="grid" Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
-                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                            <TextBlock  x:Name="icon" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
-                                        Text="&#xe6ac;"
-                                        FontSize="{TemplateBinding h:Cattach.FIconSize}"
-                                        Margin="{TemplateBinding h:Cattach.FIconMargin}"
-                                        Foreground="{TemplateBinding Foreground}"/>
-                            <ContentPresenter VerticalAlignment="Center"/>
-                        </StackPanel>
-                    </Grid>-->
+        <Setter Property="Template" Value="{StaticResource S.CheckBox.Tempalte.Default}"/>
+    </Style>
 
-                    <Grid x:Name="grid" Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+    <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Default, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource {x:Static local:CheckBoxKeys.Dynamic}}" TargetType="{x:Type CheckBox}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
 
-                        <ContentControl x:Name="Label"
-                                        Margin="1,1,0,1"
-                                        Background="{TemplateBinding BorderBrush}"
-                                        Content="{TemplateBinding h:Cattach.Label}"
-                                        IsHitTestVisible="False"
-                                        IsTabStop="False"
-                                        Template="{TemplateBinding h:Cattach.LabelTemplate}" />
+    </Style>
 
-                        <DockPanel x:Name="dp_center"
-                                   Grid.Column="1"
-                                   RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
-                                   RenderTransformOrigin="0.5,0.5">
-                            <TextBlock x:Name="icon"
-                                       Grid.Column="2"
-                                       Margin="{TemplateBinding h:Cattach.FIconMargin}"
-                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                       FontSize="{TemplateBinding h:Cattach.FIconSize}"
-                                       Foreground="{TemplateBinding Foreground}"
-                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" />
-                            <ContentPresenter Grid.Column="3" Margin="{TemplateBinding Padding}" />
-                        </DockPanel>
-
-                    </Grid>
-                    <!--  触发器：设置选中状态符号  -->
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SelectForeground)}" />
-                            <Setter TargetName="icon" Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SelectedText)}" />
-                        </Trigger>
-
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter TargetName="icon" Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UnSelectedText)}" />
-                        </Trigger>
-
-                        <Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter TargetName="icon" Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.NoneSelectedText)}" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.MouseOverForeground)}" />
-                        </Trigger>
-
-                        <Trigger Property="IsPressed" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dp_center" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.55" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dp_center" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.55" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
-
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dp_center" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="dp_center" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                        </Trigger>
-
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="grid" Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Label, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource {x:Static local:CheckBoxKeys.Dynamic}}" TargetType="{x:Type CheckBox}">
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}"/>
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Single, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource {x:Static local:CheckBoxKeys.Default}}" TargetType="{x:Type CheckBox}">
-        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Single.Label, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource {x:Static local:CheckBoxKeys.Single}}" TargetType="{x:Type CheckBox}">
-        <Setter Property="h:Cattach.UnSelectedText" Value="&#xec49;" />
-        <Setter Property="h:Cattach.SelectedText" Value="&#xec4a;" />
-        <Setter Property="h:Cattach.FIconSize" Value="25" />
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
-        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.LabelTemplate">
-            <Setter.Value>
-                <ControlTemplate TargetType="ContentControl">
-                    <Border Width="{Binding RelativeSource={RelativeSource AncestorType=CheckBox}, Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=CheckBox}, Path=(h:Cattach.TitleMargin)}">
-                        <TextBlock HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
-                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=CheckBox}, Path=(h:Cattach.TitleForeground)}"
-                                   Text="{TemplateBinding Content}" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="h:Cattach.IconSize" Value="25" />
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}"/>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Box, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource {x:Static local:CheckBoxKeys.Default}}" TargetType="{x:Type CheckBox}">
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="Padding" Value="3,0" />
-        <Setter Property="FontFamily" Value="{DynamicResource {x:Static h:SystemKeys.FontFamily}}" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
-        <Setter Property="BorderThickness" Value="0.5" />
-        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type CheckBox}">
-                    <Grid Background="Transparent">
-                        <Border HorizontalAlignment="Stretch"
+    <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Accent, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource {x:Static local:CheckBoxKeys.Default}}" TargetType="{x:Type CheckBox}">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Accent.Label, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource {x:Static local:CheckBoxKeys.Accent}}" TargetType="{x:Type CheckBox}">
+        <Setter Property="h:Cattach.IconSize" Value="25" />
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}"/>
+    </Style>
+
+    <ControlTemplate x:Key="S.CheckBox.Tempate.Box" TargetType="{x:Type CheckBox}">
+        <Grid Background="Transparent">
+            <Border x:Name="border" HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
                                 CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
-                            <ContentPresenter x:Name="con"
+                <ContentPresenter x:Name="con"
                                               Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                               RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
                                               RenderTransformOrigin="0.5,0.5"
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                        </Border>
+            </Border>
 
-                        <!--  选中的状态标识  -->
-                        <TextBlock x:Name="checkState"
+            <TextBlock x:Name="checkState"
                                    Margin="0,0,-4,-8"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Bottom"
@@ -192,57 +148,69 @@
                                    Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                    Text="&#xe627;"
                                    Visibility="Collapsed" />
-                    </Grid>
-                    <!--  触发器：设置选中状态符号  -->
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="true">
-                            <Setter TargetName="checkState" Property="Visibility" Value="Visible" />
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-                            <Setter TargetName="checkState" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-                            <Setter Property="BorderThickness" Value="1.3" />
+        </Grid>
 
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-                            <Setter TargetName="checkState" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-                        </Trigger>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsChecked" Value="true">
+                <Setter TargetName="checkState" Property="Visibility" Value="Visible" />
+                <Setter TargetName="border" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.SelectForeground)}" />
+                <Setter TargetName="checkState" Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.SelectForeground)}" />
+                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.SelectForeground)}" />
+                <Setter Property="BorderThickness" Value="1.3" />
+            </Trigger>
 
-                        <Trigger Property="IsPressed" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="con" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="con" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.EnterActions>
+            <Trigger Property="IsMouseOver" Value="true">
+                <!--<Setter TargetName="border" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverBorderBrush)}" />
+                <Setter TargetName="checkState" Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.MouseOverForeground)}" />-->
+                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.MouseOverForeground)}" />
+            </Trigger>
 
-                            <Trigger.ExitActions>
-                                <BeginStoryboard>
-                                    <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="con" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="con" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
-                                            <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
-                                        </DoubleAnimationUsingKeyFrames>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </Trigger.ExitActions>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+            <Trigger Property="IsPressed" Value="True">
+                <Trigger.EnterActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="con" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="con" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="0.95" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.EnterActions>
+
+                <Trigger.ExitActions>
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="con" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="con" Storyboard.TargetProperty="(FrameworkElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)">
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.05" Value="1" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </Trigger.ExitActions>
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Box, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource S.ToggleButton.Dynamic}" TargetType="{x:Type CheckBox}">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template" Value="{StaticResource S.CheckBox.Tempate.Box}"/>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Box.Single, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource {x:Static local:CheckBoxKeys.Default}}" TargetType="{x:Type CheckBox}">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template" Value="{StaticResource S.CheckBox.Tempate.Box}"/>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Box.Accent, TypeInTargetAssembly={x:Type local:CheckBoxKeys}}" BasedOn="{StaticResource {x:Static local:CheckBoxKeys.Default}}" TargetType="{x:Type CheckBox}">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template" Value="{StaticResource S.CheckBox.Tempate.Box}"/>
     </Style>
 
 </ResourceDictionary>

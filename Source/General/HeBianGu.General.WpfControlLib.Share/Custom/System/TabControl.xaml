@@ -3,25 +3,15 @@
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
                     xmlns:s="clr-namespace:System;assembly=mscorlib">
-    <!--<Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.Single, TypeInTargetAssembly={x:Type local:TabItemKeys}}" BasedOn="{StaticResource {x:Static local:DatePickerKeys.Default}}" TargetType="{x:Type CheckBox}">-->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.TabItem.Default, TypeInTargetAssembly={x:Type local:TabItemKeys}}" TargetType="{x:Type TabItem}">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
         <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="Padding" Value="5,0" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
-        <Setter Property="h:Cattach.IsUseClose" Value="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.IsUseClose)}" />
-        <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="h:Cattach.CellMargin" Value="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.CellMargin)}" />
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
-        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Padding" Value="1" />
+        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=Background}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
@@ -29,7 +19,7 @@
                         <Border x:Name="boder_back"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" />
 
                         <Border x:Name="boder_mouseover"
                                 Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.MouseOverBackground)}"
@@ -46,7 +36,11 @@
                                 Opacity="0" />
 
                         <DockPanel>
-                            <Button DockPanel.Dock="Right" Style="{DynamicResource {x:Static h:ButtonKeys.Close}}" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IsUseClose), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <Button VerticalAlignment="Center"
+                                    DockPanel.Dock="Right"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Clear}}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IsUseClose), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
                                 <h:Interaction.Triggers>
                                     <h:EventTrigger EventName="Click">
                                         <h:CloseItemsAction Item="{Binding RelativeSource={RelativeSource AncestorType=TabItem}}" ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=TabControl}}" />
@@ -66,6 +60,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverForeground)}" />
+                            <Setter Property="Panel.ZIndex" Value="999" />
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -120,41 +115,51 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Effect" Value="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.MouseOverEffect)}" />
+            </Trigger>
+            <Trigger Property="IsSelected" Value="True">
+                <Setter Property="Effect" Value="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.SelectEffect)}" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.TabItem.Line.Default, TypeInTargetAssembly={x:Type local:TabItemKeys}}" BasedOn="{StaticResource {x:Static h:TabItemKeys.Default}}" TargetType="{x:Type TabItem}">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <!--<Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabItem}">
                     <Grid Width="Auto" Height="Auto" Margin="0">
 
+                        <Border x:Name="boder_back"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="0,0,0,2"/>
+                        
                         <Border x:Name="boder_mouseover"
-                                BorderBrush="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}"
+                                BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.MouseOverBackground)}"
                                 BorderThickness="0,0,0,2"
                                 Opacity="0" />
 
                         <Border x:Name="underline"
-                                BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SelectBackground)}"
                                 BorderThickness="0,0,0,2"
                                 Opacity="0" />
 
                         <DockPanel Margin="{TemplateBinding Padding}">
 
-                            <local:FButton Width="Auto"
-                                           Margin="5,0,0,0"
-                                           VerticalAlignment="Center"
-                                           DockPanel.Dock="Right"
-                                           FIconSize="{DynamicResource {x:Static h:IconSizeKeys.Small}}"
-                                           Style="{DynamicResource S.FButton.Close}"
-                                           Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IsUseClose), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <Button VerticalAlignment="Center"
+                                    DockPanel.Dock="Right"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Clear}}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IsUseClose), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
                                 <h:Interaction.Triggers>
                                     <h:EventTrigger EventName="Click">
                                         <h:CloseItemsAction Item="{Binding RelativeSource={RelativeSource AncestorType=TabItem}}" ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=TabControl}}" />
                                     </h:EventTrigger>
                                 </h:Interaction.Triggers>
-                            </local:FButton>
+                            </Button>
 
                             <TextBlock Margin="5,0"
                                        VerticalAlignment="Center"
@@ -200,7 +205,7 @@
                         </Trigger>-->
 
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.MouseOverForeground)}" />
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -225,7 +230,7 @@
                         </Trigger>
 
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SelectForeground)}" />
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
@@ -260,7 +265,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TabItem.Single, TypeInTargetAssembly={x:Type local:TabItemKeys}}" BasedOn="{StaticResource {x:Static h:TabItemKeys.Default}}" TargetType="TabItem">
+    <!--<Style x:Key="{ComponentResourceKey ResourceId=S.TabItem.Single, TypeInTargetAssembly={x:Type local:TabItemKeys}}" BasedOn="{StaticResource {x:Static h:TabItemKeys.Default}}" TargetType="TabItem">
         <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
@@ -272,11 +277,12 @@
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-    </Style>
+    </Style>-->
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.TabItem.Office, TypeInTargetAssembly={x:Type local:TabItemKeys}}" BasedOn="{StaticResource {x:Static h:TabItemKeys.Default}}" TargetType="TabItem">
         <Setter Property="Padding" Value="0" />
         <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
         <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhiteOpacity1}}" />
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
@@ -285,23 +291,10 @@
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}" />
     </Style>
 
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Default, TypeInTargetAssembly={x:Type local:TabControlKeys}}" TargetType="{x:Type TabControl}">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
-        <Setter Property="Padding" Value="10,6" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Dynamic, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static local:SelectorKeys.Dynamic}}" TargetType="{x:Type TabControl}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:TabItemKeys.Default}}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="h:Cattach.Bool" Value="False" />
-        <Setter Property="h:Cattach.CellMargin" Value="{StaticResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
-        <Setter Property="h:Cattach.SearchDock" Value="Right" />
-        <Setter Property="h:Cattach.SearchWidth" Value="150" />
-        <Setter Property="h:Cattach.SearchUseHistory" Value="True" />
-        <Setter Property="h:Cattach.UseSearch" Value="True" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
@@ -320,7 +313,7 @@
                                 Grid.ColumnSpan="2"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" />
 
                         <DockPanel x:Name="HeaderPanel" Margin="{TemplateBinding Padding}">
                             <TextBox x:Name="tb_search"
@@ -328,20 +321,19 @@
                                      h:Cattach.Icon="&#xe8a4;"
                                      h:Cattach.IsUseHistory="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SearchUseHistory)}"
                                      DockPanel.Dock="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SearchDock)}"
-                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Clear}}"
                                      Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UseSearch), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
                                 <h:Interaction.Behaviors>
                                     <h:SearchTabTextBoxBehvior TabControl="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" />
                                 </h:Interaction.Behaviors>
                             </TextBox>
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                            <local:FScrollView HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                                 <TabPanel Grid.Row="0"
                                           Grid.Column="0"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           Panel.ZIndex="1"
                                           IsItemsHost="True"
                                           KeyboardNavigation.TabIndex="1" />
-                            </ScrollViewer>
+                            </local:FScrollView>
                         </DockPanel>
 
                         <Border x:Name="ContentPanel"
@@ -355,6 +347,7 @@
                                 KeyboardNavigation.TabNavigation="Local">
                             <ContentPresenter x:Name="PART_SelectedContentHost"
                                               Margin="{TemplateBinding Padding}"
+                                              VerticalAlignment="Top"
                                               Content="{TemplateBinding SelectedContent}"
                                               ContentSource="SelectedContent"
                                               ContentStringFormat="{TemplateBinding SelectedContentStringFormat}"
@@ -410,12 +403,22 @@
         </Setter>
     </Style>
 
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Default, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Dynamic}}" TargetType="{x:Type TabControl}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
     <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Single, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Default}}" TargetType="{x:Type TabControl}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:TabItemKeys.Single}}" />
+        <!--<Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:TabItemKeys.Single}}" />-->
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Accent, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Default}}" TargetType="{x:Type TabControl}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:TabItemKeys.Accent}}" />
+        <!--<Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:TabItemKeys.Accent}}" />-->
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Line, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Dynamic}}" TargetType="{x:Type TabControl}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:TabItemKeys.Line}}" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Office, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Default}}" TargetType="{x:Type TabControl}">
@@ -443,7 +446,7 @@
                                 Grid.ColumnSpan="2"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" />
 
                         <Border x:Name="ContentPanel"
                                 Grid.Row="1"
@@ -462,7 +465,7 @@
                                               SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </Border>
 
-                        <ScrollViewer x:Name="HeaderPanel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <local:FScrollView x:Name="HeaderPanel" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                             <DockPanel Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.TitleBackground)}" LastChildFill="False">
                                 <TabPanel Grid.Row="0"
                                           Grid.Column="0"
@@ -474,7 +477,7 @@
 
                                 <DockPanel Margin="2,0" DockPanel.Dock="Right">
                                     <CheckBox Margin="5,0"
-                                              h:Cattach.FIconSize="{DynamicResource {x:Static h:IconSizeKeys.Small}}"
+                                              h:Cattach.IconSize="{DynamicResource {x:Static h:IconSizeKeys.Small}}"
                                               h:Cattach.MouseOverBackground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhiteOpacity2}}"
                                               h:Cattach.SelectForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                               h:Cattach.SelectedText="&#xe66e;"
@@ -484,7 +487,7 @@
                                               Style="{DynamicResource {x:Static h:CheckBoxKeys.Single}}" />
                                 </DockPanel>
                             </DockPanel>
-                        </ScrollViewer>
+                        </local:FScrollView>
                     </Grid>
 
                     <ControlTemplate.Triggers>

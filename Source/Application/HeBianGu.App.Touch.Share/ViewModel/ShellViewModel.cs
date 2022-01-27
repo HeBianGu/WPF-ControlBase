@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using HeBianGu.Window.Link;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using HeBianGu.Base.WpfBase;
-using HeBianGu.General.WpfControlLib;
-using HeBianGu.Window.Link;
 
 namespace HeBianGu.App.Touch
 {

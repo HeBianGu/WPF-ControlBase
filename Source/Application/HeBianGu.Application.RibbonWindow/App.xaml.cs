@@ -2,11 +2,6 @@
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -19,8 +14,8 @@ namespace HeBianGu.Application.RibbonWindow
     {
         protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
         {
-            return new ShellWindow();  
-           
+            return new ShellWindow();
+
         }
 
 
@@ -39,7 +34,7 @@ namespace HeBianGu.Application.RibbonWindow
 
             services.AddMessageDialog();
 
-            services.AddWindowAnimation();  
+            services.AddWindowAnimation();
 
             services.AddMessage();
 

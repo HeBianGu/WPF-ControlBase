@@ -4,22 +4,13 @@ using HeBianGu.Control.MessageContainer;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.Service.Mvc;
 using HeBianGu.Service.Validation;
-using HeBianGu.Window.Message;
 using HeBianGu.Window.Notify;
-using HeBianGu.Window.Version;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
 namespace HeBianGu.Application.LinkWindow
@@ -223,7 +214,7 @@ namespace HeBianGu.Application.LinkWindow
                 acts.Add(Tuple.Create("按钮二", action));
                 acts.Add(Tuple.Create("按钮三", action));
 
-                DialogWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒",false, acts.ToArray());
+                DialogWindow.ShowDialogWith("这是自定义按钮提示消息", "好心提醒", false, acts.ToArray());
             }
 
             //  Do：气泡消息
@@ -776,9 +767,9 @@ namespace HeBianGu.Application.LinkWindow
     /// <summary> 文本输入验证</summary>
     internal class TextBoxViewModel : ValidationPropertyChanged
     {
-        public TextBoxViewModel():base()
+        public TextBoxViewModel() : base()
         {
-           
+
         }
         private string _name;
         /// <summary> 说明  </summary>

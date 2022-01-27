@@ -36,12 +36,12 @@ namespace HeBianGu.General.WpfControlLib
 
             if (SearchMode == SearchModes.TextChanged)
             {
-                AddHandler(FTextBox.TextChangedEvent, new RoutedEventHandler(OnSearchTextChanged));
+                AddHandler(TextBox.TextChangedEvent, new RoutedEventHandler(OnSearchTextChanged));
                 SearchBoxVisibility = Visibility.Visible;
             }
             else if (SearchMode == SearchModes.Enter)
             {
-                AddHandler(FTextBox.PreviewKeyDownEvent, new RoutedEventHandler(OnSearchKeyDown));
+                AddHandler(TextBox.PreviewKeyDownEvent, new RoutedEventHandler(OnSearchKeyDown));
                 SearchBoxVisibility = Visibility.Visible;
             }
             else
@@ -64,7 +64,7 @@ namespace HeBianGu.General.WpfControlLib
             var eve = e as System.Windows.Input.KeyEventArgs;
             if (eve.Key != System.Windows.Input.Key.Enter)
                 return;
-            var tbSearch = e.OriginalSource as FTextBox;
+            var tbSearch = e.OriginalSource as TextBox;
             if (tbSearch == null || tbSearch.Tag == null || tbSearch.Tag.ToString() != "Search")
                 return;
             var text = tbSearch.Text;
@@ -81,7 +81,7 @@ namespace HeBianGu.General.WpfControlLib
 
         private void OnSearchTextChanged(object sender, RoutedEventArgs e)
         {
-            var tbSearch = e.OriginalSource as FTextBox;
+            var tbSearch = e.OriginalSource as TextBox;
             if (tbSearch == null || tbSearch.Tag == null || tbSearch.Tag.ToString() != "Search")
                 return;
 
@@ -239,17 +239,17 @@ namespace HeBianGu.General.WpfControlLib
             var comboBox = d as FComboBox;
             if (comboBox.IsLoaded)
             {
-                comboBox.RemoveHandler(FTextBox.TextChangedEvent, new RoutedEventHandler(comboBox.OnSearchTextChanged));
-                comboBox.RemoveHandler(FTextBox.KeyDownEvent, new RoutedEventHandler(comboBox.OnSearchKeyDown));
+                comboBox.RemoveHandler(TextBox.TextChangedEvent, new RoutedEventHandler(comboBox.OnSearchTextChanged));
+                comboBox.RemoveHandler(TextBox.KeyDownEvent, new RoutedEventHandler(comboBox.OnSearchKeyDown));
 
                 if (comboBox.SearchMode == SearchModes.TextChanged)
                 {
-                    comboBox.AddHandler(FTextBox.TextChangedEvent, new RoutedEventHandler(comboBox.OnSearchTextChanged));
+                    comboBox.AddHandler(TextBox.TextChangedEvent, new RoutedEventHandler(comboBox.OnSearchTextChanged));
                     comboBox.SearchBoxVisibility = Visibility.Visible;
                 }
                 else if (comboBox.SearchMode == SearchModes.Enter)
                 {
-                    comboBox.AddHandler(FTextBox.PreviewKeyDownEvent, new RoutedEventHandler(comboBox.OnSearchKeyDown));
+                    comboBox.AddHandler(TextBox.PreviewKeyDownEvent, new RoutedEventHandler(comboBox.OnSearchKeyDown));
                     comboBox.SearchBoxVisibility = Visibility.Visible;
                 }
                 else

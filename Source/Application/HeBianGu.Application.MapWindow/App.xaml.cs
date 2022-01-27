@@ -2,12 +2,6 @@
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -19,13 +13,13 @@ namespace HeBianGu.Application.MapWindow
     public partial class App : ApplicationBase
     {
         protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
-        { 
+        {
             return new ShellWindow();
-        } 
+        }
 
 
         protected override void ConfigureServices(IServiceCollection services)
-        {  
+        {
             base.ConfigureServices(services);
 
             //  Do ：启用窗口加载和隐藏动画 需要引用 HeBianGu.Service.Animation

@@ -1,18 +1,9 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using HeBianGu.Base.WpfBase;
 
 namespace HeBianGu.Applications.ControlBase.Demo.Pages
 {
@@ -67,9 +58,6 @@ namespace HeBianGu.Applications.ControlBase.Demo.Pages
             }
 
         }
-
-        public RelayCommand<string> LoadedCommand => new Lazy<RelayCommand<string>>(() => new RelayCommand<string>(Loaded, CanLoaded)).Value;
-
 
         protected virtual bool CanLoaded(string args)
         {

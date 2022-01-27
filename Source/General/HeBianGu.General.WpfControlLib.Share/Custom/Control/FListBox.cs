@@ -39,8 +39,7 @@ namespace HeBianGu.General.WpfControlLib
             {
                 if (this.Items.Count == 0) return;
 
-                this.ScrollIntoView(this.Items[this.Items.Count-1]);
-                   
+                this.ScrollIntoView(this.Items[this.Items.Count-1]);  
             } 
         }
     }

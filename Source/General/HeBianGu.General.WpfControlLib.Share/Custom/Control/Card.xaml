@@ -9,39 +9,43 @@
 
     <local:CardClipConverter x:Key="CardClipConverter" />
 
-    <ControlTemplate x:Key="CardTemplate" TargetType="{x:Type local:Card}">
-        <ControlTemplate.Resources>
-            <local:ShadowEdgeConverter x:Key="ShadowEdgeConverter" />
-        </ControlTemplate.Resources>
-        <Grid Background="Transparent">
-            <AdornerDecorator CacheMode="{Binding RelativeSource={RelativeSource Self}, Path=(local:ShadowAssist.CacheMode)}">
-                <AdornerDecorator.OpacityMask>
-                    <MultiBinding Converter="{StaticResource ShadowEdgeConverter}">
-                        <Binding Path="ActualWidth" RelativeSource="{RelativeSource TemplatedParent}" />
-                        <Binding Path="ActualHeight" RelativeSource="{RelativeSource TemplatedParent}" />
-                        <Binding Path="(local:ShadowAssist.ShadowDepth)" RelativeSource="{RelativeSource TemplatedParent}" />
-                        <Binding Path="(local:ShadowAssist.ShadowEdges)" RelativeSource="{RelativeSource TemplatedParent}" />
-                    </MultiBinding>
-                </AdornerDecorator.OpacityMask>
-                <Border CornerRadius="{TemplateBinding UniformCornerRadius}" Effect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(local:ShadowAssist.ShadowDepth)}">
-                    <Border x:Name="PART_ClipBorder"
+
+    <Style TargetType="{x:Type local:Card}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate  TargetType="{x:Type local:Card}">
+                    <ControlTemplate.Resources>
+                        <local:ShadowEdgeConverter x:Key="ShadowEdgeConverter" />
+                    </ControlTemplate.Resources>
+                    <Grid Background="Transparent">
+                        <AdornerDecorator CacheMode="{Binding RelativeSource={RelativeSource Self}, Path=(local:ShadowAssist.CacheMode)}">
+                            <AdornerDecorator.OpacityMask>
+                                <MultiBinding Converter="{StaticResource ShadowEdgeConverter}">
+                                    <Binding Path="ActualWidth" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="ActualHeight" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="(local:ShadowAssist.ShadowDepth)" RelativeSource="{RelativeSource TemplatedParent}" />
+                                    <Binding Path="(local:ShadowAssist.ShadowEdges)" RelativeSource="{RelativeSource TemplatedParent}" />
+                                </MultiBinding>
+                            </AdornerDecorator.OpacityMask>
+                            <Border CornerRadius="{TemplateBinding UniformCornerRadius}" Effect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(local:ShadowAssist.ShadowDepth)}">
+                                <Border x:Name="PART_ClipBorder"
                             Padding="{TemplateBinding Padding}"
                             Background="{TemplateBinding Background}"
                             Clip="{TemplateBinding ContentClip}" />
-                </Border>
-            </AdornerDecorator>
-            <ContentPresenter x:Name="ContentPresenter"
+                            </Border>
+                        </AdornerDecorator>
+                        <ContentPresenter x:Name="ContentPresenter"
                               Margin="{TemplateBinding Padding}"
                               Clip="{TemplateBinding ContentClip}"
                               Content="{TemplateBinding ContentControl.Content}"
                               ContentStringFormat="{TemplateBinding ContentControl.ContentStringFormat}"
                               ContentTemplate="{TemplateBinding ContentControl.ContentTemplate}"
                               ContentTemplateSelector="{TemplateBinding ContentControl.ContentTemplateSelector}" />
-        </Grid>
-    </ControlTemplate>
-    <Style TargetType="{x:Type local:Card}">
-        <Setter Property="Template" Value="{StaticResource CardTemplate}" />
-        <Setter Property="Background" Value="{DynamicResource MaterialDesignCardBackground}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
         <Setter Property="VerticalAlignment" Value="Top" />
         <Setter Property="local:ShadowAssist.ShadowDepth" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default2}}" />
         <Setter Property="Focusable" Value="False" />

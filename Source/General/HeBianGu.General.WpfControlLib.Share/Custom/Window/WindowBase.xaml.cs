@@ -25,6 +25,19 @@ namespace HeBianGu.General.WpfControlLib
     /// </summary>
     public abstract partial class WindowBase : Window, IWindowBase
     {
+        public static ComponentResourceKey DynamicKey => new ComponentResourceKey(typeof(WindowBase), "S.WindowBase.Dynamic");
+
+        public static ComponentResourceKey DefaultKey => new ComponentResourceKey(typeof(WindowBase), "S.WindowBase.Default");
+        public static ComponentResourceKey SingleKey => new ComponentResourceKey(typeof(WindowBase), "S.WindowBase.Single");
+        public static ComponentResourceKey AccentKey => new ComponentResourceKey(typeof(WindowBase), "S.WindowBase.Accent");
+        public static ComponentResourceKey ClearKey => new ComponentResourceKey(typeof(WindowBase), "S.WindowBase.Clear");
+
+
+        static WindowBase()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(WindowBase), new FrameworkPropertyMetadata(typeof(WindowBase)));
+        }
+
         #region - 依赖属性 -
 
         #region 默认Header：窗体字体图标Icon
@@ -45,16 +58,16 @@ namespace HeBianGu.General.WpfControlLib
 
         #region  默认Header：窗体字体图标大小
 
-        public static readonly DependencyProperty FIconSizeProperty =
-            DependencyProperty.Register("FIconSize", typeof(double), typeof(WindowBase), new PropertyMetadata(20D));
+        public static readonly DependencyProperty IconSizeProperty =
+            DependencyProperty.Register("IconSize", typeof(double), typeof(WindowBase), new PropertyMetadata(20D));
 
         /// <summary>
         /// 按钮字体图标大小
         /// </summary>
-        public double FIconSize
+        public double IconSize
         {
-            get { return (double)GetValue(FIconSizeProperty); }
-            set { SetValue(FIconSizeProperty, value); }
+            get { return (double)GetValue(IconSizeProperty); }
+            set { SetValue(IconSizeProperty, value); }
         }
 
         #endregion
@@ -89,6 +102,33 @@ namespace HeBianGu.General.WpfControlLib
             get { return (Brush)GetValue(CaptionBackgroundProperty); }
             set { SetValue(CaptionBackgroundProperty, value); }
         }
+
+
+        public CornerRadius CaptionCornerRadius
+        {
+            get { return (CornerRadius)GetValue(CaptionCornerRadiusProperty); }
+            set { SetValue(CaptionCornerRadiusProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CaptionCornerRadiusProperty =
+            DependencyProperty.Register("CaptionCornerRadius", typeof(CornerRadius), typeof(WindowBase), new FrameworkPropertyMetadata(default(CornerRadius), (d, e) =>
+             {
+                 WindowBase control = d as WindowBase;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is CornerRadius o)
+                 {
+
+                 }
+
+                 if (e.NewValue is CornerRadius n)
+                 {
+
+                 }
+
+             }));
 
 
         #endregion
@@ -354,24 +394,10 @@ namespace HeBianGu.General.WpfControlLib
 
         public WindowBase()
         {
-            //this.WindowStyle = WindowStyle.None;
-            //this.AllowsTransparency = true;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            //// Todo ：初始化动画变量 
-            //TransformGroup group = new TransformGroup();
-            //ScaleTransform scale = new ScaleTransform();
-            //SkewTransform skew = new SkewTransform();
-            //RotateTransform rotate = new RotateTransform();
-            //TranslateTransform translate = new TranslateTransform();
-            //group.Children.Add(scale);
-            //group.Children.Add(skew);
-            //group.Children.Add(rotate);
-            //group.Children.Add(translate);
-            //this.RenderTransform = group;
-
             this.MaxHeight = SystemParameters.WorkArea.Height + 12 + 2;
-            //bind command
+
             this.CloseWindowCommand = new RoutedUICommand();
             this.MaximizeWindowCommand = new RoutedUICommand();
             this.MinimizeWindowCommand = new RoutedUICommand();
@@ -379,19 +405,6 @@ namespace HeBianGu.General.WpfControlLib
             this.BindCommand(CloseWindowCommand, this.CloseCommand_Execute);
             this.BindCommand(MaximizeWindowCommand, this.MaxCommand_Execute);
             this.BindCommand(MinimizeWindowCommand, this.MinCommand_Execute);
-
-
-            //this.ShowAnimation = l =>
-            //  {
-            //      // Todo ：初始化淡出初始效果 
-            //      this.OpacityMask = this.FindResource("S.WindowOpMack.LoadBrush") as Brush;
-            //  };
-
-            //this.CloseAnimation = l =>
-            // {
-            //     this.BegionStoryClose();
-            // };
-
 
             this.ShowAnimation = l =>
               {
@@ -407,61 +420,23 @@ namespace HeBianGu.General.WpfControlLib
             this.Loaded += (l, k) =>
             {
                 this.ShowAnimation?.Invoke(this);
-
-
-                //if (this.IsUseBlur)
-                //{
-                //    this.EnableBlur();
-                //}
             };
         }
 
-
-        /// <summary> 按照动画方式显示 </summary>
         public new bool? ShowDialog()
         {
-            //this.ShowAnimation?.Invoke(this);
-            //this.Loaded += (l, k) =>
-            //  {
-            //      this.ShowAnimation?.Invoke(this);
-
-            //      if (this.IsUseBlur)
-            //      {
-            //          this.EnableBlur();
-            //      }
-
-            //  };
-
-
             return base.ShowDialog();
         }
 
-        /// <summary> 按照动画方式显示 </summary>
         public new void Show()
         {
-            //this.ShowAnimation?.Invoke(this);
-
-            //this.Loaded += (l, k) =>
-            //{
-            //    this.ShowAnimation?.Invoke(this);
-
-
-            //    if (this.IsUseBlur)
-            //    {
-            //        this.EnableBlur();
-            //    }
-            //};
-
             base.Show();
-
         }
 
-        /// <summary> 按照动画方式管理 </summary>
         public void BeginClose()
         {
             this.CloseAnimation?.Invoke(this);
         }
-
 
         public virtual void RefreshHide()
         {
@@ -498,25 +473,3 @@ namespace HeBianGu.General.WpfControlLib
         }
     }
 }
-
-
-//partial class WindowBase
-//{
-//    private int WM_SYSCOMMAND = 0x112;
-//    private long SC_MAXIMIZE = 0xF030;
-//    private long SC_MINIMIZE = 0xF020;
-//    private long SC_CLOSE = 0xF060;
-//    private long SC_DESMINIMIZE = 0x0000f120;
-
-//    protected override void OnSourceInitialized(EventArgs e)
-//    {
-//        base.OnSourceInitialized(e);
-//        HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
-//        source.AddHook(WndProc);
-//    }
-
-
-
-//    private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-//    {
-//        //Debug.WriteLine(WM_SYSCOMMAND +                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              

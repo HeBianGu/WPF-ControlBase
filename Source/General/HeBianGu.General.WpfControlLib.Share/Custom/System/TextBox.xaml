@@ -3,7 +3,9 @@
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
 
-    <local:FTextBoxHistoryConverter x:Key="S.Converter.History" />
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
     <ControlTemplate x:Key="S.TextBox.Template.Default" TargetType="{x:Type TextBox}">
         <Grid>
@@ -15,67 +17,57 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!--  背景  -->
             <Border x:Name="Bg"
-                    Grid.Column="1"
+                    Grid.Column="{TemplateBinding h:Cattach.BackgroundColumn}"
                     Grid.ColumnSpan="8"
                     Background="{TemplateBinding Background}"
                     BorderBrush="{TemplateBinding BorderBrush}"
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" />
 
-            <!--<Border SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
-                                BorderBrush="{TemplateBinding BorderBrush}" Grid.Column="1" Grid.ColumnSpan="3"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                Background="Transparent" />-->
-
-            <!--  鼠标悬停  -->
             <Border x:Name="boder_mouseover"
-                    Grid.Column="1"
+                    Grid.Column="{TemplateBinding h:Cattach.BackgroundColumn}"
                     Grid.ColumnSpan="8"
                     Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.MouseOverBackground)}"
+                    BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.MouseOverBorderBrush)}"
+                    BorderThickness="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.MouseOverBorderThickness)}"
                     CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
-                    Opacity="0.5" />
+                    Opacity="0"
+                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UseBackground), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
 
-            <!--  获取焦点  -->
             <Border x:Name="boder"
-                    Grid.Column="1"
+                    Grid.Column="{TemplateBinding h:Cattach.BackgroundColumn}"
                     Grid.ColumnSpan="8"
                     Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FocusBackground)}"
+                    BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FocusBorderBrush)}"
+                    BorderThickness="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FocusBorderThickness)}"
                     CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
-                    Opacity="0" />
+                    Opacity="0"
+                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UseBackground), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
 
-            <!--  Label区域  -->
             <ContentControl x:Name="Label"
-                            Margin="1"
                             Background="Transparent"
-                            Content="{TemplateBinding h:Cattach.Label}"
-                            Foreground="{TemplateBinding Foreground}"
-                            Template="{TemplateBinding h:Cattach.LabelTemplate}" />
-
-            <!--
-                Foreground="{TemplateBinding Foreground}"
-                Background="{TemplateBinding Background}"
-            -->
-
-            <TextBlock x:Name="ficon"
-                       Grid.Column="1"
-                       Margin="{TemplateBinding h:Cattach.FIconMargin}"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       FontSize="{TemplateBinding h:Cattach.FIconSize}"
-                       Foreground="{TemplateBinding Foreground}"
-                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
-                       Text="{TemplateBinding h:Cattach.Icon}" />
-
-            <ContentControl x:Name="title"
-                            Grid.Column="1"
                             Content="{TemplateBinding h:Cattach.Title}"
                             Foreground="{TemplateBinding Foreground}"
                             Template="{TemplateBinding h:Cattach.TitleTemplate}" />
 
-            <!--  内容区域  -->
+            <TextBlock x:Name="ficon"
+                       Grid.Column="1"
+                       Margin="{TemplateBinding h:Cattach.IconMargin}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="{TemplateBinding h:Cattach.IconSize}"
+                       Foreground="{TemplateBinding Foreground}"
+                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                       Text="{TemplateBinding h:Cattach.Icon}" />
+
+            <!--<ContentControl x:Name="title"
+                            Grid.Column="1"
+                            Content="{TemplateBinding h:Cattach.Title}"
+                            Foreground="{TemplateBinding Foreground}"
+                            Template="{TemplateBinding h:Cattach.TitleTemplate}" />-->
+
+
             <ScrollViewer x:Name="PART_ContentHost"
                           Grid.Column="2"
                           Margin="{TemplateBinding Padding}"
@@ -83,7 +75,7 @@
                           Background="{x:Null}"
                           BorderThickness="0"
                           IsTabStop="False" />
-            <!--  水印  -->
+
             <TextBlock x:Name="Message"
                        Grid.Column="2"
                        Margin="{TemplateBinding Padding}"
@@ -102,7 +94,6 @@
                           ToolTip="历史记录"
                           Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IsUseHistory), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
 
-            <!--  附加内容区域  -->
             <Border Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ContentControl x:Name="PART_AttachContent"
                                 VerticalAlignment="Top"
@@ -186,16 +177,14 @@
         </Grid>
 
         <ControlTemplate.Triggers>
-            <!--  显示水印  -->
             <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Text}" Value="">
                 <Setter TargetName="Message" Property="Visibility" Value="Visible" />
             </DataTrigger>
             <Trigger Property="IsMouseOver" Value="True">
                 <!--<Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush),RelativeSource={RelativeSource Self}}"/>-->
-                <Setter TargetName="ficon" Property="Foreground" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
-                <Setter TargetName="PART_AttachContent" Property="Foreground" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
-                <Setter TargetName="title" Property="Foreground" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
-
+                <Setter TargetName="ficon" Property="Foreground" Value="{Binding Path=(h:Cattach.MouseOverForeground), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                <Setter TargetName="PART_AttachContent" Property="Foreground" Value="{Binding Path=(h:Cattach.MouseOverForeground), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                <!--<Setter TargetName="title" Property="Foreground" Value="{Binding Path=(h:Cattach.MouseOverForeground), RelativeSource={RelativeSource Mode=TemplatedParent}}" />-->
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
@@ -212,7 +201,7 @@
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="boder_mouseover"
                                              Storyboard.TargetProperty="Opacity"
-                                             To="0.5"
+                                             To="0"
                                              Duration="0:0:1" />
                         </Storyboard>
                     </BeginStoryboard>
@@ -220,18 +209,17 @@
             </Trigger>
             <Trigger Property="IsKeyboardFocusWithin" Value="True">
                 <!--<Setter  Property="BorderBrush" Value="{Binding Path=(h:Cattach.FocusBorderBrush),RelativeSource={RelativeSource Self}}"/>-->
-                <Setter TargetName="Label" Property="Foreground" Value="{Binding Path=(h:Cattach.FocusBorderBrush), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
-                <Setter TargetName="PART_AttachContent" Property="Foreground" Value="{Binding Path=(h:Cattach.FocusBorderBrush), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
-                <Setter TargetName="ficon" Property="Foreground" Value="{Binding Path=(h:Cattach.FocusBorderBrush), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
-                <Setter TargetName="Message" Property="Foreground" Value="{Binding Path=(h:Cattach.FocusBorderBrush), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
-                <Setter TargetName="title" Property="Foreground" Value="{Binding Path=(h:Cattach.FocusBorderBrush), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
-
+                <Setter TargetName="Label" Property="Foreground" Value="{Binding Path=(h:Cattach.FocusForeground), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                <Setter TargetName="PART_AttachContent" Property="Foreground" Value="{Binding Path=(h:Cattach.FocusForeground), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                <Setter TargetName="ficon" Property="Foreground" Value="{Binding Path=(h:Cattach.FocusForeground), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                <Setter TargetName="Message" Property="Foreground" Value="{Binding Path=(h:Cattach.FocusForeground), RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                <!--<Setter TargetName="title" Property="Foreground" Value="{Binding Path=(h:Cattach.FocusForeground), RelativeSource={RelativeSource Mode=TemplatedParent}}" />-->
                 <Trigger.EnterActions>
                     <BeginStoryboard>
                         <Storyboard>
                             <DoubleAnimation Storyboard.TargetName="boder"
                                              Storyboard.TargetProperty="Opacity"
-                                             To="0.5"
+                                             To="1"
                                              Duration="0:0:0.1" />
                         </Storyboard>
                     </BeginStoryboard>
@@ -248,11 +236,11 @@
                     </BeginStoryboard>
                 </Trigger.ExitActions>
             </Trigger>
-            <!--  不可用  -->
+
             <Trigger Property="IsEnabled" Value="False">
                 <Setter Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
             </Trigger>
-            <!--  只读时，禁用PART_AttachContent  -->
+
             <Trigger Property="IsReadOnly" Value="True">
                 <Setter TargetName="PART_AttachContent" Property="IsEnabled" Value="False" />
                 <Setter TargetName="PART_ContentHost" Property="IsEnabled" Value="False" />
@@ -289,7 +277,6 @@
                 </Setter>
             </Trigger>
 
-            <!--  存在异常信息显示异常信息  -->
             <MultiTrigger>
                 <MultiTrigger.Conditions>
                     <Condition Property="Validation.HasError" Value="True" />
@@ -315,239 +302,181 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Default, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" TargetType="{x:Type TextBox}">
-        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="FontFamily" Value="{DynamicResource {x:Static h:SystemKeys.FontFamily}}" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
-        <Setter Property="BorderThickness" Value="1.5" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="MinHeight" Value="26" />
-        <Setter Property="Width" Value="Auto" />
-        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="h:Cattach.Icon" Value="&#xe6ed;" />
-        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Default}}" />
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
-        <Setter Property="h:Cattach.FIconMargin" Value="5,0,0,0" />
-        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_2_0}}" />
-        <!--<Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />-->
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+    <ControlTemplate x:Key="S.TextBox.Template.ErrorTempate">
+        <StackPanel Orientation="Vertical">
+            <Border HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    BorderBrush="Transparent"
+                    BorderThickness="1">
+                <Grid>
+                    <AdornedElementPlaceholder x:Name="adorner" Margin="-1" />
+                </Grid>
+            </Border>
+        </StackPanel>
+    </ControlTemplate>
 
-        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
-        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
-
-        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+    <!--  Dynamic  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Dynamic, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource S.TextBoxBase.Dynamic}" TargetType="{x:Type TextBox}">
+        <!--<Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />-->
+        <!--<Setter Property="h:Cattach.Icon" Value="&#xe6ed;" />-->
         <Setter Property="Template" Value="{StaticResource S.TextBox.Template.Default}" />
-        <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
-        <Setter Property="ClipToBounds" Value="False" />
-
-        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
-
-        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource {x:Static h:SystemKeys.TitleWidth}}" />
-        <Setter Property="h:Cattach.Label" Value="Label" />
-        <Setter Property="h:Cattach.Title" Value="Title" />
-        <Setter Property="h:Cattach.Watermark" Value="h:Cattach.Watermark " />
-        <!--<Setter Property="Validation.ErrorTemplate">
-            <Setter.Value>
-                <ControlTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <Border HorizontalAlignment="Center" BorderThickness="1" BorderBrush="Transparent" VerticalAlignment="Top">
-                            <Grid>
-                                <AdornedElementPlaceholder x:Name="adorner" Margin="-1"/>
-                            </Grid>
-                        </Border>
-
-                        <Grid x:Name="errorBorder" Opacity="0" HorizontalAlignment="Stretch" Margin="0,10,0,0">
-
-                            <Polygon  HorizontalAlignment="Right" Fill="{DynamicResource {x:Static h:BrushKeys.Red}}"  Points="0,5 5,0 10,5 0,5" Margin="10,-5,8,0" FillRule="Nonzero"/>
-
-                            <Border CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" IsHitTestVisible="False"
-                                    Background="{DynamicResource {x:Static h:BrushKeys.Red}}"
-                                    Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}">
-                                <TextBlock Text="{Binding ElementName=adorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}"
-                                       Foreground="White" Margin="8,5,8,6" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                            </Border>
-                        </Grid>
-                    </StackPanel>
-                    <ControlTemplate.Triggers>
-                        <DataTrigger Value="True">
-                            <DataTrigger.Binding>
-                                <Binding ElementName="adorner" Path="AdornedElement.IsKeyboardFocusWithin" />
-                            </DataTrigger.Binding>
-                            <DataTrigger.EnterActions>
-                                <BeginStoryboard x:Name="fadeInStoryboard">
-                                    <Storyboard>
-                                        <DoubleAnimation Duration="00:00:00.25" Storyboard.TargetName="errorBorder" Storyboard.TargetProperty="Opacity" To="1"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.EnterActions>
-                            <DataTrigger.ExitActions>
-                                <StopStoryboard BeginStoryboardName="fadeInStoryboard"/>
-                                <BeginStoryboard x:Name="fadeOutStoryBoard">
-                                    <Storyboard>
-                                        <DoubleAnimation Duration="00:00:00.25" Storyboard.TargetName="errorBorder" Storyboard.TargetProperty="Opacity" To="0"/>
-                                    </Storyboard>
-                                </BeginStoryboard>
-                            </DataTrigger.ExitActions>
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>-->
-
-
-        <Setter Property="Validation.ErrorTemplate">
-            <Setter.Value>
-                <ControlTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <Border HorizontalAlignment="Center"
-                                VerticalAlignment="Top"
-                                BorderBrush="Transparent"
-                                BorderThickness="1">
-                            <Grid>
-                                <AdornedElementPlaceholder x:Name="adorner" Margin="-1" />
-                            </Grid>
-                        </Border>
-                    </StackPanel>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource S.TextBox.Template.ErrorTempate}" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Single, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Default}}" TargetType="{x:Type TextBox}">
-        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.Icon" Value="" />
+    <!--  Default  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Default, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Label, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Default}}" TargetType="{x:Type TextBox}">
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
-        <Setter Property="h:Cattach.LabelTemplate">
-            <Setter.Value>
-                <ControlTemplate TargetType="ContentControl">
-                    <Border Width="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleMargin)}" Background="Transparent">
-                        <TextBlock x:Name="txt"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
-                                   Background="Transparent"
-                                   FontSize="{TemplateBinding FontSize}"
-                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleForeground)}"
-                                   Text="{TemplateBinding Content}"
-                                   TextTrimming="CharacterEllipsis" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Label, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Single.Label, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Label}}" TargetType="{x:Type TextBox}">
-        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-        <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.Icon" Value="" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Clear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseClear" Value="True" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Clear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Default}}" TargetType="{x:Type TextBox}">
-        <Setter Property="h:Cattach.AttachContent">
-            <Setter.Value>
-                <ControlTemplate>
-                    <!--<local:FButton Icon="&#xe6f4;"
-                                   Style="{DynamicResource S.FButton.Style.Transparent}"
-                                   IsTabStop="False"
-                                   FIconMargin="0"
-                                   h:Cattach.IsClearTextButtonBehaviorEnabled="True"
-                                   Command="h:Cattach.ClearTextCommand"
-                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}"
-                                   Margin="1,3,1,4"
-                                   FIconSize="14"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   Cursor="Arrow"/>-->
-
-                    <Button Width="Auto"
-                            h:Cattach.FIconSize="18"
-                            h:Cattach.Icon="&#xe701;"
-                            h:Cattach.IsClearTextButtonBehaviorEnabled="True"
-                            Command="h:Cattach.ClearTextCommand"
-                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}"
-                            Style="{DynamicResource {x:Static local:ButtonKeys.Clear}}" />
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.LabelClear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+        <Setter Property="h:Cattach.UseClear" Value="True" />
     </Style>
 
+    <!--  Single  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Single, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+    </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Search, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Default}}" TargetType="{x:Type TextBox}">
-        <Setter Property="h:Cattach.AttachContent">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Button Width="Auto"
-                            h:Cattach.Icon="&#xe787;"
-                            h:Cattach.IsClearTextButtonBehaviorEnabled="True"
-                            Command="h:Cattach.ClearTextCommand"
-                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}"
-                            Style="{DynamicResource {x:Static local:ButtonKeys.Transparent}}" />
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Single.Label, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Single}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />    
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Single.Clear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Clear}}" TargetType="{x:Type TextBox}">
-        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushAssist}}" />
-        <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.Icon" Value="" />
-    </Style>
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.LabelClear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Label}}" TargetType="{x:Type TextBox}">
-        <Setter Property="h:Cattach.AttachContent">
-            <Setter.Value>
-                <ControlTemplate>
-                    <!--<local:FButton Icon="&#xe6f4;"
-                                   Style="{DynamicResource S.FButton.Style.Transparent}"
-                                   IsTabStop="False"
-                                   FIconMargin="0"
-                                   h:Cattach.IsClearTextButtonBehaviorEnabled="True"
-                                   Command="h:Cattach.ClearTextCommand"
-                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor,AncestorType={x:Type TextBox}}}"
-                                   Margin="1,3,1,4"
-                                   FIconSize="14"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   Cursor="Arrow"/>-->
-
-                    <Button h:Cattach.IsClearTextButtonBehaviorEnabled="True"
-                            Command="h:Cattach.ClearTextCommand"
-                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}"
-                            Style="{DynamicResource {x:Static local:ButtonKeys.Clear}}" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="h:Cattach.UseClear" Value="True" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Single.LabelClear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.LabelSingle}}" TargetType="{x:Type TextBox}">
-        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushAssist}}" />
-        <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.Icon" Value="" />
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+        <Setter Property="h:Cattach.UseClear" Value="True" />
     </Style>
 
+    <!--  Accent  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Accent, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
 
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Accent.Label, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Accent}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+    </Style>
 
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Accent.Clear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Accent}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Accent.LabelClear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Accent}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <!--  None  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.None, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseBackground" Value="False" />
+        <Setter Property="h:Cattach.UseBorder" Value="False" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.None.Label, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.None}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.None.Clear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.None}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.None.LabelClear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.None}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <!--  Line  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Line, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.LayoutStyle" Value="UnderLine" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Line.Label, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Line}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Line.Clear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Line}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Line.LabelClear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Line}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <!--  Background  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Background, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseBackground" Value="True" />
+        <Setter Property="h:Cattach.UseBorder" Value="False" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Background.Label, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Background}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Background.Clear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Background}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Background.LabelClear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Background}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <!--  Border  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.BorderBrush, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseBackground" Value="False" />
+        <Setter Property="h:Cattach.UseBorder" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.BorderBrush.Label, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.BorderBrush}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.BorderBrush.Clear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.BorderBrush}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.BorderBrush.LabelClear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.BorderBrush}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <!--  Circle  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Circle, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.LayoutStyle" Value="Circle" />
+
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Circle.Label, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Circle}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Circle.Clear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Circle}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Circle.LabelClear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Circle}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseTitle" Value="True" />
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Search, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.Dynamic}}" TargetType="{x:Type TextBox}">
+        <Setter Property="h:Cattach.UseClear" Value="True" />
+    </Style>
+
+    <!--  Line  -->
     <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.UnderLine.LabelClear, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}" TargetType="{x:Type TextBox}">
         <Setter Property="BorderThickness" Value="0,0,0,1" />
         <Setter Property="h:Cattach.CornerRadius" Value="0" />
@@ -567,7 +496,7 @@
         <Setter Property="h:Cattach.CornerRadius" Value="0" />
         <Setter Property="h:Cattach.Icon" Value="" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="h:Cattach.LabelTemplate">
+        <Setter Property="h:Cattach.TitleTemplate">
             <Setter.Value>
                 <ControlTemplate TargetType="ContentControl">
                     <Border MinWidth="90" Background="Transparent">
@@ -586,67 +515,104 @@
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.OpenFile, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}" TargetType="{x:Type TextBox}">
-        <Setter Property="h:Cattach.Label" Value="文件路径 " />
+        <Setter Property="h:Cattach.Title" Value="文件路径 " />
         <Setter Property="h:Cattach.Watermark" Value="选择文件路径 " />
         <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton Margin="0,1,0,2"
+                    <!--<Button Margin="0,1,0,2"
                                    h:Cattach.IsOpenFileButtonBehaviorEnabled="True"
                                    Command="h:Cattach.OpenFileCommand"
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}"
                                    Cursor="Arrow"
-                                   FIconMargin="0"
-                                   FIconSize="18"
+                                   IconMargin="0"
+                                   IconSize="18"
                                    Foreground="{TemplateBinding Foreground}"
                                    Icon="&#xe611;"
                                    IsTabStop="False"
-                                   Style="{DynamicResource S.FButton.Style.Transparent}" />
+                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />-->
+
+                    <Button Margin="0,1,0,2"
+                            VerticalAlignment="Center"
+                            h:Cattach.Icon="&#xe611;"
+                            h:Cattach.IconMargin="0"
+                            h:Cattach.IconSize="18"
+                            h:Cattach.IsOpenFileButtonBehaviorEnabled="True"
+                            Command="{x:Static h:Cattach.OpenFileCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}"
+                            Cursor="Arrow"
+                            Foreground="{TemplateBinding Foreground}"
+                            Style="{DynamicResource {x:Static local:ButtonKeys.Transparent}}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.OpenFolder, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}" TargetType="{x:Type TextBox}">
-        <Setter Property="h:Cattach.Label" Value="设置路径 " />
+        <Setter Property="h:Cattach.Title" Value="设置路径 " />
         <Setter Property="h:Cattach.Watermark" Value="选择文件夹路径 " />
         <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton Margin="0,1,0,2"
+                    <!--<Button Margin="0,1,0,2"
                                    VerticalAlignment="Center"
                                    h:Cattach.IsOpenFolderButtonBehaviorEnabled="True"
                                    Command="h:Cattach.OpenFolderCommand"
                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}"
                                    Cursor="Arrow"
-                                   FIconMargin="0"
-                                   FIconSize="18"
+                                   IconMargin="0"
+                                   IconSize="18"
                                    Foreground="{TemplateBinding Foreground}"
                                    Icon="&#xe611;"
                                    IsTabStop="False"
-                                   Style="{DynamicResource S.FButton.Style.Transparent}" />
+                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />-->
+
+                    <Button Margin="0,1,0,2"
+                            VerticalAlignment="Center"
+                            h:Cattach.Icon="&#xe611;"
+                            h:Cattach.IconMargin="0"
+                            h:Cattach.IconSize="18"
+                            h:Cattach.IsOpenFileButtonBehaviorEnabled="True"
+                            Command="{x:Static h:Cattach.OpenFolderCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}"
+                            Cursor="Arrow"
+                            Foreground="{TemplateBinding Foreground}"
+                            Style="{DynamicResource {x:Static local:ButtonKeys.Transparent}}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.SaveFile, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}" TargetType="{x:Type TextBox}">
-        <Setter Property="h:Cattach.Label" Value="保存路径 " />
+        <Setter Property="h:Cattach.Title" Value="保存路径 " />
         <Setter Property="h:Cattach.Watermark" Value="选择文件保存路径 " />
         <Setter Property="h:Cattach.AttachContent">
             <Setter.Value>
                 <ControlTemplate>
-                    <local:FButton Margin="0,1,0,2"
+                    <!--<Button Margin="0,1,0,2"
                                    h:Cattach.IsSaveFileButtonBehaviorEnabled="True"
                                    Command="h:Cattach.SaveFileCommand"
-                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FTextBox}}}"
+                                   CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TextBox}}}"
                                    Cursor="Arrow"
-                                   FIconMargin="0"
-                                   FIconSize="18"
+                                   IconMargin="0"
+                                   IconSize="18"
                                    Foreground="{TemplateBinding Foreground}"
                                    Icon="&#xe611;"
                                    IsTabStop="False"
-                                   Style="{DynamicResource S.FButton.Style.Transparent}" />
+                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />-->
+
+
+                    <Button Margin="0,1,0,2"
+                            VerticalAlignment="Center"
+                            h:Cattach.Icon="&#xe611;"
+                            h:Cattach.IconMargin="0"
+                            h:Cattach.IconSize="18"
+                            h:Cattach.IsOpenFileButtonBehaviorEnabled="True"
+                            Command="{x:Static h:Cattach.SaveFileCommand}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TextBox}}}"
+                            Cursor="Arrow"
+                            Foreground="{TemplateBinding Foreground}"
+                            Style="{DynamicResource {x:Static local:ButtonKeys.Transparent}}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -691,5 +657,33 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextBox.Editable, TypeInTargetAssembly={x:Type local:TextBoxKeys}}" BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
+        <Setter Property="Margin" Value="1" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="MaxLength" Value="2048" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="ContextMenu" Value="{DynamicResource TextBoxContextMenu}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource TextSelectionBrush}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
+        <Setter Property="FontFamily" Value="{DynamicResource {x:Static h:SystemKeys.FontFamily}}" />
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Style.Triggers>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Readonly}}" />
+            </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:TextBoxKeys.Default}}" TargetType="{x:Type TextBox}" />
 
 </ResourceDictionary>

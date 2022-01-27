@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using HeBianGu.Control.PropertyGrid;
+using HeBianGu.Systems.Repository;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Xml.Serialization;
-using HeBianGu.Base.WpfBase;
-using HeBianGu.Control.PropertyGrid;
-using HeBianGu.Systems.Repository;
 
 namespace HeBianGu.App.Repository
 {

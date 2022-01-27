@@ -29,6 +29,6 @@ namespace HeBianGu.General.WpfControlLib
 
     public interface INotifyMessage
     {
-
+       
     }
 }

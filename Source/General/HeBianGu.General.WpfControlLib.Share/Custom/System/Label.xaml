@@ -2,7 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
-
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    
     <Style x:Key="{ComponentResourceKey ResourceId=S.Label.Default, TypeInTargetAssembly={x:Type local:LabelKeys}}" BasedOn="{StaticResource {x:Type Label}}" TargetType="Label">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
@@ -83,8 +86,8 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Label.Label, TypeInTargetAssembly={x:Type local:LabelKeys}}" BasedOn="{StaticResource {x:Static h:LabelKeys.Default}}" TargetType="Label">
-        <Setter Property="h:Cattach.Label" Value="S.Label.Label" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Label.Label, TypeInTargetAssembly={x:Type local:LabelKeys}}" BasedOn="{StaticResource {x:Static local:ControlKeys.Dynamic}}" TargetType="Label">
+        <Setter Property="h:Cattach.Title" Value="Label" />
         <Setter Property="Content" Value="Label" />
         <Setter Property="Template">
             <Setter.Value>
@@ -99,17 +102,17 @@
 
                         <ContentControl x:Name="Label"
                                         Margin="1,1,0,1"
-                                        Content="{TemplateBinding h:Cattach.Label}"
+                                        Content="{TemplateBinding h:Cattach.Title}"
                                         IsHitTestVisible="False"
                                         IsTabStop="False"
-                                        Template="{TemplateBinding h:Cattach.LabelTemplate}" />
+                                        Template="{TemplateBinding h:Cattach.TitleTemplate}" />
 
                         <TextBlock x:Name="ficon"
                                    Grid.Column="1"
-                                   Margin="{TemplateBinding h:Cattach.FIconMargin}"
+                                   Margin="{TemplateBinding h:Cattach.IconMargin}"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="{TemplateBinding h:Cattach.FIconSize}"
+                                   FontSize="{TemplateBinding h:Cattach.IconSize}"
                                    Foreground="{TemplateBinding Foreground}"
                                    Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                    Text="{TemplateBinding h:Cattach.Icon}" />
@@ -129,24 +132,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="HorizontalContentAlignment" Value="Left" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
-        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
-        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource {x:Static h:SystemKeys.TitleWidth}}" />
-        <Setter Property="h:Cattach.LabelTemplate">
-            <Setter.Value>
-                <ControlTemplate TargetType="ContentControl">
-                    <Border Width="{Binding RelativeSource={RelativeSource AncestorType=Label}, Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=Label}, Path=(h:Cattach.TitleMargin)}">
-                        <TextBlock HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
-                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=Label}, Path=(h:Cattach.TitleForeground)}"
-                                   Text="{TemplateBinding Content}" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}"/>
     </Style>
 
 </ResourceDictionary>

@@ -10,20 +10,21 @@
              d:DesignWidth="800"
              mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <Style BasedOn="{StaticResource S.FButton.Style.Transparent}" TargetType="h:FButton">
-            <Setter Property="Margin" Value="0,0,20,0" />
-            <Setter Property="RenderTransform" Value="{StaticResource {x:Static h:SystemKeys.TransformGroup}}" />
-        </Style>
-    </UserControl.Resources>
+
     <Grid>
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Transparent}}" TargetType="Button">
+                <Setter Property="Margin" Value="0,0,20,0" />
+                <Setter Property="RenderTransform" Value="{StaticResource {x:Static h:SystemKeys.TransformGroup}}" />
+            </Style>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="170" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <!--  左侧菜单  -->
-        <ListBox x:Name="lb_select"
+        <ListBox SelectedItem="{Binding SelectedItem}"
                  Background="{DynamicResource {x:Static h:BrushKeys.Dark1}}"
                  BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
                  BorderThickness="0,0,1,0"
@@ -96,7 +97,7 @@
         </StackPanel>
         <!--  中间内容  -->
         <Grid Grid.Column="1">
-            <h:LinkActionFrame LinkAction="{Binding ElementName=lb_select, Path=SelectedItem}" />
+            <h:LinkActionFrame LinkAction="{Binding SelectedItem}" />
         </Grid>
     </Grid>
 </UserControl>

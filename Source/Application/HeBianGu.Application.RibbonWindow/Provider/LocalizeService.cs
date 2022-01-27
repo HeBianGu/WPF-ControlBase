@@ -1,13 +1,4 @@
-﻿using HeBianGu.Base.WpfBase;
-using HeBianGu.Common.LocalConfig;
-using HeBianGu.Control.ThemeSet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HeBianGu.Application.RibbonWindow
+﻿namespace HeBianGu.Application.RibbonWindow
 {
     //class LocalizeService : IThemeSerializeService
     //{

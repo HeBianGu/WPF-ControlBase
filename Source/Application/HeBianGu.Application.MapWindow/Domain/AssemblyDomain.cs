@@ -1,16 +1,10 @@
-﻿using HeBianGu.Base.WpfBase;
-using HeBianGu.General.WpfControlLib;
+﻿using HeBianGu.General.WpfControlLib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace HeBianGu.Application.MapWindow
 {
     public class AssemblyDomain : IAssemblyDomain
-    { 
+    {
         public LoginViewModel GetAccountConfig()
         {
             LoginViewModel loginViewModel = new LoginViewModel();

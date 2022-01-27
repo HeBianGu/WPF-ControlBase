@@ -8,139 +8,130 @@
         <ResourceDictionary Source="WindowBase.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="S.Window.Dialog.Default" BasedOn="{StaticResource S.Window.Base}" TargetType="{x:Type local:WindowBase}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
-        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
-        <Setter Property="FontFamily" Value="{DynamicResource {x:Static h:SystemKeys.FontFamily}}" />
+    <ControlTemplate x:Key="S.DialogWindowBase.Template.Default" TargetType="{x:Type local:DialogWindowBase}">
+        <Grid Name="g_all" Margin="-1">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Grid.RenderTransform>
 
-        <Setter Property="Width" Value="520" />
-        <Setter Property="Height" Value="360" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="FIconSize" Value="20" />
-        <Setter Property="CaptionHeight" Value="26" />
-        <!--  标题栏背景色  -->
-        <Setter Property="CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
-        <Setter Property="CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="Icon" Value="&#xe65c;" />
-        <Setter Property="MaxboxEnable" Value="True" />
-        <Setter Property="MinboxEnable" Value="True" />
-        <!--  建议内边框=3：ResizeBorderThickness = new Thickness(3);  -->
-        <Setter Property="Padding" Value="10" />
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+            <Border x:Name="Bg"
+                    Margin="{TemplateBinding Padding}"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                    Effect="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:WindowBase}">
-                    <Grid Name="g_all" Margin="-1">
-                        <Grid.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform />
-                                <SkewTransform />
-                                <RotateTransform />
-                                <TranslateTransform />
-                            </TransformGroup>
-                        </Grid.RenderTransform>
+            <Border x:Name="BgInner"
+                    Margin="{TemplateBinding Padding}"
+                    Background="{TemplateBinding Background}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
-                        <!--  背景  -->
-                        <Border x:Name="Bg"
-                                Margin="{TemplateBinding Padding}"
-                                Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
-                                Effect="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+            <Grid Margin="{TemplateBinding Padding}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" MinHeight="18" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Border Grid.Row="0"
+                        Margin="0"
+                        Background="{TemplateBinding CaptionBackground}"
+                        CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionCornerRadius)}">
+                    <Grid Margin="2,1,2,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-                        <Border x:Name="BgInner"
-                                Margin="{TemplateBinding Padding}"
-                                Background="{TemplateBinding Background}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <StackPanel x:Name="PART_Header"
+                                    Height="{TemplateBinding CaptionHeight}"
+                                    Margin="5,1,5,1"
+                                    VerticalAlignment="Center"
+                                    Orientation="Horizontal">
+                            <TextBlock FontSize="{TemplateBinding IconSize}"
+                                       FontWeight="Bold"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:WindowBase}, Path=CaptionForeground}"
+                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                       Text="{TemplateBinding Icon}" />
+                            <TextBlock Margin="5"
+                                       VerticalAlignment="Center"
+                                       FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header}}"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:WindowBase}, Path=CaptionForeground}"
+                                       Text="{TemplateBinding Title}" />
+                        </StackPanel>
 
-                        <Grid Margin="{TemplateBinding Padding}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" MinHeight="18" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-                            <!--  Caption标题部分  -->
-                            <Border Grid.Row="0"
-                                    Margin="0"
-                                    Background="{TemplateBinding CaptionBackground}"
-                                    CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}">
-                                <Grid Margin="2,1,2,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <!--  Header部分  -->
-                                    <StackPanel x:Name="PART_Header"
-                                                Height="{TemplateBinding CaptionHeight}"
-                                                Margin="5,1,5,1"
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal">
-                                        <TextBlock FontSize="{TemplateBinding FIconSize}"
-                                                   FontWeight="Bold"
-                                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:WindowBase}, Path=CaptionForeground}"
-                                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
-                                                   Text="{TemplateBinding Icon}" />
-                                        <TextBlock Margin="5"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header}}"
-                                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:WindowBase}, Path=CaptionForeground}"
-                                                   Text="{TemplateBinding Title}" />
-                                    </StackPanel>
-
-                                    <!--  窗体功能按钮：最小、最大、关闭  -->
-                                    <StackPanel Grid.Column="1"
-                                                Height="{TemplateBinding CaptionHeight}"
-                                                Margin="1"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Orientation="Horizontal">
-                                        <local:FButton x:Name="btnClose"
-                                                       Width="35"
-                                                       Margin="1"
-                                                       Padding="1,2,1,2"
-                                                       VerticalAlignment="Center"
-                                                       AllowsAnimation="True"
-                                                       Command="{x:Static local:CommandService.Close}"
-                                                       CornerRadius="0"
-                                                       FIconMargin="0"
-                                                       FIconSize="14"
-                                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:WindowBase}, Path=CaptionForeground}"
-                                                       Icon="&#xe6f4;"
-                                                       MouseOverBackground="Transparent"
-                                                       MouseOverForeground="White"
-                                                       PressedBackground="#AA0D0D"
-                                                       PressedForeground="White"
-                                                       Style="{DynamicResource S.FButton.Style.Transparent}"
-                                                       WindowChrome.IsHitTestVisibleInChrome="True" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
-                            <!--  窗体内容区域  -->
-                            <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
-                                <ContentPresenter Content="{TemplateBinding Content}" />
-                            </AdornerDecorator>
-                        </Grid>
+                        <StackPanel Grid.Column="1"
+                                    Height="{TemplateBinding CaptionHeight}"
+                                    Margin="1"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    Orientation="Horizontal">
+                            <Button x:Name="btnClose"
+                                    Width="35"
+                                    Margin="1"
+                                    Padding="1,2,1,2"
+                                    VerticalAlignment="Center"
+                                    h:Cattach.AllowsAnimation="True"
+                                    h:Cattach.CornerRadius="0"
+                                    h:Cattach.Icon="&#xe6f4;"
+                                    h:Cattach.IconMargin="0"
+                                    h:Cattach.IconSize="14"
+                                    h:Cattach.MouseOverBackground="Transparent"
+                                    h:Cattach.MouseOverForeground="White"
+                                    h:Cattach.PressBackground="#AA0D0D"
+                                    h:Cattach.PressForeground="White"
+                                    Command="{x:Static local:CommandService.Close}"
+                                    Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:WindowBase}, Path=CaptionForeground}"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                        </StackPanel>
                     </Grid>
-                    <!--<ControlTemplate.Triggers>
-                    -->
-                    <!--  淡出动画  -->
-                    <!--
-                        <EventTrigger RoutedEvent="Window.Loaded">
-                            <EventTrigger.Actions>
-                                <BeginStoryboard Storyboard="{StaticResource Story.MessageLoad}"/>
-                            </EventTrigger.Actions>
-                        </EventTrigger>
-                    </ControlTemplate.Triggers>-->
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+                </Border>
+                <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
+                    <ContentPresenter Content="{TemplateBinding Content}" />
+                </AdornerDecorator>
+            </Grid>
+        </Grid>
+    </ControlTemplate>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Dialog.Dynamic, TypeInTargetAssembly={x:Type local:DialogWindowBase}}" BasedOn="{StaticResource {x:Static h:WindowBase.DynamicKey}}" TargetType="{x:Type local:DialogWindowBase}">
+        <!--<Setter Property="Width" Value="520" />
+        <Setter Property="Height" Value="360" />
+        <Setter Property="IconSize" Value="20" />
+        <Setter Property="Icon" Value="&#xe65c;" />
+        <Setter Property="Padding" Value="10" />-->
+        <Setter Property="Template" Value="{StaticResource S.DialogWindowBase.Template.Default}" />
+        <!--<Setter Property="CaptionHeight" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />-->
+
+        <!--<Setter Property="CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />-->
     </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Dialog.Default, TypeInTargetAssembly={x:Type local:DialogWindowBase}}" BasedOn="{StaticResource {x:Static h:DialogWindowBase.DynamicKey}}" TargetType="{x:Type local:DialogWindowBase}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Dialog.Single, TypeInTargetAssembly={x:Type local:DialogWindowBase}}" BasedOn="{StaticResource {x:Static h:DialogWindowBase.DefaultKey}}" TargetType="{x:Type local:DialogWindowBase}">
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Dialog.Accent, TypeInTargetAssembly={x:Type local:DialogWindowBase}}" BasedOn="{StaticResource {x:Static h:DialogWindowBase.DefaultKey}}" TargetType="{x:Type local:DialogWindowBase}">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Dialog.Clear, TypeInTargetAssembly={x:Type local:DialogWindowBase}}" BasedOn="{StaticResource {x:Static h:DialogWindowBase.DefaultKey}}" TargetType="{x:Type local:DialogWindowBase}">
+        <Setter Property="h:Cattach.StyleType" Value="Clear" />
+    </Style>
+
+    <!--<Style BasedOn="{StaticResource {x:Static h:DialogWindowBase.DynamicKey}}" TargetType="{x:Type local:DialogWindowBase}" />-->
+
 </ResourceDictionary>

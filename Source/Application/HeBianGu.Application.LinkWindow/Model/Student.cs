@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace HeBianGu.Application.LinkWindow
 {
     public class Student
     {
-        [Display(Name = "姓名",Order =0)]
+        [Display(Name = "姓名", Order = 0)]
         [Required()]
         public string Name { get; set; }
 

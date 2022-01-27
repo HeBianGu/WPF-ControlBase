@@ -10,6 +10,10 @@ namespace HeBianGu.General.WpfControlLib
 
     public partial class MainWindowBase : WindowBase
     {
+        static MainWindowBase()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(MainWindowBase), new FrameworkPropertyMetadata(typeof(MainWindowBase)));
+        }
 
         public double ViewBoxWidth
         {

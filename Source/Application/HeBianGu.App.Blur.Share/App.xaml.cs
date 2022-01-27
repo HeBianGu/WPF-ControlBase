@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using HeBianGu.Applications.ControlBase.Demo;
+﻿using HeBianGu.Applications.ControlBase.Demo;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.Window.Login;
+using System;
+using System.Windows;
+using System.Windows.Media;
 
 namespace HeBianGu.App.Blur
 {
@@ -23,8 +17,6 @@ namespace HeBianGu.App.Blur
         {
             return new MainWindow();
         }
-
-
 
         protected override void ConfigureServices(IServiceCollection services)
         {
@@ -52,8 +44,6 @@ namespace HeBianGu.App.Blur
         protected override void Configure(IApplicationBuilder app)
         {
             base.Configure(app);
-
-           
 
             //  Do：设置默认主题
             app.UseLocalTheme(l =>

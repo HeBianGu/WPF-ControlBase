@@ -1,23 +1,17 @@
 ﻿using HeBianGu.Application.VsWindow.View.Dialog;
 using HeBianGu.Base.WpfBase;
-using HeBianGu.General.WpfControlLib;
+using HeBianGu.Window.Link;
+using HeBianGu.Window.Notify;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Data;
-using System.Windows.Media;
 using System.Windows.Shell;
 using System.Windows.Threading;
 
@@ -87,61 +81,8 @@ namespace HeBianGu.Application.VsWindow
             }
         }
 
-
-
-        //private ObservableCollection<TestViewModel> _scene = new ObservableCollection<TestViewModel>();
-        ///// <summary> 说明  </summary>
-        //public ObservableCollection<TestViewModel> Scenes
-        //{
-        //    get { return _scene; }
-        //    set
-        //    {
-        //        _scene = value;
-        //        RaisePropertyChanged("Scenes");
-        //    }
-        //}
-
-        //private TestViewModel _selectedScene;
-        ///// <summary> 说明  </summary>
-        //public TestViewModel SelectedScene
-        //{
-        //    get { return _selectedScene; }
-        //    set
-        //    {
-        //        _selectedScene = value;
-        //        RaisePropertyChanged("SelectedScene");
-        //    }
-        //}
-
-        //private TestViewModel _currentScene;
-        ///// <summary> 说明  </summary>
-        //public TestViewModel CurrentScene
-        //{
-        //    get { return _currentScene; }
-        //    set
-        //    {
-        //        _currentScene = value;
-        //        RaisePropertyChanged("CurrentScene");
-        //    }
-        //}
-
-
-        //private ObservableCollection<TestViewModel> _files = new ObservableCollection<TestViewModel>();
-        ///// <summary> 说明  </summary>
-        //public ObservableCollection<TestViewModel> Files
-        //{
-        //    get { return _files; }
-
-        //    set
-        //    {
-        //        _files = value;
-        //        RaisePropertyChanged("Files");
-        //    }
-        //}
-
-
         private ObservableCollection<EquipmentViewModel> _equipmentTemplates = new ObservableCollection<EquipmentViewModel>();
-        /// <summary> 装备列表  </summary>
+        /// <summary> 设备列表  </summary>
         public ObservableCollection<EquipmentViewModel> EquipmentTemplates
 
         {
@@ -167,7 +108,7 @@ namespace HeBianGu.Application.VsWindow
 
 
         private ObservableCollection<ServerViewModel> _servers = new ObservableCollection<ServerViewModel>();
-        /// <summary> 信号生成分系统列表  </summary>
+        /// <summary> 发生器列表  </summary>
         public ObservableCollection<ServerViewModel> Servers
         {
             get { return _servers; }
@@ -354,7 +295,7 @@ namespace HeBianGu.Application.VsWindow
 
 
         private bool _stateVisible;
-        /// <summary> 装备栏是否可用  </summary>
+        /// <summary> 设备栏是否可用  </summary>
         public bool StateVisble
         {
             get { return _stateVisible; }
@@ -392,7 +333,7 @@ namespace HeBianGu.Application.VsWindow
 
 
         private bool _isExpanedProperty;
-        /// <summary> 显示装备属性  </summary>
+        /// <summary> 显示设备属性  </summary>
         public bool IsExpanedProperty
         {
             get { return _isExpanedProperty; }
@@ -405,7 +346,7 @@ namespace HeBianGu.Application.VsWindow
 
 
         private bool _isExpandedServerProperty;
-        /// <summary> 显示信号生成分系统属性  </summary>
+        /// <summary> 显示发生器属性  </summary>
         public bool IsExpandedServerProperty
         {
             get { return _isExpandedServerProperty; }
@@ -470,7 +411,7 @@ namespace HeBianGu.Application.VsWindow
                 {
                     EquipmentViewModel cc = new EquipmentViewModel();
 
-                    cc.Value = "装备模板_" + i.ToString();
+                    cc.Value = "设备模板_" + i.ToString();
 
                     cc.Value1 = i % 5 == 0 ? "电台" : i % 4 == 0 ? "雷达" : "电台";
 
@@ -480,7 +421,7 @@ namespace HeBianGu.Application.VsWindow
 
                     ServerViewModel temp = new ServerViewModel();
 
-                    temp.Value = "信号生成分系统_" + i.ToString();
+                    temp.Value = "发生器_" + i.ToString();
 
                     temp.Value1 = "192.168.0." + i.ToString();
 
@@ -558,9 +499,9 @@ namespace HeBianGu.Application.VsWindow
             }
 
             //  Do ：拖拽到扇形区域显示
-            if(obj is DragEventArgs dragEventArgs)
+            if (obj is DragEventArgs dragEventArgs)
             {
-               if (dragEventArgs.Data.GetDataPresent("Equipment"))
+                if (dragEventArgs.Data.GetDataPresent("Equipment"))
                 {
                     var data = dragEventArgs.Data.GetData("Equipment") as EquipmentViewModel;
 
@@ -574,7 +515,7 @@ namespace HeBianGu.Application.VsWindow
 
                     server.Children.Add(data);
 
-                    MessageService.ShowSnackMessageWithNotice("添加成功");
+                    HeBianGu.General.WpfControlLib.Message.Instance.ShowSnackMessageWithNotice("添加成功");
                 }
             }
 
@@ -584,7 +525,7 @@ namespace HeBianGu.Application.VsWindow
             {
                 SelectTypeControl select = new SelectTypeControl();
 
-                var result = await MessageService.ShowCustomDialog<bool>(select);
+                var result = await HeBianGu.General.WpfControlLib.Message.Instance.ShowCustomDialog<bool>(select);
 
                 if (!result) return;
 
@@ -598,7 +539,7 @@ namespace HeBianGu.Application.VsWindow
 
                 config.Model.Value4 = select.Model?.Value1;
 
-                var result1 = await MessageService.ShowCustomDialog<bool?>(config);
+                var result1 = await HeBianGu.General.WpfControlLib.Message.Instance.ShowCustomDialog<bool?>(config);
 
                 //  Do ：取消
                 if (result1 == false) return;
@@ -612,7 +553,7 @@ namespace HeBianGu.Application.VsWindow
                 //  Do ：创建
                 if (string.IsNullOrEmpty(config.Model.Value) || string.IsNullOrEmpty(config.Model.Value1))
                 {
-                    MessageService.ShowSnackMessageWithNotice("数据不合法"); return;
+                    HeBianGu.General.WpfControlLib.Message.Instance.ShowSnackMessageWithNotice("数据不合法"); return;
 
                 }
                 this.Tasks.Add(model);
@@ -629,7 +570,7 @@ namespace HeBianGu.Application.VsWindow
             {
                 TasksControl select = new TasksControl();
 
-                var result = await MessageService.ShowCustomDialog<bool>(select);
+                var result = await HeBianGu.General.WpfControlLib.Message.Instance.ShowCustomDialog<bool>(select);
 
                 if (!result) return;
 
@@ -643,28 +584,28 @@ namespace HeBianGu.Application.VsWindow
             {
                 UserManagerControl select = new UserManagerControl();
 
-                MessageService.ShowLayer(select);
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowLayer(select);
 
             }
             else if (command == "地图管理")
             {
                 MapManagerControl select = new MapManagerControl();
 
-                MessageService.ShowLayer(select);
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowLayer(select);
 
             }
             else if (command == "主机管理")
             {
                 ServerManagerControl select = new ServerManagerControl();
 
-                MessageService.ShowLayer(select);
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowLayer(select);
 
             }
-            else if (command == "装备模板管理")
+            else if (command == "设备模板管理")
             {
                 EquipManagerControl select = new EquipManagerControl();
 
-                MessageService.ShowLayer(select);
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowLayer(select);
 
             }
             else if (command == "ListBox.MouseDoubleClick.SetSelectedScene")
@@ -683,15 +624,15 @@ namespace HeBianGu.Application.VsWindow
             {
                 MapperControl select = new MapperControl();
 
-                var result = await MessageService.ShowCustomDialog<bool>(select);
+                var result = await HeBianGu.General.WpfControlLib.Message.Instance.ShowCustomDialog<bool>(select);
 
                 if (!result) return;
 
                 this.Message = "正在检查参数";
 
-                MessageService.ShowSnackMessageWithNotice("开始运行");
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowSnackMessageWithNotice("开始运行");
 
-                MessageService.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Indeterminate);
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Indeterminate);
 
 
                 this.StateVisble = true;
@@ -700,7 +641,7 @@ namespace HeBianGu.Application.VsWindow
 
                 this.IsStopEnbel = true;
 
-                await MessageService.ShowWinProgressStrMessage(l =>
+                await NotifyMessageService.ShowWinProgressStrMessage(l =>
                  {
                      for (int i = 0; i <= 100; i++)
                      {
@@ -718,22 +659,22 @@ namespace HeBianGu.Application.VsWindow
 
                 if (random.Next(1, 5) == 1)
                 {
-                    MessageService.ShowWinErrorMessage("检查信号错误，请检查信号[信号_2]");
+                    NotifyMessageService.ShowWinErrorMessage("检查信号错误，请检查信号[信号_2]");
 
-                    MessageService.ShowSnackMessageWithNotice("检查信号错误，详情见日志");
+                    HeBianGu.General.WpfControlLib.Message.Instance.ShowSnackMessageWithNotice("检查信号错误，详情见日志");
 
                     this.IsRunEnbel = true;
 
                     this.IsStopEnbel = false;
 
-                    MessageService.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.None);
+                    HeBianGu.General.WpfControlLib.Message.Instance.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.None);
 
                     return;
                 }
 
-                MessageService.ShowWinSuccessMessage("检查信号成功");
+                NotifyMessageService.ShowWinSuccessMessage("检查信号成功");
 
-                MessageService.ShowTaskbarNormal(l => l.ProgressValue = 0.3);
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowTaskbarNormal(l => l.ProgressValue = 0.3);
 
                 this.Message = "正在生成信号";
 
@@ -741,7 +682,7 @@ namespace HeBianGu.Application.VsWindow
 
                 //this.IsStopEnbel = true;
 
-                await MessageService.ShowWinProgressStrMessage(l =>
+                await NotifyMessageService.ShowWinProgressStrMessage(l =>
                 {
                     for (int i = 0; i <= 100; i++)
                     {
@@ -759,24 +700,24 @@ namespace HeBianGu.Application.VsWindow
 
                 if (random.Next(1, 5) == 1)
                 {
-                    MessageService.ShowWinErrorMessage("生成信号错误，详情见日志");
+                    NotifyMessageService.ShowWinErrorMessage("生成信号错误，详情见日志");
 
-                    MessageService.ShowSnackMessageWithNotice("生成信号错误，详情见日志");
+                    HeBianGu.General.WpfControlLib.Message.Instance.ShowSnackMessageWithNotice("生成信号错误，详情见日志");
 
                     this.IsRunEnbel = true;
 
                     this.IsStopEnbel = false;
 
-                    MessageService.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.None);
+                    HeBianGu.General.WpfControlLib.Message.Instance.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.None);
 
                     return;
                 }
 
-                MessageService.ShowTaskbarNormal(l => l.ProgressValue = 0.6);
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowTaskbarNormal(l => l.ProgressValue = 0.6);
 
-                MessageService.ShowWinSuccessMessage("生成信号成功");
+                NotifyMessageService.ShowWinSuccessMessage("生成信号成功");
 
-                MessageService.ShowSnackMessageWithNotice("生成信号成功");
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowSnackMessageWithNotice("生成信号成功");
 
                 this.Historys.Add(new TestViewModel() { Value = this.Title });
 
@@ -784,7 +725,7 @@ namespace HeBianGu.Application.VsWindow
 
                 //this.IsStopEnbel = true;
 
-                await MessageService.ShowWinProgressStrMessage(l =>
+                await NotifyMessageService.ShowWinProgressStrMessage(l =>
                 {
                     for (int i = 0; i <= 100; i++)
                     {
@@ -802,24 +743,24 @@ namespace HeBianGu.Application.VsWindow
 
                 if (random.Next(1, 5) == 1)
                 {
-                    MessageService.ShowWinErrorMessage("合成信号错误，详情见日志");
+                    NotifyMessageService.ShowWinErrorMessage("合成信号错误，详情见日志");
 
-                    MessageService.ShowSnackMessageWithNotice("合成信号错误，详情见日志");
+                    HeBianGu.General.WpfControlLib.Message.Instance.ShowSnackMessageWithNotice("合成信号错误，详情见日志");
 
                     this.IsRunEnbel = true;
 
                     this.IsStopEnbel = false;
 
-                    MessageService.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.None);
+                    HeBianGu.General.WpfControlLib.Message.Instance.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.None);
 
                     return;
                 }
 
-                MessageService.ShowWinSuccessMessage("合成信号成功");
+                NotifyMessageService.ShowWinSuccessMessage("合成信号成功");
 
-                MessageService.ShowSnackMessageWithNotice("运行完成");
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowSnackMessageWithNotice("运行完成");
 
-                MessageService.ShowTaskbarNormal(l => l.ProgressValue = 1);
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowTaskbarNormal(l => l.ProgressValue = 1);
 
                 this.Historys.Add(new TestViewModel() { Value = this.Title });
 
@@ -834,7 +775,7 @@ namespace HeBianGu.Application.VsWindow
                     this.StateVisble = false;
                 });
 
-                MessageService.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.None);
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.None);
             }
             //  Do ：登录
             else if (command == "Sumit")
@@ -896,7 +837,7 @@ namespace HeBianGu.Application.VsWindow
         {
             if (!Directory.Exists(this.SelectedTask.Value1))
             {
-                MessageService.ShowSnackMessageWithNotice("任务路径不存在，请检查"); return;
+                HeBianGu.General.WpfControlLib.Message.Instance.ShowSnackMessageWithNotice("任务路径不存在，请检查"); return;
             }
 
             //this.Files.Clear();
@@ -916,7 +857,7 @@ namespace HeBianGu.Application.VsWindow
                  {
                      ServerViewModel temp = new ServerViewModel();
 
-                     temp.Value = "信号生成分系统_" + i.ToString();
+                     temp.Value = "发生器_" + i.ToString();
 
                      temp.Value1 = "192.168.0." + i.ToString();
 
@@ -945,7 +886,7 @@ namespace HeBianGu.Application.VsWindow
                          {
                              EquipmentViewModel cc = new EquipmentViewModel();
 
-                             cc.Value = "装备_" + j.ToString();
+                             cc.Value = "设备_" + j.ToString();
 
                              cc.Value1 = j % 5 == 0 ? "坦克" : j % 4 == 0 ? "手持设备" : "飞机";
 
@@ -964,7 +905,7 @@ namespace HeBianGu.Application.VsWindow
                  }
              });
 
-            MessageService.ShowSnackMessageWithNotice($"任务加载完成 <{this.SelectedTask.Value}>");
+            HeBianGu.General.WpfControlLib.Message.Instance.ShowSnackMessageWithNotice($"任务加载完成 <{this.SelectedTask.Value}>");
         }
 
 
@@ -1010,7 +951,7 @@ namespace HeBianGu.Application.VsWindow
         //{
         //    for (int i = 0; i < 5; i++)
         //    {
-        //        this.Children.Add(new EquipmentViewModel() { Value = "装备_" + i });
+        //        this.Children.Add(new EquipmentViewModel() { Value = "设备_" + i });
         //    }
         //}
 
@@ -1024,12 +965,12 @@ namespace HeBianGu.Application.VsWindow
     {
         public TaskViewModel()
         {
-            //this.Children.Add(new ServerGroupViewModel() { Value = "信号生成分系统列表" });
-            //this.Children.Add(new EquipmentGroupViewModel() { Value = "装备列表" });
+            //this.Children.Add(new ServerGroupViewModel() { Value = "发生器列表" });
+            //this.Children.Add(new EquipmentGroupViewModel() { Value = "设备列表" });
 
             //for (int i = 0; i < 4; i++)
             //{
-            //    this.Children.Add(new ServerViewModel() { Value = "信号生成分系统_" + i });
+            //    this.Children.Add(new ServerViewModel() { Value = "发生器_" + i });
             //}
         }
     }
@@ -1044,7 +985,7 @@ namespace HeBianGu.Application.VsWindow
         {
             for (int i = 0; i < 30; i++)
             {
-                this.Children.Add(new EquipmentViewModel() { Value = "装备_" + i });
+                this.Children.Add(new EquipmentViewModel() { Value = "设备_" + i });
             }
         }
     }
@@ -1055,7 +996,7 @@ namespace HeBianGu.Application.VsWindow
         {
             for (int i = 0; i < 4; i++)
             {
-                this.Children.Add(new ServerViewModel() { Value = "信号生成分系统_" + i });
+                this.Children.Add(new ServerViewModel() { Value = "发生器_" + i });
             }
         }
     }

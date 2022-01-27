@@ -1,25 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using HeBianGu.Base.WpfBase;
-using HeBianGu.Control.PropertyGrid;
+﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.Shuttle;
 using HeBianGu.Control.Step;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.Service.Mvc;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace HeBianGu.App.Manager
 {
@@ -105,7 +96,7 @@ namespace HeBianGu.App.Manager
 
                 for (int i = 0; i < 20; i++)
                 {
-                    source.Add(new TestViewModel() { Value = (i + 1).ToString() });
+                    source.Add(new TestViewModel() { Value = (i + 1) });
                 }
 
                 shuttle.ItemSource = source;
@@ -122,7 +113,7 @@ namespace HeBianGu.App.Manager
 
                 for (int i = 20; i < 30; i++)
                 {
-                    source.Add(new TestViewModel() { Value = (i + 1).ToString() });
+                    source.Add(new TestViewModel() { Value = i + 1 });
                 }
 
                 shuttle.ItemSource = source;
@@ -139,7 +130,7 @@ namespace HeBianGu.App.Manager
 
                 for (int i = 30; i < 35; i++)
                 {
-                    source.Add(new TestViewModel() { Value = (i + 1).ToString() });
+                    source.Add(new TestViewModel() { Value = (i + 1) });
                 }
 
                 shuttle.ItemSource = source;

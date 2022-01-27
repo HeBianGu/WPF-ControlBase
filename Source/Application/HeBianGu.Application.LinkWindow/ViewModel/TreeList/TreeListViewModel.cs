@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -550,7 +549,7 @@ namespace HeBianGu.Application.LinkWindow
 
     public class TreeNodeEntity
     {
-        [Display(Name ="编号")]
+        [Display(Name = "编号")]
         [Required]
         public string Code { get; set; }
 

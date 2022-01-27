@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Media;
-using HeBianGu.Base.WpfBase;
+﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using System;
+using System.Windows;
+using System.Windows.Media;
 
 namespace HeBianGu.App.Tool
 {
@@ -43,6 +36,13 @@ namespace HeBianGu.App.Tool
 
             //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
+
+            services.AddXmlSerialize();
+            services.AddXmlMeta();
+
+            services.AddSetting();
+            services.AddSettingPath();
+            services.AddSettingViewPrenter();
 
         }
 

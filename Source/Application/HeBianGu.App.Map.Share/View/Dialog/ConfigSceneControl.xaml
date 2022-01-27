@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="HeBianGu.App.Map.View.Dialog.ConfigSceneControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="QQ:908293466"
+             xmlns:local="clr-namespace:HeBianGu.App.Map.View.Dialog"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             Width="900"
+             Height="600"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+             mc:Ignorable="d">
+    <Grid Margin="50,30">
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.MouseOver}}" TargetType="Button">
+                <Setter Property="h:Cattach.IconSize" Value="50" />
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Margin" Value="0,5,0,0" />
+                <Setter Property="h:Cattach.CornerRadius" Value="20" />
+                <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
+            </Style>
+        </Grid.Resources>
+
+        <h:Interaction.Behaviors>
+            <h:LoadAnimationBehavior End="1" EndValue="0"
+                                     IsUseAll="True"
+                                     LoadAnimationType="HorizontalAlignment"
+                                     Split="0.2"
+                                     StartValue="1000" />
+        </h:Interaction.Behaviors>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.RowSpan="3">
+            <StackPanel>
+                <TextBlock Margin="-1,0,0,0"
+                           HorizontalAlignment="Left"
+                           FontSize="25"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                           Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
+                           Text="配置新任务" />
+
+                <TextBlock Margin="0,25,0,10"
+                           HorizontalAlignment="Left"
+                           FontSize="{DynamicResource {x:Static h:IconSizeKeys.Large}}"
+                           Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
+                           Text="{Binding RelativeSource={RelativeSource AncestorType=local:ConfigSceneControl}, Path=Model.Value3}" />
+
+                <ItemsControl Margin="10,20">
+                    <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
+                        <TextBox h:Cattach.Title="名称  "
+                                    h:Cattach.Watermark="请输入任务名称"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}"
+                                    Text="{Binding RelativeSource={RelativeSource AncestorType=local:ConfigSceneControl}, Path=Model.Value}" />
+                    </h:Row>
+                    <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
+                        <TextBox h:Cattach.Title="地图  "
+                                    h:Cattach.Watermark="请输入任务类型"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.OpenFolder}}"
+                                    Text="{Binding RelativeSource={RelativeSource AncestorType=local:ConfigSceneControl}, Path=Model.Value1}" />
+                    </h:Row>
+                    <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
+                        <TextBox h:Cattach.Title="说明  "
+                                    h:Cattach.Watermark="请输入任务说明"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}"
+                                    Text="{Binding RelativeSource={RelativeSource AncestorType=local:ConfigSceneControl}, Path=Model.Value2}" />
+                    </h:Row>
+                </ItemsControl>
+            </StackPanel>
+        </Grid>
+
+        <Button Grid.Row="2"
+                   Grid.ColumnSpan="2"
+                   Margin="0,0,150,0"
+                   HorizontalAlignment="Right"
+                   Command="{x:Static h:DialogHost.CloseDialogCommand}"
+                   CommandParameter="{x:Null}"
+                   Content="上一步"
+                   IsDefault="True"
+                   Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" />
+
+        <Button Grid.Row="2"
+                   Grid.ColumnSpan="2"
+                   Margin="0,0,0,0"
+                   HorizontalAlignment="Right"
+                   Command="{x:Static h:DialogHost.CloseDialogCommand}"
+                   Content="创建"
+                   IsDefault="True"
+                   Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}">
+            <Button.CommandParameter>
+                <system:Boolean>True</system:Boolean>
+            </Button.CommandParameter>
+        </Button>
+
+        <Button Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   Margin="-40,-20"
+                   HorizontalAlignment="Right"
+                   Command="{x:Static h:DialogHost.CloseDialogCommand}"
+                   IsCancel="True"
+                   Style="{DynamicResource {x:Static h:ButtonKeys.Close}}">
+            <Button.CommandParameter>
+                <system:Boolean>False</system:Boolean>
+            </Button.CommandParameter>
+        </Button>
+    </Grid>
+</UserControl>

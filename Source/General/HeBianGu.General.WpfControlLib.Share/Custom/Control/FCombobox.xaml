@@ -2,6 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
     <Style x:Key="S.FComboBox.Single" TargetType="{x:Type local:FComboBox}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
@@ -26,7 +29,7 @@
         <Setter Property="Width" Value="300" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
-        <Setter Property="h:Cattach.FIconMargin" Value="0,0,7,0" />
+        <Setter Property="h:Cattach.IconMargin" Value="0,0,7,0" />
         <!--<Setter Property="h:Cattach.Path" Value="{StaticResource S.Geometry.Rectangle.Rounded.TopRight}"/>-->
         <Setter Property="Template">
             <Setter.Value>
@@ -68,23 +71,23 @@
                         <ContentControl x:Name="Label"
                                         Margin="1,1,0,1"
                                         Background="{TemplateBinding BorderBrush}"
-                                        Content="{TemplateBinding h:Cattach.Label}"
+                                        Content="{TemplateBinding h:Cattach.Title}"
                                         IsHitTestVisible="False"
                                         IsTabStop="False"
-                                        Template="{TemplateBinding h:Cattach.LabelTemplate}" />
+                                        Template="{TemplateBinding h:Cattach.TitleTemplate}" />
 
                         <!--  下拉按钮  -->
                         <ToggleButton x:Name="PART_DropDownToggle"
                                       Grid.Column="1"
                                       Grid.ColumnSpan="3"
-                                      h:Cattach.FIconMargin="{TemplateBinding h:Cattach.FIconMargin}"
-                                      h:Cattach.FIconSize="15"
+                                      h:Cattach.IconMargin="{TemplateBinding h:Cattach.IconMargin}"
+                                      h:Cattach.IconSize="15"
                                       Background="{TemplateBinding h:Cattach.FocusBackground}"
                                       Foreground="{TemplateBinding Foreground}"
                                       IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                       IsEnabled="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static h:XConverter.TrueToFalseConverter}, Mode=OneWay}"
                                       IsTabStop="False"
-                                      Style="{DynamicResource ComboToggleButton}" />
+                                      Style="{DynamicResource {x:Static h:ToggleButtonKeys.ComboBox}}" />
 
                         <!--  水印  -->
                         <Border Grid.Column="1">
@@ -125,7 +128,7 @@
                                      IsHitTestVisible="True"
                                      IsReadOnly="{TemplateBinding IsReadOnly}"
                                      SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                     Style="{DynamicResource EditableTextBoxStyle}"
+                                     Style="{DynamicResource {x:Static local:TextBoxKeys.Editable}}"
                                      Text="{TemplateBinding Text}"
                                      Visibility="Collapsed" />
                         </Grid>
@@ -164,13 +167,13 @@
                                             <RowDefinition Height="*" />
                                         </Grid.RowDefinitions>
 
-                                        <local:FTextBox x:Name="tbSearch"
+                                        <TextBox x:Name="tbSearch"
                                                         Width="Auto"
                                                         Margin="7,5,7.5,2"
                                                         h:Cattach.Watermark="请输入搜索条件"
                                                         FontFamily="{DynamicResource IconFont}"
                                                         Foreground="{TemplateBinding Foreground}"
-                                                        Style="{DynamicResource S.FTextBox.Clear}"
+                                                        Style="{DynamicResource {x:Static h:TextBoxKeys.Clear}}"
                                                         Tag="Search"
                                                         Visibility="{Binding SearchBoxVisibility, RelativeSource={RelativeSource AncestorType=ComboBox}}" />
 
@@ -183,7 +186,7 @@
                                             <ItemsPresenter />
                                         </ScrollViewer>
 
-                                        <local:FButton x:Name="btnClear"
+                                        <Button x:Name="btnClear"
                                                        Grid.Row="1"
                                                        Margin="0,0,3,0"
                                                        HorizontalAlignment="Right"
@@ -263,7 +266,7 @@
                                                   ContentSource="Content"
                                                   Opacity="0.8" />
 
-                                <local:FButton x:Name="btnDelete"
+                                <Button x:Name="btnDelete"
                                                Width="35"
                                                HorizontalAlignment="Right"
                                                VerticalAlignment="Top"
@@ -276,7 +279,7 @@
                                                FontSize="20"
                                                Foreground="{TemplateBinding Foreground}"
                                                Opacity="0.7"
-                                               Style="{DynamicResource S.FButton.Style.Transparent}" />
+                                               Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
                             </Grid>
                         </Border>
                     </Grid>
@@ -299,18 +302,7 @@
     </Style>
 
     <Style x:Key="S.FComboBox.Single.Label" BasedOn="{StaticResource S.FComboBox.Single}" TargetType="{x:Type local:FComboBox}">
-        <Setter Property="h:Cattach.LabelTemplate">
-            <Setter.Value>
-                <ControlTemplate TargetType="ContentControl">
-                    <Border MinWidth="70" Margin="3">
-                        <TextBlock HorizontalAlignment="Right"
-                                   VerticalAlignment="Center"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   Text="{TemplateBinding Content}" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}"/>
     </Style>
 
     <Style BasedOn="{StaticResource S.FComboBox.Single}" TargetType="{x:Type local:FComboBox}" />

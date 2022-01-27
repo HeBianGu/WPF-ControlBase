@@ -1,16 +1,14 @@
-﻿using System;
+﻿using HeBianGu.General.WpfControlLib;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using HeBianGu.General.WpfControlLib;
 
 namespace HeBianGu.App.Touch
 {
     /// <summary> 带有倒计时效果的按钮控件 </summary>
-    public class FButtonCountDown : FButton
+    public class ButtonCountDown : TimeButton
     {
         /// <summary> 开始或停止倒计时 </summary>
         public bool IsActive
@@ -21,9 +19,9 @@ namespace HeBianGu.App.Touch
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsActiveProperty =
-            DependencyProperty.Register("IsActive", typeof(bool), typeof(FButtonCountDown), new PropertyMetadata(default(bool), (d, e) =>
+            DependencyProperty.Register("IsActive", typeof(bool), typeof(ButtonCountDown), new PropertyMetadata(default(bool), (d, e) =>
             {
-                FButtonCountDown control = d as FButtonCountDown;
+                ButtonCountDown control = d as ButtonCountDown;
 
                 if (control == null) return;
 
@@ -108,16 +106,16 @@ namespace HeBianGu.App.Touch
         }
 
         public static readonly DependencyProperty CountProperty =
-            DependencyProperty.Register("Count", typeof(int), typeof(FButtonCountDown), new PropertyMetadata(6, (d, e) =>
+            DependencyProperty.Register("Count", typeof(int), typeof(ButtonCountDown), new PropertyMetadata(6, (d, e) =>
             {
-                FButtonCountDown control = d as FButtonCountDown;
+                ButtonCountDown control = d as ButtonCountDown;
 
                 if (control == null) return;
 
             }));
 
 
-        public FButtonCountDown()
+        public ButtonCountDown()
         {
             //  Message：点击取消
             this.Click += (l, k) =>

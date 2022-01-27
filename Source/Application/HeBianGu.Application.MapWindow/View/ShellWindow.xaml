@@ -21,6 +21,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/System/Menu.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/System/ToggleButton.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/Control/Button.xaml" />
+
             </ResourceDictionary.MergedDictionaries>
 
 
@@ -51,7 +53,7 @@
                 <Setter Property="VerticalAlignment" Value="Stretch" />
             </Style>
 
-            <Style BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Single}}" TargetType="ToggleButton">
+            <Style BasedOn="{DynamicResource {x:Static h:ToggleButtonKeys.Single}}" TargetType="ToggleButton">
                 <Setter Property="VerticalAlignment" Value="Top" />
                 <Setter Property="Height" Value="60" />
                 <Setter Property="BorderThickness" Value="0" />
@@ -94,7 +96,7 @@
                                FontWeight="Black"
                                Text="{Binding Value}" />
 
-                    <!--<ToggleButton x:Name="tb" Style="{StaticResource ComboToggleButton}" h:Cattach.Icon="&#xe63a;"  Margin="10,0" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton},Path=IsChecked}"
+                    <!--<ToggleButton x:Name="tb" Style="{StaticResource {x:Static h:ToggleButtonKeys.ComboBox}}" h:Cattach.Icon="&#xe63a;"  Margin="10,0" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton},Path=IsChecked}"
                                       Grid.Column="2" Grid.RowSpan="2" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
                 </Grid>
@@ -136,13 +138,13 @@
                                Text="{Binding Value}"
                                ToolTip="{Binding Value1}" />
 
-                    <h:FButton x:Name="btn_close"
+                    <Button x:Name="btn_close"
                                Grid.Column="2"
                                Margin="10,0"
-                               FIconSize="12"
                                Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
-                               MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
-                               Style="{DynamicResource S.FButton.Close}"
+                               h:Cattach.IconSize="12"
+                               h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                               Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
                                Visibility="Hidden" />
                 </Grid>
                 <DataTemplate.Triggers>
@@ -166,7 +168,7 @@
 
                     <!--<TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
 
-                    <h:FCheckBox Margin="10,0" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
+                    <CheckBox Margin="10,0" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
 
                     <TextBlock Grid.Row="1"
                                Grid.Column="1"
@@ -174,12 +176,12 @@
                                Text="{Binding Value}"
                                ToolTip="{Binding Value1}" />
 
-                    <h:FButton x:Name="btn_close"
+                    <Button x:Name="btn_close"
                                Grid.Column="2"
-                               FIconSize="12"
                                Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
-                               MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
-                               Style="{DynamicResource S.FButton.Close}"
+                               h:Cattach.IconSize="12"
+                               h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                               Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
                                Visibility="Hidden" />
                 </Grid>
                 <DataTemplate.Triggers>
@@ -209,7 +211,7 @@
             <Setter Property="h:Cattach.MouseOverBackground" Value="Transparent" />
             <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent" />
             <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-            <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource S.Brush.Accent}" />
+            <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         </Style>
 
         <Style BasedOn="{StaticResource C.MenuItem.Default}" TargetType="MenuItem" />
@@ -233,7 +235,7 @@
         <DataTemplate DataType="{x:Type h:TestViewModel}">
             <Grid x:Name="grid"
                   HorizontalAlignment="Stretch"
-                  Background="{DynamicResource S.Brush.Accent}"
+                  Background="{DynamicResource {x:Static h:BrushKeys.Accent}}"
                   TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}">
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -249,7 +251,7 @@
                            Margin="10,0"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           Style="{StaticResource S.TextBlock.FIcon}"
+                           Style="{StaticResource {x:Static h:TextBlockKeys.Icon}}"
                            Text="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton}, Path=Tag}" />
 
                 <TextBlock Grid.Row="0"
@@ -263,17 +265,21 @@
                            FontWeight="Black"
                            Text="{Binding Value}" />
 
-                --><!--<ToggleButton x:Name="tb" Style="{StaticResource ComboToggleButton}" h:Cattach.Icon="&#xe63a;"  Margin="10,0" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton},Path=IsChecked}"
+    -->
+    <!--<ToggleButton x:Name="tb" Style="{StaticResource {x:Static h:ToggleButtonKeys.ComboBox}}" h:Cattach.Icon="&#xe63a;"  Margin="10,0" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton},Path=IsChecked}"
                                       Grid.Column="2" Grid.RowSpan="2" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                                      VerticalAlignment="Center" HorizontalAlignment="Center"/>--><!--
+                                      VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+    <!--
             </Grid>
-            --><!--<DataTemplate.Triggers>
+    -->
+    <!--<DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ToggleButton},Path=IsChecked}" Value="True">
                     <Setter Property="TextBlock.Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" TargetName="grid"/>
                     <Setter Property="Foreground" Value="{DynamicResource S.Brush.TextForeground.Default}" TargetName="tb"/>
-                    <Setter Property="Background" Value="{DynamicResource S.Brush.TextBackground.Default}" TargetName="grid"/>
+                    <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" TargetName="grid"/>
                 </DataTrigger>
-            </DataTemplate.Triggers>--><!--
+            </DataTemplate.Triggers>-->
+    <!--
         </DataTemplate>
 
         <DataTemplate x:Key="C.TestViewModel.Item" DataType="{x:Type h:TestViewModel}">
@@ -297,7 +303,7 @@
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            FontSize="15"
-                           Style="{StaticResource S.TextBlock.FIcon}"
+                           Style="{StaticResource {x:Static h:TextBlockKeys.Icon}}"
                            Text="&#xe90c;" />
 
                 <TextBlock Grid.Row="1"
@@ -310,16 +316,18 @@
                         Margin="0,0"
                         VerticalAlignment="Center"
                         h:Cattach.Icon="&#xe7f3;"
-                        Style="{DynamicResource S.Button.Transparent}" />
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
 
                 <Button x:Name="btn_close"
                         Grid.Column="3"
                         Margin="15,0"
                         VerticalAlignment="Center"
-                        Style="{DynamicResource S.Button.Close}" />
-                --><!--<h:FButton x:Name="btn_close" Grid.Column="2" Style="{DynamicResource S.FButton.Close}" Margin="10,0"
-                                                   FIconSize="12" MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}}" Visibility="Hidden"
-                                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}"/>--><!--
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Close}}" />
+    -->
+    <!--<Button x:Name="btn_close" Grid.Column="2" Style="{DynamicResource {x:Static h:ButtonKeys.Close}}" Margin="10,0"
+                                                   IconSize="12" MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}}" Visibility="Hidden"
+                                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}"/>-->
+    <!--
             </Grid>
             <DataTemplate.Triggers>
                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsMouseOver}" Value="True">
@@ -340,9 +348,11 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                --><!--<TextBlock Style="{StaticResource S.TextBlock.FIcon}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>--><!--
+    -->
+    <!--<TextBlock Style="{StaticResource {x:Static h:TextBlockKeys.Icon}}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+    <!--
 
-                <h:FCheckBox Margin="10,0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <CheckBox Margin="10,0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
@@ -352,12 +362,12 @@
                            ToolTip="{Binding Value1}" />
 
 
-                <h:FButton x:Name="btn_close"
+                <Button x:Name="btn_close"
                            Grid.Column="2"
-                           FIconSize="12"
+                           IconSize="12"
                            Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                            MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}}"
-                           Style="{DynamicResource S.FButton.Close}"
+                           Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
                            Visibility="Hidden" />
             </Grid>
             <DataTemplate.Triggers>
@@ -381,9 +391,11 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                --><!--<TextBlock Style="{StaticResource S.TextBlock.FIcon}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>--><!--
+    -->
+    <!--<TextBlock Style="{StaticResource {x:Static h:TextBlockKeys.Icon}}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+    <!--
 
-                <h:FCheckBox Margin="2,0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <CheckBox Margin="2,0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="1"
@@ -401,10 +413,10 @@
 
                 <Border x:Name="tb_v2"
                         Grid.Column="3"
-                        Height="{DynamicResource S.Window.Item.Height}"
+                        Height="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}"
                         MinWidth="60"
                         HorizontalAlignment="Center"
-                        CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
+                        CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
                     <TextBlock Grid.Row="1"
                                Margin="2,0"
                                VerticalAlignment="Center"
@@ -413,12 +425,12 @@
                                ToolTip="{Binding Value1}" />
                 </Border>
 
-                <h:FButton x:Name="btn_close"
+                <Button x:Name="btn_close"
                            Grid.Column="4"
-                           FIconSize="12"
+                           IconSize="12"
                            Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                            MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}}"
-                           Style="{DynamicResource S.FButton.Close}"
+                           Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
                            Visibility="Hidden" />
             </Grid>
             <DataTemplate.Triggers>
@@ -453,7 +465,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <h:FCheckBox Margin="2,0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <CheckBox Margin="2,0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
 
                 <TextBlock Grid.Row="1"
                            Grid.Column="2"
@@ -464,14 +476,14 @@
                 <h:Ping Grid.Column="1"
                         IP="{Binding Value1}"
                         RunningForegroundBrush="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                        Style="{DynamicResource S.Ping.Single}" />
+                        Style="{DynamicResource {x:Static h:Ping.SingleKey}}" />
 
-                <h:FButton x:Name="btn_close"
+                <Button x:Name="btn_close"
                            Grid.Column="4"
-                           FIconSize="12"
+                           IconSize="12"
                            Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                            MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}}"
-                           Style="{DynamicResource S.FButton.Close}"
+                           Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
                            Visibility="Hidden" />
             </Grid>
             <DataTemplate.Triggers>
@@ -490,18 +502,18 @@
                 <MenuItem Header="打开任务" />
                 <MenuItem Header="保存任务" />
                 <MenuItem Header="另存为" />
-                <Separator Style="{StaticResource {x:Static h:SeparatorKeys.Default}}" />
+                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
                 <MenuItem Header="导出任务" />
                 <MenuItem Header="导入任务" />
                 <MenuItem Header="另存为模板" />
-                <Separator Style="{StaticResource  {x:Static h:SeparatorKeys.Default}}" />
+                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
                 <MenuItem Header="退出" />
             </MenuItem>
 
             <MenuItem Header="编辑(E)" Style="{StaticResource C.MenuItem.Header}">
                 <MenuItem Header="撤销" />
                 <MenuItem Header="剪切" />
-                <Separator Style="{StaticResource  {x:Static h:SeparatorKeys.Default}}" />
+                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
                 <MenuItem Header="复制" />
                 <MenuItem Header="粘贴" />
                 <MenuItem Header="删除" />
@@ -517,7 +529,7 @@
                 <MenuItem Header="注册产品" IsEnabled="True" />
                 <MenuItem Header="技术支持" IsEnabled="True" />
                 <MenuItem Header="软件升级" IsEnabled="True" />
-                <Separator Style="{StaticResource  {x:Static h:SeparatorKeys.Default}}" />
+                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
                 <MenuItem Header="检查更新" IsEnabled="True" />
                 <MenuItem Header="关于" IsEnabled="True" />
             </MenuItem>
@@ -526,8 +538,8 @@
 
     <h:GitTopContainer HeaderHeight="60">
         <h:GitTopContainer.CenterContent>
-            <Grid Background="{DynamicResource S.Brush.TextBackground.Default}">
-                <h:Row Grid.Row="1" Height="Auto" Style="{StaticResource S.Row.Column.4}">
+            <Grid Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}">
+                <h:Row Grid.Row="1" Height="Auto" Style="{DynamicResource {x:Static h:Row.Column4Key}}">
 
                     <h:ImageCore Grid.ColumnSpan="4"
                                  ImageSource="..\Resources\捕获.PNG"
@@ -536,7 +548,7 @@
                         <!--<h:ImageCore ImageSource="..\Resources\捕获.PNG">-->
                         <h:ImageCore.Resources>
                             <Style TargetType="Ellipse">
-                                <Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}" />
+                                <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
                                 <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
                             </Style>
                         </h:ImageCore.Resources>
@@ -559,7 +571,7 @@
                                          VerticalAlignment="Stretch"
                                          ItemsSource="{Binding Servers}"
                                          SelectedItem="{Binding SelectedServer}"
-                                         Style="{StaticResource S.ListBox.Clear}">
+                                         Style="{DynamicResource {x:Static h:ListBoxKeys.Clear}}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel>
@@ -568,13 +580,13 @@
                                                                Cursor="ScrollAll"
                                                                FontSize="42"
                                                                FontWeight="Black"
-                                                               Foreground="{DynamicResource S.Brush.Accent}"
-                                                               Style="{DynamicResource S.TextBlock.FIcon}"
+                                                               Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                                                Text="&#xe6f9;" />
 
                                                     <TextBlock x:Name="tb_name"
                                                                Cursor="Hand"
-                                                               Foreground="{DynamicResource S.Brush.Accent}"
+                                                               Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
                                                                Text="{Binding Value}">
                                                         <h:Interaction.Triggers>
                                                             <h:EventTrigger EventName="MouseDown">
@@ -594,7 +606,7 @@
                                                               VerticalAlignment="Center"
                                                               h:Cattach.SelectedText="&#xe863;"
                                                               h:Cattach.UnSelectedText="&#xe862;"
-                                                              Style="{StaticResource S.CheckBox.Single}" />
+                                                              Style="{DynamicResource {x:Static h:CheckBoxKeys.Single}}" />
 
                                                     <StackPanel.ContextMenu>
                                                         <ContextMenu>
@@ -603,10 +615,10 @@
                                                                       Header="添加装备"
                                                                       IsEnabled="True" />
                                                             <MenuItem Header="删除位置" IsEnabled="True" />
-                                                            <Separator Style="{StaticResource  {x:Static h:SeparatorKeys.Default}}" />
+                                                            <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
                                                             <MenuItem Header="信号检测" IsEnabled="True" />
                                                             <MenuItem Header="功率调整" IsEnabled="True" />
-                                                            <Separator Style="{StaticResource  {x:Static h:SeparatorKeys.Default}}" />
+                                                            <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
                                                             <MenuItem Header="关闭输出" IsEnabled="True" />
                                                             <MenuItem Header="显示/隐藏" IsEnabled="True" />
                                                         </ContextMenu>
@@ -637,7 +649,7 @@
                                                                 <TextBlock x:Name="tb_icon1"
                                                                            FontSize="10"
                                                                            Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                                                                           Style="{DynamicResource S.TextBlock.FIcon}"
+                                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                                                            Text="&#xe81f;" />
                                                                 <TextBlock x:Name="tb_name1"
                                                                            Margin="10,0"
@@ -646,7 +658,7 @@
                                                                 <TextBlock Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Text="{Binding Value1}" />
                                                             </DockPanel>
 
-                                                            <!--<TextBlock Text="&#xe81f;" Margin="2,0" Style="{DynamicResource S.TextBlock.FIcon}"/>-->
+                                                            <!--<TextBlock Text="&#xe81f;" Margin="2,0" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"/>-->
                                                             <!--<DataTemplate.Triggers>
                                                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="True">
                                                                     <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Red}}}" TargetName="tb_icon1"/>
@@ -658,7 +670,7 @@
 
                                                     <!--<ListBox.ItemsPanel>
                                                     <ItemsPanelTemplate>
-                                                        <WrapPanel MaxWidth="230" Background="{DynamicResource S.Brush.Accent.MouseOver.Background}" HorizontalAlignment="Left"/>
+                                                        <WrapPanel MaxWidth="230" Background="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" HorizontalAlignment="Left"/>
                                                     </ItemsPanelTemplate>
                                                 </ListBox.ItemsPanel>-->
 
@@ -700,7 +712,7 @@
                                 <Grid>
 
                                     <DockPanel>
-                                        <TextBlock Text="&#xe6f9;" Style="{DynamicResource S.TextBlock.FIcon}" FontSize="33" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Text="&#xe6f9;" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" FontSize="33" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">
                                           <h:Interaction.Behaviors>
                                             <h:MouseDragElementBehavior/>
                                         </h:Interaction.Behaviors>
@@ -731,11 +743,11 @@
 
                                         <h:ElementExpander.Content>
                             -->
-                            <!--<TextBlock Text="&#xe6f9;" Style="{DynamicResource S.TextBlock.FIcon}" FontSize="33" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+                            <!--<TextBlock Text="&#xe6f9;" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" FontSize="33" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
                             <!--
 
 
-                                            <TextBlock Text="&#xe6f9;" Style="{DynamicResource S.TextBlock.FIcon}" FontSize="33" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <TextBlock Text="&#xe6f9;" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" FontSize="33" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center">
                             -->
                             <!--<TextBlock.Triggers>
                                                     <EventTrigger RoutedEvent="Loaded">
@@ -844,7 +856,7 @@
                                         </StackPanel>
                                         <h:Cattach.AttachContent>
                                             <ControlTemplate>
-                                                <Button  Width="35" Height="35" Style="{DynamicResource S.Button.Close}"
+                                                <Button  Width="35" Height="35" Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
                                         h:Cattach.AllowsAnimation="True"  Command="{x:Static h:CommandService.ActionHiddenCommand}"
                                         CommandParameter="{Binding ElementName=gb_detial_1}"
                                         Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>
@@ -862,7 +874,7 @@
                                         </h:Cattach.VisibleActions>
 
                                         <h:Chart yAxis="-25,0,25,75" xAxis="0,60,120,180,240,300,360" Padding="10,10">
-                                            <h:Series xDatas="{Binding WaveyAxis}" yDatas="{Binding WaveData}" Foreground="{DynamicResource S.Brush.Orange.Notice}">
+                                            <h:Series xDatas="{Binding WaveyAxis}" yDatas="{Binding WaveData}" Foreground="{DynamicResource {x:Static h:BrushKeys.Orange}}">
                                                 <h:Line  TryFreeze="False" Style="{StaticResource S.Line.Single}"/>
                                                 <h:MarkPosition  TryFreeze="False" Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Max"/>
                                                 <h:MarkPosition  TryFreeze="False" Style="{StaticResource S.MarkPosition.Single}" MarkValueType="Min" Foreground="Red"/>
@@ -875,7 +887,7 @@
 
                                         <h:Cattach.AttachContent>
                                             <ControlTemplate>
-                                                <Button  Width="35" Height="35" Style="{DynamicResource S.Button.Close}"
+                                                <Button  Width="35" Height="35" Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
                                         h:Cattach.AllowsAnimation="True"  Command="{x:Static h:CommandService.ActionHiddenCommand}"
                                         CommandParameter="{Binding ElementName=gb_detial_2}"
                                         Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>
@@ -897,7 +909,7 @@
                               h:Cattach.Icon="装"
                               Header="装备列表"
                               IsExpanded="True"
-                              Style="{StaticResource S.Drawer.Left.Default}"
+                              Style="{DynamicResource {x:Static h:Drawer.LeftKey}}"
                               ToolTip="装备列表">
                         <h:Drawer.Background>
                             <SolidColorBrush Opacity="0.5" Color="{DynamicResource AccentColor}" />
@@ -920,50 +932,16 @@
                                          Style="{DynamicResource {x:Static h:TextBoxKeys.ClearSingle}}" />
                             </h:Row>
 
-                            <!--<TabControl ItemContainerStyle="{StaticResource S.TabItem.Line.Default}" BorderThickness="0" Background="Transparent" Padding="0">
-                                <TabItem Header="装备列表" Width="145" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" HorizontalContentAlignment="Center">
-                                    <DockPanel>
-                                        <ListBox ItemTemplate="{StaticResource C.TestViewModel.Item.Checked}" ItemsSource="{Binding Files}" SelectedItem="{Binding SelectedFile}"
-                                                 Background="Transparent">
-                            -->
-                            <!--<h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
-                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
-                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>-->
-                            <!--
-                                        </ListBox>
-                                    </DockPanel>
-                                </TabItem>
-
-                                <TabItem Header="历史记录"  Width="145" HorizontalContentAlignment="Center">
-                                    <ListBox ItemTemplate="{StaticResource C.TestViewModel.Item}"  ItemsSource="{Binding Historys}" SelectedItem="{Binding SelectedHistory}"  Background="{DynamicResource S.Brush.TextBackground.Default}">
-                            -->
-                            <!--<h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
-                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
-                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>-->
-                            <!--
-                                    </ListBox>
-                                </TabItem>
-                            </TabControl>-->
-
                             <DockPanel Grid.Row="1" DockPanel.Dock="Bottom">
-                                <!--<h:Row DockPanel.Dock="Top">
-                                    <h:FTextBox Text="{Binding Title}" h:Cattach.Watermark="请输入标题" Grid.ColumnSpan="12" Margin="{DynamicResource S.Thickness.Margin.10.0}"/>
-                                </h:Row>-->
-
-                                <!--<h:Row DockPanel.Dock="Bottom" Height="45" Margin="10,0">
-                                    <TextBlock Text="Committed a minute ago" Style="{StaticResource S.TextBlock.Default}" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Grid.ColumnSpan="10" HorizontalAlignment="Left"/>
-                                    <h:FButton Style="{StaticResource S.FButton.Style.Transparent}" BorderBrush="{DynamicResource S.Brush.Dark.3}"
-                                   BorderThickness="1" Width="50" Content="Undo" Grid.Column="10" Grid.ColumnSpan="2"/>
-                                </h:Row>-->
 
                                 <h:Row Height="45"
                                        Margin="10,0"
                                        DockPanel.Dock="Bottom"
-                                       Style="{StaticResource S.Row.Column.4}">
+                                       Style="{DynamicResource {x:Static h:Row.Column4Key}}">
 
                                     <CheckBox Content="全选" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
 
-                                    <h:FButton Grid.Row="2"
+                                    <Button Grid.Row="2"
                                                Grid.Column="1"
                                                Width="Auto"
                                                Command="{Binding RelayCommand}"
@@ -971,43 +949,31 @@
                                                Content="添加"
                                                DockPanel.Dock="Bottom" />
 
-                                    <h:FButton Grid.Row="2"
+                                    <Button Grid.Row="2"
                                                Grid.Column="2"
                                                Width="Auto"
                                                Content="删除"
                                                DockPanel.Dock="Bottom" />
 
-                                    <h:FButton Grid.Row="2"
+                                    <Button Grid.Row="2"
                                                Grid.Column="3"
                                                Width="Auto"
                                                Command="{Binding RelayCommand}"
                                                CommandParameter="Button.Click.Commit"
                                                Content="生成"
                                                DockPanel.Dock="Bottom">
-                                        <!--<h:FButton.Triggers>
-                                        <EventTrigger RoutedEvent="Button.Click">
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation From="0" To="100" Duration="00:00:05" Storyboard.Target="{Binding ElementName=pg}" Storyboard.TargetProperty="Value"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger>
-                                    </h:FButton.Triggers>-->
-                                    </h:FButton>
+                                    </Button>
                                 </h:Row>
 
-                                <!--<h:FTextBox Height="Auto" h:Cattach.Watermark="请输入说明"  Margin="{DynamicResource S.Thickness.Margin.10.0}"/>-->
                             </DockPanel>
 
                             <ListBox Grid.Row="1"
-                                     Background="Transparent"
-                                     ItemTemplate="{StaticResource C.TestViewModel.Item.Many}"
+                                     Background="Transparent" 
                                      ItemsSource="{Binding Equipments}"
                                      SelectedItem="{Binding SelectedEquipment}"
-                                     Style="{DynamicResource S.ListBox.Default}">
-                                <!--<h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
-                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
-                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>-->
+                                     Style="{DynamicResource {x:Static h:ListBoxKeys.Default}}">
+                                <!--ItemTemplate="{StaticResource C.TestViewModel.Item.Many}"-->
+
                                 <ListBox.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem CommandParameter="新建任务" Header="添加" IsEnabled="True" />
@@ -1016,7 +982,6 @@
                                 </ListBox.ContextMenu>
                                 <h:Interaction.Triggers>
                                     <h:EventTrigger EventName="SelectionChanged">
-                                        <!--<h:ChangePropertyAction  TargetObject="{Binding ElementName=fd_property}" PropertyName="IsExpanded" Value="True"/>-->
                                         <h:InvokeCommandAction Command="{Binding RelayCommand}" CommandParameter="SelectionChanged.ShowProperty" />
                                     </h:EventTrigger>
                                 </h:Interaction.Triggers>
@@ -1028,11 +993,11 @@
                     <!--  左侧  -->
                     <h:Drawer Padding="0"
                               h:Cattach.Icon="位"
-                              h:Cattach.FIconMargin="0,100,0,0"
+                              h:Cattach.IconMargin="0,100,0,0"
                               Background="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}"
                               Header="位置列表"
                               IsExpanded="False"
-                              Style="{StaticResource S.Drawer.Left.Default}"
+                              Style="{DynamicResource {x:Static h:Drawer.LeftKey}}"
                               ToolTip="位置列表">
                         <h:TransitionService.VisibleActions>
                             <h:TransitionCollection>
@@ -1053,11 +1018,9 @@
                                 <h:Row Height="45"
                                        Margin="10,0"
                                        DockPanel.Dock="Bottom"
-                                       Style="{StaticResource S.Row.Column.3}">
+                                       Style="{DynamicResource {x:Static h:Row.Column3Key}}">
 
-                                    <!--<CheckBox Content="全选" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>-->
-
-                                    <h:FButton Grid.Row="2"
+                                    <Button Grid.Row="2"
                                                Grid.Column="0"
                                                Width="Auto"
                                                Command="{Binding RelayCommand}"
@@ -1065,32 +1028,22 @@
                                                Content="添加"
                                                DockPanel.Dock="Bottom" />
 
-                                    <h:FButton Grid.Row="2"
+                                    <Button Grid.Row="2"
                                                Grid.Column="1"
                                                Width="Auto"
                                                Content="删除"
                                                DockPanel.Dock="Bottom" />
 
-                                    <h:FButton Grid.Row="2"
+                                    <Button Grid.Row="2"
                                                Grid.Column="3"
                                                Width="Auto"
                                                Command="{Binding RelayCommand}"
                                                CommandParameter="Button.Click.Commit"
                                                Content="生成"
                                                DockPanel.Dock="Bottom">
-                                        <!--<h:FButton.Triggers>
-                                        <EventTrigger RoutedEvent="Button.Click">
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation From="0" To="100" Duration="00:00:05" Storyboard.Target="{Binding ElementName=pg}" Storyboard.TargetProperty="Value"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger>
-                                    </h:FButton.Triggers>-->
-                                    </h:FButton>
+                                    </Button>
                                 </h:Row>
 
-                                <!--<h:FTextBox Height="Auto" h:Cattach.Watermark="请输入说明"  Margin="{DynamicResource S.Thickness.Margin.10.0}"/>-->
                             </DockPanel>
 
                             <ListBox Grid.Row="1"
@@ -1104,7 +1057,7 @@
                                         <MenuItem CommandParameter="新建任务" Header="添加位置" IsEnabled="True" />
                                         <MenuItem CommandParameter="新建任务" Header="添加装备" IsEnabled="True" />
                                         <MenuItem Header="删除位置" IsEnabled="True" />
-                                        <Separator Style="{StaticResource  {x:Static h:SeparatorKeys.Default}}" />
+                                        <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
                                         <MenuItem Header="信号检测" IsEnabled="True" />
                                         <MenuItem Header="功率调整" IsEnabled="True" />
                                         <MenuItem Header="关闭输出" IsEnabled="True" />
@@ -1133,7 +1086,7 @@
                                                                VerticalAlignment="Center"
                                                                FontSize="15"
                                                                Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                                                               Style="{DynamicResource S.TextBlock.FIcon}"
+                                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                                                Text="&#xe73b;"
                                                                ToolTip="{Binding Value1}" />
 
@@ -1148,7 +1101,7 @@
                                                     <h:Ping Grid.Column="2"
                                                             IP="{Binding Value1}"
                                                             RunningForegroundBrush="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                                                            Style="{DynamicResource S.Ping.Single}" />
+                                                            Style="{DynamicResource {x:Static h:Ping.SingleKey}}" />
 
                                                     <TextBlock Grid.Row="1"
                                                                Grid.Column="3"
@@ -1159,12 +1112,12 @@
                                                         <Run Text="{Binding Children.Count, Mode=OneWay}" />
                                                     </TextBlock>
 
-                                                    <h:FButton x:Name="btn_close"
+                                                    <Button x:Name="btn_close"
                                                                Grid.Column="4"
-                                                               FIconSize="12"
                                                                Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                                                               MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
-                                                               Style="{DynamicResource S.FButton.Close}"
+                                                               h:Cattach.IconSize="12"
+                                                               h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                                                               Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
                                                                Visibility="Hidden" />
 
 
@@ -1204,9 +1157,9 @@
                                                                 <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
 
-                                                            <!--<TextBlock Style="{StaticResource S.TextBlock.FIcon}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
+                                                            <!--<TextBlock Style="{StaticResource {x:Static h:TextBlockKeys.Icon}}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
 
-                                                            <!--<h:FCheckBox Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>-->
+                                                            <!--<CheckBox Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>-->
 
                                                             <TextBlock Grid.Row="1"
                                                                        Grid.Column="0"
@@ -1214,7 +1167,7 @@
                                                                        VerticalAlignment="Center"
                                                                        FontSize="12"
                                                                        Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                                                                       Style="{DynamicResource S.TextBlock.FIcon}"
+                                                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                                                        Text="&#xe861;"
                                                                        ToolTip="{Binding Value1}" />
 
@@ -1235,10 +1188,10 @@
 
                                                             <Border x:Name="tb_v2"
                                                                     Grid.Column="3"
-                                                                    Height="{DynamicResource S.Window.Item.Height}"
+                                                                    Height="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}"
                                                                     MinWidth="60"
                                                                     HorizontalAlignment="Center"
-                                                                    CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
+                                                                    CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
                                                                 <TextBlock Grid.Row="1"
                                                                            Margin="2,0"
                                                                            VerticalAlignment="Center"
@@ -1247,12 +1200,12 @@
                                                                            ToolTip="{Binding Value1}" />
                                                             </Border>
 
-                                                            <h:FButton x:Name="btn_close"
+                                                            <Button x:Name="btn_close"
                                                                        Grid.Column="4"
-                                                                       FIconSize="12"
                                                                        Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                                                                       MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}}"
-                                                                       Style="{DynamicResource S.FButton.Close}"
+                                                                       h:Cattach.IconSize="12"
+                                                                       h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                                                                       Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
                                                                        Visibility="Hidden" />
                                                         </Grid>
 
@@ -1281,82 +1234,6 @@
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
-
-                            <!--<TreeView ItemsSource="{Binding Servers}" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Style="{StaticResource S.TreeView.Handy.Accent}" Background="Transparent" HorizontalAlignment="Stretch">
-                                <TreeView.Resources>
-                                    <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type local:ServerViewModel}">
-                                        <Grid x:Name="grid" Width="250" HorizontalAlignment="Stretch" TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-
-                            -->
-                            <!--<h:FCheckBox Margin="2,0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>-->
-                            <!--
-
-                                            <TextBlock Text="&#xe73b;" FontSize="15" Style="{DynamicResource S.TextBlock.FIcon}" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
-
-                                            <TextBlock Text="{Binding Value}" Margin="10,0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
-
-                                            <h:PingState IP="{Binding Value1}" RunningForegroundBrush="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"  Style="{DynamicResource S.Ping.Single}" Grid.Column="2"/>
-
-                                            <TextBlock Margin="10,0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Grid.Column="3" Grid.Row="1" VerticalAlignment="Center">
-                                                <Run Text="数量"/>
-                                                <Run Text="{Binding Children.Count,Mode=OneWay}"/>
-                                            </TextBlock>
-
-                                            <h:FButton x:Name="btn_close" Grid.Column="4" Style="{DynamicResource S.FButton.Close}"
-                                                   FIconSize="12" MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}}" Visibility="Hidden"
-                                                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>
-
-                                        </Grid>
-                                    </HierarchicalDataTemplate>
-
-                                    <HierarchicalDataTemplate ItemsSource="{Binding Children}" DataType="{x:Type h:TestViewModel}">
-                                        <Grid x:Name="grid" Width="260" HorizontalAlignment="Stretch" TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=Foreground}">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition/>
-                                            </Grid.RowDefinitions>
-
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-
-                            -->
-                            <!--<TextBlock Style="{StaticResource S.TextBlock.FIcon}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
-
-                            <!--<h:FCheckBox Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>-->
-                            <!--
-
-                                            <TextBlock Text="&#xe861;" Margin="10,0" FontSize="12" Style="{DynamicResource S.TextBlock.FIcon}" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
-
-                                            <TextBlock Text="{Binding Value}" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
-
-                                            <TextBlock Text="{Binding Value1}"  Margin="5,0" Grid.Column="2" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
-
-                                            <Border x:Name="tb_v2" MinWidth="60" Height="{DynamicResource S.Window.Item.Height}"  HorizontalAlignment="Center" Grid.Column="3" CornerRadius="{DynamicResource S.Window.Item.CornerRadius}">
-                                                <TextBlock Text="{Binding Value2}"   Margin="2,0"  Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Grid.Row="1" VerticalAlignment="Center" ToolTip="{Binding Value1}"/>
-                                            </Border>
-
-                                            <h:FButton x:Name="btn_close" Grid.Column="4" Style="{DynamicResource S.FButton.Close}"
-                                                   FIconSize="12" MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}}" Visibility="Hidden"
-                                                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>
-                                        </Grid>
-
-                                    </HierarchicalDataTemplate>
-                                </TreeView.Resources>
-                            </TreeView>-->
                         </DockPanel>
                     </h:Drawer>
 
@@ -1368,7 +1245,7 @@
                               Background="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}"
                               Header="装备属性"
                               IsExpanded="{Binding IsExpanedProperty, Mode=TwoWay}"
-                              Style="{StaticResource S.Drawer.Right.Default}"
+                              Style="{DynamicResource {x:Static h:Drawer.RightKey}}"
                               ToolTip="属性">
                         <h:TransitionService.VisibleActions>
                             <h:TransitionCollection>
@@ -1383,67 +1260,67 @@
                                         <StackPanel VerticalAlignment="Top" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}">
 
 
-                                            <h:Row Style="{StaticResource S.Row.Column.1}">
-                                                <TextBox h:Cattach.Label="装备名称："
+                                            <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
+                                                <TextBox h:Cattach.Title="装备名称："
                                                          h:Cattach.TitleForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                          DockPanel.Dock="Top"
-                                                         Style="{StaticResource S.TextBox.LabelClear}"
+                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
                                                          Text="{Binding Value}" />
                                             </h:Row>
 
-                                            <h:Row Style="{StaticResource S.Row.Column.1}">
-                                                <TextBox h:Cattach.Label="装备类型："
+                                            <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
+                                                <TextBox h:Cattach.Title="装备类型："
                                                          h:Cattach.TitleForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                          DockPanel.Dock="Top"
-                                                         Style="{StaticResource S.TextBox.LabelClear}"
+                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
                                                          Text="{Binding Value1}" />
                                             </h:Row>
 
-                                            <h:Row Style="{StaticResource S.Row.Column.1}">
-                                                <TextBox h:Cattach.Label="信号类型："
+                                            <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
+                                                <TextBox h:Cattach.Title="信号类型："
                                                          h:Cattach.TitleForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                          DockPanel.Dock="Top"
-                                                         Style="{StaticResource S.TextBox.LabelClear}"
+                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
                                                          Text="{Binding Value2}" />
                                             </h:Row>
 
 
-                                            <h:Row Style="{StaticResource S.Row.Column.1}">
-                                                <TextBox h:Cattach.Label="中心频率："
+                                            <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
+                                                <TextBox h:Cattach.Title="中心频率："
                                                          h:Cattach.TitleForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                          DockPanel.Dock="Top"
-                                                         Style="{StaticResource S.TextBox.LabelClear}"
+                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
                                                          Text="{Binding Double1}" />
                                             </h:Row>
 
-                                            <h:Row Style="{StaticResource S.Row.Column.1}">
-                                                <TextBox h:Cattach.Label="输出频率："
+                                            <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
+                                                <TextBox h:Cattach.Title="输出频率："
                                                          h:Cattach.TitleForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                          DockPanel.Dock="Top"
-                                                         Style="{StaticResource S.TextBox.LabelClear}"
+                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
                                                          Text="{Binding Double2}" />
                                             </h:Row>
 
-                                            <h:Row Style="{StaticResource S.Row.Column.1}">
+                                            <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
 
-                                                <TextBox h:Cattach.Label="信号码速："
+                                                <TextBox h:Cattach.Title="信号码速："
                                                          h:Cattach.TitleForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                          DockPanel.Dock="Top"
-                                                         Style="{StaticResource S.TextBox.LabelClear}"
+                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
                                                          Text="{Binding Double3}" />
                                             </h:Row>
-                                            <h:Row Style="{StaticResource S.Row.Column.1}">
-                                                <TextBox h:Cattach.Label="调制频偏："
+                                            <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
+                                                <TextBox h:Cattach.Title="调制频偏："
                                                          h:Cattach.TitleForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                          DockPanel.Dock="Top"
-                                                         Style="{StaticResource S.TextBox.LabelClear}"
+                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
                                                          Text="{Binding Double10}" />
                                             </h:Row>
-                                            <h:Row Style="{StaticResource S.Row.Column.1}">
-                                                <TextBox h:Cattach.Label="调制深度："
+                                            <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
+                                                <TextBox h:Cattach.Title="调制深度："
                                                          h:Cattach.TitleForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                          DockPanel.Dock="Top"
-                                                         Style="{StaticResource S.TextBox.LabelClear}"
+                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
                                                          Text="{Binding Double12}" />
                                             </h:Row>
                                         </StackPanel>
@@ -1452,29 +1329,6 @@
                             </ContentControl>
                         </Grid>
 
-                        <!--<Grid Margin="0" Width="300">
-                            <Grid.Resources>
-                                <DataTemplate DataType="{x:Type local:CWViewModel}">
-                                    <Grid>
-                                        <TextBlock Text="{Binding DisplayName}"/>
-                                    </Grid>
-                                </DataTemplate>
-
-                                <DataTemplate DataType="{x:Type local:AMViewModel}">
-                                    <Grid>
-                                        <TextBlock Text="{Binding DisplayName}"/>
-                                    </Grid>
-                                </DataTemplate>
-
-                                <DataTemplate DataType="{x:Type local:ASKViewModel}">
-                                    <Grid>
-                                        <TextBlock Text="{Binding DisplayName}"/>
-                                    </Grid>
-                                </DataTemplate>
-                            </Grid.Resources>
-
-                            <ContentControl Content="{Binding Student}"/>
-                        </Grid>-->
                     </h:Drawer>
 
                     <!--  右侧  -->
@@ -1482,11 +1336,11 @@
                               Margin="0,50,0,0"
                               Padding="0"
                               h:Cattach.Icon="属"
-                              h:Cattach.FIconMargin="0,100,0,0"
+                              h:Cattach.IconMargin="0,100,0,0"
                               Background="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}"
                               Header="位置属性"
                               IsExpanded="{Binding IsExpandedServerProperty, Mode=TwoWay}"
-                              Style="{StaticResource S.Drawer.Right.Default}"
+                              Style="{StaticResource {x:Static h:Drawer.RightKey}}"
                               ToolTip="属性">
                         <h:TransitionService.VisibleActions>
                             <h:TransitionCollection>
@@ -1501,15 +1355,15 @@
                                         <StackPanel VerticalAlignment="Top" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}">
 
 
-                                            <h:Row Style="{StaticResource S.Row.Column.1}">
-                                                <TextBox h:Cattach.Label="名称："
+                                            <h:Row Style="{DynamicResource {x:Static h:Row.Column1Key}}">
+                                                <TextBox h:Cattach.Title="名称："
                                                          h:Cattach.TitleForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                          DockPanel.Dock="Top"
-                                                         Style="{StaticResource S.TextBox.LabelClear}"
+                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
                                                          Text="{Binding Value}" />
                                             </h:Row>
 
-                                            <h:Row Margin="{StaticResource S.Thickness.Margin.10.0}" Style="{StaticResource S.Row.Column.1}">
+                                            <h:Row Margin="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" Style="{DynamicResource {x:Static h:Row.Column1Key}}">
                                                 <DockPanel>
                                                     <TextBlock Text="状态：" />
 
@@ -1517,21 +1371,21 @@
                                                 </DockPanel>
                                             </h:Row>
 
-                                            <h:Row Margin="{StaticResource S.Thickness.Margin.10.0}" Style="{StaticResource S.Row.Column.1}">
+                                            <h:Row Margin="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" Style="{DynamicResource {x:Static h:Row.Column1Key}}">
                                                 <TextBlock>
                                                     <Run Text="LatLngX：" />
                                                     <Run Text="34.2393" />
                                                 </TextBlock>
                                             </h:Row>
 
-                                            <h:Row Margin="{StaticResource S.Thickness.Margin.10.0}" Style="{StaticResource S.Row.Column.1}">
+                                            <h:Row Margin="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" Style="{DynamicResource {x:Static h:Row.Column1Key}}">
                                                 <TextBlock>
                                                     <Run Text="LatLngY：" />
                                                     <Run Text="108.085" />
                                                 </TextBlock>
                                             </h:Row>
 
-                                            <h:Row Margin="{StaticResource S.Thickness.Margin.10.0}" Style="{StaticResource S.Row.Column.1}">
+                                            <h:Row Margin="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" Style="{DynamicResource {x:Static h:Row.Column1Key}}">
                                                 <TextBlock>
                                                     <Run Text="装备数量：" />
                                                     <Run Text="{Binding Children.Count, Mode=OneWay}" />
@@ -1552,16 +1406,15 @@
                                       DockPanel.Dock="Right"
                                       Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                       IsExpanded="False"
-                                      Style="{StaticResource S.ToggleExpander.Single}">
+                                      Style="{DynamicResource {x:Static h:ToggleExpander.SingleKey}}">
                         <h:ToggleExpander.Resources>
-                            <Style x:Key="C.FButton.Default" BasedOn="{StaticResource S.FButton.Style.Transparent}" TargetType="h:FButton">
+                            <Style x:Key="C.Button.Default" BasedOn="{StaticResource {x:Static h:ButtonKeys.Transparent}}" TargetType="Button">
                                 <Setter Property="Height" Value="Auto" />
                                 <Setter Property="Icon" Value="&#xe67f;" />
-                                <Setter Property="FIconSize" Value="30" />
+                                <Setter Property="IconSize" Value="30" />
                                 <Setter Property="Background" Value="Transparent" />
                                 <Setter Property="HorizontalAlignment" Value="Center" />
                                 <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-                                <!--<Setter Property="RenderTransform" Value="{StaticResource S.TransformGroup.Default}"/>-->
                             </Style>
                         </h:ToggleExpander.Resources>
 
@@ -1573,25 +1426,16 @@
                                 <StackPanel Orientation="Horizontal" />
                             </ItemsPanelTemplate>
                         </h:ToggleExpander.ItemsPanel>
-                        <!--<h:FButton FIcon="&#xe909;" Style="{StaticResource C.FButton.Default}"/>
-                        <h:FButton FIcon="&#xe90b;" Style="{StaticResource C.FButton.Default}"/>
-                        <h:FButton FIcon="&#xe90c;" Style="{StaticResource C.FButton.Default}"/>
-                        <h:FButton FIcon="&#xe91a;" Style="{StaticResource C.FButton.Default}"/>
-                        <h:FButton FIcon="&#xe91b;" Style="{StaticResource C.FButton.Default}"/>
-                        <h:FButton FIcon="&#xe927;" Style="{StaticResource C.FButton.Default}"/>
-                        <h:FButton FIcon="&#xe929;" Style="{StaticResource C.FButton.Default}"/>
-                        <h:FButton FIcon="&#xe92a;" Style="{StaticResource C.FButton.Default}"/>
-                        <h:FButton FIcon="&#xe93a;" Style="{StaticResource C.FButton.Default}"/>-->
 
-                        <h:FButton Icon="&#xe909;" Style="{StaticResource C.FButton.Default}" />
-                        <h:FButton Icon="&#xe90b;" Style="{StaticResource C.FButton.Default}" />
-                        <h:FButton Icon="&#xe90c;" Style="{StaticResource C.FButton.Default}" />
-                        <h:FButton Icon="&#xe91a;" Style="{StaticResource C.FButton.Default}" />
-                        <h:FButton Icon="&#xe91b;" Style="{StaticResource C.FButton.Default}" />
-                        <h:FButton Icon="&#xe927;" Style="{StaticResource C.FButton.Default}" />
-                        <h:FButton Icon="&#xe929;" Style="{StaticResource C.FButton.Default}" />
-                        <h:FButton Icon="&#xe92a;" Style="{StaticResource C.FButton.Default}" />
-                        <h:FButton Icon="&#xe93a;" Style="{StaticResource C.FButton.Default}" />
+                        <Button h:Cattach.Icon="&#xe909;" Style="{StaticResource C.Button.Default}" />
+                        <Button h:Cattach.Icon="&#xe90b;" Style="{StaticResource C.Button.Default}" />
+                        <Button h:Cattach.Icon="&#xe90c;" Style="{StaticResource C.Button.Default}" />
+                        <Button h:Cattach.Icon="&#xe91a;" Style="{StaticResource C.Button.Default}" />
+                        <Button h:Cattach.Icon="&#xe91b;" Style="{StaticResource C.Button.Default}" />
+                        <Button h:Cattach.Icon="&#xe927;" Style="{StaticResource C.Button.Default}" />
+                        <Button h:Cattach.Icon="&#xe929;" Style="{StaticResource C.Button.Default}" />
+                        <Button h:Cattach.Icon="&#xe92a;" Style="{StaticResource C.Button.Default}" />
+                        <Button h:Cattach.Icon="&#xe93a;" Style="{StaticResource C.Button.Default}" />
 
 
                     </h:ToggleExpander>
@@ -1618,7 +1462,7 @@
                                    Margin="10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Style="{StaticResource S.TextBlock.FIcon}"
+                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                    Text="&#xe6ad;" />
 
                         <TextBlock Grid.Row="0"
@@ -1636,12 +1480,12 @@
                 </DataTemplate>
             </h:GitTopItem.HeaderTemplate>
             <StackPanel>
-                <h:FTextBox Margin="10" h:Cattach.Icon="&#xe787;" h:Cattach.Watermark="请输入筛选条件" />
+                <TextBox Margin="10" h:Cattach.Icon="&#xe787;" h:Cattach.Watermark="请输入筛选条件" />
                 <GroupBox Margin="0,2"
                           Padding="0"
                           h:Cattach.Icon=""
                           Header="其他任务"
-                          Style="{StaticResource S.GroupBox.UnderLine}">
+                          Style="{DynamicResource {x:Static h:GroupBoxKeys.UnderLine}}">
                     <ListBox ItemTemplate="{StaticResource C.TestViewModel.Item}" ItemsSource="{Binding Scenes}" SelectedItem="{Binding SelectedScene}">
                         <h:Interaction.Triggers>
                             <h:EventTrigger EventName="MouseDoubleClick">
@@ -1672,7 +1516,7 @@
                                    Margin="10,0"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Style="{StaticResource S.TextBlock.FIcon}"
+                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                    Text="&#xe90b;" />
 
                         <TextBlock Grid.Row="0"
@@ -1690,12 +1534,12 @@
                 </DataTemplate>
             </h:GitTopItem.HeaderTemplate>
             <StackPanel>
-                <h:FTextBox Margin="10" h:Cattach.Icon="&#xe787;" h:Cattach.Watermark="filter" />
+                <TextBox Margin="10" h:Cattach.Icon="&#xe787;" h:Cattach.Watermark="filter" />
                 <GroupBox Margin="0,2"
                           Padding="0"
                           h:Cattach.Icon=""
                           Header="Others"
-                          Style="{StaticResource S.GroupBox.UnderLine}">
+                          Style="{DynamicResource {x:Static h:GroupBoxKeys.UnderLine}}">
                     <ListBox ItemTemplate="{StaticResource C.TestViewModel.Item}" ItemsSource="{Binding Templates}" SelectedItem="{Binding SelectedTemplate}">
                         <h:Interaction.Triggers>
                             <h:EventTrigger EventName="MouseDoubleClick">
@@ -1712,8 +1556,8 @@
             <ProgressBar x:Name="pg"
                          Height="60"
                          VerticalAlignment="Top"
-                         Background="{DynamicResource S.Brush.White.Opactiy.3}"
-                         Style="{StaticResource S.ProgressBar.Handy.Default}"
+                         Background="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy3}}"
+                         Style="{DynamicResource {x:Static h:ProgressBarKeys.Handy}}"
                          Value="{Binding Percent}">
                 <!--<ProgressBar.Triggers>
                     <EventTrigger RoutedEvent="Loaded">
@@ -1734,7 +1578,7 @@
                     h:Cattach.Icon="&#xe9c0;"
                     Background="Transparent"
                     Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                    Style="{DynamicResource S.Button.Transparent}">
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}">
                 <h:Interaction.Triggers>
                     <h:EventTrigger EventName="Click">
                         <h:ChangePropertyAction PropertyName="HeaderHeight" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=h:GitTopContainer}}" Value="0" />
@@ -1751,10 +1595,10 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
                     h:Cattach.Icon="&#xe7f1;"
-                    h:Cattach.FIconSize="12"
+                    h:Cattach.IconSize="12"
                     Background="Transparent"
                     Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                    Style="{DynamicResource S.Button.Transparent}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
                     Visibility="Collapsed"
                     WindowChrome.IsHitTestVisibleInChrome="True">
                 <h:Interaction.Triggers>

@@ -243,6 +243,16 @@ namespace HeBianGu.Base.WpfBase
             get { return new GetTypeDisplayConverter(); }
         }
 
+        public static ToTypeConverter GetTypeConverter
+        {
+            get { return new ToTypeConverter(); }
+        }
+
+        public static FindResourceConverter FindResourceConverter
+        {
+            get { return new FindResourceConverter(); }
+        }
+
         public static DoubleTextConverter DoubleTextConverter
         {
             get { return new DoubleTextConverter(); }

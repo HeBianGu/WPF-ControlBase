@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HeBianGu.Control.Message;
+using HeBianGu.General.WpfControlLib;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using HeBianGu.Control.Message;
-using HeBianGu.General.WpfControlLib;
 
 namespace HeBianGu.App.Touch.View.Share
 {
@@ -32,7 +20,7 @@ namespace HeBianGu.App.Touch.View.Share
               };
 
         }
-        private void FButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (this.pb_password.Password == "111111")
             {

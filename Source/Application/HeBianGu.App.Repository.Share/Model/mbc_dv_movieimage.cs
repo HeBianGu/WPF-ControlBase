@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using HeBianGu.Base.WpfBase;
 
 namespace HeBianGu.App.Repository
 {

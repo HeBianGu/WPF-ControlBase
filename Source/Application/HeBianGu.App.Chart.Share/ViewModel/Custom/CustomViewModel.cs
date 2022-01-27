@@ -1,20 +1,11 @@
-﻿using System;
+﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Service.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using HeBianGu.Base.WpfBase;
-using HeBianGu.General.WpfControlLib;
-using HeBianGu.Service.Mvc;
 
 namespace HeBianGu.App.Chart
 {

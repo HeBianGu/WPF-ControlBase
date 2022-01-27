@@ -1,15 +1,9 @@
 ﻿
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using HeBianGu.Base.WpfBase;
 using HeBianGu.Service.Mvc;
+using System;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace HeBianGu.App.Touch
 {

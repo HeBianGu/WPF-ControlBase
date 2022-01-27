@@ -1,15 +1,7 @@
-﻿using HeBianGu.Applications.ControlBase.LinkWindow;
-using HeBianGu.Base.WpfBase;
+﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
-using HeBianGu.Window.Login;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -27,7 +19,7 @@ namespace HeBianGu.Application.LinkWindow
             //LoginWindow login = new LoginWindow();
 
             //login.Title = this.GetVersonInfo();
-        
+
             //login.InitAccount(()=>
             //{
             //    Thread.Sleep(1000);

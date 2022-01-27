@@ -1,21 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using HeBianGu.Base.WpfBase;
-using HeBianGu.Control.PropertyGrid;
-using HeBianGu.General.WpfControlLib;
-using HeBianGu.Service.Mvc;
+﻿using HeBianGu.Service.Mvc;
+using System;
 
 namespace HeBianGu.App.Disk
 {
@@ -23,6 +7,17 @@ namespace HeBianGu.App.Disk
     internal class SendViewModel : MvcViewModelBase
     {
 
+        private LinkAction _selectedItem;
+        /// <summary> 说明  </summary>
+        public LinkAction SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                _selectedItem = value;
+                RaisePropertyChanged();
+            }
+        }
 
         protected override void Init()
         {

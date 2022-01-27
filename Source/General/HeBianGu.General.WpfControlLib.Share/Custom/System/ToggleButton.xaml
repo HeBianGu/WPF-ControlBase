@@ -3,24 +3,23 @@
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.Default, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.Dynamic, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource S.ToggleButton.Dynamic}" TargetType="{x:Type ToggleButton}">
+        <!--<Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />-->
         <Setter Property="h:Cattach.UnSelectedText" Value="&#xe81a;" />
         <Setter Property="h:Cattach.SelectedText" Value="&#xe81d;" />
         <Setter Property="h:Cattach.SelectedOpacity" Value="1" />
         <Setter Property="h:Cattach.UnSelectedOpacity" Value="0.8" />
-        <Setter Property="h:Cattach.FIconMargin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_2_0}}" />
-        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Normal}}" />
-        <Setter Property="h:Cattach.Label" Value="Label" />
-
+     
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -34,21 +33,21 @@
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </DockPanel>
                     </Grid>
-                    <!--  z触发器  -->
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.MouseOverForeground)}" />
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverForeground)}" />
                             <Setter TargetName="Grid" Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SelectForeground)}" />
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectForeground)}" />
                             <Setter TargetName="Grid" Property="Opacity" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SelectedOpacity)}" />
                             <Setter TargetName="icon" Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SelectedText)}" />
                         </Trigger>
 
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SelectForeground)}" />
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectForeground)}" />
                             <Setter TargetName="Grid" Property="Opacity" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UnSelectedOpacity)}" />
                             <Setter TargetName="icon" Property="Text" Value="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UnSelectedText)}" />
                         </Trigger>
@@ -89,10 +88,22 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.BrushFIconChecked, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Default}}" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.Default, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Dynamic}}" TargetType="{x:Type ToggleButton}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.Single, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Default}}" TargetType="{x:Type ToggleButton}">
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.Accent, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Default}}" TargetType="{x:Type ToggleButton}">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.BrushFIconChecked, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Dynamic}}" TargetType="{x:Type ToggleButton}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Large}}" />
-        <Setter Property="h:Cattach.FIconMargin" Value="1" />
+        <Setter Property="h:Cattach.IconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Large}}" />
+        <Setter Property="h:Cattach.IconMargin" Value="1" />
         <Setter Property="h:Cattach.Icon" Value="&#xe603;" />
         <Setter Property="h:Cattach.CheckedForegroundBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="h:Cattach.CheckedBackgroundBrush" Value="Transparent" />
@@ -103,10 +114,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid x:Name="Grid" Margin="{TemplateBinding Padding}">
-                        <StackPanel Margin="{TemplateBinding h:Cattach.FIconMargin}" Orientation="Horizontal">
+                        <StackPanel Margin="{TemplateBinding h:Cattach.IconMargin}" Orientation="Horizontal">
 
                             <TextBlock x:Name="Icon"
-                                       FontSize="{Binding Path=(h:Cattach.FIconSize), RelativeSource={RelativeSource TemplatedParent}}"
+                                       FontSize="{Binding Path=(h:Cattach.IconSize), RelativeSource={RelativeSource TemplatedParent}}"
                                        Foreground="{TemplateBinding Foreground}"
                                        Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                        Text="{TemplateBinding h:Cattach.Icon}" />
@@ -172,10 +183,10 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.BrushFIconChecked.RightToLeft, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Default}}" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.BrushFIconChecked.RightToLeft, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Dynamic}}" TargetType="{x:Type ToggleButton}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Large}}" />
-        <Setter Property="h:Cattach.FIconMargin" Value="1" />
+        <Setter Property="h:Cattach.IconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Large}}" />
+        <Setter Property="h:Cattach.IconMargin" Value="1" />
         <Setter Property="h:Cattach.Icon" Value="&#xe603;" />
         <Setter Property="h:Cattach.CheckedForegroundBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="h:Cattach.CheckedBackgroundBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
@@ -186,7 +197,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid x:Name="Grid" Margin="{TemplateBinding Padding}">
-                        <StackPanel Margin="{TemplateBinding h:Cattach.FIconMargin}" Orientation="Horizontal">
+                        <StackPanel Margin="{TemplateBinding h:Cattach.IconMargin}" Orientation="Horizontal">
 
                             <TextBlock x:Name="txt"
                                        HorizontalAlignment="Center"
@@ -196,9 +207,9 @@
                                        Text="{TemplateBinding Content}" />
 
                             <TextBlock x:Name="Icon"
-                                       Margin="{Binding Path=(h:Cattach.FIconMargin), RelativeSource={RelativeSource TemplatedParent}}"
+                                       Margin="{Binding Path=(h:Cattach.IconMargin), RelativeSource={RelativeSource TemplatedParent}}"
                                        VerticalAlignment="Center"
-                                       FontSize="{Binding Path=(h:Cattach.FIconSize), RelativeSource={RelativeSource TemplatedParent}}"
+                                       FontSize="{Binding Path=(h:Cattach.IconSize), RelativeSource={RelativeSource TemplatedParent}}"
                                        Foreground="{TemplateBinding Foreground}"
                                        Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                        Text="{TemplateBinding h:Cattach.Icon}" />
@@ -256,10 +267,10 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.DoubleFIconChecked, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Default}}" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.DoubleFIconChecked, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Dynamic}}" TargetType="{x:Type ToggleButton}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
-        <Setter Property="h:Cattach.FIconMargin" Value="1" />
+        <Setter Property="h:Cattach.IconSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
+        <Setter Property="h:Cattach.IconMargin" Value="1" />
         <Setter Property="h:Cattach.Icon" Value="&#xe81a;" />
         <Setter Property="Content" Value="&#xe81d;" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -269,12 +280,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid x:Name="Grid" Margin="{TemplateBinding Padding}">
-                        <!--<StackPanel Orientation="Horizontal" Margin="{TemplateBinding h:Cattach.FIconMargin}">-->
+                        <!--<StackPanel Orientation="Horizontal" Margin="{TemplateBinding h:Cattach.IconMargin}">-->
 
                         <TextBlock x:Name="Icon"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   FontSize="{Binding Path=(h:Cattach.FIconSize), RelativeSource={RelativeSource TemplatedParent}}"
+                                   FontSize="{Binding Path=(h:Cattach.IconSize), RelativeSource={RelativeSource TemplatedParent}}"
                                    Foreground="{TemplateBinding Foreground}"
                                    Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                    Text="{TemplateBinding h:Cattach.Icon}" />
@@ -336,10 +347,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid x:Name="Grid" Margin="{TemplateBinding Padding}">
-                        <StackPanel Margin="{TemplateBinding h:Cattach.FIconMargin}" Orientation="Horizontal">
+                        <StackPanel Margin="{TemplateBinding h:Cattach.IconMargin}" Orientation="Horizontal">
 
                             <TextBlock x:Name="Icon"
-                                       FontSize="{Binding Path=(h:Cattach.FIconSize), RelativeSource={RelativeSource TemplatedParent}}"
+                                       FontSize="{Binding Path=(h:Cattach.IconSize), RelativeSource={RelativeSource TemplatedParent}}"
                                        Foreground="{TemplateBinding Foreground}"
                                        Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                        Text="{TemplateBinding h:Cattach.Icon}" />
@@ -394,10 +405,10 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.FIconSingle, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Default}}" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.FIconSingle, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Dynamic}}" TargetType="{x:Type ToggleButton}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}" />
-        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Large}}" />
-        <Setter Property="h:Cattach.FIconMargin" Value="1" />
+        <Setter Property="h:Cattach.IconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Large}}" />
+        <Setter Property="h:Cattach.IconMargin" Value="1" />
         <Setter Property="h:Cattach.Icon" Value="&#xe603;" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -406,9 +417,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid x:Name="Grid" Margin="{TemplateBinding Padding}">
-                        <StackPanel Margin="{TemplateBinding h:Cattach.FIconMargin}" Orientation="Horizontal">
+                        <StackPanel Margin="{TemplateBinding h:Cattach.IconMargin}" Orientation="Horizontal">
                             <TextBlock x:Name="Icon"
-                                       FontSize="{Binding Path=(h:Cattach.FIconSize), RelativeSource={RelativeSource TemplatedParent}}"
+                                       FontSize="{Binding Path=(h:Cattach.IconSize), RelativeSource={RelativeSource TemplatedParent}}"
                                        Foreground="{TemplateBinding Foreground}"
                                        Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                        Text="{TemplateBinding h:Cattach.Icon}" />
@@ -470,10 +481,10 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.Rotate.90, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Default}}" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.Rotate.90, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Dynamic}}" TargetType="{x:Type ToggleButton}">
         <!--<Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />-->
-        <Setter Property="h:Cattach.FIconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Small}}" />
-        <Setter Property="h:Cattach.FIconMargin" Value="0,1,3,1" />
+        <Setter Property="h:Cattach.IconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Small}}" />
+        <Setter Property="h:Cattach.IconMargin" Value="0,1,3,1" />
         <Setter Property="h:Cattach.Icon" Value="&#xe63a;" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
@@ -495,19 +506,22 @@
                                 Opacity="0.3"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 
-                        <TextBlock x:Name="Icon"
-                                   Grid.Column="1"
-                                   Margin="{TemplateBinding h:Cattach.FIconMargin}"
+                        <DockPanel VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                            <TextBlock x:Name="Icon"
+                                   Grid.Column="1" DockPanel.Dock="Right"
+                                   Margin="{TemplateBinding h:Cattach.IconMargin}"
                                    h:Cattach.AllowsAnimation="{TemplateBinding IsChecked}"
-                                   FontSize="{Binding Path=(h:Cattach.FIconSize), RelativeSource={RelativeSource TemplatedParent}}"
+                                   FontSize="{Binding Path=(h:Cattach.IconSize), RelativeSource={RelativeSource TemplatedParent}}"
                                    Foreground="{TemplateBinding Foreground}"
                                    RenderTransformOrigin="0.5,0.5"
                                    Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                    Text="{TemplateBinding h:Cattach.Icon}">
-                            <TextBlock.RenderTransform>
-                                <RotateTransform x:Name="rts" />
-                            </TextBlock.RenderTransform>
-                        </TextBlock>
+                                <TextBlock.RenderTransform>
+                                    <RotateTransform x:Name="rts" />
+                                </TextBlock.RenderTransform>
+                            </TextBlock> 
+                            <ContentPresenter/>
+                        </DockPanel> 
                     </Grid>
                     <!--  z触发器  -->
                     <ControlTemplate.Triggers>
@@ -578,17 +592,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.Single, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Default}}" TargetType="{x:Type ToggleButton}">
-        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.SelectBackground" Value="Transparent" />
-    </Style>
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.Accent, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource {x:Static h:ToggleButtonKeys.Default}}" TargetType="{x:Type ToggleButton}">
-        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-        <Setter Property="h:Cattach.SelectForeground" Value="{StaticResource {x:Static h:BrushKeys.Accent}}" />
-    </Style>
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.Tree, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" TargetType="{x:Type ToggleButton}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.Tree, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource S.ToggleButton.Dynamic}" TargetType="{x:Type ToggleButton}">
         <Setter Property="Width" Value="13" />
         <Setter Property="Height" Value="13" />
         <Setter Property="Focusable" Value="False" />
@@ -610,6 +614,37 @@
                             <Setter TargetName="ExpandPath" Property="Data" Value="M767.893 449.386l-250.773 250.667-250.667-250.667z" />
                         </Trigger>
                     </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleButton.ComboBox, TypeInTargetAssembly={x:Type local:ToggleButtonKeys}}" BasedOn="{StaticResource S.ToggleButton.Dynamic}" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="h:Cattach.IconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Default}}" />
+        <Setter Property="h:Cattach.IconMargin" Value="0,1,3,1" />
+        <Setter Property="h:Cattach.Icon" Value="&#xe9bd;" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid>
+                        <Border x:Name="Bg"
+                                Grid.ColumnSpan="2"
+                                Margin="0,1,1,1"
+                                Background="{TemplateBinding Background}"
+                                Opacity="0"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <TextBlock x:Name="Icon"
+                                   Grid.Column="1"
+                                   Margin="{TemplateBinding h:Cattach.IconMargin}"
+                                   HorizontalAlignment="Right"
+                                   h:Cattach.AllowsAnimation="{TemplateBinding IsChecked}"
+                                   FontSize="{Binding Path=(h:Cattach.IconSize), RelativeSource={RelativeSource TemplatedParent}}"
+                                   Foreground="{TemplateBinding Foreground}"
+                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                   Text="{TemplateBinding h:Cattach.Icon}" />
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

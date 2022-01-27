@@ -1,13 +1,9 @@
 ﻿using HeBianGu.Base.WpfBase;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HeBianGu.Application.LinkWindow
 {
-   public class SettingViewModel : NotifyPropertyChanged
+    public class SettingViewModel : NotifyPropertyChanged
     {
         string _ip;
         /// <summary> 数据库ip地址 </summary>

@@ -3,37 +3,44 @@
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ToolTip.Default, TypeInTargetAssembly={x:Type local:ToolTipkKeys}}" TargetType="ToolTip">
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToolTip.Dynamic, TypeInTargetAssembly={x:Type local:ToolTipkKeys}}" BasedOn="{StaticResource S.ButtonBase.Dynamic}" TargetType="ToolTip">
+        <!--<Setter Property="BorderThickness" Value="1" />-->
+        <!--<Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />-->
+        <!--<Setter Property="BorderBrush" Value="Transparent" />-->
+        <!--<Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static h:SystemKeys.FontFamily}}" />
         <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
         <Setter Property="FontStyle" Value="Normal" />
-        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="FontWeight" Value="Normal" /> 
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />-->
+        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Padding_10_6}}"/>
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="MinHeight" Value="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"/>
         <Setter Property="HasDropShadow" Value="True" />
         <Setter Property="RenderOptions.ClearTypeHint" Value="Enabled" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToolTip}">
-                    <Grid Margin="4">
+                    <Grid >
                         <Grid.Resources>
                             <Style TargetType="TextBlock">
                                 <Setter Property="LineHeight" Value="53" />
                             </Style>
                         </Grid.Resources>
-                        <Border MinHeight="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
-                                Padding="{TemplateBinding Padding}"
-                                Background="{TemplateBinding Background}"
+
+                        <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                                CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.CornerRadius)}"/>
+
+                        <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
+                                CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.CornerRadius)}">
 
                             <ContentPresenter Margin="{TemplateBinding Padding}"
                                               HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -46,17 +53,27 @@
         </Setter>
     </Style>
 
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToolTip.Default, TypeInTargetAssembly={x:Type local:ToolTipkKeys}}" BasedOn="{StaticResource {x:Static h:ToolTipkKeys.Dynamic}}" TargetType="ToolTip">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+
+    </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.ToolTip.Single, TypeInTargetAssembly={x:Type local:ToolTipkKeys}}" BasedOn="{StaticResource {x:Static h:ToolTipkKeys.Default}}" TargetType="ToolTip">
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <!--<Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />-->
+
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.ToolTip.Accent, TypeInTargetAssembly={x:Type local:ToolTipkKeys}}" BasedOn="{StaticResource {x:Static h:ToolTipkKeys.Default}}" TargetType="ToolTip">
-        <Setter Property="BorderBrush" Value="Transparent" />
+        <!--<Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />-->
+
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+
     </Style>
 
 </ResourceDictionary>

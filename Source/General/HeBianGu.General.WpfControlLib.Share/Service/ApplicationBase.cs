@@ -21,7 +21,7 @@ namespace HeBianGu.General.WpfControlLib
         {
             DispatcherUnhandledException += App_DispatcherUnhandledException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException; 
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 
             ServiceRegistry.Instance.Register<IServiceCollection, ServiceCollection>();
             ServiceRegistry.Instance.Register<IApplicationBuilder, ApplicationBuilder>();
@@ -264,6 +264,8 @@ namespace HeBianGu.General.WpfControlLib
         protected virtual void Configure(IApplicationBuilder app)
         {
             app.UseStyle();
+
+            //app.UseTextBox();
         }
 
         public ILogService ILogger

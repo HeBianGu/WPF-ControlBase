@@ -3,22 +3,14 @@
                     xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
                     xmlns:h="QQ:908293466"
                     xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
 
-    <!--<ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="../../Basic/Sizes.xaml"/>
-        <ResourceDictionary Source="../../Basic/Converters.xaml"/>
-        <ResourceDictionary Source="../Border.xaml"/>
-    </ResourceDictionary.MergedDictionaries>-->
-
-    <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" StartPoint="0,0" EndPoint="1,0">
-        <GradientStop Offset="0" Color="#00FFFFFF" />
-        <GradientStop Offset="0.4" Color="#60FFFFFF" />
-        <GradientStop Offset="0.6" Color="#60FFFFFF" />
-        <GradientStop Offset="1" Color="#00FFFFFF" />
-    </LinearGradientBrush>
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Default, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" TargetType="ProgressBar">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Dynamic, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource S.RangeBase.Dynamic}" TargetType="ProgressBar">
+        <!--<Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />-->
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
         <Setter Property="h:Cattach.Title">
             <Setter.Value>
                 <MultiBinding Converter="{x:Static h:XConverter.Number2PercentageConverter}" StringFormat="{}{0} %">
@@ -27,16 +19,8 @@
                 </MultiBinding>
             </Setter.Value>
         </Setter>
+        <Setter Property="Value" Value="66.66" />
         <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
-        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-        <Setter Property="BorderThickness" Value="0" />
-
-        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
-        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource {x:Static h:SystemKeys.TitleWidth}}" />
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ProgressBar">
@@ -48,14 +32,13 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
 
-                        <!--  Label区域  -->
                         <ContentControl x:Name="Label"
                                         Margin="1,1,0,1"
                                         Background="{TemplateBinding BorderBrush}"
-                                        Content="{TemplateBinding h:Cattach.Label}"
+                                        Content="{TemplateBinding h:Cattach.Title}"
                                         IsHitTestVisible="False"
                                         IsTabStop="False"
-                                        Template="{TemplateBinding h:Cattach.LabelTemplate}" />
+                                        Template="{TemplateBinding h:Cattach.TitleTemplate}" />
 
                         <Grid x:Name="TemplateRoot" Grid.Column="2">
                             <Border Background="{Binding Path=Background, RelativeSource={RelativeSource TemplatedParent}}"
@@ -73,13 +56,22 @@
                                         <Rectangle x:Name="PART_GlowRect"
                                                    Width="100"
                                                    Margin="-100,0,0,0"
-                                                   HorizontalAlignment="Left"
-                                                   Fill="{StaticResource ProgressBarIndicatorAnimatedFill}" />
+                                                   HorizontalAlignment="Left">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Offset="0" Color="#00FFFFFF" />
+                                                    <GradientStop Offset="0.4" Color="#60FFFFFF" />
+                                                    <GradientStop Offset="0.6" Color="#60FFFFFF" />
+                                                    <GradientStop Offset="1" Color="#00FFFFFF" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
                                     </Border>
                                 </Decorator>
+                                
                                 <TextBlock HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
-                                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                                           Foreground="{Binding Path=(h:Cattach.TitleForeground), RelativeSource={RelativeSource TemplatedParent}}"
                                            Text="{Binding Path=(h:Cattach.Title), RelativeSource={RelativeSource TemplatedParent}}" />
                             </Grid>
                         </Grid>
@@ -89,23 +81,27 @@
         </Setter>
     </Style>
 
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.HandyDynamic}}" TargetType="ProgressBar">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
     <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Single, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Handy}}" TargetType="ProgressBar">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Accent, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Handy}}" TargetType="ProgressBar">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Stripe.Base, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" TargetType="ProgressBar">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Stripe, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource S.RangeBase.Dynamic}" TargetType="ProgressBar">
         <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
         <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
         <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
         <Setter Property="BorderThickness" Value="0" />
+        <!--<Setter Property="IsIndeterminate" Value="True" />-->
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ProgressBar">
@@ -124,7 +120,7 @@
                                 CornerRadius="{Binding Path=(h:Cattach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}" />
                         <Rectangle x:Name="PART_Track" />
                         <Decorator x:Name="PART_Indicator" Margin="1" HorizontalAlignment="Left">
-                            <Border x:Name="Indicator" Background="{TemplateBinding Foreground}" CornerRadius="{Binding Path=(h:Cattach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Border x:Name="Indicator" Background="{TemplateBinding Foreground}" CornerRadius="{Binding Path=(h:Cattach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}"/>
                         </Decorator>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -135,9 +131,6 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Stripe, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.HandyStripeBase}}" TargetType="ProgressBar">
         <Setter Property="Foreground">
             <Setter.Value>
                 <DrawingBrush Stretch="None"
@@ -171,20 +164,9 @@
     </Style>
 
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Label, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.Handy}}" TargetType="{x:Type ProgressBar}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Label, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.HandyDynamic}}" TargetType="{x:Type ProgressBar}">
         <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
-        <Setter Property="h:Cattach.Label" Value="完成进度" />
-        <Setter Property="h:Cattach.LabelTemplate">
-            <Setter.Value>
-                <ControlTemplate TargetType="ContentControl">
-                    <Border Width="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar}, Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar}, Path=(h:Cattach.TitleMargin)}">
-                        <TextBlock HorizontalAlignment="Left"
-                                   VerticalAlignment="Center"
-                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ProgressBar}, Path=(h:Cattach.TitleForeground)}"
-                                   Text="{TemplateBinding Content}" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="h:Cattach.Title" Value="完成进度" />
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}"/>
     </Style>
 </ResourceDictionary>

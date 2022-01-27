@@ -1,21 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using HeBianGu.Base.WpfBase;
+﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.Service.Mvc;
 using HeBianGu.Service.Validation;
+using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace HeBianGu.App.Above
 {
@@ -60,6 +49,57 @@ namespace HeBianGu.App.Above
             }
         }
 
+
+        private bool _isChecked;
+        /// <summary> 说明  </summary>
+        public bool IsChecked
+        {
+            get { return _isChecked; }
+            set
+            {
+                _isChecked = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int _value;
+        /// <summary> 说明  </summary>
+        public int Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private DateTime? _endTime = DateTime.Now.AddDays(3);
+        /// <summary> 说明  </summary>
+        public DateTime? EndTime
+        {
+            get { return _endTime; }
+            set
+            {
+                _endTime = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private DateTime? _startTime = DateTime.Now.AddDays(-3);
+        /// <summary> 说明  </summary>
+        public DateTime? StartTime
+        {
+            get { return _startTime; }
+            set
+            {
+                _startTime = value;
+                RaisePropertyChanged();
+            }
+        }
 
         protected override void Init()
         {
