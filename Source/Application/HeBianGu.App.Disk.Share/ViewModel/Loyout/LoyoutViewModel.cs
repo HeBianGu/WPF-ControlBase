@@ -1,6 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Service.Mvc;
 using System;
+using System.Collections.ObjectModel;
 
 namespace HeBianGu.App.Disk
 {
@@ -18,6 +19,20 @@ namespace HeBianGu.App.Disk
                 RaisePropertyChanged();
             }
         }
+
+
+        private ObservableCollection<LinkAction> _linkAction = new ObservableCollection<LinkAction>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<LinkAction> LinkActions
+        {
+            get { return _linkAction; }
+            set
+            {
+                _linkAction = value;
+                RaisePropertyChanged("LinkActions");
+            }
+        }
+
 
         private string _path;
         /// <summary> 说明  </summary>
@@ -66,6 +81,22 @@ namespace HeBianGu.App.Disk
             this.NearPath = Environment.GetFolderPath(Environment.SpecialFolder.Recent);
 
             this.SharePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+            this.LinkActions.Add(new LinkAction() { Action="Near",Controller="Loyout",DisplayName="最近使用",Logo= "\xe6f3" });
+            this.LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "全部文件", Logo = "" });
+            this.LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "最近使用", Logo = "" });
+            this.LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    图片", Logo = "" });
+            this.LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    视频", Logo = "" });
+            this.LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    文档", Logo = "" });
+            this.LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    音乐", Logo = "" });
+            this.LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    种子", Logo = "" });
+            this.LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    其他", Logo = "" });
+            this.LinkActions.Add(new LinkAction() { Action = "Space", Controller = "Loyout", DisplayName = "隐藏空间", Logo = "\xe613" });
+            this.LinkActions.Add(new LinkAction() { Action = "Share", Controller = "Loyout", DisplayName = "我的分享", Logo = "\xe764" });
+            this.LinkActions.Add(new LinkAction() { Action = "Near", Controller = "Loyout", DisplayName = "回收站", Logo = "\xe618" });
+
+            this.SelectedItem = this.LinkActions[1];
+
         }
 
 

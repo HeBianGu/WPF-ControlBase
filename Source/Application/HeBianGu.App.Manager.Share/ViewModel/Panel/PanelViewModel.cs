@@ -40,7 +40,7 @@ namespace HeBianGu.App.Manager
         {
             for (int i = 0; i < 10; i++)
             {
-                this.Collection.Add(new TestViewModel() { Value = i });
+                this.Collection.Add(new TestViewModel() { Value = i.ToString() });
             }
 
         }
@@ -58,7 +58,7 @@ namespace HeBianGu.App.Manager
             //  Do：对话消息
             if (command == "Button.Click.Add")
             {
-                this.Collection.Add(new TestViewModel() { Value = (this.Collection.Count + 1) });
+                this.Collection.Add(new TestViewModel() { Value = (this.Collection.Count + 1).ToString() });
             }
 
             else if (command == "Button.Click.Delete")

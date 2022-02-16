@@ -5,7 +5,7 @@
              xmlns:h="QQ:908293466"
              xmlns:local="clr-namespace:HeBianGu.App.Scene.View.Dialog"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:cl="clr-namespace:System.Collections;assembly=mscorlib"
              Width="900"
              Height="600"
              d:DesignHeight="450"
@@ -23,14 +23,30 @@
             </Style>
         </Grid.Resources>
 
-        <h:Interaction.Behaviors>
-            <h:LoadAnimationBehavior End="0.2"
+        <!--<h:Interaction.Behaviors>
+            --><!--<h:LoadAnimationBehavior End="0.2"
                                      EndValue="1"
                                      IsUseAll="True"
                                      LoadAnimationType="Opactiy"
                                      Split="0.05"
-                                     StartValue="0" />
-        </h:Interaction.Behaviors>
+                                     StartValue="0" />--><!--
+
+          
+        </h:Interaction.Behaviors>-->
+
+        <h:Interaction.Triggers>
+            <h:EventTrigger EventName="Loaded">
+                <h:InvokeTimeSplitAnimationAction SplitMilliSecond="-950" IsUseAll="True">
+                    <h:InvokeTimeSplitAnimationAction.Timelines>
+                        <cl:ArrayList>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         From="0" To="1"
+                                                         Duration="00:00:01" />
+                        </cl:ArrayList>
+                    </h:InvokeTimeSplitAnimationAction.Timelines>
+                </h:InvokeTimeSplitAnimationAction>
+            </h:EventTrigger>
+        </h:Interaction.Triggers>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="0.6*" />
@@ -66,7 +82,7 @@
                                 <StackPanel Margin="10,0" Orientation="Horizontal">
                                     <Button h:Cattach.Icon="{Binding Value2}"
                                             Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
-                                            IsHitTestVisible="False" Width="100" Height="100"
+                                            IsHitTestVisible="False"
                                             Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
                                     <TextBlock Margin="5,0,0,0"
                                                Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
@@ -91,19 +107,18 @@
         </Grid>
 
         <DockPanel Grid.RowSpan="2" Grid.Column="1">
-            <TextBox Margin="0,10"
-                     h:Cattach.Icon="&#xe787;"
+            <TextBox Margin="0,10" Style="{DynamicResource {x:Static h:TextBoxKeys.Search}}"
                      h:Cattach.Watermark="请输入筛选条件"
                      DockPanel.Dock="Top" />
 
-            <ComboBox DockPanel.Dock="Top" SelectedIndex="0">
+            <ComboBox DockPanel.Dock="Top" SelectedIndex="0" h:Cattach.IconMargin="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}">
                 <system:String>所有模板</system:String>
                 <system:String>系统模板</system:String>
                 <system:String>自定义模板</system:String>
             </ComboBox>
 
             <ScrollViewer>
-                <ListBox Margin="0,20" SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:SelectTypeControl}, Path=Model}" Style="{DynamicResource {x:Static h:ListBoxKeys.Single}}">
+                <ListBox Margin="0,20" Tag="Except" SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:SelectTypeControl}, Path=Model}" Style="{DynamicResource {x:Static h:ListBoxKeys.Single}}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate DataType="{x:Type h:TestViewModel}">
                             <Grid x:Name="grid" Margin="0,5">
@@ -115,7 +130,7 @@
                                         CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
 
                                 <StackPanel Margin="10">
-                                    <Button h:Cattach.Icon="{Binding Value2}" IsHitTestVisible="False" />
+                                    <Button h:Cattach.Icon="{Binding Value2}" Width="Auto" IsHitTestVisible="False" />
 
                                     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                                         <TextBlock Margin="0,10,0,0"

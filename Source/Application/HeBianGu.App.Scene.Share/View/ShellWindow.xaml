@@ -162,10 +162,8 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-
-                    <!--<TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Margin="10,0" Grid.RowSpan="2" Text="&#xe90c;" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Center"/>-->
-
-                    <CheckBox Margin="10,0" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
+                    
+                    <CheckBox Margin="-5,0" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
 
                     <TextBlock Grid.Row="1"
                                Grid.Column="1"
@@ -244,16 +242,13 @@
                                             <Run Text="{Binding Files.Count, Mode=OneWay}" />
                                             <Run Text="文件" />
                                         </TextBlock>
-                                        <Separator VerticalAlignment="Bottom" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+                                        <Separator VerticalAlignment="Bottom" Grid.ColumnSpan="12" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
                                     </h:Row>
 
                                     <ListBox Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
                                              ItemTemplate="{StaticResource C.TestViewModel.Item.Checked}"
                                              ItemsSource="{Binding Files}"
                                              SelectedItem="{Binding SelectedFile}">
-                                        <!--<h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
-                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
-                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>-->
                                     </ListBox>
                                 </DockPanel>
                             </TabItem>
@@ -285,7 +280,7 @@
                                            Text="Committed a minute ago" />
                                 <Button Grid.Column="10"
                                         Grid.ColumnSpan="2"
-                                        Width="50"
+                                        Width="Auto"
                                         BorderBrush="{DynamicResource {x:Static h:BrushKeys.Dark3}}"
                                         BorderThickness="1"
                                         Content="Undo"
@@ -294,9 +289,9 @@
 
                             <h:Row Height="45" Margin="10,0" DockPanel.Dock="Bottom">
                                 <Border Grid.ColumnSpan="12"
-                                        Margin="-10,0"
+                                        Margin="0,0"
                                         BorderBrush="{DynamicResource {x:Static h:BrushKeys.Dark2}}"
-                                        BorderThickness="1" />
+                                        BorderThickness="0" />
                                 <Button Grid.Row="2"
                                         Grid.ColumnSpan="12"
                                         Width="Auto"
@@ -304,15 +299,6 @@
                                         CommandParameter="Button.Click.Commit"
                                         Content="提交"
                                         DockPanel.Dock="Bottom">
-                                    <!--<Button.Triggers>
-                                        <EventTrigger RoutedEvent="Button.Click">
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation From="0" To="100" Duration="00:00:05" Storyboard.Target="{Binding ElementName=pg}" Storyboard.TargetProperty="Value"/>
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </EventTrigger>
-                                    </Button.Triggers>-->
                                 </Button>
                             </h:Row>
 
@@ -367,6 +353,11 @@
                           Header="Others"
                           Style="{DynamicResource {x:Static h:GroupBoxKeys.UnderLine}}">
                     <ListBox ItemTemplate="{StaticResource C.TestViewModel.Item}" ItemsSource="{Binding Scenes}" SelectedItem="{Binding SelectedScene}">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}">
+                                <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
                         <h:Interaction.Triggers>
                             <h:EventTrigger EventName="MouseDoubleClick">
                                 <h:InvokeCommandAction Command="{Binding RelayCommand}" CommandParameter="ListBox.MouseDoubleClick.SetSelectedScene" />
@@ -438,7 +429,6 @@
             <ProgressBar x:Name="pg"
                          Height="Auto" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" BorderBrush="Transparent"
                          Background="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy3}}"
-                         Style="{DynamicResource {x:Static h:ProgressBarKeys.Handy}}"
                          Value="{Binding Percent}">
                 <!--<ProgressBar.Triggers>
                     <EventTrigger RoutedEvent="Loaded">

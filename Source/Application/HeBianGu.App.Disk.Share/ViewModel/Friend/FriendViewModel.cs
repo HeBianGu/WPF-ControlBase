@@ -1,5 +1,6 @@
 ﻿using HeBianGu.Service.Mvc;
 using System;
+using System.Collections.ObjectModel;
 
 namespace HeBianGu.App.Disk
 {
@@ -18,8 +19,25 @@ namespace HeBianGu.App.Disk
             }
         }
 
+        private ObservableCollection<LinkAction> _linkAction = new ObservableCollection<LinkAction>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<LinkAction> LinkActions
+        {
+            get { return _linkAction; }
+            set
+            {
+                _linkAction = value;
+                RaisePropertyChanged("LinkActions");
+            }
+        }
+
         protected override void Init()
         {
+            this.LinkActions.Add(new LinkAction() { Action = "Space", Controller = "Loyout", DisplayName = "会话", Logo = "\xe613" });
+            this.LinkActions.Add(new LinkAction() { Action = "Share", Controller = "Loyout", DisplayName = "好友", Logo = "\xe764" });
+            this.LinkActions.Add(new LinkAction() { Action = "Near", Controller = "Loyout", DisplayName = "群组", Logo = "\xe618" });
+
+            this.SelectedItem = this.LinkActions[1];
         }
 
         protected override void Loaded(string args)

@@ -15,7 +15,7 @@
                 <Setter Property="RenderTransform" Value="{StaticResource {x:Static h:SystemKeys.TransformGroup}}" />
             </Style>
         </TabControl.Resources>
-        
+
         <TabItem Header="Default">
             <UniformGrid Columns="2">
                 <h:Interaction.Triggers>
@@ -249,8 +249,125 @@
                 </GroupBox>
             </UniformGrid>
         </TabItem>
-        <TabItem Header="UnderLine">
 
+        <TabItem Header="Accent">
+            <UniformGrid Columns="2">
+                <h:Interaction.Triggers>
+                    <h:EventTrigger EventName="Loaded">
+                        <h:InvokeRandomSplitAnimationAction SplitMilliSecond="-500">
+                            <h:InvokeRandomSplitAnimationAction.Timelines>
+                                <cl:ArrayList>
+                                    <h:RandomDoubleAnimation Max="400" Min="-400"
+                                                             UseFrom="True"
+                                                             UseTo="False"
+                                                             Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
+                                                             To="0"
+                                                             Duration="00:00:01">
+                                        <DoubleAnimation.EasingFunction>
+                                            <BackEase />
+                                        </DoubleAnimation.EasingFunction>
+                                    </h:RandomDoubleAnimation>
+                                    <h:RandomDoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                             From="0" To="1"
+                                                             Duration="00:00:01" />
+                                </cl:ArrayList>
+                            </h:InvokeRandomSplitAnimationAction.Timelines>
+                        </h:InvokeRandomSplitAnimationAction>
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+
+                <GroupBox Header="h:TextBoxKeys.Accent">
+
+                    <TextBox h:Cattach.Watermark="水印" Style="{StaticResource {x:Static h:TextBoxKeys.Accent}}" Text="文本控件" />
+
+                    <h:Cattach.Text>
+                        <![CDATA[ 
+                    <TextBox Text="文本控件" h:Cattach.Watermark="水印"/>
+                    ]]>
+                    </h:Cattach.Text>
+                </GroupBox>
+
+                <GroupBox Header="h:TextBoxKeys.ClearAccent">
+
+                    <TextBox h:Cattach.Title="标题"
+                             h:Cattach.Watermark="水印"
+                             Style="{StaticResource {x:Static h:TextBoxKeys.ClearAccent}}"
+                             Text="文本控件" />
+
+                    <h:Cattach.Text>
+                        <![CDATA[ 
+                    <TextBox Text="文本控件" Style="{StaticResource {x:Static h:TextBoxKeys.Clear}}" h:Cattach.Watermark="水印" h:Cattach.Title="标题"/>
+                    ]]>
+                    </h:Cattach.Text>
+                </GroupBox>
+
+                <GroupBox Header="h:TextBoxKeys.LabelAccent">
+
+                    <TextBox Margin="0,5"
+                             h:Cattach.Title="标题"
+                             h:Cattach.Watermark="水印"
+                             Style="{StaticResource {x:Static h:TextBoxKeys.LabelAccent}}"
+                             Text="文本控件" />
+
+                    <h:Cattach.Text>
+                        <![CDATA[ 
+                    <TextBox Text="文本控件" Style="{StaticResource {x:Static h:TextBoxKeys.Label}}" Margin="0,5" h:Cattach.Watermark="水印" h:Cattach.Title="标题"/>
+                    ]]>
+                    </h:Cattach.Text>
+                </GroupBox>
+
+
+                <GroupBox Header="h:TextBoxKeys.LabelClearAccent">
+
+                    <TextBox Margin="0,0,20,0"
+                             h:Cattach.Title="密码："
+                             h:Cattach.Watermark="请输入数据"
+                             Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearAccent}}">
+                        <TextBox.Text>
+                            <Binding Mode="TwoWay"
+                                     Path="TextBoxViewModel.PassWord"
+                                     UpdateSourceTrigger="PropertyChanged"
+                                     ValidatesOnDataErrors="True">
+                                <Binding.ValidationRules>
+                                    <h:RegularExpressionValidationRule ErrorMessage="以字母开头，长度在6~18之间，只能包含字母、数字和下划线" Pattern="^[a-zA-Z]\w{5,17}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <h:Cattach.Text>
+                        <![CDATA[ 
+                       <TextBox h:Cattach.Watermark="请输入数据" Style="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}"  Margin="0,0,20,0"
+                                         h:Cattach.Title="密码：">
+                        <TextBox.Text>
+                            <Binding Path="TextBoxViewModel.PassWord" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged"  ValidatesOnDataErrors="True">
+                                <Binding.ValidationRules>
+                                    <h:RegularExpressionValidationRule ErrorMessage="以字母开头，长度在6~18之间，只能包含字母、数字和下划线" Pattern="^[a-zA-Z]\w{5,17}$" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>                    ]]>
+                    </h:Cattach.Text>
+                </GroupBox>
+
+                <GroupBox Header="h:TextBoxKeys.LabelClearAccent">
+
+                    <TextBox Margin="0,0,20,0"
+                             h:Cattach.Title="手机号:"
+                             h:Cattach.Watermark="请输入数据"
+                             Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearAccent}}"
+                             Text="{Binding TextBoxViewModel.Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                    <h:Cattach.Text>
+                        <![CDATA[ 
+                    <TextBox  h:Cattach.Watermark="请输入数据" Style="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}" Margin="0,0,20,0"
+                              Text="{Binding TextBoxViewModel.Phone,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" 
+                              h:Cattach.Title="手机号:">
+                    </TextBox>                    ]]>
+                    </h:Cattach.Text>
+                </GroupBox>
+            </UniformGrid>
+        </TabItem>
+
+        <TabItem Header="UnderLine">
             <UniformGrid Columns="2">
                 <h:Interaction.Triggers>
                     <h:EventTrigger EventName="Loaded">
@@ -329,9 +446,7 @@
         </TabItem>
 
         <TabItem Header="Inner">
-
             <UniformGrid Columns="2">
-
                 <h:Interaction.Triggers>
                     <h:EventTrigger EventName="Loaded">
                         <h:InvokeRandomSplitAnimationAction SplitMilliSecond="-500">

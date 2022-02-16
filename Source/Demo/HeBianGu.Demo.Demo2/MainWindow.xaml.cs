@@ -25,6 +25,10 @@ namespace HeBianGu.Demo.Demo2
                 {
                     Thread.Sleep(2000);
 
+                    StyleSetting.Instance.StyleType = Base.WpfBase.StyleType.Reverse;
+
+                    Thread.Sleep(2000);
+
                     StyleSetting.Instance.StyleType = Base.WpfBase.StyleType.Accent;
 
                     Thread.Sleep(2000);

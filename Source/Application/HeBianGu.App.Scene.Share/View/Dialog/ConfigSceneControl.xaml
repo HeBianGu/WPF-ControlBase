@@ -5,7 +5,7 @@
              xmlns:h="QQ:908293466"
              xmlns:local="clr-namespace:HeBianGu.App.Scene.View.Dialog"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:cl="clr-namespace:System.Collections;assembly=mscorlib"
              Width="900"
              Height="600"
              d:DesignHeight="450"
@@ -23,13 +23,27 @@
             </Style>
         </Grid.Resources>
 
-        <h:Interaction.Behaviors>
+        <!--<h:Interaction.Behaviors>
             <h:LoadAnimationBehavior End="1" EndValue="0"
                                      IsUseAll="True"
                                      LoadAnimationType="HorizontalAlignment"
                                      Split="0.2"
                                      StartValue="1000" />
-        </h:Interaction.Behaviors>
+        </h:Interaction.Behaviors>-->
+
+        <h:Interaction.Triggers>
+            <h:EventTrigger EventName="Loaded">
+                <h:InvokeTimeSplitAnimationAction SplitMilliSecond="-950" IsUseAll="True">
+                    <h:InvokeTimeSplitAnimationAction.Timelines>
+                        <cl:ArrayList>
+                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         From="0" To="1"
+                                                         Duration="00:00:01" />
+                        </cl:ArrayList>
+                    </h:InvokeTimeSplitAnimationAction.Timelines>
+                </h:InvokeTimeSplitAnimationAction>
+            </h:EventTrigger>
+        </h:Interaction.Triggers>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="0.6*" />
@@ -78,28 +92,27 @@
             </StackPanel>
         </Grid>
 
-        <Button Grid.Row="2"
+        <UniformGrid Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <Button Grid.Row="2"
                    Grid.ColumnSpan="2"
-                   Margin="0,0,150,0"
-                   HorizontalAlignment="Right"
                    Command="{x:Static h:DialogHost.CloseDialogCommand}"
                    CommandParameter="{x:Null}"
                    Content="上一步"
-                   IsDefault="True"
+                   IsDefault="True" Width="Auto"
                    Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" />
 
-        <Button Grid.Row="2"
+            <Button Grid.Row="2"
                    Grid.ColumnSpan="2"
                    Margin="0,0,0,0"
-                   HorizontalAlignment="Right"
                    Command="{x:Static h:DialogHost.CloseDialogCommand}"
                    Content="创建"
                    IsDefault="True"
                    Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}">
-            <Button.CommandParameter>
-                <system:Boolean>True</system:Boolean>
-            </Button.CommandParameter>
-        </Button>
+                <Button.CommandParameter>
+                    <system:Boolean>True</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+        </UniformGrid>
 
         <Button Grid.Row="0"
                    Grid.ColumnSpan="2"

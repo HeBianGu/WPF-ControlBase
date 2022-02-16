@@ -4,6 +4,7 @@ using HeBianGu.General.WpfControlLib;
 using System;
 using System.Windows;
 using System.Windows.Media;
+using System.Linq;
 
 namespace HeBianGu.App.Disk
 {
@@ -14,6 +15,15 @@ namespace HeBianGu.App.Disk
     {
         protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
         {
+            var dir = System.IO.Directory.CreateDirectory(@"D:\GitHub\WPF-ControlBase\Solution\hebiangu\packages");
+
+            var finds = dir.GetDirectories().Where(l => l.Name.EndsWith(".4.0.3")).Select(l => l.Name.Replace(".4.0.3", "")).Select(l =>
+                  {
+                      return $"| **{l}** | **[![NuGet](https://buildstats.info/nuget/{l})](https://www.nuget.org/packages/{l})** |";
+                  }).ToList();
+
+            var txt = string.Join(Environment.NewLine, finds);
+
             return new ShellWindow();
         }
 

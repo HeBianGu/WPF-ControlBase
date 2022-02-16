@@ -4,6 +4,7 @@ using HeBianGu.Control.Step;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.Service.Mvc;
 using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -84,6 +85,32 @@ namespace HeBianGu.App.Manager
             }
         }
 
+
+
+        private IEnumerable _outSource1;
+        /// <summary> 说明  </summary>
+        public IEnumerable OutSource1
+        {
+            get { return _outSource1; }
+            set
+            {
+                _outSource1 = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private IEnumerable _outSource2;
+        /// <summary> 说明  </summary>
+        public IEnumerable OutSource2
+        {
+            get { return _outSource2; }
+            set
+            {
+                _outSource2 = value;
+                RaisePropertyChanged();
+            }
+        }
+
         protected override void Init()
         {
 
@@ -96,7 +123,7 @@ namespace HeBianGu.App.Manager
 
                 for (int i = 0; i < 20; i++)
                 {
-                    source.Add(new TestViewModel() { Value = (i + 1) });
+                    source.Add(new TestViewModel() { Value = (i + 1).ToString() });
                 }
 
                 shuttle.ItemSource = source;
@@ -113,7 +140,7 @@ namespace HeBianGu.App.Manager
 
                 for (int i = 20; i < 30; i++)
                 {
-                    source.Add(new TestViewModel() { Value = i + 1 });
+                    source.Add(new TestViewModel() { Value = i + 1.ToString() });
                 }
 
                 shuttle.ItemSource = source;
@@ -130,7 +157,7 @@ namespace HeBianGu.App.Manager
 
                 for (int i = 30; i < 35; i++)
                 {
-                    source.Add(new TestViewModel() { Value = (i + 1) });
+                    source.Add(new TestViewModel() { Value = (i + 1).ToString() });
                 }
 
                 shuttle.ItemSource = source;

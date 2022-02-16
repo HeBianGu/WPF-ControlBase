@@ -39,7 +39,7 @@ namespace HeBianGu.App.Menu
             //  Do：应用
             if (command == "Add")
             {
-                this.Collection.Insert(0, new TestViewModel() { Value = (this.Collection.Count + 1)});
+                this.Collection.Insert(0, new TestViewModel() { Value = (this.Collection.Count + 1).ToString()});
 
             }
             //  Do：取消

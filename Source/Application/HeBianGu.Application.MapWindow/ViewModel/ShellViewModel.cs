@@ -421,7 +421,7 @@ namespace HeBianGu.Application.MapWindow
             //});
         }
 
-        protected override async void Loaded(string args)
+        protected override async void Loaded(object args)
         {
             base.Loaded(args);
 
