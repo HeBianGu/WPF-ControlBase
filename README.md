@@ -38,16 +38,19 @@
 
 [![Stargazers over time](https://starchart.cc/HeBianGu/WPF-ControlBase.svg)](https://starchart.cc/HeBianGu/WPF-ControlBase)
  
- ## 预览
- [![AutoCompleteTextBox](https://raw.githubusercontent.com/HandyOrg/HandyOrgResource/master/HandyControl/Resources/AutoCompleteTextBox.gif)](url)
+## 预览
  
+
 ## 案例
 ### Creator
 ### Map
 ### Chart
 ### Office
+![qrcode](https://gitee.com/hebiangu/wpf-document/raw/master/WPF-Controls/office.gif)
 ### Disk
+![qrcode](https://gitee.com/hebiangu/wpf-document/raw/master/WPF-Controls/disk.gif)
 ### Scene
+![qrcode](https://gitee.com/hebiangu/wpf-document/raw/master/WPF-Controls/github.gif)
 ### Manager
 ### Menu
 ### Above
