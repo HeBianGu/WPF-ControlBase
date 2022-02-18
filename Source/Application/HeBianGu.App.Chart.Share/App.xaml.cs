@@ -35,9 +35,9 @@ namespace HeBianGu.App.Chart
 
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
 
-            ////  Do ：启用右上见配置按钮 需要添加引用HeBianGu.Systems.Setting
-            //services.AddSetting();
-            //services.AddSettingViewPrenter();
+            //  Do ：启用右上见配置按钮 需要添加引用HeBianGu.Systems.Setting
+            services.AddSetting();
+            services.AddSettingViewPrenter();
         }
 
         protected override void Configure(IApplicationBuilder app)

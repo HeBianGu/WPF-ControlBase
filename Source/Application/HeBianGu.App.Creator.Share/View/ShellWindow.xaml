@@ -22,11 +22,6 @@
                     h:Cattach.Icon="&#xe8cb;"
                     Style="{DynamicResource {x:Static h:ButtonKeys.AccentBackTransparent}}" />
 
-            <!--<Button Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" h:Cattach.Icon="&#xe8a6;"
-                    Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Height="25"
-                    h:Cattach.MouseOverBackground="{DynamicResource S.Brush.White.Opactiy.2}"/>-->
-
-
             <Button Width="25"
                     Height="25"
                     Margin="0"
@@ -46,15 +41,6 @@
                     Command="{Binding SettingCommand}"
                     Style="{DynamicResource {x:Static h:ButtonKeys.AccentBackTransparent}}" />
 
-
-            <!--<Button Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" h:Cattach.Icon="&#xe77e;"
-                    Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Height="25"
-                    h:Cattach.MouseOverBackground="{DynamicResource S.Brush.White.Opactiy.2}"/>
-
-            <Button Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" h:Cattach.Icon="&#xe710;"
-                    Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Height="25"
-                    h:Cattach.MouseOverBackground="{DynamicResource S.Brush.White.Opactiy.2}"/>-->
-
         </DockPanel>
     </h:OfficeWindowBase.TitleContent>
 
@@ -62,7 +48,7 @@
         <Grid>
             <TabControl h:Cattach.TitleMargin="60 0 0 0" Style="{DynamicResource {x:Static h:TabControlKeys.Office}}">
                 <TabItem Header="开始">
-                    <DockPanel Margin="0,2" LastChildFill="False" Height="100">
+                    <DockPanel Height="100" Margin="0,2" LastChildFill="False">
                         <GroupBox Header="运行" Style="{DynamicResource {x:Static h:GroupBoxKeys.ToolBar}}">
                             <DockPanel>
                                 <Button h:Cattach.Icon="&#xe885;"
@@ -147,9 +133,8 @@
                                     <system:String>Port</system:String>
                                 </ComboBox>
 
-                                <ComboBox h:Cattach.Title="连线绘制"
+                                <ComboBox x:Name="list_linkDrawer" h:Cattach.Title="连线绘制"
                                           SelectedIndex="0"
-                                          SelectedItem="{Binding ElementName=diagram, Path=LinkDrawer}"
                                           Style="{DynamicResource {x:Static h:ComboBoxKeys.LabelSingle}}">
                                     <ComboBox.ItemTemplate>
                                         <DataTemplate>
@@ -170,8 +155,9 @@
                         <Separator Background="{DynamicResource {x:Static h:BrushKeys.Dark2}}" Style="{DynamicResource {x:Static h:SeparatorKeys.Vertical}}" />
                     </DockPanel>
                 </TabItem>
+
                 <TabItem Header="操作">
-                    <DockPanel Margin="0,2" LastChildFill="False" Height="100">
+                    <DockPanel Height="100" Margin="0,2" LastChildFill="False">
                         <GroupBox Header="操作" Style="{DynamicResource {x:Static h:GroupBoxKeys.ToolBar}}">
                             <DockPanel>
                                 <Button h:Cattach.Icon="&#xe8a3;" Content="放大" Style="{DynamicResource {x:Static h:ButtonKeys.VerticalToolBar}}" />
@@ -191,7 +177,7 @@
                 </TabItem>
 
                 <TabItem Header="布局">
-                    <DockPanel Margin="0,2" LastChildFill="False" Height="100">
+                    <DockPanel Height="100" Margin="0,2" LastChildFill="False">
                         <GroupBox Header="面板" Style="{DynamicResource {x:Static h:GroupBoxKeys.ToolBar}}">
                             <UniformGrid Rows="2">
                                 <TextBox Width="200"
@@ -280,23 +266,13 @@
                       Logo="&#xe656;" />
 
     </h:OfficeWindowBase.LinkActions>
-    <Grid Background="{DynamicResource S.Brush.Dark.3}">
-
+    <Grid Background="{DynamicResource {x:Static h:BrushKeys.Dark3}}">
         <DockPanel Margin="5">
             <Grid Width="250"
                   Margin="5,0,0,0"
                   Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
                   DockPanel.Dock="Right"
                   Visibility="{Binding ProjectData.SystemSet.IsPropertyGridVisible, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
-
-                <!--<ListBox ItemsSource="{Binding Mappers}" Style="{DynamicResource {x:Static h:ListBoxKeys.Clear}}" Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" >
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <ComboBox h:Cattach.Title="{Binding From}" Style="{DynamicResource {x:Static h:ComboBoxKeys.LabelSingle}}"
-                                              SelectedItem="{Binding To}" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=ListBox},Path=DataContext.SelectionSource}"/>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>-->
 
                 <h:PropertyGrid Width="250"
                                 Padding="0,5,5,0"
@@ -324,32 +300,31 @@
                                    Height="2000"
                                    HorizontalContentAlignment="Stretch"
                                    VerticalContentAlignment="Stretch"
-                                   AllowDrop="True"
+                                   AllowDrop="True" LinkDrawer="{Binding ElementName=list_linkDrawer,Path=SelectedItem}"
                                    Layout="{Binding ElementName=list_layout, Path=SelectedItem}"
                                    NodesSource="{Binding NodesSource}"
                                    SelectedPart="{Binding SelectedPart}"
                                    UseAnimation="False">
-
                             <h:Diagram.Background>
                                 <DrawingBrush Stretch="Uniform"
                                               TileMode="Tile"
-                                              Viewport="0 0 100 100"
+                                              Viewport="0 0 25 25"
                                               ViewportUnits="Absolute">
                                     <DrawingBrush.Drawing>
                                         <DrawingGroup>
-                                            <GeometryDrawing Brush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}">
+                                            <GeometryDrawing Brush="{DynamicResource {x:Static h:BrushKeys.Dark0}}">
                                                 <GeometryDrawing.Geometry>
                                                     <RectangleGeometry Rect="0 0 100 100" />
                                                 </GeometryDrawing.Geometry>
                                             </GeometryDrawing>
 
-                                            <GeometryDrawing Brush="{DynamicResource {x:Static h:BrushKeys.BorderBrushAssist}}">
+                                            <GeometryDrawing Brush="{DynamicResource {x:Static h:BrushKeys.Dark1}}">
                                                 <GeometryDrawing.Geometry>
                                                     <RectangleGeometry Rect="0 0 50 50" />
                                                 </GeometryDrawing.Geometry>
                                             </GeometryDrawing>
 
-                                            <GeometryDrawing Brush="{DynamicResource {x:Static h:BrushKeys.BorderBrushAssist}}">
+                                            <GeometryDrawing Brush="{DynamicResource {x:Static h:BrushKeys.Dark1}}">
                                                 <GeometryDrawing.Geometry>
                                                     <RectangleGeometry Rect="50 50 50 50" />
                                                 </GeometryDrawing.Geometry>
@@ -359,10 +334,6 @@
                                     </DrawingBrush.Drawing>
                                 </DrawingBrush>
                             </h:Diagram.Background>
-
-                            <!--<h:Diagram.LinkDrawer>
-                                <h:BezierLinkDrawer/>
-                            </h:Diagram.LinkDrawer>-->
 
                             <h:Interaction.Behaviors>
                                 <h:DiagramAddLinkBehavior />
@@ -386,7 +357,7 @@
                          ItemsSource="{Binding Components}">
                     <ItemsControl.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
-                            <Setter Property="Effect" Value="{DynamicResource S.EffectShadow.1}" />
+                            <Setter Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default1}}" />
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">

@@ -78,5 +78,11 @@ namespace HeBianGu.App.Chart
         {
             return await ViewAsync();
         }
+
+        public async Task<IActionResult> Thinning()
+        {
+            return await ViewAsync();
+        }
+
     }
 }
