@@ -44,6 +44,8 @@ namespace HeBianGu.App.Tool
             services.AddSettingPath();
             services.AddSettingViewPrenter();
 
+            services.AddMvc();
+
         }
 
         protected override void Configure(IApplicationBuilder app)

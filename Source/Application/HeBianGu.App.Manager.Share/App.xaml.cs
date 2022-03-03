@@ -44,6 +44,8 @@ namespace HeBianGu.App.Manager
 
             services.AddXmlSerialize();
             services.AddXmlMeta();
+
+            services.AddMvc();
         }
 
         protected override void Configure(IApplicationBuilder app)

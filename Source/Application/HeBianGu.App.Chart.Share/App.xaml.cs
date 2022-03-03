@@ -38,6 +38,8 @@ namespace HeBianGu.App.Chart
             //  Do ：启用右上见配置按钮 需要添加引用HeBianGu.Systems.Setting
             services.AddSetting();
             services.AddSettingViewPrenter();
+
+            services.AddMvc();
         }
 
         protected override void Configure(IApplicationBuilder app)

@@ -60,6 +60,8 @@ namespace HeBianGu.App.Disk
 
             services.AddXmlSerialize();
             services.AddXmlMeta();
+
+            services.AddMvc();
         }
 
         protected override void Configure(IApplicationBuilder app)

@@ -45,7 +45,7 @@ namespace HeBianGu.App.Repository
 
             services.AddMessage();
 
-            services.AddAutomation();
+            //services.AddAutomation();
 
             services.AddMvp();
 
@@ -134,7 +134,6 @@ namespace HeBianGu.App.Repository
             //});
 
             app.UseMeta();
-
 
             app.UsePagedDataGrid();
 

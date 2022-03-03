@@ -41,7 +41,9 @@ namespace HeBianGu.App.Touch
             services.AddTheme();
 
             //  Do ：注入领域模型服务
-            services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
+            services.AddSingleton<IAssemblyDomain, AssemblyDomain>(); 
+
+            services.AddMvc();
 
         }
 

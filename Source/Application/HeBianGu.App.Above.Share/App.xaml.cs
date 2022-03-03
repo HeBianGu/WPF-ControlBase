@@ -41,6 +41,8 @@ namespace HeBianGu.App.Above
             //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
 
+            services.AddMvc();
+
         }
 
         protected override void Configure(IApplicationBuilder app)
