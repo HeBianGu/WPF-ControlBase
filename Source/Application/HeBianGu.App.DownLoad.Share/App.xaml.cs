@@ -50,11 +50,11 @@ namespace HeBianGu.App.DownLoad
             services.AddXmlSerialize();
             services.AddXmlMeta();
 
-            //  Do ：启用启动窗口 需要添加引用HeBianGu.Window.Start
-            services.AddStart();
+            ////  Do ：启用启动窗口 需要添加引用HeBianGu.Window.Start
+            //services.AddStart();
 
-            //  Do ：启用启动窗口 需要添加引用HeBianGu.Systems.Identity
-            services.AddIdentity();
+            ////  Do ：启用启动窗口 需要添加引用HeBianGu.Systems.Identity
+            //services.AddIdentity();
         }
 
         protected override void Configure(IApplicationBuilder app)
@@ -74,8 +74,7 @@ namespace HeBianGu.App.DownLoad
             //  Do：设置默认主题
             app.UseLocalTheme(l =>
             {
-                l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF003D99");
-
+                l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
                 l.SmallFontSize = 14D;
                 l.LargeFontSize = 16D;
                 l.FontSize = FontSize.Small;

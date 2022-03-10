@@ -43,7 +43,7 @@ namespace HeBianGu.Template.Main
             //  Do：设置默认主题
             app.UseLocalTheme(l =>
             {
-                l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF003D99");
+                l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
                 //l.ForegroundColor = (Color)ColorConverter.ConvertFromString("#000000");
 
                 l.SmallFontSize = 15D;
