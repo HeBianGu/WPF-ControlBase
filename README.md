@@ -178,6 +178,24 @@ HeBianGu.Demo.Demo5
 
             //  Do ：注册序列化保存接口，注册后主题的配置会保存到本地，再次启动会读取
             services.AddXmlSerialize();
+            
+            //  Do：设置默认主题
+            app.UseLocalTheme(l =>
+            {
+                l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
+                l.SmallFontSize = 14D;
+                l.LargeFontSize = 16D;
+                l.FontSize = FontSize.Small;
+                l.ItemHeight = 36;
+                l.RowHeight = 40;
+                l.ItemCornerRadius = 5;
+                l.AnimalSpeed = 5000;
+                l.AccentColorSelectType = 0;
+                l.IsUseAnimal = false;
+                l.ThemeType = ThemeType.Light;
+                l.Language = Language.Chinese;
+                l.AccentBrushType = AccentBrushType.LinearGradientBrush;
+            });
 ```
 #### 这是一个注册框架对话框的示例
 HeBianGu.Demo.Demo6
@@ -193,24 +211,49 @@ HeBianGu.Demo.Demo7
 
             //  Do ：注册右上角配置页面
             services.AddSettingViewPrenter();
+            
+            //  Do ：添加自定义配置信息
+            app.UseSetting(l =>
+            {
+                l.Settings.Add(TestSetting.Instance);
+            });
 ```
 #### 这是一个注册启动页面的示例
 HeBianGu.Demo.Demo8
 ```C#  
             //  Do ：注册启动页面
             services.AddStart();
+            
+            //  Do ：添加启动窗口配置
+            app.UseStart(l =>
+            {
+                l.Title = "HeBianGu";
+                l.TitleFontSize = 80;
+            });
 ```
 #### 这是一个注册登录页面的示例
 HeBianGu.Demo.Demo9
 ```C#  
             //  Do ：注册登录页面和使用测试接口
             services.AddIdentity();
+            
+            //  Do ：添加身份认证配置
+            app.UseIdentity(l =>
+            {
+
+            });
 ```
 #### 这是一个注册自动更新页面的示例
 HeBianGu.Demo.Demo10
 ```C#  
             //  Do ：注册软件更新页面
             services.AddUpgrade();
+            
+            //  Do ：添加软件更新配置
+            app.UseUpgrade(l =>
+            {
+
+            });
 ```
 
 ### 模板
