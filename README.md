@@ -99,6 +99,7 @@
 ### AnimationBox
 ### AnimatedTabControl
 ### LeftMenu
+### Host
 ### Message
 ### MessageContainer
 ### MessageListBox
@@ -119,6 +120,7 @@
 ### TopContainer
 ### TransformAdorner
 ### TreeListView
+### Vlc
 
 ## 自定义窗口
 ### Blur
@@ -146,6 +148,7 @@
 ### Module
 ### Mvc
 ### Mvp
+### Image
 ### Validation
 ### ViewModel
 ### Animation
@@ -160,18 +163,63 @@
 
 ### 示例
 #### 这是一个最简单的使用方式示例
+HeBianGu.Demo.Demo1
 #### 这是一个基础控件中的ResourceKey示例
+HeBianGu.Demo.Demo2
 #### 这是一个公用基础的ResourceKey示例
+HeBianGu.Demo.Demo3
 #### 这是一个最简单的MainWindow窗口示例
+HeBianGu.Demo.Demo4
 #### 这是一个注册主题设置和注册保存配置信息的示例
+HeBianGu.Demo.Demo5
+```C#  
+            //  Do ：注册窗口配置，注册后窗口右侧有可设置主题的按钮
+            services.AddTheme();
+
+            //  Do ：注册序列化保存接口，注册后主题的配置会保存到本地，再次启动会读取
+            services.AddXmlSerialize();
+```
 #### 这是一个注册框架对话框的示例
+HeBianGu.Demo.Demo6
+```C#  
+            //  Do ：注册后可以使用框架自带的对话框
+            services.AddMessageDialog();
+```
 #### 这是一个注册框架配置页面的示例
+HeBianGu.Demo.Demo7
+```C#  
+            //  Do ：注册配置加载方式
+            services.AddSetting();
+
+            //  Do ：注册右上角配置页面
+            services.AddSettingViewPrenter();
+```
 #### 这是一个注册启动页面的示例
+HeBianGu.Demo.Demo8
+```C#  
+            //  Do ：注册启动页面
+            services.AddStart();
+```
 #### 这是一个注册登录页面的示例
-#### 这是一个注册登录页面的示例
+HeBianGu.Demo.Demo9
+```C#  
+            //  Do ：注册登录页面和使用测试接口
+            services.AddIdentity();
+```
+#### 这是一个注册自动更新页面的示例
+HeBianGu.Demo.Demo10
+```C#  
+            //  Do ：注册软件更新页面
+            services.AddUpgrade();
+```
 
 ### 模板
+VS=>项目=>导出模板
 #### Main
+HeBianGu.Template.Main
+
+#### Link
+HeBianGu.Template.Link
 
 ## NuGet包
 
@@ -188,6 +236,7 @@
 | **HeBianGu.Service.Mvp** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Service.Mvp)](https://www.nuget.org/packages/HeBianGu.Service.Mvp)** |
 | **HeBianGu.Service.TypeConverter** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Service.TypeConverter)](https://www.nuget.org/packages/HeBianGu.Service.TypeConverter)** |
 | **HeBianGu.Service.Validation** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Service.Validation)](https://www.nuget.org/packages/HeBianGu.Service.Validation)** |
+| **HeBianGu.Service.Image** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Service.Image)](https://www.nuget.org/packages/HeBianGu.Service.Image)** |
 | **HeBianGu.Common.Expression** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Common.Expression)](https://www.nuget.org/packages/HeBianGu.Common.Expression)** |
 | **HeBianGu.Control.Adorner** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.Adorner)](https://www.nuget.org/packages/HeBianGu.Control.Adorner)** |
 | **HeBianGu.Control.Chart2D** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.Chart2D)](https://www.nuget.org/packages/HeBianGu.Control.Chart2D)** |
@@ -198,6 +247,7 @@
 | **HeBianGu.Control.GridSplitter** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.GridSplitter)](https://www.nuget.org/packages/HeBianGu.Control.GridSplitter)** |
 | **HeBianGu.Control.ImagePlayer** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.ImagePlayer)](https://www.nuget.org/packages/HeBianGu.Control.ImagePlayer)** |
 | **HeBianGu.Control.LeftMenu** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.LeftMenu)](https://www.nuget.org/packages/HeBianGu.Control.LeftMenu)** |
+| **HeBianGu.Control.Host** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.Host)](https://www.nuget.org/packages/HeBianGu.Control.Host)** |
 | **HeBianGu.Control.Message** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.Message)](https://www.nuget.org/packages/HeBianGu.Control.Message)** |
 | **HeBianGu.Control.MessageContainer** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.MessageContainer)](https://www.nuget.org/packages/HeBianGu.Control.MessageContainer)** |
 | **HeBianGu.Control.MessageListBox** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.MessageListBox)](https://www.nuget.org/packages/HeBianGu.Control.MessageListBox)** |
@@ -217,6 +267,7 @@
 | **HeBianGu.Control.ToggleExpander** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.ToggleExpander)](https://www.nuget.org/packages/HeBianGu.Control.ToggleExpander)** |
 | **HeBianGu.Control.TopContainer** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.TopContainer)](https://www.nuget.org/packages/HeBianGu.Control.TopContainer)** |
 | **HeBianGu.Control.TreeListView** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.TreeListView)](https://www.nuget.org/packages/HeBianGu.Control.TreeListView)** |
+| **HeBianGu.Control.Vlc** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Control.Vlc)](https://www.nuget.org/packages/HeBianGu.Control.Vlc)** |
 | **HeBianGu.Window.Blur** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Window.Blur)](https://www.nuget.org/packages/HeBianGu.Window.Blur)** |
 | **HeBianGu.Window.Float** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Window.Float)](https://www.nuget.org/packages/HeBianGu.Window.Float)** |
 | **HeBianGu.Window.Link** | **[![NuGet](https://buildstats.info/nuget/HeBianGu.Window.Link)](https://www.nuget.org/packages/HeBianGu.Window.Link)** |
