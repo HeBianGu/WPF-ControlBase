@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="HeBianGu.App.Manager.View.Custom.FilterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.App.Manager.View.Custom"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:s="clr-namespace:System;assembly=mscorlib"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <UniformGrid Columns="1">
+        <GroupBox Header="筛选器">
+            <StackPanel>
+                <h:FilterBox Margin="0,10" MinWidth="400"
+                             HorizontalAlignment="Right"
+                             h:Cattach.Title="筛选器："
+                             DataSource="{Binding Teachers}"
+                             OutSource="{Binding OutSource1, Mode=TwoWay}"
+                             Style="{DynamicResource S.FilterBox.Label}" />
+
+
+                <h:PagedDataGrid AutoGenerateColumns="True"
+                                 DataSource="{Binding OutSource1, Mode=TwoWay}"
+                                 PageCount="6"
+                                 Style="{DynamicResource {x:Static h:PagedDataGrid.SingleKey}}" />
+
+            </StackPanel>
+        </GroupBox>
+
+        <GroupBox Header="筛选器 - 带初始条件">
+            <StackPanel>
+                <h:FilterBox Margin="0,10" MinWidth="400"
+                             HorizontalAlignment="Right"
+                             h:Cattach.Title="筛选器："
+                             DataSource="{Binding Teachers}"
+                             OutSource="{Binding OutSource2, Mode=TwoWay}"
+                             Style="{DynamicResource S.FilterBox.Label}">
+                    <h:FilterBox.FilterItemCollection>
+                        <h:FilterItemCollection>
+                            <h:DoubleFilter Name="Score"
+                                            DisplayName="平均分"
+                                            Operate="Equals"
+                                            Value="96" />
+                            <h:StringFilter Name="Address"
+                                            DisplayName="地址"
+                                            Operate="Contain"
+                                            Value="4" />
+                            <h:IntFilter Name="Age"
+                                         DisplayName="年龄"
+                                         Operate="Greater"
+                                         Value="40" />
+                            <h:BooleanFilter Name="IsEnbled"
+                                             DisplayName="可用"
+                                             Operate="Equals"
+                                             Value="True" />
+                            <h:DateTimeFilter Name="Time"
+                                              DisplayName="时间"
+                                              Operate="Greater"
+                                              Value="{x:Static s:DateTime.Now}" />
+                        </h:FilterItemCollection>
+                    </h:FilterBox.FilterItemCollection>
+                </h:FilterBox>
+
+                <h:PagedDataGrid AutoGenerateColumns="True"
+                                 DataSource="{Binding OutSource2}"
+                                 PageCount="6"
+                                 Style="{DynamicResource {x:Static h:PagedDataGrid.SingleKey}}" />
+
+            </StackPanel>
+        </GroupBox>
+    </UniformGrid>
+</UserControl>

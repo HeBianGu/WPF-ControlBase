@@ -1,0 +1,171 @@
+﻿<UserControl x:Class="HeBianGu.App.Media.View.Layout.Dialog.EditDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:collections="clr-namespace:System.Collections;assembly=System.Runtime"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.App.Media.View.Layout.Dialog"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Width="900"
+             Height="600"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Grid>
+        <Border Grid.RowSpan="11"
+                Grid.ColumnSpan="11"
+                Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+
+        <DockPanel Margin="10" TextBlock.FontSize="18" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
+
+            <TextBlock Margin="10"
+                       HorizontalAlignment="Left"
+                       DockPanel.Dock="Top"
+                       FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header2}}"
+                       FontWeight="Bold"
+                       Text="属性" />
+
+
+            <StackPanel Grid.Row="2"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        DockPanel.Dock="Bottom"
+                        Orientation="Horizontal">
+
+                <Button Command="{Binding RelayCommand}" CommandParameter="SetSumit" Content="确认" />
+            </StackPanel>
+
+            <TabControl Grid.Row="1" BorderBrush="Transparent">
+                <TabItem Header="信息">
+                    <DockPanel>
+                        <h:Row DockPanel.Dock="Top">
+                            <TextBox h:Cattach.Title="位置" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}" />
+                        </h:Row>
+                        <h:Row DockPanel.Dock="Top">
+                            <TextBox h:Cattach.Title="标题" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}" />
+                        </h:Row>
+                        <h:Row DockPanel.Dock="Top">
+                            <TextBox h:Cattach.Title="又名" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}" />
+                        </h:Row>
+                        <h:Row DockPanel.Dock="Top">
+                            <TextBox h:Cattach.Title="年份" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}" />
+                        </h:Row>
+                        <h:Row DockPanel.Dock="Top">
+                            <TextBox h:Cattach.Title="国家" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}" />
+                        </h:Row>
+                        <h:Row DockPanel.Dock="Top">
+                            <TextBox h:Cattach.Title="类型" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}" />
+                        </h:Row>
+                        <h:Row DockPanel.Dock="Top">
+                            <TextBox h:Cattach.Title="主演" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}" />
+                        </h:Row>
+
+                        <h:Row DockPanel.Dock="Top">
+                            <TextBox h:Cattach.Title="标签" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}" />
+                        </h:Row>
+
+                        <TextBox Height="Auto"
+                                 h:Cattach.Title="简介"
+                                 h:Cattach.TitleHeight="Auto"
+                                 h:Cattach.TitleVerticalAlignment="Center"
+                                 Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}" />
+                    </DockPanel>
+                </TabItem>
+
+                <TabItem Header="预览">
+                    <DockPanel>
+                        <DockPanel DockPanel.Dock="Top">
+                            <DockPanel Width="230" LastChildFill="False">
+                                <Border Height="300"
+                                        Margin="10,0"
+                                        Background="{DynamicResource {x:Static h:BrushKeys.Dark0_4}}"
+                                        CornerRadius="2"
+                                        DockPanel.Dock="Top">
+                                    <TextBlock FontSize="150" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xeabe;" />
+                                </Border>
+
+                                <UniformGrid HorizontalAlignment="Left" DockPanel.Dock="Top"  Rows="1">
+                                    <Button h:Cattach.Icon="&#xeada;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                    <Button h:Cattach.Icon="&#xe844;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                </UniformGrid>
+                            </DockPanel>
+
+                            <Grid>
+                                <ScrollViewer HorizontalContentAlignment="Right"
+                                              VerticalContentAlignment="Bottom"
+                                              h:ScrollViewerService.UseLeftHome="False"
+                                              h:ScrollViewerService.UseLeftLine="False"
+                                              h:ScrollViewerService.UseLeftPage="False"
+                                              h:ScrollViewerService.UseRightEnd="False"
+                                              h:ScrollViewerService.UseRightLine="False"
+                                              h:ScrollViewerService.UseRightPage="False"
+                                              Style="{StaticResource {x:Static h:ScrollViewerKeys.Tool}}">
+                                    <ItemsControl>
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Margin="2" Style="{DynamicResource {x:Static h:BorderKeys.Default}}" Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}">
+                                                    <Grid>
+                                                        <TextBlock Margin="5"
+                                                                   HorizontalAlignment="Left"
+                                                                   VerticalAlignment="Top"
+                                                                   DockPanel.Dock="Top"
+                                                                   Text="{Binding Value}" />
+                                                        <TextBlock Margin="0,0,0,0"
+                                                                   FontSize="300"
+                                                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                                   Text="&#xeabe;" />
+
+                                                        <UniformGrid HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                            <Button ToolTip="设置为海报" h:Cattach.Icon="&#xe844;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"/>
+                                                            <Button ToolTip="删除" h:Cattach.Icon="&#xe844;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"/>
+                                                        </UniformGrid>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+
+                                        <h:TestViewModel Value="00:00:05" />
+                                        <h:TestViewModel Value="00:00:15" />
+                                        <h:TestViewModel Value="00:00:35" />
+                                        <h:TestViewModel Value="00:00:45" />
+                                        <h:TestViewModel Value="00:00:55" />
+                                        <h:TestViewModel Value="00:01:05" />
+                                        <h:TestViewModel Value="00:01:45" />
+                                        <h:TestViewModel Value="00:02:45" />
+                                        <h:TestViewModel Value="00:02:65" />
+                                        <h:TestViewModel Value="00:03:05" />
+                                        <h:TestViewModel Value="00:04:05" />
+                                        <h:TestViewModel Value="00:04:55" />
+                                        <h:TestViewModel Value="00:05:35" />
+                                        <h:TestViewModel Value="00:06:05" />
+                                        <h:TestViewModel Value="00:06:25" />
+                                    </ItemsControl>
+                                </ScrollViewer>
+
+                            </Grid>
+                        </DockPanel>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
+        </DockPanel>
+
+        <Button Width="30"
+                Height="30"
+                Margin="10"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                h:Cattach.AllowsAnimation="True"
+                h:Cattach.Icon="&#xe72c;"
+                h:Cattach.IconSize="14"
+                h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                Click="Button_Click"
+                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+    </Grid>
+
+</UserControl>

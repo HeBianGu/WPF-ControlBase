@@ -1,0 +1,57 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Message">
+
+    <ResourceDictionary.MergedDictionaries>
+        <!--<ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.Message;component/OfficeWindowBase.xaml"/>-->
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.Message;component/Dialog/PopupBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.Message;component/Dialog/DialogHost.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.Message;component/Dialog/DrawerHost.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.Message;component/Snack/Snackbar.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.Message;component/Dialog/ObjectContentDialog.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate DataType="{x:Type local:SnackbarStylesPropertyItem}">
+        <ListBox Margin="5,0"
+                 h:Cattach.Title="{Binding Name}"
+                 ItemsSource="{Binding Collection}"
+                 SelectedItem="{Binding Value}"
+                 Style="{DynamicResource {x:Static h:ListBoxKeys.Label}}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="200" Height="100" ToolTip="{Binding Name}">
+                        <Border Style="{DynamicResource {x:Static h:BorderKeys.Card}}">
+                            <Grid>
+                                <local:Snackbar IsActive="True" Style="{DynamicResource Style}" />
+                            </Grid>
+                        </Border>
+
+                        <CheckBox Height="Auto"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  VerticalContentAlignment="Center"
+                                  Background="Transparent"
+                                  IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}"
+                                  IsHitTestVisible="False"
+                                  Style="{DynamicResource {x:Static h:CheckBoxKeys.Box}}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border>
+                                    <ContentPresenter />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+    </DataTemplate>
+</ResourceDictionary>

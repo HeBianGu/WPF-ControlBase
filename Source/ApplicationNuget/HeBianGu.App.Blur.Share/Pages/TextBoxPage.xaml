@@ -1,0 +1,503 @@
+﻿<Page x:Class="WpfControlDemo.View.TextBoxPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:h="https://github.com/HeBianGu"
+      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:system="clr-namespace:System;assembly=mscorlib"
+      Title="TextBoxPage"
+      d:DesignHeight="1000"
+      d:DesignWidth="1000"
+      DataContext="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel}"
+      mc:Ignorable="d">
+
+    <Grid>
+        <TabControl Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}">
+            <TabItem Header="基础样式">
+                <ScrollViewer>
+                    <StackPanel>
+                        <h:Interaction.Behaviors>
+                            <h:FluidMoveBehavior AppliesTo="Self" FloatAbove="True" Duration="00:00:01" />
+                        </h:Interaction.Behaviors>
+
+                        <GroupBox Header="默认样式">
+                            <StackPanel>
+                                <Button Content="Button"/>
+                                <TextBox h:Cattach.Title="姓名：" h:Cattach.Watermark="TextBox" />
+
+                                <TextBox h:Cattach.Title="姓名：" Style="{DynamicResource {x:Static h:TextBoxKeys.Default}}" h:Cattach.Watermark="Default" />
+
+                                <TextBox h:Cattach.Title="姓名：" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}" h:Cattach.Watermark="LabelClear" />
+
+                                <TextBox h:Cattach.Title="姓名：" Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}" h:Cattach.Watermark="Label" />
+
+                                <TextBox h:Cattach.Title="姓名：" Style="{DynamicResource {x:Static h:TextBoxKeys.Clear}}" h:Cattach.Watermark="Clear" />
+
+                                <TextBox h:Cattach.Title="姓名：" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClearSingle}}" h:Cattach.Watermark="LabelClear" />
+
+                                <!--<ComboBox h:Cattach.Title="姓名：" Style="{DynamicResource {x:Static h:ComboBoxKeys.Label}}" h:Cattach.Watermark="请输入姓名" />-->
+
+                                <!--<TextBox h:Cattach.Title="姓名：" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClearCircle}}" h:Cattach.Watermark="请输入姓名" />
+                                <TextBox h:Cattach.Title="姓名：" Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClearLine}}" h:Cattach.Watermark="请输入姓名" />-->
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="标题文本输入框">
+                            <StackPanel>
+                                <TextBox Margin="3"
+                                            h:Cattach.Title="姓名："
+                                            h:Cattach.Watermark="请输入姓名"
+                                            Style="{StaticResource {x:Static h:TextBoxKeys.Label}}" />
+                                <TextBox Margin="3"
+                                            h:Cattach.Title="爱好："
+                                            h:Cattach.Watermark="请输入爱好"
+                                            Style="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}" />
+                                <TextBox Margin="3"
+                                            h:Cattach.Title="爱好："
+                                            h:Cattach.Watermark="请输入爱好"
+                                            IsReadOnly="True"
+                                            Style="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}">
+                                    IsReadOnly=&quot;True&quot;
+                                </TextBox>
+                                <TextBox Margin="3"
+                                            h:Cattach.Title="爱好："
+                                            h:Cattach.Watermark="请输入爱好"
+                                            IsEnabled="False"
+                                            Style="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}">
+                                    IsEnabled=&quot;False&quot;
+                                </TextBox>
+                                <TextBox Margin="3"
+                                            h:Cattach.Title="户口地址："
+                                            h:Cattach.Watermark="请输入户口地址"
+                                            Style="{StaticResource {x:Static h:TextBoxKeys.LabelSingle}}" />
+                                <TextBox Margin="3"
+                                            h:Cattach.Title="户口地址："
+                                            h:Cattach.Watermark="请输入户口地址"
+                                            Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}" />
+                                <TextBox Margin="3"
+                                            h:Cattach.Title="户口地址："
+                                            h:Cattach.Watermark="请输入户口地址"
+                                            Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}" />
+                                <TextBox Margin="3" h:Cattach.Watermark="请输入户口地址" Style="{StaticResource {x:Static h:TextBoxKeys.Circle}}" />
+                                <TextBox Margin="3"
+                                            h:Cattach.Title="户口地址："
+                                            h:Cattach.Watermark="请输入户口地址"
+                                            Style="{StaticResource {x:Static h:TextBoxKeys.LabelCircle}}" />
+                                <TextBox Margin="3"
+                                            h:Cattach.Title="户口地址："
+                                            h:Cattach.Watermark="请输入户口地址"
+                                            Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearUnderLine}}" />
+                                <TextBox Margin="3"
+                                            h:Cattach.Title="户口地址"
+                                            h:Cattach.Watermark="请输入户口地址"
+                                            Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearAlarmUnderLine}}" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="资源文本输入框">
+                            <StackPanel>
+                                <TextBox Margin="3" Style="{StaticResource {x:Static h:TextBoxKeys.OpenFile}}" />
+                                <TextBox Margin="3" Style="{StaticResource {x:Static h:TextBoxKeys.OpenFolder}}" />
+                                <TextBox Margin="3" Style="{StaticResource {x:Static h:TextBoxKeys.SaveFile}}" />
+                            </StackPanel>
+                        </GroupBox>
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="输入信息验证 - 前端验证">
+                <GroupBox Header="输入信息验证 - (前端验证)">
+                    <UniformGrid Columns="1">
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="姓名："
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}">
+                            <TextBox.Text>
+                                <Binding Mode="TwoWay"
+                                         Path="TextBoxViewModel.Name"
+                                         UpdateSourceTrigger="PropertyChanged"
+                                         ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <h:RequiredValidationRule ErrorMessage="数据不能为空" />
+                                        <h:RegularExpressionValidationRule ErrorMessage="只能输入汉字" Pattern="^[\u4e00-\u9fa5]{0,}$" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="密码："
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}">
+                            <TextBox.Text>
+                                <Binding Mode="TwoWay"
+                                         Path="TextBoxViewModel.PassWord"
+                                         UpdateSourceTrigger="PropertyChanged"
+                                         ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <h:RegularExpressionValidationRule ErrorMessage="以字母开头，长度在6~18之间，只能包含字母、数字和下划线" Pattern="^[a-zA-Z]\w{5,17}$" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="手机号："
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}">
+                            <TextBox.Text>
+                                <Binding Mode="TwoWay"
+                                         Path="TextBoxViewModel.Phone"
+                                         UpdateSourceTrigger="PropertyChanged"
+                                         ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <h:RegularExpressionValidationRule ErrorMessage="手机号码不合法" Pattern="^1[3|4|5|7|8][0-9]{9}$" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="年龄："
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}">
+                            <TextBox.Text>
+                                <Binding Mode="TwoWay"
+                                         Path="TextBoxViewModel.Age"
+                                         UpdateSourceTrigger="PropertyChanged"
+                                         ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <h:RegularExpressionValidationRule ErrorMessage="只能输入数字" Pattern="^^[0-9]*$" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="区划："
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}">
+                            <TextBox.Text>
+                                <Binding Mode="TwoWay"
+                                         Path="TextBoxViewModel.Regin"
+                                         UpdateSourceTrigger="PropertyChanged"
+                                         ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <h:RegularExpressionValidationRule ErrorMessage="只能5位的数字" Pattern="^\d{5}$" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="数字范围："
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}">
+                            <TextBox.Text>
+                                <Binding Mode="TwoWay"
+                                         Path="TextBoxViewModel.Limit"
+                                         UpdateSourceTrigger="PropertyChanged"
+                                         ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <h:RegularExpressionValidationRule ErrorMessage="只能5-8位的数字" Pattern="^\d{5,8}$" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="Email："
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}">
+                            <TextBox.Text>
+                                <Binding Mode="TwoWay"
+                                         Path="TextBoxViewModel.Email"
+                                         UpdateSourceTrigger="PropertyChanged"
+                                         ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <h:RegularExpressionValidationRule ErrorMessage="邮箱地址不合法" Pattern="^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="身份证号："
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}">
+                            <TextBox.Text>
+                                <Binding Mode="TwoWay"
+                                         Path="TextBoxViewModel.CardID"
+                                         UpdateSourceTrigger="PropertyChanged"
+                                         ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <h:RegularExpressionValidationRule ErrorMessage="身份证号不合法" Pattern="^^\d{15}|\d{18}$" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="账号："
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}">
+                            <TextBox.Text>
+                                <Binding Mode="TwoWay"
+                                         Path="TextBoxViewModel.Accont"
+                                         UpdateSourceTrigger="PropertyChanged"
+                                         ValidatesOnDataErrors="True">
+                                    <Binding.ValidationRules>
+                                        <h:RegularExpressionValidationRule ErrorMessage="字母开头，允许5-16字节，允许字母数字下划线" Pattern="^[a-zA-Z][a-zA-Z0-9_]{4,15}$" />
+                                    </Binding.ValidationRules>
+                                </Binding>
+                            </TextBox.Text>
+                        </TextBox>
+
+                    </UniformGrid>
+                </GroupBox>
+            </TabItem>
+
+            <TabItem Header="输入信息验证 - （后台验证）">
+                <GroupBox Header="输入信息验证 - （后台验证）">
+                    <UniformGrid Columns="1">
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="姓名:"
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}"
+                                    Text="{Binding TextBoxViewModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="密码:"
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}"
+                                    Text="{Binding TextBoxViewModel.PassWord, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="手机号:"
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}"
+                                    Text="{Binding TextBoxViewModel.Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="年龄:"
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}"
+                                    Text="{Binding TextBoxViewModel.Age, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="区划:"
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}"
+                                    Text="{Binding TextBoxViewModel.Regin, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="范围:"
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}"
+                                    Text="{Binding TextBoxViewModel.Limit, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="Email:"
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}"
+                                    Text="{Binding TextBoxViewModel.Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="身份证号:"
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}"
+                                    Text="{Binding TextBoxViewModel.CardID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                        <TextBox Margin="3"
+                                    h:Cattach.Title="账号:"
+                                    h:Cattach.Watermark="请输入数据"
+                                    Style="{StaticResource {x:Static h:TextBoxKeys.LabelClearSingle}}"
+                                    Text="{Binding TextBoxViewModel.Accont, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+
+                        <Button Command="{Binding TextBoxViewModel.RelayCommand}" CommandParameter="Button.Click.CheckDataSumit" Content="提交数据" />
+
+                    </UniformGrid>
+                </GroupBox>
+            </TabItem>
+        </TabControl>
+        <!--<controls:AnimatedTabControl >
+            <TabItem Header="样式一">
+                <ScrollViewer>
+                    <StackPanel>
+
+                        <GroupBox Header="普通文本输入框">
+                            <StackPanel>
+                                <TextBox Width="150" Height="30" Margin="3"
+                 h:Cattach.Watermark="我是水印"
+                 h:Cattach.CornerRadius="2"/>
+
+                                <TextBox Width="140" h:Cattach.Icon="" Text="333333333333333" Height="40" Margin="3" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible"/>
+
+                                <TextBox Width="150" Height="30" Margin="3" IsReadOnly="True" h:Cattach.CornerRadius="15" SnapsToDevicePixels="True" >我是只读的</TextBox>
+
+                                <TextBox Width="150" Height="30" Margin="3" IsEnabled="False">IsEnabled="False"</TextBox>
+
+                                <TextBox Width="150" Height="30" Margin="3" h:Cattach.Watermark="我是水印" Style="{StaticResource {x:Static h:TextBoxKeys.Clear}}"  IsEnabled="True"></TextBox>
+
+                                <TextBox Width="150" Height="30" Margin="3" Style="{StaticResource {x:Static h:TextBoxKeys.Clear}}" IsEnabled="False">IsEnabled="False"</TextBox>
+
+                                <TextBox Width="150" Height="30" Margin="3" Style="{StaticResource {x:Static h:TextBoxKeys.Clear}}" IsReadOnly="True">IsReadOnly="True"</TextBox>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="标题文本输入框">
+                            <StackPanel>
+
+                                <TextBox Width="200" Height="30" Margin="3" h:Cattach.Watermark="请输入姓名"
+                         Style="{StaticResource x:Static h:TextBoxKeys.Label}}" h:Cattach.Title="姓名："></TextBox>
+                                <TextBox Width="200" Height="30" Margin="3" h:Cattach.Watermark="请输入爱好"
+                         Style="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}" h:Cattach.Title="爱好："></TextBox>
+                                <TextBox Width="200" Height="30" Margin="3" h:Cattach.Watermark="请输入爱好" IsReadOnly="True"
+                         Style="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}" h:Cattach.Title="爱好：">IsReadOnly="True"</TextBox>
+                                <TextBox Width="200" Height="30" Margin="3" h:Cattach.Watermark="请输入爱好" IsEnabled="False"
+                         Style="{StaticResource {x:Static h:TextBoxKeys.LabelClear}}" h:Cattach.Title="爱好：">IsEnabled="False"</TextBox>
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="资源文本输入框">
+                            <StackPanel>
+                                <TextBox Width="400" Height="30" Margin="3" Style="{StaticResource x:Static h:TextBoxKeys.OpenFile}}"></TextBox>
+                                <TextBox Width="400" Height="30" Margin="3" Style="{StaticResource {x:Static h:TextBoxKeys.OpenFolder}}"></TextBox>
+                                <TextBox Width="400" Height="30" Margin="3" Style="{StaticResource {x:Static h:TextBoxKeys.SaveFile}}"></TextBox>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="按钮文本输入框">
+                            <StackPanel>
+                                <TextBox Width="200" Height="30" Margin="3" h:Cattach.Watermark="查询关键词" IsEnabled="True">
+                                    <h:Cattach.AttachContent>
+                                        <ControlTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <controls:Button Icon="&#xe607;"  Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}"  IsTabStop="False" IconMargin="0"
+                                            IconSize="18" Margin="1,1,2,3"  Cursor="Arrow"/>
+                                                <controls:Button Icon="&#xe674;"  Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" IsTabStop="False" IconMargin="0"
+                                            IconSize="22"  Cursor="Arrow"/>
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </h:Cattach.AttachContent>
+                                </TextBox>
+
+                                <TextBox Width="200" Height="30" Margin="3" h:Cattach.Watermark="查询关键词" IsEnabled="False" Text="123">
+                                    <h:Cattach.AttachContent>
+                                        <ControlTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <controls:Button Icon="&#xe607;"  Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" IsTabStop="False" IconMargin="0"
+                                            IconSize="18" Margin="1,1,2,3"  Cursor="Arrow"/>
+                                                <controls:Button Icon="&#xe674;"  Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" IsTabStop="False"  IconMargin="0"
+                                            IconSize="22"  Cursor="Arrow"/>
+                                            </StackPanel>
+                                        </ControlTemplate>
+                                    </h:Cattach.AttachContent>
+                                </TextBox>
+                            </StackPanel>
+                        </GroupBox>
+
+
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="样式二">
+                <ScrollViewer>
+                    <StackPanel>
+                        <controls:MetroTextBox x:Name="password" InputHint="PassWord Input Box!" IsPassWordBox="True" ButtonTitle="确定" PopupHint="请输入密码" />
+                        <controls:MetroTextBox InputHint="InputHint..." PopupHint="This is TextBox!" Margin="0,10,0,0" />
+                        <controls:MetroTextBox Margin="0,10,0,0" />
+                        <controls:MetroTextBox Title="Default Title" InputHint="InputHint..." PopupHint="This is TextBox!" Margin="0,10,0,0" />
+                        <controls:MetroTextBox x:Name="check" Title="Default Title" InputHint="InputHint..." ButtonTitle="Button" PopupHint="Length is more than 10!" Margin="0,10,0,0"  IconFont="&#xe633;"/>
+                        <controls:MetroTextBox x:Name="check1" Text="0123456789" Title="Default Title" InputHint="InputHint..." ButtonTitle="Button" PopupHint="Length is more than 10!" Margin="0,10,0,0" IconFont="&#xe633;"  />
+                        <controls:MetroTextBox Title="Default Title" InputHint="InputHint..." Text="This is Content!" ButtonTitle="Button" PopupHint="这是一个多行编辑框!" Margin="0,10,0,0"  MultipleLine="True" IconFont="&#xe633;" />
+                        <controls:MetroTextBox Title="Default Title" InputHint="InputHint..." ButtonTitle="Button" PopupHint="Length is more than 10!" Margin="0,10,0,0"  IsEnabled="False" />
+                        <controls:MetroTextBox Title="Default Title" InputHint="InputHint..." Text="已经输入内容且禁用" ButtonTitle="Button" PopupHint="Length is more than 10!" Margin="0,10,0,0"  IsEnabled="False" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="样式三">
+                <ScrollViewer>
+                    <StackPanel>
+                        <controls:DTextBox
+                                    Width="150"
+                                    Height="40"
+                                    Margin="5"
+                                    BorderBrush="#DCDFE6"
+                                    BorderThickness="1"
+                                    Hint="请输入密码"
+                                    Icon="&#xe77f;"
+                                    SelectedColor="#409EFF"
+                                    ShowIcon="True" />
+                        <controls:DTextBox
+                                    Width="150"
+                                    Height="40"
+                                    Margin="5"
+                                    Background="White"
+                                    BorderBrush="#33999999"
+                                    BorderThickness="1"
+                                    Hint="请输入密码"
+                                    Icon="&#xe77f;"
+                                    ShowIcon="True" />
+                        <controls:DTextBox
+                                    Width="150"
+                                    Height="40"
+                                    Margin="5,15,5,15"
+                                    CornerRadius="2"
+                                    Hint="请输入手机号码(圆角)" />
+                        <controls:DTextBox
+                                    Width="150"
+                                    Margin="5,15,5,15"
+                                    Background="#00FFFFFF"
+                                    BorderThickness="0"
+                                    CornerRadius="0"
+                                    Hint="透明水印输入框" />
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="密码输入样式">
+                <ScrollViewer>
+                    <StackPanel>
+                        <GroupBox Header="自定义密码文本输入框">
+                            <StackPanel>
+                                <PasswordBox Style="{StaticResource {x:Static h:PasswordBoxKeys.Default}}" h:Cattach.Watermark="请输入姓名" Margin="3"  />
+                                <PasswordBox Style="{StaticResource {x:Static h:PasswordBoxKeys.Clear}}" Margin="3" />
+                                <PasswordBox Style="{StaticResource {x:Static h:PasswordBoxKeys.Label}}" h:Cattach.Title="密码：" Margin="3" />
+                                <PasswordBox Style="{StaticResource {x:Static h:PasswordBoxKeys.LabelClear}}" h:Cattach.Title="密码：" Margin="3"/>
+                                <PasswordBox  Style="{StaticResource {x:Static h:PasswordBoxKeys.Default}}"  IsEnabled="False" Password="111" Margin="3"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="绑定密码文本输入框">
+                            <StackPanel>
+                                <TextBox Width="200"
+                                                   Height="30"
+                                                   Margin="3"
+                                                   h:Cattach.Watermark="请输入绑定密码"
+                                                   Style="{StaticResource x:Static h:TextBoxKeys.Label}}"
+                                                   h:Cattach.Title="输入："
+                                                   x:Name="tb_bind"></TextBox>
+
+                                <controls:BindPassWordBox x:Name="bpw_bindpassword"
+                                                          h:Cattach.Watermark="请输入姓名" Style="{StaticResource S.BindPasswordBox.Default}"
+                                                          PassWord="{Binding ElementName=tb_bind,Path=Text,Mode=TwoWay}" Margin="3"  />
+
+                                <controls:BindPassWordBox Style="{StaticResource S.BindPasswordBox.Default}" h:Cattach.Watermark="请输入姓名" Margin="3"  />
+                                <controls:BindPassWordBox Style="{StaticResource S.BindPasswordBox.Clear}" h:Cattach.Watermark="请输入姓名" Margin="3" />
+                                <controls:BindPassWordBox Style="{StaticResource S.BindPasswordBox.Label}" h:Cattach.Watermark="请输入姓名" h:Cattach.Title="密码：" Margin="3" />
+                                <controls:BindPassWordBox  Style="{StaticResource S.BindPasswordBox.LabelClear}" h:Cattach.Watermark="请输入姓名" h:Cattach.Title="密码：" Margin="3"/>
+                                <controls:BindPassWordBox  Style="{StaticResource S.BindPasswordBox.Default}" h:Cattach.Watermark="请输入姓名"  IsEnabled="False" PassWord="111" Margin="3"/>
+
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </controls:AnimatedTabControl >-->
+
+    </Grid>
+</Page>

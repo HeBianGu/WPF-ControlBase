@@ -1,0 +1,169 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Automation"
+                    xmlns:sys="clr-namespace:System"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.GridSplitter;component/GridSplitterContainer.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.PresenterAutomation.Default, TypeInTargetAssembly={x:Type local:PresenterAutomation}}" TargetType="{x:Type local:PresenterAutomation}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:PresenterAutomation}">
+                    <Border>
+                        <GroupBox Header="自动化测试工作流" Style="{DynamicResource {x:Static h:GroupBoxKeys.Close}}">
+                            <Grid Background="{DynamicResource {x:Static h:BrushKeys.Dark0_8}}">
+                                <DockPanel Margin="5"> 
+                                    <h:GridSplitterContainer ID="0999E23F-FBFD-42CE-8A98-E9BDC75661F4"
+                                                             MenuMaxWidth="500"
+                                                             MenuMinWidth="0"
+                                                             MenuWidth="250" ToggleVerticalAlignment="Center"
+                                                             Style="{DynamicResource {x:Static h:GridSplitterContainer.RightKey}}">
+                                        <h:GridSplitterContainer.MenuContent>
+                                            <Grid Margin="0,0,0,0"
+                                                  Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                                                  DockPanel.Dock="Right"
+                                                  Visibility="{Binding Source={x:Static sys:AutomationSetting.Instance}, Path=UseProperty, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+
+                                                <h:PropertyGrid Padding="0,5,5,0"
+                                                                VerticalAlignment="Stretch"
+                                                                h:Cattach.IsUseHistory="False"
+                                                                Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                                                                DeclaredOnly="False"
+                                                                DockPanel.Dock="Right"
+                                                                SelectObject="{Binding SelectedPart.Content}"
+                                                                Style="{DynamicResource {x:Static h:PropertyGrid.SingleKey}}" />
+                                            </Grid>
+                                        </h:GridSplitterContainer.MenuContent>
+
+                                        <Grid>
+                                            <Grid>
+                                                <h:ScrollViewerTransfor x:Name="svt1"
+                                                                        AllowDrop="True"
+                                                                        Background="Transparent"
+                                                                        IsFullParent="False">
+                                                    <h:Interaction.Behaviors>
+                                                        <h:MouseGestureScrollViewerBehavior ChangeButton="Middle" />
+                                                    </h:Interaction.Behaviors>
+
+                                                    <h:Diagram x:Name="diagram"
+                                                               Width="2000"
+                                                               Height="2000"
+                                                               HorizontalContentAlignment="Stretch"
+                                                               VerticalContentAlignment="Stretch"
+                                                               AllowDrop="True"
+                                                               NodesSource="{Binding NodesSource}"
+                                                               SelectedPart="{Binding SelectedPart}"
+                                                               UseAnimation="False">
+                                                        <!--  Layout="{Binding ElementName=list_layout,Path=SelectedItem}"  -->
+                                                        <h:Diagram.Background>
+                                                            <DrawingBrush Stretch="Uniform"
+                                                                          TileMode="Tile"
+                                                                          Viewport="0 0 25 25"
+                                                                          ViewportUnits="Absolute">
+                                                                <DrawingBrush.Drawing>
+                                                                    <DrawingGroup>
+                                                                        <GeometryDrawing Brush="{DynamicResource {x:Static h:BrushKeys.Dark0}}">
+                                                                            <GeometryDrawing.Geometry>
+                                                                                <RectangleGeometry Rect="0 0 100 100" />
+                                                                            </GeometryDrawing.Geometry>
+                                                                        </GeometryDrawing>
+
+                                                                        <GeometryDrawing Brush="{DynamicResource {x:Static h:BrushKeys.Dark1}}">
+                                                                            <GeometryDrawing.Geometry>
+                                                                                <RectangleGeometry Rect="0 0 50 50" />
+                                                                            </GeometryDrawing.Geometry>
+                                                                        </GeometryDrawing>
+
+                                                                        <GeometryDrawing Brush="{DynamicResource {x:Static h:BrushKeys.Dark1}}">
+                                                                            <GeometryDrawing.Geometry>
+                                                                                <RectangleGeometry Rect="50 50 50 50" />
+                                                                            </GeometryDrawing.Geometry>
+                                                                        </GeometryDrawing>
+                                                                    </DrawingGroup>
+
+                                                                </DrawingBrush.Drawing>
+                                                            </DrawingBrush>
+                                                        </h:Diagram.Background>
+
+                                                        <!--<h:Diagram.LinkDrawer>
+                                <h:BezierLinkDrawer/>
+                            </h:Diagram.LinkDrawer>-->
+
+                                                        <h:Diagram.Layout>
+                                                            <h:LocationLayout />
+                                                        </h:Diagram.Layout>
+
+                                                        <h:Interaction.Behaviors>
+                                                            <h:DynimacLinkPortBehavior />
+                                                            <h:DiagramDropSystemNodeBehavior />
+                                                            <!--<h:DynimacLinkNodeBehavior/>-->
+
+                                                            <h:DiagramAddLinkBehavior />
+                                                        </h:Interaction.Behaviors>
+                                                    </h:Diagram>
+
+
+                                                </h:ScrollViewerTransfor>
+                                            </Grid>
+
+                                            <ListBox Width="100"
+                                                     HorizontalAlignment="Left"
+                                                     VerticalAlignment="Top"
+                                                     h:TransitionService.IsVisible="{Binding Source={x:Static sys:AutomationSetting.Instance}, Path=UseToolBox, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
+                                                     Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                                                     DockPanel.Dock="Left"
+                                                     Effect="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}"
+                                                     ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Components}">
+                                                <ItemsControl.ItemContainerStyle>
+                                                    <Style TargetType="ListBoxItem">
+                                                        <Setter Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default1}}" />
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="ListBoxItem">
+                                                                    <ContentPresenter Margin="5" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </ItemsControl.ItemContainerStyle>
+
+                                                <h:TransitionService.VisibleActions>
+                                                    <h:TransitionCollection>
+                                                        <h:TranslateTransition HiddenOrCollapsed="Collapsed" StartPoint="-100,0" EndPoint="-100,0" />
+                                                    </h:TransitionCollection>
+                                                </h:TransitionService.VisibleActions>
+                                            </ListBox>
+                                        </Grid>
+                                    </h:GridSplitterContainer> 
+                                </DockPanel>
+
+                                <Grid Width="250"
+                                      Height="250"
+                                      Margin="0,0,5,0"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Bottom"
+                                      h:TransitionService.IsVisible="{Binding Source={x:Static sys:AutomationSetting.Instance}, Path=UseLocator, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                                    <h:ScrollViewerLocator ScrollViewer="{Binding ElementName=svt1}" />
+
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition HiddenOrCollapsed="Collapsed" StartPoint="200,0" EndPoint="100,0" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+                                </Grid>
+
+                            </Grid>
+                        </GroupBox>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:PresenterAutomation.DefaultKey}}" TargetType="{x:Type local:PresenterAutomation}" />
+</ResourceDictionary>

@@ -1,0 +1,84 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cs="clr-namespace:System.Collections;assembly=mscorlib"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Filter"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/System/ListBox.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.SelectionFilter.Default, TypeInTargetAssembly={x:Type local:SelectionFilter}}" BasedOn="{StaticResource {x:Static h:ListBoxKeys.Single}}" TargetType="{x:Type local:SelectionFilter}">
+        <Setter Property="SelectionMode" Value="Multiple" />
+        <Setter Property="h:Cattach.Title" Value="选择数据" />
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:ListBoxItemKeys.CheckBoxBox}}" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="h:ItemsControlService.SelectedItems" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=SelectedSource, Mode=TwoWay}" />
+        <Setter Property="h:ItemsControlService.InnerSource" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=SelectionSource, Mode=TwoWay}" />
+        <Setter Property="h:ItemsControlService.HomeTool">
+            <Setter.Value>
+                <CheckBox Style="{DynamicResource {x:Static local:SelectionFilter.CheckAllKey}}">
+                    <h:Interaction.Behaviors>
+                        <h:SelectListBoxItemElementBehavior/>
+                    </h:Interaction.Behaviors>
+                </CheckBox>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.SelectionFilter.Label, TypeInTargetAssembly={x:Type local:SelectionFilter}}" BasedOn="{StaticResource {x:Static local:SelectionFilter.DefaultKey}}" TargetType="{x:Type local:SelectionFilter}">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+        <Setter Property="h:Cattach.TitleTemplate">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border Width="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=(h:Cattach.TitleMargin)}">
+                        <TextBlock HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=(h:Cattach.TitleForeground)}"
+                                   Text="{TemplateBinding Content}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.CheckBox.CheckAll, TypeInTargetAssembly={x:Type local:SelectionFilter}}" TargetType="CheckBox">
+        <Setter Property="h:Cattach.SelectedText" Value=""/>
+        <Setter Property="h:Cattach.UnSelectedText" Value=""/>
+        <Setter Property="Content" Value="全选"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="IsChecked" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected,Mode=TwoWay}"/>
+        <!---->
+        <Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <h:ListBoxSelectAllCheckBoxBehavior ListBox="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    
+    <Style BasedOn="{StaticResource {x:Static local:SelectionFilter.DefaultKey}}" TargetType="{x:Type local:SelectionFilter}" />
+
+    <Style BasedOn="{StaticResource {x:Static local:SelectionFilter.DefaultKey}}" TargetType="{x:Type local:ContainFilter}" />
+</ResourceDictionary>
+

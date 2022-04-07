@@ -1,0 +1,112 @@
+﻿<Page x:Class="WpfControlDemo.View.FramePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:h="https://github.com/HeBianGu"
+      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="FramePage"
+      d:DesignHeight="1000"
+      d:DesignWidth="1000"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+            <XmlDataProvider x:Key="xdp" XPath="FileSystem/Folder">
+                <x:XData>
+                    <FileSystem xmlns="">
+                        <Folder Name="导航配置" Icon="&#xe785;" Value="../Controls/FrameUserControl.xaml">
+                            <Folder Name="按钮控件" Icon="&#xe799;" Value="../Controls/FrameUserControl.xaml" />
+                            <Folder Name="按钮控件" Icon="&#xe799;" Value="../Controls/FrameUserControl1.xaml" />
+                        </Folder>
+                    </FileSystem>
+                </x:XData>
+            </XmlDataProvider>
+
+            <XmlDataProvider x:Key="xdp1" XPath="FileSystem/Folder">
+                <x:XData>
+                    <FileSystem xmlns="">
+                        <Folder Name="导航配置" Icon="&#xe785;" Value="../Controls/FrameUserPage.xaml">
+                            <Folder Name="按钮控件" Icon="&#xe799;" Value="../Controls/FrameUserPage.xaml" />
+                            <Folder Name="按钮控件" Icon="&#xe799;" Value="../Controls/FrameUsePage1.xaml" />
+                        </Folder>
+                    </FileSystem>
+                </x:XData>
+            </XmlDataProvider>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <TabControl>
+        <TabItem Header="系统Frame导航">
+            <Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TreeView x:Name="TreeRoot" Background="{StaticResource {x:Static h:BrushKeys.LightGray}}" ItemsSource="{Binding Source={StaticResource xdp1}}">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding XPath=Folder}">
+                                <StackPanel Height="25" Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontSize="15"
+                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                               Text="{Binding XPath=@Icon}" />
+                                    <TextBlock x:Name="a" VerticalAlignment="Center" Text="{Binding XPath=@Name}" />
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="TreeViewItem">
+                                <Setter Property="IsExpanded" Value="False" />
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+
+                    </TreeView>
+
+                    <Frame Grid.Column="1" Source="{Binding ElementName=TreeRoot, Path=SelectedItem.Attributes[Value].Value}" />
+                </Grid>
+            </Grid>
+        </TabItem>
+        <TabItem Header="自定义Frame导航">
+            <Grid>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TreeView x:Name="TreeRoot1" Background="{StaticResource {x:Static h:BrushKeys.LightGray}}" ItemsSource="{Binding Source={StaticResource xdp}}">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding XPath=Folder}">
+                                <StackPanel Height="25" Orientation="Horizontal">
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontSize="15"
+                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                               Text="{Binding XPath=@Icon}" />
+                                    <TextBlock x:Name="a" VerticalAlignment="Center" Text="{Binding XPath=@Name}" />
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+
+                        <TreeView.ItemContainerStyle>
+                            <Style TargetType="TreeViewItem">
+                                <Setter Property="IsExpanded" Value="False" />
+                            </Style>
+                        </TreeView.ItemContainerStyle>
+
+                    </TreeView>
+
+                    <h:ModernFrame Grid.Column="1" Background="Red" Source="{Binding ElementName=TreeRoot1, Path=SelectedItem.Attributes[Value].Value}">
+                        <h:ModernFrame.ContentLoader>
+                            <h:DefaultContentLoader />
+                        </h:ModernFrame.ContentLoader>
+                    </h:ModernFrame>
+                </Grid>
+            </Grid>
+        </TabItem>
+    </TabControl>
+
+</Page>

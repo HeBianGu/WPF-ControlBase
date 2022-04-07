@@ -1,0 +1,182 @@
+﻿<UserControl x:Class="HeBianGu.App.Music.Home.HomeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.App.Music.Home"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Grid Background="Transparent">
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource {x:Static h:TextBoxKeys.Label}}" TargetType="TextBox">
+                <Setter Property="h:Cattach.UseBackground" Value="False" />
+                <Setter Property="h:Cattach.BackgroundColumn" Value="1" />
+                <Setter Property="h:Cattach.TitleWidth" Value="120" />
+            </Style>
+            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Single}}" TargetType="Button">
+                <Setter Property="h:Cattach.UseBackground" Value="False" />
+                <Setter Property="h:Cattach.BackgroundColumn" Value="1" />
+                <Setter Property="h:Cattach.TitleWidth" Value="120" />
+            </Style>
+
+            <Style BasedOn="{StaticResource {x:Static h:ExpanderKeys.Clear}}" TargetType="Expander">
+                <Setter Property="IsExpanded" Value="True" />
+            </Style>
+            <Style BasedOn="{StaticResource {x:Static h:TabControlKeys.Default}}" TargetType="TabControl">
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="ItemContainerStyle">
+                    <Setter.Value>
+                        <Style BasedOn="{StaticResource {x:Static h:TabItemKeys.Default}}" TargetType="TabItem">
+                            <Setter Property="h:Cattach.MouseOverBackground" Value="Transparent" />
+                            <Setter Property="h:Cattach.SelectBackground" Value="Transparent" />
+                            <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Header4}}" />
+                        </Style>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="h:Cattach.UseSearch" Value="False" />
+            </Style>
+
+
+            <Style BasedOn="{StaticResource {x:Static h:ListBoxKeys.Dynamic}}" TargetType="ListBox">
+                <Setter Property="Margin" Value="5 0" />
+                <Setter Property="SelectedItem" Value="{Binding SelectedAction,Mode=TwoWay}" />
+                <Setter Property="ItemContainerStyle">
+                    <Setter.Value>
+                        <Style BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}" TargetType="ListBoxItem">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="h:GuideService.Data" Value="跳转到指定功能页面" />
+                            <Setter Property="h:GuideService.Title" Value="{Binding DisplayName}" />
+                            <Setter Property="h:GuideService.UseGuide" Value="True" />
+                        </Style>
+                    </Setter.Value>
+                </Setter> 
+                <Setter Property="ItemTemplate">
+                    <Setter.Value>
+                        <DataTemplate DataType="h:LinkAction">
+                            <DockPanel Margin="20,0,0,0">
+                                <TextBlock VerticalAlignment="Center"
+                                       FontSize="{DynamicResource {x:Static h:IconSizeKeys.Large}}"
+                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                       Text="{Binding Logo}" />
+                                <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="{Binding DisplayName}" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </Grid.Resources>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <Border>
+            <ScrollViewer>
+
+                <StackPanel>
+                    <ListBox SelectedItem="{Binding SelectedAction,Mode=TwoWay}">
+                        <h:LinkAction Action="Recommend"
+                              Controller="Home"
+                              DisplayName="为你推荐"
+                              Logo="&#xe891;" />
+                        <h:LinkAction Action="Cloud"
+                              Controller="Home"
+                              DisplayName="乐库"
+                              Logo="&#xebf5;" />
+                        <h:LinkAction Action="Message"
+                              Controller="Home"
+                              DisplayName="歌单"
+                              Logo="&#xe736;" />
+                        <h:LinkAction Action="Later"
+                              Controller="System"
+                              DisplayName="电台"
+                              Logo="&#xe91f;" />
+                        <h:LinkAction Action="Later"
+                              Controller="System"
+                              DisplayName="视频"
+                              Logo="&#xe91f;" />
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="Loaded">
+                                <h:ChangePropertyAction PropertyName="SelectedIndex" Value="0" />
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+                    </ListBox>
+                    <TextBlock Text="我的音乐" Margin="20 0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"/>
+                    <ListBox>
+                        <h:LinkAction Action="DownLoad"
+                              Controller="Home"
+                              DisplayName="我的收藏"
+                              Logo="&#xe891;" />
+                        <h:LinkAction Action="Cloud"
+                              Controller="Home"
+                              DisplayName="我的电台"
+                              Logo="&#xebf5;" />
+                        <h:LinkAction Action="Message"
+                              Controller="Home"
+                              DisplayName="本地与下载"
+                              Logo="&#xe736;" />
+                        <h:LinkAction Action="Later"
+                              Controller="System"
+                              DisplayName="音乐云盘"
+                              Logo="&#xe91f;" />
+                        <h:LinkAction Action="Message"
+                              Controller="Home"
+                              DisplayName="最近播放"
+                              Logo="&#xe736;" />
+                        <h:LinkAction Action="Later"
+                              Controller="System"
+                              DisplayName="默认列表"
+                              Logo="&#xe91f;" />
+                    </ListBox>
+                    <Expander>
+                        <Expander.Header>
+                            <TextBlock  Margin="20 0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}">
+                            <Run Text="自建歌单"/>
+                             <Run Text="2"/>
+                            </TextBlock>
+                        </Expander.Header>
+                        <ListBox>
+                            <h:LinkAction Action="DownLoad"
+                              Controller="Home"
+                              DisplayName="我喜欢"
+                              Logo="&#xe891;" />
+                            <h:LinkAction Action="Cloud"
+                              Controller="Home"
+                              DisplayName="默认收藏"
+                              Logo="&#xebf5;" />
+                        </ListBox>
+                    </Expander>
+
+                    <Expander>
+                        <Expander.Header>
+                            <TextBlock  Margin="20 0" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}">
+                            <Run Text="收藏歌单"/>
+                             <Run Text="3"/>
+                            </TextBlock>
+                        </Expander.Header>
+                        <ListBox>
+                            <h:LinkAction Action="DownLoad"
+                              Controller="Home"
+                              DisplayName="老哥翻唱"
+                              Logo="&#xe891;" />
+                            <h:LinkAction Action="Cloud"
+                              Controller="Home"
+                              DisplayName="风格幼儿歌曲"
+                              Logo="&#xebf5;" />
+                            <h:LinkAction Action="Cloud"
+                              Controller="Home"
+                              DisplayName="贝乐虎儿歌"
+                              Logo="&#xebf5;" />
+                        </ListBox>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+        <Border Grid.Column="1">
+            <h:LinkActionFrame LinkAction="{Binding SelectedAction}" />
+        </Border>
+    </Grid>
+</UserControl>

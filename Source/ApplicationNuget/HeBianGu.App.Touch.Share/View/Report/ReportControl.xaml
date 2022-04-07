@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="HeBianGu.App.Touch.View.Report.ReportControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.App.Touch.View.Report"
+             xmlns:local1="clr-namespace:HeBianGu.App.Touch"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="800"
+             d:DesignWidth="1280"
+             Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity1}}"
+             mc:Ignorable="d">
+    <Grid Margin="40,35">
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource C.Border.Default}" TargetType="Border" />
+        </Grid.Resources>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="8*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <Button Margin="50"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Top"
+                   Command="{Binding RelayCommand}"
+                   CommandParameter="Button.Click.LogOut"
+                   Content="退出" />
+
+
+        <TextBlock Width="Auto"
+                   VerticalAlignment="Top"
+                   Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                   Style="{StaticResource C.TextBlock.Title}"
+                   Text="体检结果报告" />
+
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+            <local1:ButtonCountDown Command="{Binding RelayCommand}"
+                                     CommandParameter="Button.Click.LogOut"
+                                     Content="退出"
+                                     Count="16"
+                                     IsActive="{Binding RunNextEngine, Mode=TwoWay}"
+                                     Style="{StaticResource C.Button.Tranparent}" />
+        </StackPanel>
+
+        <UniformGrid Grid.Row="1" Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" Columns="2">
+            <UniformGrid.Resources>
+                <DataTemplate DataType="{x:Type local1:DataValueEntity}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="1"
+                                   HorizontalAlignment="Left"
+                                   Foreground="{Binding Foreground}"
+                                   Style="{StaticResource C.TextBlock.Title}"
+                                   Text="{Binding Value}" />
+                        <TextBlock Grid.Column="0"
+                                   HorizontalAlignment="Left"
+                                   Style="{StaticResource C.TextBlock.Default}"
+                                   Text="{Binding Name, StringFormat={}{0}：}" />
+                    </Grid>
+                </DataTemplate>
+            </UniformGrid.Resources>
+            <Border>
+                <UniformGrid Margin="50,30" Columns="1">
+                    <ContentControl Content="{Binding LinkActions[0].Height}" />
+                    <ContentControl Content="{Binding LinkActions[0].Weight}" />
+                    <ContentControl Content="{Binding LinkActions[0].Bmi}" />
+                </UniformGrid>
+            </Border>
+
+            <Border>
+                <UniformGrid Margin="50,30" Columns="1">
+                    <ContentControl Content="{Binding LinkActions[1].Fat}" />
+                    <ContentControl Content="{Binding LinkActions[1].Rate}" />
+                    <ContentControl Content="{Binding LinkActions[1].Basic}" />
+                </UniformGrid>
+            </Border>
+
+            <Border>
+                <UniformGrid Margin="50,30" Columns="1">
+                    <ContentControl Content="{Binding LinkActions[2].Oxygen}" />
+                    <ContentControl Content="{Binding LinkActions[3].Dbp}" />
+                    <ContentControl Content="{Binding LinkActions[3].Sbp}" />
+                </UniformGrid>
+            </Border>
+
+            <Border>
+                <UniformGrid Margin="50,30" Columns="1">
+                    <ContentControl Content="{Binding LinkActions[3].Pulse}" />
+                    <ContentControl Content="{Binding LinkActions[4].Temperature}" />
+                    <ContentControl />
+                </UniformGrid>
+            </Border>
+        </UniformGrid>
+
+    </Grid>
+</UserControl>

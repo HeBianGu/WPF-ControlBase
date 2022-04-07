@@ -1,0 +1,82 @@
+﻿<Page x:Class="WpfControlDemo.View.HightTextBlockPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="clr-namespace:HeBianGu.General.WpfControlLib;assembly=HeBianGu.General.WpfControlLib"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:h="https://github.com/HeBianGu"
+      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="HightTextBlockPage"
+      d:DesignHeight="1000"
+      d:DesignWidth="1000"
+      mc:Ignorable="d">
+    <Page.Resources>
+
+        <controls:HlContentConverter x:Key="converterHlContent" />
+
+        <Style x:Key="CustomListViewItemStyle" TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <Trigger Property="ItemsControl.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="#DDEEFF" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ListView Name="lvContent"
+                  Grid.Row="2"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Stretch"
+                  AlternationCount="2"
+                  Style="{StaticResource DefaultListView}">
+            <ListView.View>
+                <GridView ColumnHeaderContainerStyle="{StaticResource DefaultGridViewColumnHeader}">
+                    <GridView.Columns>
+                        <GridViewColumn Width="100" Header="OS Name">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <controls:HighlightTextBlock HlContent="{Binding Path=OsName, Converter={StaticResource converterHlContent}}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="150" Header="File System">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <controls:HighlightTextBlock HlContent="{Binding Path=FileSystem, Converter={StaticResource converterHlContent}}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Width="200" Header="Desktop">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <controls:HighlightTextBlock HlContent="{Binding Path=Desktop, Converter={StaticResource converterHlContent}}" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <StackPanel Orientation="Horizontal">
+            <TextBox Name="tbKey"
+                               Width="300"
+                               Height="23"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               h:Cattach.Title="关键字："
+                               Style="{StaticResource {x:Static h:TextBoxKeys.Label}}" />
+            <RadioButton Name="radioFullMatch"
+                         Margin="10,0,0,0"
+                         Content="Full Match"
+                         GroupName="grpSearchMode"
+                         IsChecked="True" />
+            <RadioButton Margin="10,0,0,0" Content="Any Key" GroupName="grpSearchMode" />
+            <!--<controls:Button Margin="10 0 0 0" Content="Search" Height="23" Name="btnSearch" Width="75" Click="btnSearch_Click" IsDefault="True" />-->
+        </StackPanel>
+    </Grid>
+</Page>

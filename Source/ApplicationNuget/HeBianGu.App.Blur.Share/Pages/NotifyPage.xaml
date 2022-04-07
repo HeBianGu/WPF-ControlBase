@@ -1,0 +1,66 @@
+﻿<Page x:Class="WpfControlDemo.View.NotifyPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:h="https://github.com/HeBianGu"
+      xmlns:local="clr-namespace:WpfControlDemo.View"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Title="NotifyPage"
+      d:DesignHeight="1000"
+      d:DesignWidth="1000"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <Storyboard x:Key="IconAnimation">
+            <ObjectAnimationUsingKeyFrames RepeatBehavior="Forever"
+                                           Storyboard.TargetName="notifyIcon"
+                                           Storyboard.TargetProperty="Icon"
+                                           Duration="0:0:2">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0">
+                    <DiscreteObjectKeyFrame.Value>
+                        <ImageSource>/HeBianGu.Applications.ControlBase.Demo;component/Resources/Patrick 1.ico</ImageSource>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+                <DiscreteObjectKeyFrame KeyTime="0:0:1">
+                    <DiscreteObjectKeyFrame.Value>
+                        <ImageSource>/HeBianGu.Applications.ControlBase.Demo;component/Resources/Patrick 2.ico</ImageSource>
+                    </DiscreteObjectKeyFrame.Value>
+                </DiscreteObjectKeyFrame>
+            </ObjectAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <DockPanel>
+        <StackPanel Margin="20">
+            <Button Name="b" Margin="2"
+                    HorizontalAlignment="Left"
+                    Click="Button_Click"
+                    Content="显示托盘气泡" />
+
+            <CheckBox Margin="2"
+                      HorizontalAlignment="Left"
+                      Checked="CheckBox_Checked"
+                      Content="动画显示"
+                      Unchecked="CheckBox_Unchecked" />
+
+            <h:NotifyIcon Name="notifyIcon"
+                          Icon="/HeBianGu.Applications.ControlBase.Demo;component/Resources/Spongebob.ico"
+                          IconVisibility="Visible"
+                          Text="NotifyIcon Demo">
+                <FrameworkElement.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Some Text" />
+                        <MenuItem>
+                            <MenuItem.Header>
+                                <Grid>
+                                    <Ellipse Stroke="Red" StrokeThickness="2" />
+                                    <TextBlock Text="[b]WPF[/] Content" />
+                                </Grid>
+                            </MenuItem.Header>
+                        </MenuItem>
+                    </ContextMenu>
+                </FrameworkElement.ContextMenu>
+            </h:NotifyIcon>
+
+        </StackPanel>
+    </DockPanel>
+</Page>

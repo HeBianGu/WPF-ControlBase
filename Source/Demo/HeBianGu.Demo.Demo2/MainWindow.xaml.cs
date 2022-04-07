@@ -14,7 +14,7 @@ namespace HeBianGu.Demo.Demo2
         {
             InitializeComponent();
 
-            this.Loaded += MainWindow_Loaded;
+            Loaded += MainWindow_Loaded;
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -42,7 +42,7 @@ namespace HeBianGu.Demo.Demo2
                     Thread.Sleep(2000);
 
                     StyleSetting.Instance.StyleType = Base.WpfBase.StyleType.Clear;
-                     
+
                 }
             });
 

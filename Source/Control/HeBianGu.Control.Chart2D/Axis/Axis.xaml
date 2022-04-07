@@ -1,0 +1,92 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Chart2D"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Provider/Layer.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Axis.Default, TypeInTargetAssembly={x:Type local:Axis}}" BasedOn="{StaticResource {x:Static h:XyLayer.DefaultKey}}" TargetType="{x:Type local:Axis}">
+        <Setter Property="xDisplay" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Chart}, Path=xDisplay}" />
+        <Setter Property="yDisplay" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Chart}, Path=yDisplay}" />
+        <Setter Property="AlignLenght" Value="10" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="DockAlignment" Value="Left" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="LineStyle">
+            <Setter.Value>
+                <Style TargetType="Line">
+                    <Setter Property="Opacity" Value="0.2"/>
+                    <Setter Property="StrokeThickness" Value="1" />
+                    <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Axis}, Path=Foreground}" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="LabelStyle">
+            <Setter.Value>
+                <Style TargetType="Label">
+                    <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Axis}, Path=Foreground}" />
+                    <Setter Property="FontSize" Value="15" />
+                    <!--<Setter Property="Width" Value="Auto"/>
+                    <Setter Property="Height" Value="Auto"/>-->
+                    <!--<Setter Property="Background" Value="Red"/>-->
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.xAxis.Default, TypeInTargetAssembly={x:Type local:xAxis}}" BasedOn="{StaticResource {x:Static h:Axis.DefaultKey}}" TargetType="{x:Type local:xAxis}">
+        <Setter Property="AlignAlignmentCenter" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Chart}, Path=AlignAlignmentCenter}" />
+        <Setter Property="TextAlignmentCenter" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Chart}, Path=AlignmentCenter}" />
+        <Setter Property="DockAlignment" Value="Bottom" />
+        <Setter Property="xConvert" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Chart}, Path=xConvert}" />
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:xAxis.DefaultKey}}" TargetType="{x:Type local:xAxis}" />
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.yAxis.Default, TypeInTargetAssembly={x:Type local:yAxis}}" BasedOn="{StaticResource {x:Static h:Axis.DefaultKey}}" TargetType="{x:Type local:yAxis}">
+        <Setter Property="DockAlignment" Value="Left" />
+        <Setter Property="yConvert" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Chart}, Path=yConvert}" />
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:yAxis.DefaultKey}}" TargetType="{x:Type local:yAxis}" />
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.RadiusAxis.Default, TypeInTargetAssembly={x:Type local:RadiusAxis}}" BasedOn="{StaticResource {x:Static h:Axis.DefaultKey}}" TargetType="{x:Type local:RadiusAxis}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="AlignAlignmentCenter" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Chart}, Path=AlignAlignmentCenter}" />
+        <Setter Property="TextAlignmentCenter" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Chart}, Path=AlignmentCenter}" />
+        <Setter Property="Len" Value="{Binding RelativeSource={RelativeSource AncestorType=local:PolarChart}, Path=Len}" />
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:RadiusAxis.DefaultKey}}" TargetType="{x:Type local:RadiusAxis}" />
+
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.AngleAxis.Default, TypeInTargetAssembly={x:Type local:AngleAxis}}" BasedOn="{StaticResource {x:Static h:Axis.DefaultKey}}" TargetType="{x:Type local:AngleAxis}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Len" Value="{Binding RelativeSource={RelativeSource AncestorType=local:PolarChart}, Path=Len}" />
+        <Setter Property="yAxis" Value="0,30,60,90,120,150,180,210,240,270,300,330" />
+        <Setter Property="LineStyle">
+            <Setter.Value>
+                <Style TargetType="Path">
+                    <Setter Property="Opacity" Value="0.2"/>
+                    <Setter Property="StrokeThickness" Value="1" />
+                    <Setter Property="Stroke" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:AngleAxis.DefaultKey}}" TargetType="{x:Type local:AngleAxis}" />
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.RadarAxis.Default, TypeInTargetAssembly={x:Type local:RadarAxis}}" BasedOn="{StaticResource {x:Static h:AngleAxis.DefaultKey}}" TargetType="{x:Type local:RadarAxis}">
+        <Setter Property="yAxis" Value="{Binding RelativeSource={RelativeSource AncestorType=local:PolarChart}, Path=yAxis}" />
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:RadarAxis.DefaultKey}}" TargetType="{x:Type local:RadarAxis}" />
+</ResourceDictionary>
+

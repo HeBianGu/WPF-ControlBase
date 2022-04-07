@@ -1,0 +1,115 @@
+﻿<h:ApplicationBase x:Class="HeBianGu.App.Blur.App"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+                   xmlns:h="https://github.com/HeBianGu"
+                   xmlns:local="clr-namespace:HeBianGu.App.Blur"
+                   xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <h:ApplicationBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/HeBianGu.General.WpfControlLib;component/Themes/Resource.xaml" />
+                <ResourceDictionary Source="/TreeDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+
+            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" TargetType="Button">
+                <Setter Property="h:Cattach.Icon" Value="" />
+                <Setter Property="Margin" Value="2,2" />
+                <Setter Property="RenderTransform" Value="{StaticResource {x:Static h:SystemKeys.TransformGroup}}" />
+            </Style>
+
+            <local:DataSourceLocator x:Key="S.DataSource.Locator" />
+
+            <collections:ArrayList x:Key="D.ArrayList.Items">
+                <sys:String>北京大学</sys:String>
+                <sys:String>上海交通大学</sys:String>
+                <sys:String>斯坦福大学</sys:String>
+                <sys:String>浙江大学</sys:String>
+                <sys:String>哈尔滨工业大学</sys:String>
+                <sys:String>吉林大学</sys:String>
+                <sys:String>北京理工大学</sys:String>
+                <sys:String>南京理工大学</sys:String>
+                <sys:String>天津大学</sys:String>
+            </collections:ArrayList>
+
+            <DataTemplate DataType="{x:Type local:Student}">
+                <Grid Width="500" Height="400" Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}">
+                    <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="我是定义的Student模板" />
+
+                    <Button Margin="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Command="h:ObjectContentDialog.Sumit"
+                               Content="{Binding Source={x:Static h:ObjectContentDialog.Sumit}, Path=Text}" />
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type local:StudentViewModel}">
+                <Grid Width="500" Height="400" Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}">
+                    <Grid Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" Margin="5,0,5,15">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="2*" />
+                            <ColumnDefinition Width="30" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                   Text="{Binding Tel.DisplayName}" />
+
+                        <TextBlock Grid.Column="1"
+                                   Margin="5,0"
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center"
+                                   Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                                   Text="{Binding Tel.Flag}" />
+
+                        <TextBox Grid.Column="2"
+                                    Width="Auto"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    h:Cattach.Icon=""
+                                    h:Cattach.Watermark="{Binding Tel.Message}"
+                                    IsEnabled="{Binding ReadOnly}"
+                                    Style="{DynamicResource {x:Static h:TextBoxKeys.Dynamic}}"
+                                    Text="{Binding Tel.Value, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <TextBlock Grid.Column="3"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="14"
+                                   Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                   Text="&#xe626;"
+                                   TextTrimming="CharacterEllipsis"
+                                   ToolTip="{Binding Tel.Message}"
+                                   Visibility="{Binding Tel.Message, Converter={x:Static h:XConverter.VisibilityWithOutStringConverter}, ConverterParameter={x:Null}, Mode=TwoWay}" />
+                    </Grid>
+
+                    <Button Margin="10"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Command="h:ObjectContentDialog.Sumit"
+                               Content="{Binding Source={x:Static h:ObjectContentDialog.Sumit}, Path=Text}" />
+                </Grid>
+            </DataTemplate>
+
+
+
+            <DrawingGroup x:Key="S.Drawing.Database">
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="#00FFFFFF" Geometry="F1M16,16L0,16 0,0 16,0z" />
+                    <GeometryDrawing Brush="#FFF6F6F6" Geometry="F1M16,3L16,8 16,9 16,9.362 15.93,9.447C15.77,10.139,15.259,10.74,14.481,11.185L13.802,12 16,14.639 16,16 14.273,16 12.235,14.179 10.414,16 9.586,16 9.574,15.988C9.166,15.961 8.779,15.803 8.502,15.531 8.203,15.242 8.029,14.84 8.008,14.422L6.235,12.65C5.687,12.881 5.1,13 4.5,13 2.019,13 0,10.981 0,8.5 0,6.019 2.019,4 4.5,4 5.028,4 5.528,4.108 6,4.276L6,3C6,1.289 8.149,0 11,0 13.851,0 16,1.289 16,3" />
+                    <GeometryDrawing Brush="#FF424242" Geometry="F1M4.5,11C3.119,11 2,9.881 2,8.5 2,7.119 3.119,6 4.5,6 5.881,6 7,7.119 7,8.5 7,9.881 5.881,11 4.5,11 M7.422,10.422C7.785,9.869 8,9.211 8,8.5 8,6.567 6.433,5 4.5,5 2.567,5 1,6.567 1,8.5 1,10.433 2.567,12 4.5,12 5.211,12 5.869,11.785 6.422,11.422L8.347,13.347C8.395,13.284,8.441,13.222,8.498,13.165L9.378,12.378z" />
+                    <GeometryDrawing Brush="#FFF0EFF1" Geometry="F1M11,1.6748C9.001,1.6748 7.675,2.4728 7.675,2.9998 7.675,3.5278 9.001,4.3248 11,4.3248 12.999,4.3248 14.325,3.5278 14.325,2.9998 14.325,2.4728 12.999,1.6748 11,1.6748 M7,8.4998C7,9.8808 5.881,10.9998 4.5,10.9998 3.119,10.9998 2,9.8808 2,8.4998 2,7.1188 3.119,5.9998 4.5,5.9998 5.881,5.9998 7,7.1188 7,8.4998" />
+                    <GeometryDrawing Brush="#FFE51400" Geometry="F1M15,9L12.5,12 15,15 14.656,15 11.988,12.615 10.154,14.815C9.916,15.079 9.434,15.044 9.199,14.815 8.958,14.581 8.91,14.163 9.199,13.878L11.3,12 9.199,10.122C8.91,9.837 8.958,9.419 9.199,9.185 9.434,8.956 9.916,8.921 10.154,9.185L11.988,11.385 14.656,9z" />
+                    <GeometryDrawing Brush="#FF1BA1E2" Geometry="F1M11,1.6748C12.999,1.6748 14.325,2.4728 14.325,2.9998 14.325,3.5278 12.999,4.3248 11,4.3248 9.001,4.3248 7.675,3.5278 7.675,2.9998 7.675,2.4728 9.001,1.6748 11,1.6748 M8.966,8.1618C9.19,8.0598 9.438,7.9998 9.694,7.9998 10.162,7.9998 10.601,8.1868 10.896,8.5128L12.094,9.9488 14.274,7.9998 15,7.9998 15,2.9998C15,1.8958 13.209,0.999799999999999 11,0.999799999999999 8.791,0.999799999999999 7,1.8958 7,2.9998L7,4.7788C8.103,5.5288,8.858,6.7528,8.966,8.1618" />
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </ResourceDictionary>
+    </h:ApplicationBase.Resources>
+</h:ApplicationBase>

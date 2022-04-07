@@ -1,0 +1,366 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Chart2D"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Axis/Axis.xaml" />
+        <ResourceDictionary Source="Axis/Grid.xaml" />
+        <ResourceDictionary Source="Provider/LayerGroup.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.Default, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static h:LayerGroup.DefaultKey}}" TargetType="{x:Type local:Chart}">
+        <Setter Property="xAxisStyle" Value="{StaticResource {x:Static h:xAxis.DefaultKey}}" />
+        <Setter Property="yAxisStyle" Value="{StaticResource {x:Static h:yAxis.DefaultKey}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+        <Setter Property="LegendStyle" Value="{DynamicResource {x:Static h:Legend.DefaultKey}}" />
+        <Setter Property="GridStyle" Value="{DynamicResource {x:Static h:Grid.DefaultKey}}" />
+        <Setter Property="VisualMapStyle" Value="{DynamicResource {x:Static h:VisualMap.DefaultKey}}" />
+
+        <Setter Property="yDatas" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=yAxis}" />
+        <Setter Property="xDatas" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=xAxis}" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Chart}">
+                    <local:LayerGroup>
+
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <Button HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Command="{x:Static h:Chart.RefeshCommand}"
+                                   h:Cattach.Icon="&#xe8dc;"
+                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                   ToolTip="刷新" />
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  带有直角坐标系的图  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.Coord, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static h:Chart.DefaultKey}}" TargetType="{x:Type local:Chart}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Chart}">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}" />
+                        <local:LayerGroup>
+
+                            <local:Grid Style="{TemplateBinding GridStyle}" />
+
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                            <local:xAxis VerticalAlignment="Bottom" Style="{TemplateBinding xAxisStyle}" />
+
+                            <local:yAxis HorizontalAlignment="Left" Style="{TemplateBinding yAxisStyle}" />
+
+                            <local:Legend Style="{TemplateBinding LegendStyle}" Visibility="{TemplateBinding LegendVisibility}"/>
+
+                            <Button HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Command="{x:Static h:Chart.RefeshCommand}"
+                                       h:Cattach.Icon="&#xe8dc;"
+                                       Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                       ToolTip="刷新" />
+
+                        </local:LayerGroup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.CoordScreen, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static h:Chart.DefaultKey}}" TargetType="{x:Type local:Chart}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Chart}">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}" />
+                        <local:LayerGroup>
+                            <local:Grid Opacity="0.2"/> 
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <local:yAxis LineStyle="{x:Null}"/>
+                            <local:xAxis LineStyle="{x:Null}"/> 
+                            <local:Legend Style="{TemplateBinding LegendStyle}" Visibility="{TemplateBinding LegendVisibility}"/> 
+
+                            <Button HorizontalAlignment="Right"
+                                       VerticalAlignment="Top"
+                                       Command="{x:Static h:Chart.RefeshCommand}"
+                                       h:Cattach.Icon="&#xe8dc;"
+                                       Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                       ToolTip="刷新" />
+
+                        </local:LayerGroup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.Coord.WithOutTool, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static h:Chart.DefaultKey}}" TargetType="{x:Type local:Chart}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Chart}">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}" />
+                        <local:LayerGroup>
+
+                            <local:Grid Style="{TemplateBinding GridStyle}" />
+
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                            <local:xAxis VerticalAlignment="Bottom" Style="{TemplateBinding xAxisStyle}" />
+
+                            <local:yAxis HorizontalAlignment="Left" Style="{TemplateBinding yAxisStyle}" />
+
+                            <local:Legend Style="{TemplateBinding LegendStyle}" Visibility="{TemplateBinding LegendVisibility}"/>
+                        </local:LayerGroup>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  带有直角坐标系的图  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.Coord.Single, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static h:Chart.DefaultKey}}" TargetType="{x:Type local:Chart}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Chart}">
+                    <local:LayerGroup>
+                        <local:Grid Style="{TemplateBinding GridStyle}" />
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+
+                        <local:xAxis Style="{TemplateBinding xAxisStyle}" />
+                        <local:yAxis Style="{TemplateBinding yAxisStyle}" />
+
+
+                        <Button HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Command="{x:Static h:Chart.RefeshCommand}"
+                                   h:Cattach.Icon="&#xe8dc;"
+                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                   ToolTip="刷新" />
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  带有直角坐标系的图  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.Coord.Vertical, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static h:Chart.DefaultKey}}" TargetType="{x:Type local:Chart}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Chart}">
+                    <local:LayerGroup>
+                        <local:Grid Style="{StaticResource {x:Static h:Grid.VerticalKey}}" />
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <Button HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Command="{x:Static h:Chart.RefeshCommand}"
+                                   h:Cattach.Icon="&#xe8dc;"
+                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                   ToolTip="刷新" />
+
+
+                        <local:xAxis Style="{TemplateBinding xAxisStyle}" />
+
+                        <local:yAxis HorizontalAlignment="Left" Style="{TemplateBinding yAxisStyle}" TextAlignmentCenter="True" />
+
+                        <local:Legend Style="{TemplateBinding LegendStyle}" Visibility="{TemplateBinding LegendVisibility}"/>
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.yBar.Default, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static local:Chart.CoordVerticalKey}}" TargetType="{x:Type local:Chart}" />
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.yStackBar.Default, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static h:Chart.CoordVerticalKey}}" TargetType="{x:Type local:Chart}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Chart}">
+                    <local:LayerGroup>
+                        <local:Grid Style="{StaticResource {x:Static h:Grid.VerticalKey}}" />
+
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <Button HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Command="{x:Static h:Chart.RefeshCommand}"
+                                   h:Cattach.Icon="&#xe8dc;"
+                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                   ToolTip="刷新" />
+
+                        <local:xAxis Style="{TemplateBinding xAxisStyle}" />
+                        <local:yAxis HorizontalAlignment="Left" Style="{TemplateBinding yAxisStyle}" TextAlignmentCenter="True" />
+
+                        <local:StackLegend Style="{TemplateBinding LegendStyle}" Visibility="{TemplateBinding LegendVisibility}"/>
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.yAnimationBar.Default, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static h:Chart.CoordVerticalKey}}" TargetType="{x:Type local:Chart}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Chart}">
+                    <local:LayerGroup>
+                        <local:Grid Style="{StaticResource {x:Static h:Grid.VerticalKey}}" />
+
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <local:xAxis Style="{TemplateBinding xAxisStyle}" />
+                        <local:yAxis HorizontalAlignment="Left"
+                                     Style="{TemplateBinding yAxisStyle}"
+                                     TextAlignmentCenter="True"
+                                     yDisplay=",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,," />
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--  带有直角坐标系的图 X坐标剧中效果  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.Coord.AlignmentCenter, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static h:Chart.DefaultKey}}" TargetType="{x:Type local:Chart}">
+        <Setter Property="LegendStyle" Value="{DynamicResource {x:Static h:Legend.DefaultKey}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Chart}">
+                    <local:LayerGroup>
+
+                        <local:Grid />
+
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <local:xAxis Style="{TemplateBinding xAxisStyle}" />
+
+                        <local:yAxis Style="{TemplateBinding yAxisStyle}" />
+
+                        <Button HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Command="{x:Static h:Chart.RefeshCommand}"
+                                   h:Cattach.Icon="&#xe8dc;"
+                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                   ToolTip="刷新" />
+
+                        <local:Legend Style="{TemplateBinding LegendStyle}" Visibility="{TemplateBinding LegendVisibility}"/>
+
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="xAxisStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static h:xAxis.DefaultKey}}" TargetType="{x:Type local:xAxis}">
+                    <Setter Property="TextAlignmentCenter" Value="True" />
+                    <Setter Property="AlignAlignmentCenter" Value="False" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.Bar.Default, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static h:Chart.CoordAlignmentCenterKey}}" TargetType="{x:Type local:Chart}" />
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Chart.StackBar.Default, TypeInTargetAssembly={x:Type local:Chart}}" BasedOn="{StaticResource {x:Static h:Chart.CoordAlignmentCenterKey}}" TargetType="{x:Type local:Chart}">
+        <Setter Property="LegendStyle" Value="{DynamicResource {x:Static h:StackLegend.DefaultKey}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Chart}">
+                    <local:LayerGroup>
+
+                        <local:Grid />
+
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+
+                        <local:xAxis Style="{TemplateBinding xAxisStyle}" />
+
+                        <local:yAxis Style="{TemplateBinding yAxisStyle}" />
+
+
+                        <local:StackLegend Style="{TemplateBinding LegendStyle}" Visibility="{TemplateBinding LegendVisibility}"/>
+
+                        <Button HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Command="{x:Static h:Chart.RefeshCommand}"
+                                   h:Cattach.Icon="&#xe8dc;"
+                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                   ToolTip="刷新" />
+
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:Chart.DefaultKey}}" TargetType="{x:Type local:Chart}" />
+
+    <!--  默认样式 需要自己添加坐标系等元素  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.PolarChart.Default, TypeInTargetAssembly={x:Type local:PolarChart}}" BasedOn="{StaticResource {x:Static h:Chart.DefaultKey}}" TargetType="{x:Type local:PolarChart}">
+        <Setter Property="Len" Value="150" />
+        <Setter Property="yAxis" Value="0,30,60,90,120,150,180,210,240,270,300,330" />
+    </Style>
+
+    <!--  默认样式 需要自己添加坐标系等元素  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.PolarChart.Angle, TypeInTargetAssembly={x:Type local:PolarChart}}" BasedOn="{StaticResource {x:Static h:PolarChart.DefaultKey}}" TargetType="{x:Type local:PolarChart}">
+        <Setter Property="LegendStyle" Value="{DynamicResource {x:Static h:Legend.VerticalKey}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:PolarChart}">
+                    <local:LayerGroup>
+                        <local:Polar />
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <local:RadiusAxis />
+                        <local:AngleAxis />
+                        <local:Legend HorizontalAlignment="Left" Style="{TemplateBinding LegendStyle}" Visibility="{TemplateBinding LegendVisibility}"/>
+
+                        <Button HorizontalAlignment="Right"
+                                   VerticalAlignment="Top"
+                                   Command="{x:Static h:Chart.RefeshCommand}"
+                                   h:Cattach.Icon="&#xe8dc;"
+                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                   ToolTip="刷新" />
+
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:PolarChart.DefaultKey}}" TargetType="{x:Type local:PolarChart}" />
+
+    <Style TargetType="{x:Type local:ChartMap}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ChartMap}">
+                    <local:LayerGroup Background="{TemplateBinding Background}">
+
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <local:Series Margin="0,5"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      xDatas="{TemplateBinding xDatas}"
+                                      yAxis="{TemplateBinding yAxis}"
+                                      yDatas="{TemplateBinding yDatas}">
+                            <local:Line Style="{DynamicResource {x:Static h:Line.SingleKey}}" />
+                            <local:MarkPosition MarkValueType="Max" Style="{DynamicResource {x:Static h:MarkPosition.SingleKey}}" />
+                            <local:MarkPosition Foreground="Red" MarkValueType="Min" Style="{DynamicResource {x:Static h:MarkPosition.SingleKey}}" />
+                        </local:Series>
+                        <local:ThumbToolBar x:Name="PART_TOOLBAR" Height="{TemplateBinding Height}" MaxValue="100" />
+                    </local:LayerGroup>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
+

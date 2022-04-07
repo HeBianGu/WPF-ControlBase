@@ -1,0 +1,140 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.PagedDataGrid"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Pagination.Default, TypeInTargetAssembly={x:Type local:Pagination}}" TargetType="local:Pagination">
+        <Setter Property="Focusable" Value="False" />
+        <!--<Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />-->
+        <Setter Property="UseLayoutRounding" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="RadioButtonStyle">
+            <Setter.Value>
+                <Style TargetType="RadioButton">
+                    <Setter Property="BorderThickness" Value="1" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Padding" Value="0" />
+                    <Setter Property="GroupName" Value="1" />
+                    <Setter Property="Margin" Value="5,0" />
+                    <Setter Property="RenderTransformOrigin" Value=".5,.5" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                    <Setter Property="Command" Value="{x:Static h:CommandService.Selected}" />
+                    <Setter Property="Tag" Value="0" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="RadioButton">
+                                <Border x:Name="border"
+                                        MinWidth="30"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="2">
+                                    <TextBlock x:Name="txt"
+                                               Margin="6"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               Text="{TemplateBinding Tag}" />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="RenderTransform">
+                                <Setter.Value>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX=".95" ScaleY=".95" />
+                                        <SkewTransform />
+                                        <RotateTransform />
+                                        <TranslateTransform />
+                                    </TransformGroup>
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <!--<Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>-->
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.4" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:Pagination">
+                    <Grid TextBlock.FontSize="{DynamicResource {x:Static h:FontSizeKeys.Default}}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="PART_ButtonLeft"
+                                Margin="5,0"
+                                VerticalAlignment="Center"
+                                Command="{x:Static h:CommandService.Prev}"
+                                Content="上一页"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                        <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="RadioButton.Checked">
+                                    <h:InvokeCommandAction Command="{x:Static h:CommandService.Selected}" PassEventArgsToCommand="True" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+
+                            <RadioButton Name="PART_ButtonFirst"
+                                         IsChecked="True"
+                                         Style="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=RadioButtonStyle}"
+                                         Tag="1" />
+
+                            <TextBlock Name="PART_TextBlockLeft"
+                                       Margin="10,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="..." />
+
+                            <StackPanel Name="PART_PanelMain" Orientation="Horizontal" />
+
+                            <TextBlock Name="PART_TextBlockRight"
+                                       Margin="10,0"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Text="..." />
+
+                            <RadioButton Name="PART_ButtonLast" Style="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=RadioButtonStyle}" Tag="10" />
+
+                        </StackPanel>
+
+                        <Button x:Name="PART_ButtonRight"
+                                Grid.Column="2"
+                                Margin="5,0"
+                                VerticalAlignment="Center"
+                                Command="{x:Static h:CommandService.Next}"
+                                Content="下一页"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="PageIndex" Value="1" />
+        <Setter Property="MaxPageCount" Value="15" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.SourcePagination.Default, TypeInTargetAssembly={x:Type local:SourcePagination}}" BasedOn="{StaticResource {x:Static local:Pagination.DefaultKey}}" TargetType="local:SourcePagination" />
+
+</ResourceDictionary>

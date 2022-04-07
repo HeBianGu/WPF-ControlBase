@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="HeBianGu.App.Disk.NearControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.App.Disk"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Grid>
+        <h:Explorer CurrentPath="{Binding NearPath, Mode=TwoWay}" NavigationBarEnbled="False" Style="{DynamicResource {x:Static h:Explorer.DefaultKey}}">
+            <h:Explorer.Columns>
+                <DataGridTemplateColumn Width="50" Header="">
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <CheckBox Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}, Path=Foreground}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <CheckBox Margin="9,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Width="*" Header="文件名">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Image Margin="5" Source="{Binding Logo, Converter={x:Static h:XConverter.IconToImageSourceConverter}}" />
+                                <TextBlock Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" Style="{StaticResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding Model.Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTextColumn Width="*" Binding="{Binding Model.FullName}" Header="本地路径" />
+            </h:Explorer.Columns>
+        </h:Explorer>
+    </Grid>
+</UserControl>

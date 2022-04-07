@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="HeBianGu.App.Manager.View.Custom.PingControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.App.Manager.View.Custom"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             d:DesignHeight="450"
+             d:DesignWidth="1200"
+             mc:Ignorable="d">
+
+    <DockPanel Width="1200" Margin="10,15">
+        <UniformGrid Width="600" Columns="1" DockPanel.Dock="Left">
+            <GroupBox Header="S.PingState.Default">
+                <StackPanel>
+                    <h:Ping IP="192.168.1.1" Start="True" />
+                    <h:Ping IP="localhost" Start="True" />
+                    <h:Ping IP="127.0.0.1" Start="True" />
+                    <h:Ping IP="www.baidu.com" Start="True" />
+                    <h:Ping IP="192.168.1.1" Start="False" />
+                    <h:Ping IP="www.baidu.com" Start="False" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="S.PingState.Single">
+                <StackPanel>
+                    <h:Ping IP="192.168.1.1" Start="True" Style="{DynamicResource S.PingState.Single}" />
+                    <h:Ping IP="localhost" Start="True" Style="{DynamicResource S.PingState.Single}" />
+                    <h:Ping IP="127.0.0.1" Start="True" Style="{DynamicResource S.PingState.Single}" />
+
+                    <h:Ping IP="www.baidu.com" Start="True" Style="{DynamicResource S.PingState.Single}" />
+
+                    <h:Ping IP="192.168.1.1" Start="False" Style="{DynamicResource S.PingState.Single}" />
+                    <h:Ping IP="www.baidu.com" Start="False" Style="{DynamicResource S.PingState.Single}" />
+                </StackPanel>
+            </GroupBox>
+        </UniformGrid>
+
+        <GroupBox Header="Host">
+            <ScrollViewer>
+                <ItemsControl ItemsSource="{Binding Ips}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type sys:String}">
+                            <Grid>
+                                <h:Ping x:Name="ps"
+                                        Margin="20,0"
+                                        IP="{Binding .}"
+                                        Start="False" />
+
+                                <CheckBox IsChecked="{Binding ElementName=ps, Path=Start, Mode=TwoWay}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </ScrollViewer>
+        </GroupBox>
+    </DockPanel>
+
+</UserControl>

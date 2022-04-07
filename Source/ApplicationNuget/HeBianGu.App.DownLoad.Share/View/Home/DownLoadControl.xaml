@@ -1,0 +1,477 @@
+﻿<UserControl x:Class="HeBianGu.App.DownLoad.View.Home.DownLoadControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.App.DownLoad"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}">
+                <TabControl h:Cattach.CaptionHeight="50"
+                            h:Cattach.UseSearch="False"
+                            h:GuideService.Data="您可以输入想要查询的功能和在线资源"
+                            h:GuideService.Title="任务列表"
+                            h:GuideService.UseGuide="True">
+                    <TabItem h:GuideService.Data="显示当前正在下载的任务"
+                             h:GuideService.Title="下载中"
+                             h:GuideService.UseGuide="True"
+                             Header="下载中">
+                        <DockPanel TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
+                            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
+                                <Button Height="Auto"
+                                        Padding="0"
+                                        h:GuideService.Data="您可以通过此功能增加下载任务"
+                                        h:GuideService.Title="新建下载任务"
+                                        h:GuideService.UseGuide="True"
+                                        Content="新建"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.Add}}" />
+                                <Button Margin="10,0"
+                                        h:Cattach.Icon="&#xe8b4;"
+                                        h:Cattach.IconSize="15"
+                                        h:GuideService.Data="选择列表中的一个任务点击此功能开始下载"
+                                        h:GuideService.Title="开始下载任务"
+                                        h:GuideService.UseGuide="True"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                <Button h:Cattach.Icon="&#xe883;"
+                                        h:Cattach.IconSize="15"
+                                        h:GuideService.Data="选择列表中的一个任务点击此功能暂停下载"
+                                        h:GuideService.Title="暂停下载任务"
+                                        h:GuideService.UseGuide="True"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                <Button Margin="10,0"
+                                        h:Cattach.Icon="&#xe844;"
+                                        h:Cattach.IconSize="15"
+                                        h:GuideService.Data="选择列表中的一个任务点击此功能删除任务"
+                                        h:GuideService.Title="删除任务"
+                                        h:GuideService.UseGuide="True"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                                <Button Margin="10,0"
+                                        h:Cattach.Icon="&#xe7d3;"
+                                        h:Cattach.IconSize="15"
+                                        h:GuideService.Data="您可以通过此功能查看历史任务"
+                                        h:GuideService.Title="历史任务"
+                                        h:GuideService.UseGuide="True"
+                                        DockPanel.Dock="Right"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                <Button h:Cattach.Icon="&#xe84d;"
+                                        h:Cattach.IconSize="15"
+                                        h:GuideService.Data="您可以通过此功能查看更多功能，如：排序、全选、全部开始、全部暂停等"
+                                        h:GuideService.Title="更多"
+                                        h:GuideService.UseGuide="True"
+                                        DockPanel.Dock="Right"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                            </DockPanel>
+
+                            <Border Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" DockPanel.Dock="Top">
+                                <Border.Background>
+                                    <SolidColorBrush Opacity="0.2" Color="Orange" />
+                                </Border.Background>
+                                <DockPanel Margin="10,0,0,0" LastChildFill="False" TextBlock.FontSize="{DynamicResource {x:Static h:FontSizeKeys.Default}}">
+                                    <TextBlock VerticalAlignment="Center"
+                                               FontSize="22"
+                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                               Text="&#xe79f;" />
+                                    <TextBlock VerticalAlignment="Center" Text="【游戏】白金会员领取：1/1" />
+
+                                    <Button DockPanel.Dock="Right" Style="{DynamicResource {x:Static h:ButtonKeys.Close}}" />
+
+                                    <Button Width="Auto"
+                                            Height="Auto"
+                                            Padding="0"
+                                            Content="领取：1/1"
+                                            DockPanel.Dock="Right">
+                                        <Button.Background>
+                                            <SolidColorBrush Opacity="0.3" Color="Orange" />
+                                        </Button.Background>
+                                    </Button>
+                                </DockPanel>
+                            </Border>
+
+                            <ListBox h:GuideService.Data="当前所有添加的下载任务的列表"
+                                     h:GuideService.Title="下载列表"
+                                     h:GuideService.UseGuide="True"
+                                     ItemsSource="{Binding DownLoadItems}"
+                                     SelectedIndex="0"
+                                     SelectedItem="{Binding SelectedItem}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <DockPanel Margin="10,6">
+                                            <TextBlock VerticalAlignment="Center"
+                                                       FontSize="30"
+                                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                       Text="&#xe611;" />
+                                            <ToggleButton Margin="0,0,-10,0"
+                                                          h:Cattach.IconSize="25"
+                                                          h:Cattach.SelectedText="&#xe8b4;"
+                                                          h:Cattach.UnSelectedText="&#xe883;"
+                                                          DockPanel.Dock="Right"
+                                                          Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                                          IsChecked="{Binding Bool1}" />
+
+                                            <Grid Margin="10,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <TextBlock Grid.RowSpan="2"
+                                                           Margin="0,2"
+                                                           Text="{Binding Value}"
+                                                           TextWrapping="Wrap" />
+                                                <DockPanel Grid.Row="2" Margin="0,5">
+                                                    <ProgressBar Grid.Row="2"
+                                                                 Height="4"
+                                                                 Margin="0,2"
+                                                                 DockPanel.Dock="Bottom"
+                                                                 Value="{Binding Double1}" />
+                                                    <DockPanel LastChildFill="False">
+                                                        <TextBlock FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header6}}" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}" Text="{Binding Value1}" />
+                                                        <TextBlock DockPanel.Dock="Right"
+                                                                   FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header6}}"
+                                                                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"
+                                                                   Text="{Binding Value2}" />
+                                                    </DockPanel>
+                                                </DockPanel>
+                                                <DockPanel Grid.Row="3" LastChildFill="False" Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                                                    <TextBlock VerticalAlignment="Center"
+                                                               FontSize="12"
+                                                               Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundLink}}"
+                                                               Text="3年会员已送达，直接领取" />
+                                                    <Button Width="Auto"
+                                                            Height="Auto"
+                                                            Padding="0"
+                                                            Content="超级加速"
+                                                            DockPanel.Dock="Right"
+                                                            FontSize="12"
+                                                            Style="{DynamicResource {x:Static h:ButtonKeys.Accent}}" />
+                                                </DockPanel>
+                                            </Grid>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </DockPanel>
+                    </TabItem>
+                    <TabItem h:GuideService.Data="您可以查看已经下载完成的任务"
+                             h:GuideService.Title="已完成"
+                             h:GuideService.UseGuide="True"
+                             Header="已完成" />
+                    <TabItem h:GuideService.Data="删除的任务可以在这里查找到并还原"
+                             h:GuideService.Title="回收站"
+                             h:GuideService.UseGuide="True"
+                             Header="回收站" />
+                </TabControl>
+            </Border>
+
+            <Border Grid.Column="1" Background="Transparent">
+                <DockPanel Margin="10,0">
+                    <h:Row DockPanel.Dock="Top">
+                        <TextBlock VerticalAlignment="Center" Text="{Binding SelectedItem.Value}" />
+                    </h:Row>
+                    <ScrollViewer>
+                        <StackPanel>
+                            <TabControl Height="350"
+                                        h:GuideService.Data="显示当前选中任务列表的详情"
+                                        h:GuideService.Title="任务列表详情"
+                                        h:GuideService.UseGuide="True">
+                                <TabItem h:GuideService.Data="您可以点击播放当前选中的任务"
+                                         h:GuideService.Title="播放"
+                                         h:GuideService.UseGuide="True"
+                                         Header="边下边播">
+                                    <Border Background="Black">
+                                        <Grid>
+                                            <MediaElement />
+                                            <Button HorizontalAlignment="Center"
+                                                    h:Cattach.Icon="&#xec7d;"
+                                                    Content="边下边播"
+                                                    Style="{DynamicResource {x:Static h:ButtonKeys.Accent}}" />
+                                        </Grid>
+                                    </Border>
+                                </TabItem>
+
+                                <TabItem h:GuideService.Data="您可以查看当前下载任务的速度曲线"
+                                         h:GuideService.Title="速度"
+                                         h:GuideService.UseGuide="True"
+                                         Header="速度">
+                                    <Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_3}}">
+                                        <DockPanel>
+                                            <h:Row DockPanel.Dock="Bottom">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"
+                                                           Text="下载进度96% 完成文件25、26 资源数0、0" />
+                                            </h:Row>
+                                            <Grid>
+                                                <h:Chart Padding="0,0,20,0" xAxis="0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50" yAxis="0,120">
+                                                    <h:Series>
+                                                        <h:Area Data="0,2,10,50,20,60,77,50,29,10,50,20,60,87,45,30,20,10,50,20,60,66,88,60,28,10,50,20,60,33,45,80,21,100,80,52,10,50,20,60,100,10,50,20,60,65,30,20,10,50,20,60,66,88,60,28,10,50,20,60,33,45,80,21,100,88,66,10,50,20,60,100,10,50,20,60,65" Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}">
+                                                            <h:Area.AreaBackground>
+                                                                <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
+                                                                    <GradientStop Offset="0" Color="{DynamicResource {x:Static h:SystemKeys.ColorAccent}}" />
+                                                                    <GradientStop Offset="1.5" Color="Transparent" />
+                                                                </LinearGradientBrush>
+                                                            </h:Area.AreaBackground>
+                                                        </h:Area>
+                                                    </h:Series>
+
+                                                </h:Chart>
+
+                                                <Button HorizontalAlignment="Center"
+                                                        h:Cattach.Icon="&#xec7d;"
+                                                        Content="继续下载"
+                                                        Style="{DynamicResource {x:Static h:ButtonKeys.Accent}}" />
+                                            </Grid>
+                                        </DockPanel>
+                                    </Border>
+
+                                </TabItem>
+
+                                <TabItem h:GuideService.Data="您可以查看当前下载任务的文件大小，资源信息等数据"
+                                         h:GuideService.Title="属性"
+                                         h:GuideService.UseGuide="True"
+                                         Header="属性">
+                                    <Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_3}}">
+                                        <h:Chart Padding="100,50">
+                                            <h:Series>
+                                                <h:Pie CircleLen="90"
+                                                       Data="1,3,90,7"
+                                                       Foreground="Orange,LightGreen,blue,LightBlue"
+                                                       Len="110"
+                                                       xDisplay="原始资源,镜像加速,P3P加速,会员加速" />
+                                            </h:Series>
+
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header5}}"
+                                                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"
+                                                           Text="文件大小" />
+
+                                                <TextBlock Margin="0,5"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header1}}"
+                                                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                                                           Text="2.51GB" />
+                                            </StackPanel>
+
+                                            <h:PathLegend />
+                                        </h:Chart>
+                                    </Border>
+
+                                </TabItem>
+                            </TabControl>
+
+                            <Border Height="300">
+                                <h:TreeListView h:GuideService.Data="显示当前选中任务包含的资源列表"
+                                                h:GuideService.Title="资源列表"
+                                                h:GuideService.UseGuide="True"
+                                                ItemsSource="{Binding SelectedItem.Items}">
+                                    <h:TreeListView.Resources>
+                                        <h:LevelToIndentConverter x:Key="LevelIndentConverter" />
+                                    </h:TreeListView.Resources>
+                                    <h:TreeListView.ItemTemplate>
+                                        <HierarchicalDataTemplate ItemsSource="{Binding Nodes}" />
+                                    </h:TreeListView.ItemTemplate>
+
+                                    <h:TreeListView.Columns>
+                                        <GridViewColumnCollection>
+                                            <GridViewColumn Width="500" Header="文件名称">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <DockPanel>
+                                                            <ToggleButton x:Name="Expander"
+                                                                          Margin="{Binding Path=Level, Converter={StaticResource LevelIndentConverter}, RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}"
+                                                                          ClickMode="Press"
+                                                                          IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}"
+                                                                          Style="{StaticResource {x:Static h:ToggleButtonKeys.Tree}}" />
+
+                                                            <CheckBox Margin="5,0,0,0" IsChecked="{Binding IsSelected}" />
+                                                            <TextBlock Margin="-5,0,5,0"
+                                                                       VerticalAlignment="Center"
+                                                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                                       Text="&#xeabe;" />
+                                                            <TextBlock Margin="0,0" VerticalAlignment="Center">
+                                                                <Run Text="{Binding Model.Value}" />
+                                                            </TextBlock>
+                                                        </DockPanel>
+                                                        <DataTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding Path=HasItems, RelativeSource={RelativeSource AncestorType={x:Type h:TreeListViewItem}}}" Value="False">
+                                                                <Setter TargetName="Expander" Property="Visibility" Value="Hidden" />
+                                                            </DataTrigger>
+                                                        </DataTemplate.Triggers>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="200" Header="大小">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <TextBlock Text="1.2GB" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                            <GridViewColumn Width="200" Header="进度">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <ProgressBar Margin="0,10" Style="{DynamicResource {x:Static h:ProgressBarKeys.Accent}}" Value="50" />
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                            </GridViewColumn>
+                                        </GridViewColumnCollection>
+                                    </h:TreeListView.Columns>
+                                </h:TreeListView>
+                            </Border>
+
+                            <h:Row>
+                                <CheckBox h:GuideService.Data="设置资源列表全部选中"
+                                          h:GuideService.Title="全选"
+                                          h:GuideService.UseGuide="True"
+                                          Content="全选" />
+                                <Button HorizontalAlignment="Right"
+                                        h:GuideService.Data="下载资源列表中所有选中项目"
+                                        h:GuideService.Title="下载选中文件"
+                                        h:GuideService.UseGuide="True"
+                                        Content="下载选中文件" />
+                            </h:Row>
+
+                            <StackPanel Margin="0,30">
+                                <h:Row>
+                                    <TextBox h:Cattach.Title="云盘位置"
+                                             h:Cattach.TitleHorizontalAlignment="Left"
+                                             h:Cattach.TitleWidth="80"
+                                             h:Cattach.Watermark="保存到云盘，可随时查看">
+                                        <h:Cattach.AttachContent>
+                                            <ControlTemplate>
+                                                <Button Content="立即保存" />
+                                            </ControlTemplate>
+                                        </h:Cattach.AttachContent>
+                                    </TextBox>
+                                </h:Row>
+                                <h:Row>
+                                    <TextBox h:Cattach.Title="下载链接"
+                                             h:Cattach.TitleHorizontalAlignment="Left"
+                                             h:Cattach.TitleWidth="80"
+                                             h:Cattach.Watermark="magnet:?xt=urn:btih:454D54D56788T8E464X16G45S46S64GFS644F41V7FG">
+                                        <h:Cattach.AttachContent>
+                                            <ControlTemplate>
+                                                <Button Content="复制链接" />
+                                            </ControlTemplate>
+                                        </h:Cattach.AttachContent>
+                                    </TextBox>
+                                </h:Row>
+                                <h:Row>
+                                    <TextBox h:Cattach.Title="网址记录"
+                                             h:Cattach.TitleHorizontalAlignment="Left"
+                                             h:Cattach.TitleWidth="80"
+                                             h:Cattach.Watermark="D:\Download">
+                                        <h:Cattach.AttachContent>
+                                            <ControlTemplate>
+                                                <Button Content="打开网址" />
+                                            </ControlTemplate>
+                                        </h:Cattach.AttachContent>
+                                    </TextBox>
+                                </h:Row>
+                                <h:Row>
+                                    <TextBox h:Cattach.Title="创建时间"
+                                             h:Cattach.TitleHorizontalAlignment="Left"
+                                             h:Cattach.TitleWidth="80"
+                                             h:Cattach.Watermark="2022-02-22 22:22:22" />
+                                </h:Row>
+                                <h:Row>
+                                    <TextBox h:Cattach.Title="下载历时"
+                                             h:Cattach.TitleHorizontalAlignment="Left"
+                                             h:Cattach.TitleWidth="80"
+                                             h:Cattach.Watermark="03:02:54" />
+                                </h:Row>
+                                <h:Row>
+                                    <TextBox h:Cattach.Title="注释"
+                                             h:Cattach.TitleHorizontalAlignment="Left"
+                                             h:Cattach.TitleWidth="80"
+                                             h:Cattach.Watermark="未填写" />
+                                </h:Row>
+                            </StackPanel>
+
+                            <StackPanel>
+                                <DockPanel Margin="0,10">
+                                    <!--<TextBlock Width="60"
+                                               FontSize="30"
+                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                               Text="&#xe913;" />-->
+                                    <Grid Width="60">
+                                        <Image Width="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" Style="{DynamicResource {x:Static h:ImageKeys.Logo}}" />
+                                    </Grid>
+
+                                    <TextBox h:Cattach.UseTitle="False" h:Cattach.Watermark="来说两句吧~">
+                                        <h:Cattach.AttachContent>
+                                            <ControlTemplate>
+                                                <DockPanel>
+                                                    <Button h:Cattach.Icon="&#xe746;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                    <Button h:Cattach.Icon="&#xe90e;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                    <Button Content="评论" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                </DockPanel>
+                                            </ControlTemplate>
+                                        </h:Cattach.AttachContent>
+                                    </TextBox>
+                                </DockPanel>
+
+                                <ItemsControl>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <DockPanel Margin="0,10">
+                                                <h:Row DockPanel.Dock="Bottom">
+                                                    <TextBlock Margin="60,0,0,0" VerticalAlignment="Center" Text="{Binding Value2}" />
+                                                    <UniformGrid HorizontalAlignment="Right" Rows="1">
+                                                        <Button h:Cattach.Icon="&#xe737;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                        <Button h:Cattach.Icon="&#xe74c;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                    </UniformGrid>
+                                                </h:Row>
+
+                                                <DockPanel>
+                                                    <TextBlock Width="60"
+                                                               FontSize="30"
+                                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                               Text="&#xe913;" />
+
+
+                                                    <UniformGrid Columns="1">
+                                                        <TextBlock VerticalAlignment="Center" Text="{Binding Value}" />
+                                                        <TextBlock VerticalAlignment="Center" Text="{Binding Value1}" />
+                                                    </UniformGrid>
+                                                </DockPanel>
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+
+                                    <h:TestViewModel Value1="这是什么鬼?" Value2="2020-06-25 12:33" Value="天涯海角" />
+                                    <h:TestViewModel Value1="这是什么鬼?" Value2="2020-06-25 12:33" Value="天涯海角" />
+                                    <h:TestViewModel Value1="这是什么鬼?" Value2="2020-06-25 12:33" Value="天涯海角" />
+                                    <h:TestViewModel Value1="这是什么鬼?" Value2="2020-06-25 12:33" Value="天涯海角" />
+                                    <h:TestViewModel Value1="这是什么鬼?" Value2="2020-06-25 12:33" Value="天涯海角" />
+                                </ItemsControl>
+
+
+                                <h:Row Margin="0,20">
+                                    <DockPanel HorizontalAlignment="Center">
+                                        <Button Content="上一页" />
+                                        <Button Content="下一页" DockPanel.Dock="Right" />
+                                        <TextBlock Margin="5,0" VerticalAlignment="Center" Text="1/1" />
+                                    </DockPanel>
+                                </h:Row>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

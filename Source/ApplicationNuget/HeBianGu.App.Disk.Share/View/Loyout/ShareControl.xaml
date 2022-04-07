@@ -1,0 +1,60 @@
+﻿<UserControl x:Class="HeBianGu.App.Disk.ShareControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.App.Disk"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d">
+    <Grid>
+        <DockPanel>
+            <h:Row DockPanel.Dock="Top" Style="{DynamicResource {x:Static h:Row.Column9Key}}">
+                <Button Content="复制链接" h:Cattach.IconSize="16" h:Cattach.Icon="&#xe880;" />
+                <Button Grid.Column="1"
+                           Content="取消分享"
+                           h:Cattach.IconSize="16"
+                           h:Cattach.Icon="&#xe89d;" />
+            </h:Row>
+
+            <h:Explorer CurrentPath="{Binding SharePath, Mode=TwoWay}" PreviewMouseDoubleClick="Explorer_PreviewMouseDoubleClick" Style="{DynamicResource {x:Static h:Explorer.DefaultKey}}">
+                <h:Explorer.Columns>
+                    <DataGridTemplateColumn Width="50" Header="">
+                        <DataGridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <CheckBox x:Name="cb" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}, Path=Foreground}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.HeaderTemplate>
+
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Margin="9,0"
+                                             HorizontalAlignment="Center"
+                                             Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}"
+                                             IsChecked="{Binding ElementName=cb, Path=IsChecked}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Width="2.2*" Header="分享文件">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <Image Margin="5" Source="{Binding Logo, Converter={x:Static h:XConverter.IconToImageSourceConverter}}" />
+                                    <TextBlock Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" Style="{StaticResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding Model.Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTextColumn Width="*" Binding="{Binding Model.CreationTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Header="分享时间" />
+                    <DataGridTextColumn Width="*" Binding="{Binding Model.LastAccessTime, StringFormat='{}{0:永久有效}'}" Header="失效时间" />
+                    <DataGridTextColumn Width="0.7*" Binding="{Binding Model.LastWriteTime, StringFormat='{}{0:dd} 次'}" Header="浏览次数" />
+                    <DataGridTextColumn Width="0.7*" Binding="{Binding Model.LastWriteTime, StringFormat='{}{0:HH} 次'}" Header="保存次数" />
+                    <DataGridTextColumn Width="0.7*" Binding="{Binding Model.LastWriteTime, StringFormat='{}{0:mm} 次'}" Header="下载次数" />
+                </h:Explorer.Columns>
+            </h:Explorer>
+        </DockPanel>
+    </Grid>
+</UserControl>

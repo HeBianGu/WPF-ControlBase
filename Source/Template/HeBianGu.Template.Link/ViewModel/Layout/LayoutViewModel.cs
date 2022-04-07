@@ -1,13 +1,9 @@
 ﻿using HeBianGu.Service.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HeBianGu.Template.Link.ViewModel.Layout
 {
-     /// <summary> 说明</summary>
+    [ViewModel("Layout")]
     internal class LayoutViewModel : MvcViewModelBase
     {
         #region - 属性 -

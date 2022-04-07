@@ -1,0 +1,333 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.PropertyGrid">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PropertyGrid;component/PropertyView.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PropertyGrid;component/PropertyControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PropertyGrid;component/PropertyTabControl.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PropertyGrid;component/ListBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PropertyGrid;component/PropertyGrid.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style BasedOn="{StaticResource {x:Static local:PropertyGrid.DefaultKey}}" TargetType="local:PropertyGrid" />
+    <Style BasedOn="{StaticResource {x:Static local:PropertyControl.DefaultKey}}" TargetType="local:PropertyControl" />
+    <Style BasedOn="{StaticResource {x:Static local:PropertyTabControl.OfficeKey}}" TargetType="local:PropertyTabControl" />
+    <Style BasedOn="{StaticResource {x:Static local:PropertyView.DefaultKey}}" TargetType="local:PropertyView" />
+
+    <DataTemplate DataType="{x:Type local:ClearPathTextPropertyItem}">
+        <Grid Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" Visibility="{Binding Visibility}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel>
+                <Button Width="auto"
+                        Command="{Binding ClearCommand}"
+                        Content="清空"
+                        DockPanel.Dock="Right" />
+
+                <TextBox Grid.Column="0"
+                         h:Cattach.IsUseHistory="{Binding RelativeSource={RelativeSource AncestorType=local:PropertyGrid}, Path=(h:Cattach.IsUseHistory)}"
+                         h:Cattach.Title="{Binding Name}"
+                         h:Cattach.TitleWidth="{Binding RelativeSource={RelativeSource AncestorType=local:PropertyGrid}, Path=(h:Cattach.TitleWidth)}"
+                         h:Cattach.Watermark="{Binding Message}"
+                         IsReadOnly="{Binding ReadOnly}"
+                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
+                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                    <h:Cattach.TitleTemplate>
+                        <ControlTemplate TargetType="ContentControl">
+                            <Border Width="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleMargin)}" Background="Transparent">
+                                <DockPanel>
+                                    <TextBlock VerticalAlignment="Center"
+                                               DockPanel.Dock="Right"
+                                               Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                                               Text="{Binding Flag}" />
+
+                                    <TextBlock HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Background="Transparent"
+                                               FontSize="{TemplateBinding FontSize}"
+                                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleForeground)}"
+                                               Text="{TemplateBinding Content}"
+                                               ToolTip="{TemplateBinding Content}" />
+                                </DockPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </h:Cattach.TitleTemplate>
+                </TextBox>
+            </DockPanel>
+            <Grid Grid.Column="1" Width="{Binding RelativeSource={RelativeSource AncestorType=local:PropertyGrid}, Path=MessageWidth}">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                           Text="&#xe626;"
+                           TextTrimming="CharacterEllipsis"
+                           ToolTip="{Binding Message}"
+                           Visibility="{Binding Message, Converter={x:Static h:XConverter.VisibilityWithOutStringConverter}, ConverterParameter={x:Null}, Mode=TwoWay}" />
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:OpenPathTextPropertyItem}">
+        <Grid Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" Visibility="{Binding Visibility}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel>
+                <Button Width="Auto"
+                        Command="{Binding OpenCommand}"
+                        Content="打开"
+                        DockPanel.Dock="Right" />
+                <TextBox Grid.Column="0"
+                         h:Cattach.IsUseHistory="{Binding RelativeSource={RelativeSource AncestorType=local:PropertyGrid}, Path=(h:Cattach.IsUseHistory)}"
+                         h:Cattach.Title="{Binding Name}"
+                         h:Cattach.TitleWidth="{Binding RelativeSource={RelativeSource AncestorType=local:PropertyGrid}, Path=(h:Cattach.TitleWidth)}"
+                         h:Cattach.Watermark="{Binding Message}"
+                         IsReadOnly="{Binding ReadOnly}"
+                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
+                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                    <h:Cattach.TitleTemplate>
+                        <ControlTemplate TargetType="ContentControl">
+                            <Border Width="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleMargin)}" Background="Transparent">
+                                <DockPanel>
+                                    <TextBlock VerticalAlignment="Center"
+                                               DockPanel.Dock="Right"
+                                               Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                                               Text="{Binding Flag}" />
+
+                                    <TextBlock HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Background="Transparent"
+                                               FontSize="{TemplateBinding FontSize}"
+                                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleForeground)}"
+                                               Text="{TemplateBinding Content}"
+                                               ToolTip="{TemplateBinding Content}" />
+                                </DockPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </h:Cattach.TitleTemplate>
+                </TextBox>
+            </DockPanel>
+            <Grid Grid.Column="1" Width="{Binding RelativeSource={RelativeSource AncestorType=local:PropertyGrid}, Path=MessageWidth}">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                           Text="&#xe626;"
+                           TextTrimming="CharacterEllipsis"
+                           ToolTip="{Binding Message}"
+                           Visibility="{Binding Message, Converter={x:Static h:XConverter.VisibilityWithOutStringConverter}, ConverterParameter={x:Null}, Mode=TwoWay}" />
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:OpenClearPathTextPropertyItem}">
+        <Grid Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" Visibility="{Binding Visibility}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel>
+                <Button Width="Auto"
+                        Command="{Binding ClearCommand}"
+                        Content="清空"
+                        DockPanel.Dock="Right" />
+                <Button Width="Auto"
+                        Command="{Binding OpenCommand}"
+                        Content="打开"
+                        DockPanel.Dock="Right" />
+
+                <TextBox Grid.Column="0"
+                         h:Cattach.IsUseHistory="{Binding RelativeSource={RelativeSource AncestorType=local:PropertyGrid}, Path=(h:Cattach.IsUseHistory)}"
+                         h:Cattach.Title="{Binding Name}"
+                         h:Cattach.TitleWidth="{Binding RelativeSource={RelativeSource AncestorType=local:PropertyGrid}, Path=(h:Cattach.TitleWidth)}"
+                         h:Cattach.Watermark="{Binding Message}"
+                         IsReadOnly="{Binding ReadOnly}"
+                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
+                         Text="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}">
+                    <h:Cattach.TitleTemplate>
+                        <ControlTemplate TargetType="ContentControl">
+                            <Border Width="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleWidth)}" Margin="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleMargin)}" Background="Transparent">
+                                <DockPanel>
+                                    <TextBlock VerticalAlignment="Center"
+                                               DockPanel.Dock="Right"
+                                               Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                                               Text="{Binding Flag}" />
+
+                                    <TextBlock HorizontalAlignment="Left"
+                                               VerticalAlignment="Center"
+                                               Background="Transparent"
+                                               FontSize="{TemplateBinding FontSize}"
+                                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=(h:Cattach.TitleForeground)}"
+                                               Text="{TemplateBinding Content}"
+                                               ToolTip="{TemplateBinding Content}" />
+                                </DockPanel>
+                            </Border>
+                        </ControlTemplate>
+                    </h:Cattach.TitleTemplate>
+                </TextBox>
+            </DockPanel>
+            <Grid Grid.Column="1" Width="{Binding RelativeSource={RelativeSource AncestorType=local:PropertyGrid}, Path=MessageWidth}">
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="14"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                           Text="&#xe626;"
+                           TextTrimming="CharacterEllipsis"
+                           ToolTip="{Binding Message}"
+                           Visibility="{Binding Message, Converter={x:Static h:XConverter.VisibilityWithOutStringConverter}, ConverterParameter={x:Null}, Mode=TwoWay}" />
+            </Grid>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ObjectPropertyItem}">
+        <Grid Visibility="{Binding Visibility}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <!--<ColumnDefinition Width="30"/>-->
+            </Grid.ColumnDefinitions>
+
+            <Expander Background="Transparent" Style="{DynamicResource {x:Static h:ExpanderKeys.Clear}}">
+                <Expander.Header>
+                    <TextBlock>
+                        <Run Text="{Binding Name}" />
+                        <Run Text="  [" />
+                        <Run Text="{Binding PropertyInfo.PropertyType.Name, Mode=OneWay}" />
+                        <Run Text="]" />
+                    </TextBlock>
+                </Expander.Header>
+
+                <local:PropertyGrid h:Cattach.TitleWidth="{Binding RelativeSource={RelativeSource AncestorType=local:PropertyGrid}, Path=(h:Cattach.TitleWidth)}"
+                                    DeclaredOnly="{Binding RelativeSource={RelativeSource AncestorType=local:PropertyGrid}, Path=DeclaredOnly}"
+                                    SelectObject="{Binding Value}"
+                                    Style="{DynamicResource {x:Static h:PropertyGrid.SingleKey}}" />
+            </Expander>
+
+            <!--<TextBlock Text="&#xe626;" Grid.Column="3" Style="{DynamicResource S.TextBlock.Icon }"
+                       Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}" Visibility="{Binding Message,Converter={x:Static h:XConverter.VisibilityWithOutStringConverter},ConverterParameter={x:Null}}"
+                       FontSize="14"   TextTrimming="CharacterEllipsis" ToolTip="{Binding Message}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>-->
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:StylesPropertyItem}">
+        <ComboBox Margin="5,0"
+                  h:Cattach.Title="{Binding Name}"
+                  ItemsSource="{Binding Collection}"
+                  SelectedItem="{Binding Value}"
+                  Style="{DynamicResource {x:Static h:ComboBoxKeys.LabelSingle}}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" Text="{Binding Name}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ViewStylesPropertyItem}">
+        <ListBox Margin="5,0"
+                 h:Cattach.Title="{Binding Name}"
+                 ItemsSource="{Binding Collection}"
+                 SelectedItem="{Binding Value}"
+                 Style="{DynamicResource {x:Static h:ListBoxKeys.Label}}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid MinWidth="200" MinHeight="100" ToolTip="{Binding Name}">
+                        <Border Style="{DynamicResource {x:Static h:BorderKeys.Card}}">
+                            <h:TypeControl Type="{Binding Style.TargetType}" TypeStyle="{Binding Style}" />
+                        </Border>
+
+                        <CheckBox Height="Auto"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  VerticalContentAlignment="Center"
+                                  Background="Transparent"
+                                  IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}"
+                                  IsHitTestVisible="False"
+                                  Style="{DynamicResource {x:Static h:CheckBoxKeys.Box}}" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border>
+                                    <ContentPresenter />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:TransitionPropertyItem}">
+        <ListBox Margin="5,0"
+                 h:Cattach.Title="{Binding Name}"
+                 ItemsSource="{Binding Collection}"
+                 SelectedItem="{Binding Value}"  h:Cattach.UseBackground="False" h:Cattach.TitleBackground="Transparent" h:Cattach.TitleVerticalAlignment="Top"
+                 Style="{DynamicResource {x:Static h:ListBoxKeys.Label}}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="200" Height="100">
+                        <Border h:TransitionService.IsVisible="{Binding ElementName=cb, Path=IsChecked, Mode=TwoWay}"
+                                h:TransitionService.VisibleActions="{Binding Transitions}"
+                                Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                Style="{DynamicResource {x:Static h:BorderKeys.CardBackground}}" />
+
+                        <h:SwitchToggleButton x:Name="cb" Content="Open" IsChecked="True" />
+
+                        <!--<CheckBox x:Name="cb" Content="TEST" IsChecked="True" HorizontalAlignment="Center"/>-->
+
+                        <CheckBox Height="100"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="Stretch"
+                                  VerticalContentAlignment="Bottom"
+                                  Content="{Binding Name}"
+                                  IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}"
+                                  IsHitTestVisible="False"
+                                  Style="{DynamicResource {x:Static h:CheckBoxKeys.Box}}" />
+                    </Grid>
+                    <!--<DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},Path=IsSelected}" Value="true">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" TargetName="cb"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>-->
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border>
+                                    <ContentPresenter />
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+    </DataTemplate> 
+</ResourceDictionary>

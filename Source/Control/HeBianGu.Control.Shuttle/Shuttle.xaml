@@ -1,0 +1,89 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Shuttle">
+
+    <DataTemplate DataType="{x:Type local:ShuttleItem}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <GroupBox Background="{DynamicResource {x:Static h:BrushKeys.Dark0_4}}" Header="{Binding Header}">
+                <ListBox AllowDrop="True"
+                         Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                         ItemContainerStyle="{DynamicResource {x:Static h:DragAdorner.ListBoxItemAllowDropBothKey}}"
+                         ItemsSource="{Binding ItemSource}"
+                         SelectedItem="{Binding SelectItem}">
+                    <h:Interaction.Behaviors>
+                        <!--<h:ListDragBlendBehavior/>-->
+                        <h:ListDropBlendBehavior />
+                    </h:Interaction.Behaviors>
+
+                    <h:Interaction.Triggers>
+                        <h:EventTrigger EventName="DragEnter">
+                            <h:ChangePropertyAction PropertyName="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                        </h:EventTrigger>
+
+                        <h:EventTrigger EventName="DragLeave">
+                            <h:ChangePropertyAction PropertyName="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+                        </h:EventTrigger>
+
+                        <h:EventTrigger EventName="Drop">
+                            <h:ChangePropertyAction PropertyName="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+                        </h:EventTrigger>
+
+                        <h:EventTrigger EventName="MouseDoubleClick">
+                            <h:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=local:Shuttle}, Path=NextCommand}" CommandParameter="{Binding .}" />
+                        </h:EventTrigger>
+                    </h:Interaction.Triggers>
+                </ListBox>
+            </GroupBox>
+
+            <StackPanel Grid.Column="1"
+                        Margin="5,0"
+                        VerticalAlignment="Center"
+                        Visibility="{Binding IsUseButton, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=local:Shuttle}, Path=NextCommand}"
+                           CommandParameter="{Binding .}"
+                           h:Cattach.Icon="&#xe9bb;"
+                           Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                <Button Command="{Binding RelativeSource={RelativeSource AncestorType=local:Shuttle}, Path=PreviousCommand}"
+                           CommandParameter="{Binding .}"
+                           h:Cattach.Icon="&#xe9ba;"
+                           Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Shuttle.Default, TypeInTargetAssembly={x:Type local:Shuttle}}" TargetType="{x:Type local:Shuttle}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Shuttle}">
+                    <Grid>
+                        <ItemsControl ItemsSource="{TemplateBinding Source}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid x:Name="PART_UniformGrid" Rows="1" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <!--<Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <h:LoadedAdornerBehavior AdornerType="{x:Type h:WaterMarkAdorner}" />
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>-->
+
+    </Style>
+
+    <Style TargetType="{x:Type local:Shuttle}" BasedOn="{StaticResource {x:Static local:Shuttle.DefaultKey}}"/>
+</ResourceDictionary>

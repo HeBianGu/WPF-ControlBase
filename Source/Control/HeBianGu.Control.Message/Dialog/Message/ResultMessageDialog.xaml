@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="HeBianGu.Control.Message.ResultMessageDialog"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.Control.Message"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             Width="450"
+             Height="150"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+             mc:Ignorable="d">
+    <Grid Margin="16,10">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Margin="0,5"
+                   VerticalAlignment="Top"
+                   FontSize="18"
+                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                   Text="提示" />
+
+        <TextBlock x:Name="Message" 
+                   Grid.Row="0"
+                   Grid.RowSpan="2"
+                   Margin="15,0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
+                   ToolTip="{Binding ElementName=Message, Path=Text}" />
+
+        <UniformGrid Grid.Row="2" HorizontalAlignment="Right" Rows="1" VerticalAlignment="Top" Background="Transparent">
+            <Button Grid.Row="1"
+                    h:Cattach.MouseOverBorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                    BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                    BorderThickness="1"
+                    Command="{x:Static local:DialogHost.CloseDialogCommand}"
+                    Content="取消"
+                    IsCancel="True"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}">
+                <Button.CommandParameter>
+                    <system:Boolean>False</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+
+            <Button Grid.Row="1"
+                    Command="{x:Static local:DialogHost.CloseDialogCommand}"
+                    Content="确认"
+                    IsDefault="True"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}">
+                <Button.CommandParameter>
+                    <system:Boolean>True</system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+        </UniformGrid>
+    </Grid>
+</UserControl>

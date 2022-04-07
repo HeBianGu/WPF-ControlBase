@@ -1,0 +1,743 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <ControlTemplate x:Key="{ComponentResourceKey ResourceId=S.Template.Clear, TypeInTargetAssembly={x:Type local:ShareKeys}}">
+        <Button Margin="0,0,0,0" Padding="{DynamicResource {x:Static h:ThicknessKeys.DockRight}}"
+                h:Cattach.IsClearTextButtonBehaviorEnabled="True"
+                Command="{x:Static h:Cattach.ClearTextCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource AncestorLevel=2, AncestorType={x:Type Control}}}"
+                Foreground="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=(h:Cattach.AttachBackground)}"
+                Style="{DynamicResource {x:Static local:ButtonKeys.Clear}}" />
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="{ComponentResourceKey ResourceId=S.Template.Close, TypeInTargetAssembly={x:Type local:ShareKeys}}">
+        <Button Command="{x:Static local:CommandService.Close}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=Foreground}" Style="{DynamicResource {x:Static local:ButtonKeys.Clear}}" />
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="{ComponentResourceKey ResourceId=S.Template.Title, TypeInTargetAssembly={x:Type local:ShareKeys}}" TargetType="ContentControl">
+        <Border x:Name="border"
+                Height="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=(h:Cattach.TitleHeight)}"
+                Width="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=(h:Cattach.TitleWidth)}"
+                VerticalAlignment="Stretch"
+                Background="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=(h:Cattach.TitleBackground)}"
+                CornerRadius="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=(h:Cattach.TitleCornerRaius)}">
+            <TextBlock Margin="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=(h:Cattach.TitleMargin)}"
+                       HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=(h:Cattach.TitleHorizontalAlignment)}"
+                       VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=(h:Cattach.TitleVerticalAlignment)}"
+                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=(h:Cattach.TitleForeground)}"
+                       Text="{TemplateBinding Content}" />
+        </Border>
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Control}, Path=(h:Cattach.UseBackground)}" Value="false">
+                <Setter TargetName="border" Property="Background" Value="Transparent" />
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Control.Default, TypeInTargetAssembly={x:Type local:ControlKeys}}" TargetType="Control">
+        <Setter Property="h:Cattach.MouseOverBackground" Value="Transparent" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+        <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="h:Cattach.FocusForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.SelectBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+
+        <Setter Property="h:Cattach.AttachBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="h:Cattach.AttachForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.AttachBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        
+        <Setter Property="h:Cattach.AttachHorizontalAlignment" Value="Left" />
+        <Setter Property="h:Cattach.AttachVerticalAlignment" Value="Center" />
+        <Setter Property="h:Cattach.AttachHeight" Value="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" />
+        <Setter Property="h:Cattach.AttachMargin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
+        <Setter Property="h:Cattach.AttachWidth" Value="{DynamicResource {x:Static h:SystemKeys.TitleWidth}}" />
+
+        <Setter Property="h:Cattach.BackgroundColumn" Value="0" />
+        <!--<Setter Property="h:Cattach.Title" Value="Label" />-->
+
+        <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.PressBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" /> 
+
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+        <Setter Property="h:Cattach.IconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Default}}" />
+        <Setter Property="h:Cattach.IconMargin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_2_0}}" />
+        <Setter Property="h:Cattach.Icon" Value="&#xea5e;" />
+        <Setter Property="h:Cattach.AllowsAnimation" Value="False" />
+        <Setter Property="h:Cattach.Watermark" Value="请输入数据" />
+
+        <Setter Property="h:Cattach.TitleBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.TitleBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        
+        <Setter Property="h:Cattach.TitleHorizontalAlignment" Value="Left" />
+        <Setter Property="h:Cattach.TitleVerticalAlignment" Value="Center" />
+        <Setter Property="h:Cattach.TitleHeight" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+        <Setter Property="h:Cattach.TitleBorderThickness" Value="0" />
+        <Setter Property="h:Cattach.TitleCornerRaius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.Left}}" />
+        <Setter Property="h:Cattach.TitleMargin" Value="3"/>
+        <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource {x:Static h:SystemKeys.TitleWidth}}" />
+
+        <Setter Property="h:Cattach.CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="h:Cattach.CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.CaptionBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        
+        <Setter Property="h:Cattach.CaptionHeight" Value="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" />
+        <Setter Property="h:Cattach.CaptionBorderThickness" Value="0" />
+        <Setter Property="h:Cattach.CaptionCornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}" />
+        <Setter Property="h:Cattach.CaptionHorizontalAlignment" Value="Left" />
+        <Setter Property="h:Cattach.CaptionVerticalAlignment" Value="Stretch" />
+
+        <Setter Property="h:Cattach.ItemBackground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+        <Setter Property="h:Cattach.ItemForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="h:Cattach.ItemBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        
+        <Setter Property="h:Cattach.ItemHeight" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+        <Setter Property="h:Cattach.ItemBorderThickness" Value="0" />
+        <Setter Property="h:Cattach.ItemCornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+        <Setter Property="h:Cattach.ItemHorizontalAlignment" Value="Left" />
+
+        <Setter Property="h:Cattach.CellMargin" Value="{StaticResource {x:Static h:ThicknessKeys.Padding_10_6}}" />
+        <Setter Property="h:Cattach.SearchDock" Value="Right" />
+        <Setter Property="h:Cattach.SearchWidth" Value="150" />
+        <Setter Property="h:Cattach.SearchUseHistory" Value="True" />
+        <Setter Property="h:Cattach.UseSearch" Value="True" />
+
+        <!--  Style  -->
+        <Setter Property="h:Cattach.StyleType" Value="{Binding Source={x:Static h:StyleSetting.Instance}, Path=StyleType}" />
+        <Setter Property="h:Cattach.EffectType" Value="{Binding Source={x:Static h:StyleSetting.Instance}, Path=EffectType}" />
+        <Setter Property="h:Cattach.LayoutStyle" Value="{Binding Source={x:Static h:StyleSetting.Instance}, Path=LayoutStyle}" />
+
+        <Setter Property="h:Cattach.UseClear" Value="{Binding Source={x:Static h:StyleSetting.Instance}, Path=UseClear}" />
+        <Setter Property="h:Cattach.UseTitle" Value="{Binding Source={x:Static h:StyleSetting.Instance}, Path=UseTitle}" />
+        <Setter Property="h:Cattach.UseBackground" Value="{Binding Source={x:Static h:StyleSetting.Instance}, Path=UseBackground}" />
+        <Setter Property="h:Cattach.UseBorder" Value="{Binding Source={x:Static h:StyleSetting.Instance}, Path=UseBorder}" />
+
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_2_0}}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
+        <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="FontFamily" Value="{DynamicResource {x:Static h:SystemKeys.FontFamily}}" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" /> 
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Control.Dynamic, TypeInTargetAssembly={x:Type local:ControlKeys}}" BasedOn="{StaticResource {x:Static local:ControlKeys.Default}}" TargetType="Control">
+        <Style.Triggers>
+            <!--  Single  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Single">
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.FocusForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.SelectBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+
+                <Setter Property="h:Cattach.TitleBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.TitleBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="h:Cattach.CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.CaptionBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.PressBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.AttachBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="h:Cattach.AttachForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.AttachBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+            </DataTrigger>
+            <!--  Reverse  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Reverse">
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.FocusForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+
+                <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.SelectBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+
+                <Setter Property="h:Cattach.TitleBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <Setter Property="h:Cattach.TitleBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <Setter Property="h:Cattach.CaptionBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.PressBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.AttachBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.AttachForeground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <Setter Property="h:Cattach.AttachBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+            </DataTrigger>
+
+            <!--  Clear  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Clear">
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <Setter Property="h:Cattach.FocusForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.SelectBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.TitleBackground" Value="Transparent" />
+                <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.TitleBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.CaptionBackground" Value="Transparent" />
+                <Setter Property="h:Cattach.CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.CaptionBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.PressBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                <Setter Property="h:Cattach.AttachBackground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <Setter Property="h:Cattach.AttachForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.AttachBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+            </DataTrigger>
+
+            <!--  Accent -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Accent">
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+                <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+
+                <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.FocusForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+
+                <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <Setter Property="h:Cattach.SelectBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+
+                <Setter Property="h:Cattach.TitleBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <Setter Property="h:Cattach.TitleBorderBrush" Value="Transparent" />
+
+                <Setter Property="h:Cattach.CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                <Setter Property="h:Cattach.CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <Setter Property="h:Cattach.CaptionBorderBrush" Value="Transparent" />
+
+                <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                <Setter Property="h:Cattach.PressBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+
+                <Setter Property="h:Cattach.AttachBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                <Setter Property="h:Cattach.AttachForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <Setter Property="h:Cattach.AttachBorderBrush" Value="Transparent" />
+            </DataTrigger>
+
+            <!--  MouseOverStyleType  -->
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                    <Condition Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=MouseOverStyleType}" Value="Accent"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="h:Cattach.StyleType" Value="Accent" />
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                    <Condition Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=MouseOverStyleType}" Value="Single"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="h:Cattach.StyleType" Value="Single" />
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                    <Condition Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=MouseOverStyleType}" Value="Default"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="h:Cattach.StyleType" Value="Default" />
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                    <Condition Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=MouseOverStyleType}" Value="Reverse"/>
+                </MultiDataTrigger.Conditions>
+                <Setter Property="h:Cattach.StyleType" Value="Reverse" />
+            </MultiDataTrigger>
+
+            <!--UseClear-->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.UseClear)}" Value="True">
+                <Setter Property="h:Cattach.AttachContent" Value="{DynamicResource {x:Static h:ShareKeys.ClearTemplate}}" />
+            </DataTrigger>
+            
+            <!--UseTitle-->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.UseTitle)}" Value="True">
+                <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static h:ShareKeys.TitleTemplate}}" />
+                <Setter Property="h:Cattach.TitleWidth" Value="{DynamicResource {x:Static h:SystemKeys.TitleWidth}}" />
+                <Setter Property="h:Cattach.TitleMargin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
+                <Setter Property="h:Cattach.Title" Value="Title" />
+            </DataTrigger>
+            
+            <!--UseBackground-->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.UseBackground)}" Value="False">
+                <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.UseBorder)}" Value="False" />
+                    <Condition Value="False">
+                        <Condition.Binding>
+                            <Binding Converter="{x:Static h:XConverter.IsEqualConverter}" Path="(h:Cattach.LayoutStyle)">
+                                <Binding.RelativeSource>
+                                    <RelativeSource Mode="Self" />
+                                </Binding.RelativeSource>
+                                <Binding.ConverterParameter>
+                                    <h:LayoutStyle>UnderLine</h:LayoutStyle>
+                                </Binding.ConverterParameter>
+                            </Binding>
+                        </Condition.Binding>
+                    </Condition>
+                </MultiDataTrigger.Conditions>
+
+                <Setter Property="h:Cattach.TitleBorderBrush" Value="Transparent" />
+                <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent" />
+                <Setter Property="h:Cattach.FocusBorderBrush" Value="Transparent" />
+                <Setter Property="h:Cattach.SelectBorderBrush" Value="Transparent" />
+                <Setter Property="h:Cattach.PressBorderBrush" Value="Transparent" />
+                <Setter Property="h:Cattach.AttachBorderBrush" Value="Transparent" />
+
+                <Setter Property="h:Cattach.MouseOverBorderThickness" Value="0" />
+                <Setter Property="h:Cattach.FocusBorderThickness" Value="0" />
+                <Setter Property="h:Cattach.TitleBorderThickness" Value="0" />
+                <Setter Property="h:Cattach.SelectBorderThickness" Value="0" />
+                <Setter Property="h:Cattach.PressBorderThickness" Value="0" />
+                <Setter Property="h:Cattach.AttachBorderThickness" Value="0" />
+
+                <Setter Property="BorderBrush" Value="Transparent" />
+                <Setter Property="BorderThickness" Value="0" />
+            </MultiDataTrigger>
+
+            <!--  Layout Style  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.LayoutStyle)}" Value="Circle">
+                <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.Circle}}" />
+                <Setter Property="h:Cattach.TitleCornerRaius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CircleLeft}}" />
+                <Setter Property="h:Cattach.CaptionCornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CircleTop}}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.LayoutStyle)}" Value="UnderLine">
+                <Setter Property="h:Cattach.MouseOverBorderThickness" Value="{DynamicResource {x:Static h:ThicknessKeys.UnderLine}}" />
+                <Setter Property="h:Cattach.FocusBorderThickness" Value="{DynamicResource {x:Static h:ThicknessKeys.UnderLine}}" />
+                <Setter Property="h:Cattach.SelectBorderThickness" Value="{DynamicResource {x:Static h:ThicknessKeys.UnderLine}}" />
+                <Setter Property="h:Cattach.TitleBorderThickness" Value="{DynamicResource {x:Static h:ThicknessKeys.UnderLine}}" />
+                <Setter Property="h:Cattach.PressBorderThickness" Value="{DynamicResource {x:Static h:ThicknessKeys.UnderLine}}" />
+                <!--<Setter Property="BorderThickness" Value="{DynamicResource {x:Static h:ThicknessKeys.UnderLine}}" />-->
+                <Setter Property="h:Cattach.AttachBorderThickness" Value="{DynamicResource {x:Static h:ThicknessKeys.UnderLine}}" />
+                <Setter Property="h:Cattach.CornerRadius" Value="0" />
+
+                <Setter Property="BorderThickness" Value="{DynamicResource {x:Static h:ThicknessKeys.UnderLine}}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+            </DataTrigger>
+
+            <!--  EffectType  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.EffectType)}" Value="Default1">
+                <Setter Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default1}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.EffectType)}" Value="Default2">
+                <Setter Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default2}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.EffectType)}" Value="Default3">
+                <Setter Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.EffectType)}" Value="Default4">
+                <Setter Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default4}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.EffectType)}" Value="Default5">
+                <Setter Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default5}}" />
+            </DataTrigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Effect" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverEffect)}" />
+            </Trigger> 
+
+            <!--  MouseOverEffect  -->
+            <DataTrigger Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=MouseOverEffect}" Value="Default1">
+                <Setter Property="h:Cattach.MouseOverEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default1}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=MouseOverEffect}" Value="Default2">
+                <Setter Property="h:Cattach.MouseOverEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default2}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=MouseOverEffect}" Value="Default3">
+                <Setter Property="h:Cattach.MouseOverEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=MouseOverEffect}" Value="Default4">
+                <Setter Property="h:Cattach.MouseOverEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default4}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=MouseOverEffect}" Value="Default5">
+                <Setter Property="h:Cattach.MouseOverEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default5}}" />
+            </DataTrigger>
+
+            <!--  SelectEffect  -->
+            <DataTrigger Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=SelectEffect}" Value="Default1">
+                <Setter Property="h:Cattach.SelectEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default1}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=SelectEffect}" Value="Default2">
+                <Setter Property="h:Cattach.SelectEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default2}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=SelectEffect}" Value="Default3">
+                <Setter Property="h:Cattach.SelectEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=SelectEffect}" Value="Default4">
+                <Setter Property="h:Cattach.SelectEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default4}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Source={x:Static h:StyleSetting.Instance}, Path=SelectEffect}" Value="Default5">
+                <Setter Property="h:Cattach.SelectEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default5}}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Selector.Dynamic, TypeInTargetAssembly={x:Type local:SelectorKeys}}" BasedOn="{StaticResource {x:Static local:ControlKeys.Dynamic}}" TargetType="Control">
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="VerticalAlignment" Value="Stretch" /> 
+
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent" />
+
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentSelectBackground}}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.SelectBorderBrush" Value="Transparent" />
+        <Setter Property="Tag" Value="Except" />
+        <Style.Triggers>
+            <!--  StyleType  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Single">
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent" />
+
+                <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.SelectBorderBrush" Value="Transparent" />
+            </DataTrigger> 
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Reverse">
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent" />
+
+                <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <Setter Property="h:Cattach.SelectBorderBrush" Value="Transparent" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Clear"> 
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent" />
+
+                <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.SelectBorderBrush" Value="Transparent" />
+            </DataTrigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Effect" Value="{x:Null}" />
+            </Trigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Accent">
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent" />
+
+                <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <Setter Property="h:Cattach.SelectBorderBrush" Value="Transparent" />
+            </DataTrigger>
+
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="S.ButtonBase.Dynamic" BasedOn="{StaticResource {x:Static local:ControlKeys.Dynamic}}" TargetType="Control"> 
+        <!--<Setter Property="h:Cattach.IconMargin" Value="0" />-->
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.Red}}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="h:Cattach.UseTitle" Value="False" />
+
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" /> 
+        <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+
+        <Style.Triggers>
+            <!--  StyleType  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Single">
+                <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <!--<Setter Property="h:Cattach.IconMargin" Value="0" />-->
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Reverse">
+                <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}" />
+                <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                <!--<Setter Property="h:Cattach.IconMargin" Value="0" />-->
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Clear">
+                <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="h:Cattach.MouseOverBackground" Value="Transparent" />
+                <Setter Property="h:Cattach.PressBackground" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <!--<Setter Property="h:Cattach.IconMargin" Value="0" />-->
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Accent">
+                <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <!--<Setter Property="h:Cattach.IconMargin" Value="0" />-->
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="S.ToggleButton.Dynamic" BasedOn="{StaticResource S.ButtonBase.Dynamic}" TargetType="ToggleButton">
+        <Setter Property="h:Cattach.MouseOverBackground" Value="Transparent" />
+        <Setter Property="h:Cattach.PressBackground" Value="Transparent" />
+        <Setter Property="h:Cattach.SelectBackground" Value="Transparent" />
+
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+        <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Style.Triggers>
+            <!--  StyleType  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Single">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+            </DataTrigger>
+            
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Reverse">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Clear">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Accent">
+                <Setter Property="Background" Value="Transparent" />
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+                <Setter Property="h:Cattach.PressForeground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+                <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="S.RangeBase.Dynamic" BasedOn="{StaticResource {x:Static local:ControlKeys.Dynamic}}" TargetType="Control">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Style.Triggers>
+            <!--  StyleType  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Single">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+            </DataTrigger>
+
+            <!--<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="MouseOver">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+                <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="MouseOver" />
+                </MultiDataTrigger.Conditions>
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+            </MultiDataTrigger>-->
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Reverse">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Clear">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="S.ScrollViewerBase.Dynamic" BasedOn="{StaticResource {x:Static local:ControlKeys.Dynamic}}" TargetType="Control">
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="Transparent"/>
+        <!--<Setter Property="Foreground" Value="{x:Null}"/>-->
+
+        <!--<Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity1}}" />
+        <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity8}}" />-->
+
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity6}}" />
+        <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity3}}" />
+        <Setter Property="Tag" Value="Except" />
+        <Style.Triggers>
+            <!--  StyleType  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Single">
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushTitle}}" />
+                <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_8}}" />
+                <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+            </DataTrigger>
+
+            <!--<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="MouseOver">
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushTitle}}" />
+                <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+            </DataTrigger>-->
+
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Reverse">
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Clear">
+                <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushTitle}}" />
+                <Setter Property="h:Cattach.PressBackground" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_8}}" />
+                <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+            </DataTrigger>
+
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Effect" Value="{x:Null}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="S.Border.Dynamic" BasedOn="{StaticResource {x:Static local:ControlKeys.Dynamic}}" TargetType="Control">
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Style.Triggers>
+            <!--  StyleType  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Single">
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Reverse">
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Clear">
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="S.TextBoxBase.Dynamic" BasedOn="{StaticResource {x:Static local:ControlKeys.Dynamic}}" TargetType="TextBoxBase">
+        <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.Icon" Value="&#xe6ed;" />
+        <Setter Property="h:Cattach.AttachForeground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="Padding" Value="0" /> 
+        <Style.Triggers>
+            <!--  StyleType  -->
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Single">
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+            </DataTrigger>
+
+            <!--<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="MouseOver">
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+            </DataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" Value="True" />
+                    <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="MouseOver" />
+                </MultiDataTrigger.Conditions>
+
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+            </MultiDataTrigger>-->
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Reverse">
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Clear">
+                <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                <Setter Property="CaretBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

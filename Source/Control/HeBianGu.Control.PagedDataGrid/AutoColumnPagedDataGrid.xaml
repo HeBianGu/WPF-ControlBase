@@ -1,0 +1,121 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cl="clr-namespace:System.Collections;assembly=mscorlib"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.PagedDataGrid">
+
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PagedDataGrid;component/PagedDataGrid.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="S.PagedDataGrid.Template.GroupBox" TargetType="{x:Type local:AutoColumnPagedDataGrid}">
+        <GroupBox Padding="0" Header="{TemplateBinding Title}" Style="{DynamicResource {x:Static h:GroupBoxKeys.Close}}">
+            <Border HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CornerRadius)}">
+                <DockPanel>
+                    <ContentPresenter Grid.Row="1" Content="{TemplateBinding BottomContent}" DockPanel.Dock="Bottom" />
+
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Visibility="{TemplateBinding TopVisibility}">
+                            <StackPanel Margin="0,5" Orientation="Horizontal" Visibility="{TemplateBinding PageCountVisible}">
+                                <TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="每页显示条数:" />
+                                <ComboBox Width="200"
+                                          ItemsSource="{TemplateBinding PageCountSource}"
+                                          SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=PageCount}"
+                                          Style="{DynamicResource {x:Static h:ComboBoxKeys.Default}}" />
+                            </StackPanel>
+
+                            <ContentControl Content="{TemplateBinding HeaderContent}" />
+
+
+                            <StackPanel Margin="0" HorizontalAlignment="Right" Orientation="Horizontal">
+                                <TextBox Width="300" Style="{DynamicResource {x:Static h:TextBoxKeys.Search}}" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </StackPanel>
+                        </Grid>
+
+                        <ScrollViewer Grid.Row="1" Style="{DynamicResource DefaultScrollViewer}">
+                            <ScrollViewer.Template>
+                                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Button Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=CellsPanelHorizontalOffset}"
+                                                Command="{x:Static DataGrid.SelectAllCommand}"
+                                                Focusable="false"
+                                                Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type DataGrid},
+                                                                                              ResourceId=DataGridSelectAllButtonStyle}}"
+                                                Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.All}}" />
+
+                                        <DataGridColumnHeadersPresenter Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}" />
+
+                                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                                                Grid.Row="1"
+                                                                Grid.ColumnSpan="2"
+                                                                CanContentScroll="{TemplateBinding CanContentScroll}" />
+
+                                    </Grid>
+                                </ControlTemplate>
+                            </ScrollViewer.Template>
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </ScrollViewer>
+
+                        <Grid Grid.Row="2" Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}">
+                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                <TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}">
+                                    <Run Text="第" />
+                                    <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MinValue}" />
+                                    <Run Text="到" />
+                                    <Run Text="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=MaxValue}" />
+                                    <Run Text="条记录，共" />
+                                    <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Total}" />
+                                    <Run Text="条" />
+                                </TextBlock>
+                            </StackPanel>
+
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <local:Pagination Width="600" MaxPageCount="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=TotalPage, Mode=TwoWay}" PageIndex="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=PageIndex, Mode=TwoWay}" />
+
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </DockPanel>
+            </Border>
+        </GroupBox>
+    </ControlTemplate>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.AutoColumnPagedDataGrid.Default.WithSumit, TypeInTargetAssembly={x:Type local:AutoColumnPagedDataGrid}}" BasedOn="{StaticResource {x:Static h:PagedDataGrid.DynamicKey}}" TargetType="{x:Type local:AutoColumnPagedDataGrid}">
+        <Setter Property="Template" Value="{StaticResource S.PagedDataGrid.Template.GroupBox}" />
+        <!--<Setter Property="ModelType" Value="{x:Type h:Student}" />-->
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="BottomContent">
+            <Setter.Value>
+                <StackPanel Margin="0,5,0,10">
+                    <Button Command="{x:Static h:CommandService.Sure}" Content="确认" />
+                </StackPanel>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

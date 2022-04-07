@@ -1,0 +1,62 @@
+﻿<h:DialogWindowBase x:Class="HeBianGu.Systems.Upgrade.UpgradeWindow"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Upgrade"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    Title="检查更新"
+                    Width="620"
+                    Height="320"
+                    CaptionHeight="35"
+                    Icon=" &#xebf5;"
+                    mc:Ignorable="d">
+
+    <h:TransitionService.VisibleActions>
+        <h:TransitionCollection>
+            <h:ScaleTransition />
+        </h:TransitionCollection>
+    </h:TransitionService.VisibleActions>
+
+    <Grid TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1.5*" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <StackPanel Background="{Binding RelativeSource={RelativeSource AncestorType=h:DialogWindowBase},Path=CaptionBackground}" Margin="-2">
+            <TextBlock Margin="10"
+                       HorizontalAlignment="Center"
+                       FontSize="25"
+                       Text="{Binding RelativeSource={RelativeSource AncestorType=local:UpgradeWindow}, Path=TitleMessage}" />
+
+            <ScrollViewer Height="100" VerticalScrollBarVisibility="Auto" >
+                <ItemsControl HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:UpgradeWindow}, Path=Message}"
+                              TextBlock.FontSize="15">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+
+        <Border Grid.Row="1"
+                Margin="-3"
+                Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                CornerRadius="0,0,4,4" />
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button Width="180"
+                       Height="40"
+                       Click="Button_Click"
+                       Content="立即升级"
+                       FontSize="15"
+                       Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}" />
+        </StackPanel>
+
+    </Grid>
+</h:DialogWindowBase>

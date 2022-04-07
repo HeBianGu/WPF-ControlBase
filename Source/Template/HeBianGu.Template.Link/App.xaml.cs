@@ -2,11 +2,6 @@
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
@@ -59,7 +54,7 @@ namespace HeBianGu.Template.Link
 
         protected override void Configure(IApplicationBuilder app)
         {
-            base.Configure(app); 
+            base.Configure(app);
 
             app.UseMvc();
             app.UseMainWindowSetting();

@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="HeBianGu.App.Chart.View.Map.ChinaControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.App.Chart.View.Map"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             mc:Ignorable="d"> 
+
+    <ScrollViewer>
+        <ScrollViewer.Resources>
+            <PathGeometry x:Key="S.PathGeometry.Animation">
+                <PathFigure StartPoint="750,110">
+                    <BezierSegment Point1="750,110" Point2="400,200" Point3="440,480" />
+                    <!--<QuadraticBezierSegment  Point1="0,0" Point2="300,600"/>-->
+                </PathFigure>
+            </PathGeometry>
+        </ScrollViewer.Resources>
+        <StackPanel>
+
+            <GroupBox Height="800" Header="中国地图">
+                <h:GeoMap Padding="10" Style="{StaticResource {x:Static h:GeoMap.ChinaKey}}" />
+            </GroupBox>
+
+            <GroupBox Height="800" Header="中国地图">
+                <h:GeoMap Padding="10" Style="{StaticResource {x:Static h:GeoMap.ChinaKey}}">
+                    <h:EffectBox Width="200"
+                                 Height="200"
+                                 Margin="20,250,0,0"
+                                 RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
+                                 Style="{DynamicResource {x:Static h:EffectBox.CircleWaveKey}}" />
+                    <Canvas>
+                        <Path Data="{StaticResource S.PathGeometry.Animation}" Stroke="Red" />
+
+                        <Ellipse Width="100"
+                                 Height="10"
+                                 Margin="0,-10"
+                                 Fill="Red"
+                                 RenderTransformOrigin="0,0.5">
+                            <Ellipse.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleX="-1" />
+                                    <MatrixTransform>
+                                        <MatrixTransform.Matrix>
+                                            <Matrix />
+                                        </MatrixTransform.Matrix>
+                                    </MatrixTransform>
+                                </TransformGroup>
+                            </Ellipse.RenderTransform>
+
+                            <Ellipse.OpacityMask>
+                                <RadialGradientBrush Center="0.1,0.5" GradientOrigin="0.05,0.5">
+                                    <GradientStop Offset="1" Color="Transparent" />
+                                    <GradientStop Offset="0" Color="Black" />
+                                </RadialGradientBrush>
+                            </Ellipse.OpacityMask>
+
+                            <Ellipse.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <MatrixAnimationUsingPath DoesRotateWithTangent="True"
+                                                                      PathGeometry="{StaticResource S.PathGeometry.Animation}"
+                                                                      Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[1].(MatrixTransform.Matrix)"
+                                                                      Duration="00:00:2" />
+
+                                            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0.5" To="1" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Ellipse.Triggers>
+                        </Ellipse>
+                    </Canvas>
+                </h:GeoMap>
+            </GroupBox>
+
+            <GroupBox Height="800" Header="中国地图">
+                <h:GeoMap Padding="10" Style="{StaticResource {x:Static h:GeoMap.ChinaKey}}">
+                    <h:EffectBox Width="200"
+                                 Height="200"
+                                 Margin="20,250,0,0"
+                                 RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
+                                 Style="{DynamicResource {x:Static h:EffectBox.CircleWaveKey}}" />
+
+                    <Canvas>
+                        <Path Data="{StaticResource S.PathGeometry.Animation}" Stroke="Red" />
+
+                        <Button Margin="0,-20"
+                                   h:Cattach.IconSize="30"
+                                   Foreground="Green"
+                                   h:Cattach.Icon="&#xe93b;"
+                                   RenderTransformOrigin="0,0.5"
+                                   Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}">
+                            <Button.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="-1" />
+                                    <SkewTransform />
+                                    <RotateTransform CenterX="0" CenterY="0" />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </Button.RenderTransform>
+                            <Button.Triggers>
+                                <EventTrigger RoutedEvent="Loaded">
+                                    <BeginStoryboard>
+                                        <Storyboard BeginTime="00:00:00" RepeatBehavior="Forever" Duration="00:00:05">
+                                            <DoubleAnimationUsingPath PathGeometry="{StaticResource S.PathGeometry.Animation}"
+                                                                      Source="Angle"
+                                                                      Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)"
+                                                                      Duration="00:00:06" />
+                                            <DoubleAnimationUsingPath PathGeometry="{StaticResource S.PathGeometry.Animation}"
+                                                                      Source="X"
+                                                                      Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                                                      Duration="00:00:06" />
+                                            <DoubleAnimationUsingPath PathGeometry="{StaticResource S.PathGeometry.Animation}"
+                                                                      Source="Y"
+                                                                      Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
+                                                                      Duration="00:00:06" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </EventTrigger>
+                            </Button.Triggers>
+                        </Button>
+                    </Canvas>
+                </h:GeoMap>
+            </GroupBox>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

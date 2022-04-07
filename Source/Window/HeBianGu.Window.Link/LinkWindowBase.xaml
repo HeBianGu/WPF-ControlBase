@@ -1,0 +1,1408 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Window.Link"
+                    xmlns:po="http://schemas.microsoft.com/winfx/2006/xaml/presentation/options">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Window.Message;component/MessageWindowBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Service.Mvp;component/Mvp.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Link.Default, TypeInTargetAssembly={x:Type local:LinkWindowBase}}" BasedOn="{StaticResource {x:Static h:MessageWindowBase.DynamicKey}}" TargetType="{x:Type local:LinkWindowBase}">
+
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="CaptionHeight" Value="76" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:LinkWindowBase}">
+                    <Viewbox Stretch="Fill">
+                        <Grid Name="g_all"
+                              Width="1920"
+                              Height="1040"
+                              Margin="{TemplateBinding Padding}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Loaded">
+                                    <h:InvokeCommandAction Command="{Binding LoadedCommand}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+
+                            <Border x:Name="Bg"
+                                    Background="{Binding RelativeSource={RelativeSource AncestorType=local:LinkWindowBase}, Path=Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                    Effect="{DynamicResource {x:Static h:EffectShadowKeys.Window}}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" MinHeight="20" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0"
+                                        Margin="0"
+                                        Background="{TemplateBinding CaptionBackground}"
+                                        CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}">
+                                    <Grid Margin="2,1,2,0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="250" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border Grid.RowSpan="2" Grid.ColumnSpan="10">
+                                            <Border.Background>
+                                                <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/Cover.png" />
+                                            </Border.Background>
+                                        </Border>
+                                        <StackPanel x:Name="PART_Header"
+                                                    Height="{TemplateBinding CaptionHeight}"
+                                                    Margin="15,1,15,1"
+                                                    HorizontalAlignment="Left"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                            <Image Margin="5,20" Source="{TemplateBinding Logo}" />
+                                        </StackPanel>
+
+                                        <ScrollViewer Grid.Column="1"
+                                                      Padding="20,0"
+                                                      HorizontalAlignment="Left"
+                                                      h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                                                      h:Cattach.PressForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                                                      FontSize="20"
+                                                      Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:LinkWindowBase}, Path=CaptionForeground}"
+                                                      Style="{DynamicResource S.ScrollView.Center.Default}"
+                                                      WindowChrome.IsHitTestVisibleInChrome="True">
+                                            <ListBox x:Name="list"
+                                                     Grid.Column="1"
+                                                     Margin="-2"
+                                                     Background="Transparent"
+                                                     BorderBrush="Transparent"
+                                                     ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TabLinks}"
+                                                     SelectedIndex="0"
+                                                     SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink}"
+                                                     WindowChrome.IsHitTestVisibleInChrome="True">
+
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+                                                <ListBox.ItemContainerStyle>
+                                                    <Style TargetType="{x:Type ListBoxItem}">
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                                    <Grid Width="218">
+                                                                        <Border x:Name="border" Background="Transparent">
+                                                                            <Grid>
+                                                                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+                                                                                    <TextBlock HorizontalAlignment="Center"
+                                                                                               VerticalAlignment="Center"
+                                                                                               FontSize="30"
+                                                                                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:LinkWindowBase}, Path=CaptionForeground}"
+                                                                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                                                               Text="{Binding Logo}" />
+
+                                                                                    <TextBlock Margin="8,0,0,0"
+                                                                                               VerticalAlignment="Center"
+                                                                                               FontSize="18"
+                                                                                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:LinkWindowBase}, Path=CaptionForeground}"
+                                                                                               Text="{Binding DisplayName}" />
+                                                                                </StackPanel>
+
+                                                                                <Border x:Name="bord_selected"
+                                                                                        Height="5"
+                                                                                        VerticalAlignment="Top"
+                                                                                        Background="{Binding RelativeSource={RelativeSource AncestorType=local:LinkWindowBase}, Path=CaptionForeground}"
+                                                                                        Visibility="Collapsed" />
+
+                                                                            </Grid>
+                                                                        </Border>
+                                                                    </Grid>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsSelected" Value="true">
+                                                                            <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhiteOpacity4}}" />
+                                                                            <Setter TargetName="bord_selected" Property="Visibility" Value="Visible" />
+                                                                        </Trigger>
+                                                                        <Trigger Property="IsMouseOver" Value="true">
+                                                                            <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhiteOpacity2}}" />
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </ListBox.ItemContainerStyle>
+                                            </ListBox>
+                                        </ScrollViewer>
+
+                                        <StackPanel Grid.Column="3"
+                                                    Height="{TemplateBinding CaptionHeight}"
+                                                    Margin="10,0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    Orientation="Horizontal"
+                                                    WindowChrome.IsHitTestVisibleInChrome="True">
+
+                                            <Button Style="{DynamicResource {x:Static h:ButtonKeys.HideWindow}}" />
+
+                                            <ToggleButton x:Name="btnTheme" Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}" Style="{StaticResource S.ToggleButton.Window.Theme}" />
+
+                                            <Button Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}" Style="{StaticResource S.Button.Window.Setting}" />
+
+                                            <Separator Height="20" Background="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:SeparatorKeys.Vertical}}" />
+
+                                            <Button Style="{DynamicResource {x:Static h:ButtonKeys.MinimizeWindow}}" />
+                                            <Button x:Name="btnMax" Style="{DynamicResource {x:Static h:ButtonKeys.MaximizeWindow}}" />
+                                            <Button Style="{DynamicResource {x:Static h:ButtonKeys.CloseWindow}}" />
+                                        </StackPanel>
+
+
+                                    </Grid>
+                                </Border>
+
+                                <Border x:Name="BgInner"
+                                        Grid.Row="1"
+                                        Margin="1,0,1,1"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Bottom}}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+
+
+                                    <AdornerDecorator WindowChrome.IsHitTestVisibleInChrome="True">
+                                        <Grid>
+
+                                            <h:NotifyIcon x:Name="PART_NotifyIcon"
+                                                          Command="{Binding Path=MinimizeWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                          Icon="{Binding Path=NotifyIconSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                          IconVisibility="Visible"
+                                                          Text="{TemplateBinding Title}">
+
+                                                <FrameworkElement.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Header="显示面板" />
+                                                        <MenuItem Header="退出" />
+                                                    </ContextMenu>
+                                                </FrameworkElement.ContextMenu>
+                                            </h:NotifyIcon>
+
+                                            <h:DrawerHost HorizontalContentAlignment="Stretch">
+                                                <h:DrawerHost.LeftDrawerContent>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="35" />
+                                                            <RowDefinition />
+                                                        </Grid.RowDefinitions>
+
+                                                        <Border Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,0,0,0" />
+
+                                                        <Button Margin="8,0"
+                                                                HorizontalAlignment="Left"
+                                                                h:Cattach.Icon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.LeftLink.Logo}"
+                                                                h:Cattach.IconSize="12"
+                                                                Command="{x:Static h:DrawerHost.CloseDrawerCommand}"
+                                                                CommandParameter="{x:Static Dock.Left}"
+                                                                Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.LeftLink.DisplayName}"
+                                                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                                                        <local:LinkActionFrame Grid.Row="1" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.LeftLink}" Style="{DynamicResource {x:Static h:LinkActionFrame.SingleKey}}" />
+
+
+                                                        <Button Grid.Row="0"
+                                                                Margin="5,0"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Center"
+                                                                h:Cattach.AllowsAnimation="True"
+                                                                h:Cattach.Icon="&#xe9cd;"
+                                                                h:Cattach.IconSize="14"
+                                                                Command="{x:Static h:DrawerHost.CloseDrawerCommand}"
+                                                                CommandParameter="{x:Static Dock.Left}"
+                                                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                    </Grid>
+                                                </h:DrawerHost.LeftDrawerContent>
+                                                <h:DrawerHost.TopDrawerContent>
+                                                    <Grid>
+                                                        <Border Background="{DynamicResource {x:Static h:BrushKeys.Gray}}" BorderThickness="0,0,0,0" />
+
+                                                        <local:LinkActionFrame Grid.Row="1" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.TopLink}" Style="{DynamicResource {x:Static h:LinkActionFrame.SingleKey}}" />
+
+                                                        <Button Grid.Row="0"
+                                                                Margin="5,5"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Bottom"
+                                                                h:Cattach.AllowsAnimation="True"
+                                                                h:Cattach.Icon="&#xe9d3;"
+                                                                h:Cattach.IconSize="14"
+                                                                Command="{x:Static h:DrawerHost.CloseDrawerCommand}"
+                                                                CommandParameter="{x:Static Dock.Top}"
+                                                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                                                        <Button Margin="30,0"
+                                                                HorizontalAlignment="Right"
+                                                                h:Cattach.Icon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.TopLink.Logo}"
+                                                                h:Cattach.IconSize="12"
+                                                                Command="{x:Static h:DrawerHost.CloseDrawerCommand}"
+                                                                CommandParameter="{x:Static Dock.Top}"
+                                                                Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.TopLink.DisplayName}"
+                                                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                    </Grid>
+                                                </h:DrawerHost.TopDrawerContent>
+                                                <h:DrawerHost.BottomDrawerContent>
+                                                    <Grid>
+                                                        <Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}" BorderThickness="0,0,0,0" />
+
+                                                        <local:LinkActionFrame Grid.Row="1" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.BottomLink}" Style="{DynamicResource {x:Static h:LinkActionFrame.SingleKey}}" />
+
+                                                        <Button Grid.Row="0"
+                                                                Margin="5,5"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Top"
+                                                                h:Cattach.AllowsAnimation="True"
+                                                                h:Cattach.Icon="&#xe9cc;"
+                                                                h:Cattach.IconSize="14"
+                                                                Command="{x:Static h:DrawerHost.CloseDrawerCommand}"
+                                                                CommandParameter="{x:Static Dock.Bottom}"
+                                                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                                                        <Button Margin="8,3"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Bottom"
+                                                                h:Cattach.Icon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.BottomLink.Logo}"
+                                                                h:Cattach.IconSize="12"
+                                                                Command="{x:Static h:DrawerHost.CloseDrawerCommand}"
+                                                                CommandParameter="{x:Static Dock.Bottom}"
+                                                                Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.BottomLink.DisplayName}"
+                                                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                    </Grid>
+                                                </h:DrawerHost.BottomDrawerContent>
+                                                <h:DrawerHost.RightDrawerContent>
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="35" />
+                                                            <RowDefinition />
+                                                        </Grid.RowDefinitions>
+
+                                                        <Border Background="{DynamicResource {x:Static h:BrushKeys.Gray}}" BorderThickness="0,0,0,0" />
+
+                                                        <Button Margin="8,0"
+                                                                HorizontalAlignment="Right"
+                                                                h:Cattach.Icon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.RightLink.Logo}"
+                                                                h:Cattach.IconSize="12"
+                                                                Command="{x:Static h:DrawerHost.CloseDrawerCommand}"
+                                                                CommandParameter="{x:Static Dock.Right}"
+                                                                Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.RightLink.DisplayName}"
+                                                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                                                        <local:LinkActionFrame Grid.Row="1" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink.RightLink}" Style="{DynamicResource {x:Static h:LinkActionFrame.SingleKey}}" />
+
+                                                        <Button Grid.Row="0"
+                                                                Margin="5,0"
+                                                                HorizontalAlignment="Left"
+                                                                VerticalAlignment="Center"
+                                                                h:Cattach.AllowsAnimation="True"
+                                                                h:Cattach.Icon="&#xe9ce;"
+                                                                h:Cattach.IconSize="14"
+                                                                Command="{x:Static h:DrawerHost.CloseDrawerCommand}"
+                                                                CommandParameter="{x:Static Dock.Right}"
+                                                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                    </Grid>
+                                                </h:DrawerHost.RightDrawerContent>
+
+                                                <Grid>
+
+                                                    <h:DialogHost Margin="-3,0,-3,-3"
+                                                                  HorizontalAlignment="Stretch"
+                                                                  VerticalAlignment="Stretch"
+                                                                  Effect="{TemplateBinding AdornerDecoratorEffect}"
+                                                                  Identifier="windowDialog">
+                                                        <Grid>
+                                                            <local:LinkActionFrame LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink}" UseRandomWipe="False" />
+
+
+                                                            <h:ContainPanel x:Name="PART_LAYERGROUP" Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}" Visibility="Collapsed">
+                                                                <h:ContainPanel.AnimationAction>
+                                                                    <h:ScaleTransition />
+                                                                </h:ContainPanel.AnimationAction>
+                                                            </h:ContainPanel>
+
+                                                        </Grid>
+                                                    </h:DialogHost>
+
+                                                    <h:MessageContainer x:Name="PART_Message" Grid.Row="1" />
+
+                                                    <h:Snackbar x:Name="PART_SnackBar" MessageQueue="{h:MessageQueue}" />
+                                                </Grid>
+                                            </h:DrawerHost>
+                                        </Grid>
+                                    </AdornerDecorator>
+
+                                </Border>
+                                <Popup x:Name="Pop"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       AllowsTransparency="True"
+                                       IsOpen="{Binding ElementName=btnTheme, Path=IsChecked}"
+                                       Placement="Top"
+                                       PlacementTarget="{Binding ElementName=btnTheme}"
+                                       PopupAnimation="Slide"
+                                       StaysOpen="False">
+
+                                    <Border Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
+                                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                            BorderThickness="1"
+                                            CornerRadius="5">
+                                        <StackPanel Margin="10">
+                                            <h:ThemeSet Foreground="{TemplateBinding CaptionForeground}" />
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Grid>
+                    </Viewbox>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe665;" />
+                            <Setter TargetName="g_all" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe615;" />
+                        </Trigger>
+
+
+                        <!--
+                        <EventTrigger RoutedEvent="Window.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard Storyboard="{DynamicResource Story.WindowLoad}"/>
+                            </EventTrigger.Actions>
+                        </EventTrigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Link.Single, TypeInTargetAssembly={x:Type local:LinkWindowBase}}" BasedOn="{StaticResource {x:Static local:LinkWindowBase.DynamicKey}}" TargetType="{x:Type local:LinkWindowBase}">
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:LinkWindowBase}">
+                    <Viewbox>
+                        <Grid Name="g_all" Width="1280" Height="800">
+                            <Border x:Name="Bg"
+                                    Margin="{TemplateBinding Padding}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}"
+                                    Effect="{DynamicResource {x:Static h:EffectShadowKeys.Window}}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                            <Grid Margin="{TemplateBinding Padding}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" MinHeight="0" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <AdornerDecorator Grid.Row="1" Margin="1" WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Grid>
+                                        <h:NotifyIcon x:Name="PART_NotifyIcon"
+                                                      Command="{Binding Path=MinimizeWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Icon="{Binding Path=NotifyIconSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      IconVisibility="Visible"
+                                                      Text="{TemplateBinding Title}">
+
+                                            <FrameworkElement.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="显示面板" />
+
+                                                    <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="隐藏" />
+
+                                                    <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CloseWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="退出" />
+                                                </ContextMenu>
+                                            </FrameworkElement.ContextMenu>
+                                        </h:NotifyIcon>
+
+                                        <h:DrawerHost HorizontalContentAlignment="Stretch">
+
+                                            <Grid>
+
+                                                <h:DialogHost Margin="-3,0,-3,-3"
+                                                              HorizontalAlignment="Stretch"
+                                                              VerticalAlignment="Stretch"
+                                                              h:ShadowAssist.ShadowDepth="{DynamicResource {x:Static h:EffectShadowKeys.Default1}}"
+                                                              Identifier="windowDialog">
+                                                    <Grid>
+                                                        <local:LinkActionFrame LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink}" UseRandomWipe="False">
+
+                                                            <local:LinkActionFrame.CurrentWipe>
+                                                                <h:CircleWipe MidTime="00:00:00.05" PointOriginType="MousePosition" Duration="00:00:00.4" />
+                                                            </local:LinkActionFrame.CurrentWipe>
+                                                        </local:LinkActionFrame>
+
+                                                        <h:ContainPanel x:Name="PART_LAYERGROUP" Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}" Visibility="Collapsed">
+                                                            <h:ContainPanel.AnimationAction>
+                                                                <h:ScaleTransition />
+                                                            </h:ContainPanel.AnimationAction>
+                                                        </h:ContainPanel>
+
+                                                    </Grid>
+                                                </h:DialogHost>
+
+                                                <h:MessageContainer x:Name="PART_Message" Grid.Row="1" />
+
+                                                <h:Snackbar x:Name="PART_SnackBar" Margin="0,0,0,-50" MessageQueue="{h:MessageQueue}" />
+                                            </Grid>
+                                        </h:DrawerHost>
+                                    </Grid>
+                                </AdornerDecorator>
+
+                            </Grid>
+                        </Grid>
+                    </Viewbox>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter Property="Padding" Value="0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Link.Disk, TypeInTargetAssembly={x:Type local:LinkWindowBase}}" BasedOn="{StaticResource {x:Static h:MessageWindowBase.DynamicKey}}" TargetType="{x:Type local:LinkWindowBase}">
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="CaptionHeight" Value="76" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}" />
+        <Setter Property="h:TransitionService.VisibleActions">
+            <Setter.Value>
+                <h:TransitionCollection>
+                    <h:ImageOpacityMaskTransition HideDuration="1000" ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png" VisibleDuration="1500" />
+                </h:TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:LinkWindowBase}">
+
+                    <Grid Name="g_all">
+                        <Border x:Name="Bg"
+                                Margin="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                Effect="{DynamicResource {x:Static h:EffectShadowKeys.Window}}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" MinHeight="20" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0"
+                                    Height="{TemplateBinding CaptionHeight}"
+                                    Margin="0"
+                                    Background="{TemplateBinding CaptionBackground}"
+                                    CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}">
+                                <Grid Margin="0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="170" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid x:Name="PART_Header"
+                                          Width="120"
+                                          Height="30"
+                                          Margin="-25,1"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Background="{DynamicResource {x:Static h:BrushKeys.Accent}}">
+                                        <Grid.OpacityMask>
+                                            <ImageBrush ImageSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Logo}" />
+                                        </Grid.OpacityMask>
+                                        <!--<Image Margin="5,20" Source="{TemplateBinding Logo}" Stretch="Fill" Width="120" Height="30"/>-->
+                                    </Grid>
+
+                                    <Border Grid.ColumnSpan="4"
+                                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                            BorderThickness="0,0,0,1"
+                                            CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}" />
+
+                                    <ListBox x:Name="list"
+                                             Grid.Column="1"
+                                             Margin="-2"
+                                             VerticalAlignment="Center"
+                                             BorderBrush="Transparent"
+                                             Foreground="{TemplateBinding CaptionForeground}"
+                                             ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TabLinks}"
+                                             SelectedIndex="0"
+                                             SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink}">
+                                        <ListBox.Resources>
+                                            <DataTemplate DataType="{x:Type local:TabLink}">
+                                                <Grid>
+                                                    <StackPanel HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                Orientation="Horizontal"
+                                                                WindowChrome.IsHitTestVisibleInChrome="True">
+                                                        <TextBlock x:Name="tb_logo"
+                                                                   Margin="0,0,0,10"
+                                                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                                   Text="{Binding Logo}" />
+                                                        <TextBlock VerticalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" Text="{Binding DisplayName}" />
+                                                    </StackPanel>
+                                                </Grid>
+                                                <DataTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding Logo}" Value="{x:Null}">
+                                                        <Setter TargetName="tb_logo" Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ListBox.Resources>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Header}}" />
+                                                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:LinkWindowBase}, Path=CaptionForeground}" />
+                                                <Setter Property="Padding" Value="20,0,0,0" />
+                                                <Setter Property="Height" Value="45" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                            <Grid Height="{TemplateBinding Height}" Margin="{TemplateBinding Padding}" VerticalAlignment="Center">
+                                                                <Border x:Name="underline" BorderBrush="{TemplateBinding Foreground}" BorderThickness="0,0,0,1.5" />
+                                                                <ContentPresenter Margin="15,0" HorizontalAlignment="Left" VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+                                                            </Grid>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsSelected" Value="false">
+                                                                    <Setter TargetName="underline" Property="BorderThickness" Value="0,0,0,0" />
+                                                                </Trigger>
+
+                                                                <Trigger Property="IsMouseOver" Value="true">
+                                                                    <Setter TargetName="underline" Property="BorderThickness" Value="0,0,0,0" />
+                                                                    <Setter Property="Opacity" Value="0.8" />
+                                                                    <Setter Property="Cursor" Value="Hand" />
+                                                                </Trigger>
+
+                                                                <Trigger Property="IsSelected" Value="true">
+                                                                    <Setter TargetName="underline" Property="BorderThickness" Value="0,0,0,1.5" />
+                                                                    <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+
+                                    <StackPanel Grid.Column="3"
+                                                Margin="10,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal"
+                                                WindowChrome.IsHitTestVisibleInChrome="True">
+
+                                        <Button Style="{DynamicResource {x:Static h:ButtonKeys.HideWindow}}" />
+
+                                        <ToggleButton x:Name="btnTheme" Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}" Style="{StaticResource S.ToggleButton.Window.Theme}" />
+
+                                        <Button Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}" Style="{StaticResource S.Button.Window.Setting}" />
+
+                                        <Separator Height="20" Background="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:SeparatorKeys.Vertical}}" />
+
+                                        <Button Style="{DynamicResource {x:Static h:ButtonKeys.MinimizeWindow}}" />
+                                        <Button x:Name="btnMax" Style="{DynamicResource {x:Static h:ButtonKeys.MaximizeWindow}}" />
+                                        <Button Style="{DynamicResource {x:Static h:ButtonKeys.CloseWindow}}" />
+                                    </StackPanel>
+
+                                </Grid>
+                            </Border>
+
+                            <Border x:Name="BgInner"
+                                    Grid.Row="1"
+                                    Margin="0"
+                                    Background="{TemplateBinding Background}"
+                                    CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Bottom}}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+
+
+                                <AdornerDecorator WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Grid>
+
+                                        <h:NotifyIcon x:Name="PART_NotifyIcon"
+                                                      Command="{Binding Path=MinimizeWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Icon="{Binding Path=NotifyIconSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      IconVisibility="Visible"
+                                                      Text="{TemplateBinding Title}">
+
+                                            <FrameworkElement.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="显示面板" />
+
+                                                    <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="隐藏" />
+
+                                                    <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CloseWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="退出" />
+                                                </ContextMenu>
+                                            </FrameworkElement.ContextMenu>
+                                        </h:NotifyIcon>
+
+                                        <h:DrawerHost HorizontalContentAlignment="Stretch">
+
+                                            <Grid>
+
+                                                <h:DialogHost Margin="-3,0,-3,-3"
+                                                              HorizontalAlignment="Stretch"
+                                                              VerticalAlignment="Stretch"
+                                                              Effect="{TemplateBinding AdornerDecoratorEffect}"
+                                                              Identifier="windowDialog">
+                                                    <Grid>
+                                                        <local:LinkActionFrame LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink}" UseRandomWipe="False" />
+
+                                                        <h:ContainPanel x:Name="PART_LAYERGROUP" Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}" Visibility="Collapsed">
+                                                            <h:ContainPanel.AnimationAction>
+                                                                <h:ScaleTransition />
+                                                            </h:ContainPanel.AnimationAction>
+                                                        </h:ContainPanel>
+
+                                                    </Grid>
+                                                </h:DialogHost>
+
+                                                <h:MessageContainer x:Name="PART_Message" Grid.Row="1" />
+
+                                                <h:Snackbar x:Name="PART_SnackBar" MessageQueue="{h:MessageQueue}" />
+                                            </Grid>
+                                        </h:DrawerHost>
+                                    </Grid>
+                                </AdornerDecorator>
+
+                            </Border>
+                            <Popup x:Name="Pop"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Bottom"
+                                   AllowsTransparency="True"
+                                   IsOpen="{Binding ElementName=btnTheme, Path=IsChecked}"
+                                   Placement="Top"
+                                   PlacementTarget="{Binding ElementName=btnTheme}"
+                                   PopupAnimation="Slide"
+                                   StaysOpen="False">
+
+                                <Border Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
+                                        BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                        BorderThickness="1"
+                                        CornerRadius="5">
+                                    <StackPanel Margin="10">
+                                        <h:ThemeSet Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                                    </StackPanel>
+                                </Border>
+                            </Popup>
+                        </Grid>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe665;" />
+                            <Setter TargetName="g_all" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe615;" />
+                        </Trigger>
+
+
+                        <!--
+                        <EventTrigger RoutedEvent="Window.Loaded">
+                            <EventTrigger.Actions>
+                                <BeginStoryboard Storyboard="{DynamicResource Story.WindowLoad}"/>
+                            </EventTrigger.Actions>
+                        </EventTrigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Link.DownLoad, TypeInTargetAssembly={x:Type local:LinkWindowBase}}" BasedOn="{StaticResource {x:Static h:MessageWindowBase.DynamicKey}}" TargetType="{x:Type local:LinkWindowBase}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CaptionHeight" Value="50" />
+        <Setter Property="h:TransitionService.VisibleActions">
+            <Setter.Value>
+                <h:TransitionCollection>
+                    <h:ImageOpacityMaskTransition HideDuration="500" ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/sun.png" VisibleDuration="500" />
+                </h:TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:LinkWindowBase}">
+                    <Grid Name="g_all">
+                        <Border x:Name="Bg"
+                                Margin="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                Effect="{DynamicResource {x:Static h:EffectShadowKeys.Window}}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <h:GuideHost Margin="{TemplateBinding Padding}" IsGuide="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:GuideService.IsGuide)}">
+                            <h:DrawerHost HorizontalContentAlignment="Stretch">
+                                <Grid>
+                                    <h:DialogHost Margin="-3,0,-3,-3"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Stretch"
+                                                  Effect="{TemplateBinding AdornerDecoratorEffect}"
+                                                  Identifier="windowDialog">
+                                        <Grid>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" MinHeight="20" />
+                                                    <RowDefinition Height="*" />
+                                                </Grid.RowDefinitions>
+
+                                                <Border Grid.Row="0"
+                                                        Height="{TemplateBinding CaptionHeight}"
+                                                        Margin="0"
+                                                        Background="{TemplateBinding CaptionBackground}"
+                                                        CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}">
+                                                    <Grid Margin="0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="0" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <Grid x:Name="PART_Header"
+                                                              Width="120"
+                                                              Height="30"
+                                                              Margin="-25,1"
+                                                              HorizontalAlignment="Center"
+                                                              VerticalAlignment="Center"
+                                                              Background="{DynamicResource {x:Static h:BrushKeys.Accent}}">
+                                                            <Grid.OpacityMask>
+                                                                <ImageBrush ImageSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Logo}" />
+                                                            </Grid.OpacityMask>
+                                                        </Grid>
+
+
+                                                        <Border Grid.ColumnSpan="4"
+                                                                BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                                                BorderThickness="0,0,0,1"
+                                                                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}" />
+
+                                                        <h:SelectorHost Grid.Column="1" ContainerStyle="{DynamicResource {x:Static h:HostContianerKeys.BottomKey}}" Duration="00:00:01">
+                                                            <h:SelectorHost.HostData>
+                                                                <TextBlock Margin="0,0,0,-5"
+                                                                           FontSize="20"
+                                                                           Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CaptionForeground}"
+                                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                                           Text="&#xe8ba;" />
+                                                            </h:SelectorHost.HostData>
+                                                            <ListBox x:Name="list"
+                                                                     Grid.Column="1"
+                                                                     Margin="-2"
+                                                                     VerticalAlignment="Center"
+                                                                     h:Cattach.IsUseClose="True"
+                                                                     BorderBrush="Transparent"
+                                                                     Foreground="{TemplateBinding CaptionForeground}"
+                                                                     ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TabLinks}"
+                                                                     SelectedIndex="0"
+                                                                     SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink}">
+                                                                <ListBox.Resources>
+                                                                    <DataTemplate DataType="{x:Type local:TabLink}">
+                                                                        <Grid>
+                                                                            <StackPanel HorizontalAlignment="Center"
+                                                                                        VerticalAlignment="Center"
+                                                                                        Orientation="Horizontal"
+                                                                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                                                                <TextBlock x:Name="tb_logo"
+                                                                                           Margin="-40,0,0,0"
+                                                                                           FontSize="22"
+                                                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                                                           Text="{Binding Logo}" />
+                                                                                <TextBlock VerticalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" Text="{Binding DisplayName}" />
+                                                                            </StackPanel>
+                                                                        </Grid>
+                                                                        <DataTemplate.Triggers>
+                                                                            <DataTrigger Binding="{Binding Logo}" Value="{x:Null}">
+                                                                                <Setter TargetName="tb_logo" Property="Visibility" Value="Collapsed" />
+                                                                            </DataTrigger>
+                                                                        </DataTemplate.Triggers>
+                                                                    </DataTemplate>
+                                                                </ListBox.Resources>
+                                                                <ListBox.ItemsPanel>
+                                                                    <ItemsPanelTemplate>
+                                                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" />
+                                                                    </ItemsPanelTemplate>
+                                                                </ListBox.ItemsPanel>
+
+                                                                <ListBox.ItemContainerStyle>
+                                                                    <Style TargetType="ListBoxItem">
+                                                                        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Header}}" />
+                                                                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:LinkWindowBase}, Path=CaptionForeground}" />
+                                                                        <Setter Property="Padding" Value="0,0,0,0" />
+                                                                        <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=local:LinkWindowBase}, Path=CaptionHeight}" />
+                                                                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                                                                        <Setter Property="MinWidth" Value="150" />
+                                                                        <Setter Property="h:GuideService.Data" Value="跳转到指定功能页面" />
+                                                                        <Setter Property="h:GuideService.Title" Value="{Binding DisplayName}" />
+                                                                        <Setter Property="h:GuideService.UseGuide" Value="True" />
+                                                                        <Setter Property="h:GuideService.UseClick" Value="True" />
+                                                                        <Setter Property="Template">
+                                                                            <Setter.Value>
+                                                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                                                    <Grid Height="{TemplateBinding Height}" Background="Transparent">
+                                                                                        <Border x:Name="underline"
+                                                                                                Background="Transparent"
+                                                                                                BorderBrush="{TemplateBinding Foreground}"
+                                                                                                BorderThickness="0" />
+                                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                                    </Grid>
+                                                                                    <ControlTemplate.Triggers>
+                                                                                        <Trigger Property="IsSelected" Value="false">
+                                                                                            <Setter TargetName="underline" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy1}}" />
+                                                                                        </Trigger>
+
+                                                                                        <Trigger Property="IsMouseOver" Value="true">
+                                                                                            <Setter TargetName="underline" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy5}}" />
+                                                                                        </Trigger>
+
+                                                                                        <Trigger Property="IsSelected" Value="true">
+                                                                                            <Setter TargetName="underline" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_3}}" />
+                                                                                        </Trigger>
+                                                                                    </ControlTemplate.Triggers>
+                                                                                </ControlTemplate>
+                                                                            </Setter.Value>
+                                                                        </Setter>
+                                                                    </Style>
+                                                                </ListBox.ItemContainerStyle>
+                                                            </ListBox>
+                                                        </h:SelectorHost>
+
+                                                        <StackPanel Grid.Column="3"
+                                                                    Margin="10,0"
+                                                                    HorizontalAlignment="Right"
+                                                                    VerticalAlignment="Center"
+                                                                    Orientation="Horizontal"
+                                                                    WindowChrome.IsHitTestVisibleInChrome="True">
+                                                            <ContentPresenter Content="{TemplateBinding CaptionCustomContent}" />
+                                                            <ToggleButton h:GuideService.Data="点击可以查看当前显示页面的新手向导"
+                                                                          h:GuideService.Title="新手向导功能"
+                                                                          h:GuideService.UseGuide="True"
+                                                                          IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:GuideService.IsGuide)}"
+                                                                          Style="{StaticResource S.ToggleButton.Window.Guide}" />
+                                                            <Button h:GuideService.Data="点击可以隐藏当前窗口到最小托盘"
+                                                                    h:GuideService.Title="窗口隐藏功能"
+                                                                    h:GuideService.UseGuide="True"
+                                                                    Style="{DynamicResource {x:Static h:ButtonKeys.HideWindow}}" />
+                                                            <ToggleButton x:Name="btnTheme"
+                                                                          h:GuideService.Data="点击可以展开主题设置页面，进行颜色，字体，行间距，深浅等主题配置"
+                                                                          h:GuideService.Title="主题设置功能"
+                                                                          h:GuideService.UseGuide="True"
+                                                                          Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}"
+                                                                          Style="{StaticResource S.ToggleButton.Window.Theme}" />
+                                                            <Button h:GuideService.Data="点击显示全局中添加的配置信息"
+                                                                    h:GuideService.Title="全局配置功能"
+                                                                    h:GuideService.UseGuide="True"
+                                                                    Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}"
+                                                                    Style="{StaticResource S.Button.Window.Setting}" />
+                                                            <Separator Height="20" Background="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:SeparatorKeys.Vertical}}" />
+
+                                                            <Button h:GuideService.Data="最小化窗口"
+                                                                    h:GuideService.Title="最小化"
+                                                                    h:GuideService.UseGuide="True"
+                                                                    Style="{DynamicResource {x:Static h:ButtonKeys.MinimizeWindow}}" />
+                                                            <Button x:Name="btnMax"
+                                                                    h:GuideService.Data="最大化窗口"
+                                                                    h:GuideService.Title="最大化"
+                                                                    h:GuideService.UseGuide="True"
+                                                                    Style="{DynamicResource {x:Static h:ButtonKeys.MaximizeWindow}}" />
+                                                            <Button h:GuideService.Data="点击后程序退出"
+                                                                    h:GuideService.Title="退出程序"
+                                                                    h:GuideService.UseGuide="True"
+                                                                    Style="{DynamicResource {x:Static h:ButtonKeys.CloseWindow}}" />
+                                                        </StackPanel>
+
+                                                    </Grid>
+                                                </Border>
+
+                                                <Border x:Name="BgInner"
+                                                        Grid.Row="1"
+                                                        Margin="0"
+                                                        Background="{TemplateBinding Background}"
+                                                        CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Bottom}}"
+                                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+
+                                                    <AdornerDecorator WindowChrome.IsHitTestVisibleInChrome="True">
+                                                        <Grid>
+                                                            <h:NotifyIcon x:Name="PART_NotifyIcon"
+                                                                          Command="{Binding Path=MinimizeWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                          Icon="{Binding Path=NotifyIconSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                                          IconVisibility="Visible"
+                                                                          Text="{TemplateBinding Title}">
+
+                                                                <FrameworkElement.ContextMenu>
+                                                                    <ContextMenu>
+                                                                        <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="显示面板" />
+
+                                                                        <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="隐藏" />
+
+                                                                        <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CloseWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="退出" />
+                                                                    </ContextMenu>
+                                                                </FrameworkElement.ContextMenu>
+                                                            </h:NotifyIcon>
+
+                                                            <!--<h:DrawerHost HorizontalContentAlignment="Stretch">
+                                                                <Grid>
+                                                                    <h:DialogHost Margin="-3,0,-3,-3"
+                                                                  HorizontalAlignment="Stretch"
+                                                                  VerticalAlignment="Stretch"
+                                                                  Effect="{TemplateBinding AdornerDecoratorEffect}"
+                                                                  Identifier="windowDialog">
+                                                                        <Grid>-->
+                                                            <local:LinkActionFrame LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink}" UseRandomWipe="False" />
+
+                                                            <!--<h:ContainPanel x:Name="PART_LAYERGROUP" Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}" Visibility="Collapsed">
+                                                                                <h:ContainPanel.AnimationAction>
+                                                                                    <h:ScaleTransition />
+                                                                                </h:ContainPanel.AnimationAction>
+                                                                            </h:ContainPanel>
+                                                                        </Grid>
+                                                                    </h:DialogHost>
+
+                                                                    <h:MessageContainer x:Name="PART_Message" Grid.Row="1" />
+
+                                                                    <h:Snackbar x:Name="PART_SnackBar" MessageQueue="{h:MessageQueue}" />
+                                                                </Grid>
+                                                            </h:DrawerHost>-->
+
+                                                            <!--<h:RandomPanel Forever="True" Interval="85000" Duration="85000">
+                                                <TextBlock HorizontalAlignment="Left"
+                                                           VerticalAlignment="Top"
+                                                           FontSize="500"
+                                                           IsHitTestVisible="False"
+                                                           Opacity="0.05"
+                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                           Text="{TemplateBinding Icon}" />
+
+                                                            -->
+                                                            <!--<TextBlock HorizontalAlignment="Left"
+                                                           VerticalAlignment="Top"
+                                                           FontSize="300"
+                                                           IsHitTestVisible="False"
+                                                           Opacity="0.05"
+                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                           Text="{TemplateBinding Icon}" />
+
+                                                <TextBlock HorizontalAlignment="Left"
+                                                           VerticalAlignment="Top"
+                                                           FontSize="200"
+                                                           IsHitTestVisible="False"
+                                                           Opacity="0.05"
+                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                           Text="{TemplateBinding Icon}" />-->
+                                                            <!--
+                                            </h:RandomPanel>-->
+                                                        </Grid>
+                                                    </AdornerDecorator>
+
+                                                </Border>
+                                                <Popup x:Name="Pop"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Bottom"
+                                                       AllowsTransparency="True"
+                                                       IsOpen="{Binding ElementName=btnTheme, Path=IsChecked}"
+                                                       Placement="Top"
+                                                       PlacementTarget="{Binding ElementName=btnTheme}"
+                                                       PopupAnimation="Slide"
+                                                       StaysOpen="False">
+
+                                                    <Border Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
+                                                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                                            BorderThickness="1"
+                                                            CornerRadius="5">
+                                                        <StackPanel Margin="10">
+                                                            <h:ThemeSet Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                                                        </StackPanel>
+                                                    </Border>
+                                                </Popup>
+                                            </Grid>
+                                            <h:ContainPanel x:Name="PART_LAYERGROUP" Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}" Visibility="Collapsed">
+                                                <h:ContainPanel.AnimationAction>
+                                                    <h:ScaleTransition />
+                                                </h:ContainPanel.AnimationAction>
+                                            </h:ContainPanel>
+                                        </Grid>
+                                    </h:DialogHost>
+
+                                    <h:MessageContainer x:Name="PART_Message" Grid.Row="1" />
+
+                                    <h:Snackbar x:Name="PART_SnackBar" MessageQueue="{h:MessageQueue}" />
+                                </Grid>
+                            </h:DrawerHost>
+                        </h:GuideHost>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe665;" />
+                            <Setter TargetName="g_all" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe615;" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Link.Music, TypeInTargetAssembly={x:Type local:LinkWindowBase}}" BasedOn="{StaticResource {x:Static h:MessageWindowBase.DynamicKey}}" TargetType="{x:Type local:LinkWindowBase}">
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="CaptionHeight" Value="80" />
+        <Setter Property="CaptionBackground" Value="Transparent" />
+        <Setter Property="h:TransitionService.VisibleActions">
+            <Setter.Value>
+                <h:TransitionCollection>
+                    <h:ImageOpacityMaskTransition HideDuration="500" ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/sun.png" VisibleDuration="500" />
+                </h:TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:LinkWindowBase}">
+                    <Grid Name="g_all">
+                        <Border x:Name="Bg"
+                                Margin="{TemplateBinding Padding}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                Effect="{DynamicResource {x:Static h:EffectShadowKeys.Window}}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <h:GuideHost Margin="{TemplateBinding Padding}" IsGuide="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:GuideService.IsGuide)}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" MinHeight="20" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0"
+                                        Height="{TemplateBinding CaptionHeight}"
+                                        Margin="0"
+                                        Background="{TemplateBinding CaptionBackground}"
+                                        CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}">
+                                    <Grid Margin="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid x:Name="PART_Header"
+                                              Width="120"
+                                              Height="30"
+                                              Margin="-25,1"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Background="{DynamicResource {x:Static h:BrushKeys.Accent}}">
+                                            <Grid.OpacityMask>
+                                                <ImageBrush ImageSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Logo}" />
+                                            </Grid.OpacityMask>
+                                        </Grid>
+
+                                        <DockPanel>
+                                            <Button Margin="10,0"
+                                                    h:Cattach.Icon="&#xe9be;"
+                                                    h:Cattach.IconSize="{DynamicResource {x:Static h:IconSizeKeys.Large}}"
+                                                    Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                            <Button h:Cattach.Icon="&#xe755;" h:Cattach.IconSize="{DynamicResource {x:Static h:IconSizeKeys.Large}}" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                        </DockPanel>
+
+                                        <Border Grid.ColumnSpan="4"
+                                                BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                                BorderThickness="0,0,0,0"
+                                                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}" />
+
+                                        <h:SelectorHost Grid.Column="1"
+                                                        Margin="20,0"
+                                                        ContainerStyle="{DynamicResource {x:Static h:HostContianerKeys.BottomKey}}"
+                                                        Duration="00:00:00.5">
+                                            <h:SelectorHost.HostData>
+                                                <TextBlock Margin="0,0,0,-20"
+                                                           FontSize="60"
+                                                           Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CaptionForeground}"
+                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                           Text="·" />
+                                            </h:SelectorHost.HostData>
+                                            <ListBox x:Name="list"
+                                                     Grid.Column="1"
+                                                     VerticalAlignment="Center"
+                                                     h:Cattach.IsUseClose="True"
+                                                     BorderBrush="Transparent"
+                                                     Foreground="{TemplateBinding CaptionForeground}"
+                                                     ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TabLinks}"
+                                                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                     SelectedIndex="0"
+                                                     SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink}">
+                                                <ListBox.Resources>
+                                                    <DataTemplate DataType="{x:Type local:TabLink}">
+                                                        <Grid>
+                                                            <StackPanel HorizontalAlignment="Center"
+                                                                        VerticalAlignment="Center"
+                                                                        Orientation="Horizontal"
+                                                                        WindowChrome.IsHitTestVisibleInChrome="True">
+                                                                <TextBlock x:Name="tb_logo"
+                                                                           Margin="-40,0,0,0"
+                                                                           FontSize="22"
+                                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                                           Text="{Binding Logo}" />
+                                                                <TextBlock VerticalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" Text="{Binding DisplayName}" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                        <DataTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding Logo}" Value="{x:Null}">
+                                                                <Setter TargetName="tb_logo" Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </DataTemplate.Triggers>
+                                                    </DataTemplate>
+                                                </ListBox.Resources>
+                                                <ListBox.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" />
+                                                    </ItemsPanelTemplate>
+                                                </ListBox.ItemsPanel>
+
+                                                <ListBox.ItemContainerStyle>
+                                                    <Style TargetType="ListBoxItem">
+                                                        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Header3}}" />
+                                                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:LinkWindowBase}, Path=CaptionForeground}" />
+                                                        <Setter Property="Padding" Value="0,0,0,0" />
+                                                        <Setter Property="Height" Value="{Binding RelativeSource={RelativeSource AncestorType=local:LinkWindowBase}, Path=CaptionHeight}" />
+                                                        <Setter Property="VerticalAlignment" Value="Stretch" />
+                                                        <Setter Property="MinWidth" Value="10" />
+                                                        <Setter Property="Margin" Value="10,0" />
+                                                        <Setter Property="h:GuideService.Data" Value="跳转到指定功能页面" />
+                                                        <Setter Property="h:GuideService.Title" Value="{Binding DisplayName}" />
+                                                        <Setter Property="h:GuideService.UseGuide" Value="True" />
+                                                        <Setter Property="h:GuideService.UseClick" Value="True" />
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                                    <Grid Height="{TemplateBinding Height}" Background="Transparent">
+                                                                        <Border x:Name="underline"
+                                                                                Background="Transparent"
+                                                                                BorderBrush="{TemplateBinding Foreground}"
+                                                                                BorderThickness="0" />
+                                                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                                                    </Grid>
+                                                                    <ControlTemplate.Triggers>
+                                                                        <Trigger Property="IsSelected" Value="false">
+                                                                            <Setter TargetName="underline" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy1}}" />
+                                                                            <Setter Property="Opacity" Value="0.8" />
+                                                                        </Trigger>
+                                                                        <Trigger Property="IsSelected" Value="true">
+                                                                            <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Header1}}" />
+                                                                            <Setter Property="FontWeight" Value="Bold" />
+                                                                        </Trigger>
+                                                                    </ControlTemplate.Triggers>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </ListBox.ItemContainerStyle>
+                                            </ListBox>
+                                        </h:SelectorHost>
+
+                                        <DockPanel Grid.Column="2"
+                                                   Margin="10,0"
+                                                   HorizontalAlignment="Stretch"
+                                                   VerticalAlignment="Center"
+                                                   WindowChrome.IsHitTestVisibleInChrome="True">
+
+                                            <StackPanel HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center"
+                                                        DockPanel.Dock="Right"
+                                                        Orientation="Horizontal">
+                                                <ToggleButton h:GuideService.Data="点击可以查看当前显示页面的新手向导"
+                                                              h:GuideService.Title="新手向导功能"
+                                                              h:GuideService.UseGuide="True"
+                                                              IsChecked="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:GuideService.IsGuide)}"
+                                                              Style="{StaticResource S.ToggleButton.Window.Guide}" />
+                                                <Button h:GuideService.Data="点击可以隐藏当前窗口到最小托盘"
+                                                        h:GuideService.Title="窗口隐藏功能"
+                                                        h:GuideService.UseGuide="True"
+                                                        Style="{DynamicResource {x:Static h:ButtonKeys.HideWindow}}" />
+                                                <ToggleButton x:Name="btnTheme"
+                                                              h:GuideService.Data="点击可以展开主题设置页面，进行颜色，字体，行间距，深浅等主题配置"
+                                                              h:GuideService.Title="主题设置功能"
+                                                              h:GuideService.UseGuide="True"
+                                                              Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}"
+                                                              Style="{StaticResource S.ToggleButton.Window.Theme}" />
+                                                <Button h:GuideService.Data="点击显示全局中添加的配置信息"
+                                                        h:GuideService.Title="全局配置功能"
+                                                        h:GuideService.UseGuide="True"
+                                                        Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}"
+                                                        Style="{StaticResource S.Button.Window.Setting}" />
+                                                <Separator Height="20" Background="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:SeparatorKeys.Vertical}}" />
+
+                                                <Button h:GuideService.Data="最小化窗口"
+                                                        h:GuideService.Title="最小化"
+                                                        h:GuideService.UseGuide="True"
+                                                        Style="{DynamicResource {x:Static h:ButtonKeys.MinimizeWindow}}" />
+                                                <Button x:Name="btnMax"
+                                                        h:GuideService.Data="最大化窗口"
+                                                        h:GuideService.Title="最大化"
+                                                        h:GuideService.UseGuide="True"
+                                                        Style="{DynamicResource {x:Static h:ButtonKeys.MaximizeWindow}}" />
+                                                <Button h:GuideService.Data="点击后程序退出"
+                                                        h:GuideService.Title="退出程序"
+                                                        h:GuideService.UseGuide="True"
+                                                        Style="{DynamicResource {x:Static h:ButtonKeys.CloseWindow}}" />
+                                            </StackPanel>
+
+                                            <ContentPresenter Content="{TemplateBinding CaptionCustomContent}" />
+
+                                        </DockPanel>
+                                    </Grid>
+                                </Border>
+
+                                <Border x:Name="BgInner"
+                                        Grid.Row="1"
+                                        Margin="0"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Bottom}}"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+
+                                    <AdornerDecorator WindowChrome.IsHitTestVisibleInChrome="True">
+                                        <Grid>
+                                            <h:NotifyIcon x:Name="PART_NotifyIcon"
+                                                          Command="{Binding Path=MinimizeWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                          Icon="{Binding Path=NotifyIconSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                          IconVisibility="Visible"
+                                                          Text="{TemplateBinding Title}">
+
+                                                <FrameworkElement.ContextMenu>
+                                                    <ContextMenu>
+                                                        <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="显示面板" />
+
+                                                        <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="隐藏" />
+
+                                                        <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CloseWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="退出" />
+                                                    </ContextMenu>
+                                                </FrameworkElement.ContextMenu>
+                                            </h:NotifyIcon>
+
+                                            <h:DrawerHost HorizontalContentAlignment="Stretch">
+                                                <Grid>
+                                                    <h:DialogHost Margin="-3,0,-3,-3"
+                                                                  HorizontalAlignment="Stretch"
+                                                                  VerticalAlignment="Stretch"
+                                                                  Effect="{TemplateBinding AdornerDecoratorEffect}"
+                                                                  Identifier="windowDialog">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+                                                            <local:LinkActionFrame LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink}" UseRandomWipe="False" />
+
+                                                            <h:ContainPanel x:Name="PART_LAYERGROUP"
+                                                                            Grid.RowSpan="2"
+                                                                            Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}"
+                                                                            Visibility="Collapsed">
+                                                                <h:ContainPanel.AnimationAction>
+                                                                    <h:ScaleTransition />
+                                                                </h:ContainPanel.AnimationAction>
+                                                            </h:ContainPanel>
+                                                            <ContentPresenter Grid.Row="1" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.Bottom)}" />
+                                                        </Grid>
+                                                    </h:DialogHost>
+
+                                                    <h:MessageContainer x:Name="PART_Message" Grid.Row="1" />
+
+                                                    <h:Snackbar x:Name="PART_SnackBar" MessageQueue="{h:MessageQueue}" />
+                                                </Grid>
+                                            </h:DrawerHost>
+
+                                            <h:RandomPanel Forever="True" Interval="85000" Duration="85000">
+                                                <TextBlock HorizontalAlignment="Left"
+                                                           VerticalAlignment="Top"
+                                                           FontSize="500"
+                                                           IsHitTestVisible="False"
+                                                           Opacity="0.05"
+                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                           Text="{TemplateBinding Icon}" />
+
+                                                <!--<TextBlock HorizontalAlignment="Left"
+                                                           VerticalAlignment="Top"
+                                                           FontSize="300"
+                                                           IsHitTestVisible="False"
+                                                           Opacity="0.05"
+                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                           Text="{TemplateBinding Icon}" />
+
+                                                <TextBlock HorizontalAlignment="Left"
+                                                           VerticalAlignment="Top"
+                                                           FontSize="200"
+                                                           IsHitTestVisible="False"
+                                                           Opacity="0.05"
+                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                           Text="{TemplateBinding Icon}" />-->
+                                            </h:RandomPanel>
+                                        </Grid>
+                                    </AdornerDecorator>
+
+                                </Border>
+                                <Popup x:Name="Pop"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       AllowsTransparency="True"
+                                       IsOpen="{Binding ElementName=btnTheme, Path=IsChecked}"
+                                       Placement="Top"
+                                       PlacementTarget="{Binding ElementName=btnTheme}"
+                                       PopupAnimation="Slide"
+                                       StaysOpen="False">
+
+                                    <Border Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
+                                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                            BorderThickness="1"
+                                            CornerRadius="5">
+                                        <StackPanel Margin="10">
+                                            <h:ThemeSet Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </h:GuideHost>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe665;" />
+                            <Setter TargetName="g_all" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe615;" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

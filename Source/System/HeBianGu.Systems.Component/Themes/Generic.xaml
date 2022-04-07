@@ -1,0 +1,355 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Component">
+
+    <DataTemplate DataType="{x:Type local:LineComponentNode}">
+        <Viewbox x:Name="vb"
+                 Width="400"
+                 Height="180"
+                 Cursor="Hand">
+            <Grid Width="400" Height="180">
+                <h:Chart Padding="30,10"
+                         DrawOnce="{Binding DrawOnce}"
+                         Style="{DynamicResource {x:Static h:Chart.CoordKey}}"
+                         xAxis="{Binding xAxis}"
+                         yAxis="{Binding yAxis}">
+                    <h:Series xDatas="{Binding xData}" yDatas="{Binding yData}">
+                        <h:Line Style="{DynamicResource {x:Static h:Line.SingleKey}}" TryFreeze="False" />
+                        <h:Scatter MarkStyle="{DynamicResource {x:Static h:EllipseMarker.Default4Key}}" TryFreeze="False" />
+
+                        <h:MarkPosition MarkValueType="Max" Style="{DynamicResource {x:Static h:MarkPosition.SingleKey}}" TryFreeze="False" />
+                        <h:MarkPosition Foreground="Red"
+                                        MarkValueType="Min"
+                                        Style="{DynamicResource {x:Static h:MarkPosition.SingleKey}}"
+                                        TryFreeze="False" />
+                        <!--<h:MarkPosition  TryFreeze="False" Style="{DynamicResource {x:Static h:MarkPosition.SingleKey}}" MarkValueType="Default" Foreground="Green" Point="1800,25"/>-->
+
+                        <h:MarkLine MarkLineType="Average" Style="{DynamicResource {x:Static h:MarkLine.SingleKey}}" TryFreeze="False" />
+                    </h:Series>
+                </h:Chart>
+
+                <TextBlock x:Name="tb_display"
+                           HorizontalAlignment="Center"
+                           Effect="{DynamicResource {x:Static h:EffectShadowKeys.Default2}}"
+                           FontSize="40"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                           Text="{Binding DisplayName}"
+                           TextTrimming="CharacterEllipsis"
+                           ToolTip="{Binding DisplayName}"
+                           Visibility="Collapsed" />
+
+                <h:Interaction.Behaviors>
+                    <h:DrapAdornerBehavior />
+                </h:Interaction.Behaviors>
+            </Grid>
+        </Viewbox>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsTemplate}" Value="True">
+                <Setter TargetName="tb_display" Property="Visibility" Value="Visible" />
+                <Setter TargetName="vb" Property="Width" Value="Auto" />
+                <Setter TargetName="vb" Property="Height" Value="72" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ComponentPort}">
+
+        <Border x:Name="boder"
+                Width="10"
+                Height="10"
+                h:StoryService.IsStart="{Binding IsBuzy}"
+                Background="{DynamicResource {x:Static h:BrushKeys.Dark4}}"
+                BorderBrush="White"
+                BorderThickness="2"
+                Effect="{DynamicResource {x:Static h:EffectShadowKeys.Default1}}"
+                ToolTip="{Binding DisplayName}">
+            <h:StoryService.Storys>
+                <h:StoryCollection>
+                    <h:OpacityStory />
+                </h:StoryCollection>
+            </h:StoryService.Storys>
+            <!--<TextBlock x:Name="tb_unenble" Text="×" Visibility="Collapsed" FontSize="50" Foreground="Black" ClipToBounds="False"/>-->
+
+            <!--<TextBlock Text="{Binding DisplayName}">-->
+        </Border>
+
+        <DataTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="boder" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Dark6}}" />
+                <Setter TargetName="boder" Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default2}}" />
+            </Trigger>
+
+            <DataTrigger Binding="{Binding PortType}">
+                <DataTrigger.Value>
+                    <h:PortType>OutPut</h:PortType>
+                </DataTrigger.Value>
+                <Setter TargetName="boder" Property="Background" Value="Yellow" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding PortType}">
+                <DataTrigger.Value>
+                    <h:PortType>Input</h:PortType>
+                </DataTrigger.Value>
+                <Setter TargetName="boder" Property="Background" Value="Green" />
+            </DataTrigger>
+
+            <Trigger Property="h:Part.IsDragEnter" Value="True">
+                <!--<Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Dark8}}" TargetName="boder"/>-->
+                <Setter TargetName="boder" Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}" />
+            </Trigger>
+
+            <!--<Trigger Property="local:Part.IsCanDrop" Value="False">
+                <Setter Property="Visibility" Value="Visible" TargetName="tb_unenble"/>
+            </Trigger>-->
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ComponentLink}">
+
+        <Border x:Name="boder"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                h:StoryService.IsStart="{Binding IsBuzy}"
+                Background="Transparent"
+                Effect="{DynamicResource {x:Static h:EffectShadowKeys.Default1}}"
+                Style="{DynamicResource {x:Static h:BorderKeys.Default}}">
+            <h:StoryService.Storys>
+                <h:StoryCollection>
+                    <h:OpacityStory />
+                </h:StoryCollection>
+            </h:StoryService.Storys>
+            <TextBlock x:Name="txt"
+                       Margin="{DynamicResource {x:Static h:ThicknessKeys.Padding_10_6}}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
+                       Text="{Binding DisplayName}" />
+        </Border>
+
+        <DataTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="boder" Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default2}}" />
+                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+            </Trigger>
+
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" Value="True">
+                <Setter TargetName="boder" Property="Effect" Value="{DynamicResource S.EffectShadow.IsSelected}" />
+                <Setter TargetName="txt" Property="Foreground" Value="Orange" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:If}">
+        <Grid Background="Transparent" Cursor="Hand">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Polygon h:StoryService.IsStart="{Binding IsBuzy}" Fill="{DynamicResource {x:Static h:BrushKeys.Accent}}">
+                    <h:StoryService.Storys>
+                        <h:StoryCollection>
+                            <h:OpacityStory />
+                        </h:StoryCollection>
+                    </h:StoryService.Storys>
+                    <Polygon.Points>
+                        0,30 50,60,100,30 50,0
+                    </Polygon.Points>
+                </Polygon>
+
+                <TextBlock HorizontalAlignment="Center"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                           Text="{Binding DisplayName}" VerticalAlignment="Center"
+                           TextTrimming="CharacterEllipsis"
+                           ToolTip="{Binding DisplayName}" />
+
+                <h:Interaction.Behaviors>
+                    <h:DrapAdornerBehavior />
+                </h:Interaction.Behaviors>
+            </Grid>
+            <h:Interaction.Behaviors>
+                <h:DrapAdornerBehavior />
+            </h:Interaction.Behaviors>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ComponentNode}">
+        <Grid h:StoryService.IsStart="{Binding IsBuzy}" Background="Transparent" Cursor="Hand">
+            <h:StoryService.Storys>
+                <h:StoryCollection>
+                    <h:OpacityStory />
+                </h:StoryCollection>
+            </h:StoryService.Storys>
+            <Grid Width="70" Height="70" ClipToBounds="False">
+                <Ellipse x:Name="ellipse_run"
+                         Width="70"
+                         Height="70"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Fill="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                         RenderTransform="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}"
+                         RenderTransformOrigin="0.5,0.5"
+                         Stroke="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                         StrokeDashArray="5,1"
+                         StrokeThickness="2"
+                         Visibility="Collapsed">
+                    <Ellipse.Triggers>
+                        <EventTrigger RoutedEvent="Loaded">
+                            <BeginStoryboard Storyboard="{DynamicResource {x:Static h:StoryBoardKeys.RotateForever3}}" />
+                        </EventTrigger>
+                    </Ellipse.Triggers>
+                </Ellipse>
+
+                <Ellipse x:Name="ellipse_center"
+                         Width="60"
+                         Height="60"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Center"
+                         Fill="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+
+                <TextBlock x:Name="tb_display"
+                           HorizontalAlignment="Center"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                           Text="{Binding DisplayName}" VerticalAlignment="Center"
+                           TextTrimming="CharacterEllipsis"
+                           ToolTip="{Binding DisplayName}" />
+            </Grid>
+
+
+            <h:Interaction.Behaviors>
+                <h:DrapAdornerBehavior />
+            </h:Interaction.Behaviors>
+
+        </Grid>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding State}">
+                <DataTrigger.Value>
+                    <local:ActionState>Ready</local:ActionState>
+                </DataTrigger.Value>
+                <Setter TargetName="ellipse_center" Property="Fill" Value="{DynamicResource {x:Static h:BrushKeys.Dark5}}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding State}">
+                <DataTrigger.Value>
+                    <local:ActionState>Success</local:ActionState>
+                </DataTrigger.Value>
+                <Setter TargetName="ellipse_center" Property="Fill" Value="{DynamicResource {x:Static h:BrushKeys.Green}}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding State}">
+                <DataTrigger.Value>
+                    <local:ActionState>Error</local:ActionState>
+                </DataTrigger.Value>
+                <Setter TargetName="ellipse_center" Property="Fill" Value="{DynamicResource {x:Static h:BrushKeys.Red}}" />
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding State}">
+                <DataTrigger.Value>
+                    <local:ActionState>Running</local:ActionState>
+                </DataTrigger.Value>
+                <Setter TargetName="ellipse_run" Property="Visibility" Value="Visible" />
+                <Setter TargetName="ellipse_center" Property="Fill" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ProgressComponentNode}">
+        <Grid Width="60" Height="60" Cursor="Hand">
+            <ProgressBar Height="Auto"
+                         Maximum="100"
+                         Minimum="0"
+                         Value="{Binding Value}" />
+
+            <h:Interaction.Behaviors>
+                <h:DrapAdornerBehavior />
+            </h:Interaction.Behaviors>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:WaitComponentNode}">
+        <Grid Width="60" Height="60" Cursor="Hand">
+            <ProgressBar Height="Auto" IsIndeterminate="{Binding IsBuzy}" Style="{DynamicResource {x:Static h:ProgressBarKeys.Default}}" />
+
+            <h:Interaction.Behaviors>
+                <h:DrapAdornerBehavior />
+            </h:Interaction.Behaviors>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:StartComponentNode}">
+        <Border Width="60"
+                Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                Margin="5"
+                Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}"
+                Cursor="Hand">
+            <!--<Button Content="开始" IsHitTestVisible="False">
+            -->
+            <!--<Button h:Cattach.Icon="&#xe74a;" Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}">
+                <h:Interaction.Triggers>
+                    <h:EventTrigger EventName="Click">
+                        <h:CallMethodAction MethodName="DoAsync" TargetObject="{Binding }"/>
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+            </Button>-->
+            <!--
+
+            </Button>-->
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="开始" />
+
+
+            <h:Interaction.Behaviors>
+                <h:DrapAdornerBehavior />
+            </h:Interaction.Behaviors>
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:SuccessComponentNode}">
+        <Border x:Name="border" Width="60"
+                Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                Margin="5"
+                Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}"
+                Cursor="Hand">
+            <TextBlock x:Name="txt" HorizontalAlignment="Center" VerticalAlignment="Center" Text="成功" />
+
+            <h:Interaction.Behaviors>
+                <h:DrapAdornerBehavior />
+            </h:Interaction.Behaviors>
+        </Border>
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding State}">
+                <DataTrigger.Value>
+                    <local:ActionState>Success</local:ActionState>
+                </DataTrigger.Value>
+                <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Green}}" />
+                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ErrorComponentNode}">
+        <Border x:Name="border" Width="60"
+                Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                Margin="5"
+                Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}"
+                Cursor="Hand">
+            <TextBlock x:Name="txt" HorizontalAlignment="Center" VerticalAlignment="Center" Text="失败" />
+
+            <h:Interaction.Behaviors>
+                <h:DrapAdornerBehavior />
+            </h:Interaction.Behaviors> 
+        </Border>
+
+
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding State}">
+                <DataTrigger.Value>
+                    <local:ActionState>Success</local:ActionState>
+                </DataTrigger.Value>
+                <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Red}}" />
+                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" /> 
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

@@ -1,0 +1,190 @@
+﻿<UserControl x:Class="HeBianGu.App.Map.View.Dialog.TasksControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.App.Map.View.Dialog"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             Width="900"
+             Height="600"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+             mc:Ignorable="d">
+    <Grid Margin="50,30">
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.MouseOver}}" TargetType="Button">
+                <Setter Property="h:Cattach.IconSize" Value="50" />
+                <Setter Property="Height" Value="Auto" />
+                <Setter Property="Margin" Value="0,5,0,0" />
+                <Setter Property="h:Cattach.CornerRadius" Value="20" />
+                <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
+            </Style>
+        </Grid.Resources>
+
+        <h:Interaction.Behaviors>
+            <h:LoadAnimationBehavior End="0.2"
+                                     EndValue="1"
+                                     IsUseAll="True"
+                                     LoadAnimationType="Opactiy"
+                                     Split="0.05"
+                                     StartValue="0" />
+        </h:Interaction.Behaviors>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.6*" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition Width="1.5*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.RowSpan="3">
+            <StackPanel>
+                <TextBlock Margin="-1,0,0,0"
+                           HorizontalAlignment="Left"
+                           FontSize="25"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                           Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
+                           Text="选择任务" />
+
+                <TextBlock Margin="0,25,0,10"
+                           HorizontalAlignment="Left"
+                           FontSize="{DynamicResource {x:Static h:IconSizeKeys.Large}}"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                           Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
+                           Text="最近使用的任务" />
+
+                <ListBox SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:SelectTypeControl}, Path=Model}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type h:TestViewModel}">
+                            <Grid>
+                                <StackPanel Margin="10,0" Orientation="Horizontal">
+                                    <Button Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
+                                               h:Cattach.Icon="{Binding Value2}"
+                                               IsHitTestVisible="False"
+                                               Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+                                    <TextBlock Margin="5,0,0,0"
+                                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
+                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
+                                               Text="{Binding Value}" />
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                    <h:Interaction.Triggers>
+                        <h:EventTrigger EventName="Loaded">
+                            <h:ChangePropertyAction PropertyName="SelectedIndex" Value="0" />
+                        </h:EventTrigger>
+                    </h:Interaction.Triggers>
+
+                    <h:TestViewModel Value1=".avi .mp4 .wav .wmv" Value2="&#xe781;" Value="任务一" />
+                    <h:TestViewModel Value1=".jpg ,png .gif .ico .svg" Value2="&#xe845;" Value="任务二" />
+                    <h:TestViewModel Value1=".sln" Value2="&#xe7d0;" Value="任务三" />
+                </ListBox>
+            </StackPanel>
+        </Grid>
+
+        <DockPanel Grid.RowSpan="2" Grid.Column="1">
+            <TextBox Margin="10"
+                        h:Cattach.Icon="&#xe787;"
+                        h:Cattach.Watermark="请输入筛选条件"
+                        DockPanel.Dock="Top" />
+
+            <!--<ComboBox DockPanel.Dock="Top" SelectedIndex="0">
+                <system:String>所有模板</system:String>
+                <system:String>系统模板</system:String>
+                <system:String>自定义模板</system:String>
+            </ComboBox>-->
+
+            <ScrollViewer>
+                <ListBox Margin="5,0"
+                         ItemsSource="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.Tasks}"
+                         SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:TasksControl}, Path=Model}"
+                         Style="{DynamicResource {x:Static h:ListBoxKeys.Clear}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type h:TestViewModel}">
+                            <Grid x:Name="grid" Margin="5">
+
+                                <Border x:Name="border"
+                                        Background="Transparent"
+                                        BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                        BorderThickness="1"
+                                        CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+
+                                <StackPanel Margin="10">
+                                    <Button h:Cattach.Icon="&#xe7d5;" IsHitTestVisible="False" />
+
+                                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <TextBlock Margin="0,10,0,0"
+                                                   FontSize="{DynamicResource {x:Static h:IconSizeKeys.Large}}"
+                                                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
+                                                   Text="{Binding Value}" />
+                                        <TextBlock Margin="0,10,0,0" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding Value1}" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Grid>
+
+                            <DataTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity1}}" />
+                                    <!--<Setter TargetName="grid" Property="TextBlock.Foreground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}"/>-->
+                                </Trigger>
+
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="true">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity3}}" />
+                                    <!--<Setter TargetName="grid" Property="TextBlock.Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}"/>-->
+                                </DataTrigger>
+
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+
+                    <!--<h:TestViewModel Value="空模板" Value1=".all" Value2="&#xe781;"/>
+                    <h:TestViewModel Value="视频" Value1=".avi .mp4 .wav .wmv" Value2="&#xe781;"/>
+                    <h:TestViewModel Value="音频" Value1=".mp3 .wma" Value2="&#xe6c0;"/>
+                    <h:TestViewModel Value="图像" Value1=".jpg ,png .gif .ico .svg" Value2="&#xe845;"/>
+                    <h:TestViewModel Value="办公文件" Value1=".xlsx .docx. xls .ppt" Value2="&#xe7fc;"/>
+                    <h:TestViewModel Value="解决方案" Value1=".sln" Value2="&#xe7d0;"/>-->
+
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="2" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ListBox>
+            </ScrollViewer>
+        </DockPanel>
+
+        <Button Grid.Row="2"
+                   Grid.ColumnSpan="2"
+                   Margin="0,0,0,0"
+                   HorizontalAlignment="Right"
+                   Command="{x:Static h:DialogHost.CloseDialogCommand}"
+                   Content="确定"
+                   IsDefault="True"
+                   Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}">
+            <Button.CommandParameter>
+                <system:Boolean>True</system:Boolean>
+            </Button.CommandParameter>
+        </Button>
+
+        <Button Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   Margin="-40,-20"
+                   HorizontalAlignment="Right"
+                   Command="{x:Static h:DialogHost.CloseDialogCommand}"
+                   IsCancel="True"
+                   Style="{DynamicResource {x:Static h:ButtonKeys.Close}}">
+            <Button.CommandParameter>
+                <system:Boolean>False</system:Boolean>
+            </Button.CommandParameter>
+        </Button>
+    </Grid>
+</UserControl>

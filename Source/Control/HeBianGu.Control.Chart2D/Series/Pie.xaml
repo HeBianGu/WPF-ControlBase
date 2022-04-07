@@ -1,0 +1,133 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Chart2D"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="../Provider/Layer.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Pie.Default, TypeInTargetAssembly={x:Type local:Pie}}" BasedOn="{StaticResource {x:Static h:Layer.DefaultKey}}" TargetType="{x:Type local:Pie}">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Len" Value="200" />
+        <Setter Property="PathStyle">
+            <Setter.Value>
+                <Style TargetType="Path">
+                    <Setter Property="StrokeThickness" Value="1" />
+                    <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer}, Path=Foreground}" />
+                    <Setter Property="Fill" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer}, Path=Foreground}" />
+                    <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
+                    <Setter Property="RenderTransformOrigin" Value="0,0" />
+                    <Setter Property="Opacity" Value="0.9" />
+                    <Setter Property="OpacityMask">
+                        <Setter.Value>
+                            <RadialGradientBrush GradientOrigin="-1.5,-1.5">
+                                <GradientStop Offset="0" Color="Transparent" />
+                                <GradientStop Offset="1" Color="Red" />
+                            </RadialGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+
+                    <Style.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                     From="1" To="1.1"
+                                                     Duration="00:00:02">
+                                        <DoubleAnimation.EasingFunction>
+                                            <ElasticEase Oscillations="6" Springiness="10" />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                     From="1" To="1.1"
+                                                     Duration="00:00:02">
+                                        <DoubleAnimation.EasingFunction>
+                                            <ElasticEase Oscillations="6" Springiness="10" />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                     From="1.1" To="1"
+                                                     Duration="00:00:02">
+                                        <DoubleAnimation.EasingFunction>
+                                            <ElasticEase Oscillations="6" Springiness="10" />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                     From="1.1" To="1"
+                                                     Duration="00:00:02">
+                                        <DoubleAnimation.EasingFunction>
+                                            <ElasticEase Oscillations="6" Springiness="10" />
+                                        </DoubleAnimation.EasingFunction>
+                                    </DoubleAnimation>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="StrokeThickness" Value="4" />
+                            <Setter Property="Opacity" Value="1" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="LineStyle">
+            <Setter.Value>
+                <Style TargetType="Path">
+                    <Setter Property="StrokeThickness" Value="1" />
+                    <Setter Property="Stroke" Value="{Binding RelativeSource={RelativeSource AncestorType=local:Layer}, Path=Foreground}" />
+                    <Setter Property="RenderTransform" Value="{StaticResource {x:Static h:SystemKeys.TransformGroup}}" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="EllipseStyle">
+            <Setter.Value>
+                <Style TargetType="Ellipse">
+                    <Setter Property="StrokeThickness" Value="1" />
+                    <Setter Property="Fill" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="SplitMilliSecond" Value="-1900" />
+        <Setter Property="Timelines">
+            <Setter.Value>
+                <local:Timelines>
+                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                     From="0" To="1"
+                                     Duration="00:00:02">
+                        <DoubleAnimation.EasingFunction>
+                            <ElasticEase Oscillations="5" Springiness="19" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+
+                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                     From="0" To="1"
+                                     Duration="00:00:02">
+                        <DoubleAnimation.EasingFunction>
+                            <ElasticEase Oscillations="5" Springiness="19" />
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </local:Timelines>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:Pie.DefaultKey}}" TargetType="{x:Type local:Pie}" />
+
+</ResourceDictionary>
+

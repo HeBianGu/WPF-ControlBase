@@ -1,0 +1,53 @@
+﻿<h:MainWindow x:Class="HeBianGu.App.ControlResourceKey.MainWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:h="https://github.com/HeBianGu"
+              xmlns:local="clr-namespace:HeBianGu.App.ControlResourceKey"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              Title="MainWindow"
+              Width="1200"
+              Height="760"
+              CaptionHeight="50"
+              DataContext="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel}"
+              IconSize="30"
+              Icon="www"
+              NotifyIconSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.ico"
+              mc:Ignorable="d">
+
+    <Grid Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}">
+        <TabControl h:Cattach.SearchDock="Bottom" h:Cattach.SearchWidth="Auto" TabStripPlacement="Left" ItemsSource="{Binding Types}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}" ToolTip="{Binding FullName}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <h:ResourceKeyBox Type="{Binding .}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="1" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </h:ResourceKeyBox>
+                    <!--<TabControl>
+                        <TabItem Header="ResourceKeyBox">
+                            <h:ResourceKeyBox Type="{Binding .}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Columns="1" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </h:ResourceKeyBox>
+                        </TabItem>
+
+                        <TabItem Header="PropertyGrid">
+                            <h:PropertyGrid SelectObject="{Binding .}" DeclaredOnly="True"/>
+                        </TabItem>
+                    </TabControl>-->
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </Grid>
+</h:MainWindow>

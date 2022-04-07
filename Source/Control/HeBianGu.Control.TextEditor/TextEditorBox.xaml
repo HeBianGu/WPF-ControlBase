@@ -1,0 +1,82 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.TextEditor">
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TextEditorBox.Default, TypeInTargetAssembly={x:Type local:TextEditorBox}}" TargetType="{x:Type local:TextEditorBox}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:TextEditorBox}">
+                    <Border Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CornerRadius)}">
+                        <Grid>
+                            <ItemsPresenter />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Grid>
+                        <local:TextEditor x:Name="Part_TextEditor"
+                                          CancelMode="{Binding RelativeSource={RelativeSource AncestorType=local:TextEditorBox}, Path=CancelMode}"
+                                          Content="{Binding Name}"
+                                          DefaultType="{Binding RelativeSource={RelativeSource AncestorType=local:TextEditorBox}, Path=DefaultType}"
+                                          EditActiveMode="{Binding RelativeSource={RelativeSource AncestorType=local:TextEditorBox}, Path=EditActiveMode}"
+                                          UseCancel="{Binding RelativeSource={RelativeSource AncestorType=local:TextEditorBox}, Path=UseCancel}"
+                                          UseSure="{Binding RelativeSource={RelativeSource AncestorType=local:TextEditorBox}, Path=UseSure}" />
+
+                        <Button x:Name="bt" Style="{DynamicResource {x:Static h:ButtonKeys.CloseFlag}}">
+                            <h:Interaction.Behaviors>
+                                <h:RemoveItemButtonBehavior Item="{Binding}" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=h:TextEditorBox}, Path=DataSource}" />
+                            </h:Interaction.Behaviors>
+                        </Button>
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="False">
+                            <Setter TargetName="bt" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <!--<Setter Property="ToolContent">
+            <Setter.Value>
+                <Button Style="{DynamicResource {x:Static h:ButtonKeys.AddTransparentBorder}}" Margin="10 0" Height="30">
+                    <h:Interaction.Behaviors>
+        -->
+        <!--  此处有BUGTabItem没有找到RelativeSource位置  -->
+        <!--
+                        <h:AddItemButtonBehavior ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:TextEditorBox},Path=DataSource}"/>
+                    </h:Interaction.Behaviors>
+                </Button>
+            </Setter.Value>
+        </Setter>-->
+
+        <Setter Property="ButtonStyle" Value="{DynamicResource {x:Static h:ButtonKeys.AddTransparentBorder}}" />
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static local:TextEditorBox.DefaultKey}}" TargetType="{x:Type local:TextEditorBox}" />
+
+</ResourceDictionary>

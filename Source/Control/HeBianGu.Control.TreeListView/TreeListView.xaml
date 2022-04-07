@@ -1,0 +1,250 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.TreeListView"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <local:LevelToIndentConverter x:Key="LevelIndentConverter" />
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TreeListView.Default, TypeInTargetAssembly={x:Type local:TreeListView}}" BasedOn="{StaticResource {x:Static h:SelectorKeys.Dynamic}}" TargetType="{x:Type local:TreeListView}">
+        <Setter Property="AlternationCount" Value="1" />
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="{x:Type local:TreeListViewItem}">
+                    <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
+                    <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="SnapsToDevicePixels" Value="True" />
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <!--<Setter Property="IsSelected" Value="{Binding IsSelected,Mode=TwoWay}" />-->
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                    <Setter Property="Visibility" Value="{Binding Visibility, Mode=TwoWay}" />
+                    <!--<Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Self},
+                Path=(local:TreeListView.AlternationIndex),
+                Converter={StaticResource conBack}}" />-->
+
+                    <Setter Property="h:Cattach.MouseOverBackground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=(h:Cattach.MouseOverBackground)}" />
+                    <Setter Property="h:Cattach.MouseOverForeground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=(h:Cattach.MouseOverForeground)}" />
+                    <Setter Property="h:Cattach.SelectBackground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=(h:Cattach.SelectBackground)}" />
+                    <Setter Property="h:Cattach.SelectForeground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=(h:Cattach.SelectForeground)}" />
+                    <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=(h:Cattach.ItemBorderBrush)}" />
+                    <Setter Property="BorderThickness" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=(h:Cattach.ItemBorderThickness)}" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type local:TreeListViewItem}">
+                                <StackPanel>
+                                    <!--<Border x:Name="outerBorder"
+                                BorderThickness="0,0,0,0.3"
+                                BorderBrush="LightGray"
+                                Margin="0" Padding="0" Height="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                SnapsToDevicePixels="True">
+                            <Border x:Name="innerBorder"
+                                    BorderThickness="0,0,0,0.3"
+                                    BorderBrush="LightGray"
+                                    Background="{TemplateBinding Background}"
+                                    Padding="{TemplateBinding Padding}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    SnapsToDevicePixels="True">
+                                <GridViewRowPresenter x:Name="PART_Header"
+                                                  Content="{TemplateBinding Header}"
+                                                  Columns="{Binding  RelativeSource={RelativeSource AncestorType=local:TreeListView},Path=Columns}"
+                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                        </Border>-->
+
+                                    <Grid Height="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}">
+
+                                        <Border x:Name="boder"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" />
+
+                                        <Border x:Name="boder_mouseover"
+                                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.MouseOverBackground)}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                                Opacity="0" />
+
+                                        <Border x:Name="boder_selected"
+                                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SelectBackground)}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                                Opacity="0" />
+
+                                        <GridViewRowPresenter x:Name="PART_Header"
+                                                              HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                              Columns="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=Columns}"
+                                                              Content="{TemplateBinding Header}" />
+                                    </Grid>
+
+                                    <ItemsPresenter x:Name="ItemsHost" />
+
+                                </StackPanel>
+                                <ControlTemplate.Triggers>
+                                    <!--<Trigger Property="local:TreeListView.AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundRowIndex}}"/>
+                        </Trigger>-->
+                                    <!--<Trigger Property="IsMouseOver" Value="true" SourceName="innerBorder">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"/>
+                            <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" TargetName="innerBorder"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>
+                            <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" TargetName="innerBorder"/>
+                        </Trigger>-->
+
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverForeground)}" />
+
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="boder_mouseover"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     To="1"
+                                                                     Duration="0:0:0.3" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="boder_mouseover"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     To="0"
+                                                                     Duration="0:0:1" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectForeground)}" />
+
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="boder_selected"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     To="1"
+                                                                     Duration="0:0:0.1" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+
+                                        <Trigger.ExitActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="boder_selected"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     To="0"
+                                                                     Duration="0:0:0.5" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.ExitActions>
+                                    </Trigger>
+
+                                    <Trigger Property="IsExpanded" Value="false">
+                                        <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed" />
+                                    </Trigger>
+                                    <Trigger Property="IsEnabled" Value="false">
+                                        <Setter Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
+                                    </Trigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="HasHeader" Value="false" />
+                                            <Condition Property="Width" Value="Auto" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="PART_Header" Property="MinWidth" Value="75" />
+                                    </MultiTrigger>
+                                    <MultiTrigger>
+                                        <MultiTrigger.Conditions>
+                                            <Condition Property="HasHeader" Value="false" />
+                                            <Condition Property="Height" Value="Auto" />
+                                        </MultiTrigger.Conditions>
+                                        <Setter TargetName="PART_Header" Property="MinHeight" Value="19" />
+                                    </MultiTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="RenderTransform" Value="{StaticResource {x:Static h:SystemKeys.TransformGroup}}" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:TreeListView}">
+                    <Border Padding="{TemplateBinding Padding}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                        <DockPanel>
+                            <GridViewHeaderRowPresenter Columns="{TemplateBinding Columns}" DockPanel.Dock="Top" Visibility="Visible">
+                                <GridViewHeaderRowPresenter.ColumnHeaderContainerStyle>
+                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                        <Setter Property="SnapsToDevicePixels" Value="True" />
+                                        <Setter Property="MinWidth" Value="5" />
+                                        <Setter Property="MinHeight" Value="35" />
+                                        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+                                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=(h:Cattach.CaptionForeground)}" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
+                                        <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=(h:Cattach.CaptionBorderBrush)}" />
+                                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=(h:Cattach.CaptionBackground)}" />
+                                        <Setter Property="BorderThickness" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=(h:Cattach.CaptionBorderThickness)}" />
+                                        <Setter Property="Padding" Value="{Binding RelativeSource={RelativeSource AncestorType=local:TreeListView}, Path=(h:Cattach.CellMargin)}" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="auto" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Border x:Name="BackgroundBorder"
+                                                                Grid.ColumnSpan="2"
+                                                                Background="{TemplateBinding Background}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}" />
+                                                        <ContentPresenter x:Name="HeaderContent"
+                                                                          Margin="{TemplateBinding Padding}"
+                                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                          Content="{TemplateBinding Content}"
+                                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                          RecognizesAccessKey="True"
+                                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GridViewHeaderRowPresenter.ColumnHeaderContainerStyle>
+                            </GridViewHeaderRowPresenter>
+
+                            <h:FScrollView HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter />
+                            </h:FScrollView>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:TreeListView.DefaultStyleKey}}" TargetType="{x:Type local:TreeListView}" />
+
+</ResourceDictionary>

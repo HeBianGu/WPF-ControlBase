@@ -1,0 +1,384 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:cl="clr-namespace:System.Collections;assembly=mscorlib"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Screen">
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenEffect.Default, TypeInTargetAssembly={x:Type local:ScreenEffect}}" TargetType="{x:Type local:ScreenEffect}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenEffect}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <h:RandomPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenEffect.ScaleSun, TypeInTargetAssembly={x:Type local:ScreenEffect}}" BasedOn="{StaticResource {x:Static local:ScreenEffect.DefaultKey}}" TargetType="{x:Type local:ScreenEffect}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenEffect}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="Loaded">
+                                <h:InvokeRandomSplitAnimationAction AutoReverse="True"
+                                                                    IsUseAll="True"
+                                                                    RepeatBehavior="Forever"
+                                                                    SplitMilliSecond="-700"
+                                                                    UseIndex="True"
+                                                                    UseOrigin="True">
+                                    <h:InvokeRandomSplitAnimationAction.Timelines>
+                                        <cl:ArrayList>
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                                     From="0.5" To="4"
+                                                                     Duration="00:00:18" />
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                                     From="0.5" To="4"
+                                                                     Duration="00:00:18" />
+
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="1.5"
+                                                                     Duration="00:00:18" />
+                                        </cl:ArrayList>
+                                    </h:InvokeRandomSplitAnimationAction.Timelines>
+                                </h:InvokeRandomSplitAnimationAction>
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <Grid />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenEffect.Scale, TypeInTargetAssembly={x:Type local:ScreenEffect}}" BasedOn="{StaticResource {x:Static local:ScreenEffect.DefaultKey}}" TargetType="{x:Type local:ScreenEffect}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenEffect}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="Loaded">
+                                <h:InvokeRandomSplitAnimationAction IsUseAll="True"
+                                                                    RepeatBehavior="Forever"
+                                                                    SplitMilliSecond="-700"
+                                                                    UseIndex="True"
+                                                                    UseOrigin="True">
+                                    <h:InvokeRandomSplitAnimationAction.Timelines>
+                                        <cl:ArrayList>
+                                            <h:RandomDoubleAnimation Max="500" Min="-500"
+                                                                     UseFrom="True"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                                                     To="0"
+                                                                     Duration="00:00:08" />
+                                            <h:RandomDoubleAnimation Max="500" Min="-500"
+                                                                     UseFrom="True"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
+                                                                     To="0"
+                                                                     Duration="00:00:08" />
+
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                                     From="0" To="1"
+                                                                     Duration="00:00:08" />
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                                     From="0" To="1"
+                                                                     Duration="00:00:08" />
+
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0.5" To="0"
+                                                                     Duration="00:00:08" />
+                                        </cl:ArrayList>
+                                    </h:InvokeRandomSplitAnimationAction.Timelines>
+                                </h:InvokeRandomSplitAnimationAction>
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenEffect.ScaleRotate, TypeInTargetAssembly={x:Type local:ScreenEffect}}" BasedOn="{StaticResource {x:Static local:ScreenEffect.DefaultKey}}" TargetType="{x:Type local:ScreenEffect}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenEffect}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="Loaded">
+                                <h:InvokeRandomSplitAnimationAction AutoReverse="True"
+                                                                    IsUseAll="True"
+                                                                    RepeatBehavior="Forever"
+                                                                    SplitMilliSecond="-4000"
+                                                                    UseIndex="True"
+                                                                    UseOrigin="False">
+                                    <h:InvokeRandomSplitAnimationAction.Timelines>
+                                        <cl:ArrayList>
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                                     From="0" To="1"
+                                                                     Duration="00:00:08" />
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                                     From="0" To="1"
+                                                                     Duration="00:00:08" />
+
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="0.5"
+                                                                     Duration="00:00:08" />
+
+                                            <h:RandomDoubleAnimation Max="1440" Min="0"
+                                                                     UseFrom="True"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)"
+                                                                     To="0"
+                                                                     Duration="00:00:08">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <BackEase />
+                                                </DoubleAnimation.EasingFunction>
+                                            </h:RandomDoubleAnimation>
+                                        </cl:ArrayList>
+                                    </h:InvokeRandomSplitAnimationAction.Timelines>
+                                </h:InvokeRandomSplitAnimationAction>
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenEffect.Up, TypeInTargetAssembly={x:Type local:ScreenEffect}}" BasedOn="{StaticResource {x:Static local:ScreenEffect.DefaultKey}}" TargetType="{x:Type local:ScreenEffect}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenEffect}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="Loaded">
+                                <h:InvokeRandomSplitAnimationAction IsUseAll="True"
+                                                                    RepeatBehavior="Forever"
+                                                                    SplitMilliSecond="-4000"
+                                                                    UseIndex="True"
+                                                                    UseOrigin="True">
+                                    <h:InvokeRandomSplitAnimationAction.Timelines>
+                                        <cl:ArrayList>
+                                            <h:RandomDoubleAnimation Max="1500"
+                                                                     Min="1000"
+                                                                     UseFrom="True"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
+                                                                     To="-1000"
+                                                                     Duration="00:00:08" />
+
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0.5" To="0"
+                                                                     Duration="00:00:08" />
+                                        </cl:ArrayList>
+                                    </h:InvokeRandomSplitAnimationAction.Timelines>
+                                </h:InvokeRandomSplitAnimationAction>
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenEffect.Down, TypeInTargetAssembly={x:Type local:ScreenEffect}}" BasedOn="{StaticResource {x:Static local:ScreenEffect.DefaultKey}}" TargetType="{x:Type local:ScreenEffect}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenEffect}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="Loaded">
+                                <h:InvokeRandomSplitAnimationAction IsUseAll="True"
+                                                                    RepeatBehavior="Forever"
+                                                                    SplitMilliSecond="-4000"
+                                                                    UseIndex="True"
+                                                                    UseOrigin="True">
+                                    <h:InvokeRandomSplitAnimationAction.Timelines>
+                                        <cl:ArrayList>
+                                            <h:RandomDoubleAnimation Max="-1500"
+                                                                     Min="-1000"
+                                                                     UseFrom="True"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)"
+                                                                     To="1500"
+                                                                     Duration="00:00:08" />
+
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="1" To="0.5"
+                                                                     Duration="00:00:08" />
+                                        </cl:ArrayList>
+                                    </h:InvokeRandomSplitAnimationAction.Timelines>
+                                </h:InvokeRandomSplitAnimationAction>
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenEffect.Rotate, TypeInTargetAssembly={x:Type local:ScreenEffect}}" BasedOn="{StaticResource {x:Static local:ScreenEffect.DefaultKey}}" TargetType="{x:Type local:ScreenEffect}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenEffect}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="Loaded">
+                                <h:InvokeRandomSplitAnimationAction AutoReverse="True"
+                                                                    IsUseAll="True"
+                                                                    RepeatBehavior="Forever"
+                                                                    SplitMilliSecond="-4000"
+                                                                    UseIndex="True">
+                                    <h:InvokeRandomSplitAnimationAction.Timelines>
+                                        <cl:ArrayList>
+                                            <h:RandomDoubleAnimation Max="720" Min="0"
+                                                                     UseFrom="True"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)"
+                                                                     To="0"
+                                                                     Duration="00:00:08">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <BackEase />
+                                                </DoubleAnimation.EasingFunction>
+                                            </h:RandomDoubleAnimation>
+
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="0.5"
+                                                                     Duration="00:00:08" />
+                                        </cl:ArrayList>
+                                    </h:InvokeRandomSplitAnimationAction.Timelines>
+                                </h:InvokeRandomSplitAnimationAction>
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenEffect.Opacity, TypeInTargetAssembly={x:Type local:ScreenEffect}}" BasedOn="{StaticResource {x:Static local:ScreenEffect.DefaultKey}}" TargetType="{x:Type local:ScreenEffect}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenEffect}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="Loaded">
+                                <h:InvokeRandomSplitAnimationAction AutoReverse="True"
+                                                                    IsUseAll="True"
+                                                                    RepeatBehavior="Forever"
+                                                                    SplitMilliSecond="-3000"
+                                                                    UseOrigin="True">
+                                    <h:InvokeRandomSplitAnimationAction.Timelines>
+                                        <cl:ArrayList>
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0" To="1"
+                                                                     Duration="00:00:08" />
+                                        </cl:ArrayList>
+                                    </h:InvokeRandomSplitAnimationAction.Timelines>
+                                </h:InvokeRandomSplitAnimationAction>
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenEffect.ToRight, TypeInTargetAssembly={x:Type local:ScreenEffect}}" BasedOn="{StaticResource {x:Static local:ScreenEffect.DefaultKey}}" TargetType="{x:Type local:ScreenEffect}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenEffect}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="Loaded">
+                                <h:InvokeRandomSplitAnimationAction IsUseAll="True"
+                                                                    RepeatBehavior="Forever"
+                                                                    SplitMilliSecond="-4000"
+                                                                    UseOrigin="True">
+                                    <h:InvokeRandomSplitAnimationAction.Timelines>
+                                        <cl:ArrayList>
+                                            <h:RandomDoubleAnimation Max="-1500" Min="-1000"
+                                                                     UseFrom="True"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                                                     To="2000"
+                                                                     Duration="00:00:08" />
+                                        </cl:ArrayList>
+                                    </h:InvokeRandomSplitAnimationAction.Timelines>
+                                </h:InvokeRandomSplitAnimationAction>
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenEffect.ToLeft, TypeInTargetAssembly={x:Type local:ScreenEffect}}" BasedOn="{StaticResource {x:Static local:ScreenEffect.DefaultKey}}" TargetType="{x:Type local:ScreenEffect}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenEffect}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="Loaded">
+                                <h:InvokeRandomSplitAnimationAction IsUseAll="True"
+                                                                    RepeatBehavior="Forever"
+                                                                    SplitMilliSecond="-400"
+                                                                    UseOrigin="True">
+                                    <h:InvokeRandomSplitAnimationAction.Timelines>
+                                        <cl:ArrayList>
+                                            <h:RandomDoubleAnimation Max="500" Min="100"
+                                                                     UseFrom="True"
+                                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                                                     To="0"
+                                                                     Duration="00:00:08" />
+
+                                            <h:RandomDoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="0.5" To="0"
+                                                                     Duration="00:00:08" />
+                                        </cl:ArrayList>
+                                    </h:InvokeRandomSplitAnimationAction.Timelines>
+                                </h:InvokeRandomSplitAnimationAction>
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+
+                        <ItemsPresenter />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static local:ScreenEffect.DefaultKey}}" TargetType="{x:Type local:ScreenEffect}" />
+
+</ResourceDictionary>
+

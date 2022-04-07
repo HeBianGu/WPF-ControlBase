@@ -1,0 +1,134 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Screen">
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenGroupBox.Default, TypeInTargetAssembly={x:Type local:ScreenGroupBox}}" TargetType="{x:Type local:ScreenGroupBox}">
+        <Setter Property="h:Cattach.CaptionHeight" Value="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" />
+        <Setter Property="h:Cattach.CaptionMargin" Value="15 0" />
+        <Setter Property="h:Cattach.CaptionVerticalAlignment" Value="Center" />
+        <Setter Property="h:Cattach.CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity3}}" />
+        <Setter Property="h:Cattach.CaptionBackground" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"/>
+        <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="h:Cattach.IsExcepChildren" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenGroupBox}">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"  BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <DockPanel>
+                                <ContentPresenter Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" DockPanel.Dock="Top" />
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </DockPanel>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border Height="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionHeight)}" Background="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionBackground)}">
+                        <TextBlock Margin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionMargin)}"
+                                   VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionVerticalAlignment)}"
+                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionForeground)}"
+                                   Text="{Binding}" />
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenGroupBox.Cornermark, TypeInTargetAssembly={x:Type local:ScreenGroupBox}}" BasedOn="{StaticResource {x:Static local:ScreenGroupBox.DefaultKey}}" TargetType="{x:Type local:ScreenGroupBox}">
+        <Setter Property="h:Cattach.CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity3}}" />
+        <Setter Property="LeftTopBorderThickness" Value="4,4,0,0" />
+        <Setter Property="RightTopBorderThickness" Value="0,4,4,0" />
+        <Setter Property="LeftBottomBorderThickness" Value="4,0,0,4" />
+        <Setter Property="RightBottomBorderThickness" Value="0,0,4,4" />
+        <Setter Property="CornermarkHeight" Value="15" />
+        <Setter Property="CornermarkWidth" Value="15" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ScreenGroupBox}">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"/>
+                        
+                        <Border Margin="1" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <!--<Border.Effect>
+                                <DropShadowEffect Color="Transparent" ShadowDepth="0" BlurRadius="5"/>
+                            </Border.Effect>-->
+                        </Border>
+
+                        <Border Width="{TemplateBinding CornermarkWidth}"
+                                Height="{TemplateBinding CornermarkHeight}"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                BorderThickness="{TemplateBinding LeftTopBorderThickness}" />
+                        <Border Width="{TemplateBinding CornermarkWidth}"
+                                Height="{TemplateBinding CornermarkHeight}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Top"
+                                BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                BorderThickness="{TemplateBinding RightTopBorderThickness}" />
+                        <Border Width="{TemplateBinding CornermarkWidth}"
+                                Height="{TemplateBinding CornermarkHeight}"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                BorderThickness="{TemplateBinding LeftBottomBorderThickness}" />
+                        <Border Width="{TemplateBinding CornermarkWidth}"
+                                Height="{TemplateBinding CornermarkHeight}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                BorderThickness="{TemplateBinding RightBottomBorderThickness}" />
+                        <DockPanel>
+                            <ContentPresenter Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" DockPanel.Dock="Top" />
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </DockPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenGroupBox.Line, TypeInTargetAssembly={x:Type local:ScreenGroupBox}}" BasedOn="{StaticResource {x:Static local:ScreenGroupBox.DefaultKey}}" TargetType="{x:Type local:ScreenGroupBox}">
+        <Setter Property="h:Cattach.CaptionBackground" Value="Transparent" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <Border Height="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionHeight)}" Background="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionBackground)}">
+                        <DockPanel Margin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionMargin)}" LastChildFill="False">
+                            <Border Width="4"
+                                    Margin="0,10"
+                                    Background="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                    CornerRadius="2" />
+                            <TextBlock Margin="10,0"
+                                       VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionVerticalAlignment)}"
+                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionForeground)}"
+                                       Text="{Binding}" />
+                        </DockPanel>
+                    </Border>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScreenGroupBox.Clear, TypeInTargetAssembly={x:Type local:ScreenGroupBox}}" BasedOn="{StaticResource {x:Static local:ScreenGroupBox.DefaultKey}}" TargetType="{x:Type local:ScreenGroupBox}">
+        <Setter Property="h:Cattach.CaptionBackground" Value="Transparent" />
+        <Setter Property="HeaderTemplate" Value="{x:Null}" />
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static local:ScreenGroupBox.DefaultKey}}" TargetType="{x:Type local:ScreenGroupBox}" />
+
+</ResourceDictionary>
+

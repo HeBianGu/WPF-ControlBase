@@ -1,0 +1,34 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Adorner">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/System/ListBoxItem.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--  允许拖拽的项  -->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ListBoxItem.AllowDrop, TypeInTargetAssembly={x:Type local:DragAdorner}}" BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Single}}" TargetType="ListBoxItem">
+        <Setter Property="AllowDrop" Value="True" />
+        <!--<Setter Property="h:ElementAllowDrapBehavior.IsActive" Value="True"/>-->
+        <Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <local:ElementAllowDrapBehavior DragDropEffects="Move" DropAdornerMode="OnlyY" />
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ListBoxItem.AllowDrop.Both, TypeInTargetAssembly={x:Type local:DragAdorner}}" BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}" TargetType="ListBoxItem">
+        <Setter Property="AllowDrop" Value="True" />
+        <!--<Setter Property="local:ElementAllowDropBehavior.IsActive" Value="True"/>-->
+        <Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <local:ElementAllowDrapBehavior DragDropEffects="Move" DropAdornerMode="Both" />
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

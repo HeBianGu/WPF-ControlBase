@@ -1,0 +1,98 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Window.Link"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.ToggleExpander;component/ToggleExpander.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionFrame.Default, TypeInTargetAssembly={x:Type local:LinkActionFrame}}" TargetType="local:LinkActionFrame">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LinkActionFrame">
+                    <ControlTemplate.Resources>
+                        <DataTemplate DataType="{x:Type sys:Exception}">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <StackPanel Margin="10">
+                                    <TextBlock Text="NAVIGATION FAILED" />
+                                    <TextBlock Margin="0,0,0,8"
+                                               FontWeight="Bold"
+                                               Foreground="#e51400"
+                                               Text="{Binding Message}" />
+                                    <TextBlock FontWeight="Bold" Text="Source" />
+                                    <TextBlock Margin="0,0,0,8" Text="{Binding Source, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LinkActionFrame}}" />
+                                    <TextBlock FontWeight="Bold" Text="Stack Trace" />
+                                    <TextBlock Margin="0,0,0,16" Text="{Binding}" />
+                                    <TextBlock FontWeight="Bold" Text="Suggestions" />
+                                </StackPanel>
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </ControlTemplate.Resources>
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <Grid>
+                            <h:SwtichTransitioner Margin="{TemplateBinding Padding}"
+                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  CurrentContent="{TemplateBinding Content}"
+                                                  ITransitionWipe="{TemplateBinding CurrentWipe}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActonFrame.Single, TypeInTargetAssembly={x:Type local:LinkActionFrame}}" TargetType="local:LinkActionFrame">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LinkActionFrame">
+                    <ControlTemplate.Resources>
+                        <DataTemplate DataType="{x:Type sys:Exception}">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <StackPanel>
+                                    <TextBlock Text="NAVIGATION FAILED" />
+                                    <TextBlock Margin="0,0,0,8"
+                                               FontWeight="Bold"
+                                               Foreground="#e51400"
+                                               Text="{Binding Message}" />
+                                    <TextBlock FontWeight="Bold" Text="Source" />
+                                    <TextBlock Margin="0,0,0,8" Text="{Binding Source, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LinkActionFrame}}" />
+                                    <TextBlock FontWeight="Bold" Text="Stack Trace" />
+                                    <TextBlock Margin="0,0,0,16" Text="{Binding}" />
+                                    <TextBlock FontWeight="Bold" Text="Suggestions" />
+                                </StackPanel>
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </ControlTemplate.Resources>
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <!--<Grid>
+                            <local:SwtichTransitioner CurrentContent="{TemplateBinding Content}"
+                                                      Background="Yellow"
+                                                      Margin="{TemplateBinding Padding}"/>
+                        </Grid>-->
+
+                        <ContentPresenter Margin="{TemplateBinding Padding}" Content="{TemplateBinding Content}" />
+                    </Border>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local:LinkActionFrame" BasedOn="{StaticResource {x:Static h:LinkActionFrame.DefaultKey}}"/>
+</ResourceDictionary>
