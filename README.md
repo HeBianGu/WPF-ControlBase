@@ -166,10 +166,25 @@
 HeBianGu.Demo.Demo1
 #### 这是一个基础控件中的ResourceKey示例
 HeBianGu.Demo.Demo2
+```C#  
+        <Button Style="{DynamicResource {x:Static h:ButtonKeys.Accent}}" />
+```
 #### 这是一个公用基础的ResourceKey示例
 HeBianGu.Demo.Demo3
+```XAML 
+        <Button Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"/>
+```
 #### 这是一个最简单的MainWindow窗口示例
 HeBianGu.Demo.Demo4
+```C#  
+   //  Do ：继承ApplicationBase
+   public partial class App : ApplicationBase
+    {
+       
+    }
+    //  Do ：继承h:MainWindow
+    <h:MainWindow x:Class="HeBianGu.Demo.Demo4.MainWindow"
+```
 #### 这是一个注册主题设置和注册保存配置信息的示例
 HeBianGu.Demo.Demo5
 ```C#  
