@@ -353,7 +353,7 @@ HeBianGu.Template.Link
 ## 赞助支持 
 
 ### 支付宝
-<img align="center" src="https://github.com/HeBianGu/WPF-ControlBase/blob/master/Document/Resource/z.jpg" width="200"/>
+<img align="center" src="https://github.com/HeBianGu/WPF-ControlBase/blob/master/Document/Resource/z.png" width="200"/>
 
 ###  微信
 <img align="center" src="https://github.com/HeBianGu/WPF-ControlBase/blob/master/Document/Resource/w.png" width="210"/>
