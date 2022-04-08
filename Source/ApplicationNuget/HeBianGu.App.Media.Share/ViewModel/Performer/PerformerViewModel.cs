@@ -54,7 +54,7 @@ namespace HeBianGu.App.Media.ViewModel.Performer
 
             string s = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
 
-            char[]? ss = s.ToArray();
+            char[] ss = s.ToArray();
 
             List<TestViewModel> source = new List<TestViewModel>();
             for (int i = 0; i < 100; i++)
