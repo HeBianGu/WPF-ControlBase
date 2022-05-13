@@ -272,8 +272,11 @@ HeBianGu.Demo.Demo10
 ```
 其他示例待更新...
 #### 注
-目前大部分功能采用注入(Add)和配置(Use)的方式添加.
-系统提供默认方法，如：services.AddMessageDialog()，如果不想使用系统默认对话框则替换成注册方法，重新注册接口即可，如:service.AddSingleton<IMessageDialog, YouMessageDialog>()，其中YouMessageDialog是你要自己实现的对话框，其他功能思想类似
+目前大部分功能采用注入(Add)和配置(Use)的方式添加
+##### Add
+系统提供默认方法，如：services.AddMessageDialog()，如果不想使用系统默认对话框则替换成注册方法，重新注册接口即可，如:service.AddSingleton<IMessageDialog, YouMessageDialog>()，其中YouMessageDialog是你要自己实现的对话框，其他功能思想类似；
+##### Use
+配置使用如：UseStart(l=>l.Title="HeBianGu")自定义要显示的内容,通过此方式配置的信息都有保存在主窗口右上角的设置按钮的页面中，可以自定义配置和序列化保存在本地；
 
 ### 模板
 VS=>项目=>导出模板
