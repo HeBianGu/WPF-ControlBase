@@ -17,7 +17,7 @@ namespace HeBianGu.App.Creator.View
 
         private void Button_Close(object sender, RoutedEventArgs e)
         {
-            Message.Instance.CloseLayer();
+            MessageProxy.Container.Close();
         }
 
         private void Button_Sumit(object sender, RoutedEventArgs e)
@@ -26,7 +26,7 @@ namespace HeBianGu.App.Creator.View
 
             Result = true;
 
-            Message.Instance.CloseLayer();
+            MessageProxy.Container.Close();
         }
 
 

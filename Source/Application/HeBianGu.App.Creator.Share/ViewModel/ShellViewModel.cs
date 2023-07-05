@@ -134,7 +134,7 @@ namespace HeBianGu.App.Creator
 
                  RefreshNodes(project);
 
-                 Message.Instance.ShowSnackMessageWithNotice(project.Title);
+                 MessageProxy.Snacker.ShowTime(project.Title);
              }
          });
 
@@ -175,7 +175,7 @@ namespace HeBianGu.App.Creator
         {
             View.SettingDialog setting = new View.SettingDialog();
 
-            Message.Instance.ShowLayer(setting);
+            MessageProxy.Container.Show(setting);
         });
 
         private void RefreshNodes(WorkflowProject project)
@@ -215,7 +215,7 @@ namespace HeBianGu.App.Creator
 
             if (start == null)
             {
-                Message.Instance.ShowSnackMessageWithNotice("请先添加一个StartAction");
+                MessageProxy.Snacker.ShowTime("请先添加一个StartAction");
                 return;
             }
 
@@ -228,7 +228,7 @@ namespace HeBianGu.App.Creator
 
             State = b ? ProjectState.Success : ProjectState.Error;
 
-            CommandService.InvalidateRequerySuggested();
+            Commander.InvalidateRequerySuggested();
         }
 
         protected override void Init()
@@ -305,7 +305,7 @@ namespace HeBianGu.App.Creator
             {
                 if (WorkflowProjectService.Instance.Current == null)
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("当前工程不能为空,请新建工程");
+                    MessageProxy.Snacker.ShowTime("当前工程不能为空,请新建工程");
                     return;
                 }
                 string extention = WorkflowProjectService.Instance.Extenstion;

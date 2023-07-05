@@ -13,7 +13,7 @@ namespace HeBianGu.App.Creator
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             return new ShellWindow();
         }
@@ -51,10 +51,10 @@ namespace HeBianGu.App.Creator
             services.AddWindowAnimation();
 
             //  Do ：启用消息提示 需要引用 HeBianGu.Control.Message
-            services.AddMessage();
+            services.AddMessageProxy();
 
             //  Do ：启用对话框 需要引用HeBianGu.Window.MessageDialog
-            services.AddMessageDialog();
+            services.AddWindowDialog();
 
             services.AddTheme();
 
