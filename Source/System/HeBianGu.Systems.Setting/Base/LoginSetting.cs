@@ -3,11 +3,12 @@
 using HeBianGu.Base.WpfBase;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Windows;
 
 namespace HeBianGu.Systems.Setting
 {
     /// <summary> 登录 </summary>
-    [SettingConfig(Name = "登录", Group = "基本设置")]
+    [Displayer(Name = "登录", GroupName = SystemSetting.GroupBase)]
     public class LoginSetting : Setting<LoginSetting>
     {
         private bool _automaticStart;

@@ -1,5 +1,6 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
+using System;
 using System.Windows.Controls;
 using System.Windows.Controls.Ribbon.Primitives;
 using System.Windows.Documents;
@@ -28,9 +29,12 @@ namespace HeBianGu.Service.Converter
 
         #region - File -
 
-        public static FilePathToIconConverter FilePathToIconConverter => new FilePathToIconConverter();
 
-        public static FilePathToImageSourceConverter FilePathToImageSourceConverter => new FilePathToImageSourceConverter();
+        [Obsolete]
+        public static GetFilePathIconConverter FilePathToIconConverter => new GetFilePathIconConverter();
+
+        [Obsolete]
+        public static GetFilePathToImageSourceConverter FilePathToImageSourceConverter => new GetFilePathToImageSourceConverter();
 
         #endregion
 

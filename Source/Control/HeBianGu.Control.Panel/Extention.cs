@@ -5,7 +5,7 @@ using HeBianGu.Control.Panel;
 
 namespace System
 {
-    public static class PropertyGridExtention
+    public static class Extention
     {
         /// <summary>
         /// 注册
@@ -20,9 +20,9 @@ namespace System
         /// 配置
         /// </summary>
         /// <param name="service"></param>
-        public static void UsePropertyGrid(this IApplicationBuilder service, Action<Setting> action)
+        public static void UseContainPanel(this IApplicationBuilder service, Action<ContainPanelSetting> action)
         {
-            action?.Invoke(Setting.Instance);
+            action?.Invoke(ContainPanelSetting.Instance);
         }
     }
 

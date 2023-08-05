@@ -67,7 +67,7 @@ namespace HeBianGu.Systems.Upgrade
                 return;
             }
 
-            string save = VersionConfig.Instance.SavePath;
+            string save = UpgradeSetting.Instance.SavePath;
 
             if (!Directory.Exists(save))
             {
@@ -75,14 +75,13 @@ namespace HeBianGu.Systems.Upgrade
             }
 
             string fileName = System.IO.Path.GetFileName(this.Url);
-
             string savePath = System.IO.Path.Combine(save, fileName);
 
             Action<string, string> action = (current, total) =>
                {
                    this.Dispatcher.Invoke(() =>
                    {
-                       this.Log = string.Format(VersionConfig.Instance.LoadFormat, FormatBytes(long.Parse(current)).PadLeft(10, ' '), FormatBytes(long.Parse(total)));
+                       this.Log = string.Format(UpgradeSetting.Instance.LoadFormat, FormatBytes(long.Parse(current)).PadLeft(10, ' '), FormatBytes(long.Parse(total)));
 
                        this.progress.Value = (int)((double.Parse(current) / double.Parse(total)) * 100);
 
@@ -102,15 +101,29 @@ namespace HeBianGu.Systems.Upgrade
                            //  Do：关闭
                            this.CloseAnimation(this);
 
-
-                           IMessageDialog message = ServiceRegistry.Instance.GetInstance<IMessageDialog>();
-
-                           bool result = message.ShowDialog("下载完成，是否立即安装");
-
-                           if (result)
+                           if (MessageProxy.Windower == null)
                            {
-                               Process.Start(savePath);
+                               if (MessageBox.Show("下载完成，是否立即安装", "提示", MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                                   return;
                            }
+                           else
+                           {
+                               bool result = MessageProxy.Windower.ShowDialog("下载完成，是否立即安装");
+                               if (result == false)
+                                   return;
+                           }
+
+                           string extend = Path.GetExtension(savePath).ToLower();
+
+                           if (extend.Equals(".msi") || extend.Equals(".exe"))
+                               //Process.Start(savePath);
+                               Process.Start(new ProcessStartInfo(savePath) { UseShellExecute = true });
+
+
+                           if (Path.GetExtension(savePath).ToLower().EndsWith("zip") || Path.GetExtension(savePath).ToLower().EndsWith("exe"))
+                               //Process.Start(savePath);
+                               Process.Start(new ProcessStartInfo(savePath) { UseShellExecute = true });
+
                        }
                    });
 
@@ -121,6 +134,7 @@ namespace HeBianGu.Systems.Upgrade
             Task.Run(() =>
             {
                 DownloadService.DownloadFile(url, savePath, action, 50);
+
             });
         }
 
@@ -198,6 +212,7 @@ namespace HeBianGu.Systems.Upgrade
             Myrq.UserAgent = "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; .NET CLR 1.0.3705;)";
             //Myrq.Headers.Add("Token", Token);
             HttpWebResponse myrp = (HttpWebResponse)Myrq.GetResponse();
+
 
             long totalBytes = myrp.ContentLength;
             total = (int)totalBytes;

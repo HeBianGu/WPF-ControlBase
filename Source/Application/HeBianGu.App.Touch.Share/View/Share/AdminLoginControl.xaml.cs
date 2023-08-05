@@ -1,4 +1,5 @@
-﻿using HeBianGu.Control.Message;
+﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.Message;
 using HeBianGu.General.WpfControlLib;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +29,7 @@ namespace HeBianGu.App.Touch.View.Share
             }
             else
             {
-                Message.Instance.ShowSnackMessageWithNotice("密码不正确，请输入111111！");
+                MessageProxy.Snacker.ShowTime("密码不正确，请输入111111！");
 
                 pb_password.Focus();
             }

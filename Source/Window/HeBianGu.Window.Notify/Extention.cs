@@ -1,6 +1,7 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
 using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfControlLib;
 using HeBianGu.Window.Notify;
 
 namespace System
@@ -11,7 +12,7 @@ namespace System
         /// 注册
         /// </summary>
         /// <param name="service"></param>
-        public static void AddNotify(this IServiceCollection service)
+        public static void AddNotifyMessage(this IServiceCollection service)
         {
             service.AddSingleton<INotifyMessage, NotifyMessage>();
         }

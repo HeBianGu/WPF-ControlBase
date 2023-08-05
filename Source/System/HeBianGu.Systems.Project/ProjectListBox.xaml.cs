@@ -1,14 +1,19 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
+using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfControlLib;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace HeBianGu.Systems.Project
 {
@@ -19,6 +24,21 @@ namespace HeBianGu.Systems.Project
         static ProjectListBox()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ProjectListBox), new FrameworkPropertyMetadata(typeof(ProjectListBox)));
+        }
+
+        public ProjectListBox()
+        {
+            CommandBinding commandBinding = new CommandBinding(Commander.Clear);
+            commandBinding.Executed += (l, k) =>
+              {
+                  if (k.Parameter is IProjectItem project)
+                  {
+                      ProjectProxy.Instance.Delete(x => x == project);
+                      ProjectProxy.Instance.Save(out string message);
+                  }
+              };
+
+            this.CommandBindings.Add(commandBinding);
         }
 
         public IEnumerable<IProjectItem> Projects
@@ -105,18 +125,27 @@ namespace HeBianGu.Systems.Project
         {
             if (this.Projects == null) return;
 
-            IEnumerable<IGrouping<string, IProjectItem>> groups = this.Projects.OrderBy(l => !l.IsFixed).ThenBy(l => l.UpdateTime).GroupBy(this.GroupBy ?? new Func<IProjectItem, string>(l =>
+            var order = this.Projects.OrderBy(l => !l.IsFixed).ThenBy(l => l.UpdateTime);
+
+            IEnumerable<IGrouping<string, IProjectItem>> groups = order.GroupBy(this.GroupBy ?? new Func<IProjectItem, string>(l =>
                     {
                         if (l.IsFixed) return "已固定";
-
                         if (l.UpdateTime.Date == DateTime.Now.Date) return "今天";
-
                         return "更早";
                     }));
 
             ObservableCollection<ProjectItemViewModel> models = new ObservableCollection<ProjectItemViewModel>();
 
-            foreach (IGrouping<string, IProjectItem> group in groups)
+            var list = groups.ToList();
+            list.Sort((x, y) =>
+            {
+                if (x.Key == y.Key) return 0;
+                if (x.Key == "已固定") return -1;
+                if (x.Key == "更早") return 1;
+                return 0;
+            });
+
+            foreach (IGrouping<string, IProjectItem> group in list)
             {
                 foreach (IProjectItem item in group)
                 {

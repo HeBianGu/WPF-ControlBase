@@ -7,22 +7,31 @@ namespace System
 {
     public static class Extention
     {
-        /// <summary>
-        /// 注册
-        /// </summary>
-        /// <param name="service"></param>
-        public static void AddMessageContainer(this IServiceCollection service)
-        {
-            service.AddSingleton<IService, Service>();
-        }
+        ///// <summary>
+        ///// 注册
+        ///// </summary>
+        ///// <param name="service"></param>
+        //public static void AddMessageContainer(this IServiceCollection service)
+        //{
+        //    service.AddSingleton<IMessageContainerService, MessageContainerService>();
+        //}
+
+        ///// <summary>
+        ///// 注册
+        ///// </summary>  
+        //public static IServiceCollection AddNotifyMessage(this IServiceCollection services)
+        //{
+        //    services.AddSingleton<INotifyMessage, NotifyMessage>();
+        //    return services;
+        //}
 
         /// <summary>
         /// 配置
         /// </summary>
         /// <param name="service"></param>
-        public static void UseMessageContainer(this IApplicationBuilder service, Action<Setting> action)
+        public static void UseMessageContainer(this IApplicationBuilder service, Action<MessageContainerSetting> action)
         {
-            action?.Invoke(Setting.Instance);
+            action?.Invoke(MessageContainerSetting.Instance);
         }
     }
 

@@ -12,14 +12,11 @@ namespace HeBianGu.App.Touch
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             AssemblyDomain.Instance.StartMonitor();
-
             IAssemblyDomain domain = IServiceCollection.GetService<IAssemblyDomain>();
-
             domain.StartMonitor();
-
             return new ShellWindow();
         }
 
@@ -32,17 +29,16 @@ namespace HeBianGu.App.Touch
             services.AddWindowAnimation();
 
             //  Do ：启用消息提示 需要引用 HeBianGu.Control.Message
-            services.AddMessage();
+            services.AddMessageProxy();
 
             //  Do ：启用对话框 需要引用HeBianGu.Window.MessageDialog
-            services.AddMessageDialog();
+            services.AddWindowDialog();
 
             //  Do ：启用和显示右上角主题设置
             services.AddTheme();
 
             //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
-
             services.AddMvc();
 
         }
@@ -51,33 +47,20 @@ namespace HeBianGu.App.Touch
         {
             base.Configure(app);
 
-            app.UseMvc();
-
             //  Do：设置默认主题
             app.UseLocalTheme(l =>
             {
                 l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
-
-                l.SmallFontSize = 15D;
-                l.LargeFontSize = 18D;
-                l.FontSize = FontSize.Small;
-
-                l.ItemHeight = 35;
-
+                l.DefaultFontSize = 25D;
+                l.FontSize = FontSize.Normal;
+                l.ItemHeight = 55;
                 l.RowHeight = 60;
-
                 l.ItemCornerRadius = 5;
-
                 l.AnimalSpeed = 5000;
-
                 l.AccentColorSelectType = 0;
-
                 l.IsUseAnimal = false;
-
                 l.ThemeType = ThemeType.Light;
-
                 l.Language = Language.Chinese;
-
                 l.AccentBrushType = AccentBrushType.LinearGradientBrush;
             });
 

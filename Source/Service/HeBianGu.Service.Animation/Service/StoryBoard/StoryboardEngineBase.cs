@@ -9,7 +9,7 @@ namespace HeBianGu.Base.WpfBase
     /// <summary> 动画引擎基类 </summary>
     public abstract class StoryboardEngineBase : IDisposable
     {
-        public Storyboard Storyboard { get; set; } = new Storyboard();
+        public Storyboard Storyboard { get; set; } = StoryboardFactory.Create();
 
         public EventHandler CompletedEvent { get; set; }
 
@@ -26,7 +26,7 @@ namespace HeBianGu.Base.WpfBase
 
         public abstract StoryboardEngineBase Start(UIElement element, Action<UIElement> Completed = null, Action<StoryboardEngineBase> init = null);
 
-        //public abstract StoryboardEngineBase Start(Animatable element, Action<Animatable> Completed = null, Action<Storyboard> init = null);
+        //public abstract StoryboardEngineBase Start(Animatable element, Action<Animatable> Completed = null, Action<Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}"> init = null);
 
         public abstract StoryboardEngineBase Stop();
 

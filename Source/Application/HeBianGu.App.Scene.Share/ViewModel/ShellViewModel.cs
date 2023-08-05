@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 
 namespace HeBianGu.App.Scene
@@ -223,6 +224,11 @@ namespace HeBianGu.App.Scene
         }
 
 
+        public RelayCommand RelayCommand => new RelayCommand(l =>
+        {
+            RelayMethod(l);
+        });
+
         /// <summary> 命令通用方法 </summary>
         protected override async void RelayMethod(object obj)
         {
@@ -232,7 +238,7 @@ namespace HeBianGu.App.Scene
             {
                 SelectTypeControl select = new SelectTypeControl();
 
-                bool result = await Message.Instance.ShowCustomDialog<bool>(select);
+                bool result = await Messager.Instance.ShowDialog<bool>(select);
 
                 if (!result) return;
 
@@ -246,7 +252,7 @@ namespace HeBianGu.App.Scene
                     }
                 };
 
-                bool? result1 = await Message.Instance.ShowCustomDialog<bool?>(config);
+                bool? result1 = await Messager.Instance.ShowDialog<bool?>(config);
 
                 //  Do ：取消
                 if (result1 == false) return;
@@ -260,7 +266,7 @@ namespace HeBianGu.App.Scene
                 //  Do ：创建
                 if (string.IsNullOrEmpty(config.Model.Value) || string.IsNullOrEmpty(config.Model.Value1))
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("数据不合法"); return;
+                    MessageProxy.Snacker.ShowTime("数据不合法"); return;
 
                 }
                 Scenes.Add(config.Model);
@@ -288,13 +294,13 @@ namespace HeBianGu.App.Scene
             {
                 if (string.IsNullOrEmpty(Title))
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("请输入标题信息");
+                    MessageProxy.Snacker.ShowTime("请输入标题信息");
                     return;
                 }
 
                 if (Historys.FirstOrDefault(l => l.Value == Title) != null)
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("存在重复的标题");
+                    MessageProxy.Snacker.ShowTime("存在重复的标题");
                     return;
                 }
 
@@ -308,7 +314,7 @@ namespace HeBianGu.App.Scene
                      }
                  });
 
-                Message.Instance.ShowSnackMessageWithNotice("提交成功");
+                MessageProxy.Snacker.ShowTime("提交成功");
 
                 Historys.Add(new TestViewModel() { Value = Title });
 
@@ -319,14 +325,14 @@ namespace HeBianGu.App.Scene
         {
             if (!Directory.Exists(CurrentScene.Value1))
             {
-                Message.Instance.ShowSnackMessageWithNotice("场景路径不存在，请检查"); return;
+                MessageProxy.Snacker.ShowTime("场景路径不存在，请检查"); return;
             }
 
             Files.Clear();
 
             ManualResetEvent waitHandle = new ManualResetEvent(false);
 
-            await Notify.Instance.ShowWinProgressBarMessage<bool>(l =>
+            await MessageProxy.Notify.ShowProgress<bool>(l =>
              {
                  l.Message = "读取文件中...";
 
@@ -361,25 +367,40 @@ namespace HeBianGu.App.Scene
                          Int1 = i
                      };
 
-                     System.Windows.Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                     //System.Windows.Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+                     //{
+                     //    Files.Add(model);
+
+                     //    l.Value = double.Parse(model.Int1.ToString()) * 100 / double.Parse((files.Count - 1).ToString());
+
+                     //    if (model.Int1 == files.Count - 1)
+                     //    {
+                     //        waitHandle.Set();
+                     //    }
+                     //}));
+
+
+
+                     Application.Current.Dispatcher.Invoke(() =>
                      {
                          Files.Add(model);
-
                          l.Value = double.Parse(model.Int1.ToString()) * 100 / double.Parse((files.Count - 1).ToString());
+                     });
 
-                         if (model.Int1 == files.Count - 1)
-                         {
-                             waitHandle.Set();
-                         }
-                     }));
+
+                     //if (model.Int1 == files.Count - 1)
+                     //{
+                     //    waitHandle.Set();
+                     //}
                  }
 
-                 waitHandle.WaitOne();
+                 //waitHandle.WaitOne();
 
+                 this.SelectedFile = this.Files?.FirstOrDefault();
                  return true;
              });
 
-            Message.Instance.ShowSnackMessageWithNotice($"场景加载完成 <{CurrentScene.Value}>");
+            MessageProxy.Snacker.ShowTime($"场景加载完成 <{CurrentScene.Value}>");
         }
 
 

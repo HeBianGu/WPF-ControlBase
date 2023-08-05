@@ -2,6 +2,8 @@
 
 using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.PropertyGrid;
+using HeBianGu.General.WpfControlLib;
+using HeBianGu.Service.Mvp;
 
 namespace System
 {
@@ -11,9 +13,11 @@ namespace System
         /// 注册
         /// </summary>
         /// <param name="service"></param>
-        public static void AddPropertyGrid(this IServiceCollection service)
+        public static void AddPropertyGridMessage(this IServiceCollection service, Action<IPropertyGridMessageOption> action=null)
         {
-            service.AddSingleton<IPropertyGridService, PropertyGridService>();
+            service.AddSingleton<IPropertyGridMessage, PropertyGridMessage>();
+            action?.Invoke(PropertyGridMessage.Instance);
+            //SystemSetting.Instance.Add(PropertyGridMessage.Instance);
         }
 
         /// <summary>
@@ -24,7 +28,31 @@ namespace System
         {
             action?.Invoke(PropertyGridSetting.Instance);
         }
+
+        /// <summary>
+        /// 设置
+        /// </summary>  
+        public static IServiceCollection AddPropertyGridViewPresenter(this IServiceCollection builder, Action<IPropertyViewPresenterOption> action = null)
+        {
+            builder.AddWindowSideEditViewPresenter();
+            builder.AddSingleton<IPropertyGridViewPresenter, PropertyGridViewPresenter>();
+            WindowSideEditViewPresenter.Instance.AddPersenter(PropertyGridViewPresenter.Instance);
+            action?.Invoke(PropertyGridViewPresenter.Instance);
+            SystemSetting.Instance.Add(PropertyGridViewPresenter.Instance);
+            return builder;
+        }
+
+        /// <summary>
+        /// 设置
+        /// </summary>  
+        public static IServiceCollection AddPropertyViewViewPresenter(this IServiceCollection builder, Action<IPropertyViewPresenterOption> action = null)
+        {
+            builder.AddWindowSideEditViewPresenter();
+            builder.AddSingleton<IPropertyViewViewPresenter, PropertyViewViewPresenter>();
+            WindowSideEditViewPresenter.Instance.AddPersenter(PropertyViewViewPresenter.Instance);
+            action?.Invoke(PropertyViewViewPresenter.Instance);
+            SystemSetting.Instance.Add(PropertyViewViewPresenter.Instance);
+            return builder;
+        }
     }
-
-
 }

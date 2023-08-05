@@ -5,25 +5,25 @@ using HeBianGu.Base.WpfBase;
 namespace HeBianGu.Systems.Setting
 {
     /// <summary> 文件管理 </summary>
-    [SettingConfig(Name = "文件管理", Group = "基本设置")]
+    [Displayer(Name = "文件管理", GroupName = SystemSetting.GroupBase)]
     public class FileSetting : Setting<FileSetting>
     {
     }
 
-    [SettingConfig(Name = "密码", Group = "安全设置")]
+    [Displayer(Name = "密码", GroupName = SystemSetting.GroupSecurity)]
     public class PasswordSetting : Setting<PasswordSetting>
     {
 
     }
 
-    [SettingConfig(Name = "消息记录", Group = "安全设置")]
+    [Displayer(Name = "消息记录", GroupName = SystemSetting.GroupMessage)]
     public class MessageSetting : Setting<MessageSetting>
     {
 
     }
 
 
-    [SettingConfig(Name = "个人资料", Group = "权限设置")]
+    [Displayer(Name = "个人资料", GroupName =SystemSetting.GroupSecurity)]
     public class PersonalSetting : Setting<PersonalSetting>
     {
 

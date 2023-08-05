@@ -21,7 +21,7 @@ namespace HeBianGu.Systems.Component
             {
                 ComponentPort port = new ComponentPort(this.ID);
                 port.Dock = Dock.Left;
-                port.DisplayName = "是";
+                port.Name = "是";
                 port.PortType = PortType.OutPut;
                 this.PortDatas.Add(port);
             }
@@ -29,7 +29,7 @@ namespace HeBianGu.Systems.Component
             {
                 ComponentPort port = new ComponentPort(this.ID);
                 port.Dock = Dock.Right;
-                port.DisplayName = "否";
+                port.Name = "否";
                 port.PortType = PortType.OutPut;
                 this.PortDatas.Add(port);
             }
@@ -37,12 +37,12 @@ namespace HeBianGu.Systems.Component
 
         protected IActionResult True(params IPortData[] ports)
         {
-            return OK(this.PortDatas.FirstOrDefault(l => l.DisplayName == "是"));
+            return OK(this.PortDatas.FirstOrDefault(l => l.Name == "是"));
         }
 
         protected IActionResult False(params IPortData[] ports)
         {
-            return OK(this.PortDatas.FirstOrDefault(l => l.DisplayName == "否"));
+            return OK(this.PortDatas.FirstOrDefault(l => l.Name == "否"));
         }
     }
 }

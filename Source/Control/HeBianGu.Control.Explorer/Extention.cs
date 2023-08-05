@@ -5,25 +5,25 @@ using HeBianGu.Control.Explorer;
 
 namespace System
 {
-    public static class PropertyGridExtention
+    public static class Extention
     {
         /// <summary>
         /// 注册
         /// </summary>
         /// <param name="service"></param>
-        public static void AddPropertyGrid(this IServiceCollection service)
+        public static void AddWindowExplorer(this IServiceCollection service)
         {
-            service.AddSingleton<IService, Service>();
+            service.AddSingleton<IExplorerService, WindowExplorerService>();
         }
 
-        /// <summary>
-        /// 配置
-        /// </summary>
-        /// <param name="service"></param>
-        public static void UsePropertyGrid(this IApplicationBuilder service, Action<Setting> action)
-        {
-            action?.Invoke(Setting.Instance);
-        }
+        ///// <summary>
+        ///// 配置
+        ///// </summary>
+        ///// <param name="service"></param>
+        //public static void UsePropertyGrid(this IApplicationBuilder service, Action<Setting> action)
+        //{
+        //    action?.Invoke(Setting.Instance);
+        //}
     }
 
 

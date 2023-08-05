@@ -1,0 +1,987 @@
+﻿<h:MainWindow x:Class="HeBianGu.App.Track.ShellWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:h="QQ:908293466"
+              xmlns:local="clr-namespace:HeBianGu.App.Track"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:system="clr-namespace:System;assembly=mscorlib"
+              Title="媒体库"
+              Width="1200"
+              Height="760"
+              h:Cattach.Icon="  &#xeabe; "
+              CaptionHeight="50"
+              DataContext="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel}"
+              NotifyIconSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.ico"
+              mc:Ignorable="d">
+    <DockPanel Margin="0,2">
+        <DockPanel Height="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" DockPanel.Dock="Bottom">
+            <TextBlock Margin="2"
+                       VerticalAlignment="Center"
+                       Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                       Text="状态栏" />
+        </DockPanel>
+        <Grid>
+            <TabControl Margin="0" h:Cattach.UseSearch="False">
+                <TabItem Header="项目       ">
+                    <DockPanel>
+                        <Grid Height="200" DockPanel.Dock="Bottom">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Border BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,1,1,1" />
+                            <Border Grid.Column="1" BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,1,1,1" />
+
+                            <h:StoryBoardPlayer Grid.Row="0"
+                                                Grid.RowSpan="2"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                ItemsSource="{Binding SelectedPlay.Collection}"
+                                                MaxValue="1000"
+                                                MinValue="0"
+                                                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                SliderMargin="200,0,0,0"
+                                                TickFrequency="1"
+                                                TickSmallSplitValue="10"
+                                                TickSplitValue="60"
+                                                Value="100">
+                                <h:StoryBoardPlayer.Resources>
+                                    <DataTemplate DataType="{x:Type local:Program}">
+                                        <Grid Height="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid>
+                                                <DockPanel HorizontalAlignment="Center">
+                                                    <TextBlock VerticalAlignment="Center" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xeabe;" />
+                                                    <TextBlock Margin="5,0" VerticalAlignment="Center" Text="{Binding Name}" />
+                                                </DockPanel>
+
+                                                <Border BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,1,1,1" />
+                                            </Grid>
+
+                                            <Border Grid.Column="1" BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,1,1,1" />
+
+                                            <!--<h:StoryBoardToolBar Grid.Column="1"
+                                                             IsEnabled="{Binding IsEnbled, Converter={x:Static h:XConverter.TrueToFalseConverter}}"
+                                                             LeftPercent="{Binding LeftPercent, Mode=TwoWay}"
+                                                             MaxValue="{Binding StoryBoardPlayerViewModel.MaxValue}"
+                                                             RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
+                                                             RightPercent="{Binding RightPercent, Mode=TwoWay}" />-->
+                                        </Grid>
+                                    </DataTemplate>
+                                </h:StoryBoardPlayer.Resources>
+
+                            </h:StoryBoardPlayer>
+
+                            <ContentControl Style="{DynamicResource {x:Static h:ControlKeys.ForegroundDynamic}}">
+                                <DockPanel Margin="0,0" Background="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Background}">
+                                    <TextBlock Margin="10,0"
+                                               VerticalAlignment="Center"
+                                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Foreground}"
+                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                               Text="&#xe667;" />
+                                    <TextBlock VerticalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ContentControl}, Path=Foreground}" Text="节目队列" />
+                                </DockPanel>
+                            </ContentControl>
+                        </Grid>
+
+                        <DockPanel Background="Transparent">
+                            <Grid Width="350" Margin="2,0,0,0" DockPanel.Dock="Right">
+                                <DockPanel>
+                                    <TabControl h:Cattach.UseSearch="False" Style="{DynamicResource {x:Static h:TabControlKeys.Line}}">
+                                        <TabItem Width="170" HorizontalContentAlignment="Center" Header="手动播放">
+                                            <DockPanel>
+                                                <h:PagedDataGrid AutoGenerateColumns="False"
+                                                                 DataSource="{Binding Plays}"
+                                                                 SelectedItem="{Binding SelectedPlay}"
+                                                                 TopVisibility="Collapsed">
+                                                    <DataGrid.Columns>
+                                                        <DataGridTemplateColumn>
+                                                            <DataGridTemplateColumn.HeaderTemplate>
+                                                                <ItemContainerTemplate>
+                                                                    <TextBlock Text="编号" />
+                                                                </ItemContainerTemplate>
+                                                            </DataGridTemplateColumn.HeaderTemplate>
+
+                                                            <DataGridTemplateColumn.CellTemplate>
+                                                                <ItemContainerTemplate>
+                                                                    <TextBlock>
+                                                                        <h:Interaction.Behaviors>
+                                                                            <h:DataGridRowIndexBehavior DataGridRow="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}}" />
+                                                                        </h:Interaction.Behaviors>
+                                                                    </TextBlock>
+                                                                </ItemContainerTemplate>
+                                                            </DataGridTemplateColumn.CellTemplate>
+                                                        </DataGridTemplateColumn>
+                                                        <DataGridTextColumn Width="*" Binding="{Binding Name}" Header="播放列表" />
+                                                        <DataGridTextColumn Width="*" Binding="{Binding Size}" Header="时长" />
+                                                    </DataGrid.Columns>
+                                                </h:PagedDataGrid>
+                                            </DockPanel>
+                                        </TabItem>
+                                        <TabItem Width="170" HorizontalContentAlignment="Center" Header="定时播放">
+                                            <ScrollViewer>
+                                                <DockPanel Width="340" Background="Transparent">
+                                                    <Expander DockPanel.Dock="Top" Header="最近任务">
+                                                        <TextBlock Margin="10" HorizontalAlignment="Center" FontSize="{StaticResource {x:Static h:FontSizeKeys.Header1}}">
+                                                            <Run Text="--" />
+                                                            <Run Text="小时" />
+                                                            <Run Text="--" />
+                                                            <Run Text="分钟" />
+                                                            <Run Text="--" />
+                                                            <Run Text="秒" />
+                                                        </TextBlock>
+                                                    </Expander>
+
+                                                    <Expander DockPanel.Dock="Bottom" Header="最近节日">
+                                                        <ItemsControl>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border Style="{DynamicResource {x:Static h:BorderKeys.CardBorderBrush}}">
+                                                                        <Grid>
+                                                                            <StackPanel>
+                                                                                <Label h:Cattach.Title="时间:" Content="--" />
+                                                                                <Label h:Cattach.Title="周期:" Content="--" />
+                                                                                <Label h:Cattach.Title="列表:" Content="--" />
+                                                                            </StackPanel>
+                                                                            <Label HorizontalAlignment="Right"
+                                                                                   VerticalAlignment="Bottom"
+                                                                                   h:Cattach.Title="播放模式:"
+                                                                                   Content="--" />
+                                                                        </Grid>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                            <h:TestViewModel />
+                                                        </ItemsControl>
+                                                    </Expander>
+
+                                                    <Expander DockPanel.Dock="Bottom" Header="明日任务">
+                                                        <ItemsControl>
+                                                            <ItemsControl.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border Style="{DynamicResource {x:Static h:BorderKeys.CardBorderBrush}}">
+                                                                        <Grid>
+                                                                            <StackPanel>
+                                                                                <Label h:Cattach.Title="时间:" Content="--" />
+                                                                                <Label h:Cattach.Title="周期:" Content="--" />
+                                                                                <Label h:Cattach.Title="列表:" Content="--" />
+                                                                            </StackPanel>
+                                                                            <Label HorizontalAlignment="Right"
+                                                                                   VerticalAlignment="Bottom"
+                                                                                   h:Cattach.Title="播放模式:"
+                                                                                   Content="--" />
+                                                                        </Grid>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ItemsControl.ItemTemplate>
+                                                            <h:TestViewModel />
+                                                        </ItemsControl>
+                                                    </Expander>
+                                                    <Expander Header="任务详情">
+                                                        <Grid>
+                                                            <ItemsControl ItemsSource="{Binding Timers.Collection}">
+                                                                <ItemsControl.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <Border Style="{DynamicResource {x:Static h:BorderKeys.CardBorderBrush}}">
+                                                                            <StackPanel>
+                                                                                <Label h:Cattach.Title="时间:" Content="--" />
+                                                                                <Label h:Cattach.Title="周期:" Content="{Binding Mode}" />
+                                                                                <Label h:Cattach.Title="列表:" Content="--" />
+                                                                                <Label h:Cattach.Title="播放模式:" Content="--" />
+                                                                            </StackPanel>
+                                                                        </Border>
+                                                                    </DataTemplate>
+                                                                </ItemsControl.ItemTemplate>
+                                                            </ItemsControl>
+
+                                                            <Button HorizontalAlignment="Right"
+                                                                    VerticalAlignment="Top"
+                                                                    h:Cattach.Icon="&#xe6f2;"
+                                                                    Command="{Binding EditTimerCommand}"
+                                                                    Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                                                    ToolTip="编辑" />
+                                                        </Grid>
+                                                    </Expander>
+                                                </DockPanel>
+                                            </ScrollViewer>
+                                        </TabItem>
+                                    </TabControl>
+                                </DockPanel>
+                            </Grid>
+
+                            <Grid Background="Black">
+                                <h:VlcPlayer ToolBackground="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}" ToolForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" UseOpenFile="True">
+                                    <h:Cattach.BottomTemplate>
+                                        <ControlTemplate>
+                                            <DockPanel Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}" LastChildFill="False">
+                                                <ToggleButton x:Name="toggle_play"
+                                                              Height="Auto"
+                                                              Margin="10,0,0,0"
+                                                              h:Cattach.CheckedIcon="&#xe76e;"
+                                                              h:Cattach.UncheckedIcon="&#xe749;"
+                                                              Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                                              IsChecked="{Binding RelativeSource={RelativeSource AncestorType=h:VlcPlayer}, Path=IsPlaying}">
+                                                    <ToggleButton.Template>
+                                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                            <Grid>
+                                                                <TextBlock x:Name="txt"
+                                                                           VerticalAlignment="Center"
+                                                                           FontSize="25"
+                                                                           Foreground="{TemplateBinding Foreground}"
+                                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                                           Text="&#xe76e;" />
+                                                            </Grid>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsChecked" Value="true">
+                                                                    <Setter TargetName="txt" Property="Text" Value="&#xe749;" />
+                                                                    <Setter TargetName="txt" Property="ToolTip" Value="隐藏" />
+                                                                </Trigger>
+                                                                <Trigger Property="IsEnabled" Value="false">
+                                                                    <Setter TargetName="txt" Property="Opacity" Value="0.5" />
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </ToggleButton.Template>
+                                                </ToggleButton>
+
+                                                <Button VerticalAlignment="Center"
+                                                        h:Cattach.Icon="&#xe609;"
+                                                        DockPanel.Dock="Left"
+                                                        Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                                                        ToolTip="停止" />
+
+                                                <DockPanel DockPanel.Dock="Right" LastChildFill="False">
+                                                    <Button Margin="2,0"
+                                                            h:Cattach.Icon="&#xe9d0;"
+                                                            h:Cattach.IconSize="20"
+                                                            Command="{x:Static h:VlcPlayerCommands.FullScreen}"
+                                                            DockPanel.Dock="Right"
+                                                            Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                                                            ToolTip="全屏" />
+                                                </DockPanel>
+
+                                                <DockPanel Grid.Column="0"
+                                                           Width="Auto"
+                                                           Margin="0,0"
+                                                           HorizontalAlignment="Left"
+                                                           VerticalAlignment="Center"
+                                                           DockPanel.Dock="Right">
+
+                                                    <Button h:Cattach.Icon="&#xe664;" h:Cattach.IconSize="15" Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+
+                                                    <Slider x:Name="slider_sound"
+                                                            Width="100"
+                                                            VerticalAlignment="Center"
+                                                            IsMoveToPointEnabled="True"
+                                                            IsSnapToTickEnabled="True"
+                                                            Maximum="100"
+                                                            Minimum="0"
+                                                            SmallChange="1"
+                                                            Style="{DynamicResource {x:Static h:SliderKeys.Dynamic}}"
+                                                            Value="{Binding RelativeSource={RelativeSource AncestorType=h:VlcPlayer}, Path=Volume}" />
+                                                </DockPanel>
+                                            </DockPanel>
+                                        </ControlTemplate>
+                                    </h:Cattach.BottomTemplate>
+                                </h:VlcPlayer>
+                            </Grid>
+                        </DockPanel>
+                    </DockPanel>
+                </TabItem>
+
+                <TabItem Header="节目编排">
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Bottom">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="200" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Border BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,1,1,1" />
+                            <Border Grid.Column="1" BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,1,1,1" />
+                            <h:StoryBoardPlayer Grid.Row="0"
+                                                Grid.RowSpan="2"
+                                                Grid.Column="0"
+                                                Grid.ColumnSpan="2"
+                                                Height="215"
+                                                Margin="0"
+                                                Padding="0"
+                                                Background="{DynamicResource {x:Static h:BrushKeys.Dark0}}"
+                                                ItemsSource="{Binding SelectedProgram.Collection}"
+                                                MaxValue="1000"
+                                                MinValue="0"
+                                                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                SliderMargin="200,0,0,0"
+                                                TickFrequency="1"
+                                                TickSmallSplitValue="6"
+                                                TickSplitValue="60"
+                                                Value="{Binding ProgramPlayValue, Mode=TwoWay}">
+                                <h:StoryBoardPlayer.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="200" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid>
+                                                <DockPanel HorizontalAlignment="Center">
+                                                    <TextBlock VerticalAlignment="Center" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Icon}" />
+                                                    <TextBlock MinWidth="100"
+                                                               Margin="5,0,5,0"
+                                                               VerticalAlignment="Center"
+                                                               Text="{Binding Name}" />
+                                                </DockPanel>
+                                                <Border BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,1,1,1" />
+                                            </Grid>
+                                            <Border Grid.Column="1" BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,1,1,1" />
+                                            <h:ItemsBoardToolBar Grid.Column="1"
+                                                                 AllowDrop="True"
+                                                                 ItemsSource="{Binding Collection}"
+                                                                 SelectedItem="{Binding SelectedItem}">
+                                                <h:Interaction.Behaviors>
+                                                    <h:ListDropBlendBehavior DragGroup="Equipment" />
+                                                </h:Interaction.Behaviors>
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid Background="Transparent">
+                                                            <h:ItemThumbBar x:Name="itb"
+                                                                            Height="30"
+                                                                            Margin="0,0,0,5"
+                                                                            VerticalAlignment="Center"
+                                                                            h:Cattach.CornerRadius="2"
+                                                                            AllowDrop="False"
+                                                                            Background="{Binding Background}"
+                                                                            Left="{Binding Start, Mode=TwoWay}"
+                                                                            ToolTip="{Binding Name}">
+                                                                <h:ItemThumbBar.Width>
+                                                                    <MultiBinding Converter="{x:Static h:XConverter.MathMultiplyConverter}">
+                                                                        <Binding Path="Size" />
+                                                                        <Binding Path="TickFrequency" RelativeSource="{RelativeSource AncestorType=h:StoryBoardPlayer}" />
+                                                                    </MultiBinding>
+                                                                </h:ItemThumbBar.Width>
+                                                                <h:Interaction.Triggers>
+                                                                    <h:EventTrigger EventName="PreviewMouseDown">
+                                                                        <h:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=h:StoryBoardPlayer}, Path=DataContext.SelectedObjectCommand}" CommandParameter="{Binding}" />
+                                                                    </h:EventTrigger>
+                                                                </h:Interaction.Triggers>
+                                                            </h:ItemThumbBar>
+
+                                                            <TextBlock x:Name="tb"
+                                                                       Margin="-50,0,-50,5"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"
+                                                                       Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                                                                       IsHitTestVisible="False"
+                                                                       Text="{Binding Name}" />
+
+                                                            <Button Margin="-5" Style="{DynamicResource {x:Static h:ButtonKeys.CloseFlag}}" Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsMouseOver, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                                                                <h:Interaction.Behaviors>
+                                                                    <h:RemoveItemsControlButtonBehavior Item="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                                                                </h:Interaction.Behaviors>
+                                                            </Button>
+                                                        </Grid>
+                                                        <DataTemplate.Triggers>
+                                                            <DataTrigger Binding="{Binding Size, Converter={x:Static h:XConverter.Compara}, ConverterParameter=50}" Value="-1">
+                                                                <Setter TargetName="tb" Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ., Converter={x:Static h:XConverter.GetTypeConverter}}" Value="{x:Type local:Video}">
+                                                                <Setter TargetName="itb" Property="Background">
+                                                                    <Setter.Value>
+                                                                        <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=VideoColor}" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ., Converter={x:Static h:XConverter.GetTypeConverter}}" Value="{x:Type local:Image}">
+                                                                <Setter TargetName="itb" Property="Background">
+                                                                    <Setter.Value>
+                                                                        <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=ImageColor}" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ., Converter={x:Static h:XConverter.GetTypeConverter}}" Value="{x:Type local:Audio}">
+                                                                <Setter TargetName="itb" Property="Background">
+                                                                    <Setter.Value>
+                                                                        <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=AudioColor}" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ., Converter={x:Static h:XConverter.GetTypeConverter}}" Value="{x:Type local:Dmx}">
+                                                                <Setter TargetName="itb" Property="Background">
+                                                                    <Setter.Value>
+                                                                        <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=DmxColor}" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ., Converter={x:Static h:XConverter.GetTypeConverter}}" Value="{x:Type local:UDP}">
+                                                                <Setter TargetName="itb" Property="Background">
+                                                                    <Setter.Value>
+                                                                        <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=UdpColor}" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding ., Converter={x:Static h:XConverter.GetTypeConverter}}" Value="{x:Type local:TCP}">
+                                                                <Setter TargetName="itb" Property="Background">
+                                                                    <Setter.Value>
+                                                                        <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=TcpColor}" />
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </DataTrigger>
+                                                        </DataTemplate.Triggers>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+
+                                                <ListBox.ItemContainerStyle>
+                                                    <Style BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}" TargetType="ListBoxItem">
+                                                        <!--<Setter Property="Canvas.Left" Value="{Binding Start}" />-->
+                                                        <Setter Property="Canvas.Left">
+                                                            <Setter.Value>
+                                                                <MultiBinding Converter="{x:Static h:XConverter.MathMultiplyConverter}">
+                                                                    <Binding Path="Start" />
+                                                                    <Binding Path="TickFrequency" RelativeSource="{RelativeSource AncestorType=h:StoryBoardPlayer}" />
+                                                                </MultiBinding>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Canvas.Top" Value="0" />
+                                                        <Setter Property="Padding" Value="0" />
+                                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                                        <Setter Property="VerticalAlignment" Value="Center" />
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="ListBoxItem">
+                                                                    <ContentPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </Style>
+                                                </ListBox.ItemContainerStyle>
+                                            </h:ItemsBoardToolBar>
+                                        </Grid>
+                                    </DataTemplate>
+                                </h:StoryBoardPlayer.ItemTemplate>
+                            </h:StoryBoardPlayer>
+                            <Border Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+                            <UniformGrid Margin="50,0" Rows="1">
+                                <ToggleButton h:Cattach.Icon="&#xe843;"
+                                              h:Cattach.IconSize="18"
+                                              Command="{Binding ProgramPlayCommand}"
+                                              Content="&#xe841;"
+                                              IsChecked="{Binding IsProgramPlay}"
+                                              RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
+                                              Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconChecked}}" />
+
+                                <Button h:Cattach.Icon="&#xe842;" Command="{Binding ProgramStopCommand}" Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+                            </UniformGrid>
+                        </Grid>
+
+                        <DockPanel Background="Transparent">
+                            <Grid Width="600" Margin="2,0,0,0" DockPanel.Dock="Right">
+                                <DockPanel>
+                                    <GroupBox Height="Auto"
+                                              Margin="2"
+                                              h:Cattach.Icon=""
+                                              DockPanel.Dock="Bottom"
+                                              Header="属性">
+                                        <Grid>
+                                            <Grid.Resources>
+                                                <DataTemplate DataType="{x:Type local:Media}">
+                                                    <DockPanel Margin="0,2">
+                                                        <UniformGrid Columns="3" DockPanel.Dock="Top" Rows="2">
+                                                            <TextBox Margin="0,1"
+                                                                     h:Cattach.Icon=""
+                                                                     h:Cattach.Title="名称"
+                                                                     IsReadOnly="True"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding Name}" />
+                                                            <TextBox h:Cattach.Icon=""
+                                                                     h:Cattach.Title="大小"
+                                                                     IsReadOnly="True"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding Path, Converter={x:Static h:XConverter.GetFileLengthDisplay}}" />
+                                                            <TextBox h:Cattach.Icon=""
+                                                                     h:Cattach.Title="尺寸"
+                                                                     IsReadOnly="True"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding Pixel}" />
+                                                            <TextBox Margin="0,0,2,0"
+                                                                     h:Cattach.Icon=""
+                                                                     h:Cattach.Title="时间"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding Start, Converter={x:Static h:Converter.GetTimeSpanStrFromSeconds}, UpdateSourceTrigger=PropertyChanged}" />
+                                                            <TextBox h:Cattach.Title="时长" Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}" Text="{Binding Size, UpdateSourceTrigger=PropertyChanged}" />
+
+                                                        </UniformGrid>
+                                                    </DockPanel>
+                                                </DataTemplate>
+
+                                                <DataTemplate DataType="{x:Type local:Dmx}">
+                                                    <UniformGrid Margin="0,2" Rows="2">
+                                                        <TextBox Margin="0,0,2,0"
+                                                                 h:Cattach.Icon=""
+                                                                 h:Cattach.Title="记录名"
+                                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                 Text="{Binding Name}" />
+                                                        <TextBox h:Cattach.Icon=""
+                                                                 h:Cattach.Title="编码类型"
+                                                                 h:Cattach.TitleWidth="Auto"
+                                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                 Text="{Binding Code}" />
+                                                        <TextBox h:Cattach.Icon=""
+                                                                 h:Cattach.Title="DMX通道"
+                                                                 h:Cattach.TitleWidth="Auto"
+                                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                 Text="{Binding Channel}" />
+                                                        <TextBox Margin="0,0,2,0"
+                                                                 h:Cattach.Icon=""
+                                                                 h:Cattach.Title="时间(s)"
+                                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                 Text="{Binding Start, UpdateSourceTrigger=PropertyChanged}" />
+
+                                                        <TextBlock />
+                                                        <UniformGrid Width="Auto"
+                                                                     Margin="0,1"
+                                                                     HorizontalAlignment="Right"
+                                                                     Rows="1">
+                                                            <Button Content="测试" />
+                                                            <!--<Button Content="编辑" />-->
+                                                        </UniformGrid>
+                                                    </UniformGrid>
+                                                </DataTemplate>
+
+                                                <DataTemplate DataType="{x:Type local:TCP}">
+                                                    <DockPanel Margin="0,2">
+                                                        <UniformGrid Columns="2" DockPanel.Dock="Top" Rows="1">
+                                                            <TextBox Margin="0,0,2,0"
+                                                                     h:Cattach.Icon=""
+                                                                     h:Cattach.Title="名称"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+
+
+                                                            <TextBox Grid.ColumnSpan="2"
+                                                                     h:Cattach.Icon=""
+                                                                     h:Cattach.Title="指令"
+                                                                     DockPanel.Dock="Top"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding Name}" />
+                                                        </UniformGrid>
+
+                                                        <UniformGrid Columns="2" DockPanel.Dock="Top" Rows="1">
+                                                            <TextBox Margin="0,2,2,2"
+                                                                     h:Cattach.Icon=""
+                                                                     h:Cattach.Title="IP"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding IP}" />
+
+                                                            <TextBox h:Cattach.Icon=""
+                                                                     h:Cattach.Title="端口号"
+                                                                     DockPanel.Dock="Right"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding Port}" />
+
+                                                        </UniformGrid>
+
+                                                        <DockPanel DockPanel.Dock="Top">
+                                                            <UniformGrid DockPanel.Dock="Right" Rows="1">
+                                                                <Button Width="60" Content="测试" />
+                                                                <Button Width="60" Content="保存" />
+                                                            </UniformGrid>
+
+                                                            <UniformGrid Columns="2" Rows="1">
+                                                                <TextBox Margin="0,0,2,0"
+                                                                         h:Cattach.Icon=""
+                                                                         h:Cattach.Title="时间(s)"
+                                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                         Text="{Binding Start, UpdateSourceTrigger=PropertyChanged}" />
+
+                                                                <ComboBox h:Cattach.Title=" 模式"
+                                                                          DockPanel.Dock="Right"
+                                                                          SelectedIndex="0"
+                                                                          Style="{DynamicResource {x:Static h:ComboBoxKeys.Label}}">
+                                                                    <system:String>单次</system:String>
+                                                                    <system:String>循环</system:String>
+                                                                </ComboBox>
+                                                            </UniformGrid>
+                                                        </DockPanel>
+                                                    </DockPanel>
+                                                </DataTemplate>
+
+                                                <DataTemplate DataType="{x:Type local:UDP}">
+                                                    <DockPanel Margin="0,2">
+                                                        <UniformGrid Columns="2" DockPanel.Dock="Top" Rows="1">
+                                                            <TextBox Margin="0,0,2,0"
+                                                                     h:Cattach.Icon=""
+                                                                     h:Cattach.Title="名称"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
+
+
+                                                            <TextBox Grid.ColumnSpan="2"
+                                                                     h:Cattach.Icon=""
+                                                                     h:Cattach.Title="指令"
+                                                                     DockPanel.Dock="Top"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding Name}" />
+                                                        </UniformGrid>
+
+                                                        <UniformGrid Columns="2" DockPanel.Dock="Top" Rows="1">
+                                                            <TextBox Margin="0,2,2,2"
+                                                                     h:Cattach.Icon=""
+                                                                     h:Cattach.Title="IP"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding IP}" />
+
+                                                            <TextBox h:Cattach.Icon=""
+                                                                     h:Cattach.Title="端口号"
+                                                                     DockPanel.Dock="Right"
+                                                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                     Text="{Binding Port}" />
+
+                                                        </UniformGrid>
+
+                                                        <DockPanel DockPanel.Dock="Top">
+                                                            <UniformGrid DockPanel.Dock="Right" Rows="1">
+                                                                <Button Width="60" Content="测试" />
+                                                                <Button Width="60" Content="保存" />
+                                                            </UniformGrid>
+
+                                                            <UniformGrid Columns="2" Rows="1">
+                                                                <TextBox Margin="0,0,2,0"
+                                                                         h:Cattach.Icon=""
+                                                                         h:Cattach.Title="时间(s)"
+                                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                         Text="{Binding Start, UpdateSourceTrigger=PropertyChanged}" />
+
+                                                                <ComboBox h:Cattach.Title=" 模式"
+                                                                          DockPanel.Dock="Right"
+                                                                          SelectedIndex="0"
+                                                                          Style="{DynamicResource {x:Static h:ComboBoxKeys.Label}}">
+                                                                    <system:String>单次</system:String>
+                                                                    <system:String>循环</system:String>
+                                                                </ComboBox>
+                                                            </UniformGrid>
+                                                        </DockPanel>
+                                                    </DockPanel>
+                                                </DataTemplate>
+
+                                                <DataTemplate DataType="{x:Type local:Program}">
+                                                    <UniformGrid Margin="0,2" Rows="1">
+                                                        <TextBox Margin="0,0,2,0"
+                                                                 h:Cattach.Icon=""
+                                                                 h:Cattach.Title="节目名称"
+                                                                 h:Cattach.TitleWidth="Auto"
+                                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                 Text="{Binding Name}" />
+                                                        <TextBox Margin="0,0,2,0"
+                                                                 h:Cattach.Icon=""
+                                                                 h:Cattach.Title="时长"
+                                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                 Text="{Binding Size}" />
+                                                    </UniformGrid>
+                                                </DataTemplate>
+                                            </Grid.Resources>
+                                            <ContentControl Content="{Binding SelectedObject}" />
+                                        </Grid>
+                                    </GroupBox>
+                                    <TabControl h:Cattach.UseSearch="False" Style="{DynamicResource {x:Static h:TabControlKeys.Line}}">
+                                        <TabItem Header="素材管理">
+                                            <Grid>
+                                                <Grid.Resources>
+                                                    <Style BasedOn="{StaticResource {x:Static h:ListBoxKeys.Clear}}" TargetType="ListBox">
+                                                        <Setter Property="h:Cattach.ItemMargin" Value="0" />
+                                                        <Setter Property="SelectedItem" Value="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=DataContext.SelectedObject}" />
+                                                        <Setter Property="AllowDrop" Value="False" />
+                                                        <Setter Property="h:Cattach.ItemHeight" Value="Auto" />
+                                                        <Setter Property="ItemsPanel">
+                                                            <Setter.Value>
+                                                                <ItemsPanelTemplate>
+                                                                    <WrapPanel />
+                                                                </ItemsPanelTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Template">
+                                                            <Setter.Value>
+                                                                <ControlTemplate TargetType="ListBox">
+                                                                    <Border Background="{TemplateBinding Background}">
+                                                                        <h:FScrollView>
+                                                                            <ItemsPresenter />
+                                                                        </h:FScrollView>
+                                                                    </Border>
+                                                                </ControlTemplate>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_1}}" />
+                                                    </Style>
+                                                </Grid.Resources>
+                                                <DockPanel>
+                                                    <TabControl h:Cattach.UseSearch="False" Style="{DynamicResource {x:Static h:TabControlKeys.Dynamic}}" TabStripPlacement="Left">
+                                                        <TabItem>
+                                                            <TabItem.Header>
+                                                                <Grid Margin="10,0">
+                                                                    <TextBlock Text="图片" />
+                                                                    <Border Width="6" Height="6"
+                                                                            Margin="-10"
+                                                                            HorizontalAlignment="Left"
+                                                                            VerticalAlignment="Center"
+                                                                            CornerRadius="5">
+                                                                        <Border.Background>
+                                                                            <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=ImageColor}" />
+                                                                        </Border.Background>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </TabItem.Header>
+                                                            <Grid>
+                                                                <ListBox h:Cattach.ItemHeight="Auto" ItemsSource="{Binding Materials.Images}" />
+                                                            </Grid>
+                                                        </TabItem>
+                                                        <TabItem>
+                                                            <TabItem.Header>
+                                                                <Grid Margin="10,0">
+                                                                    <TextBlock Text="音频" />
+                                                                    <Border Width="6" Height="6"
+                                                                            Margin="-8"
+                                                                            HorizontalAlignment="Left"
+                                                                            VerticalAlignment="Center"
+                                                                            CornerRadius="5">
+                                                                        <Border.Background>
+                                                                            <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=AudioColor}" />
+                                                                        </Border.Background>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </TabItem.Header>
+                                                            <Grid>
+                                                                <ListBox h:Cattach.ItemHeight="Auto" ItemsSource="{Binding Materials.Audios}" />
+                                                            </Grid>
+                                                        </TabItem>
+                                                        <TabItem>
+                                                            <TabItem.Header>
+                                                                <Grid Margin="10,0">
+                                                                    <TextBlock Text="视频" />
+                                                                    <Border Width="6" Height="6"
+                                                                            Margin="-8"
+                                                                            HorizontalAlignment="Left"
+                                                                            VerticalAlignment="Center"
+                                                                            CornerRadius="5">
+                                                                        <Border.Background>
+                                                                            <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=VideoColor}" />
+                                                                        </Border.Background>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </TabItem.Header>
+                                                            <Grid>
+                                                                <ListBox ItemsSource="{Binding Materials.Videos}" />
+                                                            </Grid>
+                                                        </TabItem>
+
+                                                        <TabItem>
+                                                            <TabItem.Header>
+                                                                <Grid Margin="10,0">
+                                                                    <TextBlock Text="DMX" />
+                                                                    <Border Width="6" Height="6"
+                                                                            Margin="-8"
+                                                                            HorizontalAlignment="Left"
+                                                                            VerticalAlignment="Center"
+                                                                            CornerRadius="5">
+                                                                        <Border.Background>
+                                                                            <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=DmxColor}" />
+                                                                        </Border.Background>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </TabItem.Header>
+                                                            <Grid>
+                                                                <ListBox ItemsSource="{Binding Materials.Dmxs}" />
+                                                            </Grid>
+                                                        </TabItem>
+                                                        <TabItem>
+                                                            <TabItem.Header>
+                                                                <Grid Margin="10,0">
+                                                                    <TextBlock Text="UDP" />
+                                                                    <Border Width="6" Height="6"
+                                                                            Margin="-8"
+                                                                            HorizontalAlignment="Left"
+                                                                            VerticalAlignment="Center"
+                                                                            CornerRadius="5">
+                                                                        <Border.Background>
+                                                                            <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=UdpColor}" />
+                                                                        </Border.Background>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </TabItem.Header>
+                                                            <Grid>
+                                                                <ListBox ItemsSource="{Binding Materials.Udps}" />
+                                                            </Grid>
+                                                        </TabItem>
+                                                        <TabItem>
+                                                            <TabItem.Header>
+                                                                <Grid Margin="10,0">
+                                                                    <TextBlock Text="TCP" />
+                                                                    <Border Width="6" Height="6"
+                                                                            Margin="-8"
+                                                                            HorizontalAlignment="Left"
+                                                                            VerticalAlignment="Center"
+                                                                            CornerRadius="5">
+                                                                        <Border.Background>
+                                                                            <SolidColorBrush Color="{Binding Source={x:Static local:MaterialSetting.Instance}, Path=TcpColor}" />
+                                                                        </Border.Background>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </TabItem.Header>
+                                                            <Grid>
+                                                                <ListBox ItemsSource="{Binding Materials.Tcps}" />
+                                                            </Grid>
+                                                        </TabItem>
+                                                    </TabControl>
+                                                </DockPanel>
+
+                                                <Button HorizontalAlignment="Right"
+                                                        VerticalAlignment="Bottom"
+                                                        h:Cattach.Icon="&#xe6e0;"
+                                                        Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                                        ToolTip="添加" />
+                                            </Grid>
+                                        </TabItem>
+                                        <TabItem Header="节目编辑">
+                                            <DockPanel>
+                                                <Grid>
+                                                    <ListBox h:Cattach.ItemHeight="Auto"
+                                                             h:Cattach.ItemMargin="0"
+                                                             ItemsSource="{Binding Programs}"
+                                                             SelectedItem="{Binding SelectedProgram}">
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <ContentControl Margin="5" Content="{Binding}" ContentTemplate="{StaticResource ResourceKey=S.Program.Default}" />
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+                                                        <ListBox.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <WrapPanel />
+                                                            </ItemsPanelTemplate>
+                                                        </ListBox.ItemsPanel>
+                                                    </ListBox>
+                                                    <Button HorizontalAlignment="Right"
+                                                            VerticalAlignment="Bottom"
+                                                            h:Cattach.Icon="&#xe6e0;"
+                                                            Command="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=DataContext.AddProgramCommand}"
+                                                            Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                                            ToolTip="添加" />
+                                                </Grid>
+                                            </DockPanel>
+                                        </TabItem>
+                                        <TabItem Header="播放列表管理">
+                                            <Grid>
+                                                <DockPanel>
+                                                    <ListBox Width="150"
+                                                             h:Cattach.ItemHeight="Auto"
+                                                             h:Cattach.UseClose="False"
+                                                             ItemsSource="{Binding Plays}"
+                                                             SelectedItem="{Binding SelectedPlay}">
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <Grid>
+                                                                    <TextBlock Margin="10,0,0,0" HorizontalAlignment="Left" Text="{Binding Name}" />
+                                                                    <Button VerticalAlignment="Center" Style="{DynamicResource {x:Static h:ButtonKeys.CloseFlag}}" Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsMouseOver, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                                                                        <h:Interaction.Behaviors>
+                                                                            <h:RemoveItemsControlButtonBehavior Item="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                                                                        </h:Interaction.Behaviors>
+                                                                    </Button>
+                                                                </Grid>
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+                                                        <ListBox.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <StackPanel />
+                                                            </ItemsPanelTemplate>
+                                                        </ListBox.ItemsPanel>
+                                                    </ListBox>
+                                                    <!--  SelectedItem="{Binding SelectedProgram}"  -->
+                                                    <ListBox ItemsSource="{Binding SelectedPlay.Collection}">
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource S.Program.Default}" />
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+                                                        <!--<ListBox.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <WrapPanel />
+                                                        </ItemsPanelTemplate>
+                                                    </ListBox.ItemsPanel>-->
+
+                                                        <ListBox.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <h:DragPanel VerticalAlignment="Top"
+                                                                             ItemSeparation="4"
+                                                                             ItemsHeight="90"
+                                                                             ItemsWidth="120" />
+                                                            </ItemsPanelTemplate>
+                                                        </ListBox.ItemsPanel>
+                                                        <ListBox.ItemContainerStyle>
+                                                            <Style TargetType="ListBoxItem">
+                                                                <Setter Property="Cursor" Value="ScrollAll" />
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="ListBoxItem">
+                                                                            <ContentPresenter />
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </ListBox.ItemContainerStyle>
+                                                    </ListBox>
+                                                </DockPanel>
+
+                                                <UniformGrid HorizontalAlignment="Right" VerticalAlignment="Bottom" Rows="1">
+                                                    <Button h:Cattach.Icon="&#xe6e0;"
+                                                            Command="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=DataContext.AddPlayCommand}"
+                                                            Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                                            ToolTip="添加" />
+                                                    <Button h:Cattach.Icon="&#xeada;"
+                                                            Command="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=DataContext.EditPlayCommand}"
+                                                            Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                                            ToolTip="导入" />
+                                                </UniformGrid>
+                                            </Grid>
+                                        </TabItem>
+                                    </TabControl>
+                                </DockPanel>
+                            </Grid>
+                            <Grid>
+                                <h:VlcPlayer ToolBackground="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                                             ToolForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                             UseNext="False"
+                                             UseOpenFile="True"
+                                             UsePlay="False"
+                                             UsePrevious="False"
+                                             UseShotCut="False" />
+                            </Grid>
+                        </DockPanel>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
+
+            <DockPanel Margin="2" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <Button HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Command="{Binding EditTimerCommand}"
+                        Content="定时任务" />
+                <Button HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Command="{Binding SaveCommand}"
+                        Content="保存节目"
+                        Visibility="{Binding ShowSaveProgram}" />
+            </DockPanel>
+        </Grid>
+    </DockPanel>
+</h:MainWindow>

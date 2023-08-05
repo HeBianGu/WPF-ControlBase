@@ -37,11 +37,11 @@ namespace HeBianGu.Systems.Repository
 
             if (repository == null)
             {
-                await Message.Instance.ShowSumitMessge(error);
+                await MessageProxy.Messager.ShowSumit(error);
                 return default(T);
             }
 
-            return await Message.Instance.ShowWaittingResultMessge(() =>
+            return await MessageProxy.Messager.ShowWaitter(() =>
             {
                 return (T)repository.GetType().GetMethod(methodName)?.Invoke(repository, parameters);
             });

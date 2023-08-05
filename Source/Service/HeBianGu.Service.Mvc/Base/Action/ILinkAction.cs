@@ -9,5 +9,7 @@ namespace HeBianGu.Service.Mvc
         string Action { get; set; }
 
         string Controller { get; set; }
+
+        object[] Parameter { get; set; }
     }
 }

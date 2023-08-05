@@ -1,6 +1,9 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.Guide;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Service.Mvp;
+using HeBianGu.Systems.Setting;
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -12,7 +15,7 @@ namespace HeBianGu.App.Screen
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             return new MainWindow();
         }
@@ -22,23 +25,27 @@ namespace HeBianGu.App.Screen
         protected override void ConfigureServices(IServiceCollection services)
         {
             base.ConfigureServices(services);
-
-            services.AddMessageDialog();
-
+            services.AddWindowDialog();
             services.AddWindowAnimation();
-
-            services.AddTheme();
-
-            services.AddMessage();
-
+            services.AddMessageProxy();
             services.AddXmlSerialize();
-
             services.AddXmlMeta();
-
             //  Do ：启用右上见配置按钮 需要添加引用HeBianGu.Systems.Setting
             services.AddSetting();
-            services.AddSettingViewPrenter();
             services.AddSettingPath();
+
+            #region - WindowCaption -
+            services.AddGuideViewPresenter();
+            services.AddSettingViewPrenter();
+            services.AddThemeRightViewPresenter();
+            services.AddWindowCaptionViewPresenter(x =>
+            {
+                x.AddPersenter(MoreViewPresenter.Instance);
+                x.AddPersenter(GuideViewPresenter.Instance);
+                x.AddPersenter(SettingViewPresenter.Instance);
+                x.AddPersenter(ThemeRightToolViewPresenter.Instance);
+            });
+            #endregion
         }
 
         protected override void Configure(IApplicationBuilder app)
@@ -49,8 +56,7 @@ namespace HeBianGu.App.Screen
             app.UseLocalTheme(l =>
             {
                 l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
-                l.SmallFontSize = 15D;
-                l.LargeFontSize = 18D;
+                l.DefaultFontSize = 15D;
                 l.FontSize = FontSize.Small;
 
                 l.ItemHeight = 35;

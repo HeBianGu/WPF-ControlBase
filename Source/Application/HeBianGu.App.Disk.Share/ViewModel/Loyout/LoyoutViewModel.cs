@@ -2,38 +2,14 @@
 using HeBianGu.Service.Mvc;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace HeBianGu.App.Disk
 {
     [ViewModel("Loyout")]
     internal class LoyoutViewModel : MvcViewModelBase
     {
-        private LinkAction _selectedItem;
-        /// <summary> 说明  </summary>
-        public LinkAction SelectedItem
-        {
-            get { return _selectedItem; }
-            set
-            {
-                _selectedItem = value;
-                RaisePropertyChanged();
-            }
-        }
-
-
-        private ObservableCollection<LinkAction> _linkAction = new ObservableCollection<LinkAction>();
-        /// <summary> 说明  </summary>
-        public ObservableCollection<LinkAction> LinkActions
-        {
-            get { return _linkAction; }
-            set
-            {
-                _linkAction = value;
-                RaisePropertyChanged("LinkActions");
-            }
-        }
-
-
         private string _path;
         /// <summary> 说明  </summary>
         public string Path
@@ -84,18 +60,20 @@ namespace HeBianGu.App.Disk
 
             LinkActions.Add(new LinkAction() { Action = "Near", Controller = "Loyout", DisplayName = "最近使用", Logo = "\xe6f3" });
             LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "全部文件", Logo = "" });
-            LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "最近使用", Logo = "" });
-            LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    图片", Logo = "" });
-            LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    视频", Logo = "" });
-            LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    文档", Logo = "" });
-            LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    音乐", Logo = "" });
+            LinkActions.Add(new LinkAction() { Action = "Image", Controller = "Loyout", DisplayName = "    图片", Logo = "" });
+            LinkActions.Add(new LinkAction() { Action = "Video", Controller = "Loyout", DisplayName = "    视频", Logo = "" });
+            LinkActions.Add(new LinkAction() { Action = "Document", Controller = "Loyout", DisplayName = "    文档", Logo = "" });
+            LinkActions.Add(new LinkAction() { Action = "Music", Controller = "Loyout", DisplayName = "    音乐", Logo = "" });
             LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    种子", Logo = "" });
-            LinkActions.Add(new LinkAction() { Action = "Explorer", Controller = "Loyout", DisplayName = "    其他", Logo = "" });
+            LinkActions.Add(new LinkAction() { Action = "Recent", Controller = "Loyout", DisplayName = "    其他", Logo = "" });
             LinkActions.Add(new LinkAction() { Action = "Space", Controller = "Loyout", DisplayName = "隐藏空间", Logo = "\xe613" });
             LinkActions.Add(new LinkAction() { Action = "Share", Controller = "Loyout", DisplayName = "我的分享", Logo = "\xe764" });
             LinkActions.Add(new LinkAction() { Action = "Near", Controller = "Loyout", DisplayName = "回收站", Logo = "\xe618" });
 
-            SelectedItem = LinkActions[1];
+            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+                      {
+                          SelectLink = LinkActions[1];
+                      }));
 
         }
 
@@ -103,26 +81,6 @@ namespace HeBianGu.App.Disk
         protected override void Loaded(string args)
         {
 
-        }
-
-
-        /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
-
-        {
-            string command = obj?.ToString();
-
-            //  Do：对话消息
-            if (command == "Sumit")
-            {
-
-            }
-
-            //  Do：等待消息
-            else if (command == "Cancel")
-            {
-
-            }
         }
 
     }

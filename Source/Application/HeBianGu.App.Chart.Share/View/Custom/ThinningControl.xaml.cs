@@ -9,7 +9,7 @@ namespace HeBianGu.Application.ChartWindow.View.Custom
     {
         public ThinningControl()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }

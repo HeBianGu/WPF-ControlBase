@@ -17,13 +17,13 @@ namespace System
         }
 
         /// <summary>
-        /// 配置
-        /// </summary>
-        /// <param name="service"></param>
-        public static void UsePropertyGrid(this IApplicationBuilder service, Action<Setting> action)
-        {
-            action?.Invoke(Setting.Instance);
-        }
+        ///// 配置
+        ///// </summary>
+        ///// <param name="service"></param>
+        //public static void UsePropertyGrid(this IApplicationBuilder service, Action<Setting> action)
+        //{
+        //    action?.Invoke(Setting.Instance);
+        //}
     }
 
 

@@ -203,9 +203,22 @@ namespace HeBianGu.Control.TextEditor
 
                     if (editor == null) continue;
 
-                    editor.ApplyTemplate();
+                    //editor.ApplyTemplate();
 
-                    editor.IsEditting = true;
+                    editor.IsEditting = true; 
+
+                    if (item.GetType().IsPrimitive || item.GetType() == typeof(string) || item.GetType() == typeof(DateTime))
+                    {
+                        editor.SaveDatad += (l, k) =>
+                        {
+                            if(this.DataSource is IList list)
+                            {
+                                int index = list.IndexOf(item);
+                                if (index < 0) return;
+                                list[index] = editor.Content;
+                            }
+                        };
+                    }
                 }
             }
         }

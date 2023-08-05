@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.DataBase.Sqlite">
+
+    <!--<ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.DataBase.Sqlite;component/Step.xaml" />
+    </ResourceDictionary.MergedDictionaries>-->
+
+    <DataTemplate DataType="{x:Type local:SqliteSetting}">
+        <DockPanel>
+            <DockPanel Margin="0,5" DockPanel.Dock="Bottom" LastChildFill="False">
+                <TextBlock Width="400"
+                           Height="40"
+                           Margin="10,0"
+                           VerticalAlignment="Center"
+                           Text="{Binding Message}"
+                           TextTrimming="CharacterEllipsis"
+                           TextWrapping="Wrap"
+                           ToolTip="{Binding Message}" />
+                <Button Command="{x:Static h:Commander.Sure}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                        Content="确定"
+                        DockPanel.Dock="Right"
+                        IsEnabled="{Binding Message, Converter={x:Static h:Converter.GetStringContains}, ConverterParameter=保存成功}" />
+                <Button Command="{Binding SaveCommand}"
+                        Content="保存配置"
+                        DockPanel.Dock="Right"
+                        IsEnabled="{Binding Message, Converter={x:Static h:Converter.GetStringContains}, ConverterParameter=连接成功}" />
+
+                <h:ProgressButton Command="{Binding ConnectCommand}"
+                                  Content="测试连接"
+                                  DockPanel.Dock="Right"
+                                  IsBusy="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.IsBusy}"
+                                  Message="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.Message}"
+                                  Style="{DynamicResource {x:Static h:ProgressButton.DefaultKey}}" />
+            </DockPanel>
+
+            <!--<h:PropertyGrid SelectObject="{Binding}"
+                            Style="{DynamicResource {x:Static h:PropertyGrid.ClearlyKey}}"
+                            UseCommand="False"
+                            UseAsync="False"/>-->
+            <h:StaticPropertyGrid SelectObject="{Binding}"
+                                  Style="{DynamicResource {x:Static h:PropertyGrid.ClearlyKey}}"
+                                  UseAsync="False"
+                                  UseCommand="False" />
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

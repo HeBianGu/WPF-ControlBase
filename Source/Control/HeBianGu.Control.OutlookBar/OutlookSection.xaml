@@ -1,0 +1,104 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:odc="clr-namespace:HeBianGu.Control.OutlookBar">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.OutlookBar;Component/ToggleButton.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type odc:OutlookSection}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" />
+        <!--<Setter Property="h:Cattach.MouseOverBackground" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type odc:OutlookBar}}, Path=(h:Cattach.MouseOverBackground)}" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type odc:OutlookBar}}, Path=(h:Cattach.MouseOverForeground)}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type odc:OutlookBar}}, Path=(h:Cattach.MouseOverBorderBrush)}" />
+        <Setter Property="h:Cattach.SelectBackground" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type odc:OutlookBar}}, Path=(h:Cattach.SelectBackground)}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type odc:OutlookBar}}, Path=(h:Cattach.SelectForeground)}" />
+        <Setter Property="h:Cattach.SelectBorderBrush" Value="{Binding RelativeSource={RelativeSource AncestorType={x:Type odc:OutlookBar}}, Path=(h:Cattach.SelectBorderBrush)}" />-->
+        
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent" />
+
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundSelected}}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
+        <Setter Property="h:Cattach.SelectBorderBrush" Value="Transparent" />
+
+        <Setter Property="h:Cattach.IsSelected" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="BorderThickness" Value="0,1,0,0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type odc:OutlookSection}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding h:Cattach.CornerRadius}">
+                        <ToggleButton x:Name="button"
+                                      Height="{TemplateBinding Height}"
+                                      Background="Transparent"
+                                      BorderThickness="0,1,0,0"
+                                      ClickMode="Press"
+                                      Focusable="True"
+                                      Foreground="{TemplateBinding Foreground}"
+                                      IsChecked="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=IsSelected}"
+                                      Style="{StaticResource buttonInSection}"
+                                      TextBlock.FontWeight="Bold">
+                            <ToggleButton.Content>
+                                <DockPanel Focusable="False">
+                                    <Grid Width="{TemplateBinding Height}" Height="{TemplateBinding Height}">
+                                        <Image x:Name="image"
+                                               Margin="4,0,4,0"
+                                               VerticalAlignment="Center"
+                                               ClipToBounds="True"
+                                               DockPanel.Dock="Left"
+                                               Focusable="False"
+                                               RenderOptions.BitmapScalingMode="NearestNeighbor"
+                                               RenderOptions.EdgeMode="Aliased"
+                                               SnapsToDevicePixels="False"
+                                               Source="{TemplateBinding Image}"
+                                               Stretch="None" />
+
+                                        <TextBlock HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                   Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.Icon)}" />
+
+                                    </Grid>
+                                    <ContentPresenter x:Name="content"
+                                                      Margin="4,0,4,0"
+                                                      HorizontalAlignment="Left"
+                                                      VerticalAlignment="Center"
+                                                      Content="{TemplateBinding Header}"
+                                                      Focusable="False"
+                                                      TextElement.Foreground="{TemplateBinding Foreground}" />
+                                </DockPanel>
+                            </ToggleButton.Content>
+                        </ToggleButton>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMaximized" Value="False">
+                            <Setter TargetName="content" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="button" Property="BorderThickness" Value="0" />
+                        </Trigger>
+                        <Trigger Property="Image" Value="{x:Null}">
+                            <Setter TargetName="image" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <!--<Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverForeground)}" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverForeground)}" />
+                            <Setter Property="Panel.ZIndex" Value="999" />
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectForeground)}" />
+                            <Setter Property="TextElement.Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectForeground)}" />
+                        </Trigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -50,7 +50,7 @@ namespace HeBianGu.App.Repository
         [Display(Name = "角色")]
         [Column("role", Order = 6)]
         [DataGridColumn("*", PropertyPath = "{0}.Name")]
-        [Property(Type = typeof(ComboboxRepositoryPropertyItem))]
+        [PropertyItemType(Type = typeof(ComboboxRepositoryPropertyItem))]
         public hi_dd_role Role { get; set; }
     }
 }

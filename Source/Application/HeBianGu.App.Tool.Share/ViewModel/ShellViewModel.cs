@@ -1,4 +1,5 @@
-﻿using HeBianGu.General.WpfControlLib;
+﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfControlLib;
 using HeBianGu.Window.Link;
 using System;
 using System.Collections.ObjectModel;
@@ -53,7 +54,7 @@ namespace HeBianGu.App.Tool
                 Logo = "\xe799",
                 Action = () =>
                 {
-                    bool result = MessageDialog.Instance.ShowDialog("确定开启60s倒计时关机?");
+                    bool result = MessageProxy.Windower.ShowDialog("确定开启60s倒计时关机?");
                     if (result)
                     {
                         Process.Start("shutdown");
@@ -73,30 +74,6 @@ namespace HeBianGu.App.Tool
 
         }
 
-        private Random random = new Random();
-
-        protected override async void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
-
-            //  Do：应用
-            if (command == "Sumit")
-            {
-
-
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-            }
-
-            //  Do：取消
-            else if (command == "init")
-            {
-
-            }
-        }
     }
 
 

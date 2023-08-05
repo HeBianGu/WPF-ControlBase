@@ -14,9 +14,9 @@ namespace HeBianGu.Control.Chart2D
 
     }
 
-    [SettingConfig(Name = "参数设置", Group = "基本设置")]
-    public class Setting : LazySettingInstance<Setting>
-    {
+    //[Displayer(Name = "参数设置", GroupName = SystemSetting.GroupStyle)]
+    //public class Setting : LazySettingInstance<Setting>
+    //{
 
-    }
+    //}
 }

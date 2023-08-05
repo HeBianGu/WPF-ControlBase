@@ -2,6 +2,7 @@
 
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
@@ -10,6 +11,8 @@ using System.Windows.Media;
 
 namespace HeBianGu.Systems.Identity
 {
+    [TemplatePart(Name = "PART_BUTTON_SUMIT", Type = typeof(ProgressButton))]
+
     public partial class MultiLoginWindowBase : DialogWindowBase
     {
         public static new ComponentResourceKey DefaultKey => new ComponentResourceKey(typeof(MultiLoginWindowBase), "S.Window.MultiLogin.Default");
@@ -19,32 +22,28 @@ namespace HeBianGu.Systems.Identity
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MultiLoginWindowBase), new FrameworkPropertyMetadata(typeof(MultiLoginWindowBase)));
         }
 
+        private ProgressButton _button;
+
         public MultiLoginWindowBase()
         {
             //  Do ：登录 
             {
                 CommandBinding binding = new CommandBinding(IdentifyCommands.Login, async (l, k) =>
                 {
-                    this.IsBuzy = true;
-
+                    this._button.IsBusy = true;
+                    this._button.Message = "登录中...";
                     string message = null;
-
                     string account = this.LoginAccount;
-
                     string password = this.LoginPassword;
 
                     bool result = await Task.Run(() =>
                     {
-                        return this.IdentityService.Login(account, password, out message);
+                        return Loginner.Instance.Login(account, password, out message);
                     });
-
-
-                    this.IsBuzy = false;
 
                     if (result)
                     {
-                        this.LoginMessage = "登录成功";
-
+                        this._button.Message = "登录成功";
                         await Task.Delay(1000).ContinueWith(t =>
                         {
                             Application.Current.Dispatcher.Invoke(() =>
@@ -52,24 +51,15 @@ namespace HeBianGu.Systems.Identity
                                 this.Result = true;
                                 this.BeginClose();
                             });
-
                         });
                     }
                     else
                     {
-                        this.IsLoginEnbled = false;
-                        this.LoginMessage = message;
-
-                        await Task.Delay(1000).ContinueWith(t =>
-                        {
-                            Application.Current.Dispatcher.Invoke(() =>
-                            {
-                                this.LoginMessage = "登录";
-                                this.IsLoginEnbled = true;
-                            });
-
-                        });
+                        this._button.Message = message;
                     }
+
+                    this._button.IsBusy = false;
+
                 });
 
                 this.CommandBindings.Add(binding);
@@ -80,11 +70,8 @@ namespace HeBianGu.Systems.Identity
                 CommandBinding binding = new CommandBinding(IdentifyCommands.Register, async (l, k) =>
                 {
                     string message = null;
-
                     string phone = this.Phone;
-
                     string password = this.RegisterPassword;
-
                     string verify = this.Verifypassword;
 
                     if (this.RegisterPassword != this.Verifypassword)
@@ -98,16 +85,12 @@ namespace HeBianGu.Systems.Identity
                         this.RegistorErrorMessage = "密码不能为空";
                         return;
                     }
-
-
                     this.IsBuzy = true;
-
                     bool isForget = this.IsForgetpassword;
-
                     bool result = await Task.Run(() =>
                     {
-                        return isForget ? this.IdentityService.Register(phone, password, out message)
-                        : this.IdentityService.Register(phone, password, out message);
+                        return isForget ? Register.Instance.Register(phone, password, out message)
+                        : Register.Instance.Register(phone, password, out message);
                     });
 
                     if (result)
@@ -187,7 +170,7 @@ namespace HeBianGu.Systems.Identity
 
                     string phone = this.Phone;
 
-                    string code = await Task.Run(() => this.IdentityService.GetPhoneVerificationCode(phone, out message));
+                    string code = await Task.Run(() => Register.Instance.GetPhoneVerificationCode(phone, out message));
 
                     this.PhoneVerificationCode = code;
 
@@ -203,8 +186,10 @@ namespace HeBianGu.Systems.Identity
             {
                 CommandBinding binding = new CommandBinding(IdentifyCommands.ServiceAgreement, (l, k) =>
                 {
-                    string uri = this.IdentityService.GetServiceAgreement();
-                    Process.Start(uri);
+                    string uri = IdentifySetting.Instance.ServiceAgreementUri;
+
+                    Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true });
+                    //Process.Start(uri);
                 });
 
                 this.CommandBindings.Add(binding);
@@ -214,8 +199,10 @@ namespace HeBianGu.Systems.Identity
             {
                 CommandBinding binding = new CommandBinding(IdentifyCommands.Privacypolicy, (l, k) =>
                 {
-                    string uri = this.IdentityService.GetPrivacypolicy();
-                    Process.Start(uri);
+                    string uri = IdentifySetting.Instance.PrivacypolicyUri;
+                    Process.Start(new ProcessStartInfo(uri) { UseShellExecute = true });
+
+                    //Process.Start(uri);
                 });
 
                 this.CommandBindings.Add(binding);
@@ -226,11 +213,17 @@ namespace HeBianGu.Systems.Identity
                 await this.RefreshVerificationCode();
             };
 
+
+            this.LoginAccount = IdentifySetting.Instance.LastUserName;
+            this.LoginPassword = IdentifySetting.Instance.LastPassword;
         }
 
-        public IIdentityService IdentityService => ServiceRegistry.Instance.GetInstance<IIdentityService>();
+        public override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
 
-
+            this._button = Template.FindName("PART_BUTTON_SUMIT", this) as ProgressButton;
+        }
         #region - Method -
 
         public void ClearRegister()
@@ -252,7 +245,7 @@ namespace HeBianGu.Systems.Identity
 
             this.IsBuzy = true;
 
-            string code = await Task.Run(() => this.IdentityService.GetVerificationCode(out message));
+            string code = await Task.Run(() => Register.Instance.GetVerificationCode(out message));
 
             this.IsBuzy = false;
 
@@ -596,34 +589,34 @@ namespace HeBianGu.Systems.Identity
             set { SetValue(LogoProperty, value); }
         }
 
-        /// <summary>
-        /// 登录按钮是否可用
-        /// </summary>
-        public bool IsLoginEnbled
-        {
-            get { return (bool)GetValue(IsLoginEnbledProperty); }
-            set { SetValue(IsLoginEnbledProperty, value); }
-        }
+        ///// <summary>
+        ///// 登录按钮是否可用
+        ///// </summary>
+        //public bool IsLoginEnbled
+        //{
+        //    get { return (bool)GetValue(IsLoginEnbledProperty); }
+        //    set { SetValue(IsLoginEnbledProperty, value); }
+        //}
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty IsLoginEnbledProperty =
-            DependencyProperty.Register("IsLoginEnbled", typeof(bool), typeof(MultiLoginWindowBase), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (d, e) =>
-             {
-                 MultiLoginWindowBase control = d as MultiLoginWindowBase;
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty IsLoginEnbledProperty =
+        //    DependencyProperty.Register("IsLoginEnbled", typeof(bool), typeof(MultiLoginWindowBase), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (d, e) =>
+        //     {
+        //         MultiLoginWindowBase control = d as MultiLoginWindowBase;
 
-                 if (control == null) return;
+        //         if (control == null) return;
 
-                 if (e.OldValue is bool o)
-                 {
+        //         if (e.OldValue is bool o)
+        //         {
 
-                 }
+        //         }
 
-                 if (e.NewValue is bool n)
-                 {
+        //         if (e.NewValue is bool n)
+        //         {
 
-                 }
+        //         }
 
-             }));
+        //     }));
 
         /// <summary>
         /// 登录账号
@@ -742,34 +735,34 @@ namespace HeBianGu.Systems.Identity
 
              }));
 
-        /// <summary>
-        /// 登录日志
-        /// </summary>
-        public string LoginMessage
-        {
-            get { return (string)GetValue(LoginMessageProperty); }
-            set { SetValue(LoginMessageProperty, value); }
-        }
+        ///// <summary>
+        ///// 登录日志
+        ///// </summary>
+        //public string LoginMessage
+        //{
+        //    get { return (string)GetValue(LoginMessageProperty); }
+        //    set { SetValue(LoginMessageProperty, value); }
+        //}
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LoginMessageProperty =
-            DependencyProperty.Register("LoginMessage", typeof(string), typeof(MultiLoginWindowBase), new FrameworkPropertyMetadata("登录", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (d, e) =>
-             {
-                 MultiLoginWindowBase control = d as MultiLoginWindowBase;
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty LoginMessageProperty =
+        //    DependencyProperty.Register("LoginMessage", typeof(string), typeof(MultiLoginWindowBase), new FrameworkPropertyMetadata("登录", FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, (d, e) =>
+        //     {
+        //         MultiLoginWindowBase control = d as MultiLoginWindowBase;
 
-                 if (control == null) return;
+        //         if (control == null) return;
 
-                 if (e.OldValue is string o)
-                 {
+        //         if (e.OldValue is string o)
+        //         {
 
-                 }
+        //         }
 
-                 if (e.NewValue is string n)
-                 {
+        //         if (e.NewValue is string n)
+        //         {
 
-                 }
+        //         }
 
-             }));
+        //     }));
 
 
         /// <summary>

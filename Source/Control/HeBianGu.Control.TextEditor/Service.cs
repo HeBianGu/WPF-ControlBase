@@ -14,7 +14,7 @@ namespace HeBianGu.Control.TextEditor
 
     }
 
-    [SettingConfig(Name = "参数设置", Group = "基本设置")]
+    [Displayer(Name = "参数设置", GroupName = SystemSetting.GroupControl)]
     public class Setting : LazySettingInstance<Setting>
     {
 

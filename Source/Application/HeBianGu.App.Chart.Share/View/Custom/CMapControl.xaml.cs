@@ -9,7 +9,7 @@ namespace HeBianGu.App.Chart.View.Custom
     {
         public CMapControl()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }

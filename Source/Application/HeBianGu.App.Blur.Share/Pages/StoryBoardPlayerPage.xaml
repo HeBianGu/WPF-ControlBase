@@ -48,10 +48,10 @@
                       VerticalAlignment="Center"
                       Visibility="Hidden">
                     <Button Margin="20,-15,0,0"
-                               HorizontalAlignment="Left"
-                               h:Cattach.IconSize="15"
-                               h:Cattach.Icon="&#xe7f2;"
-                               Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}">
+                            HorizontalAlignment="Left"
+                            h:Cattach.Icon="&#xe7f2;"
+                            h:Cattach.IconSize="15"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}">
                         <h:Interaction.Triggers>
                             <h:EventTrigger EventName="Click">
                                 <h:ChangePropertyAction PropertyName="Width" TargetName="grid_Column_left">
@@ -68,14 +68,13 @@
             </Grid>
 
             <Grid Grid.Column="2" Background="Black">
-                <Grid Height="50" VerticalAlignment="Bottom" Background="{DynamicResource {x:Static h:BrushKeys.Dark0_8}}">
+                <Grid Height="50" VerticalAlignment="Bottom" Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}">
                     <ToggleButton Grid.Column="3"
                                   Margin="0,5,0,0"
+                                  h:Cattach.CheckedIcon="&#xe76e;"
                                   h:Cattach.IconSize="25"
-                                  h:Cattach.Icon="&#xe749;"
-                                  Content="&#xe76e;"
-                                  IsChecked="{Binding StoryBoardPlayerViewModel.PlayMode}"
-                                  Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconChecked}}">
+                                  h:Cattach.UncheckedIcon="&#xe749;"
+                                  IsChecked="{Binding StoryBoardPlayerViewModel.PlayMode}">
                         <h:Interaction.Triggers>
                             <h:EventTrigger EventName="Checked">
                                 <h:InvokeCommandAction Command="{Binding StoryBoardPlayerViewModel.RelayCommand}" CommandParameter="ToggleButton.Click.Play" />
@@ -116,17 +115,17 @@
                           HorizontalAlignment="Center"
                           Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
             <Button x:Name="btn_showmenu"
-                       Grid.ColumnSpan="3"
-                       Width="30"
-                       Margin="15,15,0,0"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Top"
-                       Command="{x:Static h:CommandService.VisibleOfOpacityCommand}"
-                       CommandParameter="{Binding ElementName=grid_menu}"
-                       h:Cattach.IconSize="15"
-                       h:Cattach.Icon="&#xe7f1;"
-                       Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}"
-                       Visibility="Collapsed">
+                    Grid.ColumnSpan="3"
+                    Width="30"
+                    Margin="15,15,0,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    h:Cattach.Icon="&#xe7f1;"
+                    h:Cattach.IconSize="15"
+                    Command="{x:Static h:Commander.VisibleOfOpacityCommand}"
+                    CommandParameter="{Binding ElementName=grid_menu}"
+                    Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}"
+                    Visibility="Collapsed">
                 <h:Interaction.Triggers>
                     <h:EventTrigger EventName="Click">
                         <h:ChangePropertyAction PropertyName="Width" TargetName="grid_Column_left">
@@ -151,10 +150,10 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Button Command="{Binding RelayCommand}"
-                       CommandParameter="Button.Add"
-                       h:Cattach.Icon="&#xe856;"
-                       Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+            <Button h:Cattach.Icon="&#xe856;"
+                    Command="{Binding RelayCommand}"
+                    CommandParameter="Button.Add"
+                    Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
 
             <Border BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,1,1,1" />
             <Border Grid.Column="1" BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" BorderThickness="0,1,1,1" />
@@ -168,6 +167,7 @@
                                 MaxValue="{Binding StoryBoardPlayerViewModel.MaxValue}"
                                 MinValue="{Binding StoryBoardPlayerViewModel.MinValue}"
                                 SliderMargin="200,0,0,0"
+                                TickFrequency="20"
                                 Value="{Binding StoryBoardPlayerViewModel.Value, Mode=TwoWay}">
                 <h:StoryBoardPlayer.Resources>
                     <DataTemplate DataType="{x:Type local:StoryBoardItemViewModel}">
@@ -180,23 +180,23 @@
                             <Grid>
                                 <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
 
-                                    <Button Command="{Binding RelayCommand}"
-                                               CommandParameter="StoryBoardItem.Button.Delelte"
-                                               h:Cattach.IconMargin="0,4,0,0"
-                                               h:Cattach.IconSize="16"
-                                               h:Cattach.Icon="&#xe886;"
-                                               RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
-                                               Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+                                    <Button h:Cattach.Icon="&#xe886;"
+                                            h:Cattach.IconMargin="0,4,0,0"
+                                            h:Cattach.IconSize="16"
+                                            Command="{Binding RelayCommand}"
+                                            CommandParameter="StoryBoardItem.Button.Delelte"
+                                            RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
+                                            Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
 
                                     <ToggleButton x:Name="toggle"
                                                   Grid.Column="3"
                                                   Margin="10,5,10,0"
+                                                  h:Cattach.CheckedIcon="&#xe76e;"
                                                   h:Cattach.IconSize="25"
-                                                  h:Cattach.Icon="&#xe749;"
-                                                  Content="&#xe76e;"
+                                                  h:Cattach.UncheckedIcon="&#xe749;"
                                                   IsChecked="{Binding PlayMode}"
                                                   RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
-                                                  Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconChecked}}">
+                                                  Style="{DynamicResource {x:Static h:ToggleButtonKeys.Dynamic}}">
                                         <h:Interaction.Triggers>
                                             <h:EventTrigger EventName="Checked">
                                                 <h:InvokeCommandAction Command="{Binding ToggleButtonCheckChangedCommand}" CommandParameter="{Binding ElementName=toggle}" />
@@ -210,9 +210,9 @@
 
                                     <ToggleButton Grid.Column="3"
                                                   Margin="0,5,0,0"
+                                                  h:Cattach.CheckedIcon="&#xe81d;"
                                                   h:Cattach.IconSize="25"
-                                                  h:Cattach.Icon="&#xe81b;"
-                                                  Content="&#xe81d;"
+                                                  h:Cattach.UncheckedIcon="&#xe81b;"
                                                   IsChecked="{Binding IsEnbled}"
                                                   RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
                                                   Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconChecked}}" />

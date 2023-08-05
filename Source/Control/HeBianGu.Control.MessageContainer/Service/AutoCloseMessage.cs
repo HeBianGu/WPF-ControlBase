@@ -10,7 +10,7 @@ namespace HeBianGu.Control.MessageContainer
         {
             this.Loaded += (l, k) =>
             {
-                Task.Delay(Setting.Instance.HideDuration).ContinueWith(m => this.Close());
+                Task.Delay(MessageContainerSetting.Instance.HideDuration).ContinueWith(m => this.Close());
             };
         }
     }

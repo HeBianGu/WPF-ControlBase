@@ -1,0 +1,244 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.WinTool">
+    <DataTemplate DataType="{x:Type local:CounterViewPresenter}">
+        <Grid>
+            <TabControl h:Cattach.AttachDock="Top"
+                        h:Cattach.CaptionBackground="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                        h:Cattach.CaptionVerticalAlignment="Stretch"
+                        h:Cattach.CornerRadius="0"
+                        h:Cattach.UseSearch="False"
+                        BorderThickness="0"
+                        ItemsSource="{Binding Collection}"
+                        Style="{DynamicResource {x:Static h:TabControlKeys.Line}}"
+                        TabStripPlacement="Left">
+                <h:Cattach.AttachContent>
+                    <ControlTemplate>
+                        <Border Height="30">
+                            <Separator Margin="20,0" Background="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}" Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
+                        </Border>
+                    </ControlTemplate>
+                </h:Cattach.AttachContent>
+                <TabControl.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Static h:TabItemKeys.Line}}" TargetType="TabItem">
+                        <Setter Property="Width" Value="200" />
+                        <Setter Property="h:Cattach.IconMargin" Value="20 0" />
+                        <Setter Property="h:Cattach.Icon" Value="{x:Static h:Icons.Clock}" />
+                        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}" />
+                        <Setter Property="Header" Value="{Binding Name}" />
+                        <Setter Property="h:Cattach.Icon" Value="{Binding Icon}" />
+                        <Setter Property="h:Cattach.UseGuide" Value="True" />
+                    </Style>
+                </TabControl.ItemContainerStyle>
+                <h:Interaction.Triggers>
+                    <h:EventTrigger EventName="Loaded">
+                        <h:InvokeCommandAction Command="{Binding LoadedCommand}" />
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+            </TabControl>
+            <Button HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    h:Cattach.Icon="{x:Static h:Icons.Add}"
+                    Command="{Binding AddCounterCategoryCommand}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                    ToolTip="添加自定义监视器" />
+        </Grid>
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type local:CounterSettingPresenter}">
+        <ItemsControl ItemsSource="{Binding}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <GroupBox Header="{Binding Name, StringFormat={}{0}报警设置}">
+                        <!--<h:Cattach.CaptionRightTemplate>
+                            <ControlTemplate>
+                                <TextBox Width="250" HorizontalAlignment="Right"
+                                         h:Cattach.Title="刷新时间间隔(ms)"
+                                         h:Cattach.TitleWidth="Auto"
+                                         Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                         Text="{Binding MaxValue}" />
+                            </ControlTemplate>
+                        </h:Cattach.CaptionRightTemplate>-->
+                        <!--<ItemsControl ItemsSource="{Binding Defineds}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel Height="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" LastChildFill="False">
+                                        <CheckBox Width="120"
+                                                  HorizontalContentAlignment="Left"
+                                                  Content="{Binding Name}"
+                                                  IsChecked="{Binding UseAlarm}"
+                                                  ToolTip="启用监控报警" />
+                                        <TextBox Width="250"
+                                                 h:Cattach.Title="报警下限"
+                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                 Text="{Binding MinValue}" />
+                                        <TextBox Width="250"
+                                                 h:Cattach.Title="报警上限"
+                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                 Text="{Binding MaxValue}" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>-->
+
+                        <ItemsControl ItemsSource="{Binding Lines}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel Height="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" LastChildFill="False">
+                                        <CheckBox Width="120"
+                                                  HorizontalContentAlignment="Left"
+                                                  Content="{Binding Name}"
+                                                  IsChecked="{Binding UseAlarm}"
+                                                  ToolTip="启用监控报警" />
+                                        <TextBox Width="250"
+                                                 h:Cattach.Title="报警下限"
+                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                 Text="{Binding MinValue}" />
+                                        <TextBox Width="250"
+                                                 h:Cattach.Title="报警上限"
+                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                 Text="{Binding MaxValue}" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </GroupBox>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:CounterCategoryBase}">
+        <DockPanel>
+            <Border Height="70"
+                    Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                    DockPanel.Dock="Top"
+                    Style="{DynamicResource {x:Static h:BorderKeys.Card}}">
+                <DockPanel VerticalAlignment="Center">
+                    <Border Width="50"
+                            Height="50"
+                            Margin="10,0"
+                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"
+                            BorderThickness="1"
+                            CornerRadius="60">
+                        <TextBlock FontSize="30" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Icon}" />
+                    </Border>
+                    <TextBlock VerticalAlignment="Center" DockPanel.Dock="Right">
+                        <Run Text="[" />
+                        <Run Text="{Binding Values.Count, Mode=OneWay}" />
+                        <Run Text="]" />
+                    </TextBlock>
+
+                    <UniformGrid HorizontalAlignment="Left" VerticalAlignment="Center" Columns="1">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header4}}"
+                                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                                   Text="{Binding Name}" />
+                        <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" Text="{Binding Description}" />
+                    </UniformGrid>
+                </DockPanel>
+            </Border>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <DockPanel>
+                    <ItemsControl Margin="5" DockPanel.Dock="Top" ItemsSource="{Binding Defineds}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+
+                    <ItemsControl Margin="5" DockPanel.Dock="Top" ItemsSource="{Binding Lines}" />
+
+                    <h:Pagination Margin="0,5"
+                                  HorizontalAlignment="Right"
+                                  DockPanel.Dock="Bottom"
+                                  MaxPageCount="{Binding Values.TotalPage}"
+                                  PageIndex="{Binding Values.PageIndex, Mode=TwoWay}" />
+                    <ItemsControl Margin="5" DockPanel.Dock="Top" ItemsSource="{Binding Values.Source}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </DockPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:CounterValuePresenterBase}">
+        <Border Width="200"
+                Height="80"
+                Margin="5"
+                h:Cattach.GuideData="{Binding Description}"
+                h:Cattach.GuideTitle="{Binding Name}"
+                h:Cattach.UseGuide="True"
+                CornerRadius="5">
+            <Border.Effect>
+                <DropShadowEffect Opacity="0.5" Color="Black" />
+            </Border.Effect>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Offset="0" Color="Orange" />
+                    <GradientStop Offset="1" Color="OrangeRed" />
+                </LinearGradientBrush>
+            </Border.Background>
+            <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center" Orientation="Vertical">
+                <TextBlock Margin="0"
+                           Padding="0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="22"
+                           FontWeight="Bold"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                           Text="{Binding Name}"
+                           TextTrimming="CharacterEllipsis"
+                           TextWrapping="Wrap"
+                           ToolTip="{Binding Name}" />
+                <TextBlock Height="Auto"
+                           Margin="0"
+                           Padding="0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontSize="15"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                           Text="{Binding Value}" />
+            </StackPanel>
+        </Border>
+
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:CounterValuePresenter}">
+        <DockPanel Width="165" Margin="0,10" HorizontalAlignment="Stretch">
+            <TextBlock Margin="0,5" DockPanel.Dock="Top" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
+                <Run Text="{Binding CounterName}" />
+                <!--<Run Text=":" />-->
+            </TextBlock>
+            <TextBlock FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header2}}" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}">
+                <Run Text="{Binding Value, Mode=OneWay}" />
+            </TextBlock>
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:CounterLinePresenterBase}">
+        <DockPanel>
+            <Grid Margin="10,0,10,20" DockPanel.Dock="Top">
+                <TextBlock>
+                    <Run Text="{Binding Name}" />
+                    <Run Text=":" />
+                    <Run FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header4}}" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" Text="{Binding Value, Mode=OneWay, StringFormat={}{0:f2}}" />
+                </TextBlock>
+                <Button HorizontalAlignment="Right"
+                        h:Cattach.Icon="{x:Static h:Icons.Set}"
+                        Command="{h:PropertyGridEditMessageCommand}"
+                        CommandParameter="{Binding DynimacLinePresenter}"
+                        Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                        ToolTip="图标参数设置" />
+            </Grid>
+            <ContentPresenter MinWidth="200" MinHeight="200" Content="{Binding DynimacLinePresenter}" />
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

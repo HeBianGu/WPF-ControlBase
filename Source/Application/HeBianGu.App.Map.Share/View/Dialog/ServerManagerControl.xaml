@@ -15,51 +15,51 @@
     <UserControl.Resources>
         <x:Array x:Key="S.Array.Users" Type="{x:Type h:TestViewModel}">
             <h:TestViewModel DateTime1="{x:Static system:DateTime.Now}"
-                             Selected="True"
+                             IsSelected="True"
                              Value1="(253,569)"
                              Value2="192.168.0.1"
                              Value3="普通用户"
                              Value="主机一" />
             <h:TestViewModel DateTime1="{x:Static system:DateTime.Now}"
-                             Selected="True"
+                             IsSelected="True"
                              Value1="(253,569)"
                              Value2="192.168.0.2"
                              Value3="普通用户"
                              Value="主机二" />
             <h:TestViewModel DateTime1="{x:Static system:DateTime.Now}"
-                             Selected="False"
+                             IsSelected="False"
                              Value1="(253,569)"
                              Value2="192.168.0.3"
                              Value3="普通用户"
                              Value="主机三" />
             <h:TestViewModel DateTime1="{x:Static system:DateTime.Now}"
-                             Selected="True"
+                             IsSelected="True"
                              Value1="(253,569)"
                              Value2="192.168.0.4"
                              Value3="普通用户"
                              Value="主机四" />
             <h:TestViewModel DateTime1="{x:Static system:DateTime.Now}"
-                             Selected="False"
+                             IsSelected="False"
                              Value1="(253,569)"
                              Value2="192.168.0.5"
                              Value3="普通用户"
                              Value="主机五" />
             <h:TestViewModel DateTime1="{x:Static system:DateTime.Now}"
-                             Selected="True"
+                             IsSelected="True"
                              Value1="(253,569)"
                              Value2="192.168.0.6"
                              Value3="普通用户"
                              Value="主机六" />
         </x:Array>
     </UserControl.Resources>
-    <Grid Margin="50,50,50,10">
-        <Grid>
+    <Grid Margin="20">
+        <Grid Margin="0,40,0,0">
             <h:PagedDataGrid AutoGenerateColumns="False"
                              BorderThickness="0"
                              DataSource="{StaticResource S.Array.Users}"
                              PageCount="17"
-                             PageCountVisible="Collapsed"
-                             Style="{DynamicResource {x:Static h:PagedDataGrid.DefaultKey}}">
+                             Style="{DynamicResource {x:Static h:PagedDataGrid.DefaultKey}}"
+                             UsePageCount="False">
                 <h:PagedDataGrid.Columns>
                     <DataGridTemplateColumn>
                         <DataGridTemplateColumn.Header>
@@ -92,7 +92,7 @@
                         </DataGridTemplateColumn.Header>
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <CheckBox Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Foreground}" IsChecked="{Binding Selected}" />
+                                <CheckBox Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=Foreground}" IsChecked="{Binding IsSelected}" />
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -106,12 +106,13 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <DockPanel LastChildFill="False">
-                                    <Button Margin="0,2" Style="{DynamicResource {x:Static h:ButtonKeys.Delete}}" Content="2343"/>
+                                    <Button Margin="0,2" Content="2343" Style="{DynamicResource {x:Static h:ButtonKeys.Delete}}" />
                                     <Button Margin="2,2" Style="{DynamicResource {x:Static h:ButtonKeys.Edit}}" />
                                     <Button Width="Auto"
-                                            Margin="2,2" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                                            Margin="2,2"
                                             Background="{DynamicResource {x:Static h:BrushKeys.Orange}}"
-                                            Content="测试连接" />
+                                            Content="测试连接"
+                                            Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
                                 </DockPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
@@ -131,19 +132,18 @@
         </Grid>
 
         <Button Grid.Row="0"
-                   Grid.ColumnSpan="2"
-                   Margin="-40,-20"
-                   HorizontalAlignment="Right"
-                   Command="{x:Static h:CommandService.MessageLayerCloseCommand}"
-                   IsCancel="True"
-                   Style="{DynamicResource {x:Static h:ButtonKeys.Close}}">
+                Grid.ColumnSpan="2"
+                Margin="-20"
+                HorizontalAlignment="Right"
+                Command="{x:Static h:Commander.MessageLayerCloseCommand}"
+                IsCancel="True"
+                Style="{DynamicResource {x:Static h:ButtonKeys.Close}}">
             <Button.CommandParameter>
                 <system:Boolean>False</system:Boolean>
             </Button.CommandParameter>
         </Button>
 
-        <TextBlock Margin="0,-40,0,0"
-                   HorizontalAlignment="Left"
+        <TextBlock HorizontalAlignment="Left"
                    VerticalAlignment="Top"
                    FontSize="25"
                    Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"

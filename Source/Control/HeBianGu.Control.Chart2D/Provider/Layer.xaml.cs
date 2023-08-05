@@ -216,14 +216,17 @@ namespace HeBianGu.Control.Chart2D
 
             this.MouseDown += (l, k) =>
               {
-                  Debug.WriteLine(this.GetType().FullName);
+                  //Debug.WriteLine(this.GetType().FullName);
               };
 
         }
 
-        ///// <summary> 冻结修改属性刷新 </summary>
+        ///// <summary>  </summary>
         //public bool TryFreeze { get; set; }
 
+        /// <summary>
+        /// 冻结修改属性刷新 需要手动调用刷新 手动调用DrawOnce
+        /// </summary>
         public bool TryFreeze
         {
             get { return (bool)GetValue(TryFreezeProperty); }
@@ -264,10 +267,14 @@ namespace HeBianGu.Control.Chart2D
         {
             //try
             //{
-            if (this.TryFreeze) return;
+            if (this.TryFreeze) 
+                return;
 
-            if (!this.IsLoaded) return;
+            if (!this.IsLoaded) 
+                return;
 
+            if (!this.IsVisible)
+                return;
             this.Draw(this);
 
             this.OnDrawed();
@@ -342,6 +349,7 @@ namespace HeBianGu.Control.Chart2D
 
         private void AssociatedObject_Drawed(object sender, RoutedEventArgs e)
         {
+            if (Timelines == null) return;
             IEnumerable<UIElement> items = this.GetChildren<UIElement>().Where(l => l.RenderTransform is TransformGroup);
 
             items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
@@ -350,7 +358,7 @@ namespace HeBianGu.Control.Chart2D
 
             if (controls == null || controls.Count == 0) return;
 
-            Storyboard storyboard = new Storyboard();
+            Storyboard storyboard = StoryboardFactory.Create();
 
             for (int i = 0; i < controls.Count; i++)
             {
@@ -464,7 +472,7 @@ namespace HeBianGu.Control.Chart2D
             {
                 _storyboard.Stop();
             }
-            _storyboard = new Storyboard();
+            _storyboard = StoryboardFactory.Create();
 
             DoubleAnimationUsingKeyFrames frames = new DoubleAnimationUsingKeyFrames();
 
@@ -613,43 +621,43 @@ namespace HeBianGu.Control.Chart2D
 
             }));
 
-        [TypeConverter(typeof(DataTypeConverter))]
-        public ObservableCollection<double> xAxis
+        //[TypeConverter(typeof(DataTypeConverter))]
+        public DoubleCollection xAxis
         {
-            get { return (ObservableCollection<double>)GetValue(xAxisProperty); }
+            get { return (DoubleCollection)GetValue(xAxisProperty); }
             set { SetValue(xAxisProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty xAxisProperty =
-            DependencyProperty.Register("xAxis", typeof(ObservableCollection<double>), typeof(XyLayer), new FrameworkPropertyMetadata(new ObservableCollection<double>(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
+            DependencyProperty.Register("xAxis", typeof(DoubleCollection), typeof(XyLayer), new FrameworkPropertyMetadata(new DoubleCollection(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
             {
                 XyLayer control = d as XyLayer;
 
                 if (control == null) return;
 
-                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+                DoubleCollection config = e.NewValue as DoubleCollection;
 
                 control.TryDraw();
 
             }));
 
-        [TypeConverter(typeof(DataTypeConverter))]
-        public ObservableCollection<double> yAxis
+        //[TypeConverter(typeof(DataTypeConverter))]
+        public DoubleCollection yAxis
         {
-            get { return (ObservableCollection<double>)GetValue(yAxisProperty); }
+            get { return (DoubleCollection)GetValue(yAxisProperty); }
             set { SetValue(yAxisProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty yAxisProperty =
-            DependencyProperty.Register("yAxis", typeof(ObservableCollection<double>), typeof(XyLayer), new FrameworkPropertyMetadata(new ObservableCollection<double>(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
+            DependencyProperty.Register("yAxis", typeof(DoubleCollection), typeof(XyLayer), new FrameworkPropertyMetadata(new DoubleCollection(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
             {
                 XyLayer control = d as XyLayer;
 
                 if (control == null) return;
 
-                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+                DoubleCollection config = e.NewValue as DoubleCollection;
 
                 control.TryDraw();
 
@@ -788,24 +796,25 @@ namespace HeBianGu.Control.Chart2D
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DataLayer), new FrameworkPropertyMetadata(typeof(DataLayer)));
         }
 
-        [TypeConverter(typeof(DataTypeConverter))]
-        public ObservableCollection<double> Data
+        //[TypeConverter(typeof(DataTypeConverter))]
+        public DoubleCollection Data
         {
-            get { return (ObservableCollection<double>)GetValue(DataProperty); }
+            get { return (DoubleCollection)GetValue(DataProperty); }
             set { SetValue(DataProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DataProperty =
-            DependencyProperty.Register("Data", typeof(ObservableCollection<double>), typeof(DataLayer), new PropertyMetadata(new ObservableCollection<double>(), (d, e) =>
+            DependencyProperty.Register("Data", typeof(DoubleCollection), typeof(DataLayer), new PropertyMetadata(new DoubleCollection(), (d, e) =>
             {
                 DataLayer control = d as DataLayer;
-
-                if (control == null) return;
-
-                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
-
+                if (control == null) 
+                    return;
+                DoubleCollection config = e.NewValue as DoubleCollection;
+                if(config==null) 
+                    return;
                 control.InitDataBoolean(config.Count);
+                control.TryDraw();
 
             }));
 
@@ -920,30 +929,27 @@ namespace HeBianGu.Control.Chart2D
 
         public double GetMapY(double x, double value)
         {
-            if (this.maxY == this.minY) return this.minY;
-
+            if (this.maxY == this.minY) 
+                return this.minY;
             yAxis find = this.yAxises?.FirstOrDefault(l => l.Value == x);
-
-            if (find == null) return value;
-
+            if (find == null) 
+                return value;
+            if(find.yAxis.Count==0)
+                return value;
             double min = find.yAxis.Min();
-
             double max = find.yAxis.Max();
-
-
             return ((value - min) / (max - min)) * (this.maxY - this.minY) + this.minY;
         }
 
-
-
         public double GetMapX(double y, double value)
         {
-            if (this.maxX == this.minX) return this.minX;
-
+            if (this.maxX == this.minX) 
+                return this.minX;
             xAxis find = this.xAxises?.FirstOrDefault(l => l.Value == y);
-
-            if (find == null) return value;
-
+            if (find == null)
+                return value;
+            if (find.yAxis.Count == 0)
+                return value;
             double min = find.yAxis.Min();
 
             double max = find.yAxis.Max();
@@ -1044,12 +1050,18 @@ namespace HeBianGu.Control.Chart2D
 
             }));
 
+        bool _refreshing = false;
         public override void TryDraw()
         {
+            if (_refreshing)
+                return;
+            _refreshing = true;
             //  Do ：重写刷新数据在空闲时刷新
             this.Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() =>
             {
+                _refreshing = false;
                 base.TryDraw();
+
             }));
         }
     }

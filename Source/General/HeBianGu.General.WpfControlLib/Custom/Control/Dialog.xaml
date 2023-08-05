@@ -1,0 +1,86 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Dialog.Default, TypeInTargetAssembly={x:Type local:Dialog}}" TargetType="{x:Type local:Dialog}">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+        <Setter Property="Margin" Value="{Binding Source={x:Static local:DialogSetting.Instance}, Path=DialogMargin}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Dialog}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <DockPanel Margin="10" TextBlock.FontSize="18" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
+                                <TextBlock Margin="10"
+                                           HorizontalAlignment="Left"
+                                           DockPanel.Dock="Top"
+                                           FontSize="{StaticResource {x:Static h:FontSizeKeys.Header2}}"
+                                           FontWeight="Bold"
+                                           Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.Title)}" />
+
+
+                                <StackPanel Grid.Row="2"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Center"
+                                            DockPanel.Dock="Bottom"
+                                            Orientation="Horizontal">
+
+                                    <Button Command="{x:Static h:Commander.Sure}" Content="确认" />
+                                </StackPanel>
+                                <ContentPresenter />
+                            </DockPanel>
+
+                            <Button Margin="10"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    h:Cattach.AllowsAnimation="True"
+                                    h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                                    Command="{x:Static h:Commander.Cancel}"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Close}}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Dialog.Dispaly, TypeInTargetAssembly={x:Type local:Dialog}}" BasedOn="{StaticResource {x:Static local:Dialog.DefaultKey}}" TargetType="{x:Type local:Dialog}">
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:Dialog}">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
+                        <Grid Margin="{TemplateBinding Padding}">
+                            <ContentPresenter />
+
+                            <TextBlock Margin="10"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Top"
+                                       FontSize="{StaticResource {x:Static h:FontSizeKeys.Header2}}"
+                                       FontWeight="Bold"
+                                       Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.Title)}" />
+
+                            <Button Margin="-20"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Top"
+                                    h:Cattach.AllowsAnimation="True"
+                                    Command="{x:Static h:Commander.Cancel}"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.CloseMouseOver}}"
+                                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static h:Dialog.DefaultKey}}" TargetType="{x:Type local:Dialog}" />
+</ResourceDictionary>

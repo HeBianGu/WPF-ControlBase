@@ -5,14 +5,16 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 
 namespace HeBianGu.App.Screen
 {
     internal class ShellViewModel : NotifyPropertyChanged
     {
-        private ObservableCollection<double> _animationBarSource = new ObservableCollection<double>();
+        private DoubleCollection _animationBarSource = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> AnimationBarSource
+        public DoubleCollection AnimationBarSource
         {
             get { return _animationBarSource; }
             set
@@ -34,9 +36,9 @@ namespace HeBianGu.App.Screen
             }
         }
 
-        private ObservableCollection<double> _waveData2 = new ObservableCollection<double>();
+        private DoubleCollection _waveData2 = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> WaveData2
+        public DoubleCollection WaveData2
         {
             get { return _waveData2; }
             set
@@ -46,9 +48,9 @@ namespace HeBianGu.App.Screen
             }
         }
 
-        private ObservableCollection<double> _waveyAxis = new ObservableCollection<double>();
+        private DoubleCollection _waveyAxis = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> WaveyAxis
+        public DoubleCollection WaveyAxis
         {
             get { return _waveyAxis; }
             set
@@ -74,16 +76,10 @@ namespace HeBianGu.App.Screen
 
         protected override void Init()
         {
-
             for (int i = 0; i < 50; i++)
-            {
                 Students.Add(Student.Random());
-            }
-
             List<double> source = new List<double>();
-
             int index = 0;
-
             Task.Run(() =>
             {
                 while (true)
@@ -93,16 +89,10 @@ namespace HeBianGu.App.Screen
                         if (source.Count == 12)
                         {
                             source[i] = source[i] + random.NextDouble() - 0.5;
-
                             if (source[i] > 10)
-                            {
                                 source[i] = 10;
-                            }
-
                             if (source[i] < 0)
-                            {
                                 source[i] = 0;
-                            }
                         }
                         else
                         {
@@ -110,20 +100,19 @@ namespace HeBianGu.App.Screen
                         }
                     }
 
-                    AnimationBarSource = source?.ToObservable();
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        AnimationBarSource = new DoubleCollection(source);
+                    });
 
-                    if (index > 500) index = 0;
 
+                    if (index > 500)
+                        index = 0;
                     index++;
-
                     Year = DateTime.Now.AddYears(-500).AddYears(index).ToString("yyyy");
-
                     Thread.Sleep(100);
-
-                    //this.GotoRefresh = true;
                 }
             });
-
 
             List<Func<double, double>> waves = new List<Func<double, double>>
             {
@@ -161,82 +150,50 @@ namespace HeBianGu.App.Screen
             };
 
             double fz = 150;
-
             double center = 360;
-
             double weight = 90;
-
             double offsite = 90;
-
-
             Task.Run(() =>
             {
                 double param = -5;
-
                 while (true)
                 {
                     //List<double> data = new List<double>();
-
                     //List<double> data1 = new List<double>();
-
                     List<double> data2 = new List<double>();
-
                     List<double> axis = new List<double>();
-
                     for (double i = 0; i <= 360 * 2; i = i + 1)
                     {
                         int count = random.Next(3, waves.Count);
-
                         List<Func<double, double>> find = Enumerable.Range(0, count).Select(l => waves[l])?.ToList();
-
                         Func<double, double> func = l =>
                         {
                             double result = 0;
-
                             find.ForEach(k => result = result + k.Invoke(l));
-
                             return result;
                         };
-
                         axis.Add(i);
-
                         double t = i / 360 * Math.PI;
-
                         double value = func(t);
-
                         //data.Add(func(t));
-
                         //data1.Add(Math.Sin((i * param) / 360 * Math.PI) * 50);
-
                         double wave = i > center - weight && i < center + weight ? Math.Sin(((i + offsite) * 2) / 360 * Math.PI) * fz : 0;
-
                         data2.Add(wave + value);
                     }
-
-                    WaveyAxis = axis.ToObservable();
-
-                    //this.WaveData = data.ToObservable();
-
-                    //this.WaveData1 = data1.ToObservable();
-
-                    WaveData2 = data2.ToObservable();
-
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        WaveyAxis = new DoubleCollection(axis);
+                        //this.WaveData = data.ToObservable();
+                        //this.WaveData1 = data1.ToObservable();
+                        WaveData2 = new DoubleCollection(data2);
+                    });
 
                     param = param + 0.01;
-
-                    if (param > 5) param = -5;
-
+                    if (param > 5)
+                        param = -5;
                     Thread.Sleep(100);
-
                 }
             });
-        }
-
-        /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
-
-        {
-
         }
     }
 }

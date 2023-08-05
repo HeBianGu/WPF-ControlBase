@@ -12,7 +12,7 @@ namespace HeBianGu.Demo.Demo6
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             return new MainWindow();
         }
@@ -25,16 +25,13 @@ namespace HeBianGu.Demo.Demo6
             services.AddWindowAnimation();
 
             //  Do ：注册消息
-            services.AddMessage();
-
-            //  Do ：注册窗口配置，注册后窗口右侧有可设置主题的按钮
-            services.AddTheme();
+            services.AddMessageProxy();
 
             //  Do ：注册序列化保存接口，注册后主题的配置会保存到本地，再次启动会读取
             services.AddXmlSerialize();
 
             //  Do ：注册后可以使用框架自带的对话框
-            services.AddMessageDialog();
+            services.AddWindowDialog();
         }
 
         protected override void Configure(IApplicationBuilder app)
@@ -45,8 +42,7 @@ namespace HeBianGu.Demo.Demo6
             app.UseLocalTheme(l =>
             {
                 l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
-                l.SmallFontSize = 14D;
-                l.LargeFontSize = 16D;
+                l.DefaultFontSize = 14D;
                 l.FontSize = FontSize.Small;
 
                 l.ItemHeight = 36;

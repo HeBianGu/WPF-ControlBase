@@ -1,0 +1,241 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Survey">
+    <Style TargetType="ListBox">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBox">
+                    <Border Background="{TemplateBinding Background}">
+                        <ItemsPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <DataTemplate DataType="{x:Type local:QusitionItem}">
+        <Border>
+            <Grid>
+                <CheckBox x:Name="cb"
+                          HorizontalAlignment="Left"
+                          VerticalContentAlignment="Center"
+                          Content="{Binding Text}"
+                          IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                <RadioButton x:Name="rb"
+                             HorizontalAlignment="Left"
+                             VerticalContentAlignment="Center"
+                             Content="{Binding Text}"
+                             IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+            </Grid>
+        </Border>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=SelectionMode}" Value="Multiple">
+                <Setter TargetName="rb" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=SelectionMode}" Value="Single">
+                <Setter TargetName="cb" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:QusitionOtherItem}">
+        <StackPanel>
+            <Grid>
+                <CheckBox x:Name="cb"
+                          HorizontalAlignment="Left"
+                          HorizontalContentAlignment="Stretch"
+                          VerticalContentAlignment="Center"
+                          Content="其他"
+                          IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                <RadioButton x:Name="rb"
+                             HorizontalAlignment="Left"
+                             HorizontalContentAlignment="Stretch"
+                             VerticalContentAlignment="Center"
+                             Content="其他"
+                             IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+            </Grid>
+            <TextBox Height="50"
+                     Margin="20,0,0,0"
+                     AcceptsReturn="True"
+                     BorderBrush="{x:Static SystemColors.InactiveBorderBrush}"
+                     BorderThickness="1"
+                     Text="{Binding Text}"
+                     Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected, Converter={x:Static h:Converter.GetTrueToVisible}}" />
+
+        </StackPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=SelectionMode}" Value="Multiple">
+                <Setter TargetName="rb" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=SelectionMode}" Value="Single">
+                <Setter TargetName="cb" Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:Survey}">
+        <Grid Width="800">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Margin="0,5"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource {x:Static h:FontSizeKeys.Header1}}"
+                       Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                       Text="{Binding Source={x:Static local:SurveyViewPresenter.Instance}, Path=Welcome}" />
+
+            <Grid Grid.Row="2">
+                <DockPanel Grid.Row="2" HorizontalAlignment="Right" LastChildFill="True">
+                    <Button MinWidth="50"
+                            Margin="2"
+                            Padding="2"
+                            VerticalAlignment="Center"
+                            Command="{Binding SumitCommand}"
+                            Content="提交"
+                            DockPanel.Dock="Right">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" TargetType="Button">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding SelectedIndex}" Value="3">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button MinWidth="50"
+                            Margin="2"
+                            Padding="2"
+                            VerticalAlignment="Center"
+                            Command="{Binding NextCommand}"
+                            Content="下一页"
+                            DockPanel.Dock="Right">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" TargetType="Button">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedIndex}" Value="3">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+
+                    <Button MinWidth="50"
+                            Margin="2"
+                            Padding="2"
+                            VerticalAlignment="Center"
+                            Command="{Binding PreviousCommand}"
+                            Content="上一页"
+                            DockPanel.Dock="Right">
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" TargetType="Button">
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </DockPanel>
+                <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Run Text="{Binding SelectedIndex, Converter={x:Static h:Converter.GetMathAddition}, ConverterParameter=1}" />
+                    <Run Text="/" />
+                    <Run Text="{Binding Qusitions.Count, Mode=OneWay}" />
+                </TextBlock>
+            </Grid>
+
+            <ListBox x:Name="lb"
+                     Grid.Row="1"
+                     Padding="20,0"
+                     Background="Transparent"
+                     ItemsSource="{Binding Qusitions}"
+                     SelectedIndex="{Binding SelectedIndex}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:Qusition}">
+                        <DockPanel>
+                            <TextBlock Margin="0,10"
+                                       DockPanel.Dock="Top"
+                                       FontSize="{StaticResource {x:Static h:FontSizeKeys.Header5}}"
+                                       Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                                       Text="{Binding Title}" />
+                            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                <ListBox BorderThickness="0" ItemsSource="{Binding Collection}">
+                                    <ListBox.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}" TargetType="ListBoxItem">
+                                            <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                            <!--<Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+                                            <Setter Property="BorderThickness" Value="1" />-->
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="ListBoxItem">
+                                                        <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                    <ListBox.Style>
+                                        <Style BasedOn="{StaticResource {x:Static h:ListBoxKeys.CheckBoxWrapPanel}}" TargetType="{x:Type ListBox}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding AllowMulti}" Value="True">
+                                                    <Setter Property="SelectionMode" Value="Multiple" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListBox.Style>
+                                    <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel VerticalAlignment="Top" />
+                                        </ItemsPanelTemplate>
+                                    </ListBox.ItemsPanel>
+                                </ListBox>
+                            </ScrollViewer>
+                        </DockPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border Background="{TemplateBinding Background}">
+                                        <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Stretch" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

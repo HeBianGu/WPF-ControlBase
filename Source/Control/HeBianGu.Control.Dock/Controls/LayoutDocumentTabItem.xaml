@@ -1,0 +1,83 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:lc="clr-namespace:HeBianGu.Control.Dock.Controls"
+                    xmlns:lcv="clr-namespace:HeBianGu.Control.Dock.Converters"
+                    xmlns:ll="clr-namespace:HeBianGu.Control.Dock.Layout"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Dock"
+                    xmlns:lp="clr-namespace:HeBianGu.Control.Dock.Properties"
+                    xmlns:shell="clr-namespace:Microsoft.Windows.Shell">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="{x:Type lc:LayoutDocumentTabItem}">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type lc:LayoutDocumentTabItem}">
+                    <lc:DropDownControlArea DropDownContextMenu="{Binding Root.Manager.DocumentContextMenu}" DropDownContextMenuDataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <!--<Border Grid.ColumnSpan="3" Background="Transparent" />-->
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                  Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  ContentTemplate="{Binding DocumentHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type local:DockingManager}, Mode=FindAncestor}}"
+                                                  ContentTemplateSelector="{Binding DocumentHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type local:DockingManager}, Mode=FindAncestor}}" />
+
+                                <Button x:Name="DocumentCloseButton"
+                                        Grid.Column="2"
+                                        Width="Auto"
+                                        Height="Auto"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        h:Cattach.IconSize="12"
+                                        Command="{Binding Path=LayoutItem.CloseCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
+                                        ToolTip="{x:Static lp:Resources.Document_Close}"
+                                        Visibility="Hidden" />
+                            </Grid>
+                        </Border>
+                    </lc:DropDownControlArea>
+                    <ControlTemplate.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=IsSelected}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="DocumentCloseButton" Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="DocumentCloseButton" Property="Visibility" Value="Visible" />
+                        </MultiDataTrigger>
+                        <!--  BD: 17.08.2020 use HideCommand if CanClose=false but CanHide=true  -->
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=CanClose}" Value="false" />
+                                <Condition Binding="{Binding Path=CanHide}" Value="true" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="DocumentCloseButton" Property="Command" Value="{Binding Path=LayoutItem.HideCommand, RelativeSource={RelativeSource TemplatedParent}}" />
+                            <Setter TargetName="DocumentCloseButton" Property="ToolTip" Value="{x:Static lp:Resources.Anchorable_Hide}" />
+                        </MultiDataTrigger>
+                        <!--  BD: 17.08.2020 hide button if both CanClose=false and CanHide=false  -->
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding Path=CanClose}" Value="false" />
+                                <Condition Binding="{Binding Path=CanHide}" Value="false" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="DocumentCloseButton" Property="Visibility" Value="Collapsed" />
+                        </MultiDataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

@@ -1,4 +1,5 @@
 ﻿
+using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using System;
 using System.Threading;
@@ -20,19 +21,19 @@ namespace HeBianGu.Applications.ControlBase.LinkWindow
         private Random random = new Random();
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await Message.Instance.ShowWaittingMessge(() =>
+            await Messager.Instance.ShowWaitter(() =>
             {
                 Thread.Sleep(1000);
             });
 
             if (random.Next(5) == 1)
             {
-                await Message.Instance.ShowSumitMessge("查询错误，请检查！");
+                await Messager.Instance.ShowSumit("查询错误，请检查！");
             }
             else
             {
-                Message.Instance.CloseLayer();
-                Message.Instance.ShowSnackMessageWithNotice("查询完成");
+                MessageProxy.Container.Close();
+                MessageProxy.Snacker.ShowTime("查询完成");
             }
         }
     }

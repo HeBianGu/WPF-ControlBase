@@ -1,0 +1,110 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Border.Dynamic, TypeInTargetAssembly={x:Type local:BorderKeys}}" TargetType="{x:Type Border}">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+        <Setter Property="h:Cattach.IsMouseOver" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" />
+        <Setter Property="h:Cattach.IsSelected" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" />
+        <Style.Triggers>
+            <!--  h:Cattach.IsMouseOver  -->
+            <Trigger Property="h:Cattach.IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverBorderBrush)}" />
+                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverBackground)}" />
+                <Setter Property="TextBlock.Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverForeground)}" />
+                <Setter Property="BorderThickness" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverBorderThickness)}" />
+                <Setter Property="Effect" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverEffect)}" />
+            </Trigger>
+
+            <!--  h:Cattach.IsSelected  -->
+            <Trigger Property="h:Cattach.IsSelected" Value="True">
+                <Setter Property="TextBlock.Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectForeground)}" />
+                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectBackground)}" />
+                <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectBorderBrush)}" />
+                <Setter Property="BorderThickness" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectBorderThickness)}" />
+                <Setter Property="Effect" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectEffect)}" />
+                <Setter Property="Opacity" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectedOpacity)}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Border.Circle, TypeInTargetAssembly={x:Type local:BorderKeys}}" TargetType="{x:Type Border}" />
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Border.Default, TypeInTargetAssembly={x:Type local:BorderKeys}}" TargetType="{x:Type Border}">
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Border.Single, TypeInTargetAssembly={x:Type local:BorderKeys}}" TargetType="{x:Type Border}">
+
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Border.Card, TypeInTargetAssembly={x:Type local:BorderKeys}}" BasedOn="{StaticResource {x:Static local:BorderKeys.Dynamic}}" TargetType="{x:Type Border}">
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="5" />
+        <Setter Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default1}}" />
+
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderBrush}" />
+        <Setter Property="h:Cattach.MouseOverBorderThickness" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderThickness}" />
+
+        <Setter Property="h:Cattach.SelectBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}" />
+        <Setter Property="h:Cattach.SelectBorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderBrush}" />
+        <Setter Property="h:Cattach.SelectBorderThickness" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderThickness}" />
+
+        <Setter Property="h:Cattach.MouseOverEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}" />
+        <Setter Property="h:Cattach.SelectEffect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Accent3}}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Border.BorderThickness, TypeInTargetAssembly={x:Type local:BorderKeys}}" BasedOn="{StaticResource {x:Static local:BorderKeys.Dynamic}}" TargetType="{x:Type Border}">
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderBrush}" />
+        <Setter Property="h:Cattach.SelectBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}" />
+        <Setter Property="h:Cattach.SelectBorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderBrush}" />
+        <Setter Property="h:Cattach.MouseOverBorderThickness" Value="2" />
+        <Setter Property="h:Cattach.SelectBorderThickness" Value="3" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Border.BorderBrush, TypeInTargetAssembly={x:Type local:BorderKeys}}" BasedOn="{StaticResource {x:Static local:BorderKeys.Dynamic}}" TargetType="{x:Type Border}">
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}" />
+        <Setter Property="h:Cattach.MouseOverBorderThickness" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderThickness}" />
+        <Setter Property="h:Cattach.SelectBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}" />
+        <Setter Property="h:Cattach.SelectBorderThickness" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderThickness}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity8}}" />
+        <Setter Property="h:Cattach.SelectBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Border.Background, TypeInTargetAssembly={x:Type local:BorderKeys}}" BasedOn="{StaticResource {x:Static local:BorderKeys.Dynamic}}" TargetType="{x:Type Border}">
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderBrush}" />
+        <Setter Property="h:Cattach.MouseOverBorderThickness" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderThickness}" />
+        <Setter Property="h:Cattach.SelectBorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderBrush}" />
+        <Setter Property="h:Cattach.SelectBorderThickness" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=BorderThickness}" />
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="h:Cattach.SelectBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.SelectForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Border.Binding, TypeInTargetAssembly={x:Type local:BorderKeys}}" TargetType="{x:Type Border}">
+        <Setter Property="Opacity" Value="{Binding Opacity}" />
+        <Setter Property="Height" Value="{Binding Height}" />
+        <Setter Property="Width" Value="{Binding Width}" />
+        <Setter Property="MinHeight" Value="{Binding MinHeight}" />
+        <Setter Property="MinWidth" Value="{Binding MinWidth}" />
+        <Setter Property="Margin" Value="{Binding Margin}" />
+        <Setter Property="Visibility" Value="{Binding IsVisible, Converter={x:Static h:Converter.GetTrueToVisible}}" />
+        <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
+        <Setter Property="HorizontalAlignment" Value="{Binding HorizontalAlignment}" />
+        <Setter Property="VerticalAlignment" Value="{Binding VerticalAlignment}" />
+        <Setter Property="Background" Value="{Binding Background}" />
+        <Setter Property="BorderBrush" Value="{Binding BorderBrush}" />
+        <Setter Property="BorderThickness" Value="{Binding BorderThickness}" />
+        <Setter Property="CornerRadius" Value="{Binding CornerRadius}" />
+        <Setter Property="TextBlock.Foreground" Value="{Binding Foreground}" />
+        <Setter Property="TextElement.Foreground" Value="{Binding Foreground}" />
+    </Style>
+</ResourceDictionary>

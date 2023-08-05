@@ -1,11 +1,13 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
 using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfControlLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -14,7 +16,7 @@ using System.Windows.Threading;
 
 namespace HeBianGu.Control.Guide
 {
-    public class GuideHost : ContentControl
+    public partial class GuideHost : ContentControl
     {
         static GuideHost()
         {
@@ -73,9 +75,9 @@ namespace HeBianGu.Control.Guide
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
             this._conver.Background = this.CoverBackground;
             this._path.Style = this.PathStyle;
-
             this.AddVisualChild(_conver);
             this.AddVisualChild(_path);
             this.AddVisualChild(ContentControl);
@@ -101,17 +103,23 @@ namespace HeBianGu.Control.Guide
 
                  }
 
-                 control.Refresh();
 
-                 if (e.NewValue is bool n)
-                 {
-                     if (n)
-                     {
-                         control.InitData();
-                         control.Click();
-                         control.RefreshClip();
-                     }
-                 }
+
+                 Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                            {
+                                control.Refresh();
+
+                                if (e.NewValue is bool n)
+                                {
+                                    if (n)
+                                    {
+                                        control.InitData();
+                                        control.Click();
+                                        control.RefreshClip();
+                                    }
+                                }
+                            }));
+
              }));
 
 
@@ -140,7 +148,6 @@ namespace HeBianGu.Control.Guide
                  }
 
              }));
-
 
         public ContentControl ContentControl
         {
@@ -228,19 +235,32 @@ namespace HeBianGu.Control.Guide
 
         public void InitData()
         {
-            List<UIElement> items = this.GetChildren<UIElement>(l => GuideService.GetUseGuide(l) && GuideService.GetParentTitle(l) == null)?.ToList();
+            List<UIElement> items = this.GetChildren<UIElement>(l => Cattach.GetUseGuide(l) && Cattach.GetGuideParentTitle(l) == null)?.ToList();
 
-            IEnumerable<UIElement> roots = items.Where(l => GuideService.GetParentTitle(l) == null);
+            IEnumerable<UIElement> roots = items.Where(l => Cattach.GetGuideParentTitle(l) == null && l.Visibility == Visibility.Visible);
 
             List<GuideTreeNode> guideTreeNodes = new List<GuideTreeNode>();
 
             Action<GuideTreeNode> build = null;
             build = parent =>
              {
-                 IEnumerable<UIElement> children = items.Where(l => GuideService.GetParentTitle(l) == GuideService.GetTitle(parent.Element));
+                 //var gt = Cattach.GetGuideTitle(parent.Element);
+                 IEnumerable<UIElement> children = items.Where(l => Cattach.GetGuideParentTitle(l) == Cattach.GetGuideTitle(parent.Element)?.ToString() && l.Visibility == Visibility.Visible);
 
                  foreach (UIElement child in children)
                  {
+                     if (child.Visibility != Visibility.Visible)
+                         continue;
+                     if (child.IsVisible == false)
+                         continue;
+                     if (child.RenderSize.Width < 10 || child.RenderSize.Height < 10)
+                         continue;
+                     if (child is FrameworkElement framework)
+                     {
+                         if (framework.IsLoaded == false)
+                             return;
+
+                     }
                      GuideTreeNode childNode = new GuideTreeNode(child);
                      childNode.Parent = parent;
                      parent.Chidren.Add(childNode);
@@ -250,6 +270,12 @@ namespace HeBianGu.Control.Guide
 
             foreach (UIElement root in roots)
             {
+                if (root.Visibility != Visibility.Visible)
+                    continue;
+                if (root.IsVisible == false)
+                    continue;
+                if (root.RenderSize.Width < 10 || root.RenderSize.Height < 10)
+                    continue;
                 GuideTreeNode rootNode = new GuideTreeNode(root);
                 guideTreeNodes.Add(rootNode);
                 build.Invoke(rootNode);
@@ -273,15 +299,24 @@ namespace HeBianGu.Control.Guide
 
             this._conver.Visibility = this.IsGuide ? Visibility.Visible : Visibility.Collapsed;
             this._path.Visibility = this.IsGuide ? Visibility.Visible : Visibility.Collapsed;
+
+            if (this.ContentControl == null)
+                return;
+
             this.ContentControl.Visibility = this.IsGuide ? Visibility.Visible : Visibility.Collapsed;
         }
 
 
         public void Click()
         {
-            bool use = GuideService.GetUseClick(_guideTree.Current.Element);
+            if (!this.IsLoaded)
+                return;
+            if (_guideTree.Current == null)
+                return;
+            bool use = Cattach.GetGuideUseClick(_guideTree.Current.Element);
 
-            if (!use) return;
+            if (!use)
+                return;
 
             if (_guideTree.Current.Element is ListBoxItem listBoxItem)
             {
@@ -296,7 +331,7 @@ namespace HeBianGu.Control.Guide
             //  Do ：加载本级节点 
             this.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
                        {
-                           List<UIElement> children = this.GetChildren<UIElement>(l => GuideService.GetUseGuide(l) && GuideService.GetParentTitle(l) == GuideService.GetTitle(_guideTree.Current.Element))?.ToList();
+                           List<UIElement> children = this.GetChildren<UIElement>(l => Cattach.GetUseGuide(l) && Cattach.GetGuideParentTitle(l) == Cattach.GetGuideTitle(_guideTree.Current.Element)?.ToString() && l.Visibility == Visibility.Visible)?.ToList();
 
                            _guideTree.Current.Chidren.Clear();
                            foreach (UIElement child in children)
@@ -313,26 +348,27 @@ namespace HeBianGu.Control.Guide
         public void ScrollTo()
         {
             ScrollViewer scrollViewer = _guideTree.Current.Element.GetParent<ScrollViewer>();
-
-            if (scrollViewer == null) return;
+            if (scrollViewer == null) 
+                return;
             double currentScrollPosition = scrollViewer.VerticalOffset;
             Point point = new Point(0, currentScrollPosition);
-
             Point targetPosition = _guideTree.Current.Element.TransformToVisual(scrollViewer).Transform(point);
             scrollViewer.ScrollToVerticalOffset(targetPosition.Y);
         }
 
-
-
         public void RefreshClip()
         {
+            if (!this.IsLoaded)
+                return;
+            if (this._guideTree.Current == null)
+                return;
             Point point = this._guideTree.Current.Element.TranslatePoint(new Point(0, 0), this);
             Rect rect = new Rect(point, this._guideTree.Current.Element.RenderSize);
             {
                 RectAnimation da = new RectAnimation();
                 da.To = rect;
                 da.EasingFunction = EasingFunctionFactroy.PowerEase;
-                Storyboard sb = new Storyboard();
+                Storyboard sb = StoryboardFactory.Create();
                 sb.Duration = TimeSpan.FromMilliseconds(1000);
                 sb.Children.Add(da);
                 Storyboard.SetTarget(da, this._conver);
@@ -345,7 +381,7 @@ namespace HeBianGu.Control.Guide
                 RectAnimation da = new RectAnimation();
                 da.To = new Rect(new Point(point.X - thickness * 0.5, point.Y - thickness * 0.5), new Size(this._guideTree.Current.Element.RenderSize.Width + thickness * 1, this._guideTree.Current.Element.RenderSize.Height + thickness * 1));
                 da.EasingFunction = EasingFunctionFactroy.PowerEase;
-                Storyboard sb = new Storyboard();
+                Storyboard sb = StoryboardFactory.Create();
                 sb.Duration = TimeSpan.FromMilliseconds(1000);
                 sb.Children.Add(da);
                 Storyboard.SetTarget(da, this._path);
@@ -353,12 +389,12 @@ namespace HeBianGu.Control.Guide
                 sb.Begin();
 
             }
-            string title = GuideService.GetTitle(this._guideTree.Current.Element);
-            GuideService.SetTitle(this.ContentControl, title);
-
-            this.ContentControl.Content = GuideService.GetData(this._guideTree.Current.Element);
-            this.ContentControl.ContentTemplate = GuideService.GetDataTemplate(this._guideTree.Current.Element);
-
+            object title = Cattach.GetGuideTitle(this._guideTree.Current.Element);
+            Cattach.SetGuideTitle(this.ContentControl, title);
+            this.ContentControl.Content = Cattach.GetGuideData(this._guideTree.Current.Element);
+            this.ContentControl.ContentTemplate = Cattach.GetGuideDataTemplate(this._guideTree.Current.Element);
+            this.ContentControl.Measure(this.RenderSize);
+            this.ContentControl.Arrange(new Rect(0, 0, this.ActualWidth, this.ActualHeight));
             double x = rect.Right;
 
             if (rect.Width > this.RenderSize.Width - rect.Right)
@@ -401,7 +437,7 @@ namespace HeBianGu.Control.Guide
 
             if (this.ContentControl.CheckDefaultTransformGroup())
             {
-                this.ContentControl.BeginAnimationXY(x, y, 500);
+                this.ContentControl.BeginAnimationXY(x, y, GuideViewPresenter.Instance.AnimationDuration);
             }
 
         }
@@ -434,6 +470,7 @@ namespace HeBianGu.Control.Guide
 
         protected override Size ArrangeOverride(Size finalSize)
         {
+            System.Diagnostics.Debug.WriteLine("GuideHost.ArrangeOverride:" + DateTime.Now);
             _conver.Arrange(new Rect(new Point(0, 0), finalSize));
             _path.Arrange(new Rect(new Point(0, 0), finalSize));
             this.ContentControl.Arrange(new Rect(new Point(0, 0), finalSize));
@@ -442,6 +479,7 @@ namespace HeBianGu.Control.Guide
 
         protected override Size MeasureOverride(Size availableSize)
         {
+            System.Diagnostics.Debug.WriteLine("GuideHost.MeasureOverride:" + DateTime.Now);
             _conver.Measure(availableSize);
             _path.Measure(availableSize);
             this.ContentControl.Measure(availableSize);

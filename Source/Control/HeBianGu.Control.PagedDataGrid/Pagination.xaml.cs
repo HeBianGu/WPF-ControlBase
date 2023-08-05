@@ -79,9 +79,9 @@ namespace HeBianGu.Control.PagedDataGrid
 
         public Pagination()
         {
-            CommandBindings.Add(new CommandBinding(CommandService.Prev, ButtonPrev_OnClick));
-            CommandBindings.Add(new CommandBinding(CommandService.Next, ButtonNext_OnClick));
-            CommandBindings.Add(new CommandBinding(CommandService.Selected, ToggleButton_OnChecked));
+            CommandBindings.Add(new CommandBinding(Commander.Prev, ButtonPrev_OnClick));
+            CommandBindings.Add(new CommandBinding(Commander.Next, ButtonNext_OnClick));
+            CommandBindings.Add(new CommandBinding(Commander.Selected, ToggleButton_OnChecked));
             this.VisibilityWith(MaxPageCount > 1);
         }
 
@@ -171,7 +171,7 @@ namespace HeBianGu.Control.PagedDataGrid
         ///     当前页
         /// </summary>
         public static readonly DependencyProperty PageIndexProperty = DependencyProperty.Register(
-            "PageIndex", typeof(int), typeof(Pagination), new PropertyMetadata(1, (o, args) =>
+            "PageIndex", typeof(int), typeof(Pagination), new FrameworkPropertyMetadata(1, (o, args) =>
             {
                 if (o is Pagination && args.NewValue is int)
                 {
@@ -432,9 +432,42 @@ namespace HeBianGu.Control.PagedDataGrid
         }
 
 
+        public int Index
+        {
+            get { return (int)GetValue(IndexProperty); }
+            set { SetValue(IndexProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IndexProperty =
+            DependencyProperty.Register("Index", typeof(int), typeof(SourcePagination), new FrameworkPropertyMetadata(default(int), (d, e) =>
+             {
+                 SourcePagination control = d as SourcePagination;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is int o)
+                 {
+
+                 }
+
+                 if (e.NewValue is int n)
+                 {
+                     control.PageIndex = n + 1;
+                 }
+
+             }));
+
+
         public void RefreshTo(int page = 0)
         {
-            if (this.FromSource == null) return;
+            this.Index = page;
+            if (this.FromSource == null)
+            {
+                this.First = null;
+                this.ToSource = null;
+                return;
+            }
 
             IList cache = Activator.CreateInstance(this.FromSource.GetType()) as IList;
 

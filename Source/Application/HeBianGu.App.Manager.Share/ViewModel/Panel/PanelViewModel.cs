@@ -49,8 +49,9 @@ namespace HeBianGu.App.Manager
         {
         }
 
-        /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
+
+        public RelayCommand RelayCommand => new RelayCommand(RelayMethod);
+        protected  void RelayMethod(object obj)
 
         {
             string command = obj?.ToString();
@@ -92,6 +93,7 @@ namespace HeBianGu.App.Manager
 
             }
         }
+
 
     }
 }

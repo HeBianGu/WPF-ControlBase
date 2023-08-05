@@ -1,7 +1,10 @@
 ﻿using HeBianGu.Applications.ControlBase.Demo;
 using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.Guide;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Service.Mvp;
+using HeBianGu.Systems.Setting;
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -13,7 +16,7 @@ namespace HeBianGu.App.Blur
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             return new MainWindow();
         }
@@ -21,26 +24,24 @@ namespace HeBianGu.App.Blur
         protected override void ConfigureServices(IServiceCollection services)
         {
             base.ConfigureServices(services);
-
-            services.AddMessageDialog();
-
+            services.AddWindowDialog();
             services.AddWindowAnimation();
-
-            services.AddTheme();
-
-            services.AddMessage();
-
+            services.AddMessageProxy();
             services.AddXmlSerialize();
-
             services.AddXmlMeta();
-
             services.AddSetting();
-
             services.AddSettingPath();
+            services.AddNotifyMessage();
 
             services.AddSettingViewPrenter();
-
-            services.AddNotify();
+            services.AddGuideViewPresenter();
+            services.AddThemeRightViewPresenter();
+            services.AddWindowCaptionViewPresenter(x =>
+            {
+                x.AddPersenter(GuideViewPresenter.Instance);
+                x.AddPersenter(SettingViewPresenter.Instance);
+                x.AddPersenter(ThemeRightToolViewPresenter.Instance);
+            });
         }
 
         protected override void Configure(IApplicationBuilder app)
@@ -52,8 +53,8 @@ namespace HeBianGu.App.Blur
             {
                 l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
 
-                l.SmallFontSize = 15D;
-                l.LargeFontSize = 18D;
+                l.DefaultFontSize = 15D;
+                //l.LargeFontSize = 18D;
                 l.FontSize = FontSize.Small;
 
                 l.ItemHeight = 38;

@@ -1,5 +1,6 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
+using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using System;
 using System.Windows;
@@ -7,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
+using System.Windows.Threading;
 
 namespace HeBianGu.Service.Animation
 {
@@ -42,6 +44,12 @@ namespace HeBianGu.Service.Animation
 
         public override void BeginHidden(UIElement element, Action complate = null)
         {
+            if(this.CanAnimation(element) ==false)
+            {
+                element.Visibility = HiddenOrCollapsed;
+                complate?.Invoke();
+                return;
+            }
             this.Begin(element, 1, 0, this.HideDuration, () =>
              {
                  //  Message：Visibility.Hidden 当设置成折叠时，显示时窗口布局没有更新会产生异常
@@ -119,6 +127,7 @@ namespace HeBianGu.Service.Animation
             {
                 ellipse.RadiusX = radius;
                 ellipse.RadiusY = radius;
+
             }
             else if (this.Geometry is RectangleGeometry rectangle)
             {
@@ -137,9 +146,14 @@ namespace HeBianGu.Service.Animation
             };
             scaleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(from, TimeSpan.FromMilliseconds(this.StartTime)));
             scaleAnimation.KeyFrames.Add(new EasingDoubleKeyFrame(to, TimeSpan.FromMilliseconds(duration)) { EasingFunction = this.VisibleEasing });
-
+            Timeline.SetDesiredFrameRate(scaleAnimation, StoryboardSetting.DesiredFrameRate);
             scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, scaleAnimation);
             scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, scaleAnimation);
         }
+    }
+
+    public enum PointOriginType
+    {
+        Default = 0, Custom, Center, MousePosition, RandomInner, MouseInnerOrCenter
     }
 }

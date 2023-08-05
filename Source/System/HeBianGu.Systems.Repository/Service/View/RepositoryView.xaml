@@ -7,7 +7,6 @@
 
     <ResourceDictionary.MergedDictionaries>
         <!--<ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/Window/WindowBase.xaml"/>-->
-        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PropertyGrid;component/PropertyView.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="S.RepositoryView.Default" TargetType="{x:Type local:RepositoryView}">
@@ -17,7 +16,7 @@
                     <DockPanel>
                         <DockPanel DockPanel.Dock="Top" LastChildFill="False">
                             <CheckBox x:Name="cb_all"
-                                      Command="{Binding CheckAllCommand}"
+                                      Command="{Binding CheckedAllCommand}"
                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked}"
                                       Content="全选"
                                       Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseCheckAll, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
@@ -29,13 +28,13 @@
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Add}}"
                                     Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseAdd, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
 
-                            <Button Command="{Binding AddCommand}"
+                            <!--<Button Command="{Binding AddCommand}"
                                     Content="批量添加"
                                     DockPanel.Dock="Right"
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Add}}"
-                                    Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseAdd, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+                                    Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseAdd, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />-->
 
-                            <Button Command="{Binding DeleteSelectedCommand}"
+                            <Button Command="{Binding DeleteCheckedCommand}"
                                     Content="删除选中"
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Delete}}"
                                     Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseDeleteSelected, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
@@ -55,7 +54,7 @@
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Set}}"
                                     Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseGridSet, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
 
-                            <Button Command="{Binding ExportXmlCommand}"
+                            <!--<Button Command="{Binding ExportXmlCommand}"
                                     Content="导出Xml"
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
                                     Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseExportXml, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
@@ -63,14 +62,14 @@
                             <Button Command="{Binding ExportXmlCommand}"
                                     Content="导出Json"
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
-                                    Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseExportXml, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+                                    Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseExportXml, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />-->
 
-                            <Button Command="{Binding ExportXmlCommand}"
+                            <Button Command="{Binding ExportCommand}"
                                     Content="导出Excel"
-                                    Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}"
                                     Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseExportXml, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
 
-                            <Button Command="{Binding ExportXmlCommand}"
+                            <!--<Button Command="{Binding ExportXmlCommand}"
                                     Content="导入Xml"
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
                                     Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseExportXml, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
@@ -83,9 +82,9 @@
                             <Button Command="{Binding ExportXmlCommand}"
                                     Content="导入Excel"
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
-                                    Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseExportXml, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+                                    Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseExportXml, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />-->
 
-                            <Button Command="{Binding ExportXmlCommand}"
+                            <!--<Button Command="{Binding ExportXmlCommand}"
                                     Content="撤销"
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
                                     Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseExportXml, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
@@ -93,7 +92,7 @@
                             <Button Command="{Binding ExportXmlCommand}"
                                     Content="重做"
                                     Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
-                                    Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseExportXml, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+                                    Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseExportXml, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />-->
 
                         </DockPanel>
 
@@ -192,8 +191,11 @@
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
                                                 <Border Style="{DynamicResource {x:Static h:BorderKeys.Card}}">
-                                                    <h:PropertyView VerticalAlignment="Stretch" SelectObject="{Binding Model}" Style="{DynamicResource {x:Static h:PropertyView.SingleKey}}">
-                                                        <h:PropertyView.BottomContent>
+                                                    <h:PropertyGrid VerticalAlignment="Stretch"
+                                                                    SelectObject="{Binding Model}"
+                                                                    Style="{DynamicResource {x:Static h:PropertyGrid.SingleKey}}"
+                                                                    UsePropertyView="True">
+                                                        <h:PropertyGrid.BottomContent>
                                                             <DockPanel LastChildFill="False">
                                                                 <UniformGrid DockPanel.Dock="Right" Rows="1">
                                                                     <Button Command="{Binding RelativeSource={RelativeSource AncestorType=local:RepositoryView}, Path=DataContext.DeleteCommand}"
@@ -227,13 +229,13 @@
 
                                                                 <CheckBox Content="选择"
                                                                           DockPanel.Dock="Left"
-                                                                          IsChecked="{Binding Selected}"
+                                                                          IsChecked="{Binding IsSelected}"
                                                                           Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseCheckBox, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
 
                                                             </DockPanel>
 
-                                                        </h:PropertyView.BottomContent>
-                                                    </h:PropertyView>
+                                                        </h:PropertyGrid.BottomContent>
+                                                    </h:PropertyGrid>
                                                 </Border>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>
@@ -244,16 +246,16 @@
                             <h:AutoColumnPagedDataGrid x:Name="dg"
                                                        AutoGenerateColumns="False"
                                                        BindingPath="Model.{0}"
-                                                       DataSource="{Binding ItemsSource.Cache}"
+                                                       DataSource="{Binding Collection.Cache}"
                                                        IsReadOnly="False"
                                                        ModelType="{Binding ModelType}"
-                                                       PageCount="{Binding ItemsSource.PageCount}"
-                                                       SelectedItem="{Binding SelectedItem}">
+                                                       PageCount="{Binding Collection.PageCount}"
+                                                       SelectedItem="{Binding Collection.SelectedItem}">
                                 <h:AutoColumnPagedDataGrid.HomeColumns>
-                                    <DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="80">
                                         <DataGridTemplateColumn.Header>
                                             <CheckBox h:Cattach.MouseOverForeground="{Binding RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}, Path=Foreground}"
-                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=local:RepositoryView}, Path=DataContext.CheckAllCommand}"
+                                                      Command="{Binding RelativeSource={RelativeSource AncestorType=local:RepositoryView}, Path=DataContext.CheckedAllCommand}"
                                                       CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked}"
                                                       Content="全选"
                                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}, Path=Foreground}"
@@ -261,29 +263,38 @@
                                         </DataGridTemplateColumn.Header>
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
-                                                <CheckBox Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" IsChecked="{Binding Selected}" />
+                                                <CheckBox Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" IsChecked="{Binding IsSelected}" />
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
                                 </h:AutoColumnPagedDataGrid.HomeColumns>
                                 <h:AutoColumnPagedDataGrid.EndColumns>
-                                    <DataGridTemplateColumn Width="Auto" Header="操作">
+                                    <DataGridTemplateColumn Width="220" Header="操作">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <UniformGrid Rows="1">
-                                                    <Button Command="{Binding RelativeSource={RelativeSource AncestorType=local:RepositoryView}, Path=DataContext.DeleteCommand}" Style="{DynamicResource {x:Static h:ButtonKeys.Delete}}" Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseDelete, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                                                    <Button Command="{Binding RelativeSource={RelativeSource AncestorType=local:RepositoryView}, Path=DataContext.DeleteCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            Style="{DynamicResource {x:Static h:ButtonKeys.Delete}}"
+                                                            Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseDelete, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
                                                         <h:Interaction.Behaviors>
                                                             <h:SelectListBoxItemElementBehavior />
                                                         </h:Interaction.Behaviors>
                                                     </Button>
 
-                                                    <Button Command="{Binding RelativeSource={RelativeSource AncestorType=local:RepositoryView}, Path=DataContext.EditCommand}" Style="{DynamicResource {x:Static h:ButtonKeys.Edit}}" Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseEdit, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                                                    <Button Command="{Binding RelativeSource={RelativeSource AncestorType=local:RepositoryView}, Path=DataContext.EditCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            Style="{DynamicResource {x:Static h:ButtonKeys.Edit}}"
+                                                            Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseEdit, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
                                                         <h:Interaction.Behaviors>
                                                             <h:SelectListBoxItemElementBehavior />
                                                         </h:Interaction.Behaviors>
                                                     </Button>
 
-                                                    <Button Command="{Binding RelativeSource={RelativeSource AncestorType=local:RepositoryView}, Path=DataContext.DetialCommand}" Style="{DynamicResource {x:Static h:ButtonKeys.Detial}}" Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseDetial, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                                                    <Button Command="{Binding RelativeSource={RelativeSource AncestorType=local:RepositoryView}, Path=DataContext.ViewCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            Style="{DynamicResource {x:Static h:ButtonKeys.Detial}}"
+                                                            Visibility="{Binding Source={x:Static sys:RepositorySetting.Instance}, Path=UseDetial, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
                                                         <h:Interaction.Behaviors>
                                                             <h:SelectListBoxItemElementBehavior />
                                                         </h:Interaction.Behaviors>
@@ -392,17 +403,15 @@
                             <ItemsPanelTemplate>
                                 <h:FlashPanel>
                                     <h:FlashPanel.Timelines>
-                                        <cl:ArrayList>
-                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                                             From="0" To="1"
-                                                             Duration="00:00:01" />
-                                            <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
-                                                             From="0" To="1"
-                                                             Duration="00:00:01" />
-                                            <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                             From="1" To="0"
-                                                             Duration="00:00:01" />
-                                        </cl:ArrayList>
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                         From="0" To="1"
+                                                         Duration="00:00:01" />
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                         From="0" To="1"
+                                                         Duration="00:00:01" />
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         From="1" To="0"
+                                                         Duration="00:00:01" />
                                     </h:FlashPanel.Timelines>
                                 </h:FlashPanel>
                             </ItemsPanelTemplate>

@@ -4,6 +4,7 @@ using HeBianGu.Base.WpfBase;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net;
 using System.Xml.Serialization;
 
 namespace HeBianGu.Systems.XmlSerialize
@@ -21,24 +22,29 @@ namespace HeBianGu.Systems.XmlSerialize
                 Directory.CreateDirectory(folder);
             }
 
-            try
-            {
-                using (FileStream stream = new FileStream(filePath, FileMode.Create))
-                {
-                    using (StreamWriter writer = new StreamWriter(stream))
-                    {
-                        XmlSerializer xmlSerializer = string.IsNullOrWhiteSpace(xmlRootName) ?
-                            new XmlSerializer(sourceObj.GetType()) :
-                            new XmlSerializer(sourceObj.GetType(), new XmlRootAttribute(xmlRootName));
-                        xmlSerializer.Serialize(writer, sourceObj);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Logger.Instance?.Error(ex);
-                Trace.Assert(false);
-            }
+            XmlableSerializor.Instance.Save(filePath, sourceObj);
+
+            //try
+            //{
+            //using (FileStream stream = new FileStream(filePath, FileMode.Create))
+            //{
+            //    using (StreamWriter writer = new StreamWriter(stream))
+            //    {
+            //        XmlSerializer xmlSerializer = string.IsNullOrWhiteSpace(xmlRootName) ?
+            //            new XmlSerializer(sourceObj.GetType()) :
+            //            new XmlSerializer(sourceObj.GetType(), new XmlRootAttribute(xmlRootName));
+            //        xmlSerializer.Serialize(writer, sourceObj);
+            //    }
+            //}
+            //            }
+            //            catch (Exception ex)
+            //            {
+            //                Logger.Instance?.Error(ex);
+            //#if DEBUG
+            //                Trace.Assert(false);
+            //                throw ex;
+            //#endif
+            //            }
         }
 
         public T Load<T>(string filePath)
@@ -48,28 +54,35 @@ namespace HeBianGu.Systems.XmlSerialize
 
         public object Load(string filePath, Type type)
         {
-            object result = null;
+            if (!File.Exists(filePath)) return null;
 
-            if (File.Exists(filePath))
+            if (XmlableSerializor.Instance.IsValid(filePath, type))
             {
-                try
+                object result = Activator.CreateInstance(type);
+                return XmlableSerializor.Instance.Load(filePath, result);
+            }
+            try
+            {
+                using (StreamReader reader = new StreamReader(filePath))
                 {
-                    using (StreamReader reader = new StreamReader(filePath))
-                    {
-                        XmlSerializer xmlSerializer = new XmlSerializer(type);
-                        result = xmlSerializer.Deserialize(reader);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.Instance?.Error(ex);
-                    Trace.Assert(false);
+                    XmlSerializer xmlSerializer = new XmlSerializer(type);
+                    return xmlSerializer.Deserialize(reader);
                 }
             }
+            catch (Exception ex)
+            {
+                Logger.Instance?.Error(ex);
+                Trace.Assert(false);
+                File.Delete(filePath);
+            }
 
-            return result;
+            return null;
+        }
+
+        public object CloneXml(object o)
+        {
+            return XmlableSerializor.Instance.XmlClone(o);
+
         }
     }
-
-
 }

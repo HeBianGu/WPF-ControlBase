@@ -7,10 +7,11 @@
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.GitTopContainer.Dynamic, TypeInTargetAssembly={x:Type local:GitTopContainer}}" BasedOn="{StaticResource S.ButtonBase.Dynamic}" TargetType="{x:Type local:GitTopContainer}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GitTopContainer.Dynamic, TypeInTargetAssembly={x:Type local:GitTopContainer}}" BasedOn="{StaticResource {x:Static h:ControlKeys.ForegroundDynamic}}" TargetType="{x:Type local:GitTopContainer}">
         <Setter Property="CoverVisibility" Value="Collapsed" />
         <Setter Property="HeaderHeight" Value="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" />
         <!--<Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />-->
+        <Setter Property="h:Cattach.IconSize" Value="50" />
         <Setter Property="DockPanel.Dock" Value="Top" />
         <Setter Property="Height" Value="Auto" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -40,7 +41,6 @@
                                 Grid.RowSpan="2"
                                 Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}"
                                 Visibility="{TemplateBinding CoverVisibility}" />
-
                         <ItemsPresenter />
                     </Grid>
                 </ControlTemplate>
@@ -80,6 +80,7 @@
                         </DockPanel>
 
                         <ToggleButton x:Name="tg"
+                                      Height="Auto"
                                       HorizontalAlignment="Right"
                                       VerticalAlignment="Top"
                                       h:Cattach.Icon="&#xe635;"
@@ -105,8 +106,8 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.GitTopItem.Dynamic, TypeInTargetAssembly={x:Type local:GitTopItem}}" BasedOn="{StaticResource S.ButtonBase.Dynamic}" TargetType="{x:Type local:GitTopItem}">
-        <Setter Property="h:Cattach.CheckedBackgroundBrush" Value="Transparent" />
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GitTopItem.Dynamic, TypeInTargetAssembly={x:Type local:GitTopItem}}" BasedOn="{StaticResource {x:Static h:ControlKeys.ForegroundDynamic}}" TargetType="{x:Type local:GitTopItem}">
+        <!--<Setter Property="h:Cattach.CheckedBackgroundBrush" Value="Transparent" />-->
         <!--<Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />-->
         <Setter Property="Height" Value="Auto" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -195,7 +196,7 @@
                             <ToggleButton.Triggers>
                                 <EventTrigger RoutedEvent="ToggleButton.Checked">
                                     <BeginStoryboard>
-                                        <Storyboard>
+                                        <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
                                             <ObjectAnimationUsingKeyFrames Storyboard.Target="{Binding RelativeSource={RelativeSource AncestorType=local:GitTopContainer}}" Storyboard.TargetProperty="CoverVisibility">
                                                 <DiscreteObjectKeyFrame KeyTime="00:00:00">
                                                     <DiscreteObjectKeyFrame.Value>
@@ -232,7 +233,7 @@
                                 </EventTrigger>
                                 <EventTrigger RoutedEvent="ToggleButton.Unchecked">
                                     <BeginStoryboard>
-                                        <Storyboard>
+                                        <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
                                             <ObjectAnimationUsingKeyFrames Storyboard.Target="{Binding RelativeSource={RelativeSource AncestorType=local:GitTopContainer}}" Storyboard.TargetProperty="CoverVisibility">
                                                 <DiscreteObjectKeyFrame KeyTime="00:00:00">
                                                     <DiscreteObjectKeyFrame.Value>
@@ -281,7 +282,8 @@
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.GitTopItem.Circle, TypeInTargetAssembly={x:Type local:GitTopItem}}" TargetType="{x:Type local:GitTopItem}">
-        <Setter Property="h:Cattach.CheckedBackgroundBrush" Value="Transparent" />
+        <!--<Setter Property="h:Cattach.CheckedBackgroundBrush" Value="Transparent" />-->
+        <Setter Property="h:Cattach.IconSize" Value="50" />
         <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="HeaderHeight" Value="{Binding RelativeSource={RelativeSource AncestorType=local:GitTopContainer}, Path=HeaderHeight}" />
         <Setter Property="h:TransitionService.VisibleActions">
@@ -303,9 +305,10 @@
                         </Grid>
 
                         <ToggleButton x:Name="tb_scene"
+                                      Height="Auto"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                      h:Cattach.IconSize="100"
+                                      h:Cattach.IconSize="{TemplateBinding h:Cattach.IconSize}"
                                       Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=HeaderContent}"
                                       ContentTemplate="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=HeaderTemplate}"
                                       IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}"
@@ -313,7 +316,7 @@
                             <ToggleButton.Triggers>
                                 <EventTrigger RoutedEvent="ToggleButton.Checked">
                                     <BeginStoryboard>
-                                        <Storyboard>
+                                        <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
                                             <ObjectAnimationUsingKeyFrames Storyboard.Target="{Binding RelativeSource={RelativeSource AncestorType=local:GitTopContainer}}" Storyboard.TargetProperty="CoverVisibility">
                                                 <DiscreteObjectKeyFrame KeyTime="00:00:00">
                                                     <DiscreteObjectKeyFrame.Value>
@@ -334,7 +337,7 @@
                                 </EventTrigger>
                                 <EventTrigger RoutedEvent="ToggleButton.Unchecked">
                                     <BeginStoryboard>
-                                        <Storyboard>
+                                        <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
                                             <ObjectAnimationUsingKeyFrames Storyboard.Target="{Binding RelativeSource={RelativeSource AncestorType=local:GitTopContainer}}" Storyboard.TargetProperty="CoverVisibility">
                                                 <DiscreteObjectKeyFrame KeyTime="00:00:00">
                                                     <DiscreteObjectKeyFrame.Value>

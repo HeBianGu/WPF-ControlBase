@@ -9,7 +9,7 @@
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PagedDataGrid;component/PagedDataGrid.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <ControlTemplate x:Key="S.PagedDataGrid.Template.GroupBox" TargetType="{x:Type local:AutoColumnPagedDataGrid}">
+    <!--<ControlTemplate x:Key="S.PagedDataGrid.Template.GroupBox" TargetType="{x:Type local:AutoColumnPagedDataGrid}">
         <GroupBox Padding="0" Header="{TemplateBinding Title}" Style="{DynamicResource {x:Static h:GroupBoxKeys.Close}}">
             <Border HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -18,7 +18,7 @@
                     BorderThickness="{TemplateBinding BorderThickness}"
                     CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CornerRadius)}">
                 <DockPanel>
-                    <ContentPresenter Grid.Row="1" Content="{TemplateBinding BottomContent}" DockPanel.Dock="Bottom" />
+                    <ContentPresenter Grid.Row="1" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.BottomTemplate)}" DockPanel.Dock="Bottom" />
 
                     <Grid>
                         <Grid.RowDefinitions>
@@ -44,7 +44,7 @@
                             </StackPanel>
                         </Grid>
 
-                        <ScrollViewer Grid.Row="1" Style="{DynamicResource DefaultScrollViewer}">
+                        <ScrollViewer Grid.Row="1" Style="{DynamicResource {x:Static h:ScrollViewerKeys.Dynamic}}">
                             <ScrollViewer.Template>
                                 <ControlTemplate TargetType="{x:Type ScrollViewer}">
                                     <Grid>
@@ -95,25 +95,73 @@
 
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
                                 <local:Pagination Width="600" MaxPageCount="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=TotalPage, Mode=TwoWay}" PageIndex="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=PageIndex, Mode=TwoWay}" />
-
                             </StackPanel>
                         </Grid>
                     </Grid>
                 </DockPanel>
             </Border>
         </GroupBox>
-    </ControlTemplate>
+    </ControlTemplate>-->
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.AutoColumnPagedDataGrid.Default.WithSumit, TypeInTargetAssembly={x:Type local:AutoColumnPagedDataGrid}}" BasedOn="{StaticResource {x:Static h:PagedDataGrid.DynamicKey}}" TargetType="{x:Type local:AutoColumnPagedDataGrid}">
-        <Setter Property="Template" Value="{StaticResource S.PagedDataGrid.Template.GroupBox}" />
-        <!--<Setter Property="ModelType" Value="{x:Type h:Student}" />-->
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.AutoColumnPagedDataGrid.Default, TypeInTargetAssembly={x:Type local:AutoColumnPagedDataGrid}}" BasedOn="{StaticResource {x:Static h:PagedDataGrid.DynamicKey}}" TargetType="{x:Type local:AutoColumnPagedDataGrid}" />
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.AutoColumnPagedDataGrid.WithSumit, TypeInTargetAssembly={x:Type local:AutoColumnPagedDataGrid}}" BasedOn="{StaticResource {x:Static h:PagedDataGrid.DynamicKey}}" TargetType="{x:Type local:AutoColumnPagedDataGrid}">
+        <!--<Setter Property="Template" Value="{StaticResource S.PagedDataGrid.Template.GroupBox}" />-->
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="BottomContent">
+        <Setter Property="h:Cattach.BottomTemplate">
             <Setter.Value>
-                <StackPanel Margin="0,5,0,10">
-                    <Button Command="{x:Static h:CommandService.Sure}" Content="确认" />
-                </StackPanel>
+                <ControlTemplate>
+                    <StackPanel Margin="0,5,0,10">
+                        <Button Command="{x:Static h:Commander.Sure}" Content="确认" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.AutoColumnPagedDataGrid.Dialog, TypeInTargetAssembly={x:Type local:AutoColumnPagedDataGrid}}" BasedOn="{StaticResource {x:Static h:PagedDataGrid.DynamicKey}}" TargetType="{x:Type local:AutoColumnPagedDataGrid}">
+        <!--<Setter Property="Template" Value="{StaticResource S.PagedDataGrid.Template.GroupBox}" />-->
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="h:Cattach.BottomTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel Margin="0,5,0,10">
+                        <Button HorizontalAlignment="Right"
+                                Command="{x:Static h:Commander.Sure}"
+                                CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=local:AutoColumnPagedDataGrid}}"
+                                Content="确认" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="h:Cattach.TopTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel>
+                        <TextBlock Margin="5,10"
+                                   HorizontalAlignment="Left"
+                                   DockPanel.Dock="Top"
+                                   FontSize="{StaticResource {x:Static h:FontSizeKeys.Header3}}"
+                                   FontWeight="Bold"
+                                   Text="{Binding RelativeSource={RelativeSource AncestorType=local:AutoColumnPagedDataGrid}, Path=Title}" />
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="h:Cattach.CaptionRightTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Button Command="{h:MessageCloseLayerCommand}"
+                            CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=local:AutoColumnPagedDataGrid}}"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
+                            WindowChrome.IsHitTestVisibleInChrome="True" />
+                </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>

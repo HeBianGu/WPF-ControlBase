@@ -1,0 +1,72 @@
+这是一个最简单的Mvc窗口示例
+
+说明：Mvc在这里主要用途是通过Route做页面跳转，
+          Controller用来控制要跳转的页面，Action用来指向一个用户控件
+
+步骤1：Nuget 安装：HeBianGu.Window.Link
+
+步骤2：修改App
+修改App.cs 继承至ApplicationBase
+
+修改App.xaml 
+继承至ApplicationBase 
+去掉StartupUri="MainWindow.xaml"
+
+重写App.cs方法
+        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        {
+            return new MainWindow();
+        }
+
+        protected override void ConfigureServices(IServiceCollection services)
+        {
+            base.ConfigureServices(services);
+
+            //  Do ：注册Mvc服务
+            services.AddMvc();
+        }
+
+步骤3：修改MainWindow 继承至h:LinkWindowBase
+
+设置样式 Style="{DynamicResource {x:Static h:LinkWindowBase.DefaultKey}}"
+
+Logo="/HeBianGu.General.WpfControlLib;component/Resources/logo.png"
+
+添加Link配置
+    <h:LinkWindowBase.TabLinks>
+        <h:TabLink Controller="Layout" Action="Home" DisplayName="布局页面"  Logo=""/>
+        <h:TabLink Controller="Custom" Action="Home" DisplayName="用户页面"  Logo=""/>
+        <h:TabLink Controller="Set" Action="Home" DisplayName="设置页面"  Logo=""/>
+    </h:LinkWindowBase.TabLinks>
+
+
+步骤4：添加一个Layout页面
+   添加View->Layout->HomeControl
+   添加ViewModel->Layout->LayoutViewModel
+   注意：Layout代表Controller的名称，Home代表Action页面
+
+   添加View->Custom->HomeControl
+   添加ViewModel->Custom->CustomViewModel
+
+   添加View->Set->HomeControl
+   添加ViewModel->>Set-->Set-ViewModel
+
+
+步骤5：其他（可选）
+
+            //  Do ：启用消息提示 需要引用 HeBianGu.Control.Message
+            services.AddMessage();
+
+            //  Do ：启用和显示右上角主题设置
+            services.AddTheme();
+
+            //  Do ：注册序列化保存接口，注册后主题的配置会保存到本地，再次启动会读取
+            services.AddXmlSerialize();
+
+            //  Do ：启用右上见配置按钮 需要添加引用HeBianGu.Systems.Setting
+            services.AddSetting();
+            services.AddSettingViewPrenter();
+
+            //  Do ：注册右上角新手向导功能
+            services.AddGuideViewPresenter();
+

@@ -10,7 +10,7 @@ using System.Windows.Media.Animation;
 
 namespace HeBianGu.Service.Animation
 {
-    public static class AnimationCommandService
+    public static class AnimationCommander
     {
         public static CollapsedSplitAnimationCommand CollapsedSplitAnimationCommand { get; } = new CollapsedSplitAnimationCommand();
 
@@ -42,7 +42,7 @@ namespace HeBianGu.Service.Animation
 
             if (controls == null || controls.Count == 0) return;
 
-            Storyboard storyboard = new Storyboard();
+            Storyboard storyboard = StoryboardFactory.Create();
 
             for (int i = 0; i < controls.Count; i++)
             {
@@ -95,7 +95,7 @@ namespace HeBianGu.Service.Animation
 
             if (controls == null || controls.Count == 0) return;
 
-            Storyboard storyboard = new Storyboard();
+            Storyboard storyboard = StoryboardFactory.Create();
 
             controls.Reverse();
 

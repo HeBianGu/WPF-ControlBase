@@ -6,44 +6,26 @@ using System.Windows.Media.Animation;
 
 namespace HeBianGu.Service.Animation
 {
-    public class AngleStory : StoryBase
+    public class AngleStory : EngineStoryBase
     {
         public double From { get; set; } = 0;
 
         public double To { get; set; } = 360;
 
-        public double Duration { get; set; } = 1000;
-
-        private StoryboardEngineBase _engine;
-
         public AngleStory()
         {
             this.AutoReverse = false;
         }
-        public override void Start(UIElement element)
+
+        protected override StoryboardEngineBase CreateEngine(UIElement element)
         {
-            if (_engine == null)
+            return element.BeginAnimationAngle(this.From, this.To, this.Duration, null, l =>
             {
-                _engine = element.BeginAnimationAngle(this.From, this.To, this.Duration, null, l =>
-                {
-                    l.Storyboard.RepeatBehavior = RepeatBehavior.Forever;
-                    l.Storyboard.AutoReverse = this.AutoReverse;
-                    l.Easing = this.Easing;
-                });
-            }
-            else
-            {
-                _engine.Start(element);
-            }
-
-
+                l.Storyboard.RepeatBehavior = RepeatBehavior.Forever;
+                l.Storyboard.AutoReverse = this.AutoReverse;
+                l.Easing = this.Easing;
+            });
         }
 
-        public override void Stop()
-        {
-            if (_engine == null) return;
-
-            _engine.Stop();
-        }
     }
 }

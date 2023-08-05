@@ -13,7 +13,7 @@ namespace System
         /// <param name="service"></param>
         public static void AddStudentDemo(this IServiceCollection service)
         {
-            service.AddSingleton<IRepository<Student>, Repository<Student>>();
+            //service.AddSingleton<IRepository<Student>, Repository<Student>>();
         }
 
         /// <summary>

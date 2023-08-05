@@ -1,0 +1,90 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Design">
+
+    <ControlTemplate x:Key="S.ControlTemplate.Adorner" TargetType="ContentControl">
+        <DockPanel Margin="-15" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+            <!--<TextBlock Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content.Icon}" />
+            <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}">
+                <Run Text="[" />
+                <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content.Name}" />
+                <Run Text="]" />
+            </TextBlock>-->
+            <Button Background="Red"
+                    BorderBrush="Transparent"
+                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content.DeleteCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                    DockPanel.Dock="Right"
+                    Foreground="White"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.CloseMouseOver}}"
+                    ToolTip="删除" />
+            <Button h:Cattach.Icon="&#xe729;"
+                    h:Cattach.IconSize="20"
+                    Background="Gray"
+                    BorderBrush="Transparent"
+                    DockPanel.Dock="Right"
+                    Foreground="White"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                    ToolTip="另存为模板" />
+
+            <TextBlock Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content.Icon}" />
+
+            <TextBlock VerticalAlignment="Center" FontSize="18" Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}">
+                <Run Text="[" />
+                <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content.Name}" />
+                <Run Text="]" />
+            </TextBlock>
+            <!--<Button h:Cattach.Icon="{x:Static h:Icons.User}"
+                    Background="LightGray"
+                    Foreground="Black"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" />-->
+
+            <!--<h:PropertyGrid Width="100"
+                                    Height="30"
+                                    Background="Red"
+                                    SelectObject="{Binding}"
+                                    Style="{DynamicResource {x:Static h:PropertyGrid.DefaultKey}}"
+                                    UseAsync="False"
+                                    UseCommand="True"
+                                    UseString="False">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <DockPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </h:PropertyGrid>-->
+        </DockPanel>
+
+    </ControlTemplate>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DesignBorder.Default, TypeInTargetAssembly={x:Type local:DesignBorder}}" BasedOn="{StaticResource {x:Static h:BorderKeys.Binding}}" TargetType="{x:Type local:DesignBorder}">
+        <Setter Property="h:MouseOverHitTestAdornerBehavior.IsMouseOver" Value="{Binding IsMouseOver, Mode=TwoWay}" />
+        <Setter Property="h:SelectedHitTestAdornerBehavior.IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+        <Setter Property="h:HitTestAdornerBehavior.IsHitTest" Value="True" />
+        <Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <h:DragDataTempalteAdornerBehaviour DragDropEffects="Move" RoutingStrategy="Tunnel" />
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="h:ControlTemplateAdorner.Template" Value="{StaticResource S.ControlTemplate.Adorner}" />
+    </Style>
+
+    <!--<Style x:Key="{ComponentResourceKey ResourceId=S.DesignBorder.Default, TypeInTargetAssembly={x:Type local:DesignBorder}}" BasedOn="{StaticResource {x:Static local:DesignBorder.DefaultKey}}" TargetType="{x:Type local:DesignBorder}">
+        <Setter Property="h:MouseOverHitTestAdornerBehavior.IsMouseOver" Value="{Binding IsMouseOver, Mode=TwoWay}" />
+        <Setter Property="h:SelectedHitTestAdornerBehavior.IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+        <Setter Property="h:HitTestAdornerBehavior.IsHitTest" Value="True" />
+        <Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <h:DragDataTempalteAdornerBehaviour DragDropEffects="Move" RoutingStrategy="Tunnel" />
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="h:ControlTemplateAdorner.Template" Value="{StaticResource S.ControlTemplate.Adorner}" />
+    </Style>-->
+
+    <Style BasedOn="{StaticResource {x:Static local:DesignBorder.DefaultKey}}" TargetType="{x:Type local:DesignBorder}" />
+</ResourceDictionary>

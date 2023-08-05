@@ -1,4 +1,5 @@
 ﻿using HeBianGu.App.Touch.View.Share;
+using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using HeBianGu.Service.Mvc;
 using System;
@@ -52,8 +53,9 @@ namespace HeBianGu.App.Touch
         }
 
 
+        public RelayCommand RelayCommand => new RelayCommand(RelayMethod);
         /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
+        protected async void RelayMethod(object obj)
 
         {
             string command = obj?.ToString();
@@ -66,7 +68,7 @@ namespace HeBianGu.App.Touch
                     _domain.GoToLinkAction("Loyout", "Home"); return;
                 }
 
-                Message.Instance.ShowSnackMessageWithNotice("身份证号正确，请输入111111");
+                MessageProxy.Snacker.ShowTime("身份证号正确，请输入111111");
             }
             //  Do：设置
             else if (command == "Button.Click.Setting")
@@ -77,7 +79,7 @@ namespace HeBianGu.App.Touch
 
                 AdminLoginControl adminLogin = new AdminLoginControl();
 
-                bool result = await Message.Instance.ShowCustomDialog<bool>(adminLogin);
+                bool result = await Messager.Instance.ShowDialog<bool>(adminLogin);
 
                 if (result) return;
 
@@ -116,7 +118,7 @@ namespace HeBianGu.App.Touch
                 IsActive = true;
             };
 
-            Message.Instance.ShowLayer(awaitControl);
+            MessageProxy.Container.Show(awaitControl);
         }
 
     }

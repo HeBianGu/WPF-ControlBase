@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:h="https://github.com/HeBianGu"
                     xmlns:local="clr-namespace:HeBianGu.Control.Guide"
+                    xmlns:s="clr-namespace:System"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <Style TargetType="{x:Type local:GuideHost}">
@@ -16,9 +17,9 @@
             <Setter.Value>
                 <Style TargetType="Path">
                     <Setter Property="Fill" Value="Transparent" />
-                    <Setter Property="Stroke" Value="{DynamicResource {x:Static h:BrushKeys.Orange}}" />
-                    <Setter Property="StrokeThickness" Value="4" />
-                    <Setter Property="StrokeDashArray" Value="1 1" />
+                    <Setter Property="Stroke" Value="{Binding Source={x:Static local:GuideViewPresenter.Instance}, Path=Stroke}" />
+                    <Setter Property="StrokeThickness" Value="{Binding Source={x:Static local:GuideViewPresenter.Instance}, Path=StrokeThickness}" />
+                    <Setter Property="StrokeDashArray" Value="{Binding Source={x:Static local:GuideViewPresenter.Instance}, Path=StrokeDashArray}" />
                     <Setter Property="StrokeDashCap" Value="Triangle" />
                     <Setter Property="Data">
                         <Setter.Value>
@@ -31,12 +32,12 @@
 
         <Setter Property="CoverBackground">
             <Setter.Value>
-                <SolidColorBrush Opacity="0.6" Color="Black" />
+                <SolidColorBrush Opacity="{Binding Source={x:Static local:GuideViewPresenter.Instance}, Path=CoverOpacity, Mode=TwoWay}" Color="{Binding Source={x:Static local:GuideViewPresenter.Instance}, Path=CoverColor, Mode=TwoWay}" />
             </Setter.Value>
         </Setter>
         <Setter Property="ContentControl">
             <Setter.Value>
-                <ContentControl Width="300"
+                <ContentControl Width="Auto"
                                 Height="Auto"
                                 Margin="10"
                                 HorizontalAlignment="Left"
@@ -71,24 +72,31 @@
                                                 CornerRadius="15">
                                             <TextBlock HorizontalAlignment="Center"
                                                        VerticalAlignment="Center"
-                                                       FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header5}}"
+                                                       FontSize="{StaticResource {x:Static h:FontSizeKeys.Header5}}"
                                                        FontWeight="Bold"
                                                        Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                        Text="{Binding RelativeSource={RelativeSource AncestorType=local:GuideHost}, Path=CurrentIndex}" />
                                         </Border>
 
-                                        <TextBlock DockPanel.Dock="Top"
-                                                   FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header3}}"
-                                                   FontWeight="Bold" VerticalAlignment="Center" Margin="10 0"
+                                        <TextBlock Margin="10,0"
+                                                   VerticalAlignment="Center"
+                                                   DockPanel.Dock="Top"
+                                                   FontSize="{StaticResource {x:Static h:FontSizeKeys.Header3}}"
+                                                   FontWeight="Bold"
                                                    Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}">
                                             <!--<Run Text="{Binding RelativeSource={RelativeSource AncestorType=local:GuideHost}, Path=CurrentIndex}" /><Run Text="/" /><Run Text="{Binding RelativeSource={RelativeSource AncestorType=local:GuideHost}, Path=Total}" />-->
                                             <!--<Run Text="{Binding RelativeSource={RelativeSource AncestorType=local:GuideHost}, Path=CurrentIndex}" />-->
-                                            <Run Text="{TemplateBinding local:GuideService.Title}" />
+                                            <Run Text="{TemplateBinding h:Cattach.GuideTitle}" />
                                         </TextBlock>
                                     </DockPanel>
-
-
-                                    <TextBlock Margin="0,10" Text="{TemplateBinding Content}" TextWrapping="Wrap" />
+                                    <!--<TextBlock Margin="0,10" Text="{TemplateBinding Content}" TextWrapping="Wrap" />-->
+                                    <ContentPresenter Margin="0,10">
+                                        <ContentPresenter.Resources>
+                                            <DataTemplate DataType="{x:Type sys:String}">
+                                                <TextBlock Width="{Binding Source={x:Static local:GuideViewPresenter.Instance}, Path=TextMaxWidth}" Text="{Binding}" TextWrapping="Wrap" />
+                                            </DataTemplate>
+                                        </ContentPresenter.Resources>
+                                    </ContentPresenter>
                                 </DockPanel>
                             </Border>
                             <!--<ControlTemplate.Triggers>
@@ -98,7 +106,6 @@
                             </ControlTemplate.Triggers>-->
                         </ControlTemplate>
                     </ContentControl.Template>
-
                 </ContentControl>
             </Setter.Value>
         </Setter>

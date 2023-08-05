@@ -1,6 +1,7 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
 using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfControlLib;
 using HeBianGu.Service.Mvp;
 using System;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ namespace HeBianGu.Systems.Repository
                 {
                     ActionResult result = new ActionResult();
 
-                    Type rpType = typeof(IRepositoryPresenter<>).MakeGenericType(this.ModelType);
+                    Type rpType = typeof(IRepositoryViewModel<>).MakeGenericType(this.ModelType);
                     Type vmType = typeof(RepositoryViewModel<>).MakeGenericType(this.ModelType);
                     ServiceRegistry.Instance.Register(rpType, vmType);
                     object vm = ServiceRegistry.Instance.GetInstance(rpType);

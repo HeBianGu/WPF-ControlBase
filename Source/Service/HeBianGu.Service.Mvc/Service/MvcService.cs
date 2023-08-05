@@ -3,6 +3,7 @@
 using HeBianGu.Base.WpfBase;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,7 +15,14 @@ namespace HeBianGu.Service.Mvc
 {
     public class MvcService : IMvcService
     {
+        private readonly Stack<ILinkAction> _history = new Stack<ILinkAction>();
+        public MvcService()
+        {
+
+        }
         internal List<Assembly> Modules = new List<Assembly>();
+
+        public Stack<ILinkAction> History => _history;
 
         public void Init()
         {
@@ -25,13 +33,10 @@ namespace HeBianGu.Service.Mvc
                 foreach (string module in MvcSetting.Instance.ModulePath)
                 {
                     string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, module);
-
                     if (Directory.Exists(path))
                     {
                         string[] dlls = Directory.GetFiles(path, "*.dll", SearchOption.TopDirectoryOnly);
-
                         List<Assembly> assemblies = dlls.Select(l => Assembly.LoadFrom(l)).Where(l => l.GetCustomAttribute<ModuleAttribute>() != null).OrderBy(l => l.GetCustomAttribute<ModuleAttribute>().Order)?.ToList();
-
                         this.Modules.AddRange(assemblies);
                     }
                 }
@@ -43,9 +48,18 @@ namespace HeBianGu.Service.Mvc
             }
 
             this.UseAttribute<ControllerAttribute>();
-
             this.UseAttribute<ViewModelAttribute>();
 
+            //  ToDo：在这实例化有问题，这块只是注册
+            //if (MvcSetting.Instance.UseAuthority)
+            //{
+            //    var types = Assembly.GetEntryAssembly().GetAllTypeOfMatch(l => l.GetCustomAttribute<ViewModelAttribute>() != null && typeof(IAuthority).IsAssignableFrom(l));
+            //    foreach (var type in types)
+            //    {
+            //        IAuthority authority = ServiceRegistry.Instance.GetInstance(type) as IAuthority;
+            //        AuthoritySetting.Instance.Authoritys.Add(authority);
+            //    }
+            //}
         }
 
         private void UseAttribute<TAttribute>() where TAttribute : Attribute
@@ -75,17 +89,15 @@ namespace HeBianGu.Service.Mvc
             foreach (Assembly module in this.Modules)
             {
                 Type find = module.GetTypeOfMatch(match);
-
-                if (find != null) return find;
+                if (find != null)
+                    return find;
             }
-
             return null;
         }
 
-        public List<ILinkAction> GetLinkActions()
+        public List<IAction> GetLinkActions()
         {
-            List<ILinkAction> result = new List<ILinkAction>();
-
+            List<IAction> result = new List<IAction>();
             // Do:注册模块内数据
             foreach (Assembly assembly in this.Modules)
             {
@@ -119,13 +131,11 @@ namespace HeBianGu.Service.Mvc
         public LinkActionGroups GetLinkActionGroups()
         {
             LinkActionGroups result = new LinkActionGroups(true);
-
             // Do:注册模块内数据
             foreach (Assembly assembly in this.Modules)
             {
                 // Do:注册应用程序集
                 Type[] types = assembly.GetTypes();
-
                 foreach (Type type in types)
                 {
                     ControllerAttribute attribute = type.GetCustomAttribute<ControllerAttribute>();
@@ -170,11 +180,9 @@ namespace HeBianGu.Service.Mvc
             result.Uri = GetUri(controlName, ActionName);
             result.View = GetView(controlName, ActionName);
             result.ViewModel = GetViewModel(controlName);
-
             Application.Current.Dispatcher.Invoke(() =>
             {
                 (result.View as FrameworkElement).DataContext = result.ViewModel;
-
             });
 
             return result;
@@ -196,9 +204,7 @@ namespace HeBianGu.Service.Mvc
                 {
                     return Application.LoadComponent(uri);
                 });
-
             });
-
             return content as Control;
         }
 
@@ -226,56 +232,44 @@ namespace HeBianGu.Service.Mvc
         public virtual object GetViewModel(string controlName)
         {
             Type type = Assembly.GetEntryAssembly().GetTypeOfMatch(l => l.Name == controlName + "ViewModel" || l.GetCustomAttribute<ViewModelAttribute>()?.Name == controlName);
-
             if (type == null) return null;
-
             return ServiceRegistry.Instance.GetInstance(type);
         }
 
         public Task<IActionResult> CreateActionResult(LinkAction linkAction)
         {
             string controlName = linkAction.Controller;
-
             string name = linkAction.Action;
-
             object[] args = linkAction.Parameter;
-
             IController control = GetController(linkAction);
-
             if (control == null)
             {
                 if (MvcSetting.Instance.UseAutoMap)
                 {
                     IActionResult result = GetActionResult(controlName, name);
-
                     return Task.FromResult(result);
                 }
-
                 throw new ArgumentException($"no found controller{controlName}，add controller and addMvc() first");
             }
-
             return GetActionResult(control, name, args) as Task<IActionResult>;
         }
 
         public IController GetController(LinkAction linkAction)
         {
             string controlName = linkAction.Controller;
-
             if (string.IsNullOrEmpty(linkAction.FullName))
             {
                 Type type = Mvc.Instance.GetOfType(l => typeof(IController).IsAssignableFrom(l) && l.Name == controlName + "Controller");
-
-                if (type == null) return null;
-
+                if (type == null)
+                    return null;
                 return ServiceRegistry.Instance.GetInstance(type) as IController;
             }
             else
             {
                 //  Do ：如果有命名空间参数匹配命名空间
                 Type type = Mvc.Instance.GetOfType(l => typeof(IController).IsAssignableFrom(l) && l.Name == controlName + "Controller" && l.FullName == linkAction.FullName);
-
-                if (type == null) return null;
-
+                if (type == null)
+                    return null;
                 return ServiceRegistry.Instance.GetInstance(type) as IController;
             }
         }
@@ -283,9 +277,7 @@ namespace HeBianGu.Service.Mvc
         public object GetActionResult(IController controller, string action, object[] args = null)
         {
             Type[] types = args == null ? new Type[] { } : args.Select(l => l.GetType()).ToArray();
-
             MethodInfo method = controller.GetType().GetMethod(action, types);
-
             if (method == null)
             {
                 throw new ArgumentException($"在控制器中{controller?.GetType().Name}没有找到对应方法名称，请添加该方法 : {action}");
@@ -297,13 +289,9 @@ namespace HeBianGu.Service.Mvc
         public Task DoActionResult(LinkAction linkAction)
         {
             IController controller = GetController(linkAction);
-
             MethodInfo method = controller.GetType().GetMethod(linkAction.Action);
-
             //  Do：通过反射调用指定名称的方法
             return controller.GetType().GetMethod(linkAction.Action).Invoke(controller, linkAction.Parameter) as Task;
         }
     }
-
-
 }

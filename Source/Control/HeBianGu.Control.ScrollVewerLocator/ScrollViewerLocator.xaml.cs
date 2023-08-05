@@ -2,6 +2,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace HeBianGu.Control.ScrollVewerLocator
@@ -14,6 +15,70 @@ namespace HeBianGu.Control.ScrollVewerLocator
         static ScrollViewerLocator()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ScrollViewerLocator), new FrameworkPropertyMetadata(typeof(ScrollViewerLocator)));
+        }
+
+        public ScrollViewerLocator()
+        {
+            {
+                CommandBinding binding = new CommandBinding(ScrollViewerLocatorCommands.FullScreen);
+                binding.Executed += (l, k) =>
+                {
+                    if (this.ScrollViewer is ScrollViewerTransfor scroll)
+                    {
+                        scroll.IsFullParent = true;
+                    }
+                };
+                this.CommandBindings.Add(binding);
+            }
+
+            {
+                CommandBinding binding = new CommandBinding(ScrollViewerLocatorCommands.TrimSize);
+                binding.Executed += (l, k) =>
+                {
+                    if (this.ScrollViewer is ScrollViewerTransfor scroll)
+                    {
+                        scroll.IsFullParent = false;
+                    }
+                };
+                this.CommandBindings.Add(binding);
+            }
+
+            {
+                CommandBinding binding = new CommandBinding(ScrollViewerLocatorCommands.Plus);
+                binding.Executed += (l, k) =>
+                {
+                    if (this.ScrollViewer is ScrollViewerTransfor scroll)
+                    {
+                        scroll.SetScaleToViewCenter(100);
+                    }
+                };
+                this.CommandBindings.Add(binding);
+            }
+
+            {
+                CommandBinding binding = new CommandBinding(ScrollViewerLocatorCommands.Minus);
+                binding.Executed += (l, k) =>
+                {
+                    if (this.ScrollViewer is ScrollViewerTransfor scroll)
+                    { 
+                        scroll.SetScaleToViewCenter(-100); 
+                    }
+                };
+                this.CommandBindings.Add(binding);
+            }
+
+
+            {
+                CommandBinding binding = new CommandBinding(ScrollViewerLocatorCommands.LocatorCenter);
+                binding.Executed += (l, k) =>
+                {
+                    if (this.ScrollViewer is ScrollViewerTransfor scroll)
+                    {
+                        scroll.LocatorCenter();
+                    }
+                };
+                this.CommandBindings.Add(binding);
+            }
         }
 
         public ScrollViewer ScrollViewer
@@ -47,45 +112,26 @@ namespace HeBianGu.Control.ScrollVewerLocator
         protected override void LocationPoint(Point p)
         {
             double h = this.GetScrollHorizontalOffset(p.X);
-
             double v = this.GetScrollVerticalOffset(p.Y);
 
             this.ScrollViewer.ScrollToHorizontalOffset(h);
-
             this.ScrollViewer.ScrollToVerticalOffset(v);
         }
 
         private void OnAttached(ScrollViewer viewer)
         {
-            //  Do ：注册事件
             viewer.ScrollChanged += ScrollViewer_ScrollChanged;
-
-            //viewer.SizeChanged += ScrollViewer_SizeChanged; 
         }
 
-        //private void ScrollViewer_SizeChanged(object sender, SizeChangedEventArgs e)
-        //{
-        //    if (sender is FrameworkElement elment)
-        //    {
-        //        if (elment.IsLoaded)
-        //        {
-        //            this.RefreshLocation();
-        //        }
-        //    }
-        //}
-
-
-        //  Do ：更新布局
         protected override void RefreshLocation()
         {
             if (this.Canvas == null || this.Mask == null) return;
 
+            if (this.ScrollViewer == null)
+                return;
+
             this.Canvas.Width = this.GetVisualWidth();
             this.Canvas.Height = this.GetVisualHeight();
-
-            //  Do ：更新大小
-            //this._mask.Width = this.GetRelativeWidth(this.ScrollViewer.ViewportWidth);
-            //this._mask.Height = this.GetRelativeHeight(this.ScrollViewer.ViewportHeight); 
 
             if (this.ScrollViewer.ExtentWidth == 0 || this.ScrollViewer.ExtentHeight == 0) return;
 
@@ -104,23 +150,17 @@ namespace HeBianGu.Control.ScrollVewerLocator
 
         private void OnDetaching(ScrollViewer viewer)
         {
-            //  Do ：注册事件
             viewer.ScrollChanged -= ScrollViewer_ScrollChanged;
-
-            //viewer.SizeChanged -= ScrollViewer_SizeChanged;
         }
 
 
         private void ScrollViewer_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            //  Do ：更新位置 
             double h = this.GetRelativeWidth(this.ScrollViewer.HorizontalOffset);
-
             double v = this.GetRelativeHeight(this.ScrollViewer.VerticalOffset);
 
             Canvas.SetLeft(this.Mask, h);
             Canvas.SetTop(this.Mask, v);
-
             this.RefreshLocation();
 
             if (this.Mask.Background is VisualBrush visualBrush)
@@ -161,6 +201,9 @@ namespace HeBianGu.Control.ScrollVewerLocator
         /// <summary> 计算缩略图的宽度 </summary>
         private double GetVisualWidth()
         {
+            if (this.ScrollViewer == null)
+                return this.ActualWidth;
+
             double x1 = this.ActualWidth / this.ActualHeight;
 
             double x2 = this.ScrollViewer.ExtentWidth / this.ScrollViewer.ExtentHeight;
@@ -176,6 +219,9 @@ namespace HeBianGu.Control.ScrollVewerLocator
         /// <summary> 计算缩略图的高度 </summary> 
         private double GetVisualHeight()
         {
+            if (this.ScrollViewer == null)
+                return this.ActualHeight;
+
             double x1 = this.ActualHeight / this.ActualWidth;
 
             double x2 = this.ScrollViewer.ExtentHeight / this.ScrollViewer.ExtentWidth;
@@ -194,5 +240,25 @@ namespace HeBianGu.Control.ScrollVewerLocator
         {
             return this.ScrollViewer != null;
         }
+
+        protected override void WheelPoint(Point p, double delta)
+        {
+            this.LocationPoint(p);
+
+            if (this.ScrollViewer is ScrollViewerTransfor transfor)
+            {
+                transfor.Scale = transfor.Scale + delta / 1200.0;
+            }
+        }
+    }
+
+
+    public static class ScrollViewerLocatorCommands
+    {
+        public static RoutedCommand FullScreen { get; set; } = new RoutedCommand();
+        public static RoutedCommand TrimSize { get; set; } = new RoutedCommand();
+        public static RoutedCommand Plus { get; set; } = new RoutedCommand();
+        public static RoutedCommand Minus { get; set; } = new RoutedCommand();
+        public static RoutedCommand LocatorCenter { get; set; } = new RoutedCommand();
     }
 }

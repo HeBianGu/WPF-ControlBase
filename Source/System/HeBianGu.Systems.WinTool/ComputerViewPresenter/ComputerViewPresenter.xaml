@@ -1,0 +1,378 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.WinTool">
+
+
+    <DataTemplate DataType="{x:Type local:ComputerViewPresenter}">
+        <Grid>
+            <TabControl h:Cattach.AttachDock="Top"
+                        h:Cattach.CaptionBackground="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                        h:Cattach.CaptionVerticalAlignment="Stretch"
+                        h:Cattach.CornerRadius="0"
+                        h:Cattach.UseSearch="False"
+                        BorderThickness="0"
+                        ItemsSource="{Binding Collection}"
+                        SelectedItem="{Binding SelectedItem}"
+                        Style="{DynamicResource {x:Static h:TabControlKeys.Line}}"
+                        TabStripPlacement="Left">
+                <h:Cattach.AttachContent>
+                    <ControlTemplate>
+                        <Border Height="30">
+                            <Separator Margin="20,0" Background="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}" Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
+                        </Border>
+                    </ControlTemplate>
+                </h:Cattach.AttachContent>
+                <TabControl.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Static h:TabItemKeys.Line}}" TargetType="TabItem">
+                        <Setter Property="Width" Value="200" />
+                        <Setter Property="h:Cattach.IconMargin" Value="20 0" />
+                        <Setter Property="h:Cattach.Icon" Value="{x:Static h:Icons.Clock}" />
+                        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}" />
+                        <Setter Property="Header" Value="{Binding Name}" />
+                        <Setter Property="h:Cattach.Icon" Value="{Binding Icon}" />
+                        <Setter Property="h:Cattach.UseGuide" Value="True" />
+                    </Style>
+                </TabControl.ItemContainerStyle>
+                <!--<TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="111"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>-->
+                <h:Interaction.Triggers>
+                    <h:EventTrigger EventName="Loaded">
+                        <h:InvokeCommandAction Command="{Binding LoadedCommand}" />
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+            </TabControl>
+            <Button HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    h:Cattach.Icon="{x:Static h:Icons.Add}"
+                    Command="{Binding AddInfoCommand}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                    ToolTip="添加自定义参数" />
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ManagementObjectPresenter}">
+        <ListBox h:Cattach.ItemBackground="Transparent"
+                 h:Cattach.SelectEffect="{x:Null}"
+                 Background="Transparent"
+                 ItemsSource="{Binding Model.Properties}"
+                 Style="{StaticResource {x:Static h:ListBoxKeys.Dynamic}}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel LastChildFill="False">
+                        <TextBlock Width="200" VerticalAlignment="Center" Text="{Binding Name}" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Value}" />
+                        <!--<Button Width="Auto"
+                                    Command="{h:PropertyGridViewMessageCommand}"
+                                    CommandParameter="{Binding}"
+                                    Content="更多&gt;&gt;"
+                                    DockPanel.Dock="Right"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />-->
+                    </DockPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ListBox.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource {x:Static h:GroupItemKeys.GroupTitle}}">
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <DataGridRowsPresenter />
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                </GroupStyle>
+            </ListBox.GroupStyle>
+        </ListBox>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:HomeComputerInfo}">
+        <DockPanel>
+            <Border Height="100"
+                    Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                    DockPanel.Dock="Top"
+                    Style="{DynamicResource {x:Static h:BorderKeys.Card}}">
+                <DockPanel VerticalAlignment="Center">
+                    <Border Width="60"
+                            Height="60"
+                            Margin="10,0"
+                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"
+                            BorderThickness="1"
+                            CornerRadius="60">
+                        <TextBlock FontSize="30" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Icon}" />
+                    </Border>
+
+                    <Button Width="Auto"
+                            VerticalAlignment="Bottom"
+                            Command="{h:PresenterMessageCommand}"
+                            CommandParameter="{Binding}"
+                            Content="打印&gt;&gt;"
+                            DockPanel.Dock="Right"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                    <Button Width="Auto"
+                            Margin="10,0"
+                            VerticalAlignment="Bottom"
+                            Command="{h:PresenterMessageCommand}"
+                            CommandParameter="{Binding}"
+                            Content="导出&gt;&gt;"
+                            DockPanel.Dock="Right"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                    <UniformGrid Height="50"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Center"
+                                 Columns="1">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header4}}"
+                                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                                   Text="{Binding Name}" />
+                        <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" Text="{Binding Description}" />
+                    </UniformGrid>
+                </DockPanel>
+            </Border>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <DockPanel Margin="-2,0">
+                    <ItemsControl HorizontalAlignment="Center" DockPanel.Dock="Top" ItemsSource="{Binding Counters}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <!--<Border Height="250"
+                            Margin="10"
+                            Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                            DockPanel.Dock="Top"
+                            Style="{DynamicResource {x:Static h:BorderKeys.Card}}">
+                        <ContentPresenter Margin="60,30,10,30">
+                            <ContentPresenter.Content>
+                                <h:LinePresenter />
+                            </ContentPresenter.Content>
+                        </ContentPresenter>
+                    </Border>-->
+
+                    <ItemsControl ItemsSource="{Binding Source={x:Static local:ComputerViewPresenter.Instance}, Path=Collection}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border x:Name="border"
+                                        MinHeight="60"
+                                        Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                                        DockPanel.Dock="Top"
+                                        Style="{DynamicResource {x:Static h:BorderKeys.Card}}">
+                                    <GroupBox Margin="0"
+                                              Padding="10,0"
+                                              h:Cattach.GuideData="{Binding Description}"
+                                              h:Cattach.UseGuide="True"
+                                              Background="Transparent"
+                                              BorderThickness="0"
+                                              Header="{Binding Name}"
+                                              Style="{DynamicResource {x:Static h:GroupBoxKeys.Dynamic}}">
+                                        <h:Cattach.CaptionRightTemplate>
+                                            <ControlTemplate>
+                                                <Button Width="Auto"
+                                                        HorizontalAlignment="Right"
+                                                        h:Cattach.UseGuide="True"
+                                                        Command="{Binding Source={x:Static local:ComputerViewPresenter.Instance}, Path=MoreCommand}"
+                                                        CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=DataContext}"
+                                                        Content="更多&gt;&gt;"
+                                                        DockPanel.Dock="Right"
+                                                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                                        ToolTip="点击更多，显示详细数据" />
+                                            </ControlTemplate>
+                                        </h:Cattach.CaptionRightTemplate>
+                                        <ItemsControl BorderThickness="0" ItemsSource="{Binding Source.Source}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <!--<Border MinHeight="60"
+                                                            Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                                                            DockPanel.Dock="Top"
+                                                            Style="{DynamicResource {x:Static h:BorderKeys.Card}}">-->
+                                                    <DockPanel VerticalAlignment="Top">
+                                                        <DockPanel Margin="0,0,0,10" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                                            <TextBlock Margin="0,0,0,5"
+                                                                       VerticalAlignment="Center"
+                                                                       DockPanel.Dock="Top"
+                                                                       Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                                                                       Text="{Binding Caption}" />
+                                                            <DockPanel Margin="0,0" HorizontalAlignment="Stretch" LastChildFill="False">
+                                                                <TextBlock VerticalAlignment="Center"
+                                                                           FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header7}}"
+                                                                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"
+                                                                           Text="{Binding Description}"
+                                                                           TextTrimming="CharacterEllipsis"
+                                                                           TextWrapping="Wrap"
+                                                                           ToolTip="{Binding Description}" />
+                                                                <TextBlock VerticalAlignment="Center"
+                                                                           DockPanel.Dock="Right"
+                                                                           FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header7}}"
+                                                                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"
+                                                                           TextWrapping="Wrap">
+                                                                    <Run Text="{Binding Tag}" />
+                                                                </TextBlock>
+                                                            </DockPanel>
+                                                        </DockPanel>
+                                                    </DockPanel>
+                                                    <!--</Border>-->
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </GroupBox>
+                                </Border>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Name}" Value="总览">
+                                        <Setter TargetName="border" Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=Source.Count, Converter={x:Static h:Converter.GetGreaterThan}, ConverterParameter=5}" Value="True">
+                                        <Setter TargetName="border" Property="Visibility" Value="Collapsed" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </DockPanel>
+            </ScrollViewer>
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ComputerInfoBase}">
+        <DockPanel>
+            <Border Height="100"
+                    Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                    DockPanel.Dock="Top"
+                    Style="{DynamicResource {x:Static h:BorderKeys.Card}}">
+                <DockPanel VerticalAlignment="Center">
+                    <Border Width="60"
+                            Height="60"
+                            Margin="10,0"
+                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"
+                            BorderThickness="1"
+                            CornerRadius="60">
+                        <TextBlock FontSize="30" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Icon}" />
+                    </Border>
+                    <TextBlock DockPanel.Dock="Right">
+                        <Run Text="[" />
+                        <Run Text="{Binding Source.Count, Mode=OneWay}" />
+                        <Run Text="]" />
+                    </TextBlock>
+
+                    <Button Width="Auto"
+                            VerticalAlignment="Bottom"
+                            Command="{h:PresenterMessageCommand}"
+                            CommandParameter="{Binding}"
+                            Content="打印&gt;&gt;"
+                            DockPanel.Dock="Right"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                    <Button Width="Auto"
+                            Margin="10,0"
+                            VerticalAlignment="Bottom"
+                            Command="{h:PresenterMessageCommand}"
+                            CommandParameter="{Binding}"
+                            Content="导出&gt;&gt;"
+                            DockPanel.Dock="Right"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                    <UniformGrid Height="50"
+                                 HorizontalAlignment="Left"
+                                 VerticalAlignment="Center"
+                                 Columns="1">
+                        <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}">
+                            <Run FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header4}}" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" Text="{Binding Name}" />
+                            <Run Text=" [" />
+                            <Run Text="{Binding GroupName}" />
+                            <Run Text="]" />
+                        </TextBlock>
+                        <TextBlock VerticalAlignment="Center" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" Text="{Binding Description}" />
+                    </UniformGrid>
+                </DockPanel>
+            </Border>
+            <!--<Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}" Style="{DynamicResource {x:Static h:BorderKeys.Card}}">-->
+            <DockPanel Margin="-2,0">
+                <h:Pagination HorizontalAlignment="Right"
+                              DockPanel.Dock="Bottom"
+                              MaxPageCount="{Binding Source.TotalPage}"
+                              PageIndex="{Binding Source.PageIndex, Mode=TwoWay}" />
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding Source.Source}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border MinHeight="60"
+                                        Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                                        DockPanel.Dock="Top"
+                                        Style="{DynamicResource {x:Static h:BorderKeys.Card}}">
+                                    <DockPanel VerticalAlignment="Center">
+                                        <Button Width="Auto"
+                                                HorizontalAlignment="Right"
+                                                Command="{h:PresenterMessageCommand}"
+                                                CommandParameter="{Binding}"
+                                                Content="更多&gt;&gt;"
+                                                DockPanel.Dock="Right"
+                                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                                ToolTip="点击更多，显示详细数据" />
+                                        <DockPanel MinHeight="50" HorizontalAlignment="Stretch">
+                                            <TextBlock Margin="0,5"
+                                                       VerticalAlignment="Center"
+                                                       DockPanel.Dock="Top"
+                                                       FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header4}}"
+                                                       Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                                                       Text="{Binding Caption}" />
+
+                                            <DockPanel Margin="0,5" HorizontalAlignment="Stretch" LastChildFill="False">
+                                                <TextBlock VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                                           Text="{Binding Description}"
+                                                           TextTrimming="CharacterEllipsis"
+                                                           TextWrapping="Wrap"
+                                                           ToolTip="{Binding Description}" />
+                                                <TextBlock VerticalAlignment="Center"
+                                                           DockPanel.Dock="Right"
+                                                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                                           TextWrapping="Wrap">
+                                                    <Run Text="{Binding Tag}" />
+                                                </TextBlock>
+                                                <!--<TextBlock VerticalAlignment="Center"
+                                                               DockPanel.Dock="Right"
+                                                               Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                                               TextWrapping="Wrap">
+                                                        <Run Text="供应商 - " />
+                                                        <Run Text="{Binding Manufacturer}" />
+                                                    </TextBlock>
+
+                                                    <TextBlock Margin="10,0"
+                                                               VerticalAlignment="Center"
+                                                               DockPanel.Dock="Right"
+                                                               Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                                               TextWrapping="Wrap">
+                                                        <Run Text="版本号 - " />
+                                                        <Run Text="{Binding Version}" />
+                                                    </TextBlock>-->
+                                            </DockPanel>
+                                        </DockPanel>
+                                    </DockPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                </ScrollViewer>
+            </DockPanel>
+            <!--</Border>-->
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ComputerPropertyInfo}">
+        <DockPanel LastChildFill="False" ToolTip="{Binding Description}">
+            <TextBlock Width="200" VerticalAlignment="Center" Text="{Binding Name}" />
+            <TextBlock VerticalAlignment="Center" Text="{Binding Data.Value}" />
+            <Button Width="Auto"
+                    Command="{h:PropertyGridViewMessageCommand}"
+                    CommandParameter="{Binding Data}"
+                    Content="更多&gt;&gt;"
+                    DockPanel.Dock="Right"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                    ToolTip="点击更多，显示详细数据" />
+        </DockPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

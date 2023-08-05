@@ -10,8 +10,10 @@ using System.Windows;
 
 namespace HeBianGu.Service.Mvc
 {
-    public abstract class MvcViewModelBase : NotifyPropertyChanged, IMvcViewModelBase
+    public abstract class MvcViewModelBase : DisplayerViewModelBase, IMvcViewModelBase, IAuthority
     {
+        public bool IsAuthority => Loginner.Instance?.User?.IsValid(this.ID) != false;
+
         private ILinkAction _selectLink;
         /// <summary> 说明  </summary>
         public ILinkAction SelectLink
@@ -21,6 +23,7 @@ namespace HeBianGu.Service.Mvc
             {
                 _selectLink = value;
                 RaisePropertyChanged("SelectLink");
+                MvcProxy.Instance.History.Push(_selectLink);
             }
         }
 

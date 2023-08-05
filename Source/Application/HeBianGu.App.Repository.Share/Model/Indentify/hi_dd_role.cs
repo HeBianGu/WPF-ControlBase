@@ -25,12 +25,12 @@ namespace HeBianGu.App.Repository
 
         [XmlIgnore]
         [Display(Name = "权限列表")]
-        [Property(Type = typeof(MultiSelectRepositoryPropertyItem))]
+        [PropertyItemType(Type = typeof(MultiSelectRepositoryPropertyItem))]
         public ICollection<hi_dd_author> Authors { get; set; }
 
         [XmlIgnore]
         [Display(Name = "用户列表")]
-        [Property(Type = typeof(MultiSelectRepositoryPropertyItem))]
+        [PropertyItemType(Type = typeof(MultiSelectRepositoryPropertyItem))]
         public ICollection<hi_dd_user> Users { get; set; }
     }
 }

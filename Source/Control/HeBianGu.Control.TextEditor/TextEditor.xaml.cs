@@ -14,6 +14,8 @@ namespace HeBianGu.Control.TextEditor
     {
 
         public static ComponentResourceKey DefaultKey => new ComponentResourceKey(typeof(TextEditor), "S.TextEditor.Default");
+        public static ComponentResourceKey TextKey => new ComponentResourceKey(typeof(TextEditor), "S.TextEditor.Text");
+        public static ComponentResourceKey TextBoxKey => new ComponentResourceKey(typeof(TextEditor), "S.TextEditor.TextBox");
 
         private const string Part_TextBlock = "PART_TextBlock";
         private const string PART_TextBox = "PART_TextBox";
@@ -64,9 +66,11 @@ namespace HeBianGu.Control.TextEditor
 
             this.MouseLeftButtonDown += (l, k) =>
               {
-                  if (this.EditActiveMode != EditActiveMode.MouseDown) return;
+                  if (this.EditActiveMode != EditActiveMode.MouseDown) 
+                      return;
 
-                  if (this.IsEditting == true) return;
+                  if (this.IsEditting == true)
+                      return;
 
                   this.IsEditting = true;
 
@@ -186,6 +190,9 @@ namespace HeBianGu.Control.TextEditor
         {
             this.EditText = this.Text;
             this._textBox?.Focus();
+            this._textBox?.SelectAll();
+            if (this._textBlock != null)
+                this._textBlock.Visibility = Visibility.Hidden;
         }
 
         public object Content
@@ -301,6 +308,8 @@ namespace HeBianGu.Control.TextEditor
 
         private void SaveData()
         {
+            this._textBlock.Visibility = Visibility.Visible;
+
             if (!string.IsNullOrEmpty(this.Message))
                 return;
 
@@ -313,6 +322,27 @@ namespace HeBianGu.Control.TextEditor
             this.Content = type.TryConvertFromString(this.EditText, out string error);
 
             this.Message = error;
+
+            this.OnSaveDatad();
+        }
+
+
+        //声明和注册路由事件
+        public static readonly RoutedEvent SaveDatadRoutedEvent =
+            EventManager.RegisterRoutedEvent("SaveDatad", RoutingStrategy.Bubble, typeof(EventHandler<RoutedEventArgs>), typeof(TextEditor));
+        //CLR事件包装
+        public event RoutedEventHandler SaveDatad
+        {
+            add { this.AddHandler(SaveDatadRoutedEvent, value); }
+            remove { this.RemoveHandler(SaveDatadRoutedEvent, value); }
+        }
+
+        //激发路由事件,借用Click事件的激发方法
+
+        protected void OnSaveDatad()
+        {
+            RoutedEventArgs args = new RoutedEventArgs(SaveDatadRoutedEvent, this);
+            this.RaiseEvent(args);
         }
 
 
@@ -412,6 +442,59 @@ namespace HeBianGu.Control.TextEditor
              }));
 
 
+        public Style TextBoxStyle
+        {
+            get { return (Style)GetValue(TextBoxStyleProperty); }
+            set { SetValue(TextBoxStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextBoxStyleProperty =
+            DependencyProperty.Register("TextBoxStyle", typeof(Style), typeof(TextEditor), new FrameworkPropertyMetadata(default(Style), (d, e) =>
+             {
+                 TextEditor control = d as TextEditor;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is Style o)
+                 {
+
+                 }
+
+                 if (e.NewValue is Style n)
+                 {
+
+                 }
+
+             }));
+
+
+
+        public Style TextBlockStyle
+        {
+            get { return (Style)GetValue(TextBlockStyleProperty); }
+            set { SetValue(TextBlockStyleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TextBlockStyleProperty =
+            DependencyProperty.Register("TextBlockStyle", typeof(Style), typeof(TextEditor), new FrameworkPropertyMetadata(default(Style), (d, e) =>
+             {
+                 TextEditor control = d as TextEditor;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is Style o)
+                 {
+
+                 }
+
+                 if (e.NewValue is Style n)
+                 {
+
+                 }
+
+             }));
 
     }
 

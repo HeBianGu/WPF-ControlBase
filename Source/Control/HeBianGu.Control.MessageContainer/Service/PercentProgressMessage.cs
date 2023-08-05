@@ -1,10 +1,14 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
+using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfControlLib;
 using System.Windows;
 
 namespace HeBianGu.Control.MessageContainer
 {
-    public class PercentProgressMessage : MessageBase
+
+
+    public class PercentProgressMessage : MessageBase, IPercentProgressMessage
     {
         public static new ComponentResourceKey DefaultKey => new ComponentResourceKey(typeof(PercentProgressMessage), "S.PercentProgressMessage.Default");
 

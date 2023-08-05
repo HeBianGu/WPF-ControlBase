@@ -1,5 +1,6 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
+using HeBianGu.Base.WpfBase;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -22,9 +23,7 @@ namespace HeBianGu.Control.Host
             this.PreviewMouseDown += (l, k) =>
               {
                   Point p = Mouse.GetPosition(this);
-
                   PointHitTestParameters parameters = new PointHitTestParameters(p);
-
                   VisualTreeHelper.HitTest(this, HitTestFilter, HitTestCallBack, parameters);
               };
         }
@@ -36,9 +35,7 @@ namespace HeBianGu.Control.Host
 
         private HitTestFilterBehavior HitTestFilter(DependencyObject obj)
         {
-
             object data = MouseHost.GetData(obj);
-
             if (data == null)
             {
                 return HitTestFilterBehavior.Continue;
@@ -66,7 +63,7 @@ namespace HeBianGu.Control.Host
         private Storyboard storyboard;
         public void Begin()
         {
-            storyboard = new Storyboard();
+            storyboard = StoryboardFactory.Create();
             storyboard.Completed += (l, k) =>
             {
                 //  Do ：移除控件
@@ -94,16 +91,12 @@ namespace HeBianGu.Control.Host
             obj.SetValue(DataProperty, value);
         }
 
-        /// <summary> 应用窗体关闭和显示 </summary>
         public static readonly DependencyProperty DataProperty =
             DependencyProperty.RegisterAttached("Data", typeof(object), typeof(MouseHost), new PropertyMetadata(null, OnDataChanged));
-
         public static void OnDataChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             DependencyObject control = d;
-
             object n = e.NewValue;
-
             object o = e.OldValue;
         }
 

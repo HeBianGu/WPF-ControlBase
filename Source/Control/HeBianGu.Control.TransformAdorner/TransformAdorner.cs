@@ -8,6 +8,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 
 namespace HeBianGu.Control.TransformAdorner
 {
@@ -15,17 +16,27 @@ namespace HeBianGu.Control.TransformAdorner
     {
         private Thumb tLeft, tRight, bLeftBottom, bRightBottom, tMove;
         private VisualCollection visualCollection;
+
+        public TransformAdorner(UIElement adornedElement) : base(adornedElement)
+        {
+            Style style = TransformAttach.GetThumbStyle(adornedElement);
+            this.Init();
+        }
+
         public TransformAdorner(UIElement adornedElement, Style thumbStyle) : base(adornedElement)
         {
             this.ThumbStyle = thumbStyle;
+            this.Init();
+        }
 
+        void Init()
+        {
             visualCollection = new VisualCollection(this);
             visualCollection.Add(tMove = CreateMoveThumb());
             visualCollection.Add(tLeft = CreateThumb(Cursors.SizeNWSE, HorizontalAlignment.Left, VerticalAlignment.Top));
             visualCollection.Add(tRight = CreateThumb(Cursors.SizeNESW, HorizontalAlignment.Right, VerticalAlignment.Top));
             visualCollection.Add(bLeftBottom = CreateThumb(Cursors.SizeNESW, HorizontalAlignment.Left, VerticalAlignment.Bottom));
             visualCollection.Add(bRightBottom = CreateThumb(Cursors.SizeNWSE, HorizontalAlignment.Right, VerticalAlignment.Bottom));
-
         }
 
         public Style ThumbStyle

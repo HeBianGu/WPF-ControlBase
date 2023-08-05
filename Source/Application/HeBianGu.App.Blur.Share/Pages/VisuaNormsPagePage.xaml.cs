@@ -34,7 +34,7 @@ namespace WpfControlDemo.View
             //        select dict).FirstOrDefault();
 
             return (from dict in Application.Current.Resources.MergedDictionaries
-                    where dict.Contains(BrushKeys.Accent)
+                    where dict.Contains(BrushKeys.ForegroundDefault)
                     select dict).FirstOrDefault();
         }
 
@@ -77,7 +77,7 @@ namespace WpfControlDemo.View
                 foreach (object item in resource.Keys)
                 {
 
-                    object current = resource[item.ToString()];
+                    object current = resource[item];
 
                     if (current is SolidColorBrush)
                     {
@@ -93,10 +93,11 @@ namespace WpfControlDemo.View
                         //    itemClass.Mark = ThemeService.Current.KeyToMarkDictionary[itemClass.Name];
                         //}
 
-                        //this.Collection.Add(itemClass);
+                        this.Collection.Add(itemClass);
 
                     }
                 }
+                this.Collection.OrderBy(x => x.Name);
 
             }
             //  Do：取消

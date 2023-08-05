@@ -9,12 +9,12 @@ namespace System
     {
 
         /// <summary>
-        /// 设置
+        /// 设置 如不设置存在bin下，如设置默认则在文档，也可以实现接口自定义路径
         /// </summary>  
-        public static IServiceCollection AddSettingPath(this IServiceCollection builder)
+        public static IServiceCollection AddSettingPath(this IServiceCollection builder, Action<ISettingPathServiceOption> option = null)
         {
             builder.AddSingleton<ISettingPathService, SettingPathService>();
-
+            option?.Invoke(SettingPathService.Instance);
             return builder;
         }
 
@@ -24,9 +24,7 @@ namespace System
         public static IApplicationBuilder UsePath(this IApplicationBuilder builder, Action<SystemPathSetting> systemPath)
         {
             systemPath?.Invoke(SystemPathSetting.Instance);
-
             SystemSetting.Instance?.Add(SystemPathSetting.Instance);
-
             return builder;
         }
     }

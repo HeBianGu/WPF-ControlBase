@@ -15,6 +15,8 @@ namespace HeBianGu.Demo.Demo2
             InitializeComponent();
 
             Loaded += MainWindow_Loaded;
+
+            //StoryboardSetting
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)

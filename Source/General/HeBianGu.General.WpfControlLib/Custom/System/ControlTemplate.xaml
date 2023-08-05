@@ -1,0 +1,45 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+
+
+    <ControlTemplate x:Key="{ComponentResourceKey ResourceId=S.ControlTemplate.MouseOver.Operation.Commander, TypeInTargetAssembly={x:Type local:ControlTemplateKeys}}">
+        <DockPanel VerticalAlignment="Center" Visibility="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsMouseOver, Converter={x:Static h:Converter.GetTrueToVisible}}">
+            <Button h:Cattach.Icon="{x:Static h:Icons.Eye}"
+                    Command="{Binding Source={x:Static h:Commander.View}}"
+                    CommandParameter="{Binding}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                    ToolTip="查看" />
+            <Button h:Cattach.Icon="{x:Static h:Icons.Edit}"
+                    Command="{Binding Source={x:Static h:Commander.Edit}}"
+                    CommandParameter="{Binding}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                    ToolTip="编辑" />
+            <Button Command="{Binding Source={x:Static h:Commander.Delete}}"
+                    CommandParameter="{Binding}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.CloseMouseOver}}"
+                    ToolTip="删除" />
+        </DockPanel>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="{ComponentResourceKey ResourceId=S.ControlTemplate.MouseOver.Operation.Command, TypeInTargetAssembly={x:Type local:ControlTemplateKeys}}">
+        <DockPanel VerticalAlignment="Center" Visibility="{Binding RelativeSource={RelativeSource AncestorType=DataGridRow}, Path=IsMouseOver, Converter={x:Static h:Converter.GetTrueToVisible}}">
+            <Button h:Cattach.Icon="{x:Static h:Icons.Eye}"
+                    Command="{local:PropertyGridViewMessageCommand}"
+                    CommandParameter="{Binding}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                    ToolTip="查看" />
+            <Button h:Cattach.Icon="{x:Static h:Icons.Edit}"
+                    Command="{local:PropertyGridEditMessageCommand}"
+                    CommandParameter="{Binding}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                    ToolTip="编辑" />
+            <Button Command="{local:DeleteItemCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Control,AncestorLevel=2}}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.CloseMouseOver}}"
+                    ToolTip="删除" />
+        </DockPanel>
+    </ControlTemplate>
+</ResourceDictionary>

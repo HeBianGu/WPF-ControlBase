@@ -69,6 +69,33 @@ namespace HeBianGu.Control.ScrollVewerLocator
             }));
 
 
+        public Brush MaskBackground
+        {
+            get { return (Brush)GetValue(MaskBackgroundProperty); }
+            set { SetValue(MaskBackgroundProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaskBackgroundProperty =
+            DependencyProperty.Register("MaskBackground", typeof(Brush), typeof(ScrollLocatorBase), new FrameworkPropertyMetadata(default(Brush), (d, e) =>
+             {
+                 ScrollLocatorBase control = d as ScrollLocatorBase;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is Brush o)
+                 {
+
+                 }
+
+                 if (e.NewValue is Brush n)
+                 {
+
+                 }
+
+             }));
+
+
         protected MaskGrid Mask { get; private set; }
 
         protected Canvas Canvas { get; private set; }
@@ -96,21 +123,33 @@ namespace HeBianGu.Control.ScrollVewerLocator
 
             this.Canvas.MouseDown += (l, k) =>
             {
-                //  Do ：定位到指定位置
                 Point p = k.GetPosition(this.Canvas);
-
                 p.X = p.X - this.Mask.ActualWidth / 2.0;
                 p.Y = p.Y - this.Mask.ActualHeight / 2.0;
 
                 this.LocationPoint(p);
+
+                k.Handled = true;
+            };
+
+            this.Canvas.PreviewMouseWheel += (l, k) =>
+            {
+                Point p = k.GetPosition(this.Canvas);
+                p.X = p.X - this.Mask.ActualWidth / 2.0;
+                p.Y = p.Y - this.Mask.ActualHeight / 2.0;
+
+                this.WheelPoint(p,k.Delta);
             };
         }
 
         protected abstract void LocationPoint(Point p);
 
+        protected abstract void WheelPoint(Point p,double Delta);
+
         //  Do ：更新布局
         protected abstract void RefreshLocation();
 
         protected abstract bool Checked();
+
     }
 }

@@ -22,7 +22,6 @@ namespace HeBianGu.App.Touch
             {
                 //  Message：停止上一次任务
                 Stop();
-
                 _selectLink = value;
                 RaisePropertyChanged("SelectLink");
             }
@@ -62,7 +61,7 @@ namespace HeBianGu.App.Touch
             LinkActions.Add(new TemperatureLinkActionEntity() { VisbleNext = Visibility.Collapsed });
         }
 
-        protected override void Loaded(string args)
+        protected override void Loaded(object args)
         {
             Clear();
         }
@@ -71,9 +70,7 @@ namespace HeBianGu.App.Touch
         public void Clear()
         {
             SelectLink = null;
-
             SelectLink = LinkActions.FirstOrDefault();
-
             LinkActions.Foreach(l => l.Clear());
         }
 
@@ -82,7 +79,6 @@ namespace HeBianGu.App.Touch
             RunNextEngine = false;
             RunSumitEngine = false;
             RunReMeasureEngine = false;
-
             SelectLink?.Stop();
         }
 
@@ -143,7 +139,7 @@ namespace HeBianGu.App.Touch
                 }
                 else
                 {
-                    Message.Instance.ShowSnackMessage("已是最后一项");
+                    MessageProxy.Snacker.Show("已是最后一项");
                 }
 
                 //this.RunNextEngine = false;
@@ -153,8 +149,9 @@ namespace HeBianGu.App.Touch
         }
 
 
+        public RelayCommand RelayCommand => new RelayCommand(RelayMethod);
         /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
+        protected async void RelayMethod(object obj)
 
         {
             string command = obj?.ToString();
@@ -169,7 +166,7 @@ namespace HeBianGu.App.Touch
                 {
                     CardIDControl card = new CardIDControl();
 
-                    return await Message.Instance.ShowCustomDialog<bool>(card);
+                    return await Messager.Instance.ShowDialog<bool>(card);
                 });
 
                 _domain.GoToLinkAction("Report", "Report", new object[] { LinkActions, true });
@@ -184,7 +181,6 @@ namespace HeBianGu.App.Touch
             else if (command == "Button.Click.ReMeasure")
             {
                 Stop();
-
                 SelectLink.Clear();
 
                 await CheckAndRunMeasure(SelectLink);

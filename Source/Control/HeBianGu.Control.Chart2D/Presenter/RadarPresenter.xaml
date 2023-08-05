@@ -1,0 +1,28 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Chart2D">
+
+    <DataTemplate DataType="{x:Type local:RadarPresenter}">
+        <local:PolarChart MinWidth="200"
+                          Background="{x:Null}"
+                          UseDrawOnce="False"
+                          UseRefreshButton="False"
+                          Visibility="{Binding IsVisible, Converter={x:Static h:Converter.GetTrueToVisible}}"
+                          xAxis="{Binding xAxis}"
+                          yAxis="{Binding yAxis}">
+            <local:ViewLayerGroup>
+                <local:Radar />
+                <local:RadiusAxis />
+                <local:RadarAxis yDisplay="{Binding xDisplay}" />
+            </local:ViewLayerGroup>
+
+            <local:Series>
+                <local:RadarLine Data="{Binding Data}" TryFreeze="False" />
+                <local:PolarScatter Data="{Binding Data}" MarkStyle="{DynamicResource {x:Static local:EllipseMarker.Default4Key}}" TryFreeze="False" />
+            </local:Series>
+
+            <local:Legend Style="{DynamicResource {x:Static local:Legend.VerticalKey}}" />
+        </local:PolarChart>
+    </DataTemplate>
+</ResourceDictionary>

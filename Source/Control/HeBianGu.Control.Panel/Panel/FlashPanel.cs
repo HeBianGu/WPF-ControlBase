@@ -58,7 +58,7 @@ namespace HeBianGu.Control.Panel
 
             if (controls == null || controls.Count == 0) return;
 
-            Storyboard storyboard = new Storyboard();
+            Storyboard storyboard = StoryboardFactory.Create();
 
             for (int i = 0; i < controls.Count; i++)
             {

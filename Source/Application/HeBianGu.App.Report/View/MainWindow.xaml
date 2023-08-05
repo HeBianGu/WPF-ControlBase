@@ -1,0 +1,618 @@
+﻿<h:MainWindow x:Class="HeBianGu.App.Report.MainWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:h="https://github.com/HeBianGu"
+              xmlns:local="clr-namespace:HeBianGu.App.Report"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:system="clr-namespace:System;assembly=netstandard"
+              Title="H报表"
+              Width="1200"
+              Height="760"
+              h:Cattach.Icon=""
+              CaptionBackground="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+              CaptionForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+              CaptionHeight="40"
+              DataContext="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel}"
+              Icon="{DynamicResource {x:Static h:ImageSourceKeys.Logo}}"
+              IconSize="30"
+              NotifyIconSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.ico"
+              mc:Ignorable="d">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type h:ListPrintPagePresenter}">
+            <h:DesignBorder MinWidth="200" MinHeight="400">
+                <ItemsControl VerticalAlignment="Top" ItemsSource="{Binding Presenters}" />
+            </h:DesignBorder>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type h:TablePrintPagePresenter}">
+            <h:DesignBorder MinWidth="200" MinHeight="400">
+                <DockPanel TextBlock.FontSize="{Binding FontSize}" TextBlock.Foreground="{Binding Foreground}">
+                    <TextBox Margin="0,30"
+                             HorizontalAlignment="Center"
+                             BorderThickness="0"
+                             DockPanel.Dock="Top"
+                             FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header1}}"
+                             Style="{x:Null}"
+                             Text="{Binding Title}" />
+                    <h:Row>
+                        <TextBlock HorizontalAlignment="Left">
+                            <Run Text="用户：" />
+                            <Run Text="{Binding User}" />
+                        </TextBlock>
+                        <TextBlock HorizontalAlignment="Right">
+                            <Run Text="日期：" />
+                            <Run Text="{Binding Date}" />
+                        </TextBlock>
+                    </h:Row>
+
+                    <h:Row Margin="0,10" DockPanel.Dock="Bottom">
+                        <TextBlock HorizontalAlignment="Left">
+                            <Run Text="合计：" />
+                            <Run Text="{Binding Total}" />
+                        </TextBlock>
+                    </h:Row>
+
+                    <h:PrintDataGrid AlternatingRowBackground="{Binding AlternatingRowBackground}"
+                                     Background="{Binding GridBackground}"
+                                     BorderBrush="{Binding GridBorderBrush}"
+                                     ColumnHeaderHeight="{Binding ColumnHeaderHeight}"
+                                     ColumnPropertyInfos="{Binding ColumnPropertyInfos}"
+                                     Foreground="{Binding GridForeground}"
+                                     HorizontalGridLinesBrush="{Binding HorizontalGridLinesBrush}"
+                                     IsHitTestVisible="False"
+                                     IsReadOnly="True"
+                                     ItemsSource="{Binding ItemsSource}"
+                                     RowHeight="{Binding RowHeight}"
+                                     Style="{DynamicResource {x:Static h:PrintDataGrid.DefaultKey}}"
+                                     VerticalGridLinesBrush="{Binding VerticalGridLinesBrush}">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridHeaderBackground}" />
+                                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridHeaderForeground}" />
+                                <Setter Property="Padding" Value="2,0" />
+                                <Setter Property="HorizontalContentAlignment" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.ColumnHorizontalContentAlignment}" />
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridForeground}" />
+                                <Setter Property="HorizontalContentAlignment" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.ColumnHorizontalContentAlignment}" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                            <Border Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                  Content="{TemplateBinding Content}"
+                                                                  ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                                  ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGrid.CellStyle>
+                    </h:PrintDataGrid>
+                </DockPanel>
+            </h:DesignBorder>
+        </DataTemplate>
+
+        <Style x:Key="S.TreeViewItem.Presenter" BasedOn="{StaticResource {x:Static h:TreeViewItemKeys.Material}}" TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="True" />
+            <Setter Property="VerticalContentAlignment" Value="Stretch" />
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <HierarchicalDataTemplate>
+                        <DockPanel VerticalAlignment="Stretch" Background="Transparent">
+                            <DockPanel.ToolTip>
+                                <ToolTip Height="Auto" Background="White">
+                                    <ContentPresenter Height="Auto" Content="{Binding}" />
+                                </ToolTip>
+                            </DockPanel.ToolTip>
+                            <h:Interaction.Behaviors>
+                                <h:DragDataTempalteAdornerBehaviour />
+                            </h:Interaction.Behaviors>
+                            <TextBlock Margin="2,0"
+                                       VerticalAlignment="Center"
+                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                       Text="{Binding Icon}" />
+                            <TextBlock x:Name="tb" VerticalAlignment="Center" Text="{Binding Name}" />
+                        </DockPanel>
+                    </HierarchicalDataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="S.TreeViewItem.GroupPresenter" BasedOn="{StaticResource S.TreeViewItem.Presenter}" TargetType="TreeViewItem">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <DockPanel VerticalAlignment="Stretch" Background="Transparent">
+                            <DockPanel.ToolTip>
+                                <ToolTip Height="Auto" Background="White">
+                                    <ContentPresenter Height="Auto" Content="{Binding}" />
+                                </ToolTip>
+                            </DockPanel.ToolTip>
+                            <h:Interaction.Behaviors>
+                                <h:DragDataTempalteAdornerBehaviour />
+                            </h:Interaction.Behaviors>
+                            <TextBlock Margin="2,0"
+                                       VerticalAlignment="Center"
+                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                       Text="{Binding Icon}" />
+                            <TextBlock x:Name="tb" VerticalAlignment="Center" Text="{Binding Name}" />
+                        </DockPanel>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ToolBar>
+            <!--<Button h:Cattach.Icon="{x:Static h:Icons.Add}"
+                    Command="{Binding AddDocumentCommand}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                    ToolTip="添加文档" />-->
+
+            <Button h:Cattach.Icon="&#xe730;"
+                    Command="{Binding AddDocumentCommand}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                    ToolTip="添加文档" />
+
+            <Button h:Cattach.Icon="&#xe8cb;"
+                    Command="{Binding SaveCommand}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                    ToolTip="保存" />
+            <Button h:Cattach.Icon="{x:Static h:Icons.Delete}"
+                    Command="{Binding ClearCommand}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                    ToolTip="清空" />
+
+            <Separator Margin="5,8" />
+
+            <Button h:Cattach.Icon="&#xe8cc;"
+                    Command="{Binding PrintCommand}"
+                    CommandParameter="{Binding ElementName=dockManager}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                    ToolTip="打印" />
+
+            <Button h:Cattach.Icon="&#xe81a;"
+                    Command="{Binding PrintPreViewCommand}"
+                    CommandParameter="{Binding ElementName=dockManager}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                    ToolTip="打印预览" />
+
+            <Button h:Cattach.Icon="&#xe84c;"
+                    Command="{Binding PrintSettingCommand}"
+                    CommandParameter="{Binding ElementName=dockManager}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                    ToolTip="打印设置" />
+
+            <!--<Separator Margin="5,8" />-->
+
+            <!--<Button Width="Auto"
+                    h:Cattach.Icon="&#xe730;"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                    ToolTip="打印设置" />
+
+            <Button Width="Auto"
+                    h:Cattach.Icon="&#xe814;"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                    ToolTip="" />
+            <Button h:Cattach.Icon="&#xe760;" Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" ToolTip="添加文档" />
+
+
+            <Button h:Cattach.Icon="&#xe8dc;" Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" ToolTip="添加文档" />
+            <Button Width="Auto"
+                    h:Cattach.Icon="&#xe8f4;"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                    ToolTip="添加文档" />
+            <Button Width="Auto"
+                    h:Cattach.Icon="&#xe8cc;"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                    ToolTip="添加文档" />-->
+
+            <!--<Button Command="{Binding AddDocumentCommand}" Content="添加文档" Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}" />
+            <Button Content="保存" Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}" />
+            <Button Content="清空" Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}" />
+            <Button Content="打印" Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}" />
+            <Button Content="预览" Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}" />
+            <Button Content="设置" Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}" />
+            <Button Content="添加文档" Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}" />
+            <ToggleButton Style="{DynamicResource {x:Static h:ToggleButtonKeys.Default}}" />-->
+        </ToolBar>
+
+        <DockingManager x:Name="dockManager"
+                        Grid.Row="1"
+                        ActiveContent="{Binding ActiveContent, Mode=TwoWay}"
+                        AllowMixedOrientation="True"
+                        AutoWindowSizeWhenOpened="True"
+                        DocumentsSource="{Binding Documents}"
+                        IsVirtualizingAnchorable="True"
+                        IsVirtualizingDocument="True">
+            <h:Interaction.Triggers>
+                <h:EventTrigger EventName="ActiveContentChanged">
+                    <h:InvokeCommandAction Command="{Binding ActiveContentChangedCommand}" PassEventArgsToCommand="True" />
+                </h:EventTrigger>
+            </h:Interaction.Triggers>
+            <DockingManager.LayoutItemTemplateSelector>
+                <local:PanesTemplateSelector>
+                    <local:PanesTemplateSelector.Documentemplate>
+                        <DataTemplate>
+                            <h:PrintBox Padding="50,0"
+                                        h:Cattach.TopTemplate="{x:Null}"
+                                        AllowDrop="True"
+                                        FixedPageMargin="{Binding Source={x:Static h:PrintBoxMessage.Instance}, Path=PageMargin}"
+                                        ItemsSource="{Binding Pages}">
+                                <h:PrintBox.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource {x:Static h:PrintPage.DefaultKey}}" TargetType="{x:Type h:PrintPage}">
+                                        <Setter Property="BorderBrush" Value="{Binding Source={x:Static h:PrintBoxMessage.Instance}, Path=BorderBrush}" />
+                                        <Setter Property="FontSize" Value="{Binding Source={x:Static h:PrintBoxMessage.Instance}, Path=FontSize}" />
+                                        <Setter Property="Foreground" Value="{Binding Source={x:Static h:PrintBoxMessage.Instance}, Path=Foreground}" />
+                                        <Setter Property="Background" Value="{Binding Source={x:Static h:PrintBoxMessage.Instance}, Path=Background}" />
+                                        <Setter Property="BorderThickness" Value="1" />
+                                    </Style>
+                                </h:PrintBox.ItemContainerStyle>
+                                <h:Interaction.Behaviors>
+                                    <local:ReportDragOverHitTestAdornerBehavior AdornerDropErrorType="{x:Type h:ErrorAdorner}" AdornerType="{x:Type h:LineAdorner}" />
+                                    <h:MouseOverHitTestAdornerBehavior AdornerType="{x:Type h:OverAdorner}" />
+                                    <h:SelectedHitTestAdornerBehavior AdornerType="{x:Type h:SelectedControlTemplateAdorner}" IsHitTestVisible="True" />
+                                </h:Interaction.Behaviors>
+                            </h:PrintBox>
+                        </DataTemplate>
+                    </local:PanesTemplateSelector.Documentemplate>
+                </local:PanesTemplateSelector>
+            </DockingManager.LayoutItemTemplateSelector>
+            <DockingManager.DocumentHeaderTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="0,0,4,0" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Content.Icon}" />
+                        <TextBlock Text="{Binding Content.Name}" TextTrimming="CharacterEllipsis" />
+                    </StackPanel>
+                </DataTemplate>
+            </DockingManager.DocumentHeaderTemplate>
+            <LayoutRoot>
+                <LayoutPanel Orientation="Horizontal">
+                    <!--  Anchorable左侧区域  -->
+                    <LayoutAnchorablePane DockWidth="300">
+                        <LayoutAnchorable Title=" 资源列表"
+                                          CanClose="False"
+                                          CanHide="False"
+                                          FloatingWidth="500"
+                                          ToolTip="默认资源">
+                            <TreeView ItemContainerStyle="{StaticResource S.TreeViewItem.Presenter}">
+                                <TreeViewItem Header="分页">
+                                    <h:ListPrintPagePresenter />
+                                    <h:TablePrintPagePresenter />
+                                </TreeViewItem>
+                                <TreeViewItem Header="文本">
+                                    <h:TextBlockPresenter Name="默认文本" />
+                                    <h:DateTimeNowPresenter />
+                                    <h:UserPresenter />
+                                    <h:TitlePresenter Name="抬头文本" />
+                                    <TreeViewItem IsExpanded="False" Style="{StaticResource S.TreeViewItem.GroupPresenter}">
+                                        <TreeViewItem.Header>
+                                            <h:TextBlockPresenter Name="标题" FontSize="25" />
+                                        </TreeViewItem.Header>
+                                        <h:TextBlockPresenter Name="标题一" FontSize="25" />
+                                        <h:TextBlockPresenter Name="标题二" FontSize="22" />
+                                        <h:TextBlockPresenter Name="标题三" FontSize="18" />
+                                        <h:TextBlockPresenter Name="标题四" FontSize="15" />
+                                        <h:TextBlockPresenter Name="标题五" FontSize="12" />
+                                        <h:TextBlockPresenter Name="标题六" FontSize="10" />
+                                        <h:TextBlockPresenter Name="标题七" FontSize="8" />
+                                    </TreeViewItem>
+                                </TreeViewItem>
+                                <TreeViewItem Header="布局">
+                                    <TreeViewItem IsExpanded="False" Style="{StaticResource S.TreeViewItem.GroupPresenter}">
+                                        <TreeViewItem.Header>
+                                            <h:FixedGridPresenter Name="FixedGrid" Columns="1" Rows="1" />
+                                        </TreeViewItem.Header>
+                                        <h:FixedGridPresenter Name="6×6" Columns="6" Rows="6" />
+                                        <h:FixedGridPresenter Name="6×1" Columns="1" Rows="6" />
+                                        <h:FixedGridPresenter Name="1×1" Columns="1" Rows="1" />
+                                        <h:FixedGridPresenter Name="1×2" Columns="2" Rows="1" />
+                                        <h:FixedGridPresenter Name="1×3" Columns="3" Rows="1" />
+                                        <h:FixedGridPresenter Name="1×4" Columns="4" Rows="1" />
+                                        <h:FixedGridPresenter Name="1×5" Columns="5" Rows="1" />
+                                        <h:FixedGridPresenter Name="1×6" Columns="6" Rows="1" />
+                                    </TreeViewItem>
+                                    <TreeViewItem IsExpanded="False" Style="{StaticResource S.TreeViewItem.GroupPresenter}">
+                                        <TreeViewItem.Header>
+                                            <h:DefinitionGridPresenter Name="DefinitionGrid" Columns="*" Rows="*" />
+                                        </TreeViewItem.Header>
+                                        <h:DefinitionGridPresenter Name="6×6" Columns="* * * * * *" Rows="Auto Auto Auto Auto Auto Auto" />
+                                        <h:DefinitionGridPresenter Name="6×1" Columns="*" Rows="* * * * *" />
+                                        <h:DefinitionGridPresenter Name="1×1" Columns="*" Rows="*" />
+                                        <h:DefinitionGridPresenter Name="1×2" Columns="* *" Rows="*" />
+                                        <h:DefinitionGridPresenter Name="1×3" Columns="* * *" Rows="*" />
+                                        <h:DefinitionGridPresenter Name="1×4" Columns="* * * *" Rows="*" />
+                                        <h:DefinitionGridPresenter Name="1×5" Columns="* * * * *" Rows="*" />
+                                        <h:DefinitionGridPresenter Name="1×6" Columns="* * * * * *" Rows="*" />
+                                    </TreeViewItem>
+
+                                    <!--<TreeViewItem Header="Grid" IsExpanded="False">
+                                        <h:GridPresenter Name="6×6" />
+                                        <h:GridPresenter Name="6×1" />
+                                        <h:GridPresenter Name="1×6" />
+                                        <h:GridPresenter Name="1×1" />
+                                    </TreeViewItem>-->
+
+                                    <TreeViewItem IsExpanded="False" Style="{StaticResource S.TreeViewItem.GroupPresenter}">
+                                        <TreeViewItem.Header>
+                                            <h:UniformGridPresenter Name="UniformGrid"
+                                                                    Height="50"
+                                                                    Columns="1" Rows="1" />
+                                        </TreeViewItem.Header>
+                                        <h:UniformGridPresenter Name="6×6"
+                                                                Height="300"
+                                                                Columns="6" Rows="6" />
+                                        <h:UniformGridPresenter Name="6×1"
+                                                                Height="300"
+                                                                Columns="1" Rows="6" />
+                                        <h:UniformGridPresenter Name="1×6"
+                                                                Height="50"
+                                                                Columns="6" Rows="1" />
+                                        <h:UniformGridPresenter Name="1×1"
+                                                                Height="50"
+                                                                Columns="1" Rows="1" />
+                                        <h:UniformGridPresenter Name="1×2"
+                                                                Height="50"
+                                                                Columns="2" Rows="1" />
+                                        <h:UniformGridPresenter Name="1×3"
+                                                                Height="50"
+                                                                Columns="3" Rows="1" />
+                                        <h:UniformGridPresenter Name="1×4"
+                                                                Height="50"
+                                                                Columns="4" Rows="1" />
+                                        <h:UniformGridPresenter Name="1×5"
+                                                                Height="50"
+                                                                Columns="5" Rows="1" />
+                                        <h:UniformGridPresenter Name="1×6"
+                                                                Height="50"
+                                                                Columns="6" Rows="1" />
+                                    </TreeViewItem>
+                                    <TreeViewItem IsExpanded="False" Style="{StaticResource S.TreeViewItem.GroupPresenter}">
+                                        <TreeViewItem.Header>
+                                            <h:GridAreaPresenter Name="Area" />
+                                        </TreeViewItem.Header>
+                                        <h:GridAreaPresenter Name="首页" />
+                                        <h:GridAreaPresenter Name="中心" />
+                                        <h:GridAreaPresenter Name="侧边" />
+                                    </TreeViewItem>
+                                </TreeViewItem>
+                                <TreeViewItem Header="基础元素">
+                                    <h:PropertyGridDesignPresenter>
+                                        <h:PropertyGridDesignPresenter.Data>
+                                            <h:Student />
+                                        </h:PropertyGridDesignPresenter.Data>
+                                    </h:PropertyGridDesignPresenter>
+                                    <h:DataGridDesignPresenter />
+                                    <h:ImagePresenter />
+                                    <h:CardPresenter />
+                                </TreeViewItem>
+                                <TreeViewItem Header="图标">
+                                    <h:LineDesignPresenter Margin="50" />
+                                    <h:BarDesignPresenter Margin="50" />
+                                    <h:RadarDesignPresenter Margin="50" />
+                                    <h:PieDesignPresenter Margin="50" />
+                                </TreeViewItem>
+                            </TreeView>
+                        </LayoutAnchorable>
+                        <!--<LayoutAnchorable Title="自定义资源"
+                                          CanClose="False"
+                                          CanHide="False"
+                                          FloatingWidth="500"
+                                          ToolTip="自定义资源">
+                            <TreeView>
+                                <TreeView.ItemContainerStyle>
+                                    <Style BasedOn="{StaticResource {x:Static h:TreeViewItemKeys.Material}}" TargetType="TreeViewItem">
+                                        <Setter Property="IsExpanded" Value="True" />
+                                        <Setter Property="ItemTemplate">
+                                            <Setter.Value>
+                                                <HierarchicalDataTemplate>
+                                                    <DockPanel>
+                                                        <DockPanel.ToolTip>
+                                                            <ToolTip Height="Auto" Background="White">
+                                                                <ContentPresenter Height="Auto" Content="{Binding}" />
+                                                            </ToolTip>
+                                                        </DockPanel.ToolTip>
+                                                        <h:Interaction.Behaviors>
+                                                            <h:DragDataTempalteAdornerBehaviour />
+                                                        </h:Interaction.Behaviors>
+                                                        <TextBlock Margin="2,0" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Icon}" />
+                                                        <TextBlock x:Name="tb" Text="{Binding Name}" />
+                                                    </DockPanel>
+                                                </HierarchicalDataTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </TreeView.ItemContainerStyle>
+                                <TreeViewItem Header="分页">
+                                    <h:ListPrintPagePresenter />
+                                    <h:TablePrintPagePresenter />
+                                </TreeViewItem>
+                                <TreeViewItem Header="文本">
+                                    <h:TextBlockPresenter Name="默认文本" />
+                                    <h:DateTimeNowPresenter />
+                                    <h:UserPresenter />
+                                    <h:TitlePresenter Name="抬头文本" />
+                                    <TreeViewItem Header="标题" IsExpanded="False">
+                                        <h:TextBlockPresenter Name="标题一" FontSize="25" />
+                                        <h:TextBlockPresenter Name="标题二" FontSize="22" />
+                                        <h:TextBlockPresenter Name="标题三" FontSize="18" />
+                                        <h:TextBlockPresenter Name="标题四" FontSize="15" />
+                                        <h:TextBlockPresenter Name="标题五" FontSize="12" />
+                                        <h:TextBlockPresenter Name="标题六" FontSize="10" />
+                                        <h:TextBlockPresenter Name="标题七" FontSize="8" />
+                                    </TreeViewItem>
+                                </TreeViewItem>
+                                <TreeViewItem Header="布局">
+                        -->
+                    </LayoutAnchorablePane>
+
+                    <!--  Document中间区域  -->
+                    <LayoutDocumentPaneGroup>
+                        <LayoutDocumentPane x:Name="LayoutDocumentPane" />
+                    </LayoutDocumentPaneGroup>
+
+                    <!--  Anchorable右侧区域  -->
+                    <LayoutAnchorablePaneGroup DockWidth="300" Orientation="Vertical">
+                        <LayoutAnchorablePane>
+                            <LayoutAnchorable Title="可视化树" ContentId="toolWindow2">
+                                <TreeView x:Name="tv"
+                                          h:Cattach.ItemHorizontalAlignment="Stretch"
+                                          ItemsSource="{Binding SelectedDocument.Pages}"
+                                          Style="{DynamicResource {x:Static h:TreeViewKeys.HandyDynamic}}">
+                                    <h:Interaction.Triggers>
+                                        <h:EventTrigger EventName="SelectedItemChanged">
+                                            <h:InvokeCommandAction Command="{Binding SelectedDesignPresenterChangedCommand}" PassEventArgsToCommand="True" />
+                                        </h:EventTrigger>
+                                    </h:Interaction.Triggers>
+                                    <!--<h:Interaction.Behaviors>
+                                        <h:BindableSelectedItemTreeViewBehavior SelectedItem="{Binding SelectedDocument.SselectedDesignPresenter, Mode=TwoWay}" />
+                                    </h:Interaction.Behaviors>-->
+                                    <TreeView.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource {x:Static h:TreeViewItemKeys.Handy}}" TargetType="TreeViewItem">
+                                            <Setter Property="IsExpanded" Value="True" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsMouseOver}" Value="true">
+                                                    <!--<Setter Property="BorderThickness" Value="1" />-->
+                                                    <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TreeView.ItemContainerStyle>
+                                    <TreeView.ItemTemplate>
+                                        <HierarchicalDataTemplate ItemsSource="{Binding Presenters}">
+                                            <DockPanel VerticalAlignment="Center" ToolTip="{Binding Description}">
+                                                <Button h:Cattach.IconSize="12" DockPanel.Dock="Right" Style="{DynamicResource {x:Static h:ButtonKeys.Close}}">
+                                                    <h:Interaction.Behaviors>
+                                                        <h:RemoveItemsControlButtonBehavior Item="{Binding RelativeSource={RelativeSource AncestorType=TreeViewItem}}" />
+                                                        <!--<h:RemoveItemButtonBehavior Item="{Binding}" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=ItemsSource}" />-->
+                                                    </h:Interaction.Behaviors>
+                                                </Button>
+                                                <TextBlock Margin="2,0" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Icon}" />
+                                                <TextBlock x:Name="tb" VerticalAlignment="Center" Text="{Binding Name}" />
+                                            </DockPanel>
+                                            <HierarchicalDataTemplate.Triggers>
+                                                <DataTrigger Binding="{Binding Name}" Value="{x:Null}">
+                                                    <Setter TargetName="tb" Property="Text" Value="{Binding}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsMouseOver}" Value="true">
+                                                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsSelected}" Value="true">
+                                                    <Setter Property="TextBlock.Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Orange}}" />
+                                                </DataTrigger>
+                                            </HierarchicalDataTemplate.Triggers>
+                                        </HierarchicalDataTemplate>
+                                    </TreeView.ItemTemplate>
+                                </TreeView>
+                            </LayoutAnchorable>
+                        </LayoutAnchorablePane>
+                        <LayoutAnchorablePane>
+                            <LayoutAnchorable Title="常用" ContentId="toolWindow1">
+                                <h:PropertyGrid Padding="0"
+                                                SelectObject="{Binding ElementName=tv, Path=SelectedItem, IsAsync=True}"
+                                                Style="{DynamicResource {x:Static h:PropertyGrid.ClearlyKey}}"
+                                                UseAsync="True"
+                                                UseGroupNames="常用" />
+                            </LayoutAnchorable>
+                            <LayoutAnchorable Title="布局" ContentId="toolWindow1">
+                                <h:PropertyGrid Padding="0"
+                                                SelectObject="{Binding ElementName=tv, Path=SelectedItem, IsAsync=True}"
+                                                Style="{DynamicResource {x:Static h:PropertyGrid.ClearlyKey}}"
+                                                UseAsync="True"
+                                                UseGroupNames="布局" />
+                            </LayoutAnchorable>
+                            <LayoutAnchorable Title="数据" ContentId="toolWindow1">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                                    <DockPanel LastChildFill="False">
+                                        <!--<ContentControl h:Cattach.BackgroundColumn="1"
+                                                        h:Cattach.Title="设置方式"
+                                                        h:Cattach.TitleWidth="120"
+                                                        DockPanel.Dock="Top"
+                                                        Style="{DynamicResource {x:Static h:ContentControlKeys.Label}}">
+                                            <CheckBox x:Name="cb" Content="使用外部数据源" />
+                                        </ContentControl>-->
+                                        <ComboBox x:Name="cb"
+                                                  h:Cattach.BackgroundColumn="1"
+                                                  h:Cattach.Title="设置方式"
+                                                  h:Cattach.TitleWidth="120"
+                                                  DockPanel.Dock="Top"
+                                                  SelectedIndex="0"
+                                                  Style="{DynamicResource {x:Static h:ComboBoxKeys.Label}}">
+                                            <system:String>使用数据源</system:String>
+                                            <system:String>手动输入数据</system:String>
+                                        </ComboBox>
+
+                                        <h:PropertyGrid Margin="0"
+                                                        Padding="0"
+                                                        DockPanel.Dock="Top"
+                                                        SelectObject="{Binding DataSources}"
+                                                        Style="{DynamicResource {x:Static h:PropertyGrid.ClearlyKey}}"
+                                                        UseAsync="True"
+                                                        Visibility="{Binding ElementName=cb, Path=SelectedIndex, Converter={x:Static h:Converter.GetIntToVisible},ConverterParameter=0}" />
+                                        <h:PropertyGrid Padding="0"
+                                                        DockPanel.Dock="Top"
+                                                        SelectObject="{Binding ElementName=tv, Path=SelectedItem, IsAsync=True}"
+                                                        Style="{DynamicResource {x:Static h:PropertyGrid.ClearlyKey}}"
+                                                        UseAsync="True"
+                                                        UseGroupNames="数据"
+                                                        Visibility="{Binding ElementName=cb, Path=SelectedIndex, Converter={x:Static h:Converter.GetIntToVisible},ConverterParameter=1}" />
+                                    </DockPanel>
+                                </ScrollViewer>
+                            </LayoutAnchorable>
+                            <LayoutAnchorable Title="样式" ContentId="toolWindow1">
+                                <h:PropertyGrid Padding="0"
+                                                SelectObject="{Binding ElementName=tv, Path=SelectedItem, IsAsync=True}"
+                                                Style="{DynamicResource {x:Static h:PropertyGrid.ClearlyKey}}"
+                                                UseAsync="True"
+                                                UseGroupNames="样式" />
+                            </LayoutAnchorable>
+                            <LayoutAnchorable Title="全部" ContentId="toolWindow1">
+                                <h:PropertyGrid Padding="0"
+                                                SelectObject="{Binding ElementName=tv, Path=SelectedItem, IsAsync=True}"
+                                                Style="{DynamicResource {x:Static h:PropertyGrid.ClearlyKey}}"
+                                                UseAsync="True" />
+                            </LayoutAnchorable>
+                        </LayoutAnchorablePane>
+                    </LayoutAnchorablePaneGroup>
+                </LayoutPanel>
+
+                <!--  Side左侧停靠区域  -->
+                <LayoutRoot.LeftSide>
+                    <LayoutAnchorSide>
+                        <LayoutAnchorGroup>
+                            <LayoutAnchorable Title="工程管理" ContentId="AutoHide1Content">
+                                <TextBox />
+                            </LayoutAnchorable>
+                            <LayoutAnchorable Title="数据源" ContentId="AutoHide2Content">
+                                <!--<h:DesginViewPresenter/>-->
+                                <ListBox ItemsSource="{Binding Source={x:Static h:DesginViewPresenter.Instance}, Path=DataSource}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Name}" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </LayoutAnchorable>
+                        </LayoutAnchorGroup>
+                    </LayoutAnchorSide>
+                </LayoutRoot.LeftSide>
+            </LayoutRoot>
+        </DockingManager>
+    </Grid>
+</h:MainWindow>

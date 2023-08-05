@@ -1,0 +1,84 @@
+这是一个添加ViewModel和Controller的示例
+
+说明：Mvc在这里主要用途是通过Route做页面跳转，
+          Controller用来控制要跳转的页面，Action用来指向一个用户控件
+
+步骤1：配置mvc模式
+        protected override void Configure(IApplicationBuilder app)
+        {
+            base.Configure(app);
+
+            //  Do ：配置mvc模式
+            app.UseMvc(x=>
+            {
+
+            });
+        }
+
+步骤2：添加ViewModel
+   添加ViewModel->Layout->LayoutViewModel
+    [ViewModel("Layout")]
+    internal class LayoutViewModel : MvcViewModelBase
+    {
+    }
+
+   添加ViewModel->Custom->CustomViewModel
+    [ViewModel("Custom")]
+    internal class >CustomViewModel: MvcViewModelBase
+    {
+    }
+
+   添加ViewModel->Set->SetViewModel
+    [ViewModel("Set")]
+    internal class SetViewModel : MvcViewModelBase
+    {
+    }
+
+   添加View->Custom->HomeControl
+   添加ViewModel->Custom->CustomViewModel
+
+   添加View->Set->HomeControl
+   添加ViewModel->>Set-->Set-ViewModel
+
+步骤3：添加Controller
+   添加Controller->LayoutController->Home
+    [Controller("Layout")]
+    internal class LayoutController : Controller<LayoutViewModel>
+    {
+        public async Task<IActionResult> Home()
+        {
+            return await this.ViewAsync();
+        }
+    }
+   添加Controller->LayoutController->First
+   添加Controller->LayoutController->Second
+
+   添加Controller->CustomController->Home
+   [Controller("Custom")]
+    internal class CustomController : Controller<CustomViewModel>
+    {
+        public async Task<IActionResult> Home()
+        {
+            return await this.ViewAsync();
+        }
+    }
+   添加Controller->SetController->Home
+   [Controller("Set")]
+    internal class SetController : Controller<SetViewModel>
+    {
+        public async Task<IActionResult> Home()
+        {
+            return await this.ViewAsync();
+        }
+    }
+
+步骤4：应用Controller控制页面跳转
+
+        public async Task<IActionResult> Test()
+        {  
+            return await this.ViewAsync("First");
+            return await this.ViewAsync("Second");
+            return await this.Frist();
+        }
+  
+

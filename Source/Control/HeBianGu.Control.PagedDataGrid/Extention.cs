@@ -2,28 +2,31 @@
 
 using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.PagedDataGrid;
+using HeBianGu.General.WpfControlLib;
 
 namespace System
 {
-    public static class PropertyGridExtention
+    public static class Extention
     {
+
         /// <summary>
         /// 注册
         /// </summary>
         /// <param name="service"></param>
-        public static void AddPropertyGrid(this IServiceCollection service)
+        public static void AddAutoColumnPagedDataGridMessage(this IServiceCollection service, Action<IAutoColumnPagedDataGridMessageOption> action = null)
         {
-            service.AddSingleton<IService, Service>();
+            service.AddSingleton<IAutoColumnPagedDataGridMessage, AutoColumnPagedDataGridMessage>();
+            action?.Invoke(AutoColumnPagedDataGridMessage.Instance);
+            //SystemSetting.Instance.Add(AutoColumnPagedDataGridMessage.Instance);
         }
-
-        /// <summary>
-        /// 配置
-        /// </summary>
-        /// <param name="service"></param>
-        public static void UsePropertyGrid(this IApplicationBuilder service, Action<Setting> action)
-        {
-            action?.Invoke(Setting.Instance);
-        }
+        ///// <summary>
+        ///// 配置
+        ///// </summary>
+        ///// <param name="service"></param>
+        //public static void UsePropertyGrid(this IApplicationBuilder service, Action<Setting> action)
+        //{
+        //    action?.Invoke(Setting.Instance);
+        //}
     }
 
 

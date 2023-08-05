@@ -1,0 +1,211 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Print">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Systems.Print;component/PrintDataGrid.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <!--<ControlTemplate x:Key="S.ControlTemplate.Adorner" TargetType="ContentControl">
+        <StackPanel Margin="-10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal">
+            <TextBlock Foreground="Blue" Text="{TemplateBinding Content}" />
+            <Button Margin="5"
+                    Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Content.DeleteCommand}"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.CloseFlag}}" />
+    -->
+    <!--<Button h:Cattach.Icon="{x:Static h:Icons.Set}"
+                    Background="LightGray"
+                    Foreground="Black"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" />
+            <Button h:Cattach.Icon="{x:Static h:Icons.User}"
+                    Background="LightGray"
+                    Foreground="Black"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}" />-->
+    <!--
+        </StackPanel>
+    -->
+    <!--<h:StaticPropertyGrid Width="100"
+                                    Height="30"
+                                    Background="Red"
+                                    SelectObject="{Binding}"
+                                    Style="{DynamicResource {x:Static h:PropertyGrid.DefaultKey}}"
+                                    UseAsync="False"
+                                    UseCommand="True"
+                                    UseString="False">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <DockPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </h:StaticPropertyGrid>-->
+    <!--
+    </ControlTemplate>
+
+    <Style x:Key="S.Border.Design" BasedOn="{StaticResource {x:Static h:BorderKeys.Binding}}" TargetType="Border">
+        <Setter Property="h:MouseOverHitTestAdornerBehavior.IsMouseOver" Value="{Binding IsMouseOver, Mode=TwoWay}" />
+        <Setter Property="h:SelectedHitTestAdornerBehavior.IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+        <Setter Property="h:HitTestAdornerBehavior.IsHitTest" Value="True" />
+        <Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <h:DragDataTempalteAdornerBehaviour DragDropEffects="Move" RoutingStrategy="Tunnel" />
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="h:ControlTemplateAdorner.Template" Value="{StaticResource S.ControlTemplate.Adorner}" />
+    </Style>-->
+
+    <DataTemplate DataType="{x:Type local:PrintDataGridPresenter}">
+        <Border MinWidth="400" MinHeight="200" Style="{StaticResource S.Border.Design}">
+            <local:PrintDataGrid AlternatingRowBackground="{Binding AlternatingRowBackground}"
+                                 Background="{Binding GridBackground}"
+                                 BorderBrush="{Binding GridBorderBrush}"
+                                 ColumnHeaderHeight="{Binding ColumnHeaderHeight}"
+                                 ColumnPropertyInfos="{Binding ColumnPropertyInfos}"
+                                 Foreground="{Binding GridForeground}"
+                                 HorizontalGridLinesBrush="{Binding HorizontalGridLinesBrush}"
+                                 IsHitTestVisible="False"
+                                 IsReadOnly="True"
+                                 ItemsSource="{Binding ItemsSource}"
+                                 RowHeight="{Binding RowHeight}"
+                                 Style="{DynamicResource {x:Static local:PrintDataGrid.DefaultKey}}"
+                                 VerticalGridLinesBrush="{Binding VerticalGridLinesBrush}">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridHeaderBackground}" />
+                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridHeaderForeground}" />
+                        <Setter Property="Padding" Value="2,0" />
+                        <Setter Property="HorizontalContentAlignment" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.ColumnHorizontalContentAlignment}" />
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridForeground}" />
+                        <Setter Property="HorizontalContentAlignment" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.ColumnHorizontalContentAlignment}" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          Content="{TemplateBinding Content}"
+                                                          ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGrid.CellStyle>
+            </local:PrintDataGrid>
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:TablePrintPagePresenter}">
+        <DockPanel TextBlock.FontSize="{Binding FontSize}" TextBlock.Foreground="{Binding Foreground}">
+            <TextBox Margin="0,30"
+                     HorizontalAlignment="Center"
+                     BorderThickness="0"
+                     DockPanel.Dock="Top"
+                     FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header1}}"
+                     Style="{x:Null}"
+                     Text="{Binding Title}" />
+            <h:Row>
+                <TextBlock HorizontalAlignment="Left">
+                    <Run Text="用户：" />
+                    <Run Text="{Binding User}" />
+                </TextBlock>
+                <TextBlock HorizontalAlignment="Right">
+                    <Run Text="日期：" />
+                    <Run Text="{Binding Date}" />
+                </TextBlock>
+            </h:Row>
+
+            <h:Row Margin="0,10" DockPanel.Dock="Bottom">
+                <TextBlock HorizontalAlignment="Left">
+                    <Run Text="合计：" />
+                    <Run Text="{Binding Total}" />
+                </TextBlock>
+            </h:Row>
+
+            <local:PrintDataGrid AlternatingRowBackground="{Binding AlternatingRowBackground}"
+                                 Background="{Binding GridBackground}"
+                                 BorderBrush="{Binding GridBorderBrush}"
+                                 ColumnHeaderHeight="{Binding ColumnHeaderHeight}"
+                                 ColumnPropertyInfos="{Binding ColumnPropertyInfos}"
+                                 Foreground="{Binding GridForeground}"
+                                 HorizontalGridLinesBrush="{Binding HorizontalGridLinesBrush}"
+                                 IsHitTestVisible="False"
+                                 IsReadOnly="True"
+                                 ItemsSource="{Binding ItemsSource}"
+                                 RowHeight="{Binding RowHeight}"
+                                 Style="{DynamicResource {x:Static local:PrintDataGrid.DefaultKey}}"
+                                 VerticalGridLinesBrush="{Binding VerticalGridLinesBrush}">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridHeaderBackground}" />
+                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridHeaderForeground}" />
+                        <Setter Property="Padding" Value="2,0" />
+                        <Setter Property="HorizontalContentAlignment" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.ColumnHorizontalContentAlignment}" />
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridForeground}" />
+                        <Setter Property="HorizontalContentAlignment" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.ColumnHorizontalContentAlignment}" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          Content="{TemplateBinding Content}"
+                                                          ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGrid.CellStyle>
+            </local:PrintDataGrid>
+        </DockPanel>
+
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:PrintBoxPresenter}">
+        <h:PrintBox Padding="50,0" FixedPageMargin="{Binding Source={x:Static h:PrintBoxMessage.Instance}, Path=PageMargin}" ItemsSource="{Binding Collection}">
+            <h:PrintBox.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Static h:PrintPage.DefaultKey}}" TargetType="{x:Type h:PrintPage}">
+                    <Setter Property="BorderBrush" Value="{Binding Source={x:Static h:PrintBoxMessage.Instance}, Path=BorderBrush}" />
+                    <Setter Property="FontSize" Value="{Binding Source={x:Static h:PrintBoxMessage.Instance}, Path=FontSize}" />
+                    <Setter Property="Foreground" Value="{Binding Source={x:Static h:PrintBoxMessage.Instance}, Path=Foreground}" />
+                    <Setter Property="Background" Value="{Binding Source={x:Static h:PrintBoxMessage.Instance}, Path=Background}" />
+                    <Setter Property="BorderThickness" Value="1" />
+                </Style>
+            </h:PrintBox.ItemContainerStyle>
+        </h:PrintBox>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ListPrintPagePresenter}">
+        <ItemsControl VerticalAlignment="Top" ItemsSource="{Binding Presenters}" />
+
+    </DataTemplate>
+</ResourceDictionary>

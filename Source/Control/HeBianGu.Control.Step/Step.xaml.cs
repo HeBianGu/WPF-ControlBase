@@ -31,43 +31,69 @@ namespace HeBianGu.Control.Step
 
             this.ItemsSource = stepItems;
         }
-    }
 
-    public class StepItemStateTemplateSelector : DataTemplateSelector
-    {
-        public DataTemplate UnkownTempate { get; set; }
 
-        public DataTemplate RunningTempate { get; set; }
-
-        public DataTemplate ErrorTempate { get; set; }
-
-        public DataTemplate SuccessTempate { get; set; }
-        public override DataTemplate SelectTemplate(object item, DependencyObject container)
+        public double LineWidth
         {
-            if (item is StepItem stepItem)
-            {
-                if (stepItem.State == -1) return ErrorTempate;
-
-                if (stepItem.State == 0) return UnkownTempate;
-
-                if (stepItem.State == 1) return RunningTempate;
-
-                if (stepItem.State == 2) return SuccessTempate;
-
-
-                throw new ArgumentException("未识别状态" + stepItem.State);
-            }
-
-            return null;
+            get { return (double)GetValue(LineWidthProperty); }
+            set { SetValue(LineWidthProperty, value); }
         }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty LineWidthProperty =
+            DependencyProperty.Register("LineWidth", typeof(double), typeof(Step), new FrameworkPropertyMetadata(100.0, (d, e) =>
+             {
+                 Step control = d as Step;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is double o)
+                 {
+
+                 }
+
+                 if (e.NewValue is double n)
+                 {
+
+                 }
+
+             }));
+
     }
+
+    //public class StepItemStateTemplateSelector : DataTemplateSelector
+    //{
+    //    public DataTemplate UnkownTempate { get; set; }
+
+    //    public DataTemplate RunningTempate { get; set; }
+
+    //    public DataTemplate ErrorTempate { get; set; }
+
+    //    public DataTemplate SuccessTempate { get; set; }
+    //    public override DataTemplate SelectTemplate(object item, DependencyObject container)
+    //    {
+    //        if (item is StepItem stepItem)
+    //        {
+    //            if (stepItem.State == -1) return ErrorTempate;
+
+    //            if (stepItem.State == 0) return UnkownTempate;
+
+    //            if (stepItem.State == 1) return RunningTempate;
+
+    //            if (stepItem.State == 2) return SuccessTempate;
+
+
+    //            throw new ArgumentException("未识别状态" + stepItem.State);
+    //        }
+
+    //        return null;
+    //    }
+    //}
 
     /// <summary> 说明</summary>
-    public class StepItem : NotifyPropertyChanged
+    public class StepItem : DisplayerViewModelBase
     {
         #region - 属性 -
-
-
         private string _displayName;
         /// <summary> 说明  </summary>
         public string DisplayName
@@ -93,7 +119,6 @@ namespace HeBianGu.Control.Step
             }
         }
 
-
         private int _percent;
         /// <summary> 说明  </summary>
         public int Percent
@@ -106,8 +131,6 @@ namespace HeBianGu.Control.Step
             }
         }
 
-
-
         private int _state = 0;
         /// <summary> -1 错误 0 未开始 1 正在运行 2 运行成功  </summary>
         public int State
@@ -117,32 +140,6 @@ namespace HeBianGu.Control.Step
             {
                 _state = value;
                 RaisePropertyChanged("State");
-            }
-        }
-
-        #endregion
-
-        #region - 命令 -
-
-        #endregion
-
-        #region - 方法 -
-
-        protected override void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
-
-            //  Do：应用
-            if (command == "Sumit")
-            {
-
-
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-
             }
         }
 

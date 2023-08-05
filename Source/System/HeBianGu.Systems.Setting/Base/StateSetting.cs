@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HeBianGu.Systems.Setting
 {
-    [SettingConfig(Name = "状态", Group = "基本设置")]
+    [Displayer(Name = "状态", GroupName = SystemSetting.GroupBase)]
     public class StateSetting : Setting<StateSetting>
     {
         private int _doNotingMinite;

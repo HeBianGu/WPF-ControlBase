@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace System
 {
-    [SettingConfig(Name = "数据列表", Group = "基本设置")]
+    [Displayer(Name = "数据列表", GroupName = "系统配置")]
     public class AutomationSetting : LazySettingInstance<AutomationSetting>
     {
         private bool _useProperty = true;

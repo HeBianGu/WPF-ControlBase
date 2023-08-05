@@ -1,0 +1,779 @@
+﻿<h:MainWindow x:Class="HeBianGu.App.Image.MainWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:h="https://github.com/HeBianGu"
+              xmlns:local="clr-namespace:HeBianGu.App.Image"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              Title="H图库"
+              Width="1200"
+              Height="760"
+              h:Cattach.Icon=""
+              CaptionBackground="{DynamicResource {x:Static h:BrushKeys.Dark0_4}}"
+              CaptionForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+              CaptionHeight="50"
+              DataContext="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel}"
+              Icon="/HeBianGu.General.WpfControlLib;component/Resources/logo.ico"
+              IconSize="30"
+              NotifyIconSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.ico"
+              mc:Ignorable="d">
+    <h:Cattach.CaptionLeftTemplate>
+        <ControlTemplate>
+            <DockPanel Margin="10,0">
+                <ToggleButton HorizontalAlignment="Left"
+                              h:Cattach.CheckedIcon="{x:Static h:IconAll.Left_Arrow}"
+                              h:Cattach.UncheckedIcon="{x:Static h:IconAll.Menu1}"
+                              IsChecked="{Binding IsMenuExpanded}"
+                              Style="{DynamicResource {x:Static h:ToggleButtonKeys.Dynamic}}"
+                              ToolTip="显示/隐藏" />
+            </DockPanel>
+        </ControlTemplate>
+    </h:Cattach.CaptionLeftTemplate>
+    <h:Cattach.CaptionCenterTemplate>
+        <ControlTemplate>
+            <DockPanel HorizontalAlignment="Right" Background="Transparent">
+                <ItemsControl ItemsSource="{Binding ElementName=box, Path=CommandBindings}" Visibility="{Binding IsViewState, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Margin="2"
+                                    VerticalAlignment="Center"
+                                    h:Cattach.Icon="{Binding Command.Icon}"
+                                    Command="{Binding Command}"
+                                    CommandTarget="{Binding ElementName=box}"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}"
+                                    ToolTip="{Binding Command.Text}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="1" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </DockPanel>
+        </ControlTemplate>
+    </h:Cattach.CaptionCenterTemplate>
+    <h:Cattach.LeftTemplate>
+        <ControlTemplate>
+            <DockPanel Width="250" Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}" Visibility="{Binding Path=IsMenuExpanded, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                <GroupBox Margin="2,0"
+                          Padding="0"
+                          Background="Transparent"
+                          DockPanel.Dock="Top"
+                          Header="我的图库"
+                          Style="{DynamicResource {x:Static h:GroupBoxKeys.Title}}">
+                    <h:Cattach.CaptionRightTemplate>
+                        <ControlTemplate>
+                            <DockPanel HorizontalAlignment="Right">
+                                <Button Margin="0"
+                                        h:Cattach.Icon="{x:Static h:Icons.Add}"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.AddTransparent}}"
+                                        ToolTip="创建资源库" />
+                                <Button Margin="0"
+                                        h:Cattach.Icon="{x:Static h:Icons.Search}"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.AddTransparent}}"
+                                        ToolTip="切换资源库" />
+                            </DockPanel>
+                        </ControlTemplate>
+                    </h:Cattach.CaptionRightTemplate>
+                    <ListBox>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel LastChildFill="False">
+                                    <TextBlock Margin="10,0" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Value1}" />
+                                    <TextBlock Text="{Binding Value}" />
+                                    <TextBlock DockPanel.Dock="Right" Text="{Binding Value2}" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+
+                        <h:TestViewModel Value1="{x:Static h:Icons.Alarm}" Value2="343" Value="全部" />
+                        <h:TestViewModel Value1="{x:Static h:Icons.Film}" Value2="25" Value="未分类" />
+                        <h:TestViewModel Value1="{x:Static h:Icons.Edit}" Value2="1" Value="未标签" />
+                        <h:TestViewModel Value1="{x:Static h:Icons.Tag}" Value2="" Value="标签管理" />
+                        <h:TestViewModel Value1="{x:Static h:Icons.Add}" Value2="11" Value="回收站" />
+                        <h:TestViewModel Value1="{x:Static h:Icons.Redo}" Value2="" Value="最近使用" />
+                    </ListBox>
+                </GroupBox>
+                <GroupBox Margin="2,0"
+                          Padding="0"
+                          Background="Transparent"
+                          Header="文件夹"
+                          Style="{DynamicResource {x:Static h:GroupBoxKeys.Title}}">
+                    <h:Cattach.CaptionRightTemplate>
+                        <ControlTemplate>
+                            <Button HorizontalAlignment="Right" Style="{DynamicResource {x:Static h:ButtonKeys.AddTransparent}}" />
+                        </ControlTemplate>
+                    </h:Cattach.CaptionRightTemplate>
+
+                    <TreeView VerticalAlignment="Stretch"
+                              h:Cattach.SearchDock="Bottom"
+                              Background="Transparent"
+                              BorderThickness="0">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Nodes}">
+                                <DockPanel>
+                                    <DockPanel LastChildFill="False">
+                                        <TextBlock Margin="0,0,5,0" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Value1}" />
+                                        <TextBlock Text="{Binding Value}" />
+                                    </DockPanel>
+                                </DockPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                        <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="343" Value="海报设计">
+                            <h:TestViewModel.Nodes>
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="扁平风格">
+                                    <h:TestViewModel.Nodes>
+                                        <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="大众" />
+                                        <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="小众" />
+                                    </h:TestViewModel.Nodes>
+                                </h:TestViewModel>
+
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="收回风格" />
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="渐变风格" />
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="立体风格" />
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="极简风格" />
+                            </h:TestViewModel.Nodes>
+                        </h:TestViewModel>
+                        <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="343" Value="插画设计">
+                            <h:TestViewModel.Nodes>
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="扁平风格" />
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="收回风格" />
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="渐变风格" />
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="立体风格" />
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="极简风格" />
+                            </h:TestViewModel.Nodes>
+                        </h:TestViewModel>
+                        <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="343" Value="包装设计">
+                            <h:TestViewModel.Nodes>
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="扁平风格" />
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="收回风格" />
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="渐变风格" />
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="立体风格" />
+                                <h:TestViewModel Value1="{x:Static h:Icons.Folder}" Value2="11" Value="极简风格" />
+                            </h:TestViewModel.Nodes>
+                        </h:TestViewModel>
+                    </TreeView>
+                </GroupBox>
+            </DockPanel>
+        </ControlTemplate>
+    </h:Cattach.LeftTemplate>
+    <h:Cattach.RightTemplate>
+        <ControlTemplate>
+            <ScrollViewer>
+                <DockPanel Width="250" Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}" Visibility="{Binding Path=IsMenuExpanded, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                    <Image Height="150"
+                           Margin="5"
+                           DockPanel.Dock="Top"
+                           Style="{DynamicResource {x:Static h:ImageKeys.Logo}}" />
+                    <TextBox h:Cattach.Watermark="文件名称" DockPanel.Dock="Top" Text="{Binding ElementName=lb_list, Path=SelectedItem.Value}" />
+                    <TextBox h:Cattach.Watermark="文件名称文件标签" DockPanel.Dock="Top" Text="{Binding ElementName=lb_list, Path=SelectedItem.Value2}" />
+                    <Expander Margin="2,0"
+                              Padding="0"
+                              Background="Transparent"
+                              DockPanel.Dock="Top"
+                              Header="基本信息"
+                              IsExpanded="True"
+                              Style="{DynamicResource {x:Static h:ExpanderKeys.Clear}}">
+                        <!--<h:PropertyGrid Style="{DynamicResource {x:Static h:PropertyGrid.ClearlyKey}}"/>-->
+                        <DockPanel LastChildFill="False">
+                            <Label h:Cattach.Title="尺寸"
+                                   Content="{Binding ElementName=lb_list, Path=SelectedItem.Value3}"
+                                   DockPanel.Dock="Top"
+                                   Style="{DynamicResource {x:Static h:LabelKeys.Label}}" />
+                            <Label h:Cattach.Title="大小"
+                                   Content="{Binding ElementName=lb_list, Path=SelectedItem.Value4}"
+                                   DockPanel.Dock="Top"
+                                   Style="{DynamicResource {x:Static h:LabelKeys.Label}}" />
+                            <Label h:Cattach.Title="格式"
+                                   Content="{Binding ElementName=lb_list, Path=SelectedItem.Value6}"
+                                   DockPanel.Dock="Top"
+                                   Style="{DynamicResource {x:Static h:LabelKeys.Label}}" />
+                            <Label h:Cattach.Title="添加日期"
+                                   Content="{Binding ElementName=lb_list, Path=SelectedItem.Value5}"
+                                   DockPanel.Dock="Top"
+                                   Style="{DynamicResource {x:Static h:LabelKeys.Label}}" />
+                            <Label h:Cattach.Title="创建日期"
+                                   Content="{Binding ElementName=lb_list, Path=SelectedItem.Value5}"
+                                   DockPanel.Dock="Top"
+                                   Style="{DynamicResource {x:Static h:LabelKeys.Label}}" />
+                            <Label h:Cattach.Title="修改日期"
+                                   Content="{Binding ElementName=lb_list, Path=SelectedItem.Value5}"
+                                   DockPanel.Dock="Top"
+                                   Style="{DynamicResource {x:Static h:LabelKeys.Label}}" />
+                        </DockPanel>
+                    </Expander>
+                    <Expander Margin="2,0"
+                              Padding="0"
+                              Background="Transparent"
+                              DockPanel.Dock="Top"
+                              Header="图层设置"
+                              IsExpanded="True"
+                              Style="{DynamicResource {x:Static h:ExpanderKeys.Clear}}"
+                              Visibility="{Binding Path=IsViewState, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                        <ItemsControl VerticalAlignment="Top" DockPanel.Dock="Top" ItemsSource="{Binding ElementName=box, Path=Layers}">
+                            <!--<ItemsControl.Resources>
+                                <DataTemplate DataType="{x:Type h:Layer}">
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsVisible, Mode=TwoWay}" />
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type h:NodeLayer}">
+                                    <Expander Margin="-10,0,0,0" Style="{DynamicResource {x:Static h:ExpanderKeys.Clear}}">
+                                        <Expander.Header>
+                                            <CheckBox VerticalAlignment="Top" Content="{Binding Name}" IsChecked="{Binding IsVisible, Mode=TwoWay}" />
+                                        </Expander.Header>
+                                        <ListBox ItemsSource="{Binding Nodes}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <DockPanel LastChildFill="True">
+                                                        <CheckBox />
+                                                        <Button Width="Auto"
+                                                                Margin="0"
+                                                                h:Cattach.Icon="&#xe868;"
+                                                                DockPanel.Dock="Right"
+                                                                Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}">
+                                                            <h:Interaction.Triggers>
+                                                                <h:EventTrigger EventName="Click">
+                                                                    <h:CallMethodActionWithParemeter MethodName="ZoomToRect" Parameter="{Binding Path=Bound}" TargetObject="{Binding ElementName=box}" />
+                                                                </h:EventTrigger>
+                                                            </h:Interaction.Triggers>
+                                                        </Button>
+                                                        <Button Width="Auto"
+                                                                Margin="0"
+                                                                h:Cattach.Icon="&#xe867;"
+                                                                DockPanel.Dock="Right"
+                                                                Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}">
+                                                            <h:Interaction.Triggers>
+                                                                <h:EventTrigger EventName="Click">
+                                                                    <h:CallMethodActionWithParemeter MethodName="CenterToRect" Parameter="{Binding Path=Bound}" TargetObject="{Binding ElementName=box}" />
+                                                                </h:EventTrigger>
+                                                            </h:Interaction.Triggers>
+                                                        </Button>
+                                                        <TextBlock VerticalAlignment="Center"
+                                                                   Text="{Binding Name}"
+                                                                   TextTrimming="CharacterEllipsis"
+                                                                   ToolTip="{Binding Name}" />
+                                                    </DockPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+
+                                        </ListBox>
+                                    </Expander>
+                                </DataTemplate>
+                            </ItemsControl.Resources>-->
+                        </ItemsControl>
+                    </Expander>
+                </DockPanel>
+            </ScrollViewer>
+        </ControlTemplate>
+    </h:Cattach.RightTemplate>
+    <Grid>
+        <ListBox x:Name="lb_list" h:Cattach.ItemHeight="Auto">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel HorizontalAlignment="Center" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel Margin="5">
+                        <TextBlock HorizontalAlignment="Center"
+                                   DockPanel.Dock="Bottom"
+                                   Text="{Binding Value}"
+                                   TextTrimming="CharacterEllipsis"
+                                   ToolTip="{Binding Value}" />
+                        <Image Width="115" Height="100" Style="{DynamicResource {x:Static h:ImageKeys.Logo}}" />
+                    </DockPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <h:Interaction.Triggers>
+                <h:EventTrigger EventName="MouseDoubleClick">
+                    <h:InvokeCommandAction Command="{Binding ItemDoubleClickCommand}" />
+                </h:EventTrigger>
+            </h:Interaction.Triggers>
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="VBNBM"
+                             Value3="1280×1853"
+                             Value4="3535KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="122432342" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="DVCB"
+                             Value3="4534×853"
+                             Value4="3532KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="ICO"
+                             Value="SDGSGSDF" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="5447"
+                             Value3="6464×853"
+                             Value4="43KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="RTRYRYTY" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="DF"
+                             Value3="8656×853"
+                             Value4="5345KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="YGUHF" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="78"
+                             Value3="345×853"
+                             Value4="1242KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="DFSEREWE" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="VBM"
+                             Value3="1280×853"
+                             Value4="353KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="RYRYRTY" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="FGHFG"
+                             Value3="456×853"
+                             Value4="323KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="WER3534634" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="79"
+                             Value3="756×853"
+                             Value4="3532KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="6545745" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="YI"
+                             Value3="3435×853"
+                             Value4="11KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="全部" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="BNMN"
+                             Value3="434×853"
+                             Value4="132KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="54735DR" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="BVN"
+                             Value3="6434×853"
+                             Value4="565KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="DFSREW" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="FGHJGJ"
+                             Value3="546×853"
+                             Value4="4543B"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="DFGDGSD" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="VBM"
+                             Value3="143×853"
+                             Value4="464KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="GHFGFJG565" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="VBNBM"
+                             Value3="1280×1853"
+                             Value4="3535KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="122432342" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="VBMB"
+                             Value3="4534×853"
+                             Value4="3532KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="ICO"
+                             Value="SDGSGSDF" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="VNVN"
+                             Value3="6464×853"
+                             Value4="43KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="RTRYRYTY" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="BNM"
+                             Value3="8656×853"
+                             Value4="5345KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="YGUHF" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="NBMB"
+                             Value3="345×853"
+                             Value4="1242KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="DFSEREWE" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="VBNBM"
+                             Value3="1280×853"
+                             Value4="353KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="RYRYRTY" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="GJFG"
+                             Value3="456×853"
+                             Value4="323KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="WER3534634" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="65"
+                             Value3="756×853"
+                             Value4="3532KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="6545745" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="SDF"
+                             Value3="3435×853"
+                             Value4="11KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="全部" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="GHGN"
+                             Value3="434×853"
+                             Value4="132KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="54735DR" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="NM"
+                             Value3="6434×853"
+                             Value4="565KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="DFSREW" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="Y87"
+                             Value3="546×853"
+                             Value4="4543B"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="DFGDGSD" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="FUJ"
+                             Value3="143×853"
+                             Value4="464KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="GHFGFJG565" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="GHFH"
+                             Value3="1280×1853"
+                             Value4="3535KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="122432342" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="FGJGHJ"
+                             Value3="4534×853"
+                             Value4="3532KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="ICO"
+                             Value="SDGSGSDF" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="GHVB"
+                             Value3="6464×853"
+                             Value4="43KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="RTRYRYTY" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="HKJH"
+                             Value3="8656×853"
+                             Value4="5345KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="YGUHF" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="YUYTI"
+                             Value3="345×853"
+                             Value4="1242KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="DFSEREWE" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="NMN,"
+                             Value3="1280×853"
+                             Value4="353KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="RYRYRTY" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="FGNVBN"
+                             Value3="456×853"
+                             Value4="323KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="WER3534634" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="FGHF"
+                             Value3="756×853"
+                             Value4="3532KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="6545745" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="576U"
+                             Value3="3435×853"
+                             Value4="11KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="全部" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="FHJ"
+                             Value3="434×853"
+                             Value4="132KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="54735DR" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="FHN"
+                             Value3="6434×853"
+                             Value4="565KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="DFSREW" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="456U"
+                             Value3="546×853"
+                             Value4="4543B"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="DFGDGSD" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="5657"
+                             Value3="143×853"
+                             Value4="464KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="GHFGFJG565" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="HGJHK"
+                             Value3="1280×1853"
+                             Value4="3535KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="122432342" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="FGH"
+                             Value3="4534×853"
+                             Value4="3532KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="ICO"
+                             Value="SDGSGSDF" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="N"
+                             Value3="6464×853"
+                             Value4="43KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="RTRYRYTY" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="IU97"
+                             Value3="8656×853"
+                             Value4="5345KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="YGUHF" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="HYI"
+                             Value3="345×853"
+                             Value4="1242KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="DFSEREWE" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="JM"
+                             Value3="1280×853"
+                             Value4="353KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="RYRYRTY" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="REH"
+                             Value3="456×853"
+                             Value4="323KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="WER3534634" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="CVBC"
+                             Value3="756×853"
+                             Value4="3532KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="6545745" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="565"
+                             Value3="3435×853"
+                             Value4="11KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="全部" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="CBRT"
+                             Value3="434×853"
+                             Value4="132KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="54735DR" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="757"
+                             Value3="6434×853"
+                             Value4="565KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="DFSREW" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="CBCB"
+                             Value3="546×853"
+                             Value4="4543B"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="DFGDGSD" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="ERYHN"
+                             Value3="143×853"
+                             Value4="464KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="GHFGFJG565" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="ERYRTUTR"
+                             Value3="1280×1853"
+                             Value4="3535KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="122432342" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="DTRYTGH"
+                             Value3="4534×853"
+                             Value4="3532KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="ICO"
+                             Value="SDGSGSDF" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="45DF"
+                             Value3="6464×853"
+                             Value4="43KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="RTRYRYTY" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="45YT"
+                             Value3="8656×853"
+                             Value4="5345KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="YGUHF" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="65UFT"
+                             Value3="345×853"
+                             Value4="1242KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="DFSEREWE" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="5UYU"
+                             Value3="1280×853"
+                             Value4="353KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="RYRYRTY" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="DFDGD"
+                             Value3="456×853"
+                             Value4="323KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPEG"
+                             Value="WER3534634" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="454646"
+                             Value3="756×853"
+                             Value4="3532KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="JPG"
+                             Value="6545745" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="45DFG"
+                             Value3="3435×853"
+                             Value4="11KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="全部" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="345364"
+                             Value3="434×853"
+                             Value4="132KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="54735DR" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="666"
+                             Value3="6434×853"
+                             Value4="565KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="DFSREW" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="523535"
+                             Value3="546×853"
+                             Value4="4543B"
+                             Value5="2022/10/20 10:25"
+                             Value6="TIFF"
+                             Value="DFGDGSD" />
+            <h:TestViewModel Value1="{x:Static h:Icons.Alarm}"
+                             Value2="124243"
+                             Value3="143×853"
+                             Value4="464KB"
+                             Value5="2022/10/20 10:25"
+                             Value6="PNG"
+                             Value="GHFGFJG565" />
+        </ListBox>
+
+        <Grid x:Name="grid_view" Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" Visibility="{Binding IsViewState, Converter={x:Static h:Converter.GetTrueToVisible}}">
+            <h:DiagraphBox Background="Transparent"
+                           GridLineBrush="Green"
+                           GridMargin="{Binding ElementName=box, Path=Margin}"
+                           UseBottom="False"
+                           UseRight="False" />
+            <!--<h:LayerBox x:Name="box"
+                        Margin="20,20,0,0"
+                        UseLayerList="False"
+                        UseMessage="True"
+                        UseThumbView="True"
+                        UseTools="False">
+                <h:ImageLayer ImageSource="{x:Static h:ImageSourceKeys.Logo}" Opacity="1.8" Text="图片层" />
+                <h:GridLayer CrossStrokeThickness="5" Opacity="0.5" Text="网格层">
+                    <h:GridLayer.Fill>
+                        <SolidColorBrush Opacity="0.2" Color="Green" />
+                    </h:GridLayer.Fill>
+                </h:GridLayer>
+                <h:NodeLayer Fill="DarkBlue" Opacity="0.5" Text="标记层" />
+            </h:LayerBox>-->
+            <Button Style="{DynamicResource {x:Static h:ButtonKeys.CloseMouseOver}}">
+                <h:Interaction.Triggers>
+                    <h:EventTrigger EventName="Click">
+                        <h:InvokeCommandAction Command="{Binding CloseViewCommand}" />
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+            </Button>
+        </Grid>
+    </Grid>
+</h:MainWindow>

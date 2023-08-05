@@ -14,7 +14,7 @@ namespace HeBianGu.Control.Panel
         {
             //  Do ：定位到中心位置
             {
-                CommandBinding binding = new CommandBinding(CommandService.Selected);
+                CommandBinding binding = new CommandBinding(Commander.Selected);
 
                 this.CommandBindings.Add(binding);
 

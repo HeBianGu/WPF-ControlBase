@@ -145,7 +145,6 @@ namespace HeBianGu.Control.Panel
         {
             TransformGroup group = (TransformGroup)child.RenderTransform;
             TranslateTransform trans = (TranslateTransform)group.Children.First((groupElement) => groupElement is TranslateTransform);
-
             trans.BeginAnimation(TranslateTransform.XProperty, MakeAnimation(x, duration));
             trans.BeginAnimation(TranslateTransform.YProperty, MakeAnimation(y, duration));
         }

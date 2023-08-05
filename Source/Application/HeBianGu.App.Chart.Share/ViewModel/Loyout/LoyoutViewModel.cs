@@ -1,6 +1,7 @@
 ﻿using HeBianGu.Service.Mvc;
 using System;
 using System.Collections.ObjectModel;
+using System.Windows.Media;
 
 namespace HeBianGu.App.Chart
 {
@@ -8,9 +9,9 @@ namespace HeBianGu.App.Chart
     internal class LoyoutViewModel : MvcViewModelBase
     {
 
-        private ObservableCollection<double> _xAxis = new ObservableCollection<double>();
+        private DoubleCollection _xAxis = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> xAxis
+        public DoubleCollection xAxis
         {
             get { return _xAxis; }
             set
@@ -20,9 +21,9 @@ namespace HeBianGu.App.Chart
             }
         }
 
-        private ObservableCollection<double> _xGridAxis = new ObservableCollection<double>();
+        private DoubleCollection _xGridAxis = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> xGridAxis
+        public DoubleCollection xGridAxis
         {
             get { return _xGridAxis; }
             set
@@ -71,25 +72,6 @@ namespace HeBianGu.App.Chart
 
         }
 
-
-        /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
-
-        {
-            string command = obj?.ToString();
-
-            //  Do：对话消息
-            if (command == "Sumit")
-            {
-
-            }
-
-            //  Do：等待消息
-            else if (command == "Cancel")
-            {
-
-            }
-        }
 
     }
 }

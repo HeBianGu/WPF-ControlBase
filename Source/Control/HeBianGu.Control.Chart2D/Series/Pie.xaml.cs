@@ -51,9 +51,7 @@ namespace HeBianGu.Control.Chart2D
                 if (control == null) return;
 
                 ObservableCollection<Color> config = e.NewValue as ObservableCollection<Color>;
-
                 control.TryDraw();
-
             }));
 
 
@@ -212,8 +210,8 @@ namespace HeBianGu.Control.Chart2D
 
                     path.Visibility = use ? Visibility.Visible : Visibility.Hidden;
                     path.Style = this.LineStyle;
-
-                    path.Stroke = new SolidColorBrush(this.Foreground[i]);
+                    if (this.Foreground.Count > i)
+                        path.Stroke = new SolidColorBrush(this.Foreground[i]);
 
                     PathFigure pf = new PathFigure();
                     pf.StartPoint = endFirst;
@@ -272,7 +270,7 @@ namespace HeBianGu.Control.Chart2D
 
                     Path path = new Path();
                     path.Style = this.PathStyle;
-
+                    if(this.Foreground.Count>i)
                     path.Fill = path.Stroke = new SolidColorBrush(this.Foreground[i]);
 
                     PathFigure pf = new PathFigure();

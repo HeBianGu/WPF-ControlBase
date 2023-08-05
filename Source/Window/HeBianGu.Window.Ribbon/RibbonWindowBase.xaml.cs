@@ -9,6 +9,7 @@ using HeBianGu.Service.Animation;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Ribbon;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -232,7 +233,7 @@ namespace HeBianGu.Window.Ribbon
                 //  Do ：保存主题
                 IThemeSaveService localConfig = ServiceRegistry.Instance.GetInstance<IThemeSaveService>();
 
-                localConfig?.Save();
+                localConfig?.Save(out message);
 
                 //  Do ：保存系统配置
                 ISystemSettingService setting = ServiceRegistry.Instance.GetInstance<ISystemSettingService>();
@@ -244,7 +245,7 @@ namespace HeBianGu.Window.Ribbon
 
                 if (project?.Save(out message) == false)
                 {
-                    bool r = await HeBianGu.General.WpfControlLib.Message.Instance.ShowResultMessge(message + "，确定要退出系统？");
+                    bool r = await MessageProxy.Messager.ShowResult(message + "，确定要退出系统？");
 
                     if (r)
                     {
@@ -253,7 +254,7 @@ namespace HeBianGu.Window.Ribbon
                 }
                 else
                 {
-                    bool r = await HeBianGu.General.WpfControlLib.Message.Instance.ShowResultMessge("确定要退出系统？");
+                    bool r = await MessageProxy.Messager.ShowResult("确定要退出系统？");
 
                     if (r)
                     {
@@ -304,17 +305,17 @@ namespace HeBianGu.Window.Ribbon
             TransitionService.SetIsClose(this, value);
         }
 
-        public virtual void ShowLayer(FrameworkElement element)
+        public virtual void ShowContainer(FrameworkElement element, Predicate<Panel> predicate = null)
         {
             this._layerGroup.Add(element);
         }
 
-        public virtual void CloseLayer()
+        public virtual void CloseContainer()
         {
             this._layerGroup.Remove();
         }
 
-        public virtual void ShowWindowNotifyMessage(INotifyMessage message)
+        public virtual void ShowWindowNotifyMessage(INotifyMessageItem message)
         {
             this.Dispatcher.Invoke(() =>
             {
@@ -349,7 +350,7 @@ namespace HeBianGu.Window.Ribbon
             TransitionService.SetIsVisible(this, !TransitionService.GetIsVisible(this));
         }
 
-        public void ShowNotifyMessage(string tipTitle, string tipText, NotifyBalloonIcon tipIcon = NotifyBalloonIcon.Info, int timeout = 1000)
+        public void ShowNotify(string tipTitle, string tipText, NotifyBalloonIcon tipIcon = NotifyBalloonIcon.Info, int timeout = 1000)
         {
             this.Dispatcher.Invoke(() =>
             {

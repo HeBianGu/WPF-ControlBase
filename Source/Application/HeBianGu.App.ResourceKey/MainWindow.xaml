@@ -1,0 +1,66 @@
+﻿<h:MainWindow x:Class="HeBianGu.App.ResourceKey.MainWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:h="https://github.com/HeBianGu"
+              xmlns:local="clr-namespace:HeBianGu.App.ResourceKey"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:system="clr-namespace:System;assembly=mscorlib"
+              Title="所有基础控件样式的资源Key"
+              Width="1100"
+              Height="750"
+              CaptionHeight="40"
+              mc:Ignorable="d">
+    <Window.Resources>
+        <x:Array x:Key="S.Array.Control" Type="system:Object">
+            <h:ButtonKeys />
+            <h:BorderKeys />
+            <h:CheckBoxKeys />
+            <h:RadioButtonKeys />
+            <h:ComboBoxKeys />
+            <h:DataGridKeys />
+            <h:DatePickerKeys />
+            <h:CalendarKeys />
+            <h:ExpanderKeys />
+            <h:GroupBoxKeys />
+            <h:LabelKeys />
+            <h:ListBoxKeys />
+            <h:MenuKeys />
+            <h:MenuItemKeys />
+            <h:PasswordBoxKeys />
+            <h:ProgressBarKeys />
+            <h:ScrollViewerKeys />
+            <h:SeparatorKeys />
+            <h:SliderKeys />
+            <h:TabControlKeys />
+            <h:TextBlockKeys />
+            <h:HyperlinkKeys />
+            <h:TextBoxKeys />
+            <h:ToggleButtonKeys />
+            <h:TreeViewKeys />
+        </x:Array>
+    </Window.Resources>
+    <DockPanel>
+        <TabControl h:Cattach.SearchDock="Top"
+                    ItemsSource="{StaticResource S.Array.Control}"
+                    Style="{DynamicResource {x:Static h:TabControlKeys.Dynamic}}"
+                    TabStripPlacement="Left">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding ., Converter={x:Static h:XConverter.GetTypeDisplayConverter}}" />
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <h:ResourceKeyBox Type="{Binding ., Converter={x:Static h:XConverter.GetTypeConverter}}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Columns="1" />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </h:ResourceKeyBox>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </DockPanel>
+</h:MainWindow>

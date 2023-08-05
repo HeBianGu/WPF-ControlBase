@@ -15,6 +15,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Threading;
+using System.Windows.Shapes;
 
 namespace HeBianGu.Control.Explorer
 {
@@ -69,40 +70,27 @@ namespace HeBianGu.Control.Explorer
                 CommandBinding binding = new CommandBinding(Next, (l, k) =>
                 {
                     int index = this.History.IndexOf(HistorySelectedItem);
-
-                    //this.RefreshPath(this.History[index + 1]?.Model.FullName);
-
                     this.HistorySelectedItem = this.History[index + 1];
 
                 }, (l, k) =>
                  {
                      int index = this.History.IndexOf(HistorySelectedItem);
-
                      k.CanExecute = index < this.History.Count - 1;
                  });
-
                 this.CommandBindings.Add(binding);
             }
-
             {
                 CommandBinding binding = new CommandBinding(Previous, (l, k) =>
                 {
                     int index = this.History.IndexOf(HistorySelectedItem);
-
-                    //this.RefreshPath(this.History[index - 1]?.Model.FullName);
-
                     this.HistorySelectedItem = this.History[index - 1];
-
                 }, (l, k) =>
                 {
                     int index = this.History.IndexOf(HistorySelectedItem);
-
                     k.CanExecute = index > 0;
                 });
-
                 this.CommandBindings.Add(binding);
             }
-
             this.RefreshPath(null);
         }
 
@@ -117,14 +105,10 @@ namespace HeBianGu.Control.Explorer
             DependencyProperty.Register("History", typeof(ObservableCollection<DirectoryModel>), typeof(Explorer), new PropertyMetadata(new ObservableCollection<DirectoryModel>(), (d, e) =>
              {
                  Explorer control = d as Explorer;
-
-                 if (control == null) return;
-
+                 if (control == null)
+                     return;
                  ObservableCollection<DirectoryModel> config = e.NewValue as ObservableCollection<DirectoryModel>;
-
              }));
-
-
 
         public bool NavigationBarEnbled
         {
@@ -137,9 +121,8 @@ namespace HeBianGu.Control.Explorer
             DependencyProperty.Register("NavigationBarEnbled", typeof(bool), typeof(Explorer), new PropertyMetadata(default(bool), (d, e) =>
              {
                  Explorer control = d as Explorer;
-
-                 if (control == null) return;
-
+                 if (control == null)
+                     return;
                  //bool config = e.NewValue as bool;
 
              }));
@@ -292,65 +275,62 @@ namespace HeBianGu.Control.Explorer
         private void RefreshPath(string path)
         {
             List<SystemInfoModel> from = new List<SystemInfoModel>();
-
-            if (!Directory.Exists(path))
+            var dir1 = ExplorerProxy.Instance.CreateDirectoryInfo(path);
+            if (!ExplorerProxy.Instance.ExistsDirectoryInfo(dir1))
+            //if (!Directory.Exists(path))
             {
-                DriveInfo[] drives = DriveInfo.GetDrives();
+                //DriveInfo[] drives = DriveInfo.GetDrives();
+                //from.AddRange(drives.Select(l => new DirectoryModel(l.RootDirectory)));
 
-                from.AddRange(drives.Select(l => new DirectoryModel(l.RootDirectory)));
+                var roots = ExplorerProxy.Instance.GetDrives().Select(x => new DirectoryModel(x));
+                from.AddRange(roots);
             }
             else
             {
-
-                DirectoryInfo dir = new DirectoryInfo(path);
-
-                if (string.IsNullOrEmpty(this.AllSearchPattern))
-                {
-                    IEnumerable<DirectoryInfo> directories = dir.GetDirectories().Where(l => !l.Attributes.HasFlag(FileAttributes.System));
-
-                    from.AddRange(directories.Select(l => new DirectoryModel(l)));
-
-                    IEnumerable<FileInfo> files = dir.GetFiles(this.SearchPattern ?? "*").Where(l => !l.Attributes.HasFlag(FileAttributes.System));
-
-                    from.AddRange(files.Select(l => new FileModel(l)));
-                }
-                else
-                {
-                    IEnumerable<FileSystemInfo> systemInfos = dir.GetFileSystemInfos(this.AllSearchPattern, SearchOption.AllDirectories).Where(l => !l.Attributes.HasFlag(FileAttributes.System));
-
-                    from.AddRange(systemInfos.OfType<DirectoryInfo>().Select(l => new DirectoryModel(l)));
-
-                    from.AddRange(systemInfos.OfType<FileInfo>().Select(l => new FileModel(l)));
-                }
-
+                //DirectoryInfo dir = new DirectoryInfo(path);
+                //if (string.IsNullOrEmpty(this.AllSearchPattern))
+                //{
+                //IEnumerable<DirectoryInfo> directories = dir.GetDirectories().Where(l => !l.Attributes.HasFlag(FileAttributes.System));
+                var dir = ExplorerProxy.Instance.CreateDirectoryInfo(path);
+                var directories = ExplorerProxy.Instance.GetDirectories(dir);
+                from.AddRange(directories.Select(l => new DirectoryModel(l)));
+                //IEnumerable<FileInfo> files = dir.GetFiles(this.SearchPattern ?? "*").Where(l => !l.Attributes.HasFlag(FileAttributes.System));
+                var files = ExplorerProxy.Instance.GetFiles(dir);
+                from.AddRange(files.Select(l => new FileModel(l)));
+                //}
+                //else
+                //{
+                //    IEnumerable<FileSystemInfo> systemInfos = dir.GetFileSystemInfos(this.AllSearchPattern, SearchOption.AllDirectories).Where(l => !l.Attributes.HasFlag(FileAttributes.System));
+                //    from.AddRange(systemInfos.OfType<DirectoryInfo>().Select(l => new DirectoryModel(l)));
+                //    from.AddRange(systemInfos.OfType<FileInfo>().Select(l => new FileModel(l)));
+                //}
             }
-
             this.ItemsSource = from.ToObservable();
-
         }
 
         private void RefreshHistory(string path)
         {
-            if (!Directory.Exists(path)) return;
+            //if (!Directory.Exists(path))
+            //    return;
+            var dir = ExplorerProxy.Instance.CreateDirectoryInfo(path);
 
-            DirectoryInfo dir = new DirectoryInfo(path);
-
+            if (!ExplorerProxy.Instance.ExistsDirectoryInfo(dir))
+                return;
+            //DirectoryInfo dir = new DirectoryInfo(path);
+            if (this.History.FirstOrDefault()?.Model.FullName == path)
+                return;
+            //var dir = ExplorerProxy.Instance.CreateDirectoryInfo(path);
             //  Do ：加载历史记录，获取后十个
             this.History.Insert(0, new DirectoryModel(dir));
-
-            this.History = this.History.Take(10).ToObservable();
-
+            this.History = this.History.Take(ExplorerSetting.Instance.HistCapacity).ToObservable();
             this.HistorySelectedItem = this.History?.FirstOrDefault();
         }
 
         protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
         {
             base.OnMouseDoubleClick(e);
-
             if (this.SelectedItem is DirectoryModel model)
-            {
                 this.CurrentPath = model.Model?.FullName;
-            }
         }
     }
 
@@ -360,7 +340,6 @@ namespace HeBianGu.Control.Explorer
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NavigationBar), new FrameworkPropertyMetadata(typeof(NavigationBar)));
         }
-
 
         public string CurrentPath
         {
@@ -373,69 +352,81 @@ namespace HeBianGu.Control.Explorer
             DependencyProperty.Register("CurrentPath", typeof(string), typeof(NavigationBar), new PropertyMetadata("我的电脑", (d, e) =>
              {
                  NavigationBar control = d as NavigationBar;
-
-                 if (control == null) return;
-
+                 if (control == null)
+                     return;
                  string config = e.NewValue as string;
-
-
                  control.RefreshData(config);
 
              }));
 
         private void RefreshData(string path)
         {
-            List<DirectoryInfo> dirs = new List<DirectoryInfo>();
-
-            if (!Directory.Exists(path))
+            List<IDirectoryInfo> dirs = new List<IDirectoryInfo>();
+            var dir = ExplorerProxy.Instance.CreateDirectoryInfo(path);
+            if (!ExplorerProxy.Instance.ExistsDirectoryInfo(dir))
             {
-                dirs.Add(new DirectoryInfo("我的电脑"));
+                var root = ExplorerProxy.Instance.CreateDirectoryInfo("我的电脑");
+                dirs.Add(root);
             }
             else
             {
-                DirectoryInfo dir = new DirectoryInfo(path);
-
-                Action<DirectoryInfo> action = null;
-
+                //DirectoryInfo dir = new DirectoryInfo(path);
+                //var dir = ExplorerProxy.Instance.CreateDirectoryInfo(path);
+                Action<IDirectoryInfo> action = null;
                 action = l =>
                 {
-                    if (l.Parent == null) return;
-
-                    dirs.Add(l.Parent);
-
-                    action(l.Parent);
+                    var parent = ExplorerProxy.Instance.GetParentDirectory(l);
+                    if (parent == null)
+                        return;
+                    //if (l.Parent == null)
+                    //    return;
+                    dirs.Add(parent);
+                    action(parent);
                 };
 
-
                 dirs.Add(dir);
-
                 action.Invoke(dir);
-
-                dirs.Add(new DirectoryInfo("我的电脑"));
-
+                dirs.Add(ExplorerProxy.Instance.CreateDirectoryInfo("我的电脑"));
                 dirs.Reverse();
             }
-
-
             this.ItemsSource = dirs.Select(l => new DirectoryModel(l));
+
+            //List<DirectoryInfo> dirs = new List<DirectoryInfo>();
+            //if (!ExplorerProxy.Instance.ExistsDirectoryInfo(path))
+            //{
+            //    dirs.Add(new DirectoryInfo("我的电脑"));
+            //}
+            //else
+            //{
+            //    DirectoryInfo dir = new DirectoryInfo(path);
+            //    Action<DirectoryInfo> action = null;
+            //    action = l =>
+            //    {
+            //        if (l.Parent == null)
+            //            return;
+            //        dirs.Add(l.Parent);
+            //        action(l.Parent);
+            //    };
+
+            //    dirs.Add(dir);
+            //    action.Invoke(dir);
+            //    dirs.Add(new DirectoryInfo("我的电脑"));
+            //    dirs.Reverse();
+            //}
+            //this.ItemsSource = dirs.Select(l => new DirectoryModel(l));
         }
 
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
             base.OnSelectionChanged(e);
-
             if (this.SelectedItem is DirectoryModel dir)
-            {
                 this.CurrentPath = dir.Model.FullName;
-            }
         }
     }
 
     /// <summary> 说明</summary>
     public class SystemInfoModel : NotifyPropertyChanged
     {
-        #region - 属性 -
-
         private string _icon;
         /// <summary> 说明  </summary>
         public string Icon
@@ -472,43 +463,11 @@ namespace HeBianGu.Control.Explorer
                 RaisePropertyChanged("IsChecked");
             }
         }
-
-
-        #endregion
-
-        #region - 命令 -
-
-        #endregion
-
-        #region - 方法 -
-
-        protected override void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
-
-            //  Do：应用
-            if (command == "Sumit")
-            {
-
-
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-
-            }
-        }
-
-        #endregion
     }
 
     /// <summary> 说明</summary>
-    public class SystemInfoModel<T> : SystemInfoModel where T : FileSystemInfo
+    public class SystemInfoModel<T> : SystemInfoModel where T : ISystemFileInfo
     {
-        #region - 属性 -
-
-
         private T _model;
         /// <summary> 说明  </summary>
         public T Model
@@ -524,7 +483,6 @@ namespace HeBianGu.Control.Explorer
         public SystemInfoModel(T model)
         {
             this.Model = model;
-
             this.DisplayName = model.Name;
         }
 
@@ -541,80 +499,22 @@ namespace HeBianGu.Control.Explorer
                 return IconHelper.Instance.GetSystemInfoIcon(this.Model?.FullName);
             }
         }
-
-        #endregion
-
-        #region - 命令 -
-
-        #endregion
-
-        #region - 方法 -
-
-        protected override void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
-
-            //  Do：应用
-            if (command == "Sumit")
-            {
-
-
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-
-            }
-        }
-
-        #endregion
     }
 
     /// <summary> 说明</summary>
-    public class FileModel : SystemInfoModel<FileInfo>
+    public class FileModel : SystemInfoModel<IFileInfo>
     {
-        #region - 属性 -
-
-        public FileModel(FileInfo model) : base(model)
+        public FileModel(IFileInfo model) : base(model)
         {
             this.Icon = "\xe7fe";
         }
-
-        #endregion
-
-        #region - 命令 -
-
-        #endregion
-
-        #region - 方法 -
-
-        protected override void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
-
-            //  Do：应用
-            if (command == "Sumit")
-            {
-
-
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-
-            }
-        }
-
-        #endregion
     }
 
     /// <summary> 说明</summary>
     [TypeConverter(typeof(DirectoryModelTypeConverter))]
-    public class DirectoryModel : SystemInfoModel<DirectoryInfo>
+    public class DirectoryModel : SystemInfoModel<IDirectoryInfo>
     {
-        public DirectoryModel(DirectoryInfo model) : base(model)
+        public DirectoryModel(IDirectoryInfo model) : base(model)
         {
             this.Icon = "\xe7fe";
         }
@@ -624,17 +524,15 @@ namespace HeBianGu.Control.Explorer
 
         }
 
-        public DirectoryModel(string path) : base(new DirectoryInfo(path))
+        public DirectoryModel(string path) : base(ExplorerProxy.Instance.CreateDirectoryInfo(path))
         {
 
         }
 
-        public DirectoryModel(Environment.SpecialFolder special) : base(new DirectoryInfo(Environment.GetFolderPath(special)))
+        public DirectoryModel(Environment.SpecialFolder special) : base(ExplorerProxy.Instance.CreateDirectoryInfo(Environment.GetFolderPath(special)))
         {
 
         }
-
-        #region - 属性 -
 
         private ObservableCollection<SystemInfoModel> _collection = new ObservableCollection<SystemInfoModel>();
         /// <summary> 子节点  </summary>
@@ -679,8 +577,6 @@ namespace HeBianGu.Control.Explorer
             }
         }
 
-
-
         private bool _isBuzy;
         /// <summary> 说明  </summary>
         public bool IsBuzy
@@ -692,49 +588,32 @@ namespace HeBianGu.Control.Explorer
                 RaisePropertyChanged("IsBuzy");
             }
         }
-
-
-        #endregion
-
-        #region - 命令 -
-
-        #endregion
-
-        #region - 方法 -
-
         /// <summary> 刷新子节点 </summary>
         public void RefreshChildren()
         {
             this.Collection.Clear();
-
+            if (this.Model == null)
+                return;
             Task.Run(() =>
              {
                  List<SystemInfoModel> from = new List<SystemInfoModel>();
-
-                 if (!this.Model.Exists) return;
-
-                 IEnumerable<FileSystemInfo> all = this.Model.GetFileSystemInfos().Where(l => !(l.Attributes.HasFlag(FileAttributes.System) || l.Attributes.HasFlag(FileAttributes.Hidden)));
-
-                 from.AddRange(all.OfType<DirectoryInfo>().Select(l => new DirectoryModel(l) { FileInfoVisible = this.FileInfoVisible }));
-
+                 //if (!this.Model.Exists)
+                 //    return;
+                 //IEnumerable<FileSystemInfo> all = this.Model.GetFileSystemInfos().Where(l => !(l.Attributes.HasFlag(FileAttributes.System) || l.Attributes.HasFlag(FileAttributes.Hidden)));
+                 //from.AddRange(all.OfType<DirectoryInfo>().Select(l => new DirectoryModel(l) { FileInfoVisible = this.FileInfoVisible }));
+                 //if (this.FileInfoVisible)
+                 //    from.AddRange(all.OfType<FileInfo>().Select(l => new FileModel(l)));
+                 var dir = ExplorerProxy.Instance.CreateDirectoryInfo(this.Model?.FullName);
+                 var dirs = ExplorerProxy.Instance.GetDirectories(dir);
+                 var files = ExplorerProxy.Instance.GetFiles(dir);
+                 from.AddRange(dirs.Select(l => new DirectoryModel(l) { FileInfoVisible = this.FileInfoVisible }));
                  if (this.FileInfoVisible)
-                 {
-                     from.AddRange(all.OfType<FileInfo>().Select(l => new FileModel(l)));
-                 }
-
-                 //foreach (var file in from)
-                 //{
-                 //    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
-                 //    {
-                 //        this.Collection.Add(file);
-                 //    }));
-                 //}
+                     from.AddRange(files.Select(l => new FileModel(l)));
 
                  Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
                   {
                       this.Collection = from?.ToObservable();
                   }));
-
              });
         }
 
@@ -748,26 +627,6 @@ namespace HeBianGu.Control.Explorer
                 child.RefreshChildren();
             }
         }
-
-        protected override void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
-
-            //  Do：应用
-            if (command == "Sumit")
-            {
-
-
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-
-            }
-        }
-
-        #endregion
     }
 
     public class RootModelCollection : ObservableCollection<RootModel>
@@ -791,29 +650,16 @@ namespace HeBianGu.Control.Explorer
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
             string str = value?.ToString();
-
-            if (Directory.Exists(str))
+            var dir = ExplorerProxy.Instance.CreateDirectoryInfo(str);
+            if (ExplorerProxy.Instance.ExistsDirectoryInfo(dir))
             {
-                return new DirectoryModel(str);
+                return new DirectoryModel(ExplorerProxy.Instance.CreateDirectoryInfo(str));
             }
             else if (Enum.TryParse(str, out Environment.SpecialFolder special))
             {
-                //
-
-                //var find = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-
-
-                //var ss = Directory.GetFiles(find);
-
-                //var dir = new DirectoryInfo(find);
-
-                //var sss = dir.GetFiles();
-
                 return new DirectoryModel(special);
             }
-            {
-                return null;
-            }
+            return null;
         }
     }
 

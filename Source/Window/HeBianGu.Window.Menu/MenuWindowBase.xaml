@@ -6,7 +6,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/Window/WindowBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/Window/MainWindowBase.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Service.Mvp;component/Mvp.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Menu.Default, TypeInTargetAssembly={x:Type local:MenuWindowBase}}" BasedOn="{StaticResource {x:Static h:MessageWindowBase.DynamicKey}}" TargetType="{x:Type local:MenuWindowBase}">
@@ -20,7 +19,6 @@
                 </h:TransitionCollection>
             </Setter.Value>
         </Setter>
-
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MenuWindowBase}">
@@ -39,123 +37,140 @@
                                 CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}"
                                 Effect="{DynamicResource {x:Static h:EffectShadowKeys.Window}}"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <h:GuideHost Margin="{TemplateBinding Padding}" IsGuide="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IsGuide)}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" MinHeight="20" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
 
-                        <Grid Margin="{TemplateBinding Padding}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" MinHeight="20" />
-                                <RowDefinition Height="*" />
-                            </Grid.RowDefinitions>
-
-                            <Border Grid.Row="0" Background="{Binding RelativeSource={RelativeSource AncestorType=local:MenuWindowBase}, Path=(h:Cattach.CaptionBackground)}" CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}">
-                                <Grid Margin="2,1,2,0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <StackPanel x:Name="PART_Header"
-                                                Height="{TemplateBinding CaptionHeight}"
-                                                Margin="15,1,15,1"
-                                                VerticalAlignment="Center"
-                                                Orientation="Horizontal">
-
-                                        <TextBlock FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IconSize}"
-                                                   FontWeight="Bold"
-                                                   Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:MenuWindowBase}, Path=(h:Cattach.CaptionForeground)}"
-                                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
-                                                   Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Icon}"
-                                                   ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Title}" />
-                                    </StackPanel>
-
-                                    <ContentControl Grid.Column="1"
-                                                    HorizontalAlignment="Left"
+                                <Border Grid.Row="0" Background="{Binding RelativeSource={RelativeSource AncestorType=local:MenuWindowBase}, Path=CaptionBackground}" CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}">
+                                    <DockPanel Margin="2,1,2,0">
+                                        <StackPanel x:Name="PART_Header"
+                                                    Height="{TemplateBinding CaptionHeight}"
+                                                    Margin="15,1,15,1"
                                                     VerticalAlignment="Center"
-                                                    Content="{TemplateBinding MenuContent}"
-                                                    WindowChrome.IsHitTestVisibleInChrome="True" />
+                                                    Orientation="Horizontal">
 
-                                    <StackPanel Grid.Column="2"
-                                                Height="{TemplateBinding CaptionHeight}"
-                                                Margin="1"
-                                                HorizontalAlignment="Right"
-                                                VerticalAlignment="Top"
-                                                Orientation="Horizontal">
+                                            <TextBlock FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IconSize)}"
+                                                       FontWeight="Bold"
+                                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:MenuWindowBase}, Path=CaptionForeground}"
+                                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                       Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.Icon)}"
+                                                       ToolTip="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Title}" />
+                                        </StackPanel>
 
-                                        <Button Style="{DynamicResource {x:Static h:ButtonKeys.HideWindow}}" />
+                                        <Control Background="{TemplateBinding CaptionBackground}"
+                                                 DockPanel.Dock="Left"
+                                                 Foreground="{TemplateBinding CaptionForeground}"
+                                                 Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionLeftTemplate)}"
+                                                 WindowChrome.IsHitTestVisibleInChrome="True" />
 
-                                        <ToggleButton x:Name="btnTheme" Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:MenuWindowBase}, Path=(h:Cattach.CaptionForeground)}" Style="{StaticResource S.ToggleButton.Window.Theme}" />
+                                        <ContentControl Grid.Column="1"
+                                                        HorizontalAlignment="Left"
+                                                        VerticalAlignment="Center"
+                                                        Content="{TemplateBinding MenuContent}"
+                                                        WindowChrome.IsHitTestVisibleInChrome="True" />
 
-                                        <Button Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}" Style="{StaticResource S.Button.Window.Setting}" />
+                                        <StackPanel Grid.Column="2"
+                                                    Height="{TemplateBinding CaptionHeight}"
+                                                    Margin="1"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    DockPanel.Dock="Right"
+                                                    Orientation="Horizontal">
 
-                                        <Separator Height="20" Background="{Binding RelativeSource={RelativeSource AncestorType=h:MenuWindowBase}, Path=(h:Cattach.CaptionForeground)}" Style="{DynamicResource {x:Static h:SeparatorKeys.Vertical}}" />
+                                            <ItemsControl Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:MvpKeys.WindowCaption}}" />
+                                            <Separator Height="20" Background="{Binding RelativeSource={RelativeSource AncestorType=h:MenuWindowBase}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:SeparatorKeys.Vertical}}" />
+                                            <Button Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MenuWindowBase}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:ButtonKeys.MinimizeWindow}}" />
+                                            <Button x:Name="btnMax" Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MenuWindowBase}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:ButtonKeys.MaximizeWindow}}" />
+                                            <Button Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MenuWindowBase}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:ButtonKeys.CloseWindow}}" />
+                                        </StackPanel>
 
-                                        <Button Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MenuWindowBase}, Path=(h:Cattach.CaptionForeground)}" Style="{DynamicResource {x:Static h:ButtonKeys.MinimizeWindow}}" />
-                                        <Button x:Name="btnMax" Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MenuWindowBase}, Path=(h:Cattach.CaptionForeground)}" Style="{DynamicResource {x:Static h:ButtonKeys.MaximizeWindow}}" />
-                                        <Button Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MenuWindowBase}, Path=(h:Cattach.CaptionForeground)}" Style="{DynamicResource {x:Static h:ButtonKeys.CloseWindow}}" />
-                                    </StackPanel>
-                                </Grid>
-                            </Border>
+                                        <Control Background="{TemplateBinding CaptionBackground}"
+                                                 DockPanel.Dock="Right"
+                                                 Foreground="{TemplateBinding CaptionForeground}"
+                                                 Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionRightTemplate)}"
+                                                 WindowChrome.IsHitTestVisibleInChrome="True" />
 
-                            <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
-                                <Grid>
-                                    <h:NotifyIcon x:Name="PART_NotifyIcon"
-                                                  Command="{Binding Path=MinimizeWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
-                                                  Icon="{Binding Path=NotifyIconSource, RelativeSource={RelativeSource TemplatedParent}}"
-                                                  IconVisibility="Visible"
-                                                  Text="{TemplateBinding Title}">
-
-                                        <FrameworkElement.ContextMenu>
-                                            <ContextMenu>
-                                                <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="显示面板" />
-
-                                                <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="隐藏" />
-
-                                                <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CloseWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="退出" />
-                                            </ContextMenu>
-                                        </FrameworkElement.ContextMenu>
-                                    </h:NotifyIcon>
-
-                                    <h:DialogHost Margin="-3,0,-3,-3" Identifier="windowDialog">
-                                        <Grid Effect="{TemplateBinding AdornerDecoratorEffect}">
-
-                                            <ContentPresenter Content="{TemplateBinding Content}" />
-
-                                            <h:ContainPanel x:Name="PART_LAYERGROUP"
-                                                            Grid.Row="1"
-                                                            Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}"
-                                                            Visibility="Collapsed">
-                                                <h:ContainPanel.AnimationAction>
-                                                    <h:ScaleTransition />
-                                                </h:ContainPanel.AnimationAction>
-                                            </h:ContainPanel>
-
-                                            <h:MessageContainer x:Name="PART_Message" Grid.Row="1" />
-                                        </Grid>
-                                    </h:DialogHost>
-
-                                    <h:Snackbar x:Name="PART_SnackBar" MessageQueue="{h:MessageQueue}" />
-                                </Grid>
-                            </AdornerDecorator>
-
-                            <Popup x:Name="Pop"
-                                   HorizontalAlignment="Left"
-                                   VerticalAlignment="Bottom"
-                                   AllowsTransparency="True"
-                                   IsOpen="{Binding ElementName=btnTheme, Path=IsChecked}"
-                                   Placement="Top"
-                                   PlacementTarget="{Binding ElementName=btnTheme}"
-                                   PopupAnimation="Slide"
-                                   StaysOpen="False">
-                                <Border Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
-                                        BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
-                                        BorderThickness="1"
-                                        CornerRadius="5">
-                                    <StackPanel Margin="10">
-                                        <h:ThemeSet Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-                                    </StackPanel>
+                                        <Control Background="{TemplateBinding CaptionBackground}"
+                                                 Foreground="{TemplateBinding CaptionForeground}"
+                                                 Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionCenterTemplate)}"
+                                                 WindowChrome.IsHitTestVisibleInChrome="True" />
+                                    </DockPanel>
                                 </Border>
-                            </Popup>
-                        </Grid>
+
+                                <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
+                                    <Grid>
+                                        <h:NotifyIcon x:Name="PART_NotifyIcon"
+                                                      Command="{Binding Path=MinimizeWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Icon="{Binding Path=NotifyIconSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      IconVisibility="Visible"
+                                                      Text="{TemplateBinding Title}">
+
+                                            <FrameworkElement.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="显示面板" />
+
+                                                    <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="隐藏" />
+
+                                                    <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CloseWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="退出" />
+                                                </ContextMenu>
+                                            </FrameworkElement.ContextMenu>
+                                        </h:NotifyIcon>
+
+                                        <h:DialogHost Margin="-3,0,-3,-3" Identifier="windowDialog">
+                                            <Grid Effect="{TemplateBinding AdornerDecoratorEffect}">
+
+                                                <DockPanel>
+                                                    <Control DockPanel.Dock="Left" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.LeftTemplate)}" />
+                                                    <Control DockPanel.Dock="Right" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.RightTemplate)}" />
+                                                    <Control DockPanel.Dock="Bottom" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.BottomTemplate)}" />
+                                                    <Control DockPanel.Dock="Top" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.TopTemplate)}" />
+                                                    <Grid>
+                                                        <ContentPresenter Content="{TemplateBinding Content}" />
+                                                        <Control Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CenterTemplate)}" />
+                                                    </Grid>
+                                                </DockPanel>
+
+                                                <h:ContainPanel x:Name="PART_LAYERGROUP"
+                                                                Grid.Row="1"
+                                                                Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}"
+                                                                ClipToBounds="True"
+                                                                Visibility="Collapsed">
+                                                    <h:ContainPanel.AnimationAction>
+                                                        <h:ScaleTransition />
+                                                    </h:ContainPanel.AnimationAction>
+                                                </h:ContainPanel>
+
+                                                <h:MessageContainer x:Name="PART_Message" Grid.Row="1" />
+                                            </Grid>
+                                        </h:DialogHost>
+
+                                        <h:Snackbar x:Name="PART_SnackBar" MessageQueue="{h:MessageQueue}" />
+                                    </Grid>
+                                </AdornerDecorator>
+
+                                <!--<Popup x:Name="Pop"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       AllowsTransparency="True"
+                                       IsOpen="{Binding ElementName=btnTheme, Path=IsChecked}"
+                                       Placement="Top"
+                                       PlacementTarget="{Binding ElementName=btnTheme}"
+                                       PopupAnimation="Slide"
+                                       StaysOpen="False">
+                                    <Border Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
+                                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                            BorderThickness="1"
+                                            CornerRadius="5">
+                                        <StackPanel Margin="10">
+                                            <h:ThemeSet Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>-->
+                            </Grid>
+                        </h:GuideHost>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="WindowState" Value="Maximized">

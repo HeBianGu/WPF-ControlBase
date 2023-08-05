@@ -8,41 +8,46 @@
              d:DesignHeight="450"
              d:DesignWidth="800"
              mc:Ignorable="d">
-    <Grid>
-        <Border Style="{DynamicResource {x:Static h:BorderKeys.Single}}" />
+    <h:Dialog Style="{DynamicResource {x:Static h:Dialog.DispalyKey}}">
+        <DockPanel>
+            <DockPanel Margin="0,5,0,0"
+                       Background="Transparent"
+                       DockPanel.Dock="Bottom"
+                       LastChildFill="False">
 
-        <DockPanel Margin="10">
-            <DockPanel DockPanel.Dock="Top" LastChildFill="False">
-                <TextBlock HorizontalAlignment="Left"
-                           FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header4}}"
-                           FontWeight="Bold"
-                           Text="参数设置" />
-                <Button HorizontalAlignment="Right"
-                        VerticalAlignment="Top"
-                        h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
-                        Click="Button_Close" WindowChrome.IsHitTestVisibleInChrome="True"
-                        DockPanel.Dock="Right"
-                        Style="{DynamicResource {x:Static h:ButtonKeys.Close}}" />
-            </DockPanel>
-
-            <h:Row DockPanel.Dock="Bottom" Background="Transparent" Style="{DynamicResource {x:Static h:Row.Column12Key}}">
-                <Button h:Cattach.Text="恢复默认" Margin="0"
+                <Button Margin="0"
+                        Content="恢复默认"
                         BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
                         Click="Button_SetDefault"
-                        Style="{DynamicResource {x:Static h:ButtonKeys.Link}}" />
+                        DockPanel.Dock="Left"
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
 
-                <UniformGrid Grid.Row="0"
-                             Grid.ColumnSpan="12"
-                             HorizontalAlignment="Center"
-                             VerticalAlignment="Stretch"
-                             Rows="1">
-                    <Button Margin="2 0" MinWidth="100" Click="Button_Close" Content="取消" />
-                    <Button Click="Button_Sumit" Content="应用" MinWidth="100" Margin="2 0"/>
-                </UniformGrid>
-            </h:Row>
+                <Button Margin="10,0"
+                        Content="初始化配置(重启以生效)"
+                        BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                        Command="{Binding Source={x:Static h:SystemPathSetting.Instance}, Path=ClearSettingCommand}"
+                        DockPanel.Dock="Left"
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+
+                <Button MinWidth="100"
+                        Margin="2,0"
+                        h:Cattach.GuideData="点击此按钮将取消本次修改的数据"
+                        h:Cattach.UseGuide="True"
+                        Click="Button_Sumit"
+                        Content="应用"
+                        DockPanel.Dock="Right" />
+
+                <Button MinWidth="100"
+                        Margin="2,0"
+                        h:Cattach.GuideData="点击此按钮将取消本次修改的数据"
+                        h:Cattach.UseGuide="True"
+                        Click="Button_Close"
+                        Content="取消"
+                        DockPanel.Dock="Right" />
+            </DockPanel>
 
             <local:SettingBox />
         </DockPanel>
-
-    </Grid>
+    </h:Dialog>
 </UserControl>

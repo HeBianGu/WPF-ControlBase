@@ -108,7 +108,7 @@ namespace HeBianGu.App.Touch
             {
                 if (AwaitControl.IsShowed) return;
 
-                Message.Instance.ShowLayer(AwaitControl.Create());
+                MessageProxy.Container.Show(AwaitControl.Create());
             };
         }
 

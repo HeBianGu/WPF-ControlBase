@@ -1,0 +1,43 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Service.Mvp">
+
+    <DataTemplate DataType="{x:Type local:WindowTreeViewPresenter}">
+        <TreeView IsEnabled="{Binding IsEnabled}"
+                  ItemsSource="{Binding Collection}"
+                  Style="{DynamicResource {x:Static h:TreeViewKeys.MaterialMenu}}"
+                  Visibility="{Binding IsVisible, Converter={x:Static h:Converter.GetTrueToVisible}}">
+            <h:Interaction.Behaviors>
+                <h:BindableSelectedItemTreeViewBehavior SelectedItem="{Binding SelectedItem, Mode=TwoWay}" />
+            </h:Interaction.Behaviors>
+            <h:Interaction.Triggers>
+                <h:EventTrigger EventName="SelectedItemChanged">
+                    <h:InvokeCommandAction Command="{Binding InvokeCommand}" CommandParameter="{Binding SelectedItem.Model}" />
+                </h:EventTrigger>
+            </h:Interaction.Triggers>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Nodes}">
+                    <StackPanel Orientation="Horizontal">
+                        <!--<h:Interaction.Triggers>
+                            <h:EventTrigger EventName="MouseLeftButtonDown">
+                                <h:InvokeCommandAction Command="{Binding RelativeSource={RelativeSource AncestorType=TreeView}, Path=DataContext.InvokeCommand}" CommandParameter="{Binding Model}" />
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>-->
+                        <TextBlock Margin="25,0,5,0" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{x:Static h:Icons.Ban}" />
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Model.Name}" />
+                    </StackPanel>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Model.IsVisible}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Model.IsAuthority}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </DataTemplate>
+
+</ResourceDictionary>

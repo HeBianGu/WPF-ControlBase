@@ -23,6 +23,10 @@ namespace HeBianGu.Control.Filter
             {
                 return new IntFilter(property);
             }
+            else if (property.PropertyType.FullName == typeof(long).FullName)
+            {
+                return new LongFilter(property);
+            }
             else if (property.PropertyType.FullName == typeof(double).FullName)
             {
                 return new DoubleFilter(property);

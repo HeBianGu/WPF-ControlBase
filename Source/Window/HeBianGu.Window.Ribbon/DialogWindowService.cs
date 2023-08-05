@@ -31,7 +31,7 @@ namespace HeBianGu.Window.Ribbon
 
     //}
 
-    public static class CommandService
+    public static class Commander
     {
         public static ChangedImageCommand ChangedImage { get; set; } = new ChangedImageCommand();
 

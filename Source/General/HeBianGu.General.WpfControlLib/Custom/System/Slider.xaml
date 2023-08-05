@@ -1,0 +1,330 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style x:Key="S.Slider.Repeat.Default" TargetType="RepeatButton">
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RepeatButton">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="5" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Slider.Dynamic, TypeInTargetAssembly={x:Type local:SliderKeys}}" BasedOn="{StaticResource {x:Static local:ControlKeys.Range}}" TargetType="Slider">
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Height" Value="5" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Maximum" Value="100" />
+        <Setter Property="Minimum" Value="0" />
+        <Setter Property="SmallChange" Value="1" />
+        <Setter Property="h:Cattach.IsStayOpen" Value="false" />
+        <Setter Property="h:Cattach.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid Margin="0,-80,0,0">
+                        <Border Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                                HorizontalAlignment="Center"
+                                Background="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.CaptionBackground)}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}">
+                            <TextBlock Foreground="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.CaptionForeground)}" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=Value}" />
+                        </Border>
+
+                        <Polygon Margin="0,50,0,0"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Fill="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.TitleBackground)}"
+                                 FillRule="Nonzero"
+                                 Points="0,0 5,5 10,0 0,0"
+                                 Stroke="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+
+                        <ContentControl x:Name="Label"
+                                        Height="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.TitleHeight)}"
+                                        Margin="0,-100"
+                                        Background="{TemplateBinding BorderBrush}"
+                                        Content="{TemplateBinding h:Cattach.Title}"
+                                        IsHitTestVisible="False"
+                                        IsTabStop="False"
+                                        Template="{TemplateBinding h:Cattach.TitleTemplate}" />
+
+                        <Border Grid.Column="1"
+                                Margin="{TemplateBinding Padding}"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="8,0,0,8">
+
+                            <Track Name="PART_Track" Grid.Column="1">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Background="{TemplateBinding Foreground}"
+                                                  Command="Slider.DecreaseLarge"
+                                                  Foreground="{TemplateBinding Background}"
+                                                  Style="{StaticResource S.Slider.Repeat.Default}" />
+                                </Track.DecreaseRepeatButton>
+
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Background="{TemplateBinding Background}"
+                                                  Command="Slider.IncreaseLarge"
+                                                  Foreground="{TemplateBinding Foreground}"
+                                                  Style="{StaticResource S.Slider.Repeat.Default}" />
+                                </Track.IncreaseRepeatButton>
+
+                                <Track.Thumb>
+                                    <Thumb Margin="-8"
+                                           VerticalAlignment="Center"
+                                           Background="{TemplateBinding Foreground}"
+                                           Focusable="False"
+                                           Foreground="{TemplateBinding Background}">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Grid>
+                                                    <Ellipse x:Name="el"
+                                                             Grid.ColumnSpan="2"
+                                                             Width="15"
+                                                             Height="15"
+                                                             Margin="-8"
+                                                             Fill="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                                                             Stroke="{TemplateBinding Background}"
+                                                             StrokeThickness="3" />
+                                                    <ContentControl x:Name="tooltip"
+                                                                    Margin="-100"
+                                                                    IsHitTestVisible="False"
+                                                                    Template="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.AttachContent)}"
+                                                                    Visibility="Collapsed" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="el" Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default2}}" />
+                                                        <Setter TargetName="tooltip" Property="Visibility" Value="Visible" />
+                                                    </Trigger>
+
+                                                    <Trigger Property="IsDragging" Value="True">
+                                                        <Setter TargetName="tooltip" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="el" Property="StrokeThickness" Value="15" />
+                                                    </Trigger>
+
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.IsStayOpen)}" Value="true">
+                                                        <Setter TargetName="tooltip" Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Border>
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Slider.Thumb.Default, TypeInTargetAssembly={x:Type local:SliderKeys}}" TargetType="Thumb">
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="h:Cattach.CornerRadius" Value="40" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Thumb">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.ColumnSpan="2"
+                                Width="18"
+                                Height="18"
+                                Margin="-8"
+                                Background="{TemplateBinding Foreground}"
+                                CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CornerRadius)}" />
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default2}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Slider.Default, TypeInTargetAssembly={x:Type local:SliderKeys}}" BasedOn="{StaticResource {x:Static h:SliderKeys.Dynamic}}" TargetType="Slider">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Slider.Circle, TypeInTargetAssembly={x:Type local:SliderKeys}}" BasedOn="{StaticResource {x:Static h:SliderKeys.Default}}" TargetType="Slider">
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Height" Value="5" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="Maximum" Value="100" />
+        <Setter Property="Minimum" Value="0" />
+        <Setter Property="SmallChange" Value="1" />
+        <Setter Property="Margin" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
+        <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Value}" />
+        <Setter Property="RenderTransform" Value="{StaticResource {x:Static h:SystemKeys.TransformGroup}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Grid>
+                        <Border Grid.Column="1"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="8,0,0,8">
+
+                            <Track Name="PART_Track" Grid.Column="1">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Background="{TemplateBinding Foreground}"
+                                                  Command="Slider.DecreaseLarge"
+                                                  Foreground="{TemplateBinding Background}"
+                                                  Style="{StaticResource S.Slider.Repeat.Default}" />
+                                </Track.DecreaseRepeatButton>
+
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Background="{TemplateBinding Background}"
+                                                  Command="Slider.IncreaseLarge"
+                                                  Foreground="{TemplateBinding Foreground}"
+                                                  Style="{StaticResource S.Slider.Repeat.Default}" />
+                                </Track.IncreaseRepeatButton>
+
+                                <Track.Thumb>
+                                    <Thumb VerticalAlignment="Center"
+                                           Background="{TemplateBinding Background}"
+                                           Foreground="{TemplateBinding Foreground}"
+                                           Style="{StaticResource {x:Static h:SliderKeys.ThumbDefault}}" />
+                                </Track.Thumb>
+                            </Track>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+
+            </Setter.Value>
+
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Slider.Single, TypeInTargetAssembly={x:Type local:SliderKeys}}" BasedOn="{StaticResource {x:Static h:SliderKeys.Default}}" TargetType="Slider">
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Slider.Accent, TypeInTargetAssembly={x:Type local:SliderKeys}}" BasedOn="{StaticResource {x:Static h:SliderKeys.Default}}" TargetType="Slider">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Slider.WithValue, TypeInTargetAssembly={x:Type local:SliderKeys}}" BasedOn="{StaticResource {x:Static h:SliderKeys.Dynamic}}" TargetType="Slider">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Slider">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" MinWidth="15" />
+                        </Grid.ColumnDefinitions>
+                        <Border Grid.Column="0"
+                                BorderBrush="Transparent"
+                                BorderThickness="1"
+                                CornerRadius="8,0,0,8">
+
+                            <Track Name="PART_Track" Grid.Column="1">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Background="{TemplateBinding Foreground}"
+                                                  Command="Slider.DecreaseLarge"
+                                                  Foreground="{TemplateBinding Background}"
+                                                  Style="{StaticResource S.Slider.Repeat.Default}" />
+                                </Track.DecreaseRepeatButton>
+
+                                <Track.IncreaseRepeatButton>
+                                    <RepeatButton Background="{TemplateBinding Background}"
+                                                  Command="Slider.IncreaseLarge"
+                                                  Foreground="{TemplateBinding Foreground}"
+                                                  Style="{StaticResource S.Slider.Repeat.Default}" />
+                                </Track.IncreaseRepeatButton>
+
+                                <Track.Thumb>
+                                    <Thumb Margin="-8"
+                                           VerticalAlignment="Center"
+                                           Background="{TemplateBinding Foreground}"
+                                           Focusable="False"
+                                           Foreground="{TemplateBinding Background}">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Grid>
+                                                    <Ellipse x:Name="el"
+                                                             Grid.ColumnSpan="2"
+                                                             Width="15"
+                                                             Height="15"
+                                                             Margin="-8"
+                                                             Fill="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                                                             Stroke="{TemplateBinding Background}"
+                                                             StrokeThickness="3" />
+                                                    <ContentControl x:Name="tooltip"
+                                                                    Margin="-100"
+                                                                    IsHitTestVisible="False"
+                                                                    Template="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.AttachContent)}"
+                                                                    Visibility="Collapsed" />
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="el" Property="Effect" Value="{DynamicResource {x:Static h:EffectShadowKeys.Default2}}" />
+                                                        <Setter TargetName="tooltip" Property="Visibility" Value="Visible" />
+                                                    </Trigger>
+
+                                                    <Trigger Property="IsDragging" Value="True">
+                                                        <Setter TargetName="tooltip" Property="Visibility" Value="Visible" />
+                                                        <Setter TargetName="el" Property="StrokeThickness" Value="15" />
+                                                    </Trigger>
+
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.IsStayOpen)}" Value="true">
+                                                        <Setter TargetName="tooltip" Property="Visibility" Value="Visible" />
+                                                    </DataTrigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Border>
+
+                        <TextBlock Grid.Column="1"
+                                   Margin="5,-5"
+                                   HorizontalAlignment="Right"
+                                   Style="{DynamicResource {x:Static h:TextBlockKeys.FontSize14}}"
+                                   Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Value, StringFormat=0}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Slider.Label, TypeInTargetAssembly={x:Type local:SliderKeys}}" BasedOn="{StaticResource {x:Static h:SliderKeys.Dynamic}}" TargetType="{x:Type Slider}">
+        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}" />
+    </Style>
+</ResourceDictionary>

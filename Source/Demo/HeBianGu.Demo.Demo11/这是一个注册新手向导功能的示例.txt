@@ -1,0 +1,47 @@
+这是一个注册新手向导功能的示例
+
+1、注册
+            //  Do ： 升级Nuget包【最低4.1.0-beta.1版本】
+	
+            //  Do ：注册系统新手向导按钮，注册后右边上角显示新手向导按钮 
+            services.AddGuideViewPresenter();
+
+2、配置  
+            //  Do ：添加新手向导配置信息
+            app.UseGuide(x =>
+            {
+                //  Do ：动画时间
+                x.AnimationDuration = 200;
+                //  Do ：边框颜色
+                x.Stroke = Brushes.Orange;
+                //  Do ：虚线
+                x.StrokeDashArray = new DoubleCollection(new double[] { 1, 1 });
+                //  Do ：线宽
+                x.StrokeThickness = 1;
+            });
+
+3、添加一个测试按钮，并配置向导参数
+
+//  Do ：用于设置是否启用向导 
+h:Cattach.UseGuide="True"
+
+//  Do ：用于设置向导标题
+ h:Cattach.GuideTitle="我是标题"
+
+//  Do ：用于设置向导详细信息
+ h:Cattach.GuideData="点击此按钮显示我的标题详情"
+
+//  Do ：用于设置是否启用向导
+            <h:Cattach.GuideDataTemplate>
+                <DataTemplate>
+                    <Border Background="Transparent">
+                        <StackPanel>
+                            <TextBlock Margin="5" Text="自定义模板" />
+                            <Image Width="100"
+                                   Height="100"
+                                   HorizontalAlignment="Left"
+                                   Style="{DynamicResource {x:Static h:ImageKeys.Logo}}" />
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </h:Cattach.GuideDataTemplate>

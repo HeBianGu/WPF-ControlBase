@@ -1,0 +1,32 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.MessageListBox">
+    <DataTemplate DataType="{x:Type local:InfoMessageViewPresenter}">
+        <GroupBox Margin="0"
+                  Padding="0"
+                  VerticalAlignment="Stretch"
+                  h:Cattach.CornerRadius="0"
+                  Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                  BorderThickness="0"
+                  Header="{Binding Collection.Count, Mode=OneWay, Converter={x:Static h:Converter.GetStringFormat}, ConverterParameter=[{0}]}">
+            <h:Cattach.CaptionRightTemplate>
+                <ControlTemplate>
+                    <TextBox Width="300"
+                             Margin="2,0"
+                             HorizontalAlignment="Right"
+                             Style="{DynamicResource {x:Static h:TextBoxKeys.Search}}" />
+                </ControlTemplate>
+            </h:Cattach.CaptionRightTemplate>
+            <h:ScrollToEndListBox ItemsSource="{Binding Collection}">
+                <ListBox.ItemContainerStyle>
+                    <Style BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}" TargetType="ListBoxItem">
+                        <Setter Property="Height" Value="Auto" />
+                        <Setter Property="MinHeight" Value="0" />
+                        <Setter Property="Margin" Value="0" />
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </h:ScrollToEndListBox>
+        </GroupBox>
+    </DataTemplate>
+</ResourceDictionary>

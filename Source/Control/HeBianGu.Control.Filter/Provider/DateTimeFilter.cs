@@ -31,7 +31,7 @@ namespace HeBianGu.Control.Filter
 
         public override IFilter Copy()
         {
-            return new DateTimeFilter(this.Model) { Operate = this.Operate, Value = this.Value };
+            return new DateTimeFilter(this.PropertyInfo) { Operate = this.Operate, Value = this.Value };
         }
 
         public override DateTime ConvertValue()

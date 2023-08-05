@@ -29,7 +29,7 @@ namespace HeBianGu.Systems.Component
             //  Do ：将端口的功能名称赋值给Link去显示
             if (e.Entity.FromPort.Content is IPortData data)
             {
-                link.DisplayName = data.DisplayName;
+                link.Name = data.Name;
             }
         }
 

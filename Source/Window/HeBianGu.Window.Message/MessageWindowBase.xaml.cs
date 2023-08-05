@@ -1,5 +1,6 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
+using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.Message;
 using HeBianGu.Control.MessageContainer;
 using HeBianGu.Control.Panel;
@@ -8,6 +9,7 @@ using HeBianGu.Service.Animation;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace HeBianGu.Window.Message
 {
@@ -20,7 +22,12 @@ namespace HeBianGu.Window.Message
 
         public static new ComponentResourceKey DefaultKey => new ComponentResourceKey(typeof(MessageWindowBase), "S.Window.Message.Default");
 
-        private ContainPanel _layerGroup;
+        static MessageWindowBase()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(MessageWindowBase), new FrameworkPropertyMetadata(typeof(MessageWindowBase)));
+        }
+
+        protected ContainPanel _layerGroup;
         private MessageContainer _messageContainer;
         private Snackbar _snackbar;
 
@@ -39,17 +46,19 @@ namespace HeBianGu.Window.Message
             TransitionService.SetIsClose(this, value);
         }
 
-        public override void ShowLayer(FrameworkElement element)
+        public override void ShowContainer(FrameworkElement element, Predicate<Panel> predicate = null)
         {
+            if (predicate?.Invoke(this._layerGroup) == false)
+                return;
             this._layerGroup.Add(element);
         }
 
-        public override void CloseLayer()
+        public override void CloseContainer()
         {
             this._layerGroup.Remove();
         }
 
-        public override void ShowWindowNotifyMessage(INotifyMessage message)
+        public override void ShowWindowNotifyMessage(INotifyMessageItem message)
         {
             this.Dispatcher.Invoke(() =>
             {
@@ -60,8 +69,9 @@ namespace HeBianGu.Window.Message
 
         public override void AddSnackMessage(object message)
         {
+            if (message == null || _snackbar == null)
+                return;
             SnackbarMessageQueue queue = _snackbar.MessageQueue;
-
             Task.Run(() => queue.Enqueue(message));
         }
 

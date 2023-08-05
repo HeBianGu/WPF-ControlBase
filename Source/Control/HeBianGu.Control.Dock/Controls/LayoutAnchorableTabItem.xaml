@@ -1,0 +1,29 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:lc="clr-namespace:HeBianGu.Control.Dock.Controls"
+                    xmlns:lcv="clr-namespace:HeBianGu.Control.Dock.Converters"
+                    xmlns:ll="clr-namespace:HeBianGu.Control.Dock.Layout"
+                    xmlns:local="clr-namespace:HeBianGu.Control.Dock"
+                    xmlns:lp="clr-namespace:HeBianGu.Control.Dock.Properties"
+                    xmlns:shell="clr-namespace:Microsoft.Windows.Shell">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <Style TargetType="{x:Type lc:LayoutAnchorableTabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type lc:LayoutAnchorableTabItem}">
+                    <lc:DropDownControlArea DropDownContextMenu="{Binding Root.Manager.AnchorableContextMenu}" DropDownContextMenuDataContext="{Binding LayoutItem, RelativeSource={RelativeSource TemplatedParent}}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                            <Grid>
+                                <ContentPresenter Content="{Binding Model, RelativeSource={RelativeSource TemplatedParent}}" ContentTemplate="{Binding AnchorableHeaderTemplate, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type local:DockingManager}, Mode=FindAncestor}}" ContentTemplateSelector="{Binding AnchorableHeaderTemplateSelector, Mode=OneWay, RelativeSource={RelativeSource AncestorType={x:Type local:DockingManager}, Mode=FindAncestor}}" />
+                                <lc:DropDownControlArea Grid.Column="0" DropDownContextMenu="{Binding Model.Root.Manager.AnchorableContextMenu, RelativeSource={RelativeSource TemplatedParent}}" DropDownContextMenuDataContext="{Binding Path=Model, RelativeSource={RelativeSource TemplatedParent}}" />
+                            </Grid>
+                        </Border>
+                    </lc:DropDownControlArea>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

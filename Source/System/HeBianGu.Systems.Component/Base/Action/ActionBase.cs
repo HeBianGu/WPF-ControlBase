@@ -13,7 +13,7 @@ namespace HeBianGu.Systems.Component
     {
         public ActionBase()
         {
-            this.DisplayName = this.GetType().Name;
+            this.Name = this.GetType().Name;
         }
         [Browsable(false)]
         public ILogService Log => ServiceRegistry.Instance.GetInstance<ILogService>();
@@ -24,7 +24,7 @@ namespace HeBianGu.Systems.Component
         private string _displayName;
         /// <summary> 说明  </summary>
         [Browsable(false)]
-        public string DisplayName
+        public string Name
         {
             get { return _displayName; }
             set
@@ -132,11 +132,11 @@ namespace HeBianGu.Systems.Component
 
                 this.IsBuzy = true;
 
-                this.Log.Info($"正在执行<{this.GetType().Name}>:{this.DisplayName}");
+                this.Log.Info($"正在执行<{this.GetType().Name}>:{this.Name}");
 
                 IActionResult result = await InvokeAsync(previors);
 
-                this.Log.Info($"执行完成<{this.GetType().Name}>:{this.DisplayName}");
+                this.Log.Info($"执行完成<{this.GetType().Name}>:{this.Name}");
 
                 this.State = ActionState.Success;
 
@@ -148,8 +148,8 @@ namespace HeBianGu.Systems.Component
                 this.Exception = ex;
                 this.Message = ex.Message;
 
-                this.Log.Info($"执行错误<{this.GetType().Name}>:{this.DisplayName} {this.Message}");
-                this.Log.Error($"执行错误<{this.GetType().Name}>:{this.DisplayName} {this.Message}");
+                this.Log.Info($"执行错误<{this.GetType().Name}>:{this.Name} {this.Message}");
+                this.Log.Error($"执行错误<{this.GetType().Name}>:{this.Name} {this.Message}");
                 this.Log.Error(ex);
 
 

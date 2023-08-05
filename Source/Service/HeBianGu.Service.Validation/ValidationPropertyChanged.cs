@@ -90,10 +90,11 @@ namespace HeBianGu.Service.Validation
 
             foreach (System.Reflection.PropertyInfo item in propertys)
             {
-                IEnumerable<ValidationAttribute> collection = item.GetCustomAttributes(false)?.Cast<ValidationAttribute>();
+                IEnumerable<ValidationAttribute> collection = item.GetCustomAttributes(false)?.OfType<ValidationAttribute>();
 
                 //  Do：检验数据有效性
-                if (collection == null || collection.Count() == 0) continue;
+                if (collection == null || collection.Count() == 0) 
+                    continue;
 
                 object value = item.GetValue(this);
 
@@ -135,29 +136,40 @@ namespace HeBianGu.Service.Validation
         {
             get
             {
-                List<string> results = new List<string>();
-
-                System.Reflection.PropertyInfo property = this.GetType().GetProperty(columnName);
-
-                IEnumerable<ValidationAttribute> attrs = property.GetCustomAttributes(true)?.OfType<ValidationAttribute>();
-
-                if (attrs == null || attrs.Count() == 0) return string.Empty;
-
-                DisplayAttribute display = property.GetCustomAttributes(true)?.OfType<DisplayAttribute>()?.FirstOrDefault();
-
-                object value = property.GetValue(this);
-
-                foreach (ValidationAttribute r in attrs)
+                if (this.Validation(columnName, out string error))
                 {
-                    if (!r.IsValid(value))
-                    {
-                        results.Add(r.ErrorMessage ?? r.FormatErrorMessage(display == null ? columnName : display.Name));
-                    }
+                    return this.Error = null;
                 }
-
-                return this.Error = results.FirstOrDefault();
+                return this.Error = error;
             }
         }
+
+
+        protected virtual bool Validation(string columnName, out string error)
+        {
+            error = null;
+            List<string> results = new List<string>();
+
+            System.Reflection.PropertyInfo property = this.GetType().GetProperty(columnName);
+
+            IEnumerable<ValidationAttribute> attrs = property.GetCustomAttributes(true)?.OfType<ValidationAttribute>();
+
+            if (attrs == null || attrs.Count() == 0)
+                return true;
+
+            DisplayAttribute display = property.GetCustomAttributes(true)?.OfType<DisplayAttribute>()?.FirstOrDefault();
+            object value = property.GetValue(this);
+            foreach (ValidationAttribute r in attrs)
+            {
+                if (!r.IsValid(value))
+                {
+                    results.Add(r.ErrorMessage ?? r.FormatErrorMessage(display == null ? columnName : display.Name));
+                }
+            }
+            error = results.FirstOrDefault();
+            return string.IsNullOrEmpty(error);
+        }
+
     }
 
 }

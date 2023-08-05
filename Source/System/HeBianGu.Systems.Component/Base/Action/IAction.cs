@@ -1,5 +1,6 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
+using HeBianGu.Control.Diagram;
 using System.Threading.Tasks;
 
 namespace HeBianGu.Systems.Component

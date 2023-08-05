@@ -4,7 +4,7 @@
                     xmlns:local="clr-namespace:HeBianGu.Control.MessageContainer"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <Storyboard x:Key="S.Storyboard.RenderTransform.Shake">
+    <Storyboard x:Key="S.Storyboard.RenderTransform.Shake" Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
         <DoubleAnimation RepeatBehavior="Forever"
                          Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)"
                          From="-10" To="0"
@@ -15,7 +15,7 @@
         </DoubleAnimation>
     </Storyboard>
 
-    <Storyboard x:Key="S.Storyboard.FontSize.Rebound">
+    <Storyboard x:Key="S.Storyboard.FontSize.Rebound" Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
         <DoubleAnimation RepeatBehavior="Forever"
                          Storyboard.TargetProperty="FontSize"
                          From="5" To="50"
@@ -26,7 +26,7 @@
         </DoubleAnimation>
     </Storyboard>
 
-    <Storyboard x:Key="S.Storyboard.Color.Flash">
+    <Storyboard x:Key="S.Storyboard.Color.Flash" Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
         <ColorAnimation AutoReverse="True"
                         RepeatBehavior="Forever"
                         Storyboard.TargetProperty="(Control.Foreground).(SolidColorBrush.Color)"
@@ -39,7 +39,7 @@
         </ColorAnimation>
     </Storyboard>
 
-    <Storyboard x:Key="S.Storyboard.MessageLoad.OpacityRightToLeft">
+    <Storyboard x:Key="S.Storyboard.MessageLoad.OpacityRightToLeft" Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
         <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
             <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0" />
             <SplineDoubleKeyFrame KeyTime="00:00:00.5" Value="1" />
@@ -51,7 +51,7 @@
         </DoubleAnimationUsingKeyFrames>
     </Storyboard>
 
-    <Storyboard x:Key="S.Storyboard.MessageHide.OpacityLeftToRight">
+    <Storyboard x:Key="S.Storyboard.MessageHide.OpacityLeftToRight" Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
         <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
             <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0" />
             <SplineDoubleKeyFrame KeyTime="00:00:00.5" Value="1" />
@@ -77,19 +77,21 @@
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.MessageBase.Default, TypeInTargetAssembly={x:Type local:MessageBase}}" TargetType="{x:Type local:MessageBase}">
         <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
-        <Setter Property="h:TransitionService.IsVisible" Value="False"/>
+        <Setter Property="h:TransitionService.IsVisible" Value="False" />
         <Setter Property="h:TransitionService.VisibleActions">
             <Setter.Value>
                 <h:TransitionCollection>
-                    <h:TranslateTransition StartPoint="200 0" EndPoint="400 0"/>
+                    <h:TranslateTransition StartPoint="200 0" EndPoint="400 0" />
                 </h:TransitionCollection>
             </Setter.Value>
         </Setter>
         <!--<Style.Triggers>
             <EventTrigger RoutedEvent="Loaded">
-                --><!--<BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageLoad.OpacityRightToLeft}"/>--><!--
+        -->
+        <!--<BeginStoryboard Storyboard="{DynamicResource S.Storyboard.MessageLoad.OpacityRightToLeft}"/>-->
+        <!--
                 <BeginStoryboard>
-                    <Storyboard>
+                    <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
                         <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Storyboard.TargetProperty="(UIElement.Opacity)">
                             <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0" />
                             <SplineDoubleKeyFrame KeyTime="00:00:00.5" Value="1" />
@@ -100,7 +102,7 @@
                             <SplineDoubleKeyFrame KeyTime="00:00:00.5" Value="0" />
                         </DoubleAnimationUsingKeyFrames>
                     </Storyboard>
-                </BeginStoryboard> 
+                </BeginStoryboard>
             </EventTrigger>
         </Style.Triggers>-->
     </Style>
@@ -109,7 +111,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ErrorMessage}">
-                    <Grid Width="350" Height="60" Margin="0,0,5,5">
+                    <Grid Width="350"
+                          Height="60"
+                          Margin="0,0,5,5"
+                          ToolTip="{TemplateBinding Message}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition />
@@ -130,23 +135,17 @@
                                    Text="&#xe701;" />
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
-                            <TextBlock Margin="0,2" Text="{TemplateBinding Message}" />
+                            <TextBlock Margin="0,2" Text="{TemplateBinding Message}" TextTrimming="CharacterEllipsis" />
                             <TextBlock Text="{TemplateBinding Time}" />
                         </StackPanel>
 
                         <Button Grid.ColumnSpan="2"
-                                   Width="38"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Center"
-                                   h:Cattach.AllowsAnimation="True"
-                                   Command="{x:Static local:MessageBase.CloseCommand}"
-                                   h:Cattach.CornerRadius="0"
-                                   h:Cattach.IconMargin="0"
-                                   h:Cattach.IconSize="16"
-                                   h:Cattach.Icon="&#xe6f4;"
-                                   h:Cattach.MouseOverForeground="Red"
-                                   h:Cattach.PressForeground="LightGray"
-                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                Margin="10,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                h:Cattach.AllowsAnimation="True"
+                                Command="{x:Static local:MessageBase.CloseCommand}"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.CloseFlag}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -157,7 +156,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:InfoMessage}">
-                    <Grid Width="350" Height="60" Margin="0,0,5,5">
+                    <Grid Width="350"
+                          Height="60"
+                          Margin="0,0,5,5"
+                          ToolTip="{TemplateBinding Message}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition />
@@ -178,7 +180,7 @@
                                    Text="&#xe70a;" />
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
-                            <TextBlock Margin="0,2" Text="{TemplateBinding Message}" />
+                            <TextBlock Margin="0,2" Text="{TemplateBinding Message}" TextTrimming="CharacterEllipsis" />
                             <TextBlock Text="{TemplateBinding Time}" />
                         </StackPanel>
                     </Grid>
@@ -191,7 +193,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:SuccessMessage}">
-                    <Grid Width="350" Height="60" Margin="0,0,5,5">
+                    <Grid Width="350"
+                          Height="60"
+                          Margin="0,0,5,5"
+                          ToolTip="{TemplateBinding Message}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition />
@@ -212,7 +217,7 @@
                                    Text="&#xe76c;" />
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
-                            <TextBlock Margin="0,2" Text="{TemplateBinding Message}" />
+                            <TextBlock Margin="0,2" Text="{TemplateBinding Message}" TextTrimming="CharacterEllipsis" />
                             <TextBlock Text="{TemplateBinding Time}" />
                         </StackPanel>
                     </Grid>
@@ -225,7 +230,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:WarnMessage}">
-                    <Grid Width="350" Height="60" Margin="0,0,5,5">
+                    <Grid Width="350"
+                          Height="60"
+                          Margin="0,0,5,5"
+                          ToolTip="{TemplateBinding Message}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition />
@@ -246,23 +254,17 @@
                                    Text="&#xe62e;" />
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
-                            <TextBlock Margin="0,2" Text="{TemplateBinding Message}" />
+                            <TextBlock Margin="0,2" Text="{TemplateBinding Message}" TextTrimming="CharacterEllipsis" />
                             <TextBlock Text="{TemplateBinding Time}" />
                         </StackPanel>
 
                         <Button Grid.ColumnSpan="2"
-                                   Width="38"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Center"
-                                   h:Cattach.AllowsAnimation="True"
-                                   Command="{x:Static local:MessageBase.CloseCommand}"
-                                   h:Cattach.CornerRadius="0"
-                                   h:Cattach.IconMargin="0"
-                                   h:Cattach.IconSize="16"
-                                   h:Cattach.Icon="&#xe6f4;"
-                                   h:Cattach.MouseOverForeground="Red"
-                                   h:Cattach.PressForeground="LightGray"
-                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                Margin="10,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                h:Cattach.AllowsAnimation="True"
+                                Command="{x:Static local:MessageBase.CloseCommand}"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.CloseFlag}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -273,7 +275,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:FatalMessage}">
-                    <Grid Width="350" Height="60" Margin="0,0,5,5">
+                    <Grid Width="350"
+                          Height="60"
+                          Margin="0,0,5,5"
+                          ToolTip="{TemplateBinding Message}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition />
@@ -294,23 +299,17 @@
                                    Text="&#xe718;" />
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
-                            <TextBlock Margin="0,2" Text="{TemplateBinding Message}" />
+                            <TextBlock Margin="0,2" Text="{TemplateBinding Message}" TextTrimming="CharacterEllipsis" />
                             <TextBlock Text="{TemplateBinding Time}" />
                         </StackPanel>
 
                         <Button Grid.ColumnSpan="2"
-                                   Width="38"
-                                   HorizontalAlignment="Right"
-                                   VerticalAlignment="Center"
-                                   h:Cattach.AllowsAnimation="True"
-                                   Command="{x:Static local:MessageBase.CloseCommand}"
-                                   h:Cattach.CornerRadius="0"
-                                   h:Cattach.IconMargin="0"
-                                   h:Cattach.IconSize="16"
-                                   h:Cattach.Icon="&#xe6f4;"
-                                   h:Cattach.MouseOverForeground="Red"
-                                   h:Cattach.PressForeground="LightGray"
-                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                Margin="10,0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center"
+                                h:Cattach.AllowsAnimation="True"
+                                Command="{x:Static local:MessageBase.CloseCommand}"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.CloseFlag}}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -321,7 +320,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:DailogMessage}">
-                    <Grid Width="350" Height="100" Margin="0,0,5,5">
+                    <Grid Width="350"
+                          Height="100"
+                          Margin="0,0,5,5"
+                          ToolTip="{TemplateBinding Message}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition />
@@ -353,7 +355,8 @@
                                    Grid.Column="1"
                                    Margin="0,10,0,0"
                                    VerticalAlignment="Center"
-                                   Text="{TemplateBinding Message}" />
+                                   Text="{TemplateBinding Message}"
+                                   TextTrimming="CharacterEllipsis" />
 
                         <TextBlock Grid.Row="1"
                                    Grid.Column="1"
@@ -371,9 +374,9 @@
                                     TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
 
                             <Button Margin="10,0"
-                                       Command="{x:Static local:MessageBase.CloseCommand}"
-                                       Content="忽略"
-                                       Style="{DynamicResource {x:Static h:ButtonKeys.Link}}" />
+                                    Command="{x:Static local:MessageBase.CloseCommand}"
+                                    Content="忽略"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Link}}" />
 
                             <Button Command="{x:Static local:DailogMessage.SumitCommand}" Content="确定" Style="{DynamicResource {x:Static h:ButtonKeys.Link}}" />
                         </StackPanel>
@@ -388,7 +391,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:StringProgressMessage}">
-                    <Grid Width="350" Height="60" Margin="0,0,5,5">
+                    <Grid Width="350"
+                          Height="60"
+                          Margin="0,0,5,5"
+                          ToolTip="{TemplateBinding Message}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50" />
                             <ColumnDefinition />
@@ -409,7 +415,7 @@
                                    Text="&#xe70a;" />
 
                         <StackPanel Grid.Column="1" VerticalAlignment="Center" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
-                            <TextBlock Text="{TemplateBinding Message}" />
+                            <TextBlock Text="{TemplateBinding Message}" TextTrimming="CharacterEllipsis" />
                             <TextBlock Text="{TemplateBinding Time}" />
                         </StackPanel>
                     </Grid>
@@ -422,7 +428,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:PercentProgressMessage}">
-                    <Grid Width="350" Height="60" Margin="5">
+                    <Grid Width="350"
+                          Height="60"
+                          Margin="5"
+                          ToolTip="{TemplateBinding Value}">
                         <Border Grid.ColumnSpan="2"
                                 Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
                                 BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
@@ -449,7 +458,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:WaittingMessage}">
-                    <Grid Width="Auto" Height="Auto" Margin="10,2">
+                    <Grid Width="Auto"
+                          Height="Auto"
+                          Margin="10,2"
+                          ToolTip="{TemplateBinding Message}">
                         <TextBlock Margin="20,0"
                                    HorizontalAlignment="Right"
                                    VerticalAlignment="Top"
@@ -457,7 +469,8 @@
                                    Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
                                    RenderTransform="{StaticResource {x:Static h:SystemKeys.TransformGroup}}"
                                    RenderTransformOrigin="0.5,0.5"
-                                   Text="{TemplateBinding Message}">
+                                   Text="{TemplateBinding Message}"
+                                   TextTrimming="CharacterEllipsis">
                             <TextBlock.Triggers>
                                 <EventTrigger RoutedEvent="Button.Loaded">
                                     <BeginStoryboard Storyboard="{StaticResource S.Storyboard.RenderTransform.Shake}" />
@@ -471,7 +484,7 @@
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.MessageContainer.Default, TypeInTargetAssembly={x:Type local:MessageContainer}}" TargetType="{x:Type local:MessageContainer}">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{x:Null}" />
         <Setter Property="BorderThickness" Value="0" />
         <!--<Setter Property="BorderBrush" Value="{x:Null}"/>-->
         <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -482,6 +495,7 @@
         <Setter Property="Padding" Value="0" />
         <Setter Property="Width" Value="Auto" />
         <Setter Property="Height" Value="Auto" />
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
         <!--<Setter Property="ItemsSource" Value="{Binding Source,RelativeSource={RelativeSource Mode=Self}}" />-->
         <Setter Property="ItemsPanel">
             <Setter.Value>
@@ -493,13 +507,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:MessageContainer}">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-                        <ItemsPresenter />
-                    </Grid>
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                        <ItemsPresenter Margin="{TemplateBinding Padding}"/>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -7,34 +7,42 @@
         <Setter Property="MaxValue" Value="1000" />
         <Setter Property="MinValue" Value="0" />
         <Setter Property="Value" Value="0" />
-        <Setter Property="SliderWidth" Value="Auto" />
+        <Setter Property="ScrollViewStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static h:FScrollView.ToolKey}}" TargetType="h:FScrollView">
+                    <Setter Property="h:ScrollViewerService.UseBottomEnd" Value="True" />
+                    <Setter Property="h:ScrollViewerService.UseDownLine" Value="True" />
+                    <Setter Property="h:ScrollViewerService.UseDownPage" Value="True" />
+                    <Setter Property="h:ScrollViewerService.UseLeftHome" Value="False" />
+                    <Setter Property="h:ScrollViewerService.UseLeftLine" Value="False" />
+                    <Setter Property="h:ScrollViewerService.UseLeftPage" Value="False" />
+                    <Setter Property="h:ScrollViewerService.UseRightEnd" Value="False" />
+                    <Setter Property="h:ScrollViewerService.UseRightLine" Value="False" />
+                    <Setter Property="h:ScrollViewerService.UseRightPage" Value="False" />
+                    <Setter Property="h:ScrollViewerService.UseTopHome" Value="True" />
+                    <Setter Property="h:ScrollViewerService.UseUpLine" Value="True" />
+                    <Setter Property="h:ScrollViewerService.UseUpPage" Value="True" />
+                    <Setter Property="MouseWheelOrientation" Value="Horizontal" />
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:StoryBoardPlayer}">
-                    <Border Height="{TemplateBinding Height}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                    <Border Height="{TemplateBinding Height}"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <h:FScrollView Margin="0,0,0,0"
                                            HorizontalContentAlignment="Right"
                                            VerticalContentAlignment="Bottom"
-                                           h:ScrollViewerService.UseBottomEnd="True"
-                                           h:ScrollViewerService.UseDownLine="True"
-                                           h:ScrollViewerService.UseDownPage="True"
-                                           h:ScrollViewerService.UseLeftHome="False"
-                                           h:ScrollViewerService.UseLeftLine="False"
-                                           h:ScrollViewerService.UseLeftPage="False"
-                                           h:ScrollViewerService.UseRightEnd="False"
-                                           h:ScrollViewerService.UseRightLine="False"
-                                           h:ScrollViewerService.UseRightPage="False"
-                                           h:ScrollViewerService.UseTopHome="True"
-                                           h:ScrollViewerService.UseUpLine="True"
-                                           h:ScrollViewerService.UseUpPage="True"
-                                           MouseWheelOrientation="Horizontal"
-                                           Style="{DynamicResource {x:Static h:ScrollViewerKeys.Tool}}">
+                                           Style="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ScrollViewStyle}">
                                 <Grid>
                                     <ItemsPresenter Margin="0,40,0,0" />
-                                    <Slider Width="{TemplateBinding SliderWidth}"
-                                            Height="Auto"
+                                    <Slider Height="{TemplateBinding Height}"
                                             Margin="{TemplateBinding SliderMargin}"
+                                            HorizontalAlignment="Left"
                                             Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
                                             DockPanel.Dock="Top"
                                             Foreground="{TemplateBinding Foreground}"
@@ -85,7 +93,6 @@
                                                                                 </RepeatButton.Style>
                                                                             </RepeatButton>
                                                                         </Track.DecreaseRepeatButton>
-
                                                                         <Track.IncreaseRepeatButton>
                                                                             <RepeatButton Height="20"
                                                                                           Margin="0,10,0,0"
@@ -107,7 +114,6 @@
                                                                                 </RepeatButton.Style>
                                                                             </RepeatButton>
                                                                         </Track.IncreaseRepeatButton>
-
                                                                         <Track.Thumb>
                                                                             <Thumb Margin="-15,0,-15,-10" Focusable="False">
                                                                                 <Thumb.Template>
@@ -136,12 +142,17 @@
 
                                                                 <local:SingleTickBar x:Name="TopTick"
                                                                                      Grid.Row="0"
-                                                                                     Height="10"
+                                                                                     Height="40"
+                                                                                     HorizontalAlignment="Left"
                                                                                      VerticalAlignment="Top"
                                                                                      Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
                                                                                      Maximum="{TemplateBinding Maximum}"
                                                                                      Minimum="{TemplateBinding Minimum}"
                                                                                      Placement="Top"
+                                                                                     SmallSplitValue="{Binding RelativeSource={RelativeSource AncestorType=local:StoryBoardPlayer}, Path=TickSmallSplitValue}"
+                                                                                     SplitValue="{Binding RelativeSource={RelativeSource AncestorType=local:StoryBoardPlayer}, Path=TickSplitValue}"
+                                                                                     TickFrequency="{Binding RelativeSource={RelativeSource AncestorType=local:StoryBoardPlayer}, Path=TickFrequency}"
+                                                                                     TickVerticalAlignment="Bottom"
                                                                                      Visibility="Visible" />
                                                             </Grid>
                                                         </ControlTemplate>
@@ -154,7 +165,6 @@
                                     </Slider>
                                 </Grid>
                             </h:FScrollView>
-
                         </Grid>
                     </Border>
                 </ControlTemplate>

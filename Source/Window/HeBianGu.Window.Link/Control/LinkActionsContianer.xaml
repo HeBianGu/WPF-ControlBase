@@ -1,0 +1,547 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Window.Link"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.ToggleExpander;component/ToggleExpander.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleExpander.Center, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static h:ToggleExpander.SingleKey}}" TargetType="{x:Type h:ToggleExpander}">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="Height" Value="Auto" />
+        <Setter Property="h:Cattach.IconSize" Value="50" />
+        <Setter Property="h:Cattach.CornerRadius" Value="250" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="h:ToggleExpander">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding h:Cattach.CornerRadius}">
+                        <Grid>
+                            <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
+
+                            <ToggleButton x:Name="tg"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          h:Cattach.IconSize="{TemplateBinding h:Cattach.IconSize}"
+                                          h:Cattach.Icon="&#xe635;"
+                                          h:InvokeTimeSplitAnimationAction.IsExcept="True"
+                                          Content="&#xe639;"
+                                          DockPanel.Dock="{TemplateBinding DockPanel.Dock}"
+                                          IsChecked="{TemplateBinding IsExpanded}"
+                                          Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconChecked}}">
+                                <h:Interaction.Triggers>
+                                    <h:EventTrigger EventName="Checked">
+                                        <h:InvokeCommandAction Command="{x:Static h:AnimationCommander.VisibleSplitAnimationCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    </h:EventTrigger>
+
+                                    <h:EventTrigger EventName="Unchecked">
+                                        <h:InvokeCommandAction Command="{x:Static h:AnimationCommander.CollapsedSplitAnimationCommand}" CommandParameter="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                    </h:EventTrigger>
+                                </h:Interaction.Triggers>
+                            </ToggleButton>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="tg" Property="IsChecked" Value="true" />
+                            <Setter Property="Cursor" Value="ScrollAll" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <h:CirclePanel Margin="25" IsAnimation="False" Len="60" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleExpander.LinkActionsContianer, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static h:ToggleExpander.SingleKey}}" TargetType="h:ToggleExpander">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,0,0" />
+        <Setter Property="SelectedIndex" Value="0" />
+        <Setter Property="h:Cattach.IconSize" Value="50" />
+        <Setter Property="Background" Value="{StaticResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <h:ArcPanel Margin="20"
+                                EndAngle="170"
+                                IsAnimation="False"
+                                Len="70"
+                                StartAngle="10" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Default, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="-100" />
+        <Setter Property="h:Cattach.DoubleAttach" Value="60" />
+        <Setter Property="h:Cattach.IconSize" Value="45" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LinkActionsContianer">
+
+                    <ControlTemplate.Resources>
+                        <DataTemplate DataType="{x:Type sys:Exception}">
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                                <StackPanel Margin="10">
+                                    <TextBlock Text="NAVIGATION FAILED" />
+                                    <TextBlock Margin="0,0,0,8"
+                                               FontWeight="Bold"
+                                               Foreground="#e51400"
+                                               Text="{Binding Message}" />
+                                    <TextBlock FontWeight="Bold" Text="Source" />
+                                    <TextBlock Margin="0,0,0,8" Text="{Binding Source, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=local:LinkActionFrame}}" />
+                                    <TextBlock FontWeight="Bold" Text="Stack Trace" />
+                                    <TextBlock Margin="0,0,0,16" Text="{Binding}" />
+                                    <TextBlock FontWeight="Bold" Text="Suggestions" />
+                                </StackPanel>
+                            </ScrollViewer>
+                        </DataTemplate>
+                    </ControlTemplate.Resources>
+
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <h:SwtichTransitioner CurrentContent="{TemplateBinding Content}" ITransitionWipe="{TemplateBinding CurrentWipe}" />
+
+                            <Grid Width="300"
+                                  Height="300"
+                                  Margin="{TemplateBinding Padding}"
+                                  HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+
+                                <h:ToggleExpander ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LinkActions}" SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LinkAction}" Style="{TemplateBinding ListStyle}">
+
+                                    <h:ToggleExpander.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type h:IAction}">
+                                            <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer}, Path=(h:Cattach.DoubleAttach)}" Height="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer}, Path=(h:Cattach.DoubleAttach)}" Cursor="Hand">
+
+                                                <Border x:Name="border"
+                                                        Background="Transparent"
+                                                        BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                                        BorderThickness="2"
+                                                        CornerRadius="100" />
+
+                                                <TextBlock x:Name="txt"
+                                                           FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer}, Path=(h:Cattach.IconSize)}"
+                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                           Text="{Binding Logo}"
+                                                           ToolTip="{Binding DisplayName}" />
+                                            </Grid>
+
+                                            <DataTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+                                                </Trigger>
+
+                                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="true">
+                                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                                                    <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                                                    <Setter TargetName="txt" Property="FontWeight" Value="Black" />
+                                                </DataTrigger>
+                                            </DataTemplate.Triggers>
+                                        </DataTemplate>
+                                    </h:ToggleExpander.ItemTemplate>
+
+                                    <h:Interaction.Behaviors>
+                                        <h:MouseDragElementBehavior ConstrainToParentBounds="False" />
+                                    </h:Interaction.Behaviors>
+                                </h:ToggleExpander>
+
+
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="HorizontalAlignment" Value="Center" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Margin" Value="0,0,0,0" />
+                    <Setter Property="h:Cattach.IconSize" Value="80" />
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <h:CirclePanel Margin="50" IsAnimation="False" Len="80" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Expander.RightBottom, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.DefaultKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
+        <Setter Property="VerticalContentAlignment" Value="Bottom" />
+        <Setter Property="Padding" Value="-150" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <h:ArcPanel Margin="20"
+                                            EndAngle="100"
+                                            IsAnimation="False"
+                                            Len="120"
+                                            StartAngle="-10" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Expander.Top, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.DefaultKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="Padding" Value="-150" />
+        <Setter Property="h:Cattach.DoubleAttach" Value="50" />
+        <Setter Property="h:Cattach.IconSize" Value="35" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <h:ArcPanel Margin="35"
+                                            EndAngle="350"
+                                            IsAnimation="False"
+                                            Len="70"
+                                            StartAngle="190" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Expander.Bottom, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ExpanderTopKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="VerticalContentAlignment" Value="Bottom" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <h:ArcPanel Margin="35"
+                                            EndAngle="170"
+                                            IsAnimation="False"
+                                            Len="70"
+                                            StartAngle="10" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Expander.Left, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.DefaultKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Padding" Value="-150" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <h:ArcPanel Margin="35"
+                                            EndAngle="90"
+                                            IsAnimation="False"
+                                            Len="70"
+                                            StartAngle="270" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Expander.Right, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ExpanderTopKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
+        <Setter Property="Padding" Value="-150" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <h:ArcPanel Margin="35"
+                                            EndAngle="90"
+                                            IsAnimation="False"
+                                            Len="70"
+                                            StartAngle="-90" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ToggleExpander.LinkActionsContianer.Single, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static h:ToggleExpander.SingleKey}}" TargetType="h:ToggleExpander">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="h:Cattach.IconSize" Value="45" />
+        <Setter Property="h:Cattach.CornerRadius" Value="35" />
+        <Setter Property="DockPanel.Dock" Value="Bottom" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Single, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="5,8" />
+        <Setter Property="h:Cattach.DoubleAttach" Value="50" />
+        <Setter Property="h:Cattach.IconSize" Value="35" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:LinkActionsContianer">
+
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+
+                            <h:SwtichTransitioner CurrentContent="{TemplateBinding Content}" ITransitionWipe="{TemplateBinding CurrentWipe}" />
+
+                            <h:ToggleExpander ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LinkActions}"
+                                              SelectedIndex="0"
+                                              SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LinkAction}"
+                                              Style="{TemplateBinding ListStyle}">
+                                <h:ToggleExpander.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type h:IAction}">
+                                        <Grid Width="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer}, Path=(h:Cattach.DoubleAttach)}"
+                                              Height="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer}, Path=(h:Cattach.DoubleAttach)}"
+                                              Margin="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer}, Path=Padding}"
+                                              Cursor="Hand">
+
+                                            <Border x:Name="border"
+                                                    Background="Transparent"
+                                                    BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                                    BorderThickness="2"
+                                                    CornerRadius="100" />
+
+                                            <TextBlock x:Name="txt"
+                                                       FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:LinkActionsContianer}, Path=(h:Cattach.IconSize)}"
+                                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                       Text="{Binding Logo}"
+                                                       ToolTip="{Binding DisplayName}" />
+                                        </Grid>
+
+                                        <DataTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+                                            </Trigger>
+
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="true">
+                                                <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                                                <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                                                <Setter TargetName="txt" Property="FontWeight" Value="Black" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </h:ToggleExpander.ItemTemplate>
+
+                                <h:Interaction.Behaviors>
+                                    <h:MouseDragElementBehavior ConstrainToParentBounds="False" />
+                                </h:Interaction.Behaviors>
+                            </h:ToggleExpander>
+
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ListStyle" Value="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderSingleKey}}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Single.Horizontal.RightTop, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.SingleKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderSingleKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="HorizontalAlignment" Value="Right" />
+                    <Setter Property="VerticalAlignment" Value="Top" />
+                    <Setter Property="DockPanel.Dock" Value="Right" />
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Single.Horizontal.RightBottom, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.SingleKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderSingleKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="HorizontalAlignment" Value="Right" />
+                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                    <Setter Property="DockPanel.Dock" Value="Right" />
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Single.Horizontal.LeftBottom, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.SingleKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Bottom" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderSingleKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="HorizontalAlignment" Value="Right" />
+                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                    <Setter Property="DockPanel.Dock" Value="Right" />
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Single.Horizontal.LeftTop, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.SingleKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderSingleKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="HorizontalAlignment" Value="Right" />
+                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                    <Setter Property="DockPanel.Dock" Value="Right" />
+                    <Setter Property="ItemsPanel">
+                        <Setter.Value>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Single.Vertical.RightTop, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.SingleKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderSingleKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="HorizontalAlignment" Value="Right" />
+                    <Setter Property="VerticalAlignment" Value="Top" />
+                    <Setter Property="DockPanel.Dock" Value="Right" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Single.Vertical.RightBottom, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.SingleKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderSingleKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="HorizontalAlignment" Value="Right" />
+                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                    <Setter Property="DockPanel.Dock" Value="Right" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Single.Vertical.LeftBottom, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.SingleKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Bottom" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderSingleKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="HorizontalAlignment" Value="Right" />
+                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                    <Setter Property="DockPanel.Dock" Value="Right" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LinkActionsContianer.Single.Vertical.LeftTop, TypeInTargetAssembly={x:Type local:LinkActionsContianer}}" BasedOn="{StaticResource {x:Static local:LinkActionsContianer.SingleKey}}" TargetType="local:LinkActionsContianer">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ListStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static local:LinkActionsContianer.ToggleExpanderSingleKey}}" TargetType="h:ToggleExpander">
+                    <Setter Property="HorizontalAlignment" Value="Right" />
+                    <Setter Property="VerticalAlignment" Value="Bottom" />
+                    <Setter Property="DockPanel.Dock" Value="Right" />
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

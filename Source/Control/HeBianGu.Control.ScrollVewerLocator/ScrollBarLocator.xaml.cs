@@ -75,20 +75,14 @@ namespace HeBianGu.Control.ScrollVewerLocator
 
         private void Config_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-
             ////  Do ：更新位置 
             //double l = (this.HorizontalScrollBar.Value - this.HorizontalScrollBar.Minimum) / this.GetExtentWidth() * this.ActualWidth;
-
             //double t = (this.VerticalScrollBar.Value - this.VerticalScrollBar.Minimum) / this.GetExtentHeight() * this.ActualHeight;
-
             //  Do ：更新位置 
             double h = this.GetRelativeLeft(this.HorizontalScrollBar.Value);
-
             double v = this.GetRelativeTop(this.VerticalScrollBar.Value);
-
             Canvas.SetLeft(this.Mask, h);
             Canvas.SetTop(this.Mask, v);
-
             this.RefreshLocation();
 
             if (this.Mask.Background is VisualBrush visualBrush)
@@ -234,5 +228,9 @@ namespace HeBianGu.Control.ScrollVewerLocator
             return this.VerticalScrollBar.ViewportSize;
         }
 
+        protected override void WheelPoint(Point p, double Delta)
+        {
+           
+        }
     }
 }

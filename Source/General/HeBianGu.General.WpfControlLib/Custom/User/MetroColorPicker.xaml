@@ -1,0 +1,350 @@
+﻿<UserControl x:Class="HeBianGu.General.WpfControlLib.MetroColorPicker"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:h="https://github.com/HeBianGu"
+             xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             x:Name="root"
+             FontSize="12"
+             Style="{DynamicResource UserControlStyle}"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style x:Key="UserControlStyle" TargetType="{x:Type UserControl}">
+                <!--<Setter Property="BorderBrush" Value="{StaticResource Brush}"/>-->
+                <Setter Property="SnapsToDevicePixels" Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type UserControl}">
+                            <Grid Margin="{TemplateBinding Padding}" Background="#00000000">
+                                <ContentPresenter />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <Grid />
+        <Button x:Name="button"
+                Width="Auto"
+                Height="{Binding ElementName=root, Path=Height}"
+                h:Cattach.Icon=""
+                Background="{Binding Background, ElementName=root}"
+                Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}" />
+        <Popup x:Name="popup"
+               AllowsTransparency="True"
+               Focusable="False"
+               HorizontalOffset="-20"
+               Placement="Bottom"
+               PlacementTarget="{Binding ElementName=root}"
+               PopupAnimation="Fade"
+               StaysOpen="False"
+               VerticalOffset="-10">
+            <Grid Background="#00000000">
+                <Border Grid.Row="1"
+                        Margin="20"
+                        Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
+                        BorderBrush="#99FFFFFF"
+                        BorderThickness="1"
+                        CornerRadius="3">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="20"
+                                          Direction="0"
+                                          Opacity="0.2"
+                                          ShadowDepth="0" />
+                    </Border.Effect>
+                    <Grid>
+                        <Polygon x:Name="polygon"
+                                 Margin="13,-5,0,0"
+                                 HorizontalAlignment="Left"
+                                 Fill="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
+                                 Points="0,5 5,0 10,5 0,5" />
+
+                        <Grid Margin="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0"
+                                    Width="214"
+                                    Height="214"
+                                    Margin="0,0,5,0"
+                                    Background="#FFFFFF"
+                                    CornerRadius="2">
+                                <Grid>
+                                    <Grid>
+                                        <Rectangle x:Name="viewSelectColor" RadiusX="2" RadiusY="2" />
+                                        <Rectangle x:Name="viewSelectColor1" RadiusX="2" RadiusY="2">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0,0.5" EndPoint="1,0.5">
+                                                    <GradientStop Offset="0" Color="#FFFFFFFF" />
+                                                    <GradientStop Offset="1" Color="#00FFFFFF" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <Rectangle x:Name="viewSelectColor2" RadiusX="2" RadiusY="2">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                    <GradientStop Offset="0" Color="#00000000" />
+                                                    <GradientStop Offset="1" Color="#FF000000" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                        <local:MetroThumb x:Name="thumbSB" OffsetX="-7" OffsetY="-7">
+                                            <Thumb.Resources>
+                                                <Style TargetType="{x:Type local:MetroThumb}">
+                                                    <Setter Property="BorderBrush" Value="#FF000000" />
+                                                    <Setter Property="Template">
+                                                        <Setter.Value>
+                                                            <ControlTemplate TargetType="{x:Type local:MetroThumb}">
+                                                                <Canvas Background="#00000000">
+                                                                    <Grid Canvas.Left="{TemplateBinding X}"
+                                                                          Canvas.Top="{TemplateBinding Y}"
+                                                                          Width="14"
+                                                                          Height="14">
+                                                                        <Border BorderBrush="{TemplateBinding Background}" BorderThickness="1" CornerRadius="100" />
+                                                                        <Border Margin="1"
+                                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                                BorderThickness="1"
+                                                                                CornerRadius="100" />
+                                                                    </Grid>
+                                                                </Canvas>
+                                                            </ControlTemplate>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </Thumb.Resources>
+                                        </local:MetroThumb>
+                                    </Grid>
+                                </Grid>
+                            </Border>
+                            <Border Grid.Column="1" Margin="5,0,5,0" CornerRadius="2">
+                                <Grid>
+                                    <Border Width="24"
+                                            Margin="10,0"
+                                            Background="#FFFFFF"
+                                            CornerRadius="2">
+                                        <Grid>
+                                            <Grid>
+                                                <Rectangle RadiusX="2" RadiusY="2">
+                                                    <Rectangle.Fill>
+                                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                            <GradientStop x:Name="viewLine1" Offset="0" Color="Red" />
+                                                            <GradientStop x:Name="viewLine2" Offset="0.1667" Color="Yellow" />
+                                                            <GradientStop x:Name="viewLine3" Offset="0.3334" Color="Lime" />
+                                                            <GradientStop x:Name="viewLine4" Offset="0.5001" Color="Cyan" />
+                                                            <GradientStop x:Name="viewLine5" Offset="0.6668" Color="Blue" />
+                                                            <GradientStop x:Name="viewLine6" Offset="0.8335" Color="Magenta" />
+                                                            <GradientStop x:Name="viewLine7" Offset="1" Color="Red" />
+                                                        </LinearGradientBrush>
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                    <local:MetroThumb x:Name="thumbH" OffsetX="-20" OffsetY="-5">
+                                        <Thumb.Resources>
+                                            <Style TargetType="{x:Type local:MetroThumb}">
+                                                <Setter Property="SnapsToDevicePixels" Value="False" />
+                                                <Setter Property="Background" Value="#FFDEDEDE" />
+                                                <Setter Property="BorderBrush" Value="#99000000" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type local:MetroThumb}">
+                                                            <Canvas Background="#00000000">
+                                                                <Grid Canvas.Left="0" Canvas.Top="{TemplateBinding Y}">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="10" />
+                                                                        <ColumnDefinition Width="24" />
+                                                                        <ColumnDefinition Width="10" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="8" />
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid Grid.Column="0" ClipToBounds="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                                                        <Polygon Fill="{TemplateBinding Background}"
+                                                                                 Points="0,0 6,0 10,4 6,8 0,8"
+                                                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                                 Stroke="{TemplateBinding BorderBrush}"
+                                                                                 StrokeThickness="1" />
+                                                                    </Grid>
+                                                                    <Grid Grid.Column="2" ClipToBounds="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                                                        <Polygon Fill="{TemplateBinding Background}"
+                                                                                 Points="0,4 4,0 10,0 10,8 4,8"
+                                                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                                 Stroke="{TemplateBinding BorderBrush}"
+                                                                                 StrokeThickness="1" />
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </Canvas>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Thumb.Resources>
+                                    </local:MetroThumb>
+                                </Grid>
+                            </Border>
+                            <Border x:Name="alpha1"
+                                    Grid.Column="2"
+                                    Margin="5,0,5,0"
+                                    CornerRadius="2">
+                                <Grid>
+                                    <Border Width="24"
+                                            Margin="10,0"
+                                            Background="#FFFFFF"
+                                            CornerRadius="2">
+                                        <Grid>
+                                            <Grid>
+                                                <Rectangle RadiusX="2" RadiusY="2">
+                                                    <Rectangle.Fill>
+                                                        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                            <GradientStop x:Name="viewAlpha" Offset="0" Color="#FFFFFF" />
+                                                            <GradientStop Offset="1" Color="#00FFFFFF" />
+                                                        </LinearGradientBrush>
+                                                    </Rectangle.Fill>
+                                                </Rectangle>
+                                            </Grid>
+                                        </Grid>
+                                    </Border>
+                                    <local:MetroThumb x:Name="thumbA" OffsetX="-20" OffsetY="-5">
+                                        <Thumb.Resources>
+                                            <Style TargetType="{x:Type local:MetroThumb}">
+                                                <Setter Property="SnapsToDevicePixels" Value="False" />
+                                                <Setter Property="Background" Value="#FFDEDEDE" />
+                                                <Setter Property="BorderBrush" Value="#99000000" />
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type local:MetroThumb}">
+                                                            <Canvas Background="#00000000">
+                                                                <Grid Canvas.Left="0" Canvas.Top="{TemplateBinding Y}">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="10" />
+                                                                        <ColumnDefinition Width="24" />
+                                                                        <ColumnDefinition Width="10" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <Grid.RowDefinitions>
+                                                                        <RowDefinition Height="8" />
+                                                                    </Grid.RowDefinitions>
+                                                                    <Grid Grid.Column="0" ClipToBounds="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                                                        <Polygon Fill="{TemplateBinding Background}"
+                                                                                 Points="0,0 6,0 10,4 6,8 0,8"
+                                                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                                 Stroke="{TemplateBinding BorderBrush}"
+                                                                                 StrokeThickness="1" />
+                                                                    </Grid>
+                                                                    <Grid Grid.Column="2" ClipToBounds="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                                                        <Polygon Fill="{TemplateBinding Background}"
+                                                                                 Points="0,4 4,0 10,0 10,8 4,8"
+                                                                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                                                 Stroke="{TemplateBinding BorderBrush}"
+                                                                                 StrokeThickness="1" />
+                                                                    </Grid>
+                                                                </Grid>
+                                                            </Canvas>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </Thumb.Resources>
+                                    </local:MetroThumb>
+                                </Grid>
+                            </Border>
+                            <Grid Grid.Column="3" Margin="5,0,0,0">
+                                <Grid.Resources>
+                                    <Style BasedOn="{StaticResource {x:Static local:TextBoxKeys.Label}}" TargetType="TextBox">
+                                        <Setter Property="h:Cattach.TitleWidth" Value="Auto" />
+                                        <Setter Property="h:Cattach.Icon" Value="" />
+                                        <Setter Property="h:Cattach.Watermark" Value="" />
+                                        <Setter Property="Margin" Value="2" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                                        <Setter Property="MaxLength" Value="3" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                    </Style>
+                                </Grid.Resources>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="82" />
+                                    <ColumnDefinition Width="82" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.ColumnSpan="2"
+                                        Margin="0,2"
+                                        Background="Transparent"
+                                        CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
+                                    <Button x:Name="viewDefColor"
+                                            Margin="0"
+                                            Content="默认"
+                                            Style="{DynamicResource {x:Static h:ButtonKeys.Accent}}" />
+                                </Border>
+
+                                <TextBox x:Name="rgbaR"
+                                         Grid.Row="1"
+                                         Grid.Column="0"
+                                         h:Cattach.Title="R"
+                                         h:Cattach.TitleWidth="Auto" />
+                                <TextBox x:Name="rgbaG"
+                                         Grid.Row="2"
+                                         Grid.Column="0"
+                                         h:Cattach.Title="G"
+                                         h:Cattach.TitleWidth="Auto" />
+                                <TextBox x:Name="rgbaB"
+                                         Grid.Row="3"
+                                         Grid.Column="0"
+                                         h:Cattach.Title="B"
+                                         h:Cattach.TitleWidth="Auto" />
+                                <TextBox x:Name="rgbaA"
+                                         Grid.Row="4"
+                                         Grid.Column="0"
+                                         h:Cattach.Title="A"
+                                         h:Cattach.TitleWidth="Auto" />
+
+                                <TextBox x:Name="hsbaH"
+                                         Grid.Row="1"
+                                         Grid.Column="1"
+                                         h:Cattach.Title="H"
+                                         h:Cattach.TitleWidth="Auto" />
+                                <TextBox x:Name="hsbaS"
+                                         Grid.Row="2"
+                                         Grid.Column="1"
+                                         h:Cattach.Title="S"
+                                         h:Cattach.TitleWidth="Auto" />
+                                <TextBox x:Name="hsbaB"
+                                         Grid.Row="3"
+                                         Grid.Column="1"
+                                         h:Cattach.Title="B"
+                                         h:Cattach.TitleWidth="Auto" />
+                                <TextBox x:Name="hsbaA"
+                                         Grid.Row="4"
+                                         Grid.Column="1"
+                                         h:Cattach.Title="O"
+                                         h:Cattach.TitleWidth="Auto" />
+
+                                <TextBox x:Name="hex"
+                                         Grid.Row="5"
+                                         Grid.ColumnSpan="2"
+                                         h:Cattach.Title="Hex"
+                                         h:Cattach.TitleWidth="Auto"
+                                         MaxLength="9" />
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Popup>
+    </Grid>
+</UserControl>

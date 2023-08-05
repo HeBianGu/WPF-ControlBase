@@ -26,17 +26,17 @@ namespace HeBianGu.Systems.Component
         {
             Node node = new Node() { Content = unit };
 
-            node.Id = unit.ID;
+            //node.Id = unit.ID;
 
             node.Location = new System.Windows.Point(unit.X, unit.Y);
 
             foreach (IComponentPort socket in unit.PortDatas)
             {
                 Port port = Port.Create(node);
-                port.Id = socket.ID;
+                //port.Id = socket.ID;
                 port.Content = socket;
                 port.Dock = socket.Dock;
-                port.Visibility = System.Windows.Visibility.Hidden;
+                //port.Visibility = System.Windows.Visibility.Hidden;
                 port.PortType = socket.PortType;
                 node.AddPort(port);
             }

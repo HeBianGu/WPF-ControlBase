@@ -1,6 +1,9 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.Guide;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Service.Mvp;
+using HeBianGu.Systems.Setting;
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -12,7 +15,7 @@ namespace HeBianGu.App.Tool
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             return new ShellWindow();
         }
@@ -21,32 +24,34 @@ namespace HeBianGu.App.Tool
         protected override void ConfigureServices(IServiceCollection services)
         {
             base.ConfigureServices(services);
-
             //  Do ：启用窗口加载和隐藏动画 需要引用 HeBianGu.Service.Animation
             services.AddWindowAnimation();
-
             //  Do ：启用消息提示 需要引用 HeBianGu.Control.Message
-            services.AddMessage();
-
+            services.AddMessageProxy();
             //  Do ：启用对话框 需要引用HeBianGu.Window.MessageDialog
-            services.AddMessageDialog();
-
-            //  Do ：启用和显示右上角主题设置
-            services.AddTheme();
-
+            services.AddWindowDialog();
             //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
-
-            services.AddNotify();
-
+            services.AddNotifyMessage();
             services.AddXmlSerialize();
             services.AddXmlMeta();
-
             services.AddSetting();
             services.AddSettingPath();
-            services.AddSettingViewPrenter();
-
             services.AddMvc();
+
+
+            #region - WindowCaption -
+            services.AddGuideViewPresenter();
+            services.AddSettingViewPrenter();
+            services.AddThemeRightViewPresenter();
+            services.AddWindowCaptionViewPresenter(x =>
+            {
+                x.AddPersenter(MoreViewPresenter.Instance);
+                x.AddPersenter(GuideViewPresenter.Instance);
+                x.AddPersenter(SettingViewPresenter.Instance);
+                x.AddPersenter(ThemeRightToolViewPresenter.Instance);
+            });
+            #endregion
 
         }
 
@@ -54,14 +59,11 @@ namespace HeBianGu.App.Tool
         {
             base.Configure(app);
 
-            app.UseMvc();
-
             //  Do：设置默认主题
             app.UseLocalTheme(l =>
             {
                 l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
-                l.SmallFontSize = 15D;
-                l.LargeFontSize = 18D;
+                l.DefaultFontSize = 15D;
                 l.FontSize = FontSize.Small;
 
                 l.ItemHeight = 35;

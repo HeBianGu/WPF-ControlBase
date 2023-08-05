@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations;
 namespace HeBianGu.Systems.Setting
 {
     /// <summary> 主面板 </summary>
-    [SettingConfig(Name = "主面板", Group = "基本设置")]
+    [Displayer(Name = "主面板", GroupName = SystemSetting.GroupBase)]
     public class MainSetting : Setting<MainSetting>
     {
 

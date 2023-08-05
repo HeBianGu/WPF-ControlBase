@@ -21,17 +21,19 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <ListBox SelectedItem="{Binding SelectedItem}"
+        <ListBox h:Cattach.ItemHorizontalAlignment="Stretch"
+                 h:Cattach.ItemHorizontalContentAlignment="Stretch"
                  BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
-                 BorderThickness="0,0,1,0" ItemsSource="{Binding LinkActions}"
+                 BorderThickness="0,0,1,0"
                  ItemContainerStyle="{StaticResource {x:Static h:ListBoxItemKeys.LeftAccent}}"
-                 SelectedIndex="0">
+                 ItemsSource="{Binding LinkActions}"
+                 SelectedIndex="0"
+                 SelectedItem="{Binding SelectLink, Mode=TwoWay}">
             <ListBox.Resources>
                 <DataTemplate DataType="{x:Type h:LinkAction}">
                     <Grid Height="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}">
                         <StackPanel Margin="15,0,0,0" VerticalAlignment="Center" Orientation="Horizontal">
                             <TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Logo}" />
-
                             <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="{Binding DisplayName}" />
                         </StackPanel>
                     </Grid>
@@ -41,7 +43,7 @@
             <ListBox.Template>
                 <ControlTemplate TargetType="ListBox">
                     <Grid>
-                        <Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_5}}"/>
+                        <Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}" />
                         <ItemsPresenter SnapsToDevicePixels="True" />
                     </Grid>
                 </ControlTemplate>
@@ -49,7 +51,7 @@
         </ListBox>
 
         <Grid Grid.Column="1">
-            <h:LinkActionFrame LinkAction="{Binding SelectedItem}" />
+            <h:LinkActionFrame LinkAction="{Binding SelectLink, Mode=TwoWay}" />
         </Grid>
     </Grid>
 </UserControl>

@@ -1,0 +1,92 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.ZoomBox">
+    <Style TargetType="local:ZoomBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ZoomBox}">
+                    <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <DockPanel>
+                            <DockPanel Grid.Row="1"
+                                       DockPanel.Dock="Bottom"
+                                       LastChildFill="False"
+                                       Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UseTools, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                                <ItemsControl ItemsSource="{Binding ElementName=PART_LayerView, Path=CommandBindings}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Button Margin="2"
+                                                    Padding="10,6"
+                                                    Command="{Binding Command}"
+                                                    CommandTarget="{Binding ElementName=PART_LayerView}"
+                                                    Content="{Binding Command.Text}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel />
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                            </DockPanel>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <Grid x:Name="grid" Background="White" ClipToBounds="True">
+                                    <local:ZoomView x:Name="PART_LayerView" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                                </Grid>
+
+                                <Viewbox Width="200"
+                                         Height="200"
+                                         HorizontalAlignment="Right"
+                                         VerticalAlignment="Bottom"
+                                         Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UseThumbView, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                                    <Grid x:Name="PART_ThumbGrid"
+                                          Width="{Binding ElementName=PART_LayerView, Path=ActualWidth}"
+                                          Height="{Binding ElementName=PART_LayerView, Path=ActualHeight}"
+                                          ClipToBounds="True">
+                                        <Grid.Background>
+                                            <VisualBrush Visual="{Binding ElementName=PART_LayerView}" />
+                                        </Grid.Background>
+                                        <Grid>
+                                            <Grid.Background>
+                                                <SolidColorBrush Opacity="0.8" Color="Black" />
+                                            </Grid.Background>
+                                        </Grid>
+                                        <Border BorderBrush="White" BorderThickness="2">
+                                            <Border.Background>
+                                                <VisualBrush Visual="{Binding ElementName=grid}" />
+                                            </Border.Background>
+                                            <Border.RenderTransform>
+                                                <MatrixTransform Matrix="{Binding ElementName=PART_LayerView, Path=Coord.CoordMatrixInv}" />
+                                            </Border.RenderTransform>
+                                        </Border>
+                                    </Grid>
+                                </Viewbox>
+
+                                <StackPanel VerticalAlignment="Bottom"
+                                            IsHitTestVisible="False"
+                                            TextBlock.FontSize="20"
+                                            TextBlock.Foreground="Red"
+                                            Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UseMessage, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                                    <TextBlock Margin="2">
+                                        <Run Text="Scale :" />
+                                        <Run Text="{Binding ElementName=PART_LayerView, Path=Coord.Scale}" />
+                                    </TextBlock>
+                                    <TextBlock Margin="2">
+                                        <Run Text="Offset :" />
+                                        <Run Text="{Binding ElementName=PART_LayerView, Path=Coord.Offset}" />
+                                    </TextBlock>
+                                </StackPanel>
+                            </Grid>
+                        </DockPanel>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

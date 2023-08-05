@@ -15,85 +15,89 @@
                 BorderThickness="{TemplateBinding BorderThickness}"
                 SnapsToDevicePixels="True">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="50" />
-                </Grid.RowDefinitions>
+                <DockPanel>
+                    <ContentControl DockPanel.Dock="Top" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.TopTemplate)}" Visibility="{TemplateBinding TopVisibility}" />
+                    <Grid Grid.Row="2" Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" DockPanel.Dock="Bottom">
+                        <TextBlock HorizontalAlignment="Left" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}">
+                            <Run Text="第" />
+                            <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MinValue}" />
+                            <Run Text="到" />
+                            <Run Text="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=MaxValue}" />
+                            <Run Text="条记录，共" />
+                            <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Total}" />
+                            <Run Text="条" />
+                        </TextBlock>
 
-                <Grid Visibility="{TemplateBinding TopVisibility}">
-                    <StackPanel Margin="0,5" Orientation="Horizontal" Visibility="{TemplateBinding PageCountVisible}">
-                        <TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="每页显示条数:" />
-                        <ComboBox Width="200"
-                                  ItemsSource="{TemplateBinding PageCountSource}"
-                                  SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=PageCount}"
-                                  Style="{DynamicResource {x:Static h:ComboBoxKeys.Default}}" />
-                    </StackPanel>
+                        <local:Pagination Width="600"
+                                          HorizontalAlignment="Right"
+                                          MaxPageCount="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=TotalPage, Mode=TwoWay}"
+                                          PageIndex="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=PageIndex, Mode=TwoWay}" />
+                    </Grid>
+                    <ContentControl DockPanel.Dock="Bottom" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.BottomTemplate)}" />
 
-                    <!--<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
-                        <Button Content="导出Excel" BorderThickness="1,1,0,1"
-                                                   BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" Width="100"
-                                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                        <Button Content="复制数据"  BorderThickness="1,1,0,1"
-                                                   BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" Width="100"
-                                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                        <Button Content="打印表格"
-                                                   BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" Width="100"
-                                                   BorderThickness="1" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
+                    <h:FScrollView Grid.Row="1" HorizontalScrollBarVisibility="Visible">
+                        <ScrollViewer.Template>
+                            <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                    </StackPanel>-->
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                    <ContentControl Content="{TemplateBinding HeaderContent}" />
+                                    <Button Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=CellsPanelHorizontalOffset}"
+                                            Command="{x:Static DataGrid.SelectAllCommand}"
+                                            Focusable="false"
+                                            Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type DataGrid},
+                                                                                          ResourceId=DataGridSelectAllButtonStyle}}"
+                                            Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.All}}" />
+
+                                    <Border Grid.Column="0"
+                                            Grid.ColumnSpan="9"
+                                            Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionBackground)}"
+                                            CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionCornerRadius)}" />
+
+                                    <DataGridColumnHeadersPresenter Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}" />
+
+                                    <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                                            Grid.Row="1"
+                                                            Grid.ColumnSpan="2"
+                                                            CanContentScroll="{TemplateBinding CanContentScroll}" />
+
+                                    <ScrollBar x:Name="PART_VerticalScrollBar"
+                                               Grid.Row="0"
+                                               Grid.RowSpan="3"
+                                               Grid.Column="2"
+                                               Maximum="{TemplateBinding ScrollableHeight}"
+                                               Orientation="Vertical"
+                                               ViewportSize="{TemplateBinding ViewportHeight}"
+                                               Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                               Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
 
 
-                    <StackPanel Margin="0" HorizontalAlignment="Right" Orientation="Horizontal">
-                        <TextBox Width="300" Style="{DynamicResource {x:Static h:TextBoxKeys.Search}}" Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                    </StackPanel>
-                </Grid>
-
-                <h:FScrollView Grid.Row="1" Style="{DynamicResource DefaultScrollViewer}">
-                    <ScrollViewer.Template>
-                        <ControlTemplate TargetType="{x:Type ScrollViewer}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <Button Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=CellsPanelHorizontalOffset}"
-                                        Command="{x:Static DataGrid.SelectAllCommand}"
-                                        Focusable="false"
-                                        Style="{DynamicResource {ComponentResourceKey TypeInTargetAssembly={x:Type DataGrid},
-                                                                                      ResourceId=DataGridSelectAllButtonStyle}}"
-                                        Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.All}}" />
-
-                                <Border Grid.Column="0"
-                                        Grid.ColumnSpan="9"
-                                        Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionBackground)}"
-                                        CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionCornerRadius)}" />
-
-                                <DataGridColumnHeadersPresenter Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}" />
-
-                                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
-                                                        Grid.Row="1"
-                                                        Grid.ColumnSpan="2"
-                                                        CanContentScroll="{TemplateBinding CanContentScroll}" />
-
-                                <!--<ScrollBar Grid.Row="1" Grid.Column="2" Name="PART_VerticalScrollBar"
+                                    <ScrollBar x:Name="PART_HorizontalScrollBar"
+                                               Grid.Row="2"
+                                               Grid.Column="0"
+                                               Grid.ColumnSpan="2"
+                                               Maximum="{TemplateBinding ScrollableWidth}"
+                                               Orientation="Horizontal"
+                                               ViewportSize="{TemplateBinding ViewportWidth}"
+                                               Visibility="Visible"
+                                               Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+                                    <!--<ScrollBar Grid.Row="1" Grid.Column="2" Name="PART_VerticalScrollBar"
                                                  Orientation="Vertical"
                                                  Maximum="{TemplateBinding ScrollableHeight}"
                                                  ViewportSize="{TemplateBinding ViewportHeight}"
                                                  Value="{Binding Path=VerticalOffset, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay}"
                                                  Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>-->
 
-                                <!--<Grid Grid.Row="2" Grid.Column="1">
+                                    <!--<Grid Grid.Row="2" Grid.Column="1">
                                                 <Grid.ColumnDefinitions>
                                                     <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=NonFrozenColumnsViewportHorizontalOffset}"/>
                                                     <ColumnDefinition Width="*"/>
@@ -107,37 +111,21 @@
                                                        Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
 
                                             </Grid>-->
-                            </Grid>
-                        </ControlTemplate>
-                    </ScrollViewer.Template>
-                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                </h:FScrollView>
+                                </Grid>
+                            </ControlTemplate>
+                        </ScrollViewer.Template>
+                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </h:FScrollView>
 
-                <Grid Grid.Row="2" Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}">
-                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                        <TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}">
-                            <Run Text="第" />
-                            <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MinValue}" />
-                            <Run Text="到" />
-                            <Run Text="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=MaxValue}" />
-                            <Run Text="条记录，共" />
-                            <Run Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=Total}" />
-                            <Run Text="条" />
-                        </TextBlock>
-                    </StackPanel>
-
-                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-                        <local:Pagination Width="600" MaxPageCount="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=TotalPage, Mode=TwoWay}" PageIndex="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=PageIndex, Mode=TwoWay}" />
-
-                    </StackPanel>
-                </Grid>
+                </DockPanel>
+                <ContentControl HorizontalAlignment="Right" VerticalAlignment="Top" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionRightTemplate)}" />
             </Grid>
         </Border>
     </ControlTemplate>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.PagedDataGrid.Dynamic, TypeInTargetAssembly={x:Type local:PagedDataGrid}}" BasedOn="{StaticResource {x:Static h:DataGridKeys.Dynamic}}" TargetType="{x:Type local:PagedDataGrid}">
         <Setter Property="Template" Value="{StaticResource S.PagedDataGrid.Template.Default}" />
-        <Setter Property="DataSource">
+        <!--<Setter Property="DataSource">
             <Setter.Value>
                 <x:Array Type="{x:Type h:Student}">
                     <h:Student />
@@ -147,8 +135,32 @@
                     <h:Student />
                 </x:Array>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
         <Setter Property="AutoGenerateColumns" Value="True" />
+        <Setter Property="h:Cattach.IsUseHistory" Value="True" />
+        <Setter Property="h:Cattach.TopTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid Margin="0 2">
+                        <StackPanel Orientation="Horizontal" Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=UsePageCount, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                            <TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="每页显示条数:" />
+                            <ComboBox Width="200"
+                                      ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=PageCountSource}"
+                                      SelectedItem="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=PageCount}"
+                                      Style="{DynamicResource {x:Static h:ComboBoxKeys.Default}}" />
+                        </StackPanel>
+                        <ContentControl ContentTemplate="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.TopTemplate)}" />
+                        <StackPanel Margin="0" HorizontalAlignment="Right" Orientation="Horizontal">
+                            <TextBox Width="300"
+                                     h:Cattach.IsUseHistory="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=(h:Cattach.IsUseHistory)}"
+                                     Style="{DynamicResource {x:Static h:TextBoxKeys.Search}}"
+                                     Text="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=FilterString, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:PagedDataGrid}, Path=UseSearch, Converter={x:Static h:Converter.GetTrueToVisible}}" />
+                        </StackPanel>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Style.Triggers>
             <Trigger Property="IsGrouping" Value="true">
                 <Setter Property="ScrollViewer.CanContentScroll" Value="false" />

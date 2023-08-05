@@ -1,4 +1,4 @@
-﻿using HeBianGu.General.WpfControlLib;
+﻿using HeBianGu.Base.WpfBase;
 using System.Windows;
 
 namespace HeBianGu.Demo.Demo6
@@ -15,7 +15,7 @@ namespace HeBianGu.Demo.Demo6
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageDialog.Instance.ShowSumit("框架自带的窗口对话框");
+            MessageProxy.Windower.ShowSumit("框架自带的窗口对话框");
         }
     }
 }

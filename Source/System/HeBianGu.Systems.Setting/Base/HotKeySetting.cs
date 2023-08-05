@@ -12,7 +12,7 @@ using System.Xml.Serialization;
 namespace HeBianGu.Systems.Setting
 {
     /// <summary> 热键</summary>
-    [SettingConfig(Name = "热键", Group = "基本设置")]
+    [Displayer(Name = "热键", GroupName = SystemSetting.GroupBase)]
     public class HotKeySetting : Setting<HotKeySetting>
     {
         private ObservableCollection<HotKeyItem> _hotKeys = new ObservableCollection<HotKeyItem>();

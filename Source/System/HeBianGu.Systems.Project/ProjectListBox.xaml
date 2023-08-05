@@ -8,58 +8,81 @@
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/System/ListBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    
+
     <Style x:Key="{ComponentResourceKey ResourceId=S.ProjectListBox.Default, TypeInTargetAssembly={x:Type local:ProjectListBox}}" BasedOn="{StaticResource {x:Static h:ListBoxKeys.Single}}" TargetType="{x:Type local:ProjectListBox}">
         <!--<Setter Property="DataContext" Value="{x:Static local:ProjectService.Instance}"/>-->
-        <Setter Property="Projects" Value="{Binding Source={x:Static local:ProjectService.Instance}, Path=Projects}" />
+        <Setter Property="Projects" Value="{Binding Source={x:Static h:ProjectProxy.Instance}, Path=Projects, Mode=OneWay}" />
+        <Setter Property="h:Cattach.ItemHeight" Value="Auto"/>
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <DockPanel Margin="0,10">
-                        <ToggleButton h:Cattach.Icon="&#xe7f2;"
-                                      Content="&#xe7f1;"
-                                      DockPanel.Dock="Right"
-                                      FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header7}}"
-                                      IsChecked="{Binding Model.IsFixed, Converter={x:Static h:XConverter.TrueToFalseConverter}}"
-                                      Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconChecked}}">
-                            <h:Interaction.Triggers>
-                                <h:EventTrigger EventName="Checked">
-                                    <h:CallMethodAction MethodName="Refresh" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=local:ProjectListBox}}" />
-                                </h:EventTrigger>
-                                <h:EventTrigger EventName="Unchecked">
-                                    <h:CallMethodAction MethodName="Refresh" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=local:ProjectListBox}}" />
-                                </h:EventTrigger>
-                            </h:Interaction.Triggers>
-                        </ToggleButton>
+                    <Grid>
+                        <DockPanel Margin="0,10">
+                            <ToggleButton h:Cattach.Icon="&#xe7f2;"
+                                          Content="&#xe7f1;"
+                                          DockPanel.Dock="Right"
+                                          FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header7}}"
+                                          IsChecked="{Binding Model.IsFixed, Converter={x:Static h:XConverter.TrueToFalseConverter}}"
+                                          Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconChecked}}">
+                                <h:Interaction.Triggers>
+                                    <h:EventTrigger EventName="Checked">
+                                        <h:CallMethodAction MethodName="Refresh" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=local:ProjectListBox}}" />
+                                    </h:EventTrigger>
+                                    <h:EventTrigger EventName="Unchecked">
+                                        <h:CallMethodAction MethodName="Refresh" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=local:ProjectListBox}}" />
+                                    </h:EventTrigger>
+                                </h:Interaction.Triggers>
+                            </ToggleButton>
+                            
+                            <DockPanel>
+                                <Image Width="30"
+                                       Height="30"
+                                       Margin="5"
+                                       Source="{Binding Model.Path, Converter={x:Static h:ConverterService.FilePathToImageSourceConverter}}" />
 
-                        <TextBlock Margin="10,0"
-                                   DockPanel.Dock="Right"
-                                   FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header7}}"
-                                   Text="{Binding Model.UpdateTime}" />
+                                <UniformGrid Columns="1">
+                                    <Grid>
+                                        <TextBlock Text="{Binding Model.Title}" />
+                                        <TextBlock Margin="10,0" 
+                                                   VerticalAlignment="Center" HorizontalAlignment="Right"
+                                                   DockPanel.Dock="Right"
+                                                   FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header7}}"
+                                                   Text="{Binding Model.UpdateTime, Converter={h:GetDateTimeFormatStringConverter}}" />
 
-                        <DockPanel>
-                            <Image Width="30"
-                                   Height="30"
-                                   Margin="5"
-                                   Source="{Binding Model.Path, Converter={x:Static h:ConverterService.FilePathToImageSourceConverter}}" />
+                                    </Grid>
+                                    <TextBlock FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header6}}"
+                                               Text="{Binding Model.Path}"
+                                               TextTrimming="CharacterEllipsis"
+                                               ToolTip="{Binding Model.Path}" />
 
-                            <UniformGrid Columns="1">
-                                <TextBlock Text="{Binding Model.Title}" />
-                                <TextBlock FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header6}}" Text="{Binding Model.Path}" />
-                            </UniformGrid>
+                                </UniformGrid>
+
+                            </DockPanel>
                         </DockPanel>
-                    </DockPanel>
+                        <Button Margin="-5"
+                                Command="{x:Static h:Commander.Clear}"
+                                CommandParameter="{Binding Model}"
+                                DockPanel.Dock="Right"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.CloseFlag}}"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsMouseOver, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+                    </Grid>
                 </DataTemplate>
             </Setter.Value>
         </Setter>
-
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="ContextMenu">
             <Setter.Value>
                 <ContextMenu ItemContainerStyle="{DynamicResource {x:Static h:MenuItemKeys.Icon}}">
                     <ContextMenu.Resources>
                         <Style BasedOn="{StaticResource {x:Static h:MenuItemKeys.Icon}}" TargetType="MenuItem" />
                     </ContextMenu.Resources>
-                    <MenuItem Header="打开(_O)" Icon="&#xeada;"/>
+                    <MenuItem Header="打开(_O)" Icon="&#xeada;" />
                     <MenuItem Header="打开副本(_N)" Icon="&#xeadb;" />
                     <MenuItem Header="将路径复制到剪贴板(_C)" Icon="&#xe83e;" />
 

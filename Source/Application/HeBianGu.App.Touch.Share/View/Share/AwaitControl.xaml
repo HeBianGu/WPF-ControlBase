@@ -8,6 +8,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="450"
              d:DesignWidth="800"
+             Background="Transparent"
              MouseDown="UserControl_MouseDown"
              mc:Ignorable="d">
 
@@ -15,7 +16,7 @@
         <EventTrigger RoutedEvent="UserControl.Loaded">
             <EventTrigger.Actions>
                 <BeginStoryboard>
-                    <Storyboard>
+                    <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
                         <ParallelTimeline RepeatBehavior="Forever" Storyboard.TargetName="myRotate" Storyboard.TargetProperty="Angle">
                             <DoubleAnimation RepeatBehavior="Forever"
                                              From="0" To="360"
@@ -89,194 +90,197 @@
     <!--<Grid>
         <Image Source="/HeBianGu.App.Touch;component/Resources/首页.jpg" Stretch="Fill"/>
     </Grid>-->
-
-    <Grid>
-        <Grid.Background>
+    <Border CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
+        <Border.Background>
             <LinearGradientBrush>
                 <GradientStop Offset="0" Color="Black" />
                 <GradientStop Offset="0.5" Color="{DynamicResource AccentColor}" />
                 <GradientStop Offset="1" Color="Black" />
             </LinearGradientBrush>
-        </Grid.Background>
-        <Viewport3D Name="myViewport3D" ClipToBounds="True" Focusable="True">
-            <Viewport3D.Camera>
-                <PerspectiveCamera FarPlaneDistance="20"
-                                   FieldOfView="60"
-                                   LookDirection="0,0,-1"
-                                   NearPlaneDistance="0.25"
-                                   Position="0,0,3.0"
-                                   UpDirection="0,1,0" />
-            </Viewport3D.Camera>
+        </Border.Background>
+        <Grid>
 
-            <ModelVisual3D>
-                <ModelVisual3D.Transform>
-                    <Transform3DGroup>
-                        <Transform3DGroup.Children>
-                            <Transform3DCollection>
-                                <ScaleTransform3D ScaleX="1" ScaleY="1" ScaleZ="1" />
-                                <RotateTransform3D>
-                                    <RotateTransform3D.Rotation>
-                                        <AxisAngleRotation3D Angle="0" Axis="0 1 0" />
-                                    </RotateTransform3D.Rotation>
-                                </RotateTransform3D>
-                                <TranslateTransform3D OffsetX="0" OffsetY="0" OffsetZ="0" />
-                            </Transform3DCollection>
-                        </Transform3DGroup.Children>
-                    </Transform3DGroup>
-                </ModelVisual3D.Transform>
-                <ModelVisual3D.Content>
-                    <Model3DGroup>
-                        <Model3DGroup.Transform>
-                            <Transform3DGroup>
-                                <Transform3DGroup.Children>
-                                    <Transform3DCollection>
-                                        <ScaleTransform3D ScaleX="0.1" ScaleY="0.1" ScaleZ="0.1" />
-                                        <RotateTransform3D>
-                                            <RotateTransform3D.Rotation>
-                                                <AxisAngleRotation3D Angle="0" Axis="0 1 0" />
-                                            </RotateTransform3D.Rotation>
-                                        </RotateTransform3D>
-                                        <TranslateTransform3D OffsetX="0" OffsetY="0" OffsetZ="0" />
-                                    </Transform3DCollection>
-                                </Transform3DGroup.Children>
-                            </Transform3DGroup>
-                        </Model3DGroup.Transform>
-                        <Model3DGroup.Children>
-                            <Model3DGroup>
-                                <Model3DGroup.Transform>
-                                    <Transform3DGroup>
-                                        <Transform3DGroup.Children>
-                                            <Transform3DCollection>
-                                                <ScaleTransform3D x:Name="myScale"
-                                                                  ScaleX="0.5"
-                                                                  ScaleY="0.5"
-                                                                  ScaleZ="0.5" />
-                                                <RotateTransform3D>
-                                                    <RotateTransform3D.Rotation>
-                                                        <AxisAngleRotation3D x:Name="myRotate" Angle="0" Axis="1 0 0" />
-                                                    </RotateTransform3D.Rotation>
-                                                </RotateTransform3D>
-                                                <RotateTransform3D>
-                                                    <RotateTransform3D.Rotation>
-                                                        <AxisAngleRotation3D x:Name="myRotate2" Angle="0" Axis="0 1 0" />
-                                                    </RotateTransform3D.Rotation>
-                                                </RotateTransform3D>
-                                                <TranslateTransform3D OffsetX="0" OffsetY="0" OffsetZ="0" />
-                                            </Transform3DCollection>
-                                        </Transform3DGroup.Children>
-                                    </Transform3DGroup>
-                                </Model3DGroup.Transform>
+            <Viewport3D Name="myViewport3D" ClipToBounds="True" Focusable="True">
+                <Viewport3D.Camera>
+                    <PerspectiveCamera FarPlaneDistance="20"
+                                       FieldOfView="60"
+                                       LookDirection="0,0,-1"
+                                       NearPlaneDistance="0.25"
+                                       Position="0,0,3.0"
+                                       UpDirection="0,1,0" />
+                </Viewport3D.Camera>
 
-                                <Model3DGroup.Children>
-                                    <GeometryModel3D Geometry="{StaticResource CubeMesh}" Transform="{StaticResource CubeMeshTransform}">
-                                        <GeometryModel3D.Material>
-                                            <MaterialGroup>
-                                                <MaterialGroup.Children>
-                                                    <EmissiveMaterial>
-                                                        <EmissiveMaterial.Brush>
-                                                            <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png">
-                                                                <ImageBrush.Transform>
-                                                                    <TransformGroup>
-                                                                        <TransformGroup.Children>
-                                                                            <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5" />
-                                                                        </TransformGroup.Children>
-                                                                    </TransformGroup>
-                                                                </ImageBrush.Transform>
-                                                            </ImageBrush>
-                                                        </EmissiveMaterial.Brush>
-                                                    </EmissiveMaterial>
-                                                </MaterialGroup.Children>
-                                            </MaterialGroup>
-                                        </GeometryModel3D.Material>
+                <ModelVisual3D>
+                    <ModelVisual3D.Transform>
+                        <Transform3DGroup>
+                            <Transform3DGroup.Children>
+                                <Transform3DCollection>
+                                    <ScaleTransform3D ScaleX="1" ScaleY="1" ScaleZ="1" />
+                                    <RotateTransform3D>
+                                        <RotateTransform3D.Rotation>
+                                            <AxisAngleRotation3D Angle="0" Axis="0 1 0" />
+                                        </RotateTransform3D.Rotation>
+                                    </RotateTransform3D>
+                                    <TranslateTransform3D OffsetX="0" OffsetY="0" OffsetZ="0" />
+                                </Transform3DCollection>
+                            </Transform3DGroup.Children>
+                        </Transform3DGroup>
+                    </ModelVisual3D.Transform>
+                    <ModelVisual3D.Content>
+                        <Model3DGroup>
+                            <Model3DGroup.Transform>
+                                <Transform3DGroup>
+                                    <Transform3DGroup.Children>
+                                        <Transform3DCollection>
+                                            <ScaleTransform3D ScaleX="0.1" ScaleY="0.1" ScaleZ="0.1" />
+                                            <RotateTransform3D>
+                                                <RotateTransform3D.Rotation>
+                                                    <AxisAngleRotation3D Angle="0" Axis="0 1 0" />
+                                                </RotateTransform3D.Rotation>
+                                            </RotateTransform3D>
+                                            <TranslateTransform3D OffsetX="0" OffsetY="0" OffsetZ="0" />
+                                        </Transform3DCollection>
+                                    </Transform3DGroup.Children>
+                                </Transform3DGroup>
+                            </Model3DGroup.Transform>
+                            <Model3DGroup.Children>
+                                <Model3DGroup>
+                                    <Model3DGroup.Transform>
+                                        <Transform3DGroup>
+                                            <Transform3DGroup.Children>
+                                                <Transform3DCollection>
+                                                    <ScaleTransform3D x:Name="myScale"
+                                                                      ScaleX="0.5"
+                                                                      ScaleY="0.5"
+                                                                      ScaleZ="0.5" />
+                                                    <RotateTransform3D>
+                                                        <RotateTransform3D.Rotation>
+                                                            <AxisAngleRotation3D x:Name="myRotate" Angle="0" Axis="1 0 0" />
+                                                        </RotateTransform3D.Rotation>
+                                                    </RotateTransform3D>
+                                                    <RotateTransform3D>
+                                                        <RotateTransform3D.Rotation>
+                                                            <AxisAngleRotation3D x:Name="myRotate2" Angle="0" Axis="0 1 0" />
+                                                        </RotateTransform3D.Rotation>
+                                                    </RotateTransform3D>
+                                                    <TranslateTransform3D OffsetX="0" OffsetY="0" OffsetZ="0" />
+                                                </Transform3DCollection>
+                                            </Transform3DGroup.Children>
+                                        </Transform3DGroup>
+                                    </Model3DGroup.Transform>
 
-                                        <GeometryModel3D.BackMaterial>
-                                            <MaterialGroup>
-                                                <MaterialGroup.Children>
-                                                    <EmissiveMaterial>
-                                                        <EmissiveMaterial.Brush>
-                                                            <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png">
-                                                                <ImageBrush.Transform>
-                                                                    <TransformGroup>
-                                                                        <TransformGroup.Children>
-                                                                            <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5" />
-                                                                        </TransformGroup.Children>
-                                                                    </TransformGroup>
-                                                                </ImageBrush.Transform>
-                                                            </ImageBrush>
-                                                        </EmissiveMaterial.Brush>
-                                                    </EmissiveMaterial>
-                                                </MaterialGroup.Children>
-                                            </MaterialGroup>
-                                        </GeometryModel3D.BackMaterial>
-                                    </GeometryModel3D>
+                                    <Model3DGroup.Children>
+                                        <GeometryModel3D Geometry="{StaticResource CubeMesh}" Transform="{StaticResource CubeMeshTransform}">
+                                            <GeometryModel3D.Material>
+                                                <MaterialGroup>
+                                                    <MaterialGroup.Children>
+                                                        <EmissiveMaterial>
+                                                            <EmissiveMaterial.Brush>
+                                                                <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png">
+                                                                    <ImageBrush.Transform>
+                                                                        <TransformGroup>
+                                                                            <TransformGroup.Children>
+                                                                                <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5" />
+                                                                            </TransformGroup.Children>
+                                                                        </TransformGroup>
+                                                                    </ImageBrush.Transform>
+                                                                </ImageBrush>
+                                                            </EmissiveMaterial.Brush>
+                                                        </EmissiveMaterial>
+                                                    </MaterialGroup.Children>
+                                                </MaterialGroup>
+                                            </GeometryModel3D.Material>
 
-                                    <GeometryModel3D Geometry="{StaticResource CubeMesh}" Transform="{StaticResource CubeMeshTransform2}">
-                                        <GeometryModel3D.Material>
-                                            <MaterialGroup>
-                                                <MaterialGroup.Children>
-                                                    <EmissiveMaterial>
-                                                        <EmissiveMaterial.Brush>
-                                                            <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png">
-                                                                <ImageBrush.Transform>
-                                                                    <TransformGroup>
-                                                                        <TransformGroup.Children>
-                                                                            <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5" />
-                                                                        </TransformGroup.Children>
-                                                                    </TransformGroup>
-                                                                </ImageBrush.Transform>
-                                                            </ImageBrush>
-                                                        </EmissiveMaterial.Brush>
-                                                    </EmissiveMaterial>
-                                                </MaterialGroup.Children>
-                                            </MaterialGroup>
-                                        </GeometryModel3D.Material>
+                                            <GeometryModel3D.BackMaterial>
+                                                <MaterialGroup>
+                                                    <MaterialGroup.Children>
+                                                        <EmissiveMaterial>
+                                                            <EmissiveMaterial.Brush>
+                                                                <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png">
+                                                                    <ImageBrush.Transform>
+                                                                        <TransformGroup>
+                                                                            <TransformGroup.Children>
+                                                                                <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5" />
+                                                                            </TransformGroup.Children>
+                                                                        </TransformGroup>
+                                                                    </ImageBrush.Transform>
+                                                                </ImageBrush>
+                                                            </EmissiveMaterial.Brush>
+                                                        </EmissiveMaterial>
+                                                    </MaterialGroup.Children>
+                                                </MaterialGroup>
+                                            </GeometryModel3D.BackMaterial>
+                                        </GeometryModel3D>
 
-                                        <GeometryModel3D.BackMaterial>
-                                            <MaterialGroup>
-                                                <MaterialGroup.Children>
-                                                    <EmissiveMaterial>
-                                                        <EmissiveMaterial.Brush>
-                                                            <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png">
-                                                                <ImageBrush.Transform>
-                                                                    <TransformGroup>
-                                                                        <TransformGroup.Children>
-                                                                            <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5" />
-                                                                        </TransformGroup.Children>
-                                                                    </TransformGroup>
-                                                                </ImageBrush.Transform>
-                                                            </ImageBrush>
-                                                        </EmissiveMaterial.Brush>
-                                                    </EmissiveMaterial>
-                                                </MaterialGroup.Children>
-                                            </MaterialGroup>
-                                        </GeometryModel3D.BackMaterial>
-                                    </GeometryModel3D>
-                                </Model3DGroup.Children>
-                            </Model3DGroup>
-                            <Model3DGroup>
-                                <Model3DGroup.Children>
-                                    <AmbientLight Color="#ffcccccc" />
-                                    <DirectionalLight Direction="-1,-1,-1" Color="LightGray" />
-                                </Model3DGroup.Children>
-                            </Model3DGroup>
-                        </Model3DGroup.Children>
-                    </Model3DGroup>
-                </ModelVisual3D.Content>
-            </ModelVisual3D>
-        </Viewport3D>
+                                        <GeometryModel3D Geometry="{StaticResource CubeMesh}" Transform="{StaticResource CubeMeshTransform2}">
+                                            <GeometryModel3D.Material>
+                                                <MaterialGroup>
+                                                    <MaterialGroup.Children>
+                                                        <EmissiveMaterial>
+                                                            <EmissiveMaterial.Brush>
+                                                                <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png">
+                                                                    <ImageBrush.Transform>
+                                                                        <TransformGroup>
+                                                                            <TransformGroup.Children>
+                                                                                <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5" />
+                                                                            </TransformGroup.Children>
+                                                                        </TransformGroup>
+                                                                    </ImageBrush.Transform>
+                                                                </ImageBrush>
+                                                            </EmissiveMaterial.Brush>
+                                                        </EmissiveMaterial>
+                                                    </MaterialGroup.Children>
+                                                </MaterialGroup>
+                                            </GeometryModel3D.Material>
+
+                                            <GeometryModel3D.BackMaterial>
+                                                <MaterialGroup>
+                                                    <MaterialGroup.Children>
+                                                        <EmissiveMaterial>
+                                                            <EmissiveMaterial.Brush>
+                                                                <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png">
+                                                                    <ImageBrush.Transform>
+                                                                        <TransformGroup>
+                                                                            <TransformGroup.Children>
+                                                                                <RotateTransform Angle="0" CenterX="0.5" CenterY="0.5" />
+                                                                            </TransformGroup.Children>
+                                                                        </TransformGroup>
+                                                                    </ImageBrush.Transform>
+                                                                </ImageBrush>
+                                                            </EmissiveMaterial.Brush>
+                                                        </EmissiveMaterial>
+                                                    </MaterialGroup.Children>
+                                                </MaterialGroup>
+                                            </GeometryModel3D.BackMaterial>
+                                        </GeometryModel3D>
+                                    </Model3DGroup.Children>
+                                </Model3DGroup>
+                                <Model3DGroup>
+                                    <Model3DGroup.Children>
+                                        <AmbientLight Color="#ffcccccc" />
+                                        <DirectionalLight Direction="-1,-1,-1" Color="LightGray" />
+                                    </Model3DGroup.Children>
+                                </Model3DGroup>
+                            </Model3DGroup.Children>
+                        </Model3DGroup>
+                    </ModelVisual3D.Content>
+                </ModelVisual3D>
+            </Viewport3D>
 
 
-        <TextBlock Margin="20"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Bottom"
-                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                   Style="{StaticResource C.TextBlock.Default}"
-                   Text="点击屏幕进入测量" />
-    </Grid>
+            <TextBlock Margin="20"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom"
+                       Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                       Style="{StaticResource C.TextBlock.Default}"
+                       Text="点击屏幕进入测量" />
+        </Grid>
 
+
+    </Border>
     <h:Interaction.Triggers>
         <h:EventTrigger EventName="MouseDown">
-            <h:InvokeCommandAction Command="{Binding Source={x:Static h:Message.Instance}, Path=CloseLayerCommand}" />
+            <h:InvokeCommandAction Command="{Binding Source={x:Static h:MessageProxy.Container}, Path=CloseLayerCommand}" />
         </h:EventTrigger>
     </h:Interaction.Triggers>
 </UserControl>

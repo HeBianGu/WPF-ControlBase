@@ -125,13 +125,34 @@ namespace HeBianGu.Control.ScrollInto
                 if (index < 0) return;
 
                 //this.ScrollIntoView(this.Items[index]);
+                var element = this.Items[index] as UIElement;
+                var find = this.ItemContainerGenerator.ContainerFromIndex(index) as UIElement;
+                this.ScrollTo(find);
 
-                this.ScrollTo(this.Items[index] as UIElement);
             };
 
             //  Do ：设置滚动到指定位置后导航跟着改变
             this._scrollviewer.ScrollChanged += (l, k) =>
               {
+                  //if (k.VerticalChange > 0)
+                  //{
+                  //    Point n = new Point() { X = this.HitTestPoint.X, Y = this._scrollviewer.ActualHeight - this.HitTestPoint.Y };
+
+                  //    Point point = this._scrollviewer.TranslatePoint(n, this);
+
+                  //    PointHitTestParameters parameters = new PointHitTestParameters(point);
+
+                  //    VisualTreeHelper.HitTest(this, HitTestFilter, HitTestCallBack, parameters);
+                  //}
+                  //else
+                  //{
+                  //    Point point = this._scrollviewer.TranslatePoint(this.HitTestPoint, this);
+
+                  //    PointHitTestParameters parameters = new PointHitTestParameters(point);
+
+                  //    VisualTreeHelper.HitTest(this, HitTestFilter, HitTestCallBack, parameters);
+                  //}
+
                   Point point = this._scrollviewer.TranslatePoint(this.HitTestPoint, this);
 
                   PointHitTestParameters parameters = new PointHitTestParameters(point);
@@ -200,7 +221,7 @@ namespace HeBianGu.Control.ScrollInto
             {
                 int index = this.ItemContainerGenerator.IndexFromContainer(item);
 
-                if (index > 0)
+                if (index >= 0)
                 {
                     if (this._navigation.SelectedIndex != index)
                         this._navigation.SelectedIndex = index;

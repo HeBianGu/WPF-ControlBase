@@ -40,25 +40,20 @@ namespace HeBianGu.Control.Explorer
 
             List<SystemInfoModel> from = new List<SystemInfoModel>();
 
-            DriveInfo[] drives = DriveInfo.GetDrives();
+            //DriveInfo[] drives = DriveInfo.GetDrives();
 
-            foreach (DriveInfo item in drives)
+            var drives = ExplorerProxy.Instance.GetDrives();
+
+            foreach (var item in drives)
             {
-                DirectoryModel directory = new DirectoryModel(item.RootDirectory);
-
+                DirectoryModel directory = new DirectoryModel(item);
                 directory.FileInfoVisible = this.FileInfoVisible;
-
                 directory.RefreshChildren();
-
                 from.Add(directory);
             }
-
             root.Collection = from.ToObservable();
-
             roots.Add(root);
-
             roots.AddRange(this.Customs);
-
             foreach (RootModel custom in this.Customs)
             {
                 foreach (SystemInfoModel c in custom.Collection)

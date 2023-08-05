@@ -37,7 +37,7 @@ namespace HeBianGu.Control.Drawer
         {
             //  Do ：显示
             {
-                CommandBinding command = new CommandBinding(CommandService.Open, (l, k) =>
+                CommandBinding command = new CommandBinding(Commander.Open, (l, k) =>
                 {
                     this.IsExpanded = true;
                 });
@@ -47,7 +47,7 @@ namespace HeBianGu.Control.Drawer
 
             //  Do ：隐藏
             {
-                CommandBinding command = new CommandBinding(CommandService.Close, (l, k) =>
+                CommandBinding command = new CommandBinding(Commander.Close, (l, k) =>
                 {
                     this.IsExpanded = false;
                 });

@@ -1,4 +1,5 @@
-﻿using HeBianGu.Service.Mvc;
+﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Service.Mvc;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -38,15 +39,14 @@ namespace HeBianGu.App.Touch
             }
         }
 
-        protected override void Loaded(string args)
+        protected override void Loaded(object args)
         {
             SelectLink = LinkActions.FirstOrDefault();
         }
 
 
-        /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
-
+        public RelayCommand RelayCommand => new RelayCommand(RelayMethod);
+        protected void RelayMethod(object obj)
         {
             string command = obj?.ToString();
 

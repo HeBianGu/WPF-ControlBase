@@ -10,21 +10,23 @@ namespace System
         /// <summary>
         /// 设置
         /// </summary>  
-        public static IServiceCollection AddMvc(this IServiceCollection builder)
-        {
-            builder.AddSingleton<IMvcService, MvcService>();
-            return builder;
-        }
-
-        /// <summary> 配置 </summary>
-        public static IApplicationBuilder UseMvc(this IApplicationBuilder builder, Action<MvcSetting> init = null)
+        public static IServiceCollection AddMvc(this IServiceCollection builder, Action<IMvcSettingOption> init = null)
         {
             init?.Invoke(MvcSetting.Instance);
-            if (Mvc.Instance == null)
-                throw new Exception("Please Register IMvcService Or AddMvc First");
+            builder.AddSingleton<IMvcService, MvcService>();
             Mvc.Instance.Init();
             return builder;
         }
+
+        ///// <summary> 配置 </summary>
+        //public static IApplicationBuilder UseMvc(this IApplicationBuilder builder, Action<IMvcSettingOption> init = null)
+        //{
+        //    init?.Invoke(MvcSetting.Instance);
+        //    if (Mvc.Instance == null)
+        //        throw new Exception("Please Register IMvcService Or AddMvc First");
+        //    Mvc.Instance.Init();
+        //    return builder;
+        //}
     }
 
 

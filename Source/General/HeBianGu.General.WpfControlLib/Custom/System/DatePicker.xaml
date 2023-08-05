@@ -1,0 +1,225 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="S.DatePick.Template.Light" TargetType="{x:Type DatePicker}">
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}">
+            <Grid x:Name="PART_Root">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ToggleButton x:Name="PART_DropDownToggle"
+                              Grid.ColumnSpan="2"
+                              Padding="{TemplateBinding Padding}"
+                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                              h:Cattach.CheckedIcon="&#xe6f3;"
+                              h:Cattach.CheckedOpacity="0.8"
+                              h:Cattach.Icon="&#xe6f3;"
+                              h:Cattach.IconSize="15"
+                              h:Cattach.UncheckedIcon="&#xe6f3;"
+                              h:Cattach.UseMouseOverScale="False"
+                              h:Cattach.UsePressScale="False"
+                              Content="{Binding Path=SelectedDate, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, StringFormat={StaticResource {x:Static h:SystemKeys.DateFormat}}}"
+                              Foreground="{TemplateBinding Foreground}"
+                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              IsEnabled="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static h:XConverter.TrueToFalseConverter}, Mode=OneWay}"
+                              IsTabStop="False"
+                              Style="{DynamicResource {x:Static h:ToggleButtonKeys.Single}}">
+                    <ToggleButton.Template>
+                        <ControlTemplate TargetType="ToggleButton">
+                            <DockPanel>
+                                <TextBlock FontSize="{Binding RelativeSource={RelativeSource AncestorType=DatePicker}, Path=(h:Cattach.IconSize)}" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding RelativeSource={RelativeSource AncestorType=DatePicker}, Path=(h:Cattach.Icon)}" />
+                                <TextBlock Margin="{TemplateBinding h:Cattach.IconMargin}"
+                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                           DockPanel.Dock="Right"
+                                           FontSize="{TemplateBinding h:Cattach.IconSize}"
+                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" />
+                                <ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </DockPanel>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+                <Popup x:Name="PART_Popup"
+                       AllowsTransparency="True"
+                       Placement="MousePoint"
+                       PlacementTarget="{Binding ElementName=PART_DropDownToggle}"
+                       StaysOpen="False" />
+            </Grid>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="S.DatePick.Template.Default" TargetType="{x:Type DatePicker}">
+        <Grid x:Name="PART_InnerGrid" Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="Bg"
+                    Grid.Column="{TemplateBinding h:Cattach.BackgroundColumn}"
+                    Grid.ColumnSpan="9"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+            <ContentControl x:Name="Label"
+                            Margin="0"
+                            Content="{TemplateBinding h:Cattach.Title}"
+                            IsHitTestVisible="False"
+                            IsTabStop="False"
+                            Template="{TemplateBinding h:Cattach.TitleTemplate}" />
+
+            <Border Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ContentControl x:Name="PART_AttachContent"
+                                VerticalAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                Template="{TemplateBinding h:Cattach.AttachContent}" />
+            </Border>
+
+            <Border Grid.Column="3" Width="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" HorizontalAlignment="Center">
+                <ToggleButton x:Name="PART_DropDownToggle"
+                              HorizontalAlignment="Center"
+                              h:Cattach.CheckedIcon="&#xe6f3;"
+                              h:Cattach.CheckedOpacity="0.8"
+                              h:Cattach.Icon="&#xe6f3;"
+                              h:Cattach.IconSize="18"
+                              h:Cattach.UncheckedIcon="&#xe6f3;"
+                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              IsTabStop="False"
+                              Style="{DynamicResource {x:Static h:ToggleButtonKeys.Single}}" />
+            </Border>
+
+            <Border Grid.Column="1">
+                <TextBlock x:Name="Message"
+                           Margin="5,2,5,2"
+                           Padding="0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           Foreground="{TemplateBinding Foreground}"
+                           IsHitTestVisible="False"
+                           Opacity="{StaticResource {x:Static h:OpacityKeys.Watermark}}"
+                           Text="{TemplateBinding h:Cattach.Watermark}"
+                           TextAlignment="Center"
+                           Visibility="Collapsed" />
+            </Border>
+
+            <Grid Grid.Column="1">
+                <TextBox x:Name="PART_TextBox"
+                         Margin="{TemplateBinding Padding}"
+                         HorizontalAlignment="Stretch"
+                         FontFamily="{TemplateBinding FontFamily}"
+                         FontSize="{TemplateBinding FontSize}"
+                         Foreground="{TemplateBinding Foreground}"
+                         IsHitTestVisible="True"
+                         IsReadOnly="True"
+                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                         Style="{DynamicResource {x:Static local:TextBoxKeys.Editable}}"
+                         Text="{Binding Path=SelectedDate, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}, StringFormat={StaticResource {x:Static h:SystemKeys.DateFormat}}}" />
+            </Grid>
+            <Popup x:Name="PART_Popup"
+                   AllowsTransparency="True"
+                   Placement="MousePoint"
+                   PlacementTarget="{Binding ElementName=PART_DropDownToggle}"
+                   StaysOpen="False" />
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=DatePicker}, Path=Text}" Value="">
+                <Setter TargetName="Message" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Dynamic, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static local:ControlKeys.Dynamic}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="IsTodayHighlighted" Value="True" />
+        <Setter Property="CalendarStyle" Value="{DynamicResource {x:Static local:CalendarKeys.Default}}" />
+        <Setter Property="Template" Value="{StaticResource S.DatePick.Template.Light}" />
+        <Setter Property="SelectedDate" Value="{x:Static sys:DateTime.Now}" />
+        <Setter Property="h:Cattach.GuideTitle" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.Title)}" />
+        <Setter Property="h:Cattach.IsMouseOver" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" />
+        <Setter Property="h:Cattach.IsKeyboardFocusWithin" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsKeyboardFocusWithin}" />
+        <Setter Property="h:Cattach.HasError" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(Validation.HasError)}" />
+        <Setter Property="h:Cattach.IsKeyboardFocusWithin" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsDropDownOpen}" />
+        <Setter Property="h:Cattach.Icon" Value="&#xe6ed;" />
+        <Setter Property="h:Cattach.IconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Small}}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Default, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static local:DatePickerKeys.Dynamic}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Clear, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static h:DatePickerKeys.Dynamic}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.AttachContent" Value="{DynamicResource {x:Static local:ShareKeys.ClearTemplate}}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Label, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static h:DatePickerKeys.Dynamic}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}" />
+        <Setter Property="h:Cattach.GuideTitle" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.Title)}" />
+        <Setter Property="Template" Value="{StaticResource S.DatePick.Template.Default}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.LabelClear, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static h:DatePickerKeys.Dynamic}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.AttachContent" Value="{DynamicResource {x:Static local:ShareKeys.ClearTemplate}}" />
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}" />
+        <Setter Property="Template" Value="{StaticResource S.DatePick.Template.Default}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Single, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static h:DatePickerKeys.Default}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Single.Label, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static h:DatePickerKeys.Single}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}" />
+        <Setter Property="Template" Value="{StaticResource S.DatePick.Template.Default}" />
+
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Single.LabelClear, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static h:DatePickerKeys.Single}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.AttachContent" Value="{DynamicResource {x:Static local:ShareKeys.ClearTemplate}}" />
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}" />
+        <Setter Property="Template" Value="{StaticResource S.DatePick.Template.Default}" />
+
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Single.Clear, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static h:DatePickerKeys.Single}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.AttachContent" Value="{DynamicResource {x:Static local:ShareKeys.ClearTemplate}}" />
+        <Setter Property="Template" Value="{StaticResource S.DatePick.Template.Default}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Accent, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static h:DatePickerKeys.Default}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Accent.Clear, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static h:DatePickerKeys.Accent}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.AttachContent" Value="{DynamicResource {x:Static local:ShareKeys.ClearTemplate}}" />
+        <Setter Property="Template" Value="{StaticResource S.DatePick.Template.Default}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Accent.Label, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static h:DatePickerKeys.Accent}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}" />
+        <Setter Property="Template" Value="{StaticResource S.DatePick.Template.Default}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.DatePicker.Accent.LabelClear, TypeInTargetAssembly={x:Type local:DatePickerKeys}}" BasedOn="{StaticResource {x:Static h:DatePickerKeys.Accent}}" TargetType="{x:Type DatePicker}">
+        <Setter Property="h:Cattach.AttachContent" Value="{DynamicResource {x:Static local:ShareKeys.ClearTemplate}}" />
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}" />
+        <Setter Property="Template" Value="{StaticResource S.DatePick.Template.Default}" />
+    </Style>
+</ResourceDictionary>

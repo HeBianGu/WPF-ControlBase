@@ -1,4 +1,5 @@
-﻿using HeBianGu.Window.Link;
+﻿using HeBianGu.Service.Mvc;
+using HeBianGu.Window.Link;
 using System;
 using System.Linq;
 
@@ -9,12 +10,12 @@ namespace HeBianGu.App.Touch
     {
         protected override void Init()
         {
-            TabLinks.Add(new TabLink() { Controller = "Login", Action = "Login", DisplayName = "登录页面" });
-            TabLinks.Add(new TabLink() { Controller = "Loyout", Action = "Home", DisplayName = "测量页面" });
-            TabLinks.Add(new TabLink() { Controller = "Setting", Action = "Setting", DisplayName = "设置页面" });
-            TabLinks.Add(new TabLink() { Controller = "Report", Action = "Report", DisplayName = "报告页面" });
+            Links.Add(new LinkAction() { Controller = "Login", Action = "Login", DisplayName = "登录页面" });
+            Links.Add(new LinkAction() { Controller = "Loyout", Action = "Home", DisplayName = "测量页面" });
+            Links.Add(new LinkAction() { Controller = "Setting", Action = "Setting", DisplayName = "设置页面" });
+            Links.Add(new LinkAction() { Controller = "Report", Action = "Report", DisplayName = "报告页面" });
 
-            CurrentLink = TabLinks.FirstOrDefault();
+            CurrentLink = Links.FirstOrDefault();
 
             base.Init();
 

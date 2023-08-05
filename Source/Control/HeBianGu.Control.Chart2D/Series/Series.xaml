@@ -24,7 +24,7 @@
 
     <Style BasedOn="{StaticResource {x:Static h:Series.DefaultKey}}" TargetType="{x:Type local:Series}" />
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Series.Line.Basic, TypeInTargetAssembly={x:Type local:Series}}" BasedOn="{StaticResource {x:Static h:Series.DefaultKey}}" TargetType="{x:Type local:Series}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Series.Line, TypeInTargetAssembly={x:Type local:Series}}" BasedOn="{StaticResource {x:Static local:Series.DefaultKey}}" TargetType="{x:Type local:Series}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Series}">
@@ -50,7 +50,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Series.Line.Polar, TypeInTargetAssembly={x:Type local:Series}}" BasedOn="{StaticResource {x:Static h:Series.DefaultKey}}" TargetType="{x:Type local:Series}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Series.Line.Polar, TypeInTargetAssembly={x:Type local:Series}}" BasedOn="{StaticResource {x:Static local:Series.DefaultKey}}" TargetType="{x:Type local:Series}">
         <Setter Property="LineStyle" Value="{StaticResource {x:Static h:PolarLine.DefaultKey}}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -64,7 +64,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Series.Line.Smooth, TypeInTargetAssembly={x:Type local:Series}}" BasedOn="{StaticResource {x:Static h:Series.DefaultKey}}" TargetType="{x:Type local:Series}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Series.Line.Smooth, TypeInTargetAssembly={x:Type local:Series}}" BasedOn="{StaticResource {x:Static local:Series.DefaultKey}}" TargetType="{x:Type local:Series}">
         <Setter Property="LineStyle" Value="{StaticResource {x:Static h:SmoothLine.DefaultKey}}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -72,9 +72,7 @@
                     <local:LayerGroup>
                         <local:SmoothLine Data="{TemplateBinding yDatas}" Foreground="{TemplateBinding Foreground}" Style="{TemplateBinding LineStyle}" />
 
-                        <local:Scatter Data="{TemplateBinding yDatas}"
-                                       Foreground="{TemplateBinding Foreground}"
-                                       Style="{TemplateBinding ScatterStyle}" />
+                        <local:Scatter Data="{TemplateBinding yDatas}" Foreground="{TemplateBinding Foreground}" Style="{TemplateBinding ScatterStyle}" />
 
                         <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </local:LayerGroup>
@@ -83,9 +81,9 @@
         </Setter>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Series.Line.Area, TypeInTargetAssembly={x:Type local:Series}}" BasedOn="{StaticResource {x:Static h:Series.DefaultKey}}" TargetType="{x:Type local:Series}">
-        <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}"/>
-        <Setter Property="RenderTransformOrigin" Value="0,1"/>
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Series.Line.Area, TypeInTargetAssembly={x:Type local:Series}}" BasedOn="{StaticResource {x:Static local:Series.DefaultKey}}" TargetType="{x:Type local:Series}">
+        <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
+        <Setter Property="RenderTransformOrigin" Value="0,1" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Series}">
@@ -105,10 +103,10 @@
         <Style.Triggers>
             <EventTrigger RoutedEvent="MouseEnter">
                 <BeginStoryboard>
-                    <Storyboard>
+                    <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
                         <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                                     From="1" To="1.2"
-                                                     Duration="00:00:02">
+                                         From="1" To="1.2"
+                                         Duration="00:00:02">
                             <DoubleAnimation.EasingFunction>
                                 <ElasticEase Oscillations="6" Springiness="10" />
                             </DoubleAnimation.EasingFunction>
@@ -126,10 +124,10 @@
 
             <EventTrigger RoutedEvent="MouseLeave">
                 <BeginStoryboard>
-                    <Storyboard>
+                    <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
                         <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
-                                                     From="1.2" To="1"
-                                                     Duration="00:00:02">
+                                         From="1.2" To="1"
+                                         Duration="00:00:02">
                             <DoubleAnimation.EasingFunction>
                                 <ElasticEase Oscillations="6" Springiness="10" />
                             </DoubleAnimation.EasingFunction>
@@ -147,7 +145,7 @@
         </Style.Triggers>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Series.Bar.Basic, TypeInTargetAssembly={x:Type local:Series}}" BasedOn="{StaticResource {x:Static h:Series.DefaultKey}}" TargetType="{x:Type local:Series}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Series.Bar.Basic, TypeInTargetAssembly={x:Type local:Series}}" BasedOn="{StaticResource {x:Static local:Series.DefaultKey}}" TargetType="{x:Type local:Series}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:Series}">

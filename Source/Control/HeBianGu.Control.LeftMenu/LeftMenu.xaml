@@ -7,63 +7,40 @@
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.LeftMenu.ListBoxItem.Default, TypeInTargetAssembly={x:Type local:LeftMenu}}" TargetType="{x:Type ListBoxItem}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LeftMenu.ListBoxItem.Default, TypeInTargetAssembly={x:Type local:LeftMenu}}" BasedOn="{StaticResource {x:Static h:ControlKeys.ForegroundSelected}}" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="h:Cattach.IsMouseOver" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsMouseOver}" />
+        <Setter Property="h:Cattach.IsSelected" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border x:Name="boder"
                             Height="45"
-                            Margin="10,5"
+                            Margin="5,1"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
                             CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
                         <ContentPresenter />
                     </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsSelected" Value="true">
-                            <Setter TargetName="boder" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhiteOpacity4}}" />
-                        </Trigger>
-
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="true" />
-                                <Condition Property="IsMouseOver" Value="true" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="boder" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhiteOpacity2}}" />
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="false" />
-                                <Condition Property="IsMouseOver" Value="true" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="boder" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhiteOpacity1}}" />
-                        </MultiTrigger>
-
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu}, Path=IsExpended}" Value="False">
-                            <Setter TargetName="boder" Property="Margin" Value="0,0" />
-                            <Setter TargetName="boder" Property="Height" Value="70" />
-                            <Setter TargetName="boder" Property="CornerRadius" Value="0" />
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <Setter Property="Validation.ErrorTemplate" Value="{x:Null}"/>
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.LeftMenu.Default, TypeInTargetAssembly={x:Type local:LeftMenu}}" BasedOn="{StaticResource S.ButtonBase.Dynamic}" TargetType="{x:Type local:LeftMenu}">
-        <!--<Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />-->
+    <Style x:Key="{ComponentResourceKey ResourceId=S.LeftMenu.Default, TypeInTargetAssembly={x:Type local:LeftMenu}}" BasedOn="{StaticResource {x:Static h:ControlKeys.ForegroundDynamic}}" TargetType="{x:Type local:LeftMenu}">
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
         <Setter Property="Width" Value="60" />
-        <Setter Property="IconSize" Value="35" />
+        <Setter Property="IconSize" Value="25" />
         <Setter Property="h:Cattach.Icon" Value="&#xe7b1;" />
         <Setter Property="h:Cattach.IconMargin" Value="0,50,0,0" />
-        <Setter Property="h:Cattach.IconSize" Value="50" />
+        <Setter Property="h:Cattach.IconSize" Value="30" />
         <Setter Property="UseLogo" Value="True" />
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
         <Setter Property="ItemContainerStyle" Value="{StaticResource {x:Static h:LeftMenu.ListBoxItemKey}}" />
-
         <Setter Property="Height" Value="Auto" />
         <Setter Property="ItemTemplate">
             <Setter.Value>
@@ -144,10 +121,17 @@
                     <TextBlock Text="{Binding Logo}" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu},Path=IconSize}"/>
                 </StackPanel>-->
 
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" ToolTip="{Binding DisplayName}">
-                                <TextBlock FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu}, Path=IconSize}" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Logo}" />
-                                <TextBlock FontSize="8"
-                                           Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
+                            <StackPanel Margin="0,5"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        ToolTip="{Binding DisplayName}">
+                                <TextBlock FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu}, Path=IconSize}"
+                                           Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu}, Path=Foreground}"
+                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                           Text="{Binding Logo}" />
+                                <TextBlock Margin="-15,0"
+                                           FontSize="8"
+                                           Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu}, Path=Foreground}"
                                            Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
                                            Text="{Binding DisplayName}" />
                             </StackPanel>
@@ -242,9 +226,7 @@
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu}, Path=IsExpended}" Value="true">
                             <Setter TargetName="expend" Property="Visibility" Value="Visible" />
                             <Setter TargetName="unexpend" Property="Visibility" Value="Collapsed" />
-
                         </DataTrigger>
-
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu}, Path=IsExpended}" Value="false">
                             <Setter TargetName="unexpend" Property="Visibility" Value="Visible" />
                             <Setter TargetName="expend" Property="Visibility" Value="Collapsed" />
@@ -263,7 +245,7 @@
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup>
                                 <VisualState x:Name="Expanded">
-                                    <Storyboard>
+                                    <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
                                         <DoubleAnimation Storyboard.TargetName="logo"
                                                          Storyboard.TargetProperty="FontSize"
                                                          From="35" To="75"
@@ -278,7 +260,7 @@
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="UnExpanded">
-                                    <Storyboard>
+                                    <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
                                         <DoubleAnimation Storyboard.TargetName="logo"
                                                          Storyboard.TargetProperty="FontSize"
                                                          From="75" To="35"
@@ -306,8 +288,6 @@
                                                Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.Icon)}"
                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UseLogo, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
                                 </StackPanel>
-
-                                
                                 <ToggleButton Margin="13,7,0,0"
                                               HorizontalAlignment="Left"
                                               VerticalAlignment="Top"
@@ -321,11 +301,12 @@
                                               Opacity="1"
                                               Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconCheckedSingle}}" />
                             </Grid>
-
-                            <ItemsPresenter Grid.Row="1"
-                                            Margin="5,0"
-                                            HorizontalAlignment="Stretch"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            <ScrollViewer h:Cattach.StyleType="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.StyleType)}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter Grid.Row="1"
+                                                Margin="5,0"
+                                                HorizontalAlignment="Stretch"
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </ScrollViewer>
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -355,7 +336,7 @@
                                         <StackPanel Margin="25,0" HorizontalAlignment="Left" Orientation="Horizontal">
                                             <TextBlock FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu}, Path=IconSize}" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Logo}" />
                                             <!--  FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu},Path=IconSize}"  -->
-                                            <TextBlock Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding DisplayName}" />
+                                            <TextBlock Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu}, Path=Foreground}" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding DisplayName}" />
                                         </StackPanel>
                                     </Grid>
 
@@ -369,7 +350,7 @@
 
                                             <!--  FontSize="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu},Path=IconSize}"  -->
                                             <TextBlock FontSize="8"
-                                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
+                                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:LeftMenu}, Path=Foreground}"
                                                        Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
                                                        Text="{Binding DisplayName}" />
                                         </StackPanel>

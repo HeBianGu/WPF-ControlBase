@@ -4,14 +4,16 @@
                     xmlns:local="clr-namespace:HeBianGu.Control.GridSplitter">
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.GridSplitterContainer.Default, TypeInTargetAssembly={x:Type local:GridSplitterContainer}}" TargetType="{x:Type local:GridSplitterContainer}">
-        <Setter Property="GridSpliteWidth" Value="5" />
+        <Setter Property="GridSpliteWidth" Value="3" />
         <Setter Property="MenuWidth" Value="200" />
         <Setter Property="MenuMinWidth" Value="50" />
         <Setter Property="MenuMaxWidth" Value="1000" />
         <Setter Property="GridSpliterBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
         <Setter Property="MenuDock" Value="Left" />
-        <Setter Property="ToggleHorizontalAlignment" Value="Left"/>
-        <Setter Property="ToggleVerticalAlignment" Value="Top"/>
+        <Setter Property="ToggleHorizontalAlignment" Value="Left" />
+        <Setter Property="ToggleVerticalAlignment" Value="Top" />
+        <Setter Property="OpenIcon" Value="&#xe8ab;" />
+        <Setter Property="CloseIcon" Value="&#xe857;" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:GridSplitterContainer}">
@@ -27,7 +29,7 @@
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}" /> 
+                                BorderThickness="{TemplateBinding BorderThickness}" />
 
                         <Grid Grid.Column="0" Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MenuVisiblity}">
                             <Grid.ColumnDefinitions>
@@ -46,25 +48,28 @@
 
                         <ContentPresenter Grid.Column="1" />
 
-                        <ToggleButton HorizontalAlignment="{TemplateBinding ToggleHorizontalAlignment}"
+                        <ToggleButton Margin="5"
+                                      HorizontalAlignment="{TemplateBinding ToggleHorizontalAlignment}"
                                       VerticalAlignment="{TemplateBinding ToggleVerticalAlignment}"
+                                      h:Cattach.CheckedIcon="{TemplateBinding CloseIcon}"
                                       h:Cattach.IconSize="22"
-                                      h:Cattach.Icon="&#xe8ab;"
-                                      Content="&#xe857;"
+                                      h:Cattach.UncheckedIcon="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=OpenIcon}"
                                       IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:GridSplitterContainer}, Path=MenuVisiblity, Converter={x:Static h:XConverter.VisibilityToBoolenConverter}}"
-                                      Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconCheckedSingle}}"
-                                      Visibility="{TemplateBinding ToggleVisiblity}" />
+                                      Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ToggleVisiblity}" />
 
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+        <!--<Style.Triggers>
+
+        </Style.Triggers>-->
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.GridSplitterContainer.Right, TypeInTargetAssembly={x:Type local:GridSplitterContainer}}" BasedOn="{StaticResource {x:Static local:GridSplitterContainer.DefaultKey}}" TargetType="{x:Type local:GridSplitterContainer}">
         <Setter Property="MenuDock" Value="Right" />
-        <Setter Property="ToggleHorizontalAlignment" Value="Right"/>
-        <Setter Property="ToggleVerticalAlignment" Value="Top"/>
+        <Setter Property="ToggleHorizontalAlignment" Value="Right" />
+        <Setter Property="ToggleVerticalAlignment" Value="Top" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:GridSplitterContainer}">
@@ -89,25 +94,24 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=MenuWidth}" MinWidth="{TemplateBinding MenuMinWidth}" MaxWidth="{TemplateBinding MenuMaxWidth}" />
                             </Grid.ColumnDefinitions>
-
                             <GridSplitter x:Name="PART_GridSplitter"
                                           Width="{TemplateBinding GridSpliteWidth}"
                                           Background="{TemplateBinding GridSpliterBackground}"
                                           ResizeBehavior="CurrentAndNext" />
-
                             <ContentPresenter Grid.Column="1" Content="{TemplateBinding MenuContent}" ContentTemplate="{TemplateBinding MenuTempate}" />
                         </Grid>
 
-                        <ToggleButton Grid.Column="0"
-                                      Grid.ColumnSpan="2"
+                        <ToggleButton Grid.Column="1"
+                                      Grid.ColumnSpan="1"
+                                      Margin="5"
                                       HorizontalAlignment="{TemplateBinding ToggleHorizontalAlignment}"
                                       VerticalAlignment="{TemplateBinding ToggleVerticalAlignment}"
+                                      h:Cattach.CheckedIcon="{TemplateBinding CloseIcon}"
                                       h:Cattach.IconSize="22"
-                                      h:Cattach.Icon="&#xe8ab;"
-                                      Content="&#xe857;"
+                                      h:Cattach.UncheckedIcon="{TemplateBinding OpenIcon}"
                                       IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:GridSplitterContainer}, Path=MenuVisiblity, Converter={x:Static h:XConverter.VisibilityToBoolenConverter}}"
-                                      Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconCheckedSingle}}"
                                       Visibility="{TemplateBinding ToggleVisiblity}" />
+
 
                     </Grid>
                 </ControlTemplate>
@@ -117,8 +121,8 @@
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.GridSplitterContainer.Top, TypeInTargetAssembly={x:Type local:GridSplitterContainer}}" BasedOn="{StaticResource {x:Static local:GridSplitterContainer.DefaultKey}}" TargetType="{x:Type local:GridSplitterContainer}">
         <Setter Property="MenuDock" Value="Top" />
-        <Setter Property="ToggleHorizontalAlignment" Value="Right"/>
-        <Setter Property="ToggleVerticalAlignment" Value="Top"/>
+        <Setter Property="ToggleHorizontalAlignment" Value="Right" />
+        <Setter Property="ToggleVerticalAlignment" Value="Top" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:GridSplitterContainer}">
@@ -154,13 +158,13 @@
                         <ContentPresenter Grid.Row="1" />
 
                         <ToggleButton Grid.Column="1"
+                                      Margin="5"
                                       HorizontalAlignment="{TemplateBinding ToggleHorizontalAlignment}"
                                       VerticalAlignment="{TemplateBinding ToggleVerticalAlignment}"
+                                      h:Cattach.CheckedIcon="{TemplateBinding CloseIcon}"
                                       h:Cattach.IconSize="22"
-                                      h:Cattach.Icon="&#xe8ab;"
-                                      Content="&#xe857;"
+                                      h:Cattach.UncheckedIcon="{TemplateBinding OpenIcon}"
                                       IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:GridSplitterContainer}, Path=MenuVisiblity, Converter={x:Static h:XConverter.VisibilityToBoolenConverter}}"
-                                      Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconCheckedSingle}}"
                                       Visibility="{TemplateBinding ToggleVisiblity}" />
 
                     </Grid>
@@ -171,8 +175,8 @@
 
     <Style x:Key="S{ComponentResourceKey ResourceId=.GridSplitterContainer.Bottom" BasedOn="{StaticResource {x:Static local:GridSplitterContainer.DefaultKey}}" TargetType="{x:Type local:GridSplitterContainer}">
         <Setter Property="MenuDock" Value="Bottom" />
-        <Setter Property="ToggleHorizontalAlignment" Value="Right"/>
-        <Setter Property="ToggleVerticalAlignment" Value="Bottom"/>
+        <Setter Property="ToggleHorizontalAlignment" Value="Right" />
+        <Setter Property="ToggleVerticalAlignment" Value="Bottom" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:GridSplitterContainer}">
@@ -210,13 +214,13 @@
                         </Grid>
 
                         <ToggleButton Grid.Row="1"
+                                      Margin="5"
                                       HorizontalAlignment="{TemplateBinding ToggleHorizontalAlignment}"
                                       VerticalAlignment="{TemplateBinding ToggleVerticalAlignment}"
+                                      h:Cattach.CheckedIcon="{TemplateBinding CloseIcon}"
                                       h:Cattach.IconSize="22"
-                                      h:Cattach.Icon="&#xe8ab;"
-                                      Content="&#xe857;"
+                                      h:Cattach.UncheckedIcon="{TemplateBinding OpenIcon}"
                                       IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:GridSplitterContainer}, Path=MenuVisiblity, Converter={x:Static h:XConverter.VisibilityToBoolenConverter}}"
-                                      Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconCheckedSingle}}"
                                       Visibility="{TemplateBinding ToggleVisiblity}" />
 
                     </Grid>

@@ -1,4 +1,5 @@
-﻿using HeBianGu.General.WpfControlLib;
+﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfControlLib;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;

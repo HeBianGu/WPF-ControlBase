@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Service.Mvp">
+    <DataTemplate DataType="{x:Type local:WindowContentViewPresenter}">
+        <Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_8}}">
+            <DockPanel>
+                <h:Row DockPanel.Dock="Top" Visibility="{Binding UseTitle, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                    <TextBlock HorizontalAlignment="Left" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}">
+                        <Run Text="{Binding SelectedItem.PredefinePath}" />
+                        <Run Text="\" />
+                        <Run Text="{Binding SelectedItem.Name}" />
+                    </TextBlock>
+
+                </h:Row>
+                <TabControl h:Cattach.CaptionMargin="-1 0 0 0"
+                            h:Cattach.UseClose="True"
+                            h:Cattach.UseSearch="{Binding UseTabSearch}"
+                            ItemsSource="{Binding Presenters}"
+                            SelectedItem="{Binding SelectedItem}">
+                    <TabControl.ItemContainerStyle>
+                        <Style BasedOn="{StaticResource {x:Static h:TabItemKeys.Default}}" TargetType="TabItem">
+                            <Setter Property="Header" Value="{Binding Name}" />
+                            <Setter Property="Margin" Value="0,0,0,0" />
+                            <Setter Property="h:Cattach.CornerRadius" Value="0" />
+                            <Setter Property="Visibility" Value="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=DataContext.UseTab, Converter={x:Static h:Converter.GetTrueToVisible}}" />
+                            <Setter Property="HeaderTemplate" Value="{DynamicResource {x:Static h:DataTemplateKeys.ItemClose}}" />
+                        </Style>
+                    </TabControl.ItemContainerStyle>
+                </TabControl>
+            </DockPanel>
+
+            <!--<ContentPresenter Content="{Binding Persenter}" />-->
+        </Border>
+    </DataTemplate>
+
+</ResourceDictionary>

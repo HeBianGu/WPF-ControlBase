@@ -55,8 +55,21 @@ namespace HeBianGu.Control.MultiComboBox
 
                  if (control == null) return;
 
+                 if (control._listBox == null) return;
+
                  IList config = e.NewValue as IList;
 
+                 control._listBox.SelectedItems.Clear();
+
+                 if (config == null)
+                     return;
+
+                 control._listBox.SelectionChanged -= control._ListBox_SelectionChanged;
+                 foreach (var item in config)
+                 {
+                     control._listBox.SelectedItems.Add(item);
+                 }
+                 control._listBox.SelectionChanged += control._ListBox_SelectionChanged;
              }));
 
         private ListBox _listBox;
@@ -73,7 +86,44 @@ namespace HeBianGu.Control.MultiComboBox
 
         private void _ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            this.SelectedItems = this._listBox.SelectedItems;
+            this.SelectedItems?.Clear();
+            if (this._listBox.SelectedItems == null) 
+                return;
+
+            if (this.SelectedItems == null)
+                return;
+            foreach (var item in this._listBox.SelectedItems)
+            {
+                this.SelectedItems.Add(item);
+            }
         }
+
+
+        public DataTemplate SelectedItemsTemplate
+        {
+            get { return (DataTemplate)GetValue(SelectedItemsTemplateProperty); }
+            set { SetValue(SelectedItemsTemplateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectedItemsTemplateProperty =
+            DependencyProperty.Register("SelectedItemsTemplate", typeof(DataTemplate), typeof(MultiComboBox), new FrameworkPropertyMetadata(default(DataTemplate), (d, e) =>
+             {
+                 MultiComboBox control = d as MultiComboBox;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is DataTemplate o)
+                 {
+
+                 }
+
+                 if (e.NewValue is DataTemplate n)
+                 {
+
+                 }
+
+             }));
+
     }
 }

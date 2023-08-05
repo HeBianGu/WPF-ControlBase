@@ -9,7 +9,7 @@ namespace HeBianGu.App.Manager.View.Attach
     {
         public GroupControl()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }

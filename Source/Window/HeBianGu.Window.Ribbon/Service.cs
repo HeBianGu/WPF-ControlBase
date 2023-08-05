@@ -1,6 +1,7 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
 using HeBianGu.Base.WpfBase;
+using System.ComponentModel.DataAnnotations;
 
 namespace HeBianGu.Window.Ribbon
 {
@@ -14,7 +15,7 @@ namespace HeBianGu.Window.Ribbon
 
     }
 
-    [SettingConfig(Name = "参数设置", Group = "基本设置")]
+    [Displayer(Name = "参数设置", GroupName = SystemSetting.GroupStyle)]
     public class Setting : LazySettingInstance<Setting>
     {
 

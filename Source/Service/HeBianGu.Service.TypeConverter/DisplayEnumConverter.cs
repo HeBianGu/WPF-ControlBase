@@ -11,7 +11,6 @@ namespace HeBianGu.Service.TypeConverter
     /// <summary> 根据DisplayAttribute显示枚举名称 </summary>
     public class DisplayEnumConverter : EnumConverter
     {
-
         public DisplayEnumConverter(Type type) : base(type)
         {
 
@@ -41,5 +40,4 @@ namespace HeBianGu.Service.TypeConverter
             return base.ConvertFrom(context, culture, value);
         }
     }
-
 }

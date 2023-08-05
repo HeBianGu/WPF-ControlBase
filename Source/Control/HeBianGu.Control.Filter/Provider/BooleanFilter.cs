@@ -17,17 +17,15 @@ namespace HeBianGu.Control.Filter
 
         public override IFilter Copy()
         {
-            return new BooleanFilter(this.Model) { Operate = this.Operate, Value = this.Value };
+            return new BooleanFilter(this.PropertyInfo) { Operate = this.Operate, Value = this.Value };
         }
 
         public override bool IsMatch(object obj)
         {
             PropertyInfo p = obj.GetType().GetProperty(this.Name);
-
-            if (p == null || !p.CanRead) return false;
-
+            if (p == null || !p.CanRead) 
+                return false;
             bool v = (bool)p.GetValue(obj);
-
             return v == this.Value;
         }
     }

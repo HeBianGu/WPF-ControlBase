@@ -1,7 +1,10 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.Guide;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Service.Mvp;
 using HeBianGu.Systems.Repository;
+using HeBianGu.Systems.Setting;
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -13,7 +16,7 @@ namespace HeBianGu.App.Repository
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             return new ShellWindow();
         }
@@ -21,52 +24,49 @@ namespace HeBianGu.App.Repository
         protected override void ConfigureServices(IServiceCollection services)
         {
             base.ConfigureServices(services);
-
-            //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
-
-            ////  Do ：注册日志服务
-            //services.AddSingleton<ILogService, AssemblyDomain>();
-
-            services.AddMessageDialog();
-
+            services.AddWindowDialog();
             services.AddWindowAnimation();
-
-            services.AddTheme();
-
             services.AddStudentDemo();
-
             services.AddXmlSerialize();
             services.AddXmlMeta();
-
             services.AddSetting();
             services.AddSettingPath();
-            services.AddSettingViewPrenter();
-
-            services.AddMessage();
-
+            services.AddMessageProxy();
+            services.AddPropertyGridMessage();
             //services.AddAutomation();
-
             services.AddMvp();
+            services.AddAutoColumnPagedDataGridMessage();
 
-            //services.AddStart();
+            #region - WindowCaption -
+            services.AddGuideViewPresenter();
+            services.AddSettingViewPrenter();
+            services.AddThemeRightViewPresenter();
+            services.AddWindowCaptionViewPresenter(x =>
+            {
+                x.AddPersenter(MoreViewPresenter.Instance);
+                x.AddPersenter(GuideViewPresenter.Instance);
+                x.AddPersenter(SettingViewPresenter.Instance);
+                x.AddPersenter(ThemeRightToolViewPresenter.Instance);
+            });
+            #endregion
 
-            services.AddSingleton<IRepository<hi_dd_user>, Repository<hi_dd_user>>();
-            services.AddSingleton<IRepository<hi_dd_role>, Repository<hi_dd_role>>();
-            services.AddSingleton<IRepository<hi_dd_log>, Repository<hi_dd_log>>();
-            services.AddSingleton<IRepository<hi_dd_author>, Repository<hi_dd_author>>();
+            services.AddSingleton<Systems.Repository.IRepository<hi_dd_user>, Repository<hi_dd_user>>();
+            services.AddSingleton<Systems.Repository.IRepository<hi_dd_role>, Repository<hi_dd_role>>();
+            services.AddSingleton<Systems.Repository.IRepository<hi_dd_log>, Repository<hi_dd_log>>();
+            services.AddSingleton<Systems.Repository.IRepository<hi_dd_author>, Repository<hi_dd_author>>();
 
-            services.AddSingleton<IRepository<mbc_db_areatype>, Repository<mbc_db_areatype>>();
-            services.AddSingleton<IRepository<mbc_db_articulationtype>, Repository<mbc_db_articulationtype>>();
-            services.AddSingleton<IRepository<mbc_db_extendtype>, Repository<mbc_db_extendtype>>();
-            services.AddSingleton<IRepository<mbc_db_fromtype>, Repository<mbc_db_fromtype>>();
-            services.AddSingleton<IRepository<mbc_db_mediatype>, Repository<mbc_db_mediatype>>();
-            services.AddSingleton<IRepository<mbc_db_tagtype>, Repository<mbc_db_tagtype>>();
-            services.AddSingleton<IRepository<mbc_db_viptype>, Repository<mbc_db_viptype>>();
-            services.AddSingleton<IRepository<mbc_dc_case>, Repository<mbc_dc_case>>();
-            services.AddSingleton<IRepository<mbc_dv_image>, Repository<mbc_dv_image>>();
-            services.AddSingleton<IRepository<mbc_dv_movie>, Repository<mbc_dv_movie>>();
-            services.AddSingleton<IRepository<mbc_dv_movieimage>, Repository<mbc_dv_movieimage>>();
+            services.AddSingleton<Systems.Repository.IRepository<mbc_db_areatype>, Repository<mbc_db_areatype>>();
+            services.AddSingleton<Systems.Repository.IRepository<mbc_db_articulationtype>, Repository<mbc_db_articulationtype>>();
+            services.AddSingleton<Systems.Repository.IRepository<mbc_db_extendtype>, Repository<mbc_db_extendtype>>();
+            services.AddSingleton<Systems.Repository.IRepository<mbc_db_fromtype>, Repository<mbc_db_fromtype>>();
+            services.AddSingleton<Systems.Repository.IRepository<mbc_db_mediatype>, Repository<mbc_db_mediatype>>();
+            services.AddSingleton<Systems.Repository.IRepository<mbc_db_tagtype>, Repository<mbc_db_tagtype>>();
+            services.AddSingleton<Systems.Repository.IRepository<mbc_db_viptype>, Repository<mbc_db_viptype>>();
+            services.AddSingleton<Systems.Repository.IRepository<mbc_dc_case>, Repository<mbc_dc_case>>();
+            services.AddSingleton<Systems.Repository.IRepository<mbc_dv_image>, Repository<mbc_dv_image>>();
+            services.AddSingleton<Systems.Repository.IRepository<mbc_dv_movie>, Repository<mbc_dv_movie>>();
+            services.AddSingleton<Systems.Repository.IRepository<mbc_dv_movieimage>, Repository<mbc_dv_movieimage>>();
         }
 
         protected override void Configure(IApplicationBuilder app)
@@ -90,19 +90,12 @@ namespace HeBianGu.App.Repository
                 l.ItemsControlType = ItemsControlType.PagedDataGrid;
             });
 
-            app.UseStart(l =>
-            {
-                l.Title = "综合管理系统";
-                l.TitleFontSize = 60;
-            });
-
             //  Do：设置默认主题
             app.UseLocalTheme(l =>
             {
                 l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
 
-                l.SmallFontSize = 14D;
-                l.LargeFontSize = 16D;
+                l.DefaultFontSize = 14D;
                 l.FontSize = FontSize.Small;
 
                 l.ItemHeight = 36;
@@ -114,7 +107,8 @@ namespace HeBianGu.App.Repository
                 l.AccentColorSelectType = 0;
                 l.IsUseAnimal = false;
 
-                l.ThemeType = ThemeType.Light;
+                l.ThemeType = ThemeType.DarkGray;
+                l.StyleType = StyleType.Single;
 
                 l.Language = Language.Chinese;
 

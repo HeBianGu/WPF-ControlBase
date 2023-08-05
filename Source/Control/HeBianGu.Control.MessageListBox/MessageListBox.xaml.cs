@@ -15,8 +15,6 @@ namespace HeBianGu.Control.MessageListBox
             DefaultStyleKeyProperty.OverrideMetadata(typeof(MessageListBox), new FrameworkPropertyMetadata(typeof(MessageListBox)));
         }
 
-
-
         public ObservableCollection<InfoMessage> Infos
         {
             get { return (ObservableCollection<InfoMessage>)GetValue(InfosProperty); }

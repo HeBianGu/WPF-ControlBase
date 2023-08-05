@@ -1,6 +1,7 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
 using HeBianGu.Base.WpfBase;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,11 +9,24 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Media.Animation;
+using System.Xml.Serialization;
 
 namespace HeBianGu.Control.Filter
 {
+    public interface IPropertyFilter : IFilter
+    {
+        string DisplayName { get; set; }
+        bool IsSelected { get; set; }
+        string Name { get; set; }
+        FilterOperate Operate { get; set; }
+        PropertyInfo PropertyInfo { get; set; }
+        //void SetValue(object value);
+        //object GetValue();
+    }
+
     /// <summary> 说明</summary>
-    public abstract class PropertyFilterBase<T> : NotifyPropertyChanged, IFilter
+    public abstract class PropertyFilterBase<T> : NotifyPropertyChanged, IFilter, IPropertyFilter
     {
         public PropertyFilterBase()
         {
@@ -20,7 +34,7 @@ namespace HeBianGu.Control.Filter
         }
 
         private ObservableCollection<T> _source = new ObservableCollection<T>();
-        /// <summary> 选项资源  </summary>
+        [XmlIgnore]
         public ObservableCollection<T> Source
         {
             get { return _source; }
@@ -32,7 +46,7 @@ namespace HeBianGu.Control.Filter
         }
 
         private ObservableCollection<T> _selectedSource = new ObservableCollection<T>();
-        /// <summary> 选中资源  </summary>
+        [XmlIgnore]
         public ObservableCollection<T> SelectedSource
         {
             get { return _selectedSource; }
@@ -42,39 +56,44 @@ namespace HeBianGu.Control.Filter
                 RaisePropertyChanged("SelectedSource");
             }
         }
-
-
-        public PropertyInfo Model { get; set; }
-
-        public PropertyFilterBase(PropertyInfo model)
+     
+        private PropertyInfo _propertyInfo;
+        [XmlIgnore]
+        public PropertyInfo PropertyInfo
         {
-            this.Model = model;
+            get { return _propertyInfo; }
+            set
+            {
+                _propertyInfo = value;
+                RaisePropertyChanged();
+            }
+        }
 
-            this.Name = model.Name;
 
-            string display = model.GetCustomAttribute<DisplayAttribute>()?.Name;
+        public PropertyFilterBase(PropertyInfo propertyInfo)
+        {
+            this.PropertyInfo = propertyInfo;
 
-            this.DisplayName = display ?? model.Name;
+            this.Name = propertyInfo.Name;
+
+            string display = propertyInfo.GetCustomAttribute<DisplayAttribute>()?.Name;
+
+            this.DisplayName = display ?? propertyInfo.Name;
         }
 
         public PropertyFilterBase(PropertyInfo property, IEnumerable source)
         {
-            this.Model = property;
-
+            this.PropertyInfo = property;
             this.Name = property.Name;
-
             string display = property.GetCustomAttribute<DisplayAttribute>()?.Name;
-
             this.DisplayName = display ?? property.Name;
-
             this.Source.Clear();
-
+            if (source == null)
+                return;
             List<T> finds = new List<T>();
-
             foreach (object item in source)
             {
                 T v = (T)property.GetValue(item);
-
                 finds.Add(v);
             }
 
@@ -97,7 +116,7 @@ namespace HeBianGu.Control.Filter
 
 
         private string _displayName;
-        /// <summary> 说明  </summary>
+        [XmlIgnore]
         public string DisplayName
         {
             get { return _displayName; }
@@ -176,5 +195,10 @@ namespace HeBianGu.Control.Filter
         public abstract bool IsMatch(object obj);
 
         public abstract IFilter Copy();
+
+        //public void SetValue(object value)
+        //{
+        //    this.Value = value.TryChangeType<T>();
+        //}
     }
 }

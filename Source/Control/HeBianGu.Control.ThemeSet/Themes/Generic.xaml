@@ -1,6 +1,42 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:HeBianGu.Control.ThemeSet">
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Control.ThemeSet">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.ThemeSet;component/ThemeSet.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate DataType="{x:Type local:ThemeViewPresenter}">
+        <Grid>
+            <ToggleButton x:Name="tb" Style="{DynamicResource {x:Static h:MvpKeys.ToggleButton}}" />
+
+            <Popup HorizontalAlignment="Left"
+                   VerticalAlignment="Bottom"
+                   AllowsTransparency="True"
+                   IsOpen="{Binding ElementName=tb, Path=IsChecked}"
+                   Placement="Top"
+                   PlacementTarget="{Binding ElementName=tb}"
+                   PopupAnimation="Slide"
+                   StaysOpen="False"
+                   VerticalOffset="10">
+                <Border Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
+                        BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                        BorderThickness="1"
+                        CornerRadius="5">
+                    <StackPanel Margin="10">
+                        <local:ThemeSet Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                    </StackPanel>
+                </Border>
+            </Popup>
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ThemeRightToolViewPresenter}">
+        <Button Style="{DynamicResource {x:Static h:MvpKeys.Button}}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:ThemeRightViewPresenter}">
+        <local:ThemeSet Width="275" Margin="10,0" />
+    </DataTemplate>
 </ResourceDictionary>

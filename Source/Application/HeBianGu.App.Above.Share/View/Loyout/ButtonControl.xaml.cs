@@ -9,7 +9,7 @@ namespace HeBianGu.App.Above.View.Loyout
     {
         public ButtonControl()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }

@@ -1,0 +1,137 @@
+﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.ThemeSet;
+using HeBianGu.General.WpfControlLib;
+using HeBianGu.Systems.Setting;
+using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Windows;
+using System.Windows.Media;
+
+namespace HeBianGu.Demo.Demo11
+{
+    /// <summary>
+    /// App.xaml 的交互逻辑
+    /// </summary>
+    public partial class App : ApplicationBase
+    {
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
+        {
+            return new MainWindow();
+        }
+
+        protected override void ConfigureServices(IServiceCollection services)
+        {
+            base.ConfigureServices(services);
+
+            //  Do ：注册动画
+            services.AddWindowAnimation();
+
+            //  Do ：注册消息
+            services.AddMessageProxy();
+
+            //  Do ：注册序列化保存接口，注册后主题的配置会保存到本地，再次启动会读取
+            services.AddXmlSerialize();
+
+            //  Do ：注册后可以使用框架自带的对话框
+            services.AddWindowDialog();
+
+            //  Do ：注册配置加载方式
+            services.AddSetting();
+
+            //  Do ：注册窗口配置，注册后窗口右侧有可设置主题的按钮
+            services.AddThemeRightViewPresenter();
+            //  Do ：注册右上角配置页面
+            services.AddSettingViewPrenter();
+            services.AddWindowCaptionViewPresenter(x =>
+            {
+                x.AddPersenter(SettingViewPresenter.Instance);
+                x.AddPersenter(ThemeRightToolViewPresenter.Instance);
+            });
+
+            //  Do ：注册右上角新手向导功能
+            services.AddGuideViewPresenter(x =>
+            {
+                //  Do ：动画时间
+                x.AnimationDuration = 200;
+                //  Do ：边框颜色
+                x.Stroke = Brushes.Orange;
+                //  Do ：虚线
+                x.StrokeDashArray = new DoubleCollection(new double[] { 1, 1 });
+                //  Do ：线宽
+                x.StrokeThickness = 1;
+            });
+        }
+
+        protected override void Configure(IApplicationBuilder app)
+        {
+            base.Configure(app);
+
+            app.UseSettingDefault();
+
+            //  Do ：添加自定义配置信息
+            app.UseSetting(l =>
+            {
+                l.Settings.Add(TestSetting.Instance);
+            });
+
+            //  Do：设置默认主题
+            app.UseLocalTheme(l =>
+            {
+                l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
+                l.DefaultFontSize = 14D;
+                l.FontSize = FontSize.Small;
+
+                l.ItemHeight = 36;
+                l.RowHeight = 40;
+                //l.ItemWidth = 120;
+                l.ItemCornerRadius = 5;
+
+                l.AnimalSpeed = 5000;
+                l.AccentColorSelectType = 0;
+                l.IsUseAnimal = false;
+
+                l.ThemeType = ThemeType.Light;
+
+                l.Language = Language.Chinese;
+
+                l.AccentBrushType = AccentBrushType.LinearGradientBrush;
+            });
+        }
+
+    }
+
+    [Displayer(Name = "自定义", GroupName = "我是分组")]
+    public class TestSetting : LazySettingInstance<TestSetting>
+    {
+        private bool _useIsEnabled;
+        /// <summary> 说明  </summary>
+        [DefaultValue(true)]
+        [Display(Name = "配置项一")]
+        public bool UseIsEnabled
+        {
+            get { return _useIsEnabled; }
+            set
+            {
+                _useIsEnabled = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private string _value;
+        /// <summary> 说明  </summary> 
+        [DefaultValue("HeBianGu")]
+        [Display(Name = "配置项二")]
+        public string Value
+        {
+            get { return _value; }
+            set
+            {
+                _value = value;
+                RaisePropertyChanged();
+            }
+        }
+    }
+
+}

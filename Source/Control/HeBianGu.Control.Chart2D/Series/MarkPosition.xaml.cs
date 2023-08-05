@@ -118,6 +118,32 @@ namespace HeBianGu.Control.Chart2D
             }));
 
 
+        public Brush MarkForeground
+        {
+            get { return (Brush)GetValue(MarkForegroundProperty); }
+            set { SetValue(MarkForegroundProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MarkForegroundProperty =
+            DependencyProperty.Register("MarkForeground", typeof(Brush), typeof(MarkPosition), new FrameworkPropertyMetadata(Brushes.White, (d, e) =>
+            {
+                MarkPosition control = d as MarkPosition;
+
+                if (control == null) return;
+
+                if (e.OldValue is Brush o)
+                {
+
+                }
+
+                if (e.NewValue is Brush n)
+                {
+
+                }
+
+            }));
+
         protected override void InitX()
         {
             base.InitX();
@@ -217,15 +243,12 @@ namespace HeBianGu.Control.Chart2D
 
             //  Do ：显示文本
             Label t = new Label();
-
             t.Content = point.Y.ToString("G3");
             t.Style = this.LabelStyle;
-
-            t.Foreground = Brushes.White;
-
+            if (this.MarkForeground != null)
+                t.Foreground = this.MarkForeground;
             t.Loaded += (o, e) =>
             {
-
                 if (this.xAxis.Count == 1)
                 {
                     Canvas.SetLeft(t, this.ActualWidth / 2 - t.ActualWidth / 2);
@@ -233,7 +256,6 @@ namespace HeBianGu.Control.Chart2D
                 }
                 else
                 {
-
                     Canvas.SetLeft(t, this.GetX(point.X) - t.ActualWidth / 2);
                     Canvas.SetTop(t, this.GetY(point.Y) - t.ActualHeight * 1.2);
                 }
@@ -246,7 +268,6 @@ namespace HeBianGu.Control.Chart2D
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
-
             this.DrawMark();
         }
     }

@@ -47,6 +47,33 @@ namespace HeBianGu.Control.Filter
         }
 
 
+        public string InitProperty
+        {
+            get { return (string)GetValue(InitPropertyProperty); }
+            set { SetValue(InitPropertyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty InitPropertyProperty =
+            DependencyProperty.Register("InitProperty", typeof(string), typeof(SelectionFilter), new FrameworkPropertyMetadata(default(string), (d, e) =>
+             {
+                 SelectionFilter control = d as SelectionFilter;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is string o)
+                 {
+
+                 }
+
+                 if (e.NewValue is string n)
+                 {
+
+                 }
+
+                 control.RefreshItems();
+             }));
+
 
         public IEnumerable InitItemsSource
         {
@@ -62,35 +89,82 @@ namespace HeBianGu.Control.Filter
 
                  if (control == null) return;
 
-                 if (e.OldValue is IEnumerable o)
+                 if (e.OldValue is INotifyCollectionChanged o)
                  {
-
+                     o.CollectionChanged -= control.CollectionChanged;
                  }
 
-                 if (e.NewValue is IEnumerable n)
+                 if (e.NewValue is INotifyCollectionChanged n)
                  {
-                     control.RefreshItems();
+                     n.CollectionChanged -= control.CollectionChanged;
+                     n.CollectionChanged += control.CollectionChanged;
                  }
 
+                 control.RefreshItems();
              }));
 
-
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            this.RefreshItems();
+        }
 
         public void RefreshItems()
         {
             if (this.InitItemsSource == null)
                 return;
 
-            ObservableCollection<string> strs = this.InitItemsSource.Cast<string>()?.ToObservable();
+
+            var listType = this.InitItemsSource.GetType();
+
+            if (!listType.IsGenericType)
+            {
+                listType = listType.BaseType;
+            }
+
+            var arguments = listType.GetGenericArguments();
+
+            if (arguments.Length != 1)
+            {
+                if (this.InitItemsSource.GetType().IsArray)
+                {
+                    var source = this.InitItemsSource.Cast<object>().Distinct().Select(x => x.ToString()).ToObservable();
+
+                    if (source == null)
+                        return;
+
+                    this.SelectionSource = source.ToObservable();
+                    this.SelectedSource = source.ToObservable();
+                }
+                else
+                {
+                    this.SelectionSource?.Clear();
+                    this.SelectedSource?.Clear();
+                }
+                return;
+            }
+
+            var type = arguments.FirstOrDefault();
+
+            ObservableCollection<string> strs = null;
+
+            if (type.IsPrimitive || type == typeof(string))
+            {
+                strs = this.InitItemsSource.Cast<object>().Distinct().Select(x => x.ToString()).ToObservable();
+            }
+            else
+            {
+                var p = type.GetProperty(this.InitProperty);
+
+                if (p != null)
+                    strs = this.InitItemsSource.Cast<object>().Select(x => p.GetValue(x).ToString()).ToObservable();
+            }
 
             if (strs == null)
                 return;
 
-            this.SelectedSource = strs;
-            this.SelectionSource = strs;
+            this.SelectionSource = strs.ToObservable();
+            this.SelectedSource = strs.ToObservable();
         }
-
-
 
         public IEnumerable InitSource
         {
@@ -143,6 +217,9 @@ namespace HeBianGu.Control.Filter
                 //bool config = e.NewValue as bool;
 
             }));
+
+
+
 
         public string PropertyName
         {
@@ -216,7 +293,11 @@ namespace HeBianGu.Control.Filter
 
                 string v = p.GetValue(item)?.ToString();
 
-                if (source.Contains(v)) continue;
+                if (string.IsNullOrEmpty(v))
+                    continue;
+
+                if (source.Contains(v))
+                    continue;
 
                 source.Add(v);
             }
@@ -230,13 +311,35 @@ namespace HeBianGu.Control.Filter
 
         protected override void OnSelectionChanged(SelectionChangedEventArgs e)
         {
-            base.OnSelectionChanged(e);
+            if (e.AddedItems.Count == 1 && this.IsUseCheckAll)
+                if (e.AddedItems[0] == this.Items[0])
+                    return;
 
-            this.OnChanged();
+            if (e.RemovedItems.Count == 1 && this.IsUseCheckAll)
+                if (e.RemovedItems[0] == this.Items[0])
+                    return;
+
+            base.OnSelectionChanged(e);
+            if (this.IsLoaded)
+                this.OnChanged();
+
+            if (this.IsUseCheckAll)
+            {
+                if (this.ItemContainerGenerator.ContainerFromIndex(0) is ListBoxItem item)
+                {
+                    item.IsSelected = this.SelectedSource.Count == this.SelectionSource.Count;
+                }
+            }
         }
 
         public virtual bool IsMatch(object obj)
         {
+            if (this.SelectedSource.Count == this.SelectionSource.Count)
+                return true;
+
+            if (this.SelectionSource == null || this.SelectionSource.Count == 0)
+                return true;
+
             object value = obj.GetType().GetProperty(this.PropertyName)?.GetValue(obj);
             return this.SelectedSource.Any(l => l == value?.ToString());
         }
@@ -348,29 +451,35 @@ namespace HeBianGu.Control.Filter
 
             this.SelectedSource = new ObservableCollection<string>();
 
-            foreach (string item in source)
-            {
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
-                {
-                    this.SelectionSource.Add(item);
+            //foreach (string item in source)
+            //{
+            //    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+            //    {
+            //        this.SelectionSource.Add(item);
 
-                    if (this.SelectionSource.Count == source.Count)
-                    {
-                        this.SelectedSource = source.ToObservable();
-                    }
-                }));
-            }
+            //        if (this.SelectionSource.Count == source.Count)
+            //        {
+            //            this.SelectedSource = source.ToObservable();
+            //        }
+            //    }));
+            //}
+
+            this.SelectionSource = source.ToObservable();
+            this.SelectedSource = source.ToObservable();
         }
 
         public override bool IsMatch(object obj)
         {
+            if (this.SelectedSource.Count == this.SelectionSource.Count)
+                return true;
+
+            if (this.SelectionSource == null || this.SelectionSource.Count == 0)
+                return true;
+
             object value = obj.GetType().GetProperty(this.PropertyName)?.GetValue(obj);
 
-            if (value == null)
-                return true;
-
-            if (string.IsNullOrEmpty(value.ToString()))
-                return true;
+            if (value == null || string.IsNullOrEmpty(value.ToString()))
+                return false;
 
             string[] array = value.ToString().Split(this.SplitValue, StringSplitOptions.RemoveEmptyEntries);
 
@@ -388,9 +497,21 @@ namespace HeBianGu.Control.Filter
             filter.Changed += Filter_Changed;
         }
 
+        bool _isRefreshing;
+
         private void Filter_Changed(object sender, RoutedEventArgs e)
         {
-            this.RefreshData();
+            if (_isRefreshing)
+                return;
+
+            this._isRefreshing = true;
+
+            this.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
+                       {
+                           this.RefreshData();
+                           this._isRefreshing = false;
+                       }));
+
         }
 
         public void RemoveFilter(IControlFilter filter)
@@ -442,7 +563,7 @@ namespace HeBianGu.Control.Filter
 
                  if (e.OldValue is int o)
                  {
-
+                     
                  }
 
                  if (e.NewValue is int n)
@@ -454,6 +575,9 @@ namespace HeBianGu.Control.Filter
 
         public void RefreshData()
         {
+
+            //System.Diagnostics.Debug.WriteLine("RefreshData");
+
             ObservableCollection<object> list = new ObservableCollection<object>();
 
             if (this.FromSource == null)
@@ -526,19 +650,23 @@ namespace HeBianGu.Control.Filter
 
                  if (control == null) return;
 
-                 if (e.OldValue is IEnumerable o)
+                 if (e.OldValue is INotifyCollectionChanged o)
                  {
-
+                     o.CollectionChanged -= control.CollectionChanged;
                  }
 
-                 if (e.NewValue is IEnumerable n)
+                 if (e.NewValue is INotifyCollectionChanged n)
                  {
-
+                     n.CollectionChanged += control.CollectionChanged;
                  }
 
                  control.RefreshData();
              }));
 
+        private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            this.RefreshData();
+        }
 
         public IEnumerable ToSource
         {

@@ -1,0 +1,292 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Window.Link">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Window.Message;component/MessageWindowBase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Custom.Default, TypeInTargetAssembly={x:Type local:CustomManagerWindowBase}}" BasedOn="{StaticResource {x:Static h:MessageWindowBase.DefaultKey}}" TargetType="{x:Type local:CustomManagerWindowBase}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="CaptionHeight" Value="70" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:CustomManagerWindowBase}">
+                    <Viewbox>
+                        <Grid Name="g_all"
+                              Width="1920"
+                              Height="1055"
+                              Margin="2,0,2,2">
+
+                            <Border x:Name="Bg"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                    Effect="{DynamicResource {x:Static h:EffectShadowKeys.Window}}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                            <Border x:Name="BgInner"
+                                    Background="{TemplateBinding Background}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                            <Grid>
+
+                                <AdornerDecorator Grid.Row="1" Margin="1,1,1,1" WindowChrome.IsHitTestVisibleInChrome="True">
+                                    <Grid>
+
+                                        <h:NotifyIcon x:Name="PART_NotifyIcon"
+                                                      Command="{Binding Path=MinimizeWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      Icon="{Binding Path=NotifyIconSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                      IconVisibility="Visible"
+                                                      Text="{TemplateBinding Title}">
+
+                                            <FrameworkElement.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Header="显示面板" />
+                                                    <MenuItem Header="退出" />
+                                                </ContextMenu>
+                                            </FrameworkElement.ContextMenu>
+                                        </h:NotifyIcon>
+
+                                        <h:DrawerHost HorizontalContentAlignment="Stretch">
+                                            <Grid>
+
+                                                <h:DialogHost Margin="-3,0,-3,-3"
+                                                              HorizontalAlignment="Stretch"
+                                                              VerticalAlignment="Stretch"
+                                                              Identifier="windowDialog">
+                                                    <Grid>
+
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition />
+                                                        </Grid.ColumnDefinitions>
+
+
+                                                        <Border>
+                                                            <Border.Background>
+                                                                <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/Cover.png" />
+                                                            </Border.Background>
+                                                        </Border>
+
+
+                                                        <Border Background="{DynamicResource {x:Static h:BrushKeys.Accent}}" CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Left}}">
+                                                            <StackPanel x:Name="sp_left" Width="278">
+                                                                <h:Interaction.Behaviors>
+                                                                    <!--<h:FluidMoveBehavior AppliesTo="Self" Duration="00:00:01"  FloatAbove="True"/>-->
+                                                                    <!--<h:LoadAnimationBehavior IsUseAll="True" LoadAnimationType="Opactiy" StartValue="0" EndValue="1" Split="0.05" End="0.2"/>-->
+                                                                    <h:LoadAnimationBehavior End="1" EndValue="0"
+                                                                                             IsUseAll="True"
+                                                                                             LoadAnimationType="VerticalAlignment"
+                                                                                             Split="0.2"
+                                                                                             StartValue="1000" />
+                                                                </h:Interaction.Behaviors>
+
+                                                                <Image Width="150"
+                                                                       Height="{TemplateBinding CaptionHeight}"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Center"
+                                                                       Source="{TemplateBinding Logo}" />
+
+                                                                <!--<local:LinkGroupExpander Style="{DynamicResource S.LinkGroupExpander.Accent}"
+                                                        ItemsSource="{TemplateBinding LinkActionGroups}" SelectedLink="{Binding RelativeSource={RelativeSource
+                                                                Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}"/>-->
+
+                                                                <ContentControl VerticalAlignment="Stretch" Background="Green" Content="{TemplateBinding LeftContent}" />
+                                                            </StackPanel>
+
+                                                        </Border>
+
+
+                                                        <Grid Grid.Column="1">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition />
+                                                                <!--<RowDefinition Height="Auto"/>-->
+                                                            </Grid.RowDefinitions>
+
+                                                            <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                                                                    BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                                                    BorderThickness="0,0,0,1"
+                                                                    CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.RightTop}}">
+                                                                <!--<Border.Effect>
+                                                                    <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="0"></DropShadowEffect>
+                                                                </Border.Effect>-->
+                                                            </Border>
+
+
+                                                            <Grid x:Name="PART_TITLEGRID"
+                                                                  Height="{TemplateBinding CaptionHeight}"
+                                                                  Margin="0,2,2,0"
+                                                                  Background="Transparent">
+
+
+                                                                <ToggleButton Margin="10,0"
+                                                                              HorizontalAlignment="Left"
+                                                                              h:Cattach.AllowsAnimation="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked}"
+                                                                              h:Cattach.Icon="&#xe9ce;"
+                                                                              h:Cattach.IconSize="35"
+                                                                              Content="&#xeb3a;"
+                                                                              IsChecked="true"
+                                                                              IsTabStop="False"
+                                                                              Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconChecked}}">
+                                                                    <h:Interaction.Triggers>
+                                                                        <h:EventTrigger EventName="Checked">
+                                                                            <h:InvokeCommandAction Command="{x:Static h:Commander.VisibleOfMarginLeftCommand}" CommandParameter="{Binding ElementName=sp_left}" />
+                                                                        </h:EventTrigger>
+
+                                                                        <h:EventTrigger EventName="Unchecked">
+                                                                            <h:InvokeCommandAction Command="{x:Static h:Commander.CollapsedOfMarginLeftCommand}" CommandParameter="{Binding ElementName=sp_left}" />
+                                                                        </h:EventTrigger>
+                                                                    </h:Interaction.Triggers>
+                                                                </ToggleButton>
+
+
+                                                                <StackPanel Margin="10,0"
+                                                                            HorizontalAlignment="Right"
+                                                                            VerticalAlignment="Center"
+                                                                            Orientation="Horizontal">
+
+
+                                                                    <ToggleButton x:Name="btn_custom"
+                                                                                  Width="{DynamicResource S.Window.ItemHeight}"
+                                                                                  Margin="5,0"
+                                                                                  VerticalAlignment="Center"
+                                                                                  h:Cattach.CheckedForeground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                                                                  h:Cattach.Icon="&#xe8d4;"
+                                                                                  h:Cattach.IconSize="25"
+                                                                                  Foreground="{DynamicResource {x:Static h:BrushKeys.Orange}}"
+                                                                                  Style="{DynamicResource {x:Static h:ToggleButtonKeys.BrushFIconChecked}}"
+                                                                                  ToolTip="用户工具"
+                                                                                  Visibility="{Binding Path=SetboxEnable, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
+                                                                                  WindowChrome.IsHitTestVisibleInChrome="True" />
+
+                                                                    <TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="WelCome HeBianGu !" />
+                                                                    <ItemsControl Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:MvpKeys.WindowCaption}}" />
+
+                                                                    <!--<Button Style="{DynamicResource {x:Static h:ButtonKeys.HideWindow}}" />
+
+                                                                    <ToggleButton x:Name="btnTheme" Style="{StaticResource S.ToggleButton.Window.Theme}" />
+
+                                                                    <Button Style="{StaticResource S.Button.Window.Setting}"  Foreground="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}"/>-->
+
+                                                                    <!--<Line Height="25"
+                                                                          Stroke="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                                                          X1="0" X2="0" Y1="0"
+                                                                          Y2="25" />-->
+                                                                    <Separator Height="20" Background="{Binding RelativeSource={RelativeSource AncestorType=h:CustomManagerWindowBase}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:SeparatorKeys.Vertical}}" />
+
+                                                                    <Button Style="{DynamicResource {x:Static h:ButtonKeys.MinimizeWindow}}" />
+                                                                    <Button x:Name="btnMax" Style="{DynamicResource {x:Static h:ButtonKeys.MaximizeWindow}}" />
+                                                                    <Button Style="{DynamicResource {x:Static h:ButtonKeys.CloseWindow}}" />
+                                                                </StackPanel>
+
+                                                            </Grid>
+
+                                                            <!--<local:Row Grid.Row="2" Style="{DynamicResource {x:Static h:Row.Column1Key}}" Background="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}">
+                                                                <TextBlock Text="Copyright ©  2019 By HeBianGu" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                                                            </local:Row>-->
+
+                                                            <Border Grid.Row="1"
+                                                                    Margin="15,10,15,20"
+                                                                    Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                                                                    BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                                                    CornerRadius="5"
+                                                                    Effect="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}">
+                                                                <!--<Border.Effect>
+                                                                    <DropShadowEffect Color="{Binding Source={StaticResource  {x:Static h:BrushKeys.BorderBrushDefault}},Path=Color}" BlurRadius="20" Direction="270"></DropShadowEffect>
+                                                                </Border.Effect>-->
+                                                            </Border>
+
+                                                            <!--<local:LinkActionTabFrame Grid.Row="1" Margin="15,10" BorderThickness="0,0,0,0" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=CurrentLink,Mode=TwoWay}"/>-->
+
+
+                                                            <h:ContainPanel x:Name="PART_LAYERGROUP"
+                                                                            Grid.Row="1" ClipToBounds="True"
+                                                                            Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}"
+                                                                            Visibility="Collapsed">
+                                                                <h:ContainPanel.AnimationAction>
+                                                                    <h:ScaleTransition />
+                                                                </h:ContainPanel.AnimationAction>
+                                                            </h:ContainPanel>
+
+
+                                                        </Grid>
+
+                                                    </Grid>
+                                                </h:DialogHost>
+
+                                                <h:MessageContainer x:Name="PART_Message" Grid.Row="1" />
+
+                                                <h:Snackbar x:Name="PART_SnackBar" MessageQueue="{h:MessageQueue}" />
+                                            </Grid>
+                                        </h:DrawerHost>
+                                    </Grid>
+                                </AdornerDecorator>
+
+                                <!--<Popup x:Name="Pop"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       AllowsTransparency="True"
+                                       IsOpen="{Binding ElementName=btnTheme, Path=IsChecked}"
+                                       Placement="Bottom"
+                                       PlacementTarget="{Binding ElementName=btnTheme}"
+                                       PopupAnimation="Slide"
+                                       StaysOpen="False">
+
+                                    <Border Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
+                                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                            BorderThickness="1"
+                                            CornerRadius="5">
+                                        <StackPanel Margin="10">
+                                            <h:ThemeSet Foreground="{TemplateBinding CaptionForeground}" />
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>-->
+
+                                <Popup x:Name="ppp_custom"
+                                       HorizontalAlignment="Left"
+                                       VerticalAlignment="Bottom"
+                                       AllowsTransparency="True"
+                                       IsOpen="{Binding ElementName=btn_custom, Path=IsChecked}"
+                                       Placement="Bottom"
+                                       PlacementTarget="{Binding ElementName=btn_custom}"
+                                       PopupAnimation="Slide"
+                                       StaysOpen="False">
+
+                                    <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                            BorderThickness="1"
+                                            CornerRadius="5">
+                                        <StackPanel Margin="10">
+                                            <ContentControl Content="{TemplateBinding CustomContent}" />
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </Grid>
+                    </Viewbox>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe665;" />
+                            <Setter TargetName="g_all" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe615;" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static local:CustomManagerWindowBase.DefaultKey}}" TargetType="{x:Type local:CustomManagerWindowBase}" />
+</ResourceDictionary>

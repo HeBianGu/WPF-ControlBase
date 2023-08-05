@@ -12,7 +12,7 @@ namespace HeBianGu.Template.Main
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             return new MainWindow();
         }
@@ -23,13 +23,13 @@ namespace HeBianGu.Template.Main
         {
             base.ConfigureServices(services);
 
-            services.AddMessageDialog();
+            services.AddWindowDialog();
 
             services.AddWindowAnimation();
 
             services.AddTheme();
 
-            services.AddMessage();
+            services.AddMessageProxy();
 
             services.AddXmlSerialize();
 

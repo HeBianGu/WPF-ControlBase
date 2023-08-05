@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace HeBianGu.Control.Chart2D
 {
@@ -36,7 +37,8 @@ namespace HeBianGu.Control.Chart2D
         {
             System.Collections.Generic.IEnumerable<LayerBase> layers = this.GetChildren<LayerBase>();
 
-            if (layers == null) return;
+            if (layers == null) 
+                return;
 
             //Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.SystemIdle, new Action(() =>
             // {
@@ -139,88 +141,122 @@ namespace HeBianGu.Control.Chart2D
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ViewLayerGroup), new FrameworkPropertyMetadata(typeof(ViewLayerGroup)));
         }
 
-        /// <summary> x轴坐标数据集合 </summary>
-        [TypeConverter(typeof(DataTypeConverter))]
-        public ObservableCollection<double> xAxis
+        /// <summary>
+        /// true:需要调用DrawOne去刷新，用于显示实时数据修改完数据后手动调用刷新，false：属性更改实时刷新，手动编辑数据刷新
+        /// </summary>
+        public bool UseDrawOnce
         {
-            get { return (ObservableCollection<double>)GetValue(xAxisProperty); }
+            get { return (bool)GetValue(UseDrawOnceProperty); }
+            set { SetValue(UseDrawOnceProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseDrawOnceProperty =
+            DependencyProperty.Register("UseDrawOnce", typeof(bool), typeof(ViewLayerGroup), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
+            {
+                ViewLayerGroup control = d as ViewLayerGroup;
+
+                if (control == null) return;
+
+                if (e.OldValue is bool o)
+                {
+
+                }
+
+                if (e.NewValue is bool n)
+                {
+
+                }
+
+            }));
+
+        [TypeConverter(typeof(DoubleCollectionConverter))]
+        public DoubleCollection xAxis
+        {
+            get { return (DoubleCollection)GetValue(xAxisProperty); }
             set { SetValue(xAxisProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty xAxisProperty =
-            DependencyProperty.Register("xAxis", typeof(ObservableCollection<double>), typeof(ViewLayerGroup), new FrameworkPropertyMetadata(new ObservableCollection<double>(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
+            DependencyProperty.Register("xAxis", typeof(DoubleCollection), typeof(ViewLayerGroup), new FrameworkPropertyMetadata(new DoubleCollection(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
             {
                 Chart control = d as Chart;
 
                 if (control == null) return;
 
-                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+                DoubleCollection config = e.NewValue as DoubleCollection;
 
-                //control.Draw();
+                control.Draw();
 
             }));
 
 
-        /// <summary> y轴坐标数据集合 </summary>
-        [TypeConverter(typeof(DataTypeConverter))]
-        public ObservableCollection<double> yAxis
+        [TypeConverter(typeof(DoubleCollectionConverter))]
+        public DoubleCollection yAxis
         {
-            get { return (ObservableCollection<double>)GetValue(yAxisProperty); }
+            get { return (DoubleCollection)GetValue(yAxisProperty); }
             set { SetValue(yAxisProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty yAxisProperty =
-            DependencyProperty.Register("yAxis", typeof(ObservableCollection<double>), typeof(ViewLayerGroup), new FrameworkPropertyMetadata(new ObservableCollection<double>(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
+            DependencyProperty.Register("yAxis", typeof(DoubleCollection), typeof(ViewLayerGroup), new FrameworkPropertyMetadata(new DoubleCollection(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
             {
                 ViewLayerGroup control = d as ViewLayerGroup;
 
                 if (control == null) return;
 
-                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+                DoubleCollection config = e.NewValue as DoubleCollection;
+
+                control.Draw();
 
             }));
 
         /// <summary> x轴数据集合 </summary>
-        [TypeConverter(typeof(DataTypeConverter))]
-        public ObservableCollection<double> xDatas
+        //[TypeConverter(typeof(DataTypeConverter))]
+        [TypeConverter(typeof(DoubleCollectionConverter))]
+        public DoubleCollection xDatas
         {
-            get { return (ObservableCollection<double>)GetValue(xDatasProperty); }
+            get { return (DoubleCollection)GetValue(xDatasProperty); }
             set { SetValue(xDatasProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty xDatasProperty =
-            DependencyProperty.Register("xDatas", typeof(ObservableCollection<double>), typeof(ViewLayerGroup), new FrameworkPropertyMetadata(new ObservableCollection<double>(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
+            DependencyProperty.Register("xDatas", typeof(DoubleCollection), typeof(ViewLayerGroup), new FrameworkPropertyMetadata(new DoubleCollection(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
             {
                 Chart control = d as Chart;
 
                 if (control == null) return;
 
-                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+                DoubleCollection config = e.NewValue as DoubleCollection;
 
                 //control.Draw();
 
+                control.Draw();
             }));
 
 
-        [TypeConverter(typeof(DataTypeConverter))]
-        public ObservableCollection<double> yDatas
+        //[TypeConverter(typeof(DataTypeConverter))]
+        [TypeConverter(typeof(DoubleCollectionConverter))]
+        public DoubleCollection yDatas
         {
-            get { return (ObservableCollection<double>)GetValue(yDatasProperty); }
+            get { return (DoubleCollection)GetValue(yDatasProperty); }
             set { SetValue(yDatasProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty yDatasProperty =
-            DependencyProperty.Register("yDatas", typeof(ObservableCollection<double>), typeof(ViewLayerGroup), new FrameworkPropertyMetadata(new ObservableCollection<double>(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
+            DependencyProperty.Register("yDatas", typeof(DoubleCollection), typeof(ViewLayerGroup), new FrameworkPropertyMetadata(new DoubleCollection(), FrameworkPropertyMetadataOptions.Inherits, (d, e) =>
             {
                 ViewLayerGroup control = d as ViewLayerGroup;
 
                 if (control == null) return;
 
-                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+                DoubleCollection config = e.NewValue as DoubleCollection;
+
+                control.Draw();
 
             }));
 
@@ -309,7 +345,8 @@ namespace HeBianGu.Control.Chart2D
 
         public void RefreshByData()
         {
-            if (this.xDatas.Count == 0 || this.yDatas.Count == 0) return;
+            if (this.xDatas.Count == 0 || this.yDatas.Count == 0) 
+                return;
 
             //  Do ：设置y轴
             if (this.yAxisAuto)
@@ -325,7 +362,7 @@ namespace HeBianGu.Control.Chart2D
 
                 step = (maxY - minY) / this.yAxisCount;
 
-                ObservableCollection<double> ya = new ObservableCollection<double>();
+                DoubleCollection ya = new DoubleCollection();
 
                 if (minY == maxY)
                 {
@@ -364,7 +401,7 @@ namespace HeBianGu.Control.Chart2D
             {
                 if (this.xDatas.Count > this.xAxisCount)
                 {
-                    ObservableCollection<double> cx = new ObservableCollection<double>();
+                    DoubleCollection cx = new DoubleCollection();
 
                     double minX = this.xDatas.Min();
 
@@ -407,7 +444,6 @@ namespace HeBianGu.Control.Chart2D
                 if (config)
                 {
                     control.RefreshByData();
-
                     control.DrawOnce = false;
                 }
             }));

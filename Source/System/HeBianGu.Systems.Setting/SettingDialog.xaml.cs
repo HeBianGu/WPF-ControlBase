@@ -1,5 +1,6 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
+using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
 using System;
 using System.Windows;
@@ -19,7 +20,7 @@ namespace HeBianGu.Systems.Setting
 
         private void Button_Close(object sender, RoutedEventArgs e)
         {
-            Message.Instance.CloseLayer();
+            MessageProxy.Container.Close();
 
             HeBianGu.Base.WpfBase.SystemSetting.Instance?.Cancel();
         }
@@ -27,22 +28,15 @@ namespace HeBianGu.Systems.Setting
         private void Button_Sumit(object sender, RoutedEventArgs e)
         {
             string message = null;
-
             bool? result = HeBianGu.Base.WpfBase.SystemSetting.Instance?.Save(out message);
-
             if (result == false)
             {
-                Message.Instance.ShowSnackMessageWithNotice(message);
+                MessageProxy.Snacker.ShowTime(message);
                 return;
             }
-
             this.OnSumit();
-
             this.Result = true;
-
-            Message.Instance.CloseLayer();
-
-
+            MessageProxy.Container.Close();
         }
 
 

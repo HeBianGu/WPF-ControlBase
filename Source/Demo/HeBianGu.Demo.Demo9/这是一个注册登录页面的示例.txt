@@ -1,0 +1,25 @@
+这是一个注册登录页面的示例
+
+1、注册
+            //  Do ： 添加Nuget包
+            HeBianGu.Systems.Identity
+	
+            //  Do ：注册系统默认登录窗口，注册后会启用登录窗口
+            services.AddIdentity();
+
+2、配置  
+            //  Do ：设置系统默认启动窗口样式（目前这部分功能暂未实现）
+            app.UseIdentity(x=>
+            {
+                //  Do ：服务协议地址
+                x.ServiceAgreementUri = "https://github.com/HeBianGu/WPF-ControlBase";
+                //  Do ：隐私规范地址
+                x.PrivacypolicyUri = "https://github.com/HeBianGu/WPF-ControlBase";
+                //  Do ：密码规则
+                x.PasswordRegular = "^.*[a-zA-Z]+.*$";
+            });
+
+3、自定义启动窗口
+            //  Do ：注册自定义登录规则
+            service.AddSingleton<IIdentityService, IdentityService>();
+            service.AddSingleton<IIdentityInitService, IdentityMultiLoginService>();

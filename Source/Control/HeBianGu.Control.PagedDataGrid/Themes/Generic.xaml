@@ -7,12 +7,30 @@
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PagedDataGrid;component/Pagination.xaml" />
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PagedDataGrid;component/PagedDataGrid.xaml" />
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PagedDataGrid;component/AutoColumnPagedDataGrid.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Control.PagedDataGrid;component/DateTempateKeys.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
-
     <Style BasedOn="{StaticResource {x:Static local:PagedDataGrid.DynamicKey}}" TargetType="{x:Type local:PagedDataGrid}" />
     <Style BasedOn="{StaticResource {x:Static local:PagedDataGrid.DynamicKey}}" TargetType="{x:Type local:AutoColumnPagedDataGrid}" />
     <Style BasedOn="{StaticResource {x:Static local:Pagination.DefaultKey}}" TargetType="{x:Type local:Pagination}" />
     <Style BasedOn="{StaticResource {x:Static local:SourcePagination.DefaultKey}}" TargetType="{x:Type local:SourcePagination}" />
 
+    <DataTemplate DataType="{x:Type local:DataGridColumnSet}">
+        <ItemsControl ItemsSource="{Binding ColumnSetItems}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel Margin="2">
+                        <CheckBox IsChecked="{Binding Visible}" />
+                        <TextBox Width="300"
+                                 h:Cattach.Title="列名"
+                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                 Text="{Binding Header}" />
+                        <TextBox Width="300" Margin="2 0"
+                                 h:Cattach.Title="列宽"
+                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                 Text="{Binding Width}" />
+                    </DockPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </DataTemplate>
 </ResourceDictionary>

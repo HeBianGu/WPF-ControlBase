@@ -8,9 +8,9 @@
                   Title="ShellWindow"
                   Width="1300"
                   Height="800"
+                  h:Cattach.Icon="&#xeb02;"
                   CaptionHeight="50"
                   DataContext="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel}"
-                  Icon="&#xeb02;"
                   mc:Ignorable="d">
 
     <h:MenuWindowBase.Resources>
@@ -18,7 +18,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/System/Menu.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/System/ToggleButton.xaml" />
-            </ResourceDictionary.MergedDictionaries> 
+            </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="C.MenuItem.Default" BasedOn="{StaticResource {x:Static h:MenuItemKeys.Handy}}" TargetType="MenuItem">
                 <Setter Property="Command" Value="{Binding RelayCommand}" />
@@ -27,7 +27,7 @@
                 <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
             </Style>
 
-            <Style x:Key="C.MenuItem.Header" BasedOn="{StaticResource {x:Static h:MenuItemKeys.Caption}}" TargetType="MenuItem"/>
+            <Style x:Key="C.MenuItem.Header" BasedOn="{StaticResource {x:Static h:MenuItemKeys.Caption}}" TargetType="MenuItem" />
 
 
             <Style BasedOn="{StaticResource C.MenuItem.Default}" TargetType="MenuItem" />
@@ -124,13 +124,13 @@
                                ToolTip="{Binding Value1}" />
 
                     <Button x:Name="btn_close"
-                               Grid.Column="2"
-                               Margin="10,0"
-                               h:Cattach.IconSize="12"
-                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
-                               h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
-                               Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
-                               Visibility="Hidden" />
+                            Grid.Column="2"
+                            Margin="10,0"
+                            h:Cattach.IconSize="12"
+                            h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                            Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
+                            Visibility="Hidden" />
                 </Grid>
                 <DataTemplate.Triggers>
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsMouseOver}" Value="True">
@@ -150,8 +150,8 @@
                         <ColumnDefinition />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    
-                    <CheckBox Margin="-5,0" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
+
+                    <CheckBox Margin="0" Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}" />
 
                     <TextBlock Grid.Row="1"
                                Grid.Column="1"
@@ -160,12 +160,12 @@
                                ToolTip="{Binding Value1}" />
 
                     <Button x:Name="btn_close"
-                               Grid.Column="2"
-                               h:Cattach.IconSize="12"
-                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
-                               h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
-                               Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
-                               Visibility="Hidden" />
+                            Grid.Column="2"
+                            h:Cattach.IconSize="12"
+                            h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                            Foreground="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=Foreground}"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Close}}"
+                            Visibility="Hidden" />
                 </Grid>
                 <DataTemplate.Triggers>
                     <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsMouseOver}" Value="True">
@@ -177,8 +177,8 @@
     </h:MenuWindowBase.Resources>
 
     <h:MenuWindowBase.MenuContent>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="文件(F)" Style="{StaticResource C.MenuItem.Header}">
+        <Menu DockPanel.Dock="Top" Style="{DynamicResource {x:Static h:MenuKeys.Window}}">
+            <MenuItem Header="文件(F)">
                 <MenuItem Header="新建场景" IsEnabled="True" />
                 <MenuItem Header="新建模板" IsEnabled="True" />
                 <MenuItem Header="打开场景" />
@@ -187,7 +187,7 @@
                 <MenuItem Header="退出" />
             </MenuItem>
 
-            <MenuItem Header="编辑(E)" Style="{StaticResource C.MenuItem.Header}">
+            <MenuItem Header="编辑(E)">
                 <MenuItem Header="上移" />
                 <MenuItem Header="下移" />
                 <MenuItem Header="复制" />
@@ -195,7 +195,7 @@
                 <MenuItem Header="删除" />
             </MenuItem>
 
-            <MenuItem Header="设置(S)" Style="{StaticResource C.MenuItem.Header}">
+            <MenuItem Header="设置(S)">
                 <MenuItem Header="上移" />
                 <MenuItem Header="下移" />
                 <MenuItem Header="复制" />
@@ -203,7 +203,7 @@
                 <MenuItem Header="删除" />
             </MenuItem>
 
-            <MenuItem Header="帮助(H)" Style="{StaticResource C.MenuItem.Header}">
+            <MenuItem Header="帮助(H)">
                 <MenuItem Header="软件升级" />
                 <MenuItem Header="关于" />
             </MenuItem>
@@ -213,43 +213,44 @@
     <h:GitTopContainer HeaderHeight="60">
         <h:GitTopContainer.CenterContent>
             <Grid Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}">
-                <h:Row Grid.Row="1" Height="Auto" Style="{DynamicResource {x:Static h:Row.Column12Key}}">
-                    <Border Grid.Column="3" Grid.ColumnSpan="12" Background="{DynamicResource {x:Static h:BrushKeys.Dark0_1}}" />
+                <h:Row Grid.Row="1" Height="Auto" Style="{DynamicResource {x:Static h:Row.Column11Key}}">
+                    <Border Grid.Column="3" Grid.ColumnSpan="12" Background="{DynamicResource {x:Static h:BrushKeys.Dark0_1}}">
+                        <TextBlock HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                   Style="{DynamicResource {x:Static h:TextBlockKeys.AnimationFontSizeBackEase}}"
+                                   Text="{Binding SelectedFile.Value}" />
+                    </Border>
                     <Grid Grid.ColumnSpan="3">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="2*" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
 
-                        <TabControl h:Cattach.SearchWidth="0"
-                                    BorderThickness="0" Style="{DynamicResource {x:Static h:TabControlKeys.Line}}">
-                            <TabItem Width="145" HorizontalContentAlignment="Center" Header="文件列表">
+                        <TabControl h:Cattach.CaptionBackground="Transparent"
+                                    h:Cattach.SearchWidth="0"
+                                    BorderThickness="0"
+                                    Style="{DynamicResource {x:Static h:TabControlKeys.Line}}">
+                            <TabItem Width="170" Header="文件列表">
                                 <DockPanel>
                                     <h:Row DockPanel.Dock="Top" Style="{DynamicResource {x:Static h:Row.Column12Key}}">
                                         <TextBlock Grid.ColumnSpan="12" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}">
                                             <Run Text="{Binding Files.Count, Mode=OneWay}" />
                                             <Run Text="文件" />
                                         </TextBlock>
-                                        <Separator VerticalAlignment="Bottom" Grid.ColumnSpan="12" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+                                        <Separator Grid.ColumnSpan="12" VerticalAlignment="Bottom" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
                                     </h:Row>
-
                                     <ListBox Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
                                              ItemTemplate="{StaticResource C.TestViewModel.Item.Checked}"
                                              ItemsSource="{Binding Files}"
-                                             SelectedItem="{Binding SelectedFile}">
-                                    </ListBox>
+                                             SelectedItem="{Binding SelectedFile}" />
                                 </DockPanel>
                             </TabItem>
 
-                            <TabItem Width="145" HorizontalContentAlignment="Center" Header="历史记录">
+                            <TabItem Width="170" HorizontalContentAlignment="Center" Header="历史记录">
                                 <ListBox Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
                                          ItemTemplate="{StaticResource C.TestViewModel.Item}"
                                          ItemsSource="{Binding Historys}"
-                                         SelectedItem="{Binding SelectedHistory}">
-                                    <!--<h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
-                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>
-                                        <h:TestViewModel Value="WPF-ControlBase-Demo.sln"/>-->
-                                </ListBox>
+                                         SelectedItem="{Binding SelectedHistory}" />
                             </TabItem>
                         </TabControl>
 
@@ -261,21 +262,29 @@
                                          Text="{Binding Title}" />
                             </h:Row>
 
-                            <h:Row Height="45" Margin="10,0" DockPanel.Dock="Bottom" Style="{DynamicResource {x:Static h:Row.Column12Key}}">
+                            <h:Row Height="45"
+                                   Margin="10,0"
+                                   DockPanel.Dock="Bottom"
+                                   Style="{DynamicResource {x:Static h:Row.Column12Key}}">
                                 <TextBlock Grid.ColumnSpan="10"
                                            HorizontalAlignment="Left"
                                            Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
                                            Text="Committed a minute ago" />
-                                <Button Grid.Column="10"
-                                        Grid.ColumnSpan="2"
+                                <Button Grid.Column="8"
+                                        Grid.ColumnSpan="4"
                                         Width="Auto"
+                                        Padding="10,0"
+                                        HorizontalAlignment="Right"
                                         BorderBrush="{DynamicResource {x:Static h:BrushKeys.Dark0_8}}"
                                         BorderThickness="1"
                                         Content="Undo"
                                         Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
                             </h:Row>
 
-                            <h:Row Height="45" Margin="10,0" DockPanel.Dock="Bottom" Style="{DynamicResource {x:Static h:Row.Column12Key}}">
+                            <h:Row Height="45"
+                                   Margin="10,0"
+                                   DockPanel.Dock="Bottom"
+                                   Style="{DynamicResource {x:Static h:Row.Column12Key}}">
                                 <Border Grid.ColumnSpan="12"
                                         Margin="0,0"
                                         BorderBrush="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}"
@@ -286,14 +295,12 @@
                                         Command="{Binding RelayCommand}"
                                         CommandParameter="Button.Click.Commit"
                                         Content="提交"
-                                        DockPanel.Dock="Bottom">
-                                </Button>
+                                        DockPanel.Dock="Bottom" />
                             </h:Row>
 
                             <TextBox Height="Auto" Margin="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" h:Cattach.Watermark="请输入说明" />
                         </DockPanel>
                     </Grid>
-
                 </h:Row>
             </Grid>
         </h:GitTopContainer.CenterContent>
@@ -342,8 +349,8 @@
                           Style="{DynamicResource {x:Static h:GroupBoxKeys.UnderLine}}">
                     <ListBox ItemTemplate="{StaticResource C.TestViewModel.Item}" ItemsSource="{Binding Scenes}" SelectedItem="{Binding SelectedScene}">
                         <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}">
-                                <Setter Property="Background" Value="Transparent"/>
+                            <Style BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}" TargetType="ListBoxItem">
+                                <Setter Property="Background" Value="Transparent" />
                             </Style>
                         </ListBox.ItemContainerStyle>
                         <h:Interaction.Triggers>
@@ -411,25 +418,14 @@
             </StackPanel>
         </h:GitTopItem>
 
-        <!--<Grid Height="60" VerticalAlignment="Top">
-        </Grid>-->
         <Grid Height="60" VerticalAlignment="Top" Opacity="1.6">
             <ProgressBar x:Name="pg"
-                         Height="Auto" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" BorderBrush="Transparent"
+                         Height="Auto"
+                         VerticalAlignment="Stretch"
+                         VerticalContentAlignment="Stretch"
                          Background="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy3}}"
-                         Value="{Binding Percent}">
-                <!--<ProgressBar.Triggers>
-                    <EventTrigger RoutedEvent="Loaded">
-                        <BeginStoryboard>
-                            <Storyboard RepeatBehavior="Forever">
-                                <DoubleAnimation From="0" To="100" Duration="00:00:10" Storyboard.TargetProperty="Value"/>
-                            </Storyboard>
-                        </BeginStoryboard>
-                    </EventTrigger>
-                </ProgressBar.Triggers>-->
-            </ProgressBar>
+                         BorderBrush="Transparent"
+                         Value="{Binding Percent}" />
         </Grid>
     </h:GitTopContainer>
-
-
 </h:MenuWindowBase>

@@ -3,6 +3,7 @@
 using HeBianGu.Base.WpfBase;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -11,8 +12,6 @@ using System.Windows.Media;
 
 namespace HeBianGu.Control.Chart2D
 {
-
-
 
     public class Option
     {
@@ -158,6 +157,7 @@ namespace HeBianGu.Control.Chart2D
     }
     public class BrushArrayTypeConverter : TypeConverter
     {
+        public ColorConverter ColorConverter => new ColorConverter();
         public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
         {
             return sourceType == typeof(string);
@@ -165,7 +165,9 @@ namespace HeBianGu.Control.Chart2D
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
-            System.Collections.ObjectModel.ObservableCollection<Color> result = value?.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)?.Select(l =>
+            if (string.IsNullOrEmpty(value?.ToString()))
+                return new ObservableCollection<Color>();
+            ObservableCollection<Color> result = value?.ToString().Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)?.Select(l =>
                  {
                      try
                      {
@@ -175,13 +177,19 @@ namespace HeBianGu.Control.Chart2D
                      catch (Exception ex)
                      {
                          Debug.WriteLine(ex);
-
                          return Option.First;
                      }
 
                  })?.ToObservable();
 
             return result;
+        }
+
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (value is ObservableCollection<Color> collection)
+                return string.Join(",", collection.Select(x => ColorConverter.ConvertToString(null, null, x)));
+            return base.ConvertTo(context, culture, value, destinationType);
         }
     }
 
@@ -194,7 +202,16 @@ namespace HeBianGu.Control.Chart2D
 
         public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
         {
+            if (string.IsNullOrEmpty(value?.ToString()))
+                return new ObservableCollection<string>();
             return value?.ToString().Split(',')?.ToObservable();
+        }
+
+        public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+        {
+            if (value is ObservableCollection<string> collection)
+                return string.Join(",", collection);
+            return base.ConvertTo(context, culture, value, destinationType);
         }
     }
 

@@ -12,17 +12,17 @@ namespace HeBianGu.App.Above
     internal class LoyoutViewModel : MvcViewModelBase
     {
 
-        private ObservableCollection<SearchComboBoxItemModel> _comboBoxItems = new ObservableCollection<SearchComboBoxItemModel>();
-        /// <summary> 说明  </summary>
-        public ObservableCollection<SearchComboBoxItemModel> ComboBoxItems
-        {
-            get { return _comboBoxItems; }
-            set
-            {
-                _comboBoxItems = value;
-                RaisePropertyChanged("ComboBoxItems");
-            }
-        }
+        //private ObservableCollection<SearchComboBoxItemModel> _comboBoxItems = new ObservableCollection<SearchComboBoxItemModel>();
+        ///// <summary> 说明  </summary>
+        //public ObservableCollection<SearchComboBoxItemModel> ComboBoxItems
+        //{
+        //    get { return _comboBoxItems; }
+        //    set
+        //    {
+        //        _comboBoxItems = value;
+        //        RaisePropertyChanged("ComboBoxItems");
+        //    }
+        //}
 
         private ObservableCollection<Student> _students = new ObservableCollection<Student>();
         /// <summary> 说明  </summary>
@@ -101,17 +101,37 @@ namespace HeBianGu.App.Above
             }
         }
 
+
+        private ObservableCollection<string> _selectedItems = new ObservableCollection<string>();
+        /// <summary> 说明  </summary>
+        public ObservableCollection<string> SelectedItems
+        {
+            get { return _selectedItems; }
+            set
+            {
+                _selectedItems = value;
+                RaisePropertyChanged("SelectedItems");
+            }
+        }
+
+
         protected override void Init()
         {
-            for (int i = 0; i < 60; i++)
-            {
-                ComboBoxItems.Add(new SearchComboBoxItemModel()
-                {
-                    Header = "ComboBoxItem" + (ComboBoxItems.Count + 1),
-                    Value = (ComboBoxItems.Count + 1),
-                    CanDelete = true
-                });
-            }
+            _selectedItems.CollectionChanged +=(l, k) =>
+             {
+               
+ 
+             };
+
+            //for (int i = 0; i < 60; i++)
+            //{
+            //    ComboBoxItems.Add(new SearchComboBoxItemModel()
+            //    {
+            //        Header = "ComboBoxItem" + (ComboBoxItems.Count + 1),
+            //        Value = (ComboBoxItems.Count + 1),
+            //        CanDelete = true
+            //    });
+            //}
 
 
             for (int i = 0; i < 50; i++)
@@ -127,24 +147,24 @@ namespace HeBianGu.App.Above
         }
 
 
-        /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
+        ///// <summary> 命令通用方法 </summary>
+        //protected override async void RelayMethod(object obj)
 
-        {
-            string command = obj?.ToString();
+        //{
+        //    string command = obj?.ToString();
 
-            //  Do：对话消息
-            if (command == "Sumit")
-            {
+        //    //  Do：对话消息
+        //    if (command == "Sumit")
+        //    {
 
-            }
+        //    }
 
-            //  Do：等待消息
-            else if (command == "Cancel")
-            {
+        //    //  Do：等待消息
+        //    else if (command == "Cancel")
+        //    {
 
-            }
-        }
+        //    }
+        //}
 
     }
 
@@ -297,11 +317,11 @@ namespace HeBianGu.App.Above
             {
                 if (IsValid())
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("数据校验成功！");
+                    MessageProxy.Snacker.ShowTime("数据校验成功！");
                 }
                 else
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("数据校验错误 - " + Error);
+                    MessageProxy.Snacker.ShowTime("数据校验错误 - " + Error);
                 }
 
             }

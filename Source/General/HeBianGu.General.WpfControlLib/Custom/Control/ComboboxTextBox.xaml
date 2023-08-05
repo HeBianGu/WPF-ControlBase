@@ -1,0 +1,220 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/System/ComboBox.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+    <ControlTemplate x:Key="S.ComboboxTextBox.Tempalte.Single" TargetType="{x:Type local:ComboboxTextBox}">
+        <Grid x:Name="PART_Root">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="25" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="25" />
+                </Grid.ColumnDefinitions>
+
+                <Border x:Name="Bg"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="4"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                <ContentPresenter x:Name="PART_SelectedItem"
+                                  Margin="10,0"
+                                  HorizontalAlignment="Stretch"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                  Content="{TemplateBinding SelectionBoxItem}"
+                                  ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                  ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                  IsHitTestVisible="False"
+                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                <ToggleButton x:Name="PART_DropDownToggle"
+                              Grid.Column="0"
+                              Grid.ColumnSpan="2"
+                              HorizontalAlignment="Right"
+                              h:Cattach.IconMargin="{TemplateBinding h:Cattach.IconMargin}"
+                              h:Cattach.IconSize="15"
+                              Foreground="{TemplateBinding Foreground}"
+                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                              IsEnabled="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static h:XConverter.TrueToFalseConverter}, Mode=OneWay}"
+                              IsTabStop="False"
+                              Style="{DynamicResource {x:Static h:ToggleButtonKeys.ComboBox}}" />
+
+
+                <TextBlock x:Name="Message"
+                           Grid.Column="2"
+                           Margin="5,2,5,2"
+                           Padding="0"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Center"
+                           IsHitTestVisible="False"
+                           Opacity="{DynamicResource {x:Static h:OpacityKeys.Watermark}}"
+                           Text="{TemplateBinding h:Cattach.Watermark}"
+                           TextAlignment="Center"
+                           Visibility="Collapsed" />
+
+
+                <TextBox x:Name="PART_EditableTextBox"
+                         Grid.Column="2"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                         HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                         Background="Transparent"
+                         FontFamily="{TemplateBinding FontFamily}"
+                         FontSize="{TemplateBinding FontSize}"
+                         Foreground="{TemplateBinding Foreground}"
+                         IsHitTestVisible="True"
+                         IsReadOnly="{TemplateBinding IsReadOnly}"
+                         SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                         Style="{DynamicResource {x:Static local:TextBoxKeys.Editable}}"
+                         Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+
+
+
+                <Border Grid.Column="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Panel.ZIndex="2">
+                    <ContentControl x:Name="PART_AttachContent"
+                                    VerticalAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"
+                                    Template="{TemplateBinding h:Cattach.AttachContent}" />
+                </Border>
+            </Grid>
+
+
+            <Popup x:Name="PART_Popup"
+                   AllowsTransparency="True"
+                   Focusable="False"
+                   IsOpen="{Binding IsDropDownOpen, RelativeSource={RelativeSource TemplatedParent}}"
+                   Placement="Bottom"
+                   PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}"
+                   VerticalOffset="2">
+
+                <Grid Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}" MaxHeight="{Binding MaxDropDownHeight, RelativeSource={RelativeSource TemplatedParent}}">
+
+
+
+                    <Grid x:Name="grid_auto"
+                          Height="Auto"
+                          Margin="0,5,0,0"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Top">
+                        <!--<Path Data="{TemplateBinding h:Cattach.Path}" Stroke="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                          Fill="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" StrokeThickness="1" Height="{Binding ElementName=grid_auto,Path=ActualHeight}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill"/>-->
+
+                        <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                                BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                BorderThickness="1"
+                                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+                        <Polygon Margin="0,-5,8,0"
+                                 HorizontalAlignment="Right"
+                                 Fill="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                 FillRule="Nonzero"
+                                 Points="0,5 5,0 10,5 0,5"
+                                 Stroke="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                        <ScrollViewer x:Name="DropDownScrollViewer" BorderThickness="0" VerticalScrollBarVisibility="Auto">
+                            <ItemsPresenter x:Name="ItemsPresenter" Margin="2,2,2,0" KeyboardNavigation.DirectionalNavigation="Contained" />
+                        </ScrollViewer>
+                    </Grid>
+
+
+                </Grid>
+            </Popup>
+        </Grid>
+
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="PART_Root" Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
+            </Trigger>
+
+            <DataTrigger Binding="{Binding ElementName=PART_EditableTextBox, Path=Text}" Value="">
+                <Setter TargetName="Message" Property="Visibility" Value="Visible" />
+            </DataTrigger>
+
+            <!--<Trigger Property="IsMouseOver" Value="True">
+            -->
+            <!--<Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush), RelativeSource={RelativeSource Self}}" />-->
+            <!--
+                <Setter TargetName="PART_AttachContent" Property="Foreground" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush), RelativeSource={RelativeSource Self}}" />
+                <Setter TargetName="PART_DropDownToggle" Property="Foreground" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush), RelativeSource={RelativeSource Self}}" />
+            -->
+            <!--<Setter TargetName="Message" Property="Foreground" Value="{Binding Path=(h:Cattach.MouseOverBorderBrush), RelativeSource={RelativeSource Self}}" />-->
+            <!--
+            </Trigger>-->
+            <!--<Trigger Property="IsFocused" Value="True">
+                <Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.FocusBorderBrush), RelativeSource={RelativeSource Self}}" />
+            </Trigger>-->
+            <!--<Trigger Property="IsKeyboardFocusWithin" Value="True">
+                <Setter Property="BorderBrush" Value="{Binding Path=(h:Cattach.FocusBorderBrush), RelativeSource={RelativeSource Self}}" />
+                <Setter TargetName="PART_AttachContent" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                <Setter TargetName="Message" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+            </Trigger>-->
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="S.ComboboxTextBox.Default" BasedOn="{StaticResource {x:Static h:ComboBoxKeys.Dynamic}}" TargetType="{x:Type local:ComboboxTextBox}">
+        <!--<Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="Margin" Value="2,0" />
+        <Setter Property="h:Cattach.IconMargin" Value="0,0,7,0" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="h:Cattach.FocusBackground" Value="{DynamicResource {x:Static h:BrushKeys.Dark4}}" />
+        <Setter Property="h:Cattach.FocusBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+        <Setter Property="FontFamily" Value="{DynamicResource {x:Static h:SystemKeys.FontFamily}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:FontSizeKeys.Default}}" />
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:ComboBoxItemKeys.Default}}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="MaxDropDownHeight" Value="400" />
+        <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+        <Setter Property="RenderTransform" Value="{StaticResource {x:Static h:SystemKeys.TransformGroup}}" />-->
+        <Setter Property="Template" Value="{StaticResource S.ComboboxTextBox.Tempalte.Single}" />
+    </Style>
+
+    <Style x:Key="S.ComboboxTextBox.Clear" BasedOn="{StaticResource S.ComboboxTextBox.Default}" TargetType="{x:Type local:ComboboxTextBox}">
+        <Setter Property="h:Cattach.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Button Margin="1,3,1,4"
+                            h:Cattach.Icon="&#xe6f4;"
+                            h:Cattach.IconMargin="0"
+                            h:Cattach.IconSize="13"
+                            h:Cattach.IsClearTextButtonBehaviorEnabled="True"
+                            Cursor="Arrow"
+                            Foreground="{TemplateBinding Foreground}"
+                            IsTabStop="False"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}">
+
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="Click">
+                                <h:ChangePropertyAction PropertyName="InputText" TargetObject="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ComboboxTextBox}}}" Value="" />
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+                    </Button>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource S.ComboboxTextBox.Default}" TargetType="{x:Type local:ComboboxTextBox}" />
+</ResourceDictionary>

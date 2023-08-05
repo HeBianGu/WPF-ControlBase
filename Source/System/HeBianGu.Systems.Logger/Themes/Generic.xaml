@@ -1,0 +1,32 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Logger">
+
+    <!--<ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Systems.Logger;component/Step.xaml" />
+    </ResourceDictionary.MergedDictionaries>-->
+
+    <DataTemplate DataType="{x:Type local:LoggerViewPresenter}">
+
+        <DockPanel>
+            <GroupBox DockPanel.Dock="Top" Header="系统日志" Style="{DynamicResource {x:Static h:GroupBoxKeys.Title}}">
+                <h:Chart MinHeight="300"
+                         Padding="50,20,30,40"
+                         Style="{DynamicResource {x:Static h:Chart.CoordKey}}"
+                         UseLegend="True"
+                         UseRefreshButton="False"
+                         xAxis="{Binding Data.xAxis}"
+                         xDisplay="{Binding Data.xDisplay}"
+                         yAxis="{Binding Data.yAxis}">
+                    <h:Series DisplayName="操作" Style="{StaticResource {x:Static h:Series.LineKey}}" yDatas="{Binding Data.SeriesDatas[0].yDatas}" />
+                    <h:Series DisplayName="警告" Foreground="{DynamicResource {x:Static h:BrushKeys.Orange}}" Style="{StaticResource {x:Static h:Series.LineKey}}" yDatas="{Binding Data.SeriesDatas[3].yDatas}" />
+                    <h:Series DisplayName="严重" Foreground="{DynamicResource {x:Static h:BrushKeys.Gray}}" Style="{StaticResource {x:Static h:Series.LineKey}}" yDatas="{Binding Data.SeriesDatas[4].yDatas}" />
+                    <h:Series DisplayName="错误" Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}" Style="{StaticResource {x:Static h:Series.LineKey}}" yDatas="{Binding Data.SeriesDatas[1].yDatas}" />
+                    <h:Series DisplayName="运行" Foreground="{DynamicResource {x:Static h:BrushKeys.Green}}" Style="{StaticResource {x:Static h:Series.LineKey}}" yDatas="{Binding Data.SeriesDatas[2].yDatas}" />
+                </h:Chart>
+            </GroupBox>
+        </DockPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

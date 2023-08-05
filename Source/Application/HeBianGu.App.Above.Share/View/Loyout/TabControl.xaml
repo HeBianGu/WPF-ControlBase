@@ -15,17 +15,17 @@
                 <h:EventTrigger EventName="Loaded">
                     <h:InvokeRandomSplitAnimationAction SplitMilliSecond="-800">
                         <h:InvokeRandomSplitAnimationAction.Timelines>
-                            <cl:ArrayList>
-                                <h:RandomDoubleAnimation Max="800" Min="-800"
-                                                         UseFrom="True"
-                                                         UseTo="False"
-                                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
-                                                         To="0"
-                                                         Duration="00:00:01" />
-                                <h:RandomDoubleAnimation Storyboard.TargetProperty="Opacity"
-                                                         From="0" To="1"
-                                                         Duration="00:00:01" />
-                            </cl:ArrayList>
+
+                            <h:RandomDoubleAnimation Max="800" Min="-800"
+                                                     UseFrom="True"
+                                                     UseTo="False"
+                                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)"
+                                                     To="0"
+                                                     Duration="00:00:01" />
+                            <h:RandomDoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                     From="0" To="1"
+                                                     Duration="00:00:01" />
+
                         </h:InvokeRandomSplitAnimationAction.Timelines>
                     </h:InvokeRandomSplitAnimationAction>
                 </h:EventTrigger>
@@ -51,8 +51,9 @@
                 </h:Cattach.Text>
             </GroupBox>
 
-            <GroupBox Height="300" Header="h:Cattach.IsUseClose">
-                <TabControl h:Cattach.IsUseClose="True">
+
+            <GroupBox Height="300" Header="S.TabItem.Default - 启用/禁用搜索框">
+                <TabControl h:Cattach.UseSearch="False">
                     <TabItem Header="第一个">
                         <Grid Background="Red" />
                     </TabItem>
@@ -66,7 +67,86 @@
 
                 <h:Cattach.Text>
                     <![CDATA[ 
-                <TabControl ItemContainerStyle="{StaticResource {x:Static h:TabItemKeys.Default}}" h:Cattach.IsUseClose="True"/>
+                <TabControl ItemContainerStyle="{StaticResource {x:Static h:TabItemKeys.Default}}"/>
+                    ]]>
+                </h:Cattach.Text>
+            </GroupBox>
+
+            <GroupBox Height="300" Header="S.TabItem.Default - 启用/禁用关闭按钮">
+                <TabControl h:Cattach.UseClose="True">
+                    <TabItem Header="第一个" HeaderTemplate="{DynamicResource {x:Static h:DataTemplateKeys.ItemClose}}">
+                        <Grid Background="Red" />
+                    </TabItem>
+                    <TabItem Header="第二个" HeaderTemplate="{DynamicResource {x:Static h:DataTemplateKeys.ItemClose}}">
+                        <Grid Background="Green" />
+                    </TabItem>
+                    <TabItem Header="第三个">
+                        <Grid Background="Purple" />
+                    </TabItem>
+                </TabControl>
+
+                <h:Cattach.Text>
+                    <![CDATA[ 
+                <TabControl ItemContainerStyle="{StaticResource {x:Static h:TabItemKeys.Default}}" h:Cattach.UseClose="True"/>
+                    ]]>
+                </h:Cattach.Text>
+            </GroupBox>
+
+            <GroupBox Height="300" Header="S.TabItem.Default - 启用/禁用左侧标题栏">
+                <TabControl>
+                    <h:Cattach.CaptionLeftTemplate>
+                        <ControlTemplate>
+                            <DockPanel Margin="0,0" Background="WhiteSmoke">
+                                <Image Height="30" Margin="5,0,0,0" Style="{DynamicResource {x:Static h:ImageKeys.Logo}}" />
+                                <TextBlock Margin="10,0" VerticalAlignment="Center" Text="我是标题" />
+                            </DockPanel>
+                        </ControlTemplate>
+                    </h:Cattach.CaptionLeftTemplate>
+                    <TabItem Header="第一个">
+                        <Grid Background="Red" />
+                    </TabItem>
+                    <TabItem Header="第二个">
+                        <Grid Background="Green" />
+                    </TabItem>
+                    <TabItem Header="第三个">
+                        <Grid Background="Purple" />
+                    </TabItem>
+                </TabControl>
+
+                <h:Cattach.Text>
+                    <![CDATA[ 
+                <TabControl ItemContainerStyle="{StaticResource {x:Static h:TabItemKeys.Default}}"/>
+                    ]]>
+                </h:Cattach.Text>
+            </GroupBox>
+
+            <GroupBox Height="300" Header="S.TabItem.Default - 启用/禁用右侧侧标题栏 显示/隐藏内容区域">
+                <TabControl>
+                    <h:Cattach.CaptionRightTemplate>
+                        <ControlTemplate>
+                            <CheckBox Margin="0,0"
+                                      h:Cattach.CheckedIcon="&#xe66e;"
+                                      h:Cattach.IconSize="{DynamicResource {x:Static h:IconSizeKeys.Small}}"
+                                      h:Cattach.UncheckedIcon="&#xe66f;"
+                                      BorderThickness="0"
+                                      Foreground="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.CaptionForeground)}"
+                                      IsChecked="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.IsOpen)}" />
+                        </ControlTemplate>
+                    </h:Cattach.CaptionRightTemplate>
+                    <TabItem Header="第一个">
+                        <Grid Background="Red" />
+                    </TabItem>
+                    <TabItem Header="第二个">
+                        <Grid Background="Green" />
+                    </TabItem>
+                    <TabItem Header="第三个">
+                        <Grid Background="Purple" />
+                    </TabItem>
+                </TabControl>
+
+                <h:Cattach.Text>
+                    <![CDATA[ 
+                <TabControl ItemContainerStyle="{StaticResource {x:Static h:TabItemKeys.Default}}"/>
                     ]]>
                 </h:Cattach.Text>
             </GroupBox>
@@ -171,8 +251,8 @@
                 </h:Cattach.Text>
             </GroupBox>
 
-            <GroupBox Header="h:Cattach.IsUseClose">
-                <TabControl h:Cattach.IsUseClose="True" ItemContainerStyle="{StaticResource {x:Static h:TabItemKeys.Line}}">
+            <GroupBox Header="h:Cattach.UseClose">
+                <TabControl h:Cattach.UseClose="True" ItemContainerStyle="{StaticResource {x:Static h:TabItemKeys.Line}}">
                     <TabItem Header="第一个">
                         <Grid Background="Red" />
                     </TabItem>
@@ -185,7 +265,7 @@
                 </TabControl>
                 <h:Cattach.Text>
                     <![CDATA[ 
-                <TabControl  ItemContainerStyle="{StaticResource {x:Static h:TabItemKeys.Line}}" h:Cattach.IsUseClose="True">
+                <TabControl  ItemContainerStyle="{StaticResource {x:Static h:TabItemKeys.Line}}" h:Cattach.UseClose="True">
                     ]]>
                 </h:Cattach.Text>
             </GroupBox>

@@ -2,6 +2,7 @@
 
 using HeBianGu.Control.Diagram;
 using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace HeBianGu.Systems.Component
@@ -25,5 +26,12 @@ namespace HeBianGu.Systems.Component
         public string NodeID { get; set; }
 
         public PortType PortType { get; set; }
+
+        public Thickness PortMargin { get; set; }=new Thickness(0,0,0,0);
+
+        public void InitLink(Link link)
+        {
+            
+        }
     }
 }

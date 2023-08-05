@@ -19,7 +19,25 @@ namespace HeBianGu.Control.Filter
 
         public override IFilter Copy()
         {
-            return new IntFilter(this.Model) { Operate = this.Operate, Value = this.Value };
+            return new IntFilter(this.PropertyInfo) { Operate = this.Operate, Value = this.Value };
+        }
+    }
+
+    public class LongFilter : MathValueFilter<long>
+    {
+        public LongFilter()
+        {
+
+        }
+
+        public LongFilter(PropertyInfo property) : base(property)
+        {
+
+        }
+
+        public override IFilter Copy()
+        {
+            return new LongFilter(this.PropertyInfo) { Operate = this.Operate, Value = this.Value };
         }
     }
 }

@@ -10,7 +10,7 @@ namespace HeBianGu.Service.Image
         public static ComponentResourceKey C2 => new ComponentResourceKey(typeof(CoverImageBrushKeys), "S.ImageBrush.Cover.2");
         public static ComponentResourceKey C3 => new ComponentResourceKey(typeof(CoverImageBrushKeys), "S.ImageBrush.Cover.3");
         public static ComponentResourceKey C4 => new ComponentResourceKey(typeof(CoverImageBrushKeys), "S.ImageBrush.Cover.4");
-        public static ComponentResourceKey C5 => new ComponentResourceKey(typeof(CoverImageBrushKeys), "S.ImageBrush.Cover.5");
+        //public static ComponentResourceKey C5 => new ComponentResourceKey(typeof(CoverImageBrushKeys), "S.ImageBrush.Cover.5");
         public static ComponentResourceKey C6 => new ComponentResourceKey(typeof(CoverImageBrushKeys), "S.ImageBrush.Cover.6");
         public static ComponentResourceKey C7 => new ComponentResourceKey(typeof(CoverImageBrushKeys), "S.ImageBrush.Cover.7");
         public static ComponentResourceKey C8 => new ComponentResourceKey(typeof(CoverImageBrushKeys), "S.ImageBrush.Cover.8");

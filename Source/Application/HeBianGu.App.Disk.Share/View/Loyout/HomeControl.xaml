@@ -11,8 +11,8 @@
              mc:Ignorable="d">
     <Grid>
         <Grid.Resources>
-            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Transparent}}" TargetType="Button">
-                <Setter Property="Margin" Value="0,0,20,0" />
+            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" TargetType="Button">
+                <Setter Property="Margin" Value="0,2,20,2" />
                 <Setter Property="RenderTransform" Value="{StaticResource {x:Static h:SystemKeys.TransformGroup}}" />
             </Style>
         </Grid.Resources>
@@ -21,21 +21,20 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        
-        <ListBox 
-                 BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+        <ListBox h:Cattach.ItemHorizontalAlignment="Stretch"
+                 h:Cattach.ItemHorizontalContentAlignment="Left"
+                 BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushTitle}}"
                  BorderThickness="0,0,1,0"
                  IsSynchronizedWithCurrentItem="true"
                  ItemContainerStyle="{StaticResource {x:Static h:ListBoxItemKeys.LeftAccent}}"
                  ItemsSource="{Binding LinkActions}"
                  SelectedIndex="1"
-                 SelectedItem="{Binding SelectedItem}">
+                 SelectedItem="{Binding SelectLink, Mode=TwoWay}">
             <ListBox.Resources>
                 <DataTemplate DataType="{x:Type h:LinkAction}">
                     <Grid Height="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}">
                         <StackPanel Margin="15,0,0,0" VerticalAlignment="Center" Orientation="Horizontal">
                             <TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Logo}" />
-
                             <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Text="{Binding DisplayName}" />
                         </StackPanel>
                     </Grid>
@@ -45,48 +44,21 @@
             <ListBox.Template>
                 <ControlTemplate TargetType="ListBox">
                     <Grid>
-                        <Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_5}}"/>
+                        <Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_3}}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
                         <ItemsPresenter SnapsToDevicePixels="True" />
                     </Grid>
                 </ControlTemplate>
             </ListBox.Template>
-
-            <!--<h:LinkAction Action="Near"
-                          Controller="Loyout"
-                          DisplayName="最近使用"
-                          Logo="&#xe6f3;" />
-            <h:LinkAction Action="Explorer"
-                          Controller="Loyout"
-                          DisplayName="全部文件"
-                          Logo="&#xe6fe;" />
-            <h:LinkAction Action="Explorer" Controller="Loyout" DisplayName="     图片" />
-            <h:LinkAction Action="Explorer" Controller="Loyout" DisplayName="     视频" />
-            <h:LinkAction Action="Explorer" Controller="Loyout" DisplayName="     文档" />
-            <h:LinkAction Action="Explorer" Controller="Loyout" DisplayName="     音乐" />
-            <h:LinkAction Action="Explorer" Controller="Loyout" DisplayName="     种子" />
-            <h:LinkAction Action="Explorer" Controller="Loyout" DisplayName="     其他" />
-            <h:LinkAction Action="Space"
-                          Controller="Loyout"
-                          DisplayName="隐藏空间"
-                          Logo="&#xe613;" />
-            <h:LinkAction Action="Share"
-                          Controller="Loyout"
-                          DisplayName="我的分享"
-                          Logo="&#xe764;" />
-            <h:LinkAction Action="Near"
-                          Controller="Loyout"
-                          DisplayName="回收站"
-                          Logo="&#xe618;" />-->
         </ListBox>
 
         <StackPanel Margin="10" VerticalAlignment="Bottom">
             <!--<ProgressBar Value="1507" Maximum="2056" Style="{DynamicResource }"/>-->
             <h:FProgressBar Height="12" Maximum="2056" Value="850">
-                <h:FProgressBar.Triggers>
+                <!--<h:FProgressBar.Triggers>
                     <EventTrigger RoutedEvent="Loaded">
                         <BeginStoryboard Storyboard="{StaticResource S.Storyboard.ProgressBar.LoadValue}" />
                     </EventTrigger>
-                </h:FProgressBar.Triggers>
+                </h:FProgressBar.Triggers>-->
             </h:FProgressBar>
 
             <TextBlock Margin="0,10"
@@ -96,8 +68,8 @@
                        Text="850G/2056G" />
         </StackPanel>
         <!--  中间内容  -->
-        <Grid Grid.Column="1">
-            <h:LinkActionFrame LinkAction="{Binding SelectedItem}" />
+        <Grid Grid.Column="1" Margin="0">
+            <h:LinkActionFrame LinkAction="{Binding SelectLink, Mode=TwoWay}" />
         </Grid>
     </Grid>
 </UserControl>

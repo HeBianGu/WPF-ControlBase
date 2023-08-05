@@ -1,0 +1,470 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity8}}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Width" Value="auto" />
+        <Setter Property="Height" Value="auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <TextBlock x:Name="Icon"
+                               Margin="1"
+                               FontSize="12"
+                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                               Text="{TemplateBinding h:Cattach.Icon}" />
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Icon" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Icon" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="Icon" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ScrollBarTrackButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Background="Transparent" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <ControlTemplate x:Key="T.Thumb.ScrllBar" TargetType="Thumb">
+        <Grid>
+            <Border x:Name="Bg"
+                    Margin="2"
+                    Background="{Binding RelativeSource={RelativeSource AncestorType=ScrollBar}, Path=(h:Cattach.FocusBackground)}"
+                    CornerRadius="4"
+                    SnapsToDevicePixels="True" />
+
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter TargetName="Bg" Property="Opacity" Value="0.5" />
+                <Setter TargetName="Bg" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}" />
+            </Trigger>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Bg" Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=ScrollBar}, Path=(h:Cattach.MouseOverBackground)}" />
+            </Trigger>
+
+            <Trigger Property="IsDragging" Value="True">
+
+                <Setter TargetName="Bg" Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=ScrollBar}, Path=(h:Cattach.PressBackground)}" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="T.HorizontalScrollBar.Default" TargetType="{x:Type ScrollBar}">
+        <Grid x:Name="HorizontalRoot" Height="{TemplateBinding Height}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Border x:Name="BgInner"
+                    Grid.Column="1"
+                    Margin="0"
+                    Background="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}"
+                    CornerRadius="6"
+                    Opacity="0.3"
+                    SnapsToDevicePixels="True" />
+            <Track x:Name="PART_Track" Grid.Column="1" IsDirectionReversed="False">
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton x:Name="HorizontalLargeDecrease"
+                                  Command="ScrollBar.PageLeftCommand"
+                                  Interval="50"
+                                  IsTabStop="False"
+                                  Style="{DynamicResource ScrollBarTrackButton}" />
+                </Track.DecreaseRepeatButton>
+
+                <Track.Thumb>
+                    <Thumb Template="{StaticResource T.Thumb.ScrllBar}" />
+                </Track.Thumb>
+
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton x:Name="HorizontalLargeIncrease"
+                                  Command="ScrollBar.PageRightCommand"
+                                  Interval="50"
+                                  IsTabStop="False"
+                                  Style="{DynamicResource ScrollBarTrackButton}" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="BgInner" Property="Opacity" Value="0.5" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="T.VerticalScrollBar.Default" TargetType="{x:Type ScrollBar}">
+        <Grid x:Name="VerticalRoot" Height="{TemplateBinding Height}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Border x:Name="BgInner"
+                    Grid.Row="1"
+                    Margin="0"
+                    Background="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}"
+                    CornerRadius="6"
+                    Opacity="0.3"
+                    SnapsToDevicePixels="True" />
+            <Track x:Name="PART_Track" Grid.Row="1" IsDirectionReversed="true">
+
+                <Track.DecreaseRepeatButton>
+                    <RepeatButton x:Name="HorizontalLargeDecrease"
+                                  Command="ScrollBar.PageUpCommand"
+                                  Interval="50"
+                                  IsTabStop="False"
+                                  Style="{DynamicResource ScrollBarTrackButton}" />
+                </Track.DecreaseRepeatButton>
+
+                <Track.Thumb>
+                    <Thumb MinHeight="10" Template="{StaticResource T.Thumb.ScrllBar}" />
+                </Track.Thumb>
+
+                <Track.IncreaseRepeatButton>
+                    <RepeatButton x:Name="HorizontalLargeIncrease"
+                                  Command="ScrollBar.PageDownCommand"
+                                  Interval="50"
+                                  IsTabStop="False"
+                                  Style="{DynamicResource ScrollBarTrackButton}" />
+                </Track.IncreaseRepeatButton>
+            </Track>
+        </Grid>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="true">
+                <Setter TargetName="BgInner" Property="Opacity" Value="0.5" />
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <Style x:Key="S.ScrollBar.Default" TargetType="{x:Type ScrollBar}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="h:Cattach.MouseOverBackground" Value="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:Cattach.MouseOverBackground)}" />
+        <Setter Property="h:Cattach.PressBackground" Value="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:Cattach.PressBackground)}" />
+        <Setter Property="h:Cattach.FocusBackground" Value="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:Cattach.FocusBackground)}" />
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Template" Value="{StaticResource T.HorizontalScrollBar.Default}" />
+                <Setter Property="Height" Value="{Binding Source={x:Static local:ScrollViewerSetting.Instance}, Path=ScrollBarHeight}" />
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="Template" Value="{StaticResource T.VerticalScrollBar.Default}" />
+                <Setter Property="Width" Value="{Binding Source={x:Static local:ScrollViewerSetting.Instance}, Path=ScrollBarWidth}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.Dynamic, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static local:ControlKeys.ScrollViewer}}" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollViewer}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="Storyboard1" Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_VerticalScrollBar" Storyboard.TargetProperty="Opacity">
+                                <EasingDoubleKeyFrame KeyTime="0:0:.2" Value=".8" />
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_HorizontalScrollBar" Storyboard.TargetProperty="Opacity">
+                                <EasingDoubleKeyFrame KeyTime="0:0:.2" Value=".8" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                        <Storyboard x:Key="Storyboard2" Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_VerticalScrollBar" Storyboard.TargetProperty="Opacity">
+                                <EasingDoubleKeyFrame KeyTime="0:0:.2" Value="0" />
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="PART_HorizontalScrollBar" Storyboard.TargetProperty="Opacity">
+                                <EasingDoubleKeyFrame KeyTime="0:0:.2" Value="0" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+
+                    <Grid x:Name="Grid" Background="{TemplateBinding Background}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="leftColumn" Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                Margin="{TemplateBinding Padding}"
+                                                CanContentScroll="{TemplateBinding CanContentScroll}"
+                                                CanHorizontallyScroll="False"
+                                                CanVerticallyScroll="False"
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                        <ScrollBar x:Name="PART_VerticalScrollBar"
+                                   Grid.Row="0"
+                                   Grid.Column="1"
+                                   HorizontalAlignment="Right"
+                                   AutomationProperties.AutomationId="VerticalScrollBar"
+                                   Cursor="Arrow"
+                                   Maximum="{TemplateBinding ScrollableHeight}"
+                                   Minimum="0"
+                                   Opacity="0"
+                                   ViewportSize="{TemplateBinding ViewportHeight}"
+                                   Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                                   Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+
+                        <ScrollBar x:Name="PART_HorizontalScrollBar"
+                                   Grid.Row="1"
+                                   Grid.Column="0"
+                                   VerticalAlignment="Bottom"
+                                   AutomationProperties.AutomationId="HorizontalScrollBar"
+                                   Cursor="Arrow"
+                                   Maximum="{TemplateBinding ScrollableWidth}"
+                                   Minimum="0"
+                                   Opacity="0"
+                                   Orientation="Horizontal"
+                                   ViewportSize="{TemplateBinding ViewportWidth}"
+                                   Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
+                                   Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" />
+
+                        <ContentControl x:Name="PART_AttachContent"
+                                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        ScrollViewer.CanContentScroll="False"
+                                        Template="{TemplateBinding h:Cattach.AttachContent}" />
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="MouseEnter">
+                            <BeginStoryboard Storyboard="{StaticResource Storyboard1}" />
+                        </EventTrigger>
+                        <EventTrigger RoutedEvent="MouseLeave">
+                            <BeginStoryboard Storyboard="{StaticResource Storyboard2}" />
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.Default, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static local:ScrollViewerKeys.Dynamic}}" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.Single, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static h:ScrollViewerKeys.Default}}" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.Accent, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static h:ScrollViewerKeys.Default}}" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.MouseGesture, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static h:ScrollViewerKeys.Dynamic}}" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="h:Cattach.Behaviors">
+            <Setter.Value>
+                <h:Behaviors>
+                    <h:MouseGestureScrollViewerBehavior />
+                </h:Behaviors>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ScrollViewer.Tool, TypeInTargetAssembly={x:Type local:ScrollViewerKeys}}" BasedOn="{StaticResource {x:Static h:ScrollViewerKeys.Dynamic}}" TargetType="{x:Type ScrollViewer}">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Bottom" />
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="h:ScrollViewerService.UseLeftHome" Value="True" />
+        <Setter Property="h:ScrollViewerService.UseLeftLine" Value="True" />
+        <Setter Property="h:ScrollViewerService.UseLeftPage" Value="True" />
+        <Setter Property="h:ScrollViewerService.UseRightEnd" Value="True" />
+        <Setter Property="h:ScrollViewerService.UseRightLine" Value="True" />
+        <Setter Property="h:ScrollViewerService.UseRightPage" Value="True" />
+        <Setter Property="h:ScrollViewerService.UseTopHome" Value="True" />
+        <Setter Property="h:ScrollViewerService.UseBottomEnd" Value="True" />
+        <Setter Property="h:ScrollViewerService.UseUpLine" Value="True" />
+        <Setter Property="h:ScrollViewerService.UseUpPage" Value="True" />
+        <Setter Property="h:ScrollViewerService.UseDownLine" Value="True" />
+        <Setter Property="h:ScrollViewerService.UseDownPage" Value="True" />
+        <Setter Property="h:Cattach.AttachContent">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <DockPanel Margin="10">
+                        <Button h:Cattach.Icon="&#xe671;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="向左滚动一行"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseLeftLine), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="LineLeft" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+
+                        <Button h:Cattach.Icon="&#xe66d;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="向右滚动一行"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseRightLine), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="LineRight" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+
+                        <Button h:Cattach.Icon="&#xe66e;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="向下滚动一行"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseDownLine), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="LineDown" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+
+                        <Button h:Cattach.Icon="&#xe66f;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="向上滚动一行"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseUpLine), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="LineUp" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+
+                        <Button h:Cattach.Icon="&#xe9cd;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="向左滚动一页"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseLeftPage), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="PageLeft" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+
+                        <Button h:Cattach.Icon="&#xe9ce;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="向右滚动一页"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseRightPage), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="PageRight" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+
+                        <Button h:Cattach.Icon="&#xe9cc;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="向下滚动一页"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseDownPage), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="PageDown" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+
+                        <Button h:Cattach.Icon="&#xe9d3;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="向上滚动一页"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseUpPage), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="PageUp" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+
+                        <Button h:Cattach.Icon="&#xe684;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="水平滚动到开始"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseLeftHome), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="ScrollToLeftEnd" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+
+                        <Button h:Cattach.Icon="&#xe687;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="水平滚动到末尾"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseRightEnd), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="ScrollToRightEnd" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+
+                        <Button h:Cattach.Icon="&#xe686;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="垂直滚动到末尾"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseBottomEnd), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="ScrollToBottom" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+
+                        <Button h:Cattach.Icon="&#xe685;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                ToolTip="垂直滚动到开始"
+                                Visibility="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}, Path=(h:ScrollViewerService.UseTopHome), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Click">
+                                    <h:CallMethodAction MethodName="ScrollToTop" TargetObject="{Binding RelativeSource={RelativeSource AncestorType=ScrollViewer}}" />
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </Button>
+                    </DockPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="ComputedHorizontalScrollBarVisibility" Value="Collapsed">
+                <Setter Property="h:ScrollViewerService.UseLeftHome" Value="False" />
+                <Setter Property="h:ScrollViewerService.UseLeftLine" Value="False" />
+                <Setter Property="h:ScrollViewerService.UseLeftPage" Value="False" />
+                <Setter Property="h:ScrollViewerService.UseRightEnd" Value="False" />
+                <Setter Property="h:ScrollViewerService.UseRightLine" Value="False" />
+                <Setter Property="h:ScrollViewerService.UseRightPage" Value="False" />
+            </Trigger>
+
+            <Trigger Property="ComputedVerticalScrollBarVisibility" Value="Collapsed">
+                <Setter Property="h:ScrollViewerService.UseTopHome" Value="False" />
+                <Setter Property="h:ScrollViewerService.UseBottomEnd" Value="False" />
+                <Setter Property="h:ScrollViewerService.UseUpLine" Value="False" />
+                <Setter Property="h:ScrollViewerService.UseUpPage" Value="False" />
+                <Setter Property="h:ScrollViewerService.UseDownLine" Value="False" />
+                <Setter Property="h:ScrollViewerService.UseDownPage" Value="False" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+</ResourceDictionary>

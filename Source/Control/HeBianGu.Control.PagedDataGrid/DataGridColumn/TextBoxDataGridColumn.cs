@@ -14,7 +14,8 @@ namespace HeBianGu.Control.PagedDataGrid
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
             TextBox textBox = new TextBox() { HorizontalAlignment = HorizontalAlignment.Stretch };
-            textBox.SetBinding(TextBox.TextProperty, this.Binding);
+            if (this.Binding != null)
+                textBox.SetBinding(TextBox.TextProperty, this.Binding);
             return textBox;
         }
 
@@ -23,9 +24,10 @@ namespace HeBianGu.Control.PagedDataGrid
             //var textBox = new TextBlock();
             //textBox.SetBinding(TextBlock.TextProperty, this.Binding);
             //return textBox;
-
+            cell.HorizontalContentAlignment = HorizontalAlignment.Stretch;
             TextBox textBox = new TextBox() { HorizontalAlignment = HorizontalAlignment.Stretch };
-            textBox.SetBinding(TextBox.TextProperty, this.Binding);
+            if (this.Binding != null)
+                textBox.SetBinding(TextBox.TextProperty, this.Binding);
             return textBox;
 
         }

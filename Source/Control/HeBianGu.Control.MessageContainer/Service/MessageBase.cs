@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace HeBianGu.Control.MessageContainer
 {
-    public abstract class MessageBase : ContentControl, INotifyMessage
+    public abstract class MessageBase : ContentControl, INotifyMessageItem
     {
         public static ComponentResourceKey DefaultKey => new ComponentResourceKey(typeof(MessageBase), "S.MessageBase.Default");
 

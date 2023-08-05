@@ -11,17 +11,19 @@ using IActionResult = HeBianGu.Systems.Component.IActionResult;
 
 namespace HeBianGu.Systems.Automation
 {
-    public class AutomationPersenter : IAutomationPersenter
+    public class AutomationPersenter : InvokePresenterBase, IAutomationPersenter
     {
-        public bool Invoke()
+        //public string Name { get; set; }
+
+        public override bool Invoke(out string message)
         {
+            message = null;
             PresenterAutomation automation = new PresenterAutomation();
 
-            Message.Instance.ShowLayer(automation);
+            MessageProxy.Container.Show(automation);
 
             return true;
         }
-
 
     }
 
@@ -30,7 +32,7 @@ namespace HeBianGu.Systems.Automation
     {
         public ActionTest()
         {
-            this.DisplayName = "Action";
+            this.Name = "Action";
         }
 
         public override IActionResult Invoke(IAction previors)

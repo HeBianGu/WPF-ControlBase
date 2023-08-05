@@ -17,7 +17,7 @@ namespace HeBianGu.Window.Notify
 
         public NotifyWindowBase()
         {
-            this.BindCommand(CommandService.Close, (l, k) =>
+            this.BindCommand(Commander.Close, (l, k) =>
             {
                 this.CloseAnimation?.Invoke(this);
             });

@@ -1,0 +1,64 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+
+    <Style TargetType="local:InlineModalDialog">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ContentControl">
+                    <!--<controls:NineGridBorder Style="{StaticResource ShadowBorder}">-->
+                    <Grid>
+                        <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                                BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
+                                BorderThickness="1"
+                                CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}">
+                            <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        </Border>
+
+                        <Button x:Name="btnClose" Command="local:InlineModalDialog.CloseCommand" Style="{DynamicResource {x:Static h:ButtonKeys.Close}}" />
+                    </Grid>
+                    <!--</controls:NineGridBorder>-->
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="RenderTransformOrigin" Value=".5,.5" />
+
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <ScaleTransform ScaleX="1" ScaleY="1" />
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="DialogIntroAnimation">
+            <Setter.Value>
+                <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
+                    <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.Opacity)" From="0" Duration="0:0:0.15" />
+                    <DoubleAnimation BeginTime="0:0:0"
+                                     DecelerationRatio="1"
+                                     Storyboard.TargetProperty="RenderTransform.ScaleX"
+                                     From="0"
+                                     Duration="0:0:0.25" />
+                    <DoubleAnimation BeginTime="0:0:0"
+                                     DecelerationRatio="1"
+                                     Storyboard.TargetProperty="RenderTransform.ScaleY"
+                                     From="0"
+                                     Duration="0:0:0.25" />
+                </Storyboard>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="DialogOutroAnimation">
+            <Setter.Value>
+                <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
+                    <DoubleAnimation Storyboard.TargetProperty="(FrameworkElement.Opacity)" To="0" Duration="0:0:0.15" />
+                </Storyboard>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+</ResourceDictionary>

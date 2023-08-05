@@ -179,12 +179,6 @@ namespace HeBianGu.App.Blur
             return null;
         }
 
-        public ObservableCollection<SearchComboBoxItemModel> ComboBoxItems
-        {
-            get { return _comboBoxItems; }
-            set { _comboBoxItems = value; RaisePropertyChanged("ComboBoxItems"); }
-        }
-        private ObservableCollection<SearchComboBoxItemModel> _comboBoxItems = new ObservableCollection<SearchComboBoxItemModel>();
         private Random random = new Random();
 
         /// <summary> 命令通用方法 </summary>
@@ -196,13 +190,13 @@ namespace HeBianGu.App.Blur
             //  Do：对话消息
             if (command == "Button.ShowDialogMessage")
             {
-                await Message.Instance.ShowSumitMessge("这是消息对话框？");
+                await Messager.Instance.ShowSumit("这是消息对话框？");
             }
 
             //  Do：等待消息
-            else if (command == "Button.ShowWaittingMessge")
+            else if (command == "Button.ShowWaitter")
             {
-                await Message.Instance.ShowWaittingMessge(() => Thread.Sleep(2000));
+                await Messager.Instance.ShowWaitter(() => Thread.Sleep(2000));
             }
 
             //  Do：百分比进度对话框
@@ -219,9 +213,9 @@ namespace HeBianGu.App.Blur
 
                         Thread.Sleep(1000);
 
-                        Message.Instance.ShowSnackMessageWithNotice("加载完成！");
+                        MessageProxy.Snacker.ShowTime("加载完成！");
                     };
-                await Message.Instance.ShowPercentProgress(action);
+                await Messager.Instance.ShowPercentProgress(action);
 
             }
 
@@ -239,10 +233,10 @@ namespace HeBianGu.App.Blur
 
                     Thread.Sleep(1000);
 
-                    Message.Instance.ShowSnackMessageWithNotice("提交完成：成功100条，失败0条！");
+                    MessageProxy.Snacker.ShowTime("提交完成：成功100条，失败0条！");
                 };
 
-                await Message.Instance.ShowStringProgress(action);
+                await Messager.Instance.ShowStringProgress(action);
 
             }
             //  Do：文本进度对话框
@@ -259,53 +253,53 @@ namespace HeBianGu.App.Blur
 
                 //    Thread.Sleep(1000);
 
-                //    Message.Instance.ShowSnackMessageWithNotice("提交完成：成功100条，失败0条！");
+                //    MessageProxy.Snacker.ShowTime("提交完成：成功100条，失败0条！");
                 //};
 
                 StringProgressDialog dialog = new StringProgressDialog();
 
-                Message.Instance.ShowLayer(dialog);
+                MessageProxy.Container.Show(dialog);
 
             }
 
 
             //  Do：确认取消对话框
-            else if (command == "Button.ShowResultMessge")
+            else if (command == "Button.ShowResult")
             {
-                bool result = await Message.Instance.ShowResultMessge("确认要退出系统?");
+                bool result = await Messager.Instance.ShowResult("确认要退出系统?");
 
                 if (result)
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("你点击了取消");
+                    MessageProxy.Snacker.ShowTime("你点击了取消");
                 }
                 else
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("你点击了确定");
+                    MessageProxy.Snacker.ShowTime("你点击了确定");
                 }
             }
 
             //  Do：提示消息
-            else if (command == "Button.ShowSnackMessage")
+            else if (command == "Button.Show")
             {
 
                 //ErrorMessage error = new ErrorMessage() { Message= "这是提示消息？" };
 
-                //MessageService.ShowSnackMessage(error);
+                //MessageService.Show(error);
 
-                Message.Instance.ShowSnackMessageWithNotice("这是提示消息？");
+                MessageProxy.Snacker.ShowTime("这是提示消息？");
 
             }
 
             //  Do：气泡消息
-            else if (command == "Button.ShowNotifyMessage")
+            else if (command == "Button.ShowNotify")
             {
-                Message.Instance.ShowNotifyMessage("你有一条报警信息需要处理，请检查", "Notify By HeBianGu");
+                MessageProxy.WindowNotify.Show("你有一条报警信息需要处理，请检查", "Notify By HeBianGu");
             }
 
             //  Do：气泡消息
             else if (command == "Button.ShowIdentifyNotifyMessage")
             {
-                Notify.Instance.ShowNotifyDialogMessage("自定义气泡消息" + DateTime.Now.ToString("yyyy-mm-dd HH:mm:ss"), "友情提示", 5);
+                MessageProxy.Notify.ShowNotifyDialogMessage("自定义气泡消息" + DateTime.Now.ToString("yyyy-mm-dd HH:mm:ss"), "友情提示", 5);
             }
 
             //  Do：气泡消息
@@ -324,16 +318,16 @@ namespace HeBianGu.App.Blur
             else if (command == "Button.ShowWindowIndentifyMessage")
             {
 
-                List<Tuple<string, Action<IMessageDialogWindow>>> acts = new List<Tuple<string, Action<IMessageDialogWindow>>>();
+                List<Tuple<string, Action<IDialogWindow>>> acts = new List<Tuple<string, Action<IDialogWindow>>>();
 
 
-                Action<IMessageDialogWindow> action = l =>
+                Action<IDialogWindow> action = l =>
                   {
                       l.CloseAnimation(l as WindowBase);
 
                       l.Result = true;
 
-                      Message.Instance.ShowSnackMessageWithNotice("你点到我了！");
+                      MessageProxy.Snacker.ShowTime("你点到我了！");
                   };
 
                 acts.Add(Tuple.Create("按钮一", action));
@@ -439,27 +433,24 @@ namespace HeBianGu.App.Blur
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.Waitting"))
             {
-                Func<WaittingMessage, bool> func = l =>
+                Func<INotifyMessageItem, bool> func = l =>
                    {
                        l.Message = $"正在加载...";
-
                        Thread.Sleep(5000);
-
                        return true;
                    };
 
-                bool result = await Notify.Instance.ShowWinWaittingMessage(func);
-
+                bool result = await MessageProxy.Notify.ShowWaitting(func);
                 if (result)
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("加载完成");
+                    MessageProxy.Snacker.ShowTime("加载完成");
                 }
             }
 
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.StringProgrss"))
             {
-                Func<StringProgressMessage, bool> func = l =>
+                Func<INotifyMessageItem, bool> func = l =>
                 {
                     for (int i = 1; i <= 100; i++)
                     {
@@ -475,18 +466,18 @@ namespace HeBianGu.App.Blur
                     return true;
                 };
 
-                bool result = await Notify.Instance.ShowWinProgressStrMessage(func);
+                bool result = await MessageProxy.Notify.ShowString(func);
 
                 if (result)
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("运行成功");
+                    MessageProxy.Snacker.ShowTime("运行成功");
                 }
             }
 
             //  Do：气泡消息
             else if (command.StartsWith("Button.Message.PercentProgrss"))
             {
-                Func<PercentProgressMessage, bool> func = l =>
+                Func<IPercentProgressMessage, bool> func = l =>
                 {
                     for (int i = 1; i <= 100; i++)
                     {
@@ -501,11 +492,11 @@ namespace HeBianGu.App.Blur
                     return true;
                 };
 
-                bool result = await Notify.Instance.ShowWinProgressBarMessage(func);
+                bool result = await MessageProxy.Notify.ShowProgress(func);
 
                 if (result)
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("运行成功");
+                    MessageProxy.Snacker.ShowTime("运行成功");
                 }
             }
 
@@ -520,12 +511,12 @@ namespace HeBianGu.App.Blur
                       {
                           if (random.Next(1, 3) == 1)
                           {
-                              Message.Instance.ShowSnackMessageWithNotice("保存成功");
+                              MessageProxy.Snacker.ShowTime("保存成功");
                               return true;
                           }
                           else
                           {
-                              Message.Instance.ShowSnackMessageWithNotice("保存失败");
+                              MessageProxy.Snacker.ShowTime("保存失败");
                               return false;
 
                           }
@@ -540,21 +531,21 @@ namespace HeBianGu.App.Blur
             {
                 SettingControl setting = new SettingControl();
 
-                Message.Instance.ShowLayer(setting);
+                MessageProxy.Container.Show(setting);
 
             }
 
             //  Do：气泡消息
-            else if (command.StartsWith("Button.ShowObjectWithPropertyForm"))
+            else if (command.StartsWith("Button.ShowWithPropertyForm"))
             {
                 Student student = new Student();
 
-                //await Message.Instance.ShowObjectWithPropertyForm(student, l => true, "修改学生信息");
+                //await Messager.Instance.ShowWithPropertyForm(student, l => true, "修改学生信息");
 
             }
 
             //  Do：气泡消息
-            else if (command == "Button.ShowObjectWithContent")
+            else if (command == "Button.Show")
             {
                 Student student = new Student();
 
@@ -562,22 +553,22 @@ namespace HeBianGu.App.Blur
                      {
                          if (random.Next(3) == 1)
                          {
-                             Message.Instance.ShowSnackMessageWithNotice("随机测试提交失败，请再试几次");
+                             MessageProxy.Snacker.ShowTime("随机测试提交失败，请再试几次");
                              return false;
                          }
                          else
                          {
-                             Message.Instance.ShowSnackMessageWithNotice("随机测试提交成功，请再试几次");
+                             MessageProxy.Snacker.ShowTime("随机测试提交成功，请再试几次");
                              return true;
                          }
                      };
 
-                await Message.Instance.ShowObjectWithContent(student, match, "修改学生信息", null, ObjectContentDialog.DefaultKey);
+                await MessageProxy.Presenter.Show(student, match, "修改学生信息", null, ObjectContentDialog.DefaultKey);
 
             }
 
             //  Do：气泡消息
-            else if (command == "Button.ShowObjectWithContent.WithValidation")
+            else if (command == "Button.Show.WithValidation")
             {
                 StudentViewModel student = new StudentViewModel();
 
@@ -586,17 +577,17 @@ namespace HeBianGu.App.Blur
                     //if (ObjectPropertyFactory.ModelState(student.Model,out List<string> errors))
                     if (student.ModelState(out List<string> errors))
                     {
-                        Message.Instance.ShowSnackMessageWithNotice("提交成功");
+                        MessageProxy.Snacker.ShowTime("提交成功");
                         return true;
                     }
                     else
                     {
-                        Message.Instance.ShowSnackMessageWithNotice(errors?.FirstOrDefault());
+                        MessageProxy.Snacker.ShowTime(errors?.FirstOrDefault());
                         return false;
                     }
                 };
 
-                await Message.Instance.ShowObjectWithContent(student, match, "修改学生信息");
+                await MessageProxy.Presenter.Show(student, match, "修改学生信息");
 
             }
             else if (command == "Button.Add")
@@ -604,46 +595,56 @@ namespace HeBianGu.App.Blur
 
                 if (StoryBoardPlayerViewModel.PlayMode)
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("请先停止播放再进行添加！");
+                    MessageProxy.Snacker.ShowTime("请先停止播放再进行添加！");
                     return;
                 }
                 StoryBoardPlayerViewModel.Create();
             }
             else if (command == "init")
             {
-                for (int i = 0; i < 60; i++)
-                {
-                    ComboBoxItems.Add(new SearchComboBoxItemModel()
-                    {
-                        Header = "ComboBoxItem" + (ComboBoxItems.Count + 1),
-                        Value = (ComboBoxItems.Count + 1),
-                        CanDelete = true
-                    });
-                }
+               
             }
 
             //  Do：任务栏消息
             else if (command == "Button.Taskbar.Error")
             {
-                Message.Instance.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Error);
+                MessageProxy.TaskBar.Show(l =>
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        l.ProgressState = TaskbarItemProgressState.Error;
+                    }); 
+                });
             }
 
             //  Do：任务栏消息
             else if (command == "Button.Taskbar.Success")
             {
-                Message.Instance.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Normal);
+                MessageProxy.TaskBar.Show(l =>
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        l.ProgressState = TaskbarItemProgressState.Normal;
+                    });
+                });
             }
 
             //  Do：任务栏消息
             else if (command == "Button.Taskbar.Warn")
             {
-                Message.Instance.ShowTaskbar(l => l.ProgressState = TaskbarItemProgressState.Paused);
+                MessageProxy.TaskBar.Show(l =>
+                {
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        l.ProgressState = TaskbarItemProgressState.Paused;
+                    });
+                });
             }
 
             //  Do：任务栏消息
             else if (command == "Button.Taskbar.Percent")
             {
-                await Message.Instance.ShowTaskbarPercent(l =>
+                await MessageProxy.TaskBar.ShowPercent(l =>
                 {
                     for (int i = 0; i < 100; i++)
                     {
@@ -662,7 +663,7 @@ namespace HeBianGu.App.Blur
             //  Do：任务栏消息
             else if (command == "Button.Taskbar.Waitting")
             {
-                await Message.Instance.ShowTaskbarWaitting(() =>
+                await MessageProxy.TaskBar.ShowWaitting(() =>
                 {
                     Thread.Sleep(5000);
 
@@ -675,7 +676,7 @@ namespace HeBianGu.App.Blur
             {
                 Drawing drawing = System.Windows.Application.Current.FindResource("S.Drawing.Database") as Drawing;
 
-                Message.Instance.ShowTaskbarImage(new DrawingImage(drawing));
+                MessageProxy.TaskBar.ShowImage(new DrawingImage(drawing));
 
             }
 
@@ -688,12 +689,12 @@ namespace HeBianGu.App.Blur
         {
             if (command.EndsWith("System"))
             {
-                Notify.Instance.ShowSysMessage(message);
+                MessageProxy.Notify.ShowSystem(message);
             }
             else if (command.EndsWith("Window"))
             {
 
-                Notify.Instance.ShowWinMessage(message);
+                MessageProxy.Notify.Show(message);
             }
             else
             {
@@ -932,7 +933,7 @@ namespace HeBianGu.App.Blur
                 {
                     PlayMode = false;
 
-                    Message.Instance.ShowSnackMessageWithNotice("请至少添加一个条目！");
+                    MessageProxy.Snacker.ShowTime("请至少添加一个条目！");
 
                     return;
                 }
@@ -1096,11 +1097,11 @@ namespace HeBianGu.App.Blur
             {
                 if (_parent.PlayMode)
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("请先停止播放再进行此操作！");
+                    MessageProxy.Snacker.ShowTime("请先停止播放再进行此操作！");
                     return;
                 }
 
-                bool result = await Message.Instance.ShowResultMessge("确定要删除当前项目？");
+                bool result = await Messager.Instance.ShowResult("确定要删除当前项目？");
 
                 if (!result) return;
 
@@ -1260,11 +1261,11 @@ namespace HeBianGu.App.Blur
             {
                 if (IsValid())
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("数据校验成功！");
+                    MessageProxy.Snacker.ShowTime("数据校验成功！");
                 }
                 else
                 {
-                    Message.Instance.ShowSnackMessageWithNotice("数据校验错误 - " + Error);
+                    MessageProxy.Snacker.ShowTime("数据校验错误 - " + Error);
                 }
 
             }

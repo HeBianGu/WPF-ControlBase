@@ -101,7 +101,7 @@ namespace HeBianGu.Systems.Repository
 
             object instance = Activator.CreateInstance(type);
 
-            bool r = await PropertyGrid.ShowObject(instance, null, this.Title);
+            bool r = await PropertyGrid.Show(instance, null, this.Title);
 
             if (r == false) return;
 
@@ -109,7 +109,7 @@ namespace HeBianGu.Systems.Repository
 
             if (result == false)
             {
-                Message.Instance.ShowSnackMessageWithNotice("添加失败");
+                MessageProxy.Snacker.ShowTime("添加失败");
                 return;
             }
 
@@ -137,7 +137,7 @@ namespace HeBianGu.Systems.Repository
 
             if (result == false)
             {
-                Message.Instance.ShowSnackMessageWithNotice("清空失败");
+                MessageProxy.Snacker.ShowTime("清空失败");
                 return;
             }
 
@@ -202,7 +202,7 @@ namespace HeBianGu.Systems.Repository
 
         protected override async void OnClick()
         {
-            bool r = await PropertyGrid.ShowObject(this.Item, null, this.Title);
+            bool r = await PropertyGrid.Show(this.Item, null, this.Title);
 
             if (r == false) return;
 
@@ -210,7 +210,7 @@ namespace HeBianGu.Systems.Repository
 
             if (result == false)
             {
-                Message.Instance.ShowSnackMessageWithNotice("保存失败");
+                MessageProxy.Snacker.ShowTime("保存失败");
                 return;
             }
 
@@ -290,7 +290,7 @@ namespace HeBianGu.Systems.Repository
 
             if (result == false)
             {
-                Message.Instance.ShowSnackMessageWithNotice("删除失败");
+                MessageProxy.Snacker.ShowTime("删除失败");
                 return;
             }
 
@@ -344,7 +344,7 @@ namespace HeBianGu.Systems.Repository
 
             if (result == false)
             {
-                Message.Instance.ShowSnackMessageWithNotice("删除失败");
+                MessageProxy.Snacker.ShowTime("删除失败");
                 return;
             }
 

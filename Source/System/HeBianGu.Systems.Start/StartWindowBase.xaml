@@ -1,0 +1,148 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Start">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/Window/WindowBase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Start.Default, TypeInTargetAssembly={x:Type local:StartWindowBase}}" BasedOn="{StaticResource {x:Static h:WindowBase.AccentKey}}" TargetType="{x:Type local:StartWindowBase}">
+        <Setter Property="Width" Value="520" />
+        <Setter Property="Height" Value="360" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="IconSize" Value="20" />
+        <Setter Property="CaptionHeight" Value="26" />
+        <Setter Property="h:Cattach.Icon" Value="&#xe65c;" />
+        <Setter Property="MaxboxEnable" Value="True" />
+        <Setter Property="MinboxEnable" Value="True" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="h:TransitionService.VisibleActions">
+            <Setter.Value>
+                <h:TransitionCollection>
+                    <h:ScaleTransition />
+                </h:TransitionCollection>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:StartWindowBase}">
+                    <Grid Name="g_all" Margin="0">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform />
+                                <RotateTransform />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+
+                        <Border Margin="{TemplateBinding Padding}"
+                                Background="{TemplateBinding CaptionBackground}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                Effect="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" MinHeight="18" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="0"
+                                        Margin="0"
+                                        Background="{TemplateBinding CaptionBackground}"
+                                        CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}">
+                                    <Grid Margin="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel x:Name="PART_Header"
+                                                    Height="{TemplateBinding CaptionHeight}"
+                                                    Margin="5"
+                                                    VerticalAlignment="Center"
+                                                    Orientation="Horizontal">
+                                            <TextBlock VerticalAlignment="Center"
+                                                       FontSize="{TemplateBinding IconSize}"
+                                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:StartWindowBase}, Path=CaptionForeground}"
+                                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                       Text="{TemplateBinding Icon}" />
+
+                                            <TextBlock Margin="10,0"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:StartWindowBase}, Path=CaptionForeground}"
+                                                       Text="{TemplateBinding Version}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </Border>
+
+                                <AdornerDecorator Grid.Row="1" Margin="0">
+                                    <ContentPresenter Content="{TemplateBinding Content}" />
+                                </AdornerDecorator>
+                            </Grid>
+                        </Border>
+
+                        <!--<Border x:Name="BgInner"
+                                Margin="{TemplateBinding Padding}"
+                                Background="{TemplateBinding CaptionBackground}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />-->
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="h:TransitionService.VisibleActions">
+            <Setter.Value>
+                <h:TransitionCollection>
+                    <h:ScaleTransition />
+                </h:TransitionCollection>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Start.OpacityMask, TypeInTargetAssembly={x:Type local:StartWindowBase}}" BasedOn="{StaticResource {x:Static local:StartWindowBase.DefaultKey}}" TargetType="{x:Type local:StartWindowBase}">
+        <Setter Property="ImageSource" Value="/HeBianGu.General.WpfControlLib;component/Resources/logo.png" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:StartWindowBase}">
+                    <Grid>
+
+                        <AdornerDecorator Grid.Row="1" Margin="3,0,3,3">
+                            <!--<ContentPresenter Content="{TemplateBinding Content}" />-->
+
+                            <Grid Background="{DynamicResource {x:Static h:BrushKeys.Accent}}">
+                                <!--<Grid.Background>
+                                -->
+                                <!--<LinearGradientBrush>
+                                        <GradientStop Offset="-1" Color="Transparent"/>
+                                        <GradientStop Offset="1" Color="{DynamicResource AccentColor}"/>
+                                    </LinearGradientBrush>-->
+                                <!--
+
+                                    <RadialGradientBrush>
+                                        <GradientStop Offset="-1" Color="Transparent"/>
+                                        <GradientStop Offset="1" Color="{DynamicResource AccentColor}"/>
+                                    </RadialGradientBrush>
+                                </Grid.Background>-->
+
+                                <Grid.OpacityMask>
+                                    <ImageBrush ImageSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ImageSource}" />
+
+                                    <!--<ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.png"/>-->
+                                </Grid.OpacityMask>
+                            </Grid>
+                        </AdornerDecorator>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static local:StartWindowBase.DefaultKey}}" TargetType="{x:Type local:StartWindowBase}" />
+</ResourceDictionary>

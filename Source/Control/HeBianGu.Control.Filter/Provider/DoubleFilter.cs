@@ -17,7 +17,7 @@ namespace HeBianGu.Control.Filter
 
         public override IFilter Copy()
         {
-            return new DoubleFilter(this.Model) { Operate = this.Operate, Value = this.Value };
+            return new DoubleFilter(this.PropertyInfo) { Operate = this.Operate, Value = this.Value };
         }
     }
 

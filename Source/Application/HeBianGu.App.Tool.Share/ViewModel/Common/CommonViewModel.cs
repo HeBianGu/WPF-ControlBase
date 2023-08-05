@@ -1,4 +1,5 @@
 ﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfControlLib;
 using HeBianGu.Service.Mvc;
 using HeBianGu.Window.Notify;
 using System;
@@ -21,9 +22,10 @@ namespace HeBianGu.App.Tool
             this.Collection = this.Respository.GetCommons();
         }
 
+        public RelayCommand RelayCommand => new RelayCommand(RelayMethod);
 
         /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
+        protected  async void RelayMethod(object obj)
 
         {
             string command = obj?.ToString();
@@ -41,7 +43,7 @@ namespace HeBianGu.App.Tool
 
                 if (find == null)
                 {
-                    Notify.Instance.ShowSysInfoMessage("请先复制文件或文件夹");
+                    MessageProxy.Notify.ShowInfoSystem("请先复制文件或文件夹");
                     return;
                 }
 
@@ -49,7 +51,7 @@ namespace HeBianGu.App.Tool
 
                 this.Respository.SaveCommons(this.Collection);
 
-                Notify.Instance.ShowSysSuccessMessage("添加成功！");
+                MessageProxy.Notify.ShowSuccessSystem("添加成功！");
             }
 
             //  Do：等待消息
@@ -61,7 +63,7 @@ namespace HeBianGu.App.Tool
 
                 this.Respository.SaveCommons(this.Collection);
 
-                Notify.Instance.ShowSysSuccessMessage("移除成功！");
+                MessageProxy.Notify.ShowSuccessSystem("移除成功！");
             }
         }
 

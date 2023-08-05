@@ -1,0 +1,390 @@
+﻿<h:ApplicationBase x:Class="HeBianGu.App.Track.App"
+                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                   xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+                   xmlns:h="QQ:908293466"
+                   xmlns:local="clr-namespace:HeBianGu.App.Track"
+                   xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <h:ApplicationBase.Resources>
+        <ResourceDictionary>
+            <!--<ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/HeBianGu.General.WpfControlLib;component/Themes/Resource.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>-->
+
+            <local:DataSourceLocator x:Key="S.DataSource.Locator" />
+
+            <Style BasedOn="{StaticResource {x:Static h:LabelKeys.Label}}" TargetType="Label">
+                <Setter Property="h:Cattach.Icon" Value="" />
+                <Setter Property="h:Cattach.UseBackground" Value="False" />
+                <Setter Property="h:Cattach.TitleForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+            </Style>
+
+            <Style BasedOn="{StaticResource {x:Static h:ExpanderKeys.Clear}}" TargetType="Expander">
+                <Setter Property="IsExpanded" Value="True" />
+                <Setter Property="Padding" Value="10,6" />
+                <Setter Property="HeaderTemplate">
+                    <Setter.Value>
+                        <DataTemplate>
+                            <TextBlock FontWeight="Black" Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}" Text="{Binding}" />
+                        </DataTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <DataTemplate x:Key="S.Program.Default" DataType="local:Program">
+                <Grid>
+                    <Border Style="{DynamicResource {x:Static h:BorderKeys.CardBorderBrush}}">
+                        <DockPanel Width="100" Height="70">
+                            <TextBlock HorizontalAlignment="Center" DockPanel.Dock="Bottom" Text="{Binding Name}" />
+                            <TextBlock FontSize="40" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xeabe;" />
+                        </DockPanel>
+
+                        <!--<DockPanel Width="100" Height="70">
+                            <TextBlock HorizontalAlignment="Center"
+                                       DockPanel.Dock="Bottom"
+                                       Text="{Binding Name}"
+                                       TextTrimming="CharacterEllipsis" />
+                            <Image x:Name="img" Source="{Binding Image}" />
+                        </DockPanel>-->
+                    </Border>
+                    <Button Margin="2" Style="{DynamicResource {x:Static h:ButtonKeys.CloseFlag}}" Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsMouseOver, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                        <h:Interaction.Behaviors>
+                            <h:RemoveItemsControlButtonBehavior Item="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                        </h:Interaction.Behaviors>
+                    </Button>
+                </Grid>
+                <!--<DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">
+                        <Setter TargetName="img" Property="Source" Value="{Binding SelectedImage}" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>-->
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type local:MaterialBase}">
+                <Grid Margin="0,2">
+                    <Border Style="{DynamicResource {x:Static h:BorderKeys.CardBorderBrush}}">
+                        <Grid>
+                            <DockPanel Width="100" Height="70">
+                                <TextBlock HorizontalAlignment="Center"
+                                           DockPanel.Dock="Bottom"
+                                           Text="{Binding Name}"
+                                           TextTrimming="CharacterEllipsis" />
+                                <TextBlock FontSize="40" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Icon}" />
+                            </DockPanel>
+                        </Grid>
+                        <h:Interaction.Behaviors>
+                            <h:DragAdornerBehavior DragGroup="Equipment" />
+                        </h:Interaction.Behaviors>
+                    </Border>
+                    <Button Margin="-2" Style="{DynamicResource {x:Static h:ButtonKeys.CloseFlag}}" Visibility="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsMouseOver, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                        <h:Interaction.Behaviors>
+                            <h:RemoveItemsControlButtonBehavior Item="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}}" />
+                        </h:Interaction.Behaviors>
+                    </Button>
+                </Grid>
+                <!--<DataTemplate.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">
+                        <Setter TargetName="img" Property="Source" Value="{Binding SelectedImage}" />
+                    </DataTrigger>
+                </DataTemplate.Triggers>-->
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type local:ProgramSelector}">
+                <Grid Margin="100">
+                    <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+
+                    <DockPanel Margin="10" TextBlock.FontSize="18" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
+                        <TextBlock Margin="10"
+                                   HorizontalAlignment="Left"
+                                   DockPanel.Dock="Top"
+                                   FontSize="{StaticResource {x:Static h:FontSizeKeys.Header2}}"
+                                   FontWeight="Bold"
+                                   Text="选择节目" />
+
+                        <StackPanel Grid.Row="2"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Bottom"
+                                    Orientation="Horizontal">
+
+                            <Button Command="{x:Static h:ObjectContentDialog.Sumit}" Content="确认" />
+                        </StackPanel>
+
+                        <h:Row DockPanel.Dock="Top">
+                            <h:SearchBox x:Name="sb" Margin="5,0" InSource="{Binding Collection}" />
+                        </h:Row>
+
+                        <ListBox VerticalAlignment="Top"
+                                 h:Cattach.ItemHeight="Auto"
+                                 h:Cattach.SelectedItems="{Binding SelectedItems}"
+                                 ItemsSource="{Binding ElementName=sb, Path=OutSource, Mode=TwoWay}"
+                                 SelectionMode="Multiple">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{DynamicResource {x:Static h:BorderKeys.CardBackground}}">
+                                        <DockPanel Width="100" Height="70">
+                                            <TextBlock HorizontalAlignment="Center" DockPanel.Dock="Bottom" Text="{Binding Name}" />
+                                            <TextBlock FontSize="40" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xeabe;" />
+                                        </DockPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                            <ListBox.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.CheckBoxBox}}" TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                                <CheckBox Height="Auto"
+                                                          Margin="{TemplateBinding Padding}"
+                                                          HorizontalAlignment="Stretch"
+                                                          VerticalAlignment="Stretch"
+                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          IsChecked="{Binding IsSelected}"
+                                                          Style="{DynamicResource {x:Static h:CheckBoxKeys.Box}}">
+                                                    <h:Interaction.Behaviors>
+                                                        <h:SelectListBoxItemElementBehavior />
+                                                    </h:Interaction.Behaviors>
+                                                    <CheckBox.Content>
+                                                        <ContentPresenter />
+                                                    </CheckBox.Content>
+                                                </CheckBox>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </DockPanel>
+
+                    <Button Width="30"
+                            Height="30"
+                            Margin="10"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            h:Cattach.AllowsAnimation="True"
+                            h:Cattach.Icon="&#xe72c;"
+                            h:Cattach.IconSize="14"
+                            h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                            Command="{x:Static h:ObjectContentDialog.Close}"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                            WindowChrome.IsHitTestVisibleInChrome="True" />
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type local:TimerEditer}">
+                <Border>
+                    <DockPanel>
+                        <GroupBox DockPanel.Dock="Top" Header="周期">
+                            <UniformGrid Rows="1">
+                                <RadioButton VerticalAlignment="Top" Content="每天" DockPanel.Dock="Top" />
+
+                                <DockPanel Margin="-40,0,0,0">
+                                    <RadioButton Margin="0,0" Content="每周" DockPanel.Dock="Top" />
+                                    <ItemsControl Margin="20,0">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <CheckBox Content="周一" />
+                                        <CheckBox Content="周二" />
+                                        <CheckBox Content="周三" />
+                                        <CheckBox Content="周四" />
+                                        <CheckBox Content="周五" />
+                                        <CheckBox Content="周六" />
+                                        <CheckBox Content="周日" />
+                                    </ItemsControl>
+                                </DockPanel>
+                            </UniformGrid>
+                        </GroupBox>
+                        <GroupBox DockPanel.Dock="Top" Header="时间">
+                            <UniformGrid Rows="1">
+                                <DockPanel>
+                                    <RadioButton Content="时间点" DockPanel.Dock="Top" />
+                                    <DockPanel>
+                                        <ComboBox SelectedIndex="0">
+                                            <sys:String>14</sys:String>
+                                        </ComboBox>
+                                        <TextBlock VerticalAlignment="Center" Text=" 时 " />
+                                        <ComboBox SelectedIndex="0">
+                                            <sys:String>12</sys:String>
+                                        </ComboBox>
+                                        <TextBlock VerticalAlignment="Center" Text=" 分 " />
+                                    </DockPanel>
+                                </DockPanel>
+
+                                <DockPanel Margin="-40,0,0,0">
+                                    <RadioButton Content="时间段" DockPanel.Dock="Top" />
+                                    <DockPanel>
+                                        <ComboBox SelectedIndex="0">
+                                            <sys:String>14</sys:String>
+                                        </ComboBox>
+                                        <TextBlock VerticalAlignment="Center" Text=" 时 " />
+                                        <ComboBox SelectedIndex="0">
+                                            <sys:String>12</sys:String>
+                                        </ComboBox>
+                                        <TextBlock VerticalAlignment="Center" Text=" 分 " />
+                                        <TextBlock VerticalAlignment="Center" Text=" - " />
+                                        <ComboBox SelectedIndex="0">
+                                            <sys:String>14</sys:String>
+                                        </ComboBox>
+                                        <TextBlock VerticalAlignment="Center" Text=" 时 " />
+                                        <ComboBox SelectedIndex="0">
+                                            <sys:String>12</sys:String>
+                                        </ComboBox>
+                                        <TextBlock VerticalAlignment="Center" Text=" 分 " />
+                                    </DockPanel>
+                                </DockPanel>
+                            </UniformGrid>
+                        </GroupBox>
+
+                        <GroupBox Header="播放列表">
+                            <ScrollViewer>
+                                <ListBox AllowDrop="True" ItemsSource="{Binding Plays}">
+                                    <h:Interaction.Behaviors>
+                                        <h:ListDropBlendBehavior />
+                                    </h:Interaction.Behaviors>
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type local:Play}">
+                                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                    <ListBox.ItemContainerStyle>
+                                        <Style BasedOn="{StaticResource {x:Static h:DragAdorner.ListBoxItemAllowDropBothKey}}" TargetType="ListBoxItem">
+                                            <Setter Property="IsSelected" Value="False" />
+                                        </Style>
+                                    </ListBox.ItemContainerStyle>
+                                </ListBox>
+                            </ScrollViewer>
+                        </GroupBox>
+                    </DockPanel>
+                </Border>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type local:Timers}">
+                <Grid Margin="100">
+                    <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+
+                    <DockPanel Margin="10" TextBlock.FontSize="18" TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
+                        <TextBlock Margin="10"
+                                   HorizontalAlignment="Left"
+                                   DockPanel.Dock="Top"
+                                   FontSize="{StaticResource {x:Static h:FontSizeKeys.Header2}}"
+                                   FontWeight="Bold"
+                                   Text="定时任务" />
+
+                        <Grid Grid.Row="2"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Center"
+                              DockPanel.Dock="Bottom">
+
+                            <Button Width="Auto" HorizontalAlignment="Left" Content="新增">
+                                <h:Interaction.Behaviors>
+                                    <h:AddItemButtonBehavior ItemsSource="{Binding Collection}">
+                                        <h:AddItemButtonBehavior.DefaultValue>
+                                            <local:Timer Name="每天,20:20" Time="{x:Static sys:DateTime.Now}" />
+                                        </h:AddItemButtonBehavior.DefaultValue>
+                                    </h:AddItemButtonBehavior>
+                                </h:Interaction.Behaviors>
+                            </Button>
+                            <Button Width="Auto"
+                                    HorizontalAlignment="Right"
+                                    Command="{x:Static h:ObjectContentDialog.Sumit}"
+                                    Content="确认" />
+                        </Grid>
+
+
+                        <ItemsControl VerticalAlignment="Top" ItemsSource="{Binding Collection}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate DataType="{x:Type local:Timer}">
+                                    <Border Style="{DynamicResource {x:Static h:BorderKeys.CardBackground}}">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="1.5*" />
+                                                <ColumnDefinition Width="2*" />
+                                                <ColumnDefinition Width="1.2*" />
+                                                <ColumnDefinition />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Column="0"
+                                                   Margin="5,0"
+                                                   h:Cattach.Title="定时器："
+                                                   h:Cattach.TitleWidth="Auto"
+                                                   Content="{Binding Name}" />
+
+                                            <!--<Label Grid.Column="1" h:Cattach.Title="播放列表：" h:Cattach.TitleWidth="Auto">
+                                                <ComboBox DisplayMemberPath="Name" ItemsSource="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.Plays}" SelectedItem="{Binding Play}" />
+                                            </Label>-->
+
+                                            <Label Grid.Column="1" h:Cattach.Title="播放列表：" h:Cattach.TitleWidth="Auto">
+                                                <h:MultiComboBox h:Cattach.Watermark="" ItemsSource="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.Plays}" SelectedItems="{Binding Plays, Mode=TwoWay}">
+                                                    <ItemsControl.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Name}" />
+                                                        </DataTemplate>
+                                                    </ItemsControl.ItemTemplate>
+                                                    <h:MultiComboBox.SelectedItemsTemplate>
+                                                        <DataTemplate>
+                                                            <TextBlock Text="{Binding Name}" />
+                                                        </DataTemplate>
+                                                    </h:MultiComboBox.SelectedItemsTemplate>
+                                                </h:MultiComboBox>
+                                            </Label>
+
+                                            <Label Grid.Column="2" h:Cattach.Title="模式：" h:Cattach.TitleWidth="Auto">
+                                                <ComboBox SelectedItem="{Binding Mode}">
+                                                    <sys:String>单次</sys:String>
+                                                    <sys:String>每天</sys:String>
+                                                    <sys:String>每周</sys:String>
+                                                </ComboBox>
+                                            </Label>
+
+                                            <Label Grid.Column="3" h:Cattach.Title="开/关：" h:Cattach.TitleWidth="Auto">
+                                                <h:SwitchToggleButton Margin="-80,0,0,0" IsChecked="{Binding Open, Mode=TwoWay}" />
+                                            </Label>
+                                            <Label Grid.Column="4" h:Cattach.Title="操作：" h:Cattach.TitleWidth="Auto">
+                                                <UniformGrid Width="70" Rows="1">
+                                                    <Button h:Cattach.Icon="&#xe7f3;"
+                                                            Command="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.TimerEidtCommand}"
+                                                            CommandParameter="{Binding}"
+                                                            Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                    <Button h:Cattach.Icon="&#xe844;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}">
+                                                        <h:Interaction.Behaviors>
+                                                            <h:RemoveItemButtonBehavior Item="{Binding}" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=ItemsSource}" />
+                                                        </h:Interaction.Behaviors>
+                                                    </Button>
+                                                </UniformGrid>
+                                            </Label>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </DockPanel>
+
+                    <Button Width="30"
+                            Height="30"
+                            Margin="10"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Top"
+                            h:Cattach.AllowsAnimation="True"
+                            h:Cattach.Icon="&#xe72c;"
+                            h:Cattach.IconSize="14"
+                            h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.Red}}"
+                            Command="{x:Static h:ObjectContentDialog.Close}"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                            WindowChrome.IsHitTestVisibleInChrome="True" />
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </h:ApplicationBase.Resources>
+</h:ApplicationBase>

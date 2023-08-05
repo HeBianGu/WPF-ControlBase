@@ -7,7 +7,7 @@ namespace HeBianGu.Control.Chart2D
     public class Series : DataLayerGroup
     {
         public static new ComponentResourceKey DefaultKey => new ComponentResourceKey(typeof(Series), "S.Series.Default");
-        public static ComponentResourceKey LineKey => new ComponentResourceKey(typeof(Series), "S.Series.Line.Basic");
+        public static ComponentResourceKey LineKey => new ComponentResourceKey(typeof(Series), "S.Series.Line");
         public static ComponentResourceKey LinePolarKey => new ComponentResourceKey(typeof(Series), "S.Series.Line.Polar");
         public static ComponentResourceKey LineSmoothKey => new ComponentResourceKey(typeof(Series), "S.Series.Line.Smooth");
         public static ComponentResourceKey BarKey => new ComponentResourceKey(typeof(Series), "S.Series.Bar.Basic");

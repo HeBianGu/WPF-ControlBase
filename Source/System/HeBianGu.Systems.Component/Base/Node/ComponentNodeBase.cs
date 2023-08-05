@@ -2,6 +2,9 @@
 
 using HeBianGu.Control.Diagram;
 using System.ComponentModel;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace HeBianGu.Systems.Component
 {

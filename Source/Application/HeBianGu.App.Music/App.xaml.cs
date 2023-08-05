@@ -1,8 +1,11 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
 using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.Guide;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Service.Mvp;
+using HeBianGu.Systems.Setting;
 using System;
 using System.Windows;
 using System.Windows.Media;
@@ -14,7 +17,7 @@ namespace HeBianGu.App.Music
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             return new MainWindow();
         }
@@ -25,49 +28,45 @@ namespace HeBianGu.App.Music
             base.ConfigureServices(services);
 
             services.AddMvc();
-
-            ////  Do ：注入领域模型服务
-            //services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
-
-            services.AddMessageDialog();
-
+            services.AddWindowDialog();
             //services.AddWindowAnimation();
-
-            //services.AddStudentDemo();
-
-            services.AddMessage();
-
-            services.AddTheme();
-
+            services.AddMessageProxy();
             services.AddSetting();
-            services.AddSettingViewPrenter();
-
-            services.AddGuideViewPresenter();
-
             services.AddXmlSerialize();
             services.AddXmlMeta();
 
-            ////  Do ：启用启动窗口 需要添加引用HeBianGu.Window.Start
-            //services.AddStart();
+            //  Do ：启用启动窗口 需要添加引用HeBianGu.Window.Start
+            services.AddStart(x => x.ProductFontSize = 130);
 
             ////  Do ：启用启动窗口 需要添加引用HeBianGu.Systems.Identity
             //services.AddIdentity();
+
+            #region - WindowCaption -
+            services.AddGuideViewPresenter();
+            services.AddSettingViewPrenter();
+            services.AddThemeRightViewPresenter();
+            services.AddWindowCaptionViewPresenter(x =>
+            {
+                x.AddPersenter(MoreViewPresenter.Instance);
+                x.AddPersenter(GuideViewPresenter.Instance);
+                x.AddPersenter(SettingViewPresenter.Instance);
+                x.AddPersenter(ThemeRightToolViewPresenter.Instance);
+            });
+            #endregion
         }
 
         protected override void Configure(IApplicationBuilder app)
         {
             base.Configure(app);
 
-            app.UseMvc();
             app.UseMainWindowSetting();
 
             //  Do：设置默认主题
             app.UseLocalTheme(l =>
             {
-                l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF003D99");
+                l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
 
-                l.SmallFontSize = 14D;
-                l.LargeFontSize = 16D;
+                l.DefaultFontSize = 15D;
                 l.FontSize = FontSize.Small;
 
                 l.ItemHeight = 36;
@@ -80,7 +79,7 @@ namespace HeBianGu.App.Music
                 l.IsUseAnimal = false;
 
                 l.ThemeType = ThemeType.Light;
-
+                l.StyleType = StyleType.Single;
                 l.Language = Language.Chinese;
 
                 l.AccentBrushType = AccentBrushType.LinearGradientBrush;

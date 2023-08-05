@@ -4,19 +4,13 @@ using HeBianGu.Base.WpfBase;
 
 namespace HeBianGu.Control.ThemeSet
 {
-    public class Service : IService
+    public class ThemeSaveService : IThemeSaveService
     {
-
-    }
-
-    public interface IService
-    {
-
-    }
-
-    [SettingConfig(Name = "参数设置", Group = "基本设置")]
-    public class Setting : LazySettingInstance<Setting>
-    {
-
+        public string Name => "主题配置";
+        public bool Save(out string message)
+        {
+            ThemeConfig.Instance = ThemeViewModel.Current.SaveTo();
+            return ThemeConfig.Instance.Save(out message);
+        }
     }
 }

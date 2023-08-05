@@ -14,9 +14,16 @@ namespace HeBianGu.Service.Animation
 
         public override void BeginCurrent(UIElement element, Action complate = null)
         {
-            if (!element.CheckDefaultTransformGroup()) return;
+            if (!element.CheckDefaultTransformGroup()) 
+                return;
 
             base.BeginCurrent(element);
+
+            if (!this.CanAnimation(element))
+            {
+                complate?.Invoke();
+                return;
+            }
 
             element.BeginAnimationX(this.StartPoint.X, 0, this.VisibleDuration, l => complate?.Invoke(), l =>
             {
@@ -37,6 +44,13 @@ namespace HeBianGu.Service.Animation
 
             base.BeginPrevious(element);
 
+            if (!this.CanAnimation(element))
+            {
+                element.Visibility = HiddenOrCollapsed;
+                complate?.Invoke();
+                return;
+            }
+
             element.BeginAnimationX(0, this.EndPoint.X, this.HideDuration, l =>
             {
                 element.Visibility = HiddenOrCollapsed;
@@ -52,6 +66,47 @@ namespace HeBianGu.Service.Animation
                 l.Easing = this.HideEasing;
             });
 
+        }
+
+
+        public static TranslateTransition GetDockRight()
+        {
+            var trans = new TranslateTransition()
+            {
+                StartPoint = new System.Windows.Point(400, 0),
+                EndPoint = new System.Windows.Point(300, 0)
+            };
+            return trans;
+        }
+
+        public static TranslateTransition GetDockLeft()
+        {
+            var trans = new TranslateTransition()
+            {
+                StartPoint = new System.Windows.Point(-400, 0),
+                EndPoint = new System.Windows.Point(-300, 0)
+            };
+            return trans;
+        }
+
+        public static TranslateTransition GetDockTop()
+        {
+            var trans = new TranslateTransition()
+            {
+                StartPoint = new System.Windows.Point(0, -200),
+                EndPoint = new System.Windows.Point(0, -200)
+            };
+            return trans;
+        }
+
+        public static TranslateTransition GetDockBottm()
+        {
+            var trans = new TranslateTransition()
+            {
+                StartPoint = new System.Windows.Point(0, 200),
+                EndPoint = new System.Windows.Point(0, 200)
+            };
+            return trans;
         }
     }
 }

@@ -75,16 +75,21 @@
 
     </DataTemplate>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.SettingBox.Default, TypeInTargetAssembly={x:Type local:SettingBox}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Dynamic}}" TargetType="{x:Type local:SettingBox}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.SettingBox.Default, TypeInTargetAssembly={x:Type local:SettingBox}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Line}}" TargetType="{x:Type local:SettingBox}">
         <!--<Setter Property="Settings" Value="{Binding Source={x:Static local:SystemSettingService.Instance},Path=Settings}"/>-->
-        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundMouseOver}}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_1}}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="h:Cattach.ItemPadding" Value="0" />
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <h:ScrollIntoItems Padding="0,0,0,0" Margin="0"
-                                       HitTestPoint="55 10" ScrollViewer.CanContentScroll="False"
-                                       ItemsSource="{Binding}" HorizontalContentAlignment="Stretch"
-                                       NavigationSource="{Binding}">
+                    <h:ScrollIntoItems Margin="0"
+                                       Padding="0,0,0,0"
+                                       HorizontalContentAlignment="Stretch"
+                                       HitTestPoint="55 10"
+                                       ItemsSource="{Binding}"
+                                       NavigationSource="{Binding}"
+                                       ScrollViewer.CanContentScroll="False">
                         <h:ScrollIntoItems.NavigationDataTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Name}" />
@@ -95,23 +100,45 @@
                             <Style BasedOn="{StaticResource {x:Static h:ListBoxKeys.Dynamic}}" TargetType="{x:Type ListBox}">
                                 <Setter Property="Width" Value="150" />
                                 <Setter Property="BorderThickness" Value="0,0,1,0" />
-                                <Setter Property="Margin" Value="{DynamicResource {x:Static h:ThicknessKeys.Padding_10_6}}"/>
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Margin" Value="0,0,0,0" />
+                                <Setter Property="ToolTip" Value="{Binding Description}" />
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                <Setter Property="h:Cattach.GuideTitle" Value="{Binding Name}" />
+                                <Setter Property="h:Cattach.GuideData" Value="{Binding Description}" />
+                                <Setter Property="h:Cattach.UseGuide" Value="True" />
+                                <Setter Property="h:Cattach.GuideParentTitle" Value="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=DataContext.Key}" />
                             </Style>
                         </h:ScrollIntoItems.NavigationStyle>
 
                         <h:ScrollIntoItems.ItemTemplate>
                             <DataTemplate DataType="{x:Type h:ISetting}">
-                                <GroupBox Header="{Binding Name}" Style="{DynamicResource {x:Static h:GroupBoxKeys.Clear}}">
-                                    <!--<TextBlock Width="100"
-                                               Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
-                                               Margin="0,10"
-                                               VerticalAlignment="Top"
-                                               Text="{Binding Name, StringFormat={}{0}:}" />-->
-                                    <h:PropertyGrid h:Cattach.TitleWidth="{Binding Source={x:Static local:SystemSettingConfig.Instance},Path=TitleWidth}" SelectObject="{Binding}" Style="{StaticResource {x:Static h:PropertyGrid.SettingKey}}" />
+                                <GroupBox BorderBrush="Transparent" Header="{Binding Name}" Style="{DynamicResource {x:Static h:GroupBoxKeys.Dynamic}}">
+                                    <GroupBox.HeaderTemplate>
+                                        <DataTemplate>
+                                            <DockPanel>
+                                                <TextBlock Margin="10,10,0,0"
+                                                           VerticalAlignment="Bottom"
+                                                           FontWeight="Bold"
+                                                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                                                           Text="{Binding}"
+                                                           ToolTip="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=DataContext.Description}" />
+
+                                                <TextBlock Margin="10,5,0,0"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header7}}"
+                                                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"
+                                                           Text="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=DataContext.Description}"
+                                                           Visibility="Collapsed" />
+                                            </DockPanel>
+                                        </DataTemplate>
+                                    </GroupBox.HeaderTemplate>
+                                    <h:PropertyGrid h:Cattach.TitleWidth="{Binding Source={x:Static local:SettingViewPresenter.Instance}, Path=TitleWidth}"
+                                                    ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                    SelectObject="{Binding}"
+                                                    Style="{StaticResource {x:Static h:PropertyGrid.SettingKey}}" />
                                 </GroupBox>
                             </DataTemplate>
-                        </h:ScrollIntoItems.ItemTemplate> 
+                        </h:ScrollIntoItems.ItemTemplate>
                     </h:ScrollIntoItems>
                 </DataTemplate>
             </Setter.Value>
@@ -119,8 +146,18 @@
         <Setter Property="ItemTemplate">
             <Setter.Value>
                 <DataTemplate>
-                    <TextBlock Margin="10,0" Text="{Binding Key}" />
+                    <TextBlock x:Name="txt" Margin="10,0" Text="{Binding Key}" />
                 </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style BasedOn="{StaticResource {x:Static h:TabItemKeys.Line}}" TargetType="TabItem">
+                    <!--<Setter Property="h:Cattach.GuideData" Value="{Binding Descption}" />-->
+                    <Setter Property="h:Cattach.GuideTitle" Value="{Binding Key}" />
+                    <Setter Property="h:Cattach.GuideUseClick" Value="True" />
+                    <Setter Property="h:Cattach.UseGuide" Value="True" />
+                </Style>
             </Setter.Value>
         </Setter>
     </Style>

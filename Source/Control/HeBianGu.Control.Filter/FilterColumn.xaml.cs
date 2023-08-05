@@ -20,7 +20,7 @@ namespace HeBianGu.Control.Filter
         }
         public FilterColumn()
         {
-            CommandBinding binding = new CommandBinding(CommandService.Sure, (l, k) =>
+            CommandBinding binding = new CommandBinding(Commander.Sure, (l, k) =>
                {
                    if (this.DataSource == null) return;
 

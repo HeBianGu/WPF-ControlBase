@@ -3,7 +3,9 @@
                     xmlns:h="https://github.com/HeBianGu"
                     xmlns:local="clr-namespace:HeBianGu.Control.PagedDataGrid"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
-
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
     <Style x:Key="{ComponentResourceKey ResourceId=S.Pagination.Default, TypeInTargetAssembly={x:Type local:Pagination}}" TargetType="local:Pagination">
         <Setter Property="Focusable" Value="False" />
         <!--<Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />-->
@@ -11,7 +13,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="RadioButtonStyle">
             <Setter.Value>
-                <Style TargetType="RadioButton">
+                <Style BasedOn="{StaticResource {x:Static h:ControlKeys.ForegroundChecked}}" TargetType="RadioButton">
                     <Setter Property="BorderThickness" Value="1" />
                     <Setter Property="BorderBrush" Value="Transparent" />
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -23,19 +25,19 @@
                     <Setter Property="RenderTransformOrigin" Value=".5,.5" />
                     <Setter Property="Background" Value="Transparent" />
                     <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
-                    <Setter Property="Command" Value="{x:Static h:CommandService.Selected}" />
+                    <Setter Property="Command" Value="{x:Static h:Commander.Selected}" />
+                    <Setter Property="Width" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+                    <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
                     <Setter Property="Tag" Value="0" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="RadioButton">
                                 <Border x:Name="border"
-                                        MinWidth="30"
                                         Background="{TemplateBinding Background}"
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="2">
+                                        CornerRadius="55">
                                     <TextBlock x:Name="txt"
-                                               Margin="6"
                                                HorizontalAlignment="Center"
                                                VerticalAlignment="Center"
                                                Text="{TemplateBinding Tag}" />
@@ -44,7 +46,7 @@
                         </Setter.Value>
                     </Setter>
                     <Style.Triggers>
-                        <Trigger Property="IsPressed" Value="True">
+                        <!--<Trigger Property="IsPressed" Value="True">
                             <Setter Property="RenderTransform">
                                 <Setter.Value>
                                     <TransformGroup>
@@ -55,18 +57,13 @@
                                     </TransformGroup>
                                 </Setter.Value>
                             </Setter>
-                        </Trigger>
+                        </Trigger>-->
                         <Trigger Property="IsChecked" Value="True">
-                            <!--<Setter Property="Background" Value="{DynamicResource PrimaryBrush}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource PrimaryBrush}"/>-->
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
-                            <Setter Property="FontWeight" Value="Bold" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.4" />
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.CheckedForeground)}" />
+                            <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.CheckedBackground)}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}" />
+                            <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverForeground)}" />
                         </Trigger>
                     </Style.Triggers>
                 </Style>
@@ -85,14 +82,14 @@
                         <Button x:Name="PART_ButtonLeft"
                                 Margin="5,0"
                                 VerticalAlignment="Center"
-                                Command="{x:Static h:CommandService.Prev}"
+                                Command="{x:Static h:Commander.Prev}"
                                 Content="上一页"
                                 Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
 
                         <StackPanel Grid.Column="1" HorizontalAlignment="Center" Orientation="Horizontal">
                             <h:Interaction.Triggers>
                                 <h:EventTrigger EventName="RadioButton.Checked">
-                                    <h:InvokeCommandAction Command="{x:Static h:CommandService.Selected}" PassEventArgsToCommand="True" />
+                                    <h:InvokeCommandAction Command="{x:Static h:Commander.Selected}" PassEventArgsToCommand="True" />
                                 </h:EventTrigger>
                             </h:Interaction.Triggers>
 
@@ -114,16 +111,14 @@
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
                                        Text="..." />
-
                             <RadioButton Name="PART_ButtonLast" Style="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=RadioButtonStyle}" Tag="10" />
-
                         </StackPanel>
 
                         <Button x:Name="PART_ButtonRight"
                                 Grid.Column="2"
                                 Margin="5,0"
                                 VerticalAlignment="Center"
-                                Command="{x:Static h:CommandService.Next}"
+                                Command="{x:Static h:Commander.Next}"
                                 Content="下一页"
                                 Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
 

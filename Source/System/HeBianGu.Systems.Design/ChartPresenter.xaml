@@ -1,0 +1,73 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Design">
+    <DataTemplate DataType="{x:Type local:PieDesignPresenter}">
+        <local:DesignBorder MinWidth="200">
+            <h:Chart Background="{x:Null}"
+                     UseDrawOnce="False"
+                     UseRefreshButton="False"
+                     Visibility="{Binding IsVisible, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                <h:Series>
+                    <h:Pie Data="{Binding Data}"
+                           Foreground="{Binding Foreground}"
+                           TryFreeze="False"
+                           xDisplay="{Binding xDisplay}" />
+                </h:Series>
+                <h:PathLegend />
+            </h:Chart>
+        </local:DesignBorder>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:RadarDesignPresenter}">
+        <local:DesignBorder MinWidth="200">
+            <h:PolarChart Background="{x:Null}"
+                          UseDrawOnce="False"
+                          UseRefreshButton="False"
+                          Visibility="{Binding IsVisible, Converter={x:Static h:Converter.GetTrueToVisible}}"
+                          xAxis="{Binding xAxis}"
+                          yAxis="{Binding yAxis}">
+                <h:ViewLayerGroup>
+                    <h:Radar />
+                    <h:RadiusAxis />
+                    <h:RadarAxis yDisplay="{Binding xDisplay}" />
+                </h:ViewLayerGroup>
+                <h:Series>
+                    <h:RadarLine Data="{Binding Data}" TryFreeze="False" />
+                    <h:PolarScatter Data="{Binding Data}" MarkStyle="{DynamicResource {x:Static h:EllipseMarker.Default4Key}}" TryFreeze="False" />
+                </h:Series>
+                <h:Legend Style="{DynamicResource {x:Static h:Legend.VerticalKey}}" />
+            </h:PolarChart>
+        </local:DesignBorder>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:BarDesignPresenter}">
+        <local:DesignBorder MinWidth="200">
+            <h:Chart Background="{x:Null}"
+                     Style="{DynamicResource {x:Static h:Chart.BarKey}}"
+                     UseDrawOnce="False"
+                     UseRefreshButton="False"
+                     Visibility="{Binding IsVisible, Converter={x:Static h:Converter.GetTrueToVisible}}"
+                     xAxis="{Binding xAxis}"
+                     xDisplay="{Binding xDisplay}"
+                     yAxis="{Binding yAxis}">
+                <h:Series Style="{DynamicResource {x:Static h:Series.BarKey}}" yDatas="{Binding Data}" />
+            </h:Chart>
+        </local:DesignBorder>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:LineDesignPresenter}">
+        <local:DesignBorder MinWidth="200">
+            <h:Chart Background="{x:Null}"
+                     Style="{StaticResource {x:Static h:Chart.CoordKey}}"
+                     UseDrawOnce="False"
+                     UseRefreshButton="False"
+                     Visibility="{Binding IsVisible, Converter={x:Static h:Converter.GetTrueToVisible}}"
+                     xAxis="{Binding xAxis}"
+                     xDisplay="{Binding xDisplay}"
+                     yAxis="{Binding yAxis}">
+                <h:Series Style="{StaticResource {x:Static h:Series.LineKey}}" yDatas="{Binding Data}" />
+            </h:Chart>
+        </local:DesignBorder>
+    </DataTemplate>
+</ResourceDictionary>

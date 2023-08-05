@@ -9,22 +9,18 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Center" />
-        <!--<Setter Property="MaxWidth" Value="100"/>-->
         <Setter Property="OutSource" Value="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl, AncestorLevel=2}, Path=ItemsSource, Mode=TwoWay}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:FilterColumn}">
                     <Grid>
-
                         <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" />
-
                         <ToggleButton x:Name="PART_DropDownToggle"
                                       h:Cattach.AllowsAnimation="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked}"
+                                      h:Cattach.Icon="&#xeb05;"
                                       h:Cattach.IconSize="{DynamicResource {x:Static h:IconSizeKeys.Small}}"
-                                      h:Cattach.Icon="&#xe7f6;"
-                                      Content="&#xe85b;"
+                                      Content="&#xeb05;"
                                       Style="{DynamicResource {x:Static h:ToggleButtonKeys.DoubleFIconCheckedSingle}}" />
-
                         <Popup x:Name="PART_Popup"
                                AllowsTransparency="True"
                                Focusable="False"
@@ -41,7 +37,6 @@
                                       Margin="0,5,0,0"
                                       HorizontalAlignment="Stretch"
                                       VerticalAlignment="Top">
-
                                     <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
                                             BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
                                             BorderThickness="1"
@@ -62,191 +57,99 @@
 
                                                 <DataTemplate DataType="{x:Type local:StringFilter}">
                                                     <StackPanel>
-                                                        <h:Row>
-                                                            <ComboBox x:Name="cb_sf"
-                                                                      Grid.ColumnSpan="12"
-                                                                      h:Cattach.Title="条件"
-                                                                      ItemsSource="{Binding Source={h:EnumGroupSource EnumType={x:Type local:FilterOperate}, GroupName=String}}"
-                                                                      SelectedIndex="0"
-                                                                      SelectedItem="{Binding Operate}"
-                                                                      Style="{DynamicResource {x:Static h:ComboBoxKeys.LabelSingle}}">
-                                                                <!--<system:String>选择数据源</system:String>
-                                                                        <system:String>等于</system:String>
-                                                                        <system:String>不等于</system:String>
-                                                                        <system:String>包含</system:String>
-                                                                        <system:String>不包含</system:String>
-                                                                        <system:String>已设置</system:String>
-                                                                        <system:String>未设置</system:String>-->
-
-                                                            </ComboBox>
-                                                        </h:Row>
-
+                                                        <ComboBox x:Name="cb_sf"
+                                                                  h:Cattach.Title="条件"
+                                                                  ItemsSource="{Binding Source={h:EnumGroupSource EnumType={x:Type local:FilterOperate}, GroupName=String}}"
+                                                                  SelectedIndex="0"
+                                                                  SelectedItem="{Binding Operate}"
+                                                                  Style="{DynamicResource {x:Static h:ComboBoxKeys.LabelSingle}}" />
                                                         <DockPanel Margin="0,2" Visibility="{Binding ElementName=cb_sf, Path=SelectedItem, Converter={x:Static h:XConverter.VisibilityContainWithStringConverter}, ConverterParameter={StaticResource S.ArrayList.Select}}">
-                                                            <TextBlock VerticalAlignment="Center" Text="               值 " />
+                                                            <TextBlock VerticalAlignment="Center" Text="值 " />
                                                             <ListBox MaxHeight="300"
                                                                      h:Cattach.SelectedItems="{Binding SelectedSource, Mode=TwoWay}"
                                                                      ItemsSource="{Binding Source}"
                                                                      SelectionMode="Multiple"
                                                                      Style="{DynamicResource {x:Static h:ListBoxKeys.WrapPanel}}" />
                                                         </DockPanel>
-
-                                                        <h:Row Visibility="{Binding ElementName=cb_sf, Path=SelectedItem, Converter={x:Static h:XConverter.VisibilityContainWithOutStringConverter}, ConverterParameter={StaticResource S.ArrayList.Select}}">
-                                                            <TextBox Grid.ColumnSpan="12"
-                                                                        h:Cattach.Title="            值"
-                                                                        Style="{DynamicResource {x:Static h:TextBoxKeys.LabelSingle}}"
-                                                                        Text="{Binding Value}" />
-                                                        </h:Row>
+                                                        <TextBox h:Cattach.Title="值"
+                                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                 Text="{Binding Value}"
+                                                                 Visibility="{Binding ElementName=cb_sf, Path=SelectedItem, Converter={x:Static h:XConverter.VisibilityContainWithOutStringConverter}, ConverterParameter={StaticResource S.ArrayList.Select}}" />
                                                     </StackPanel>
-
                                                 </DataTemplate>
 
                                                 <DataTemplate DataType="{x:Type local:IntFilter}">
                                                     <StackPanel>
-                                                        <h:Row>
-                                                            <ComboBox Grid.ColumnSpan="12"
-                                                                      h:Cattach.Title="条件"
-                                                                      ItemsSource="{Binding Source={h:EnumGroupSource EnumType={x:Type local:FilterOperate}, GroupName=Int}}"
-                                                                      SelectedIndex="0"
-                                                                      SelectedItem="{Binding Operate}"
-                                                                      Style="{DynamicResource {x:Static h:ComboBoxKeys.LabelSingle}}">
-                                                                <!--<system:String>等于</system:String>
-                                                                        <system:String>不等于</system:String>
-                                                                        <system:String>大于</system:String>
-                                                                        <system:String>小于</system:String>
-                                                                        <system:String>大于等于</system:String>
-                                                                        <system:String>小于等于</system:String>-->
+                                                        <ComboBox h:Cattach.Title="条件"
+                                                                  ItemsSource="{Binding Source={h:EnumGroupSource EnumType={x:Type local:FilterOperate}, GroupName=Int}}"
+                                                                  SelectedIndex="0"
+                                                                  SelectedItem="{Binding Operate}"
+                                                                  Style="{DynamicResource {x:Static h:ComboBoxKeys.Label}}" />
 
-                                                            </ComboBox>
-                                                        </h:Row>
 
-                                                        <h:Row>
-                                                            <TextBox Grid.ColumnSpan="12"
-                                                                        h:Cattach.Title="            值"
-                                                                        Style="{DynamicResource {x:Static h:TextBoxKeys.LabelSingle}}"
-                                                                        Text="{Binding Value}" />
-                                                        </h:Row>
+                                                        <TextBox Margin="0,2"
+                                                                 h:Cattach.Title="值"
+                                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                 Text="{Binding Value}" />
+
                                                     </StackPanel>
                                                 </DataTemplate>
 
                                                 <DataTemplate DataType="{x:Type local:DoubleFilter}">
                                                     <StackPanel>
-                                                        <h:Row>
-                                                            <ComboBox Grid.ColumnSpan="12"
-                                                                      h:Cattach.Title="条件"
-                                                                      ItemsSource="{Binding Source={h:EnumGroupSource EnumType={x:Type local:FilterOperate}, GroupName=Double}}"
-                                                                      SelectedIndex="0"
-                                                                      SelectedItem="{Binding Operate}"
-                                                                      Style="{DynamicResource {x:Static h:ComboBoxKeys.LabelSingle}}" />
-                                                        </h:Row>
-
-                                                        <h:Row>
-                                                            <TextBox Grid.ColumnSpan="12"
-                                                                        h:Cattach.Title="            值"
-                                                                        Style="{DynamicResource {x:Static h:TextBoxKeys.LabelSingle}}"
-                                                                        Text="{Binding Value}" />
-                                                        </h:Row>
+                                                        <ComboBox h:Cattach.Title="条件"
+                                                                  ItemsSource="{Binding Source={h:EnumGroupSource EnumType={x:Type local:FilterOperate}, GroupName=Double}}"
+                                                                  SelectedIndex="0"
+                                                                  SelectedItem="{Binding Operate}"
+                                                                  Style="{DynamicResource {x:Static h:ComboBoxKeys.Label}}" />
+                                                        <TextBox Grid.ColumnSpan="12"
+                                                                 Margin="0,2"
+                                                                 h:Cattach.Title="值"
+                                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                                                                 Text="{Binding Value}" />
                                                     </StackPanel>
-
                                                 </DataTemplate>
 
                                                 <DataTemplate DataType="{x:Type local:DateTimeFilter}">
                                                     <StackPanel>
-                                                        <h:Row>
-                                                            <ComboBox Grid.ColumnSpan="12"
-                                                                      h:Cattach.Title="条件"
-                                                                      ItemsSource="{Binding Source={h:EnumGroupSource EnumType={x:Type local:FilterOperate}, GroupName=DateTime}}"
-                                                                      SelectedIndex="0"
-                                                                      SelectedItem="{Binding Operate}"
-                                                                      Style="{DynamicResource {x:Static h:ComboBoxKeys.LabelSingle}}" />
-                                                        </h:Row>
+                                                        <ComboBox h:Cattach.Title="条件"
+                                                                  ItemsSource="{Binding Source={h:EnumGroupSource EnumType={x:Type local:FilterOperate}, GroupName=DateTime}}"
+                                                                  SelectedIndex="0"
+                                                                  SelectedItem="{Binding Operate}"
+                                                                  Style="{DynamicResource {x:Static h:ComboBoxKeys.Label}}" />
 
-                                                        <h:Row>
-                                                            <DatePicker Grid.ColumnSpan="12"
-                                                                        h:Cattach.Title="            值"
-                                                                        SelectedDate="{Binding Value}"
-                                                                        Style="{DynamicResource {x:Static h:DatePickerKeys.LabelSingle}}" />
-                                                        </h:Row>
-
-                                                        <h:Row>
-                                                            <CheckBox Margin="85,0" Content="仅比较日期" IsChecked="{Binding OnlyDate}" />
-                                                        </h:Row>
+                                                        <DatePicker Margin="0,2"
+                                                                    h:Cattach.Title="            值"
+                                                                    SelectedDate="{Binding Value}"
+                                                                    Style="{DynamicResource {x:Static h:DatePickerKeys.Label}}" />
+                                                        <CheckBox Margin="85,0" Content="仅比较日期" IsChecked="{Binding OnlyDate}" />
                                                     </StackPanel>
-
                                                 </DataTemplate>
 
                                                 <DataTemplate DataType="{x:Type local:BooleanFilter}">
-                                                    <StackPanel>
-                                                        <h:Row>
-                                                            <ComboBox Grid.ColumnSpan="12"
-                                                                      h:Cattach.Title="值"
-                                                                      SelectedIndex="0"
-                                                                      SelectedItem="{Binding Value}"
-                                                                      Style="{DynamicResource {x:Static h:ComboBoxKeys.LabelSingle}}">
-                                                                <system:Boolean>True</system:Boolean>
-                                                                <system:Boolean>False</system:Boolean>
-                                                            </ComboBox>
-                                                        </h:Row>
-                                                    </StackPanel>
+                                                    <ComboBox h:Cattach.Title="值"
+                                                              SelectedIndex="0"
+                                                              SelectedItem="{Binding Value}"
+                                                              Style="{DynamicResource {x:Static h:ComboBoxKeys.Label}}">
+                                                        <system:Boolean>True</system:Boolean>
+                                                        <system:Boolean>False</system:Boolean>
+                                                    </ComboBox>
                                                 </DataTemplate>
 
 
                                             </StackPanel.Resources>
 
                                             <TextBlock Margin="10,6" Text="选择条件" />
-
                                             <Separator Height="2" Margin="2" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-
-                                            <!--<ItemsPresenter Margin="2"/>-->
-
-                                            <!--<ListBox ItemsSource="{TemplateBinding Filter.Source}"/>-->
-
                                             <ContentControl Content="{TemplateBinding Filter}" />
-
                                             <Separator Height="2" Margin="2" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-
                                             <StackPanel Orientation="Horizontal">
                                                 <Button Width="Auto"
                                                         Padding="10,0"
                                                         HorizontalAlignment="Right"
-                                                        Command="{x:Static h:CommandService.Sure}"
+                                                        Command="{x:Static h:Commander.Sure}"
                                                         Content="应用" />
-
-                                                <!--<Button Content="取消" Width="Auto" Padding="10,0" Margin="10,0" HorizontalAlignment="Right"
-                                                                   Command="{x:Static local:FilterBox.AddItemCommand}"/>-->
                                             </StackPanel>
-
-                                            <!--<ToggleButton x:Name="tb" HorizontalAlignment="Left"
-                                                              h:Cattach.Icon=""  Margin="10,6"
-                                                              Style="{DynamicResource {x:Static h:ToggleButtonKeys.BrushFIconChecked}}" Content="添加自定义筛选"/>
-
-                                            <StackPanel Visibility="{Binding ElementName=tb,Path=IsChecked,Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
-
-                                                <Separator Height="2" Margin="2" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"/>
-
-                                                <Separator Height="2" Margin="2" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"/>
-
-                                                <h:Row>
-                                                    <ComboBox h:Cattach.Title="字段" Grid.ColumnSpan="12"
-                                                                  SelectedIndex="0"
-                                                                  SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=NewFilterModel}"
-                                                                  Style="{DynamicResource {x:Static h:ComboBoxKeys.LabelSingle}}"
-                                                                  ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=PropertySource}">
-                                                        <ComboBox.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <TextBlock Text="{Binding DisplayName}"/>
-                                                            </DataTemplate>
-                                                        </ComboBox.ItemTemplate>
-                                                    </ComboBox>
-                                                </h:Row>
-
-                                            -->
-                                            <!--<ContentControl Content="{TemplateBinding NewFilterModel}"/>-->
-                                            <!--
-
-                                                <Button Content="应用" Width="Auto" Padding="10,0" HorizontalAlignment="Left"
-                                                                   Command="{x:Static local:FilterBox.AddItemCommand}"/>
-                                            </StackPanel>-->
-
                                         </StackPanel>
                                     </ScrollViewer>
                                 </Grid>

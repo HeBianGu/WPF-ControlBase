@@ -6,15 +6,16 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace HeBianGu.App.Chart
 {
     [ViewModel("Custom")]
     internal class CustomViewModel : MvcViewModelBase
     {
-        private ObservableCollection<double> _waveyAxis = new ObservableCollection<double>();
+        private DoubleCollection _waveyAxis = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> WaveyAxis
+        public DoubleCollection WaveyAxis
         {
             get { return _waveyAxis; }
             set
@@ -24,9 +25,9 @@ namespace HeBianGu.App.Chart
             }
         }
 
-        private ObservableCollection<double> _waveData = new ObservableCollection<double>();
+        private DoubleCollection _waveData = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> WaveData
+        public DoubleCollection WaveData
         {
             get { return _waveData; }
             set
@@ -36,9 +37,9 @@ namespace HeBianGu.App.Chart
             }
         }
 
-        private ObservableCollection<double> _waveData1 = new ObservableCollection<double>();
+        private DoubleCollection _waveData1 = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> WaveData1
+        public DoubleCollection WaveData1
         {
             get { return _waveData1; }
             set
@@ -48,9 +49,9 @@ namespace HeBianGu.App.Chart
             }
         }
 
-        private ObservableCollection<double> _waveData2 = new ObservableCollection<double>();
+        private DoubleCollection _waveData2 = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> WaveData2
+        public DoubleCollection WaveData2
         {
             get { return _waveData2; }
             set
@@ -61,9 +62,9 @@ namespace HeBianGu.App.Chart
         }
 
 
-        private ObservableCollection<double> _animationBarSource = new ObservableCollection<double>();
+        private DoubleCollection _animationBarSource = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> AnimationBarSource
+        public DoubleCollection AnimationBarSource
         {
             get { return _animationBarSource; }
             set
@@ -75,9 +76,9 @@ namespace HeBianGu.App.Chart
 
 
 
-        private ObservableCollection<double> _datas = new ObservableCollection<double>();
+        private DoubleCollection _datas = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> Datas
+        public DoubleCollection Datas
         {
             get { return _datas; }
             set
@@ -88,9 +89,9 @@ namespace HeBianGu.App.Chart
         }
 
 
-        private ObservableCollection<double> _xAxis = new ObservableCollection<double>();
+        private DoubleCollection _xAxis = new DoubleCollection();
         /// <summary> 说明  </summary>
-        public ObservableCollection<double> xAxis
+        public DoubleCollection xAxis
         {
             get { return _xAxis; }
             set
@@ -218,13 +219,13 @@ namespace HeBianGu.App.Chart
                         data2.Add(wave + value);
                     }
 
-                    WaveyAxis = axis.ToObservable();
-
-                    WaveData = data.ToObservable();
-
-                    WaveData1 = data1.ToObservable();
-
-                    WaveData2 = data2.ToObservable();
+                    System.Windows.Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        WaveyAxis = new DoubleCollection(axis);
+                        WaveData = new DoubleCollection(data);
+                        WaveData1 = new DoubleCollection(data1);
+                        WaveData2 = new DoubleCollection(data2);
+                    });
 
                     param = param + 0.01;
 
@@ -271,7 +272,13 @@ namespace HeBianGu.App.Chart
                         }
                     }
 
-                    AnimationBarSource = source?.ToObservable();
+
+
+                    System.Windows.Application.Current?.Dispatcher.Invoke(() =>
+                       {
+                           AnimationBarSource = new DoubleCollection(source);
+                       });
+
 
                     if (index > 500) index = 0;
 
@@ -317,25 +324,6 @@ namespace HeBianGu.App.Chart
         }
 
 
-
-        /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
-
-        {
-            string command = obj?.ToString();
-
-            //  Do：对话消息
-            if (command == "Sumit")
-            {
-
-            }
-
-            //  Do：等待消息
-            else if (command == "Cancel")
-            {
-
-            }
-        }
 
     }
 }

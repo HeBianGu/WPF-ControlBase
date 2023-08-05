@@ -205,24 +205,14 @@ namespace HeBianGu.App.Manager
 
         }
 
+
+        public RelayCommand RelayCommand => new RelayCommand(RelayMethod);
         private Random _random = new Random();
-        /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
+        protected async void RelayMethod(object obj)
 
         {
-            string command = obj?.ToString();
-
-            //  Do：对话消息
-            if (command == "Sumit")
+            if (obj?.ToString() == "Button.Click.RunStepState")
             {
-
-            }
-
-            //  Do：等待消息
-            else if (command == "Button.Click.RunStepState")
-            {
-                //  Message：设置StepState Source
-
                 StepItems.Clear();
 
                 StepItems.Add(new StepItem() { DisplayName = "1", Message = "准备开始" });
@@ -240,33 +230,26 @@ namespace HeBianGu.App.Manager
                          string temp = item.Message;
                          //  Do ：这里面要手动刷新才会更新状态
                          item.State = 1;
-
+                         this.StepItems.Refresh();
                          for (int i = 1; i < 101; i++)
                          {
                              item.Percent = i;
-
                              item.Message = $"{temp}({i}/100)";
-
                              Thread.Sleep(30);
                          }
 
                          item.Message = temp;
-
                          int v = _random.Next(10);
-
-
                          //  Do ：这里面要手动刷新才会更新状态
-
                          item.State = v == 1 ? -1 : 2;
-
+                         item.State = 2;
                          if (v == 1)
                          {
-                             Message.Instance.ShowSnackMessage("运行错误，请重新运行");
+                             MessageProxy.Snacker.Show("运行错误，请重新运行");
                              return;
                          }
                      }
-
-                     Message.Instance.ShowSnackMessage("运行完成");
+                     MessageProxy.Snacker.Show("运行完成");
                  });
             }
         }

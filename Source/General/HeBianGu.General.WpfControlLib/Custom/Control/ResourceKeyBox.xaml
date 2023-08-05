@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+
+    <ResourceDictionary.MergedDictionaries>
+        <!--<ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/Window/WindowBase.xaml"/>-->
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/System/ListBox.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <Style x:Key="S.ResourceKeyItem.Default" TargetType="{x:Type local:ResourceKeyItem}" />
+
+    <Style BasedOn="{StaticResource S.ResourceKeyItem.Default}" TargetType="{x:Type local:ResourceKeyItem}" />
+
+    <Style x:Key="S.ResourceKeyBox.Default" BasedOn="{StaticResource {x:Static h:ListBoxKeys.Default}}" TargetType="{x:Type local:ResourceKeyBox}">
+        <Setter Property="ItemTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <!--<GroupBox Header="{Binding ResourceId}" ToolTip="{Binding .}">
+                        <local:ResourceKeyItem Key="{Binding .}" />
+                    </GroupBox>-->
+
+                    <GroupBox Header="{Binding Name}" MinHeight="100" ToolTip="{Binding Display}">
+                        <local:ResourceKeyItem Key="{Binding Model}" />
+                    </GroupBox>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <ContentPresenter />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource S.ResourceKeyBox.Default}" TargetType="{x:Type local:ResourceKeyBox}" />
+</ResourceDictionary>

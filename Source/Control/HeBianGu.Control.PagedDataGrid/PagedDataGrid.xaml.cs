@@ -7,16 +7,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace HeBianGu.Control.PagedDataGrid
 {
-    /// <summary> 分页DataGrid </summary>
     public class PagedDataGrid : DataGrid
     {
         public static ComponentResourceKey DynamicKey => new ComponentResourceKey(typeof(PagedDataGrid), "S.PagedDataGrid.Dynamic");
@@ -30,15 +31,168 @@ namespace HeBianGu.Control.PagedDataGrid
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PagedDataGrid), new FrameworkPropertyMetadata(typeof(PagedDataGrid)));
         }
 
-        public IEnumerable DataSource
+        public PagedDataGrid()
         {
-            get { return (IEnumerable)GetValue(DataSourceProperty); }
+            this.CommandBindings.Add(new CommandBinding(Commander.Prev, (le, e) =>
+            {
+                if (this.PageIndex == 1)
+                {
+                    Message?.Invoke("已经是第一页！");
+                    return;
+                }
+
+                this.PageIndex = (this.PageIndex - 1);
+
+                this.RefreshData();
+            }));
+
+            this.CommandBindings.Add(new CommandBinding(Commander.Next, (le, e) =>
+            {
+                if (this.PageIndex == this.TotalPage)
+                {
+                    Message?.Invoke("已经是最后一页！");
+                    return;
+                }
+
+                this.PageIndex = (this.PageIndex + 1);
+
+                this.RefreshData();
+            }));
+
+            this.CommandBindings.Add(new CommandBinding(Commander.First, (le, e) =>
+            {
+                if (this.PageIndex == 1)
+                {
+                    Message?.Invoke("已经是第一页！");
+                    return;
+                }
+
+                this.PageIndex = 1;
+
+                this.RefreshData();
+            }));
+
+            this.CommandBindings.Add(new CommandBinding(Commander.Last, (le, e) =>
+            {
+                if (this.PageIndex == this.TotalPage)
+                {
+                    Message?.Invoke("已经是最后一页！");
+                    return;
+                }
+
+                this.PageIndex = this.TotalPage;
+
+                this.RefreshData();
+            }));
+
+            {
+                CommandBinding binding = new CommandBinding(Commander.CheckAll);
+                binding.Executed += (l, k) =>
+                {
+                    bool v = (bool)k.Parameter;
+
+                    foreach (var item in this.DataSource.OfType<ISelectViewModel>())
+                    {
+                        item.IsSelected = v;
+                    }
+                };
+                binding.CanExecute += (l, k) =>
+                {
+                    k.CanExecute = this.DataSource != null && this.DataSource.Count > 0;
+                };
+                this.CommandBindings.Add(binding);
+            }
+
+            {
+                CommandBinding binding = new CommandBinding(Commander.Delete);
+                binding.Executed += (l, k) =>
+                {
+                    this.DataSource.Remove(k.Parameter);
+                };
+                binding.CanExecute += (l, k) =>
+                {
+                    k.CanExecute = this.DataSource.Contains(k.Parameter);
+                };
+                this.CommandBindings.Add(binding);
+            }
+
+            {
+                CommandBinding binding = new CommandBinding(Commander.DeleteAll);
+                binding.Executed += (l, k) =>
+                {
+                    this.DataSource.Clear();
+                };
+                binding.CanExecute += (l, k) =>
+            {
+                k.CanExecute = this.DataSource != null && this.DataSource.Count > 0;
+            };
+
+                this.CommandBindings.Add(binding);
+            }
+
+            {
+                CommandBinding binding = new CommandBinding(Commander.DeleteAllChecked);
+                binding.Executed += (l, k) =>
+                {
+                    foreach (var item in this.DataSource.OfType<ISelectViewModel>().Where(x => x.IsSelected).ToList())
+                    {
+                        this.DataSource.Remove(item);
+                    }
+                };
+                binding.CanExecute += (l, k) =>
+                {
+                    k.CanExecute = this.DataSource != null && this.DataSource.OfType<ISelectViewModel>().Any(x => x.IsSelected);
+                };
+                this.CommandBindings.Add(binding);
+            }
+
+            {
+                CommandBinding binding = new CommandBinding(Commander.View);
+                binding.Executed += (l, k) =>
+                {
+                    MessageProxy.PropertyGrid.ShowView(k.Parameter, null, "查看", x => x.MinWidth = 600);
+                };
+                binding.CanExecute += (l, k) =>
+                {
+                    k.CanExecute = this.DataSource.Contains(k.Parameter);
+                };
+                this.CommandBindings.Add(binding);
+            }
+
+            {
+                CommandBinding binding = new CommandBinding(Commander.Edit);
+                binding.Executed += (l, k) =>
+                {
+                    MessageProxy.PropertyGrid.ShowEdit(k.Parameter, null, "编辑", x => x.MinWidth = 600);
+                };
+                binding.CanExecute += (l, k) =>
+                {
+                    k.CanExecute = this.DataSource.Contains(k.Parameter);
+                };
+                this.CommandBindings.Add(binding);
+
+            }
+
+            {
+                CommandBinding binding = new CommandBinding(Commander.Setting);
+                binding.Executed += (l, k) =>
+                {
+                    MessageProxy.Presenter.Show(this.ColumnSet, null, "列头设置");
+                };
+                this.CommandBindings.Add(binding);
+
+            }
+        }
+
+        public IList DataSource
+        {
+            get { return (IList)GetValue(DataSourceProperty); }
             set { SetValue(DataSourceProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty DataSourceProperty =
-            DependencyProperty.Register("DataSource", typeof(IEnumerable), typeof(PagedDataGrid), new PropertyMetadata(default(IEnumerable), (d, e) =>
+            DependencyProperty.Register("DataSource", typeof(IList), typeof(PagedDataGrid), new PropertyMetadata(default(IList), (d, e) =>
              {
                  PagedDataGrid control = d as PagedDataGrid;
 
@@ -57,19 +211,60 @@ namespace HeBianGu.Control.PagedDataGrid
 
                  }
 
-                 control.ItemsSource = e.NewValue as IEnumerable;
+                 //control.ItemsSource = e.NewValue as IEnumerable;
 
                  control.InitData();
+                 control.OnDataSourceChanged();
 
              }));
+
+        protected virtual void OnDataSourceChanged()
+        {
+
+        }
+
+
+        public bool UseDoubleClickShowView
+        {
+            get { return (bool)GetValue(UseDoubleClickShowViewProperty); }
+            set { SetValue(UseDoubleClickShowViewProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseDoubleClickShowViewProperty =
+            DependencyProperty.Register("UseDoubleClickShowView", typeof(bool), typeof(PagedDataGrid), new FrameworkPropertyMetadata(true, (d, e) =>
+            {
+                PagedDataGrid control = d as PagedDataGrid;
+
+                if (control == null) return;
+
+                if (e.OldValue is bool o)
+                {
+
+                }
+
+                if (e.NewValue is bool n)
+                {
+
+                }
+
+            }));
+
+
+        protected override void OnMouseDoubleClick(MouseButtonEventArgs e)
+        {
+            base.OnMouseDoubleClick(e);
+            if (this.UseDoubleClickShowView)
+                MessageProxy.PropertyGrid?.ShowView(this.SelectedItem);
+        }
 
         private void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             // handle CollectionChanged on instance-level
 
-            IEnumerable config = sender as IEnumerable;
+            //IEnumerable config = sender as IEnumerable;
 
-            this.ItemsSource = config;
+            //this.ItemsSource = config;
 
             this.InitData();
         }
@@ -150,6 +345,60 @@ namespace HeBianGu.Control.PagedDataGrid
                  //int config = e.NewValue as int;
 
                  control.RefreshData();
+
+             }));
+
+
+        public bool UsePageCount
+        {
+            get { return (bool)GetValue(UsePageCountProperty); }
+            set { SetValue(UsePageCountProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UsePageCountProperty =
+            DependencyProperty.Register("UsePageCount", typeof(bool), typeof(PagedDataGrid), new FrameworkPropertyMetadata(true, (d, e) =>
+             {
+                 PagedDataGrid control = d as PagedDataGrid;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is bool o)
+                 {
+
+                 }
+
+                 if (e.NewValue is bool n)
+                 {
+
+                 }
+
+             }));
+
+
+        public bool UseSearch
+        {
+            get { return (bool)GetValue(UseSearchProperty); }
+            set { SetValue(UseSearchProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseSearchProperty =
+            DependencyProperty.Register("UseSearch", typeof(bool), typeof(PagedDataGrid), new FrameworkPropertyMetadata(true, (d, e) =>
+             {
+                 PagedDataGrid control = d as PagedDataGrid;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is bool o)
+                 {
+
+                 }
+
+                 if (e.NewValue is bool n)
+                 {
+
+                 }
 
              }));
 
@@ -240,23 +489,23 @@ namespace HeBianGu.Control.PagedDataGrid
              }));
 
 
-        public Visibility PageCountVisible
-        {
-            get { return (Visibility)GetValue(PageCountVisibleProperty); }
-            set { SetValue(PageCountVisibleProperty, value); }
-        }
+        //public Visibility PageCountVisible
+        //{
+        //    get { return (Visibility)GetValue(PageCountVisibleProperty); }
+        //    set { SetValue(PageCountVisibleProperty, value); }
+        //}
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty PageCountVisibleProperty =
-            DependencyProperty.Register("PageCountVisible", typeof(Visibility), typeof(PagedDataGrid), new PropertyMetadata(default(Visibility), (d, e) =>
-             {
-                 PagedDataGrid control = d as PagedDataGrid;
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty PageCountVisibleProperty =
+        //    DependencyProperty.Register("PageCountVisible", typeof(Visibility), typeof(PagedDataGrid), new PropertyMetadata(default(Visibility), (d, e) =>
+        //     {
+        //         PagedDataGrid control = d as PagedDataGrid;
 
-                 if (control == null) return;
+        //         if (control == null) return;
 
-                 //Visibility config = e.NewValue as Visibility;
+        //         //Visibility config = e.NewValue as Visibility;
 
-             }));
+        //     }));
 
 
 
@@ -280,61 +529,6 @@ namespace HeBianGu.Control.PagedDataGrid
 
 
 
-        public PagedDataGrid()
-        {
-            this.CommandBindings.Add(new CommandBinding(CommandService.Prev, (le, e) =>
-            {
-                if (this.PageIndex == 1)
-                {
-                    Message?.Invoke("已经是第一页！");
-                    return;
-                }
-
-                this.PageIndex = (this.PageIndex - 1);
-
-                this.RefreshData();
-            }));
-
-            this.CommandBindings.Add(new CommandBinding(CommandService.Next, (le, e) =>
-            {
-                if (this.PageIndex == this.TotalPage)
-                {
-                    Message?.Invoke("已经是最后一页！");
-                    return;
-                }
-
-                this.PageIndex = (this.PageIndex + 1);
-
-                this.RefreshData();
-            }));
-
-            this.CommandBindings.Add(new CommandBinding(CommandService.First, (le, e) =>
-            {
-                if (this.PageIndex == 1)
-                {
-                    Message?.Invoke("已经是第一页！");
-                    return;
-                }
-
-                this.PageIndex = 1;
-
-                this.RefreshData();
-            }));
-
-            this.CommandBindings.Add(new CommandBinding(CommandService.Last, (le, e) =>
-            {
-                if (this.PageIndex == this.TotalPage)
-                {
-                    Message?.Invoke("已经是最后一页！");
-                    return;
-                }
-
-                this.PageIndex = this.TotalPage;
-
-                this.RefreshData();
-            }));
-        }
-
 
         public string FilterString
         {
@@ -347,59 +541,125 @@ namespace HeBianGu.Control.PagedDataGrid
             DependencyProperty.Register("FilterString", typeof(string), typeof(PagedDataGrid), new PropertyMetadata(default(string), (d, e) =>
              {
                  PagedDataGrid control = d as PagedDataGrid;
-
-                 if (control == null) return;
-
+                 if (control == null)
+                     return;
                  string config = e.NewValue as string;
-
-
                  control.RefreshData();
-
              }));
+
+
+
+
+        public bool UseAsync
+        {
+            get { return (bool)GetValue(UseAsyncProperty); }
+            set { SetValue(UseAsyncProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseAsyncProperty =
+            DependencyProperty.Register("UseAsync", typeof(bool), typeof(PagedDataGrid), new FrameworkPropertyMetadata(true, (d, e) =>
+            {
+                PagedDataGrid control = d as PagedDataGrid;
+
+                if (control == null) return;
+
+                if (e.OldValue is bool o)
+                {
+
+                }
+
+                if (e.NewValue is bool n)
+                {
+
+                }
+
+            }));
+
+        private bool _isRefreshing;
 
         private void RefreshData()
         {
+            if (this.DataSource == null)
+                return;
 
             Predicate<object> filterString = l =>
               {
-                  if (string.IsNullOrEmpty(this.FilterString)) return true;
+                  if (string.IsNullOrEmpty(this.FilterString))
+                      return true;
+
+                  if (l is ISearchable searchable)
+                  {
+                      return searchable.Filter(this.FilterString);
+                  }
 
                   return l.GetType().GetProperties().Any(k =>
                   {
-                      if (k.GetValue(l) == null) return false;
-
-                      return k.GetValue(l).ToString().Contains(this.FilterString);
+                      if (k.GetMethod.Name == "get_Item")
+                          return false;
+                      if (k.GetValue(l) == null)
+                          return false;
+                      if (k.CanRead == false)
+                          return false;
+                      if (k.PropertyType == typeof(string) || k.PropertyType.IsPrimitive || k.PropertyType == typeof(DateTime))
+                      {
+                          return k.GetValue(l).ToString().Contains(this.FilterString);
+                      }
+                      return false;
                   });
               };
 
-            this.Items.Filter = filterString;
+            if (_isRefreshing)
+                return;
+            _isRefreshing = true;
 
-            this.Total = this.Items.Count;
+            this.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() =>
+            {
+                _isRefreshing = false;
+                if (this.DataSource == null)
+                    return;
 
-            int min = (this.PageIndex - 1) * this.PageCount;
+                var list = this.DataSource.OfType<object>().ToList();
+                var filter = list.Where(x => filterString(x)).ToList();
+                this.Total = filter.Count();
+                int min = (this.PageIndex - 1) * this.PageCount;
+                int max = min + this.PageCount;
+                this.MinValue = this.Total == 0 ? 0 : (min + 1);
+                this.MaxValue = max < this.Total ? max : this.Total;
+                this.TotalPage = this.Total % this.PageCount == 0 ? this.Total / this.PageCount : this.Total / this.PageCount + 1;
 
-            int max = min + this.PageCount;
+                Predicate<object> match = l =>
+                {
+                    //int index = filter.IndexOf(l) + 1;
+                    int index = filter.IndexOf(l);
+                    return index >= min && index < max;
+                };
+                filter = filter.Where(x => match(x)).ToList();
 
-            this.MinValue = this.Total == 0 ? 0 : (min + 1);
-
-            this.MaxValue = max < this.Total ? max : this.Total;
-
-            this.TotalPage = this.Total % this.PageCount == 0 ? this.Total / this.PageCount : this.Total / this.PageCount + 1;
-
-            Predicate<object> match = l =>
-              {
-                  int index = this.Items.IndexOf(l) + 1;
-
-                  return index > min && index < max;
-              };
-
-            this.Items.Filter = match;
+                if (this.UseAsync)
+                {
+                    ObservableCollection<object> observable = new ObservableCollection<object>();
+                    this.ItemsSource = observable;
+                    foreach (var item in filter)
+                    {
+                        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() =>
+                        {
+                            if (_isRefreshing)
+                                return;
+                            observable.Add(item);
+                        }));
+                    }
+                }
+                else
+                {
+                    this.ItemsSource = filter;
+                }
+            }));
         }
 
-        private void InitData()
+        protected virtual void InitData()
         {
             this.PageIndex = 1;
-
             this.RefreshData();
         }
 
@@ -437,7 +697,7 @@ namespace HeBianGu.Control.PagedDataGrid
         protected override void OnAutoGeneratedColumns(EventArgs e)
         {
             base.OnAutoGeneratedColumns(e);
-
+            this.EndColumns.Clear();
             foreach (DataGridColumn item in EndColumns)
             {
                 this.Columns.Add(item);
@@ -448,6 +708,4 @@ namespace HeBianGu.Control.PagedDataGrid
 
         public DataGridColumnSet ColumnSet => new DataGridColumnSet(this.Columns);
     }
-
-
 }

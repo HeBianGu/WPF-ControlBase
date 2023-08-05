@@ -194,14 +194,15 @@ namespace HeBianGu.Control.Chart2D
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
-
             this.DrawLine(canvas);
         }
 
         protected virtual void DrawLine(Canvas canvas)
         {
-            if (this.xAxis.Count == 1) return;
-
+            if (this.xAxis.Count == 1) 
+                return;
+            if (this.Data == null)
+                return;
             if (this.UseVisual)
             {
                 PointCollection points = new PointCollection();
@@ -235,22 +236,16 @@ namespace HeBianGu.Control.Chart2D
             else
             {
                 Path path = new Path();
-
                 path.Style = this.PathStyle;
-
+                path.StrokeLineJoin=PenLineJoin.Round;
                 PolyLineSegment pls = new PolyLineSegment();
-
                 for (int i = 0; i < this.xAxis.Count; i++)
                 {
                     double x = this.xAxis[i];
-
                     double y = this.Data[i];
-
                     y = this.GetMapY(i, y);
-
                     //  Do ：添加曲线
                     pls.Points.Add(new Point(this.GetX(x), this.GetY(y)));
-
                 }
 
                 //DouglasProvider.Instance.Do(pls.Points.ToList(), 10);
@@ -566,29 +561,20 @@ namespace HeBianGu.Control.Chart2D
         protected override void DrawLine(Canvas canvas)
         {
             Point center = new Point(0, 0);
-
             Path path = new Path();
-
             path.Style = this.PathStyle;
-
             PolyLineSegment pls = new PolyLineSegment();
-
             for (int i = 0; i < this.yAxis.Count; i++)
             {
                 double x = this.yAxis[i];
-
+                if (this.Data.Count <= i)
+                    continue;
                 double d = this.Data[i];
-
                 double angle = x;
-
                 Point start = new Point(this.GetX(d, this.Len), center.Y);
-
                 Matrix matrix = new Matrix();
-
                 matrix.RotateAt(angle, center.X, center.Y);
-
                 Point end = matrix.Transform(start);
-
                 //  Do ：添加曲线
                 //pls.Points.Add(new Point(this.GetX(x, this.ActualWidth), this.GetY(y, this.ActualHeight)));
 

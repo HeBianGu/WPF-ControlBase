@@ -45,8 +45,7 @@ namespace HeBianGu.App.Media.ViewModel.Performer
 
         #endregion
 
-        #region - 方法 -
-
+   
         private Random random = new Random();
         protected override void Init()
         {
@@ -74,24 +73,5 @@ namespace HeBianGu.App.Media.ViewModel.Performer
             Performers = source.OrderBy(l => l.Value3).ToObservable();
         }
 
-        protected override void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
-
-            //  Do：应用
-            if (command == "Sumit")
-            {
-
-
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-
-            }
-        }
-
-        #endregion
     }
 }

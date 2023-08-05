@@ -19,194 +19,320 @@
     <Style x:Key="Style.Slider.FButton" BasedOn="{StaticResource {x:Static h:ButtonKeys.Transparent}}" TargetType="{x:Type Button}">
         <Setter Property="Width" Value="30" />
         <Setter Property="Height" Value="20" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=ToolForeground}" />
     </Style>
 
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.VlcPlayer.Default, TypeInTargetAssembly={x:Type local:VlcPlayer}}" TargetType="{x:Type local:VlcPlayer}">
         <Setter Property="Background" Value="Black" />
+        <Setter Property="ClipToBounds" Value="True" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="ToolBackground" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity6}}" />
+        <Setter Property="ToolForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VlcPlayer">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
-                            <Grid Background="Transparent">
-                                <ContentPresenter />
-                                <ContentControl HorizontalAlignment="Right" DockPanel.Dock="Right" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.RightContent)}">
+                            <Grid>
+                                <Button Command="{x:Static local:VlcPlayerCommands.PlayMode}" Content="{TemplateBinding Content}" Style="{x:Null}">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <ContentPresenter />
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+
+                                <TextBlock FontSize="100"
+                                           Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                           IsHitTestVisible="False"
+                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                           Text="{x:Static h:Icons.Play}"
+                                           Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsPlaying, Converter={x:Static h:XConverter.FalseToVisibilityConverter}}" />
+
+                                <DockPanel h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UseRight}" DockPanel.Dock="Right">
                                     <h:TransitionService.VisibleActions>
                                         <h:TransitionCollection>
-                                            <h:TranslateTransition StartPoint="100 0" EndPoint="1000 0" Duration="300" />
+                                            <h:TranslateTransition StartPoint="100 0" EndPoint="100 0" Duration="300" />
                                         </h:TransitionCollection>
                                     </h:TransitionService.VisibleActions>
-                                </ContentControl>
+
+                                    <ContentControl HorizontalAlignment="Right" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.RightTemplate)}" />
+
+                                </DockPanel>
+
+                                <DockPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UseLeft}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="-100 0" EndPoint="-100 0" Duration="300" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.LeftTemplate)}" />
+                                </DockPanel>
+
+                                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                    <ContentControl HorizontalAlignment="Stretch" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.TopTemplate)}" />
+                                </DockPanel>
+
+                                <Button HorizontalAlignment="Left"
+                                        h:Cattach.Icon="{x:Static h:Icons.Left}"
+                                        Command="{x:Static local:VlcPlayerCommands.PreviousFrame}"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                        ToolTip="上一帧"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UsePreviourFrame, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+                                <Button HorizontalAlignment="Right"
+                                        h:Cattach.Icon="{x:Static h:Icons.Right}"
+                                        Command="{x:Static local:VlcPlayerCommands.NextFrame}"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                        ToolTip="下一帧"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UsePreviourFrame, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+
                             </Grid>
 
-                            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
-                                <ContentControl HorizontalAlignment="Stretch" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.TopContent)}" />
-                            </DockPanel>
+                            <Border x:Name="border"
+                                    Height="100"
+                                    Margin="0,0,0,-20"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UseBottom, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                                <DockPanel x:Name="dp_bottom" Margin="0,0,0,20" VerticalAlignment="Bottom">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="0 50" EndPoint="0 50" Duration="300" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+                                    <ContentControl DockPanel.Dock="Bottom" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.BottomTemplate)}" />
+                                    <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Bottom">
+                                        <Button Width="Auto"
+                                                VerticalAlignment="Center"
+                                                h:Cattach.Icon="{x:Static h:Icons.Left}"
+                                                h:Cattach.IconSize="8"
+                                                Command="{x:Static local:VlcPlayerCommands.PreviousFrame}"
+                                                DockPanel.Dock="Left"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                Style="{StaticResource Style.Slider.FButton}"
+                                                ToolTip="上一帧"
+                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UsePreviourFrame, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+                                        <Button Width="20"
+                                                VerticalAlignment="Center"
+                                                h:Cattach.Icon="&#xe9ba;"
+                                                h:Cattach.IconSize="15"
+                                                Command="{x:Static local:VlcPlayerCommands.SpeedDown}"
+                                                DockPanel.Dock="Left"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                Style="{StaticResource Style.Slider.FButton}"
+                                                ToolTip="減速" />
+                                        <TextBlock Margin="3,0"
+                                                   VerticalAlignment="Center"
+                                                   DockPanel.Dock="Left"
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   Text="{Binding ElementName=media_slider, Path=Value, Converter={x:Static h:XConverter.MillisecondsTimeSpanConverter}}" />
+                                        <Button Width="18"
+                                                VerticalAlignment="Center"
+                                                h:Cattach.Icon="&#xe609;"
+                                                h:Cattach.IconSize="12"
+                                                DockPanel.Dock="Right"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                Command="{x:Static local:VlcPlayerCommands.Stop}"
+                                                Style="{StaticResource Style.Slider.FButton}"
+                                                ToolTip="停止" />
+                                        <Button Width="Auto"
+                                                VerticalAlignment="Center"
+                                                h:Cattach.Icon="{x:Static h:Icons.Right}"
+                                                h:Cattach.IconSize="8"
+                                                Command="{x:Static local:VlcPlayerCommands.NextFrame}"
+                                                DockPanel.Dock="Right"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                Style="{StaticResource Style.Slider.FButton}"
+                                                ToolTip="下一帧"
+                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UsePreviourFrame, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+                                        <Button Width="20"
+                                                VerticalAlignment="Center"
+                                                h:Cattach.Icon="&#xe9bb;"
+                                                h:Cattach.IconSize="15"
+                                                Command="{x:Static local:VlcPlayerCommands.SpeedUp}"
+                                                DockPanel.Dock="Right"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                Style="{StaticResource Style.Slider.FButton}"
+                                                ToolTip="加速" />
+                                        <TextBlock Margin="3,0"
+                                                   VerticalAlignment="Center"
+                                                   DockPanel.Dock="Right"
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   Text="{Binding ElementName=media_slider, Path=Maximum, Converter={x:Static h:XConverter.MillisecondsTimeSpanConverter}}" />
+                                        <Slider x:Name="media_slider"
+                                                VerticalAlignment="Center"
+                                                Foreground="{TemplateBinding Foreground}"
+                                                IsMoveToPointEnabled="True"
+                                                IsSnapToTickEnabled="True"
+                                                Maximum="0"
+                                                Minimum="0"
+                                                Style="{DynamicResource {x:Static h:SliderKeys.Accent}}"
+                                                Value="0">
+                                            <h:Cattach.AttachContent>
+                                                <ControlTemplate>
+                                                    <Grid Margin="0,-80,0,0">
+                                                        <Border Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                                                                HorizontalAlignment="Center"
+                                                                Background="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.CaptionBackground)}"
+                                                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}">
+                                                            <TextBlock Foreground="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.CaptionForeground)}" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=Value, Converter={x:Static h:XConverter.MillisecondsTimeSpanConverter}}" />
+                                                        </Border>
 
-                            <DockPanel VerticalAlignment="Bottom">
-                                <ContentControl DockPanel.Dock="Bottom" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.BottomContent)}" />
-                                <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Bottom">
-                                    <Button Width="20"
-                                            VerticalAlignment="Center"
-                                            h:Cattach.Icon="&#xe9ba;"
-                                            h:Cattach.IconSize="15"
-                                            DockPanel.Dock="Left"
-                                            Style="{StaticResource Style.Slider.FButton}"
-                                            ToolTip="減速" />
-                                    <!--  Click="Button_Click_2"  -->
-                                    <TextBlock Margin="3,0"
-                                               VerticalAlignment="Center"
-                                               DockPanel.Dock="Left"
-                                               Text="{Binding ElementName=media_slider, Path=Value, Converter={x:Static h:XConverter.TimeSpanConverter}}" />
-                                    <Button Width="18"
-                                            VerticalAlignment="Center"
-                                            h:Cattach.Icon="&#xe609;"
-                                            h:Cattach.IconSize="12"
-                                            DockPanel.Dock="Right"
-                                            Style="{StaticResource Style.Slider.FButton}"
-                                            ToolTip="停止" />
-                                    <!--  Click="Button_Click_4"  -->
-                                    <Button Width="20"
-                                            VerticalAlignment="Center"
-                                            h:Cattach.Icon="&#xe9bb;"
-                                            h:Cattach.IconSize="15"
-                                            DockPanel.Dock="Right"
-                                            Style="{StaticResource Style.Slider.FButton}"
-                                            ToolTip="加速" />
-                                    <!--  Click="Button_Click_3"  -->
-                                    <TextBlock Margin="3,0"
-                                               VerticalAlignment="Center"
-                                               DockPanel.Dock="Right"
-                                               Text="{Binding ElementName=media_slider, Path=Maximum, Converter={x:Static h:XConverter.TimeSpanConverter}}" />
-                                    <Slider x:Name="media_slider"
-                                            VerticalAlignment="Center"
-                                            IsMoveToPointEnabled="True"
-                                            IsSnapToTickEnabled="True"
-                                            Maximum="0"
-                                            Minimum="0"
-                                            Value="0" />
-                                    <!--  ValueChanged="media_slider_ValueChanged"  -->
+                                                        <Polygon Margin="0,50,0,0"
+                                                                 HorizontalAlignment="Center"
+                                                                 VerticalAlignment="Center"
+                                                                 Fill="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.TitleBackground)}"
+                                                                 FillRule="Nonzero"
+                                                                 Points="0,0 5,5 10,0 0,0"
+                                                                 Stroke="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </h:Cattach.AttachContent>
+                                        </Slider>
+                                    </DockPanel>
                                 </DockPanel>
-                            </DockPanel>
+                            </Border>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
                         </Trigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=border, Path=IsMouseOver, Mode=OneWay}" Value="False" />
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=UseBottomMouseOver}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="dp_bottom" Property="h:TransitionService.IsVisible" Value="False" />
+                        </MultiDataTrigger>
+
+                        <!--<MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding ElementName=border, Path=IsMouseOver,Mode=OneWay}" Value="True" />
+                                <Condition Binding="{Binding RelativeSource={RelativeSource Mode=Self},Path=UseBottomMouseOver}" Value="True" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="h:TransitionService.IsVisible" Value="True" TargetName="dp_bottom"/>
+                        </MultiDataTrigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="h:Cattach.BottomContent">
+        <Setter Property="h:Cattach.BottomTemplate">
             <Setter.Value>
                 <ControlTemplate>
-                    <DockPanel Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity6}}">
+                    <DockPanel Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" Background="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=ToolBackground}" TextBlock.FontStyle="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=ToolForeground}">
+                        <!--  Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity6}}"  -->
                         <DockPanel Grid.Column="0"
-                                   Width="200"
+                                   MinWidth="200"
                                    Margin="0,0"
                                    HorizontalAlignment="Left"
                                    VerticalAlignment="Center">
+
+                            <ToggleButton Margin="2,0"
+                                          h:Cattach.CheckedForeground="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=ToolForeground}"
+                                          h:Cattach.CheckedIcon="&#xe8e0;"
+                                          h:Cattach.UncheckedIcon="{x:Static h:IconAll.Right_Arrow}"
+                                          DockPanel.Dock="Left"
+                                          h:Cattach.UncheckForeground="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=ToolForeground}"
+                                          IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UseLeft, Mode=TwoWay}"
+                                          IsEnabled="True"
+                                          ToolTip="隐藏/显示左侧列表"
+                                          Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=(h:Cattach.LeftTemplate), Converter={x:Static h:XConverter.NullToCollapsed}}" />
+
                             <Button Margin="5,0"
                                     h:Cattach.Icon="&#xeada;"
                                     h:Cattach.IconSize="15"
                                     Command="{x:Static local:VlcPlayerCommands.OpenFile}"
                                     Style="{StaticResource Style.Slider.FButton}"
-                                    ToolTip="打开文件" />
+                                    ToolTip="打开文件"
+                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UseOpenFile, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
                             <Button h:Cattach.Icon="&#xe664;" h:Cattach.IconSize="15" Style="{StaticResource Style.Slider.FButton}" />
 
                             <Slider x:Name="slider_sound"
                                     Width="100"
                                     VerticalAlignment="Center"
+                                    Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=ToolForeground}"
                                     IsMoveToPointEnabled="True"
                                     IsSnapToTickEnabled="True"
                                     Maximum="100"
                                     Minimum="0"
                                     SmallChange="1"
                                     Style="{DynamicResource {x:Static h:SliderKeys.Accent}}"
+                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UseVolume, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}"
                                     Value="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=Volume}" />
 
-                            <TextBlock Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=Rate, StringFormat={}{0}X}" />
+                            <TextBlock Foreground="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=ToolForeground}" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=Rate, StringFormat={}{0}X}" />
 
                         </DockPanel>
 
                         <DockPanel Width="200" DockPanel.Dock="Right" LastChildFill="False">
                             <ToggleButton Margin="2,0"
-                                          h:Cattach.SelectedText="&#xe8b7;"
-                                          h:Cattach.UnSelectedText="&#xe8e0;"
+                                          h:Cattach.CheckedForeground="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=ToolForeground}"
+                                          h:Cattach.CheckedIcon="&#xe8e0;"
+                                          h:Cattach.UncheckedIcon="&#xe8b7;"
                                           DockPanel.Dock="Right"
-                                          Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer},Path=(h:Cattach.RightContent),Converter={x:Static h:XConverter.NullToCollapsed}}"
-                                          Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                                          h:Cattach.UncheckForeground="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=ToolForeground}"
                                           IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UseRight, Mode=TwoWay}"
-                                          IsEnabled="True" />
+                                          IsEnabled="True"
+                                          ToolTip="隐藏/显示右侧列表"
+                                          Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=(h:Cattach.RightTemplate), Converter={x:Static h:XConverter.NullToCollapsed}}" />
+
+
+                            <Button Margin="10,0"
+                                    h:Cattach.Icon="&#xe746;"
+                                    h:Cattach.IconSize="26"
+                                    Command="{x:Static local:VlcPlayerCommands.ShootCut}"
+                                    DockPanel.Dock="Right"
+                                    Style="{StaticResource Style.Slider.FButton}"
+                                    ToolTip="截图"
+                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UseShotCut, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
 
                             <Button Margin="2,0"
                                     h:Cattach.Icon="&#xe9d0;"
                                     h:Cattach.IconSize="20"
                                     Command="{x:Static local:VlcPlayerCommands.FullScreen}"
                                     DockPanel.Dock="Right"
-                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer},Path=IsFullScreen,Converter={x:Static h:XConverter.FalseToVisibilityConverter}}"
-                                    Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                     Style="{StaticResource Style.Slider.FButton}"
-                                    ToolTip="全屏" />
+                                    ToolTip="全屏"
+                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=IsFullScreen, Converter={x:Static h:XConverter.FalseToVisibilityConverter}}" />
                         </DockPanel>
-
-
 
                         <DockPanel Grid.Column="1"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
                                    Background="Transparent">
 
-                            <!--<Button Margin="10,0"
-                                h:Cattach.Icon="&#xe76a;"
-                                h:Cattach.IconSize="26"
-                                DockPanel.Dock="Right"
-                                IsEnabled="False"
-                                Style="{StaticResource Style.Slider.FButton}"
-                                ToolTip="暂停" />
-
-                        <Button Margin="10,0"
-                                h:Cattach.Icon="&#xe6a3;"
-                                h:Cattach.IconSize="26"
-                                IsEnabled="False"
-                                Style="{StaticResource Style.Slider.FButton}"
-                                ToolTip="暂停" />
-
-                        <Button Margin="10,0"
-                                h:Cattach.Icon="&#xe715;"
-                                h:Cattach.IconSize="26"
-                                IsEnabled="False"
-                                Style="{StaticResource Style.Slider.FButton}"
-                                ToolTip="播放" />-->
-
                             <Button Margin="10,0"
                                     h:Cattach.Icon="&#xe684;"
                                     h:Cattach.IconSize="26"
                                     IsEnabled="False"
                                     Style="{StaticResource Style.Slider.FButton}"
-                                    ToolTip="上一个" />
+                                    ToolTip="上一个"
+                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UsePrevious, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
 
                             <ToggleButton x:Name="toggle_play"
                                           Height="Auto"
                                           Margin="10,0"
-                                          h:Cattach.SelectedText="&#xe76e;"
-                                          h:Cattach.UnSelectedText="&#xe749;"
+                                          h:Cattach.CheckedIcon="&#xe749;"
+                                          h:Cattach.UncheckedIcon="&#xe76e;"
+                                          Background="{DynamicResource {x:Static h:BrushKeys.Accent}}"
                                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                                          IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=IsPlaying}">
+                                          IsChecked="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=IsPlaying}"
+                                          Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UsePlay, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
                                 <ToggleButton.Template>
                                     <ControlTemplate TargetType="{x:Type ToggleButton}">
                                         <Grid>
                                             <Ellipse x:Name="ellipse"
                                                      Width="30"
                                                      Height="30"
-                                                     Fill="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                                     Fill="{TemplateBinding Background}"
                                                      IsHitTestVisible="False" />
-                                            <TextBlock x:Name="txt"
+                                            <TextBlock x:Name="txt" ToolTip="暂停/播放"
                                                        VerticalAlignment="Center"
                                                        FontSize="20"
                                                        Foreground="{TemplateBinding Foreground}"
@@ -216,7 +342,7 @@
                                         <ControlTemplate.Triggers>
                                             <Trigger Property="IsChecked" Value="true">
                                                 <Setter TargetName="txt" Property="Text" Value="&#xe749;" />
-                                                <Setter TargetName="txt" Property="ToolTip" Value="隐藏" />
+                                                <Setter TargetName="txt" Property="ToolTip" Value="播放/播放" />
                                             </Trigger>
                                             <Trigger Property="IsMouseOver" Value="True">
                                                 <Setter TargetName="ellipse" Property="Opacity" Value="0.6" />
@@ -237,20 +363,16 @@
                                     h:Cattach.IconSize="26"
                                     IsEnabled="False"
                                     Style="{StaticResource Style.Slider.FButton}"
-                                    ToolTip="下一个" />
+                                    ToolTip="下一个"
+                                    Visibility="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UseNext, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
 
-                            <Button Margin="10,0"
-                                    h:Cattach.Icon="&#xe746;"
-                                    h:Cattach.IconSize="26"
-                                    Command="{x:Static local:VlcPlayerCommands.ShootCut}"
-                                    Style="{StaticResource Style.Slider.FButton}"
-                                    ToolTip="截图" />
+
                         </DockPanel>
                     </DockPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <Setter Property="h:Cattach.TopContent">
+        <Setter Property="h:Cattach.TopTemplate">
             <Setter.Value>
                 <ControlTemplate>
                     <h:Row Background="Transparent">
@@ -265,81 +387,193 @@
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.VlcPlayer.MouseOver, TypeInTargetAssembly={x:Type local:VlcPlayer}}" BasedOn="{StaticResource {x:Static local:VlcPlayer.DefaultKey}}" TargetType="{x:Type local:VlcPlayer}">
+        <Setter Property="UseBottomMouseOver" Value="True" />
+    </Style>
+
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.VlcPlayer.None, TypeInTargetAssembly={x:Type local:VlcPlayer}}" BasedOn="{StaticResource {x:Static local:VlcPlayer.DefaultKey}}" TargetType="{x:Type local:VlcPlayer}">
+        <Setter Property="IsFullScreen" Value="True" />
+        <Setter Property="UseBottom" Value="False" />
+        <Setter Property="UseBottomMouseOver" Value="False" />
+    </Style>
+
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.VlcPlayer.ScrollViewerTransfor, TypeInTargetAssembly={x:Type local:VlcPlayer}}" BasedOn="{StaticResource {x:Static local:VlcPlayer.DefaultKey}}" TargetType="{x:Type local:VlcPlayer}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:VlcPlayer">
                     <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid Background="Transparent">
-                                <ContentPresenter />
-                                <ContentControl HorizontalAlignment="Right" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.RightContent)}" DockPanel.Dock="Right">
+                                <Grid>
+                                    <h:ScrollViewerTransfor x:Name="svt" IsFullParent="True">
+                                        <h:Interaction.Behaviors>
+                                            <h:RightMouseGestureScrollViewerBehavior />
+                                        </h:Interaction.Behaviors>
+                                        <Grid Width="3840" Height="2160">
+                                            <Button Command="{x:Static local:VlcPlayerCommands.PlayMode}" Content="{TemplateBinding Content}" Style="{x:Null}">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <ContentPresenter />
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </Grid>
+                                    </h:ScrollViewerTransfor>
+
+                                    <TextBlock FontSize="100"
+                                               Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                               IsHitTestVisible="False"
+                                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                               Text="{x:Static h:Icons.Play}"
+                                               Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsPlaying, Converter={x:Static h:XConverter.FalseToVisibilityConverter}}" />
+
+                                </Grid>
+
+                                <DockPanel h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UseRight}" DockPanel.Dock="Right">
                                     <h:TransitionService.VisibleActions>
                                         <h:TransitionCollection>
-                                            <h:TranslateTransition StartPoint="100 0" EndPoint="1000 0" Duration="300" />
+                                            <h:TranslateTransition StartPoint="100 0" EndPoint="100 0" Duration="300" />
                                         </h:TransitionCollection>
                                     </h:TransitionService.VisibleActions>
-                                </ContentControl>
+
+                                    <ContentControl HorizontalAlignment="Right" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.RightTemplate)}" />
+
+                                </DockPanel>
+
+                                <DockPanel HorizontalAlignment="Left" VerticalAlignment="Stretch" h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource AncestorType=local:VlcPlayer}, Path=UseLeft}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="-100 0" EndPoint="-100 0" Duration="300" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.LeftTemplate)}" />
+                                </DockPanel>
+
+                                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                                    <ContentControl HorizontalAlignment="Stretch" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.TopTemplate)}" />
+                                </DockPanel>
+
+                                <Button HorizontalAlignment="Left"
+                                        h:Cattach.Icon="{x:Static h:Icons.Left}"
+                                        Command="{x:Static local:VlcPlayerCommands.PreviousFrame}"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                        ToolTip="上一帧"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UsePreviourFrame, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+                                <Button HorizontalAlignment="Right"
+                                        h:Cattach.Icon="{x:Static h:Icons.Right}"
+                                        Command="{x:Static local:VlcPlayerCommands.NextFrame}"
+                                        Style="{DynamicResource {x:Static h:ButtonKeys.MouseOver}}"
+                                        ToolTip="下一帧"
+                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UsePreviourFrame, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+
+                                <Grid Width="200"
+                                      Height="200"
+                                      Margin="0,55"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Bottom">
+                                    <h:ScrollViewerLocator ScrollViewer="{Binding ElementName=svt}" />
+                                </Grid>
                             </Grid>
 
-                            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" h:TransitionService.IsVisible="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsMouseOver}">
-                                <h:TransitionService.VisibleActions>
-                                    <h:TransitionCollection>
-                                        <h:OpacityTransition Duration="500" />
-                                    </h:TransitionCollection>
-                                </h:TransitionService.VisibleActions>
-                                <ContentControl HorizontalAlignment="Stretch" Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.TopContent)}" />
-                            </DockPanel>
+                            <Border x:Name="border"
+                                    Height="60"
+                                    VerticalAlignment="Bottom"
+                                    Background="Transparent">
+                                <DockPanel VerticalAlignment="Bottom" h:TransitionService.IsVisible="{Binding ElementName=border, Path=IsMouseOver}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="0 100" EndPoint="0 100" Duration="300" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+                                    <ContentControl DockPanel.Dock="Bottom" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.BottomTemplate)}" />
+                                    <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Bottom">
+                                        <Button Width="Auto"
+                                                VerticalAlignment="Center"
+                                                h:Cattach.Icon="{x:Static h:Icons.Left}"
+                                                h:Cattach.IconSize="8"
+                                                Command="{x:Static local:VlcPlayerCommands.PreviousFrame}"
+                                                DockPanel.Dock="Left"
+                                                Style="{StaticResource Style.Slider.FButton}"
+                                                ToolTip="上一帧"
+                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UsePreviourFrame, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+                                        <Button Width="20"
+                                                VerticalAlignment="Center"
+                                                h:Cattach.Icon="&#xe9ba;"
+                                                h:Cattach.IconSize="15"
+                                                Command="{x:Static local:VlcPlayerCommands.SpeedDown}"
+                                                DockPanel.Dock="Left"
+                                                Style="{StaticResource Style.Slider.FButton}"
+                                                ToolTip="減速" />
+                                        <TextBlock Margin="3,0"
+                                                   VerticalAlignment="Center"
+                                                   DockPanel.Dock="Left"
+                                                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                                                   Text="{Binding ElementName=media_slider, Path=Value, Converter={x:Static h:XConverter.MillisecondsTimeSpanConverter}}" />
+                                        <Button Width="18"
+                                                VerticalAlignment="Center"
+                                                h:Cattach.Icon="&#xe609;"
+                                                h:Cattach.IconSize="12"
+                                                DockPanel.Dock="Right"
+                                                Command="{x:Static local:VlcPlayerCommands.Stop}"
+                                                Style="{StaticResource Style.Slider.FButton}"
+                                                ToolTip="停止" />
+                                        <Button Width="Auto"
+                                                VerticalAlignment="Center"
+                                                h:Cattach.Icon="{x:Static h:Icons.Right}"
+                                                h:Cattach.IconSize="8"
+                                                Command="{x:Static local:VlcPlayerCommands.NextFrame}"
+                                                DockPanel.Dock="Right"
+                                                Style="{StaticResource Style.Slider.FButton}"
+                                                ToolTip="下一帧"
+                                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=UsePreviourFrame, Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}" />
+                                        <Button Width="20"
+                                                VerticalAlignment="Center"
+                                                h:Cattach.Icon="&#xe9bb;"
+                                                h:Cattach.IconSize="15"
+                                                Command="{x:Static local:VlcPlayerCommands.SpeedUp}"
+                                                DockPanel.Dock="Right"
+                                                Style="{StaticResource Style.Slider.FButton}"
+                                                ToolTip="加速" />
+                                        <TextBlock Margin="3,0"
+                                                   VerticalAlignment="Center"
+                                                   DockPanel.Dock="Right"
+                                                   Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                                                   Text="{Binding ElementName=media_slider, Path=Maximum, Converter={x:Static h:XConverter.MillisecondsTimeSpanConverter}}" />
+                                        <Slider x:Name="media_slider"
+                                                VerticalAlignment="Center"
+                                                IsMoveToPointEnabled="True"
+                                                IsSnapToTickEnabled="True"
+                                                Maximum="0"
+                                                Minimum="0"
+                                                Style="{DynamicResource {x:Static h:SliderKeys.Accent}}"
+                                                Value="0">
+                                            <h:Cattach.AttachContent>
+                                                <ControlTemplate>
+                                                    <!--<TextBlock Text="{Binding RelativeSource={RelativeSource Mode=Self},Path=Value,StringFormat=0}"/>-->
+                                                    <Grid Margin="0,-80,0,0">
+                                                        <Border Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                                                                HorizontalAlignment="Center"
+                                                                Background="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.TitleBackground)}"
+                                                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}">
+                                                            <TextBlock Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=Value, Converter={x:Static h:XConverter.MillisecondsTimeSpanConverter}}" />
+                                                        </Border>
 
-                            <DockPanel VerticalAlignment="Bottom" h:TransitionService.IsVisible="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsMouseOver}">
-                                <h:TransitionService.VisibleActions>
-                                    <h:TransitionCollection>
-                                        <h:TranslateTransition StartPoint="0 100" EndPoint="0 100" Duration="300" />
-                                    </h:TransitionCollection>
-                                </h:TransitionService.VisibleActions>
-                                <ContentControl Content="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.BottomContent)}" DockPanel.Dock="Bottom" />
-                                <DockPanel HorizontalAlignment="Stretch" DockPanel.Dock="Bottom">
-                                    <Button Width="20"
-                                            VerticalAlignment="Center"
-                                            h:Cattach.Icon="&#xe9ba;"
-                                            h:Cattach.IconSize="15"
-                                            DockPanel.Dock="Left"
-                                            Style="{StaticResource Style.Slider.FButton}"
-                                            ToolTip="減速" />
-                                    <!--  Click="Button_Click_2"  -->
-                                    <TextBlock Margin="3,0"
-                                               VerticalAlignment="Center"
-                                               DockPanel.Dock="Left"
-                                               Text="{Binding ElementName=media_slider, Path=Value, Converter={x:Static h:XConverter.TimeSpanConverter}}" />
-                                    <Button Width="18"
-                                            VerticalAlignment="Center"
-                                            h:Cattach.Icon="&#xe609;"
-                                            h:Cattach.IconSize="12"
-                                            DockPanel.Dock="Right"
-                                            Style="{StaticResource Style.Slider.FButton}"
-                                            ToolTip="停止" />
-                                    <!--  Click="Button_Click_4"  -->
-                                    <Button Width="20"
-                                            VerticalAlignment="Center"
-                                            h:Cattach.Icon="&#xe9bb;"
-                                            h:Cattach.IconSize="15"
-                                            DockPanel.Dock="Right"
-                                            Style="{StaticResource Style.Slider.FButton}"
-                                            ToolTip="加速" />
-                                    <!--  Click="Button_Click_3"  -->
-                                    <TextBlock Margin="3,0"
-                                               VerticalAlignment="Center"
-                                               DockPanel.Dock="Right"
-                                               Text="{Binding ElementName=media_slider, Path=Maximum, Converter={x:Static h:XConverter.TimeSpanConverter}}" />
-                                    <Slider x:Name="media_slider"
-                                            VerticalAlignment="Center"
-                                            IsMoveToPointEnabled="True"
-                                            IsSnapToTickEnabled="True"
-                                            Maximum="0"
-                                            Minimum="0"
-                                            Value="0" />
-                                    <!--  ValueChanged="media_slider_ValueChanged"  -->
+                                                        <Polygon Margin="0,50,0,0"
+                                                                 HorizontalAlignment="Center"
+                                                                 VerticalAlignment="Center"
+                                                                 Fill="{Binding RelativeSource={RelativeSource AncestorType=Slider}, Path=(h:Cattach.TitleBackground)}"
+                                                                 FillRule="Nonzero"
+                                                                 Points="0,0 5,5 10,0 0,0"
+                                                                 Stroke="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </h:Cattach.AttachContent>
+                                        </Slider>
+                                    </DockPanel>
                                 </DockPanel>
-                            </DockPanel>
+                            </Border>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -351,7 +585,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <Style BasedOn="{StaticResource {x:Static local:VlcPlayer.DefaultKey}}" TargetType="{x:Type local:VlcPlayer}" />
 

@@ -148,7 +148,7 @@ namespace HeBianGu.Service.Animation
                 controls = this.RandomList(controls);
             }
 
-            Storyboard storyboard = new Storyboard();
+            Storyboard storyboard = StoryboardFactory.Create();
 
             for (int i = 0; i < controls.Count; i++)
             {

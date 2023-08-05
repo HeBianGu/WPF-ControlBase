@@ -27,6 +27,7 @@ namespace HeBianGu.Service.Animation
             {
                 l.Storyboard.BeginTime = TimeSpan.FromMilliseconds(this.BeginTime);
                 l.Easing = this.VisibleEasing;
+
             });
 
             element.BeginAnimationScaleY(this.StartY, 1, this.VisibleDuration, l => complate?.Invoke(), l =>

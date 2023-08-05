@@ -9,7 +9,7 @@ namespace HeBianGu.App.Manager.View.Attach
     {
         public VisibleControl()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }

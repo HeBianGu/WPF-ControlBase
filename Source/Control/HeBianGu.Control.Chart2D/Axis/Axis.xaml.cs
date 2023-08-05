@@ -134,12 +134,6 @@ namespace HeBianGu.Control.Chart2D
 
                  control.TryDraw();
              }));
-
-
-
-
-
-
     }
 
     public class xAxis : Axis
@@ -226,10 +220,9 @@ namespace HeBianGu.Control.Chart2D
                     Canvas.SetLeft(l, this.GetX(item + span / 2));
                 }
 
-                Canvas.SetBottom(l, this.ActualHeight - this.GetY(y) + (this.DockAlignment == Dock.Top || this.DockAlignment == Dock.Left ? 0 : -this.AlignLenght));
-
+                double bottom = this.ActualHeight - this.GetY(y) + (this.DockAlignment == Dock.Top || this.DockAlignment == Dock.Left ? 0 : -this.AlignLenght);
+                Canvas.SetBottom(l, bottom);
                 canvas.Children.Add(l);
-
                 //  Do ：显示文本
                 Label t = new Label();
 
@@ -243,7 +236,6 @@ namespace HeBianGu.Control.Chart2D
                 }
 
                 t.Style = this.LabelStyle;
-
                 t.Loaded += (o, e) =>
                 {
                     if (this.xAxis.Count == 1)
@@ -255,7 +247,8 @@ namespace HeBianGu.Control.Chart2D
                         Canvas.SetLeft(t, this.GetX(item, this.ActualWidth) - t.ActualWidth / 2);
                     }
 
-                    Canvas.SetTop(t, (this.DockAlignment == Dock.Top || this.DockAlignment == Dock.Left ? -(this.AlignLenght + t.ActualHeight) : this.AlignLenght) + this.GetY(y));
+                    double top = (this.DockAlignment == Dock.Top || this.DockAlignment == Dock.Left ? -(this.AlignLenght + t.ActualHeight) : this.AlignLenght) + this.GetY(y);
+                    Canvas.SetTop(t, top);
                 };
                 canvas.Children.Add(t);
             }

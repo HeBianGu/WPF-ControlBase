@@ -46,8 +46,11 @@ namespace HeBianGu.Control.PropertyGrid
 
         public List<PropertyTabItem> GetPropertyTabItems(object obj)
         {
-            Func<IPropertyItem, bool> filter = l => l.PropertyInfo.GetCustomAttribute<CommandAttribute>() != null
-            || l.PropertyInfo.GetCustomAttribute<PropertyAttribute>() != null;
+            Func<IPropertyItem, bool> filter = l => l.PropertyInfo.GetCustomAttribute<PropertyItemTypeAttribute>() != null;
+
+            //         Func<IPropertyItem, bool> filter = l => l.PropertyInfo.GetCustomAttribute<CommandAttribute>() != null
+            //|| l.PropertyInfo.GetCustomAttribute<PropertyItemTypeAttribute>() != null;
+
 
             List<IPropertyItem> propertyItems = this.GetPropertyItems(obj, filter);
 
@@ -65,7 +68,7 @@ namespace HeBianGu.Control.PropertyGrid
                 PropertyTabItem tabItem = new PropertyTabItem();
                 tabItem.Name = tab.Key;
 
-                IEnumerable<IGrouping<string, IPropertyItem>> groups = tab.GroupBy(l => l.Group);
+                IEnumerable<IGrouping<string, IPropertyItem>> groups = tab.GroupBy(l => l.GroupName);
 
                 foreach (IGrouping<string, IPropertyItem> group in groups)
                 {

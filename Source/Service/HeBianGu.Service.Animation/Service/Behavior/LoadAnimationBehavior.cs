@@ -11,7 +11,7 @@ using System.Windows.Media;
 namespace HeBianGu.Service.Animation
 {
     /// <summary> 容器内子控件加载时触发动画效果</summary>
-    [Obsolete("使用 InvokeTimeSplitAnimationAction 更灵活,后面不继续使用")]
+    //[Obsolete("使用 InvokeTimeSplitAnimationAction 更灵活,后面不继续使用")]
     public class LoadAnimationBehavior : Behavior<FrameworkElement>
     {
         protected override void OnAttached()
@@ -23,25 +23,18 @@ namespace HeBianGu.Service.Animation
         {
             if (IsUseAll)
             {
-
                 IEnumerable<UIElement> items = AssociatedObject.GetChildren<UIElement>().Where(l => l.RenderTransform is TransformGroup);
-
                 items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
-
                 this.BeginAnimation(items);
-
             }
             else
             {
                 if (AssociatedObject is Panel panel)
                 {
                     IEnumerable<UIElement> items = panel.Children?.Cast<UIElement>()?.Where(l => l.RenderTransform is TransformGroup);
-
                     items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
-
                     this.BeginAnimation(items);
                 }
-
             }
         }
 
@@ -65,8 +58,6 @@ namespace HeBianGu.Service.Animation
         {
             AssociatedObject.Loaded -= AssociatedObject_Loaded;
         }
-
-
 
         public bool IsUseAll
         {
@@ -101,8 +92,6 @@ namespace HeBianGu.Service.Animation
                  //LoadAnimationType config = e.NewValue as LoadAnimationType;
 
              }));
-
-
 
         public double StartValue
         {

@@ -415,6 +415,61 @@ namespace HeBianGu.Control.GridSplitter
              }));
 
 
+        public string OpenIcon
+        {
+            get { return (string)GetValue(OpenIconProperty); }
+            set { SetValue(OpenIconProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty OpenIconProperty =
+            DependencyProperty.Register("OpenIcon", typeof(string), typeof(GridSplitterContainer), new FrameworkPropertyMetadata(default(string), (d, e) =>
+             {
+                 GridSplitterContainer control = d as GridSplitterContainer;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is string o)
+                 {
+
+                 }
+
+                 if (e.NewValue is string n)
+                 {
+
+                 }
+
+             }));
+
+
+        public string CloseIcon
+        {
+            get { return (string)GetValue(CloseIconProperty); }
+            set { SetValue(CloseIconProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CloseIconProperty =
+            DependencyProperty.Register("CloseIcon", typeof(string), typeof(GridSplitterContainer), new FrameworkPropertyMetadata(default(string), (d, e) =>
+             {
+                 GridSplitterContainer control = d as GridSplitterContainer;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is string o)
+                 {
+
+                 }
+
+                 if (e.NewValue is string n)
+                 {
+
+                 }
+
+             }));
+
+
+
         public string ID { get; set; }
 
         public IMetaSettingService MetaSettingService => ServiceRegistry.Instance.GetInstance<IMetaSettingService>();

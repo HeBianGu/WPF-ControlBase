@@ -1,0 +1,262 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="S.GroupBox.Template.Default" TargetType="{x:Type GroupBox}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Border x:Name="bordercenter"
+                    Grid.RowSpan="2"
+                    Margin="0,0,0,0"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(h:Cattach.CornerRadius)}"
+                    Effect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(local:ShadowAssist.ShadowDepth)}" />
+            <ContentPresenter ContentSource="Header" />
+            <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}" />
+        </Grid>
+    </ControlTemplate>
+
+    <DataTemplate x:Key="S.GroupBox.DateTemplate.Header">
+        <Grid Height="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionHeight)}">
+            <Border x:Name="border"
+                    Margin="0,-1,0,0"
+                    Background="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionBackground)}"
+                    BorderBrush="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionBorderBrush)}"
+                    BorderThickness="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionBorderThickness)}"
+                    CornerRadius="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionCornerRadius)}" />
+            <DockPanel TextBlock.Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionForeground)}">
+                <Control DockPanel.Dock="Right" Template="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionRightTemplate)}" />
+                <DockPanel HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionHorizontalAlignment)}">
+                    <TextBlock Margin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.IconMargin)}"
+                               FontSize="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.IconSize)}"
+                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionForeground)}"
+                               Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                               Text="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.Icon)}"
+                               TextTrimming="CharacterEllipsis" />
+                    <TextBlock VerticalAlignment="Center"
+                               FontSize="{DynamicResource {x:Static h:FontSizeKeys.Default}}"
+                               Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionForeground)}"
+                               Text="{Binding}" />
+                </DockPanel>
+            </DockPanel>
+        </Grid>
+    </DataTemplate>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.Dynamic, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static local:SelectorKeys.Dynamic}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Padding_10_6}}" />
+        <Setter Property="Template" Value="{StaticResource S.GroupBox.Template.Default}" />
+        <Setter Property="HeaderTemplate" Value="{StaticResource S.GroupBox.DateTemplate.Header}" />
+        <Setter Property="Header" Value="Header" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="h:Cattach.IconMargin" Value="5 0 " />
+        <Setter Property="h:Cattach.Icon" Value="" />
+        <Setter Property="Cursor" Value="Arrow" />
+        <Setter Property="h:Cattach.GuideTitle" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.Default, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static local:GroupBoxKeys.Dynamic}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.Close, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static h:GroupBoxKeys.Dynamic}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="h:Cattach.CaptionRightTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Button HorizontalAlignment="Right"
+                            Command="{x:Static local:Commander.Close}"
+                            Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionForeground)}"
+                            Style="{DynamicResource {x:Static local:ButtonKeys.Clear}}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.Single, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static local:GroupBoxKeys.Default}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.Single.Close, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static h:GroupBoxKeys.Single}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="h:Cattach.CaptionRightTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Button Command="{x:Static local:Commander.Close}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionForeground)}" Style="{DynamicResource {x:Static local:ButtonKeys.Clear}}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.Accent, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static h:GroupBoxKeys.Default}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.Accent.Close, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static h:GroupBoxKeys.Accent}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="h:Cattach.CaptionRightTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Button Command="{x:Static local:Commander.Close}" Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionForeground)}" Style="{DynamicResource {x:Static local:ButtonKeys.Clear}}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.System, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static h:GroupBoxKeys.Dynamic}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="Padding" Value="2,-8,2,0" />
+        <Setter Property="local:ShadowAssist.ShadowDepth" Value="{x:Null}" />
+        <Setter Property="HeaderTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <StackPanel Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                                Margin="5,0"
+                                HorizontalAlignment="Left"
+                                Background="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=Background}"
+                                Orientation="Horizontal"
+                                TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}">
+
+                        <TextBlock Margin="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.IconMargin)}"
+                                   FontSize="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.IconSize)}"
+                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                   Text="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.Icon)}" />
+
+                        <TextBlock Margin="1,0"
+                                   HorizontalAlignment="Left"
+                                   VerticalAlignment="Center"
+                                   FontSize="{DynamicResource {x:Static h:FontSizeKeys.Default}}"
+                                   Text="{Binding}" />
+                    </StackPanel>
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+                        <Border Grid.RowSpan="2"
+                                Margin="0,20,0,0"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(h:Cattach.CornerRadius)}" />
+                        <ContentPresenter ContentSource="Header" />
+                        <ContentPresenter Grid.Row="1" Margin="{TemplateBinding Padding}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.UnderLine, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static h:GroupBoxKeys.Dynamic}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="local:ShadowAssist.ShadowDepth" Value="{x:Null}" />
+        <Setter Property="h:Cattach.CaptionBackground" Value="Transparent" />
+        <Setter Property="h:Cattach.CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+
+        <Setter Property="h:Cattach.CaptionBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="h:Cattach.CaptionBorderThickness" Value="0,0,0,1.5" />
+
+        <Setter Property="h:Cattach.MouseOverBackground" Value="Transparent" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.Title, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static h:GroupBoxKeys.Default}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="local:ShadowAssist.ShadowDepth" Value="{x:Null}" />
+        <Setter Property="h:Cattach.CaptionBackground" Value="Transparent" />
+        <Setter Property="h:Cattach.CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
+        <Setter Property="h:Cattach.CaptionBorderBrush" Value="Transparent" />
+        <Setter Property="h:Cattach.CaptionBorderThickness" Value="0" />
+        <Setter Property="h:Cattach.MouseOverBackground" Value="Transparent" />
+        <Setter Property="h:Cattach.MouseOverForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.ShowCode, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static h:GroupBoxKeys.Dynamic}}" TargetType="GroupBox">
+        <Setter Property="RenderTransform" Value="{StaticResource {x:Static h:SystemKeys.TransformGroup}}" />
+        <Setter Property="h:Cattach.CaptionRightTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Grid>
+                        <Button Margin="10,0"
+                                HorizontalAlignment="Right"
+                                h:Cattach.Icon="&#xe7e7;"
+                                Command="{x:Static local:Commander.ShowCopyWindowCommand}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.Text)}"
+                                Foreground="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=(h:Cattach.CaptionForeground)}"
+                                Style="{DynamicResource {x:Static local:ButtonKeys.Transparent}}" />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.GroupBox.HeaderBottom, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static h:GroupBoxKeys.UnderLine}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="h:Cattach.CaptionBorderThickness" Value="0,1,0,0" />
+        <Setter Property="h:Cattach.CaptionHorizontalAlignment" Value="Center" />
+        <Setter Property="h:Cattach.Icon" Value="{x:Null}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GroupBox}">
+                    <Grid>
+                        <Border x:Name="bordercenter"
+                                Margin="0,0,0,0"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(h:Cattach.CornerRadius)}"
+                                Effect="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=(local:ShadowAssist.ShadowDepth)}"
+                                Opacity="1" />
+
+                        <DockPanel>
+                            <ContentPresenter ContentSource="Header" DockPanel.Dock="Bottom" />
+                            <ContentPresenter Margin="{TemplateBinding Padding}" />
+                        </DockPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverBorderBrush)}" />
+                        </Trigger>
+
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Group.ToolBar, TypeInTargetAssembly={x:Type local:GroupBoxKeys}}" BasedOn="{StaticResource {x:Static h:GroupBoxKeys.HeaderBottom}}" TargetType="{x:Type GroupBox}">
+        <Setter Property="h:Cattach.CaptionHeight" Value="25" />
+        <Setter Property="Margin" Value="2" />
+        <Setter Property="Padding" Value="5,0" />
+        <Setter Property="h:Cattach.IconMargin" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="h:Cattach.MouseOverBorderBrush" Value="Transparent" />
+        <Setter Property="h:Cattach.MouseOverBackground" Value="Transparent" />
+        <Setter Property="h:Cattach.CaptionBackground" Value="Transparent" />
+        <Setter Property="h:Cattach.CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+    </Style>
+</ResourceDictionary>

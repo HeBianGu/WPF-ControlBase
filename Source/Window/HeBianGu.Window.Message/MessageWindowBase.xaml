@@ -6,19 +6,19 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/Window/MainWindowBase.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Service.Mvp;component/Mvp.xaml" />
-
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Message.Dynamic, TypeInTargetAssembly={x:Type local:MessageWindowBase}}" BasedOn="{StaticResource S.Window.Main.Default}" TargetType="{x:Type local:MessageWindowBase}">
         <Setter Property="BorderThickness" Value="2" />
         <Setter Property="CaptionHeight" Value="76" />
-        <Setter Property="CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
-        <Setter Property="CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <!--<Setter Property="CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />-->
+        <Setter Property="CaptionBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.CaptionBackground)}"/>
+        <Setter Property="CaptionForeground" Value="{Binding RelativeSource={RelativeSource Mode=Self},Path=(h:Cattach.CaptionForeground)}"/>
         <Setter Property="h:TransitionService.VisibleActions" Value="{Binding Source={x:Static local:MainWindowSetting.Instance}, Path=TransitionHost.Transitions}" />
     </Style>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Message.Default, TypeInTargetAssembly={x:Type local:MessageWindowBase}}" BasedOn="{StaticResource {x:Static local:MessageWindowBase.DefaultKey}}" TargetType="{x:Type local:MessageWindowBase}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Message.Default, TypeInTargetAssembly={x:Type local:MessageWindowBase}}" BasedOn="{StaticResource {x:Static local:MessageWindowBase.DynamicKey}}" TargetType="{x:Type local:MessageWindowBase}">
         <Setter Property="h:Cattach.StyleType" Value="Default"/>
     </Style>
 

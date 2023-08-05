@@ -3,9 +3,11 @@
 using HeBianGu.General.WpfControlLib;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace HeBianGu.Control.Panel
 {
@@ -15,7 +17,7 @@ namespace HeBianGu.Control.Panel
         {
             //  Do ：下一项
             {
-                CommandBinding binding = new CommandBinding(CommandService.Next);
+                CommandBinding binding = new CommandBinding(Commander.Next);
 
                 this.CommandBindings.Add(binding);
 
@@ -24,7 +26,7 @@ namespace HeBianGu.Control.Panel
 
             //  Do ：上一项
             {
-                CommandBinding binding = new CommandBinding(CommandService.Prev);
+                CommandBinding binding = new CommandBinding(Commander.Prev);
 
                 this.CommandBindings.Add(binding);
 
@@ -45,7 +47,7 @@ namespace HeBianGu.Control.Panel
 
             this.StartIndex = this.StartIndex > this.Children.Count - 1 ? 0 : this.StartIndex;
 
-            System.Diagnostics.Debug.WriteLine(this.StartIndex);
+            //System.Diagnostics.Debug.WriteLine(this.StartIndex);
 
             //  Do ：刷新
             this.InvalidateArrange();
@@ -189,29 +191,32 @@ namespace HeBianGu.Control.Panel
              {
                  AnimationPanel control = d as AnimationPanel;
 
-                 if (control == null) return;
+                 if (control == null) 
+                     return;
 
                  //bool config = e.NewValue as bool;
+                 control.InvalidateArrange();
 
              }));
+        public ObservableCollection<Timeline> Timelines { get; } = new ObservableCollection<Timeline>();
 
-        public ArrayList Timelines
-        {
-            get { return (ArrayList)GetValue(TimelinesProperty); }
-            set { SetValue(TimelinesProperty, value); }
-        }
+        //public ArrayList Timelines
+        //{
+        //    get { return (ArrayList)GetValue(TimelinesProperty); }
+        //    set { SetValue(TimelinesProperty, value); }
+        //}
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TimelinesProperty =
-            DependencyProperty.Register("Timelines", typeof(ArrayList), typeof(AnimationPanel), new PropertyMetadata(new ArrayList(), (d, e) =>
-            {
-                AnimationPanel control = d as AnimationPanel;
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty TimelinesProperty =
+        //    DependencyProperty.Register("Timelines", typeof(ArrayList), typeof(AnimationPanel), new PropertyMetadata(new ArrayList(), (d, e) =>
+        //    {
+        //        AnimationPanel control = d as AnimationPanel;
 
-                if (control == null) return;
+        //        if (control == null) return;
 
-                ArrayList config = e.NewValue as ArrayList;
+        //        ArrayList config = e.NewValue as ArrayList;
 
-            }));
+        //    }));
 
         public double SplitMilliSecond
         {

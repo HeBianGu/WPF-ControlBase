@@ -95,12 +95,11 @@ namespace HeBianGu.Control.LeftMenu
 
             }), ValidateValue);
 
-
         //验证
         private static bool ValidateValue(object obj)
         {
-            if (obj == null) return false;
-
+            if (obj == null) 
+                return false;
             return true;
         }
 

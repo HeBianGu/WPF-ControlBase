@@ -1,0 +1,66 @@
+﻿<h:DialogWindowBase x:Class="HeBianGu.Window.MessageDialog.ObjectDialogWindow"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Window.MessageDialog"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    Title="提示"
+                    Width="800"
+                    Height="Auto"
+                    AllowsTransparency="True"
+                    SizeToContent="Height"
+                    Style="{DynamicResource {x:Static h:DialogWindowBase.DynamicKey}}"
+                    Topmost="True"
+                    WindowStartupLocation="CenterScreen"
+                    mc:Ignorable="d">
+    <h:TransitionService.VisibleActions>
+        <h:TransitionCollection>
+            <h:ScaleTransition />
+        </h:TransitionCollection>
+    </h:TransitionService.VisibleActions>
+    <Grid>
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" TargetType="Button">
+                <Setter Property="MinWidth" Value="100" />
+            </Style>
+        </Grid.Resources>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="135*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.RowSpan="2"
+                    Margin="0,0,0,1"
+                    Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                    CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+
+            <ContentControl x:Name="contentControl" Margin="10,10" />
+            <UniformGrid Name="actionPanel"
+                         Grid.Row="2"
+                         Height="50"
+                         Margin="0"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Top"
+                         Opacity="1" Rows="1">
+                <Button x:Name="sumitBtn"
+                        Width="100"
+                        h:Cattach.Icon=""
+                        Click="sumitBtn_Click"
+                        IsDefault="True"
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}">
+                    确定
+                </Button>
+
+                <Button x:Name="cancelBtn"
+                        h:Cattach.Icon=""
+                        Click="cancelBtn_Click"
+                        IsCancel="True"
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Dynamic}}">
+                    取消
+                </Button>
+            </UniformGrid>
+        </Grid>
+    </Grid>
+</h:DialogWindowBase>

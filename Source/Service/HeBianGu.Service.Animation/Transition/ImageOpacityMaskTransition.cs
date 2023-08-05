@@ -1,6 +1,5 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
-
-using HeBianGu.General.WpfControlLib;
+using HeBianGu.Base.WpfBase;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -107,7 +106,7 @@ namespace HeBianGu.Service.Animation
             };
 
             //animation.EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseIn };
-
+            Timeline.SetDesiredFrameRate(animation, StoryboardSetting.DesiredFrameRate);
             scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
             scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
 
@@ -188,7 +187,7 @@ namespace HeBianGu.Service.Animation
             };
 
             //animation.EasingFunction = new CircleEase() { EasingMode = EasingMode.EaseIn };
-
+            Timeline.SetDesiredFrameRate(animation, StoryboardSetting.DesiredFrameRate);
             scaleTransform.BeginAnimation(ScaleTransform.ScaleXProperty, animation);
             scaleTransform.BeginAnimation(ScaleTransform.ScaleYProperty, animation);
         }

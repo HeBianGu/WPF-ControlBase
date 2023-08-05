@@ -10,14 +10,16 @@ namespace HeBianGu.Control.PagedDataGrid
         protected override FrameworkElement GenerateEditingElement(DataGridCell cell, object dataItem)
         {
             CheckBox ctrl = new CheckBox();
-            ctrl.SetBinding(CheckBox.IsCheckedProperty, this.Binding);
+            if (this.Binding != null)
+                ctrl.SetBinding(CheckBox.IsCheckedProperty, this.Binding);
             return ctrl;
         }
 
         protected override FrameworkElement GenerateElement(DataGridCell cell, object dataItem)
         {
             CheckBox ctrl = new CheckBox();
-            ctrl.SetBinding(CheckBox.IsCheckedProperty, this.Binding);
+            if (this.Binding != null)
+                ctrl.SetBinding(CheckBox.IsCheckedProperty, this.Binding);
             return ctrl;
         }
     }

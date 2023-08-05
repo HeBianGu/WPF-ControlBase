@@ -1,0 +1,174 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Dynamic, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static local:ControlKeys.ProgressBar}}" TargetType="ProgressBar">
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="h:Cattach.Value">
+            <Setter.Value>
+                <MultiBinding Converter="{x:Static h:XConverter.Number2PercentageConverter}" StringFormat="{}{0} %">
+                    <Binding Path="Value" RelativeSource="{RelativeSource Self}" />
+                    <Binding Path="Maximum" RelativeSource="{RelativeSource Self}" />
+                </MultiBinding>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Value" Value="66.66" />
+        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <ContentControl x:Name="Label"
+                                        Margin="1,1,0,1"
+                                        Background="{TemplateBinding BorderBrush}"
+                                        Content="{TemplateBinding h:Cattach.Title}"
+                                        IsHitTestVisible="False"
+                                        IsTabStop="False"
+                                        Template="{TemplateBinding h:Cattach.TitleTemplate}" />
+
+                        <Grid x:Name="TemplateRoot" Grid.Column="2">
+                            <Border Background="{Binding Path=Background, RelativeSource={RelativeSource TemplatedParent}}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="{Binding Path=(h:Cattach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}" />
+
+                            <Rectangle x:Name="PART_Track" />
+                            <Grid HorizontalAlignment="Left">
+                                <Decorator x:Name="PART_Indicator" HorizontalAlignment="Left">
+                                    <Border x:Name="Animation"
+                                            Background="{TemplateBinding Foreground}"
+                                            ClipToBounds="true"
+                                            CornerRadius="{Binding Path=(h:Cattach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}">
+                                        <Rectangle x:Name="PART_GlowRect"
+                                                   Width="100"
+                                                   Margin="-100,0,0,0"
+                                                   HorizontalAlignment="Left">
+                                            <Rectangle.Fill>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Offset="0" Color="#00FFFFFF" />
+                                                    <GradientStop Offset="0.4" Color="#60FFFFFF" />
+                                                    <GradientStop Offset="0.6" Color="#60FFFFFF" />
+                                                    <GradientStop Offset="1" Color="#00FFFFFF" />
+                                                </LinearGradientBrush>
+                                            </Rectangle.Fill>
+                                        </Rectangle>
+                                    </Border>
+                                </Decorator>
+
+                                <TextBlock HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           FontWeight="Bold"
+                                           Foreground="White"
+                                           Text="{Binding Path=(h:Cattach.Value), RelativeSource={RelativeSource TemplatedParent}}">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect BlurRadius="3" ShadowDepth="0" Color="Black" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.HandyDynamic}}" TargetType="ProgressBar">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Single, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.HandyDynamic}}" TargetType="ProgressBar">
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Accent, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.HandyDynamic}}" TargetType="ProgressBar">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Stripe, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static local:ControlKeys.Range}}" TargetType="ProgressBar">
+        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="IsIndeterminate" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ProgressBar">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="OnLoaded" Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
+                            <DoubleAnimationUsingKeyFrames RepeatBehavior="Forever" Storyboard.TargetName="Indicator" Storyboard.TargetProperty="(Border.Background).(Brush.Transform).(TransformGroup.Children)[1].(TranslateTransform.X)">
+                                <LinearDoubleKeyFrame KeyTime="0" Value="0" />
+                                <LinearDoubleKeyFrame KeyTime="0:0:.25" Value="21" />
+                            </DoubleAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid x:Name="TemplateRoot" SnapsToDevicePixels="true">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{Binding Path=(h:Cattach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}" />
+                        <Rectangle x:Name="PART_Track" />
+                        <Decorator x:Name="PART_Indicator" Margin="1" HorizontalAlignment="Left">
+                            <Border x:Name="Indicator" Background="{TemplateBinding Foreground}" CornerRadius="{Binding Path=(h:Cattach.CornerRadius), RelativeSource={RelativeSource TemplatedParent}}" />
+                        </Decorator>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <EventTrigger RoutedEvent="FrameworkElement.Loaded" SourceName="Indicator">
+                            <BeginStoryboard Storyboard="{StaticResource OnLoaded}" />
+                        </EventTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground">
+            <Setter.Value>
+                <DrawingBrush Stretch="None"
+                              TileMode="Tile"
+                              Viewport="0,0,20,32"
+                              ViewportUnits="Absolute">
+                    <DrawingBrush.Transform>
+                        <TransformGroup>
+                            <RotateTransform Angle="20" />
+                            <TranslateTransform x:Name="MyTransform" X="0" />
+                        </TransformGroup>
+                    </DrawingBrush.Transform>
+                    <DrawingBrush.Drawing>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Brush>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                    <GradientStop Offset="0" Color="{DynamicResource {x:Static h:SystemKeys.ColorAccent}}" />
+                                    <GradientStop Offset="0.5" Color="{DynamicResource {x:Static h:SystemKeys.ColorAccent}}" />
+                                    <GradientStop Offset="0.5" Color="White" />
+                                    <GradientStop Offset="1" Color="White" />
+                                </LinearGradientBrush>
+                            </GeometryDrawing.Brush>
+                            <GeometryDrawing.Geometry>
+                                <RectangleGeometry Rect="0,0,20,32" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.ProgressBar.Handy.Label, TypeInTargetAssembly={x:Type local:ProgressBarKeys}}" BasedOn="{StaticResource {x:Static h:ProgressBarKeys.HandyDynamic}}" TargetType="{x:Type ProgressBar}">
+        <Setter Property="Padding" Value="{DynamicResource {x:Static h:ThicknessKeys.Margin_10_0}}" />
+        <Setter Property="h:Cattach.Title" Value="完成进度" />
+        <Setter Property="h:Cattach.TitleTemplate" Value="{DynamicResource {x:Static local:ShareKeys.TitleTemplate}}" />
+    </Style>
+</ResourceDictionary>

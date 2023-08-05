@@ -10,6 +10,8 @@ namespace HeBianGu.Window.Main
     {
         public static new ComponentResourceKey DefaultKey => new ComponentResourceKey(typeof(MainWindow), "S.MainWindow.Default");
         public static new ComponentResourceKey SingleKey => new ComponentResourceKey(typeof(MainWindow), "S.MainWindow.Single");
+        public static new ComponentResourceKey MvpKey => new ComponentResourceKey(typeof(MainWindow), "S.MainWindow.Mvp");
+        public static new ComponentResourceKey HwndHostKey => new ComponentResourceKey(typeof(MainWindow), "S.MainWindow.HwndHost");
 
         static MainWindow()
         {

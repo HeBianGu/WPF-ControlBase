@@ -48,12 +48,22 @@ namespace HeBianGu.Control.Panel
 
             elment.Measure(finalSize);
 
-            if (Double.IsNaN(elment.Width) && elment.HorizontalAlignment == HorizontalAlignment.Stretch)
+            //if (Double.IsNaN(elment.Width) && elment.HorizontalAlignment == HorizontalAlignment.Stretch)
+            //{
+            //    elment.Width = finalSize.Width;
+            //}
+
+            //if (Double.IsNaN(elment.Height) && elment.VerticalAlignment == VerticalAlignment.Stretch)
+            //{
+            //    elment.Height = finalSize.Height;
+            //}
+
+            if (elment.HorizontalAlignment == HorizontalAlignment.Stretch)
             {
                 elment.Width = finalSize.Width;
             }
 
-            if (Double.IsNaN(elment.Height) && elment.VerticalAlignment == VerticalAlignment.Stretch)
+            if ( elment.VerticalAlignment == VerticalAlignment.Stretch)
             {
                 elment.Height = finalSize.Height;
             }

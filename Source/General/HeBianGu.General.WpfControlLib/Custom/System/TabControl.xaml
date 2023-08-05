@@ -1,0 +1,202 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Dynamic, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static local:SelectorKeys.Dynamic}}" TargetType="{x:Type TabControl}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static local:TabItemKeys.Default}}" />
+        <Setter Property="h:Cattach.Bool" Value="False" />
+        <Setter Property="Padding" Value="2,2,2,0" />
+        <Setter Property="h:Cattach.SearchWidth" Value="150" />
+        <Setter Property="h:Cattach.SearchDock" Value="Right" />
+        <Setter Property="h:Cattach.CaptionHeight" Value="Auto" />
+        <Setter Property="h:Cattach.CaptionHorizontalAlignment" Value="Stretch" />
+        <Setter Property="h:Cattach.CaptionBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabControl}">
+                    <Grid ClipToBounds="True" KeyboardNavigation.TabNavigation="Local" SnapsToDevicePixels="True">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition x:Name="ColumnDefinition0" />
+                            <ColumnDefinition x:Name="ColumnDefinition1" Width="0" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition x:Name="RowDefinition0" Height="Auto" />
+                            <RowDefinition x:Name="RowDefinition1" Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Border Grid.RowSpan="2"
+                                Grid.ColumnSpan="2"
+                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionBackground)}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}" />
+
+                        <Border x:Name="ContentPanel"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                KeyboardNavigation.DirectionalNavigation="Contained"
+                                KeyboardNavigation.TabIndex="2"
+                                KeyboardNavigation.TabNavigation="Local"
+                                Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IsOpen), Converter={x:Static h:Converter.GetTrueToVisible}}">
+                            <ContentPresenter x:Name="PART_SelectedContentHost"
+                                              Margin="{TemplateBinding Padding}"
+                                              VerticalAlignment="Top"
+                                              Content="{TemplateBinding SelectedContent}"
+                                              ContentSource="SelectedContent"
+                                              ContentStringFormat="{TemplateBinding SelectedContentStringFormat}"
+                                              ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              TextBlock.Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+
+                        <DockPanel x:Name="HeaderPanel" HorizontalAlignment="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionHorizontalAlignment)}" VerticalAlignment="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionVerticalAlignment)}">
+                            <Control DockPanel.Dock="Left" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionLeftTemplate)}" />
+                            <Control DockPanel.Dock="Right" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionRightTemplate)}" />
+                            <Control DockPanel.Dock="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.AttachDock)}" Template="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.AttachContent)}" />
+                            <TextBox x:Name="tb_search"
+                                     Width="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SearchWidth)}"
+                                     Height="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SearchHeight)}"
+                                     Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SearchMargin)}"
+                                     HorizontalAlignment="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SearchHorizontalAlignment)}"
+                                     VerticalAlignment="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SearchVerticalAlignment)}"
+                                     h:Cattach.IsUseHistory="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SearchUseHistory)}"
+                                     DockPanel.Dock="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.SearchDock)}"
+                                     Style="{DynamicResource {x:Static local:TextBoxKeys.Search}}"
+                                     Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UseSearch), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                                <h:Interaction.Behaviors>
+                                    <h:SearchItemsControlTextBoxBehvior ItemsControl="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+                                </h:Interaction.Behaviors>
+                            </TextBox>
+
+                            <Border Height="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionHeight)}"
+                                    Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionMargin)}"
+                                    BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionBorderBrush)}"
+                                    BorderThickness="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionBorderThickness)}"
+                                    CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionCornerRadius)}">
+                                <local:FScrollView Margin="0"
+                                                   Padding="0"
+                                                   HorizontalScrollBarVisibility="Auto"
+                                                   VerticalScrollBarVisibility="Auto">
+                                    <TabPanel HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              Panel.ZIndex="1"
+                                              IsItemsHost="True"
+                                              KeyboardNavigation.TabIndex="1" />
+                                </local:FScrollView>
+                            </Border>
+                        </DockPanel>
+
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="TabStripPlacement" Value="Bottom">
+                            <Setter TargetName="HeaderPanel" Property="Grid.Row" Value="1" />
+                            <Setter TargetName="ContentPanel" Property="Grid.Row" Value="0" />
+                            <Setter TargetName="RowDefinition0" Property="Height" Value="*" />
+                            <Setter TargetName="RowDefinition1" Property="Height" Value="Auto" />
+                            <Setter TargetName="HeaderPanel" Property="Margin" Value="2,0,2,2" />
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Left">
+                            <Setter TargetName="HeaderPanel" Property="Grid.Row" Value="0" />
+                            <Setter TargetName="ContentPanel" Property="Grid.Row" Value="0" />
+                            <Setter TargetName="HeaderPanel" Property="Grid.Column" Value="0" />
+                            <Setter TargetName="ContentPanel" Property="Grid.Column" Value="1" />
+                            <Setter TargetName="ColumnDefinition0" Property="Width" Value="Auto" />
+                            <Setter TargetName="ColumnDefinition1" Property="Width" Value="*" />
+                            <Setter TargetName="RowDefinition0" Property="Height" Value="*" />
+                            <Setter TargetName="RowDefinition1" Property="Height" Value="0" />
+                            <Setter TargetName="HeaderPanel" Property="Margin" Value="2,2,0,2" />
+                        </Trigger>
+                        <Trigger Property="TabStripPlacement" Value="Right">
+                            <Setter TargetName="HeaderPanel" Property="Grid.Row" Value="0" />
+                            <Setter TargetName="ContentPanel" Property="Grid.Row" Value="0" />
+                            <Setter TargetName="HeaderPanel" Property="Grid.Column" Value="1" />
+                            <Setter TargetName="ContentPanel" Property="Grid.Column" Value="0" />
+                            <Setter TargetName="ColumnDefinition0" Property="Width" Value="*" />
+                            <Setter TargetName="ColumnDefinition1" Property="Width" Value="Auto" />
+                            <Setter TargetName="RowDefinition0" Property="Height" Value="*" />
+                            <Setter TargetName="RowDefinition1" Property="Height" Value="0" />
+                            <Setter TargetName="HeaderPanel" Property="Margin" Value="0,2,2,2" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <Grid />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Light" />
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Single">
+                <Setter Property="h:Cattach.CaptionBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Reverse">
+                <Setter Property="h:Cattach.CaptionBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}" />
+                <Setter Property="h:Cattach.CaptionForeground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Foreground}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Clear">
+                <Setter Property="h:Cattach.CaptionBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.StyleType)}" Value="Accent">
+                <Setter Property="h:Cattach.CaptionBackground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Background}" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Icon, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Dynamic}}" TargetType="{x:Type TabControl}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:TabItemKeys.Icon}}" />
+    </Style>
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Default, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Dynamic}}" TargetType="{x:Type TabControl}">
+        <Setter Property="h:Cattach.StyleType" Value="Default" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Single, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Default}}" TargetType="{x:Type TabControl}">
+        <Setter Property="h:Cattach.StyleType" Value="Single" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Accent, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Default}}" TargetType="{x:Type TabControl}">
+        <Setter Property="h:Cattach.StyleType" Value="Accent" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Line, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static h:TabControlKeys.Dynamic}}" TargetType="{x:Type TabControl}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource {x:Static h:TabItemKeys.Line}}" />
+
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabControl.Office, TypeInTargetAssembly={x:Type local:TabControlKeys}}" BasedOn="{StaticResource {x:Static local:TabControlKeys.Dynamic}}" TargetType="{x:Type TabControl}">
+        <Setter Property="h:Cattach.CaptionHeight" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+        <Setter Property="h:Cattach.ItemHeight" Value="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}" />
+        <Setter Property="h:Cattach.UseSearch" Value="False" />
+        <Setter Property="h:Cattach.IsOpen" Value="True" />
+        <Setter Property="h:Cattach.CaptionMargin" Value="0 0 0 0" />
+        <Setter Property="h:Cattach.AttachContent">
+            <Setter.Value>
+                <ControlTemplate>
+                    <CheckBox Margin="0,0"
+                              h:Cattach.CheckedIcon="&#xe66e;"
+                              h:Cattach.IconSize="{DynamicResource {x:Static h:IconSizeKeys.Small}}"
+                              h:Cattach.UncheckedIcon="&#xe66f;"
+                              BorderThickness="0"
+                              Foreground="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.CaptionForeground)}"
+                              IsChecked="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.IsOpen)}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="h:Cattach.AttachDock" Value="Right" />
+    </Style>
+</ResourceDictionary>

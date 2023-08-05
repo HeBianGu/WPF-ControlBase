@@ -1,0 +1,382 @@
+﻿<h:MainWindow x:Class="HeBianGu.App.Currency.MainWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:h="https://github.com/HeBianGu"
+              xmlns:local="clr-namespace:HeBianGu.App.Currency"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:system="clr-namespace:System;assembly=netstandard"
+              Title="货币兑换系统 V1.0.0"
+              Width="1200"
+              Height="800"
+              h:Cattach.Icon=""
+              CaptionBackground="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+              CaptionForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+              CaptionHeight="50"
+              DataContext="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel}"
+              Icon="{DynamicResource {x:Static h:ImageSourceKeys.Logo}}"
+              IconSize="30"
+              NotifyIconSource="/HeBianGu.General.WpfControlLib;component/Resources/logo.ico"
+              mc:Ignorable="d">
+    <Window.Resources>
+        <Style BasedOn="{StaticResource {x:Static h:CheckBoxKeys.Dynamic}}" TargetType="CheckBox">
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="h:Cattach.UseGuide" Value="True" />
+            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}" />
+        </Style>
+        <Style BasedOn="{StaticResource {x:Static h:TextBoxKeys.Label}}" TargetType="TextBox">
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="h:Cattach.UseGuide" Value="True" />
+            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.Title)}" />
+        </Style>
+        <Style BasedOn="{StaticResource {x:Static h:DatePickerKeys.Label}}" TargetType="DatePicker">
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="h:Cattach.UseGuide" Value="True" />
+            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.Title)}" />
+        </Style>
+        <Style BasedOn="{StaticResource {x:Static h:ComboBoxKeys.Label}}" TargetType="ComboBox">
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="h:Cattach.UseGuide" Value="True" />
+            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.Title)}" />
+        </Style>
+        <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" TargetType="Button">
+            <Setter Property="h:Cattach.UseGuide" Value="True" />
+            <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="Command" Value="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.AddPageCommand}" />
+            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}" />
+        </Style>
+
+        <Style x:Key="S.MenuItem.AddPage" BasedOn="{StaticResource {x:Static h:MenuItemKeys.Handy}}" TargetType="MenuItem">
+            <Setter Property="Command" Value="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.AddPageCommand}" />
+            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
+        </Style>
+
+        <Style x:Key="S.MenuItem.View" BasedOn="{StaticResource {x:Static h:MenuItemKeys.Handy}}" TargetType="MenuItem">
+            <Setter Property="Command" Value="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.ViewCommand}" />
+            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
+        </Style>
+
+        <DataTemplate DataType="{x:Type local:SelectInfo}">
+            <UniformGrid Columns="1" Width="400">
+                <ComboBox h:Cattach.Title="门店" SelectedIndex="0">
+                    <system:String>门店01</system:String>
+                    <system:String>门店02</system:String>
+                </ComboBox>
+                <ComboBox h:Cattach.Title="柜台" SelectedIndex="0">
+                    <system:String>柜台01</system:String>
+                    <system:String>柜台02</system:String>
+                </ComboBox>
+            </UniformGrid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type local:TestPage}">
+            <h:AutoColumnPagedDataGrid AutoGenerateColumns="False" DataSource="{Binding Collection}" />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:HomePage}">
+            <DockPanel LastChildFill="False">
+                <DockPanel DockPanel.Dock="Bottom">
+                    <Button Width="100"
+                            Height="Auto"
+                            VerticalAlignment="Stretch"
+                            Content="结账(F2)"
+                            DockPanel.Dock="Right" />
+                    <DockPanel>
+                        <h:Row Style="{DynamicResource {x:Static h:Row.Column10Key}}">
+                            <Button Grid.Column="0"
+                                    Grid.ColumnSpan="2"
+                                    Command="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.ViewCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                                    Content="新增(F2)" />
+                            <Button Grid.Column="2" Content="查询(F2)" />
+                            <Button Grid.Column="3" Content="证件照查询" />
+                            <Button Grid.Column="4" Content="打印(F2)" />
+                            <Button Grid.Column="5" Content="计算器" />
+                            <Button Grid.Column="6" Content="购汇申请书" />
+                            <Button Grid.Column="7"
+                                    Command="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.ViewCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                                    Content="购汇签字" />
+                            <Button Grid.Column="8"
+                                    Command="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.ViewCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                                    Content="客户签名" />
+                            <Button Grid.Column="9" Content="生成推送" />
+                        </h:Row>
+
+                        <h:Row Style="{DynamicResource {x:Static h:Row.Column5Key}}">
+                            <Button Content="汇率变更申请(F2)" />
+                            <Button Grid.Column="1" Content="汇率变更查询(F2)" />
+                            <Button Grid.Column="2" Content="汇率变更授权(F2)" />
+                            <Button Grid.Column="3" Content="否定汇率变更(F2)" />
+                            <Button Grid.Column="4" Content="当前汇率" />
+                        </h:Row>
+                        <h:Row Style="{DynamicResource {x:Static h:Row.Column5Key}}">
+                            <Button Content="兑换撤销列表" />
+                            <Button Grid.Column="1" Content="兑换修改列表" />
+                            <Button Grid.Column="2"
+                                    Command="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.ViewCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                                    Content="快捷键说明(F2)" />
+                            <Button Grid.Column="3" Content="账户余额(F2)" />
+                            <Button Grid.Column="4"
+                                    Command="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.ViewCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Content}"
+                                    Content="客户兑换信息" />
+                        </h:Row>
+                    </DockPanel>
+                </DockPanel>
+                <!--<Separator Margin="0,5" DockPanel.Dock="Top" Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />-->
+                <Grid VerticalAlignment="Top" DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Row="0"
+                             Grid.Column="0"
+                             h:Cattach.Title="门店"
+                             Text="门店01" />
+                    <TextBox Grid.Row="0"
+                             Grid.Column="1"
+                             h:Cattach.Title="柜台"
+                             Text="柜台01">
+                        <h:Cattach.AttachContent>
+                            <ControlTemplate>
+                                <Button Content="查询" />
+                            </ControlTemplate>
+                        </h:Cattach.AttachContent>
+                    </TextBox>
+                    <DatePicker Grid.Row="0" Grid.Column="2" h:Cattach.Title="单据时间" />
+
+                    <TextBox Grid.Row="1"
+                             Grid.Column="0"
+                             h:Cattach.Title="水单单号"
+                             Text="1351921" />
+                    <TextBox Grid.Row="1"
+                             Grid.Column="1"
+                             h:Cattach.Title="客户"
+                             Text="">
+                        <h:Cattach.AttachContent>
+                            <ControlTemplate>
+                                <Button Content="读卡" />
+                            </ControlTemplate>
+                        </h:Cattach.AttachContent>
+                    </TextBox>
+                    <TextBox Grid.Row="1"
+                             Grid.Column="2"
+                             h:Cattach.Title="柜员"
+                             Text="柜员01" />
+
+                    <ComboBox Grid.Row="2"
+                              Grid.Column="0"
+                              h:Cattach.Title="证件类型"
+                              SelectedIndex="0">
+                        <system:String>01居民身份证</system:String>
+                        <system:String>02港澳通行证</system:String>
+                    </ComboBox>
+                    <TextBox Grid.Row="2"
+                             Grid.Column="1"
+                             h:Cattach.Title="证件号码"
+                             Text="">
+                        <h:Cattach.AttachContent>
+                            <ControlTemplate>
+                                <Button Content="拍照" />
+                            </ControlTemplate>
+                        </h:Cattach.AttachContent>
+                    </TextBox>
+                    <ComboBox Grid.Row="2"
+                              Grid.Column="2"
+                              h:Cattach.Title="国家/地区"
+                              SelectedIndex="0">
+                        <system:String>86中国</system:String>
+                    </ComboBox>
+
+                    <ComboBox Grid.Row="3"
+                              Grid.Column="0"
+                              h:Cattach.Title="资金属性"
+                              SelectedIndex="0">
+                        <system:String>01</system:String>
+                        <system:String>02</system:String>
+                    </ComboBox>
+                    <TextBox Grid.Row="3"
+                             Grid.Column="1"
+                             h:Cattach.Title="手机号码"
+                             Text="" />
+                    <ComboBox Grid.Row="3"
+                              Grid.Column="2"
+                              h:Cattach.Title="兑换类型"
+                              SelectedIndex="0">
+                        <system:String>01</system:String>
+                        <system:String>02</system:String>
+                    </ComboBox>
+
+                    <ComboBox Grid.Row="4"
+                              Grid.Column="0"
+                              h:Cattach.Title="兑换模式"
+                              SelectedIndex="0">
+                        <system:String>01</system:String>
+                        <system:String>02</system:String>
+                    </ComboBox>
+
+
+                    <TextBox Grid.Row="5" Grid.Column="0" h:Cattach.Title="外管单号" />
+
+                    <ComboBox Grid.Row="5"
+                              Grid.Column="1"
+                              h:Cattach.Title="结汇资金形态"
+                              h:Cattach.TitleWidth="Auto"
+                              SelectedIndex="0">
+                        <system:String>外币现钞</system:String>
+                    </ComboBox>
+
+                    <TextBox Grid.Row="6"
+                             Grid.Column="0"
+                             Grid.ColumnSpan="2"
+                             h:Cattach.Title="备注" />
+
+                    <DockPanel Grid.Row="6" Grid.Column="2">
+                        <CheckBox Content="扫码" />
+                        <CheckBox Content="数币" />
+                    </DockPanel>
+                </Grid>
+                <Separator Margin="0,5" DockPanel.Dock="Top" Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
+
+                <Grid VerticalAlignment="Top" DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+
+                    <TextBox Grid.Row="0"
+                             Grid.Column="2"
+                             h:Cattach.Title="手续费"
+                             Text="0.00" />
+
+                    <TextBox Grid.Row="1"
+                             Grid.Column="0"
+                             h:Cattach.Title="水单单号"
+                             Text="1351921" />
+                    <TextBox Grid.Row="1"
+                             Grid.Column="1"
+                             h:Cattach.Title="客户"
+                             Text="" />
+
+                    <Button Grid.Row="1" Grid.Column="2" Content="手续费减免" />
+
+                    <ComboBox Grid.Row="2"
+                              Grid.Column="0"
+                              h:Cattach.Title="收款币别"
+                              SelectedIndex="0">
+                        <system:String>01</system:String>
+                        <system:String>02</system:String>
+                    </ComboBox>
+                    <TextBox Grid.Row="2"
+                             Grid.Column="1"
+                             h:Cattach.Title="收款金额"
+                             Text="">
+                        <h:Cattach.AttachContent>
+                            <ControlTemplate>
+                                <Button Content="推支付码" />
+                            </ControlTemplate>
+                        </h:Cattach.AttachContent>
+                    </TextBox>
+                    <TextBox Grid.Row="2"
+                             Grid.Column="2"
+                             h:Cattach.Title="折算美元"
+                             Text="" />
+
+                    <ComboBox Grid.Row="3"
+                              Grid.Column="0"
+                              h:Cattach.Title="付款币别"
+                              SelectedIndex="0">
+                        <system:String>01</system:String>
+                        <system:String>02</system:String>
+                    </ComboBox>
+                    <TextBox Grid.Row="3"
+                             Grid.Column="1"
+                             h:Cattach.Title="付款金额"
+                             Text="" />
+                    <TextBox Grid.Row="2"
+                             Grid.Column="2"
+                             h:Cattach.Title="付款币别余额"
+                             h:Cattach.TitleWidth="Auto"
+                             Text="00.00" />
+
+                    <CheckBox Grid.Row="4" Grid.Column="1" Content="事后补录" />
+                </Grid>
+            </DockPanel>
+        </DataTemplate>
+    </Window.Resources>
+    <h:Cattach.CaptionLeftTemplate>
+        <ControlTemplate>
+            <Menu VerticalAlignment="Center" Margin="10 0">
+                <MenuItem Header="文件">
+                    <MenuItem Header="新建" Style="{StaticResource S.MenuItem.View}"/>
+                    <MenuItem Header="保存" Style="{StaticResource S.MenuItem.View}"/>
+                    <MenuItem Header="退出" Style="{StaticResource S.MenuItem.View}"/>
+                </MenuItem>
+                <MenuItem Header="操作">
+                    <MenuItem Header="打印" Style="{StaticResource S.MenuItem.View}"/>
+                    <MenuItem Header="购汇签字" Style="{StaticResource S.MenuItem.View}"/>
+                    <MenuItem Header="客户签名" Style="{StaticResource S.MenuItem.View}"/>
+                    <MenuItem Header="生成推送" Style="{StaticResource S.MenuItem.View}"/>
+                    <MenuItem Header="结账" Style="{StaticResource S.MenuItem.View}"/>
+                </MenuItem>
+                <MenuItem Header="查询">
+                    <MenuItem Header="汇率变更查询" Style="{StaticResource S.MenuItem.AddPage}"/>
+                    <MenuItem Header="当前汇率" Style="{StaticResource S.MenuItem.AddPage}"/>
+                    <MenuItem Header="证件照查询" Style="{StaticResource S.MenuItem.AddPage}"/>
+                    <MenuItem Header="客户兑换信息" Style="{StaticResource S.MenuItem.AddPage}"/>
+                    <MenuItem Header="账户余额" Style="{StaticResource S.MenuItem.AddPage}"/>
+                    <MenuItem Header="兑换修改列表" Style="{StaticResource S.MenuItem.AddPage}"/>
+                    <MenuItem Header="兑换撤销列表" Style="{StaticResource S.MenuItem.AddPage}"/>
+                </MenuItem>
+                <MenuItem Header="工具">
+                    <MenuItem Header="计算器" Style="{StaticResource S.MenuItem.View}"/>
+                    <MenuItem Header="快捷键说明" Style="{StaticResource S.MenuItem.View}"/>
+                    <MenuItem Header="证件照查询" Style="{StaticResource S.MenuItem.View}"/>
+                </MenuItem>
+            </Menu>
+        </ControlTemplate>
+    </h:Cattach.CaptionLeftTemplate>
+    <Grid>
+        <TabControl h:Cattach.UseClose="True" ItemsSource="{Binding Pages}" SelectedItem="{Binding SelectedPage}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <Button x:Name="btn_close" DockPanel.Dock="Right" Style="{DynamicResource {x:Static h:ButtonKeys.CloseCircle}}">
+                            <h:Interaction.Behaviors>
+                                <h:RemoveItemsControlButtonBehavior />
+                            </h:Interaction.Behaviors>
+                        </Button>
+                        <TextBlock MinWidth="100" VerticalAlignment="Center" Text="{Binding Name}" />
+                    </DockPanel>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Name}" Value="首页">
+                            <Setter TargetName="btn_close" Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+        </TabControl>
+    </Grid>
+</h:MainWindow>

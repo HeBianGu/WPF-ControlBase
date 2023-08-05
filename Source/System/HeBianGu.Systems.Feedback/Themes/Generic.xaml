@@ -1,0 +1,92 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Feedback">
+
+    <!--<ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Systems.Feedback;component/Step.xaml" />
+    </ResourceDictionary.MergedDictionaries>-->
+
+    <DataTemplate DataType="{x:Type local:FeedbackViewPresenter}">
+        <Grid Width="800">
+            <DockPanel>
+                <TextBlock Margin="10,20"
+                           HorizontalAlignment="Left"
+                           DockPanel.Dock="Top"
+                           Text="{Binding Title}" />
+                <TextBlock Margin="10,10"
+                           DockPanel.Dock="Bottom"
+                           FontSize="{DynamicResource {x:Static h:FontSizeKeys.Default}}"
+                           Style="{DynamicResource {x:Static h:TextBlockKeys.AnimationTranslateXToLeft}}"
+                           Text="您提交的信息用于解决您的问题，我们会严格保密。" />
+
+                <TextBox Margin="0,5"
+                         h:Cattach.BackgroundColumn="1"
+                         h:Cattach.Title="您的称呼"
+                         h:Cattach.TitleWidth="80"
+                         h:Cattach.UseBackground="False"
+                         DockPanel.Dock="Bottom"
+                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
+                         Text="{Binding YourName}" />
+                <TextBox Margin="0,5"
+                         h:Cattach.BackgroundColumn="1"
+                         h:Cattach.Title="联系方式"
+                         h:Cattach.TitleWidth="80"
+                         h:Cattach.UseBackground="False"
+                         h:Cattach.Watermark="手机号/QQ/邮箱等"
+                         DockPanel.Dock="Bottom"
+                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
+                         Text="{Binding Contact}" />
+                <ItemsControl Margin="80,0" DockPanel.Dock="Bottom">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="50" Height="50" Margin="10">
+                                <Image Style="{DynamicResource {x:Static h:ImageKeys.Logo}}" />
+                                <Button Margin="0" Style="{DynamicResource {x:Static h:ButtonKeys.CloseFlag}}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <h:TestViewModel />
+                    <h:TestViewModel />
+                    <h:TestViewModel />
+                    <h:TestViewModel />
+                </ItemsControl>
+
+                <Button Margin="0,5"
+                        HorizontalAlignment="Left"
+                        h:Cattach.BackgroundColumn="1"
+                        h:Cattach.Title="上传截图"
+                        h:Cattach.TitleWidth="80"
+                        h:Cattach.UseBackground="False"
+                        Content="选择图片"
+                        DockPanel.Dock="Bottom"
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Label}}" />
+
+                <TextBox MinHeight="80"
+                         Margin="0,5"
+                         h:Cattach.BackgroundColumn="1"
+                         h:Cattach.Title="问题描述"
+                         h:Cattach.TitleHeight="Auto"
+                         h:Cattach.TitleVerticalAlignment="Center"
+                         h:Cattach.TitleWidth="80"
+                         h:Cattach.UseBackground="False"
+                         Style="{DynamicResource {x:Static h:TextBoxKeys.LabelClear}}"
+                         Text="{Binding Text}" />
+
+            </DockPanel>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsAuthority}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+</ResourceDictionary>

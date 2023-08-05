@@ -11,7 +11,7 @@ namespace System
         /// 注册
         /// </summary>
         /// <param name="service"></param>
-        public static void AddPropertyGrid(this IServiceCollection service)
+        public static void AddVlc(this IServiceCollection service)
         {
             service.AddSingleton<IService, Service>();
         }
@@ -20,9 +20,10 @@ namespace System
         /// 配置
         /// </summary>
         /// <param name="service"></param>
-        public static void UsePropertyGrid(this IApplicationBuilder service, Action<Setting> action)
+        public static void UseVlc(this IApplicationBuilder service, Action<VlcSetting> action)
         {
-            action?.Invoke(Setting.Instance);
+            action?.Invoke(VlcSetting.Instance);
+            SystemSetting.Instance?.Add(VlcSetting.Instance);
         }
     }
 

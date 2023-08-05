@@ -14,45 +14,46 @@
             <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Transparent}}" TargetType="Button">
                 <Setter Property="h:Cattach.IconSize" Value="53" />
                 <Setter Property="Height" Value="Auto" />
+                <Setter Property="Width" Value="Auto" />
                 <Setter Property="h:Cattach.Icon" Value="&#xe602;" />
             </Style>
 
             <DataTemplate DataType="{x:Type h:TestViewModel}">
                 <Grid>
-                    <Button Content="{Binding Value}" />
+                    <Button Width="Auto" Height="Auto" Content="{Binding Value}" />
                 </Grid>
             </DataTemplate>
         </ScrollViewer.Resources>
         <StackPanel>
             <h:Row Style="{DynamicResource {x:Static h:Row.Column12Key}}">
-                <Button Command="{Binding RelayCommand}" 
-                           CommandParameter="Button.Click.Add"
-                           Content="添加.."
-                           Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" />
+                <Button Command="{Binding RelayCommand}"
+                        CommandParameter="Button.Click.Add"
+                        Content="添加.."
+                        Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" />
 
                 <Button Grid.Column="1"
-                           Command="{Binding RelayCommand}"
-                           CommandParameter="Button.Click.Delete"
-                           Content="删除.."
-                           Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" />
+                        Command="{Binding RelayCommand}"
+                        CommandParameter="Button.Click.Delete"
+                        Content="删除.."
+                        Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" />
 
                 <Button Grid.Column="2"
-                           Command="{Binding RelayCommand}"
-                           CommandParameter="Button.Click.Previous"
-                           Content="上一项.."
-                           Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" />
+                        Command="{Binding RelayCommand}"
+                        CommandParameter="Button.Click.Previous"
+                        Content="上一项.."
+                        Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" />
 
                 <Button Grid.Column="3"
-                           Command="{Binding RelayCommand}"
-                           CommandParameter="Button.Click.Next"
-                           Content="下一项.."
-                           Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" />
+                        Command="{Binding RelayCommand}"
+                        CommandParameter="Button.Click.Next"
+                        Content="下一项.."
+                        Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" />
 
             </h:Row>
 
             <UniformGrid Columns="2">
                 <GroupBox Height="500" Header="CirlePanel">
-                    <ListBox ItemsSource="{Binding Collection}">
+                    <ListBox ItemsSource="{Binding Collection}" h:Cattach.ItemHeight="Auto">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <h:CirclePanel AngleToCenter="True" />
@@ -64,16 +65,16 @@
                                 <DockPanel>
                                     <h:Row DockPanel.Dock="Top" Style="{DynamicResource {x:Static h:Row.Column12Key}}">
                                         <Button Grid.Column="0"
-                                                   Command="{x:Static h:CommandService.Prev}"
-                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
-                                                   h:Cattach.Icon="&#xe8b7;"
-                                                   Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                h:Cattach.Icon="&#xe8b7;"
+                                                Command="{x:Static h:Commander.Prev}"
+                                                CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
 
                                         <Button Grid.Column="1"
-                                                   Command="{x:Static h:CommandService.Next}"
-                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
-                                                   h:Cattach.Icon="&#xe8b6;"
-                                                   Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                h:Cattach.Icon="&#xe8b6;"
+                                                Command="{x:Static h:Commander.Next}"
+                                                CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
                                     </h:Row>
 
                                     <ItemsPresenter x:Name="items" />
@@ -84,7 +85,7 @@
                 </GroupBox>
 
                 <GroupBox Header="CirlePanel">
-                    <ListBox ItemsSource="{Binding Collection}">
+                    <ListBox ItemsSource="{Binding Collection}"  h:Cattach.ItemHeight="Auto">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <h:CirclePanel DisplayCount="8">
@@ -100,16 +101,16 @@
                                 <DockPanel>
                                     <h:Row DockPanel.Dock="Top" Style="{DynamicResource {x:Static h:Row.Column12Key}}">
                                         <Button Grid.Column="0"
-                                                   Command="{x:Static h:CommandService.Prev}"
-                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
-                                                   h:Cattach.Icon="&#xe8b7;"
-                                                   Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                h:Cattach.Icon="&#xe8b7;"
+                                                Command="{x:Static h:Commander.Prev}"
+                                                CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
 
                                         <Button Grid.Column="1"
-                                                   Command="{x:Static h:CommandService.Next}"
-                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
-                                                   h:Cattach.Icon="&#xe8b6;"
-                                                   Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                h:Cattach.Icon="&#xe8b6;"
+                                                Command="{x:Static h:Commander.Next}"
+                                                CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
                                     </h:Row>
 
                                     <ItemsPresenter x:Name="items" />
@@ -120,7 +121,7 @@
                 </GroupBox>
 
                 <GroupBox Header="CoverPanel">
-                    <ListBox>
+                    <ListBox h:Cattach.ItemHeight="Auto">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <h:CoverPanel>
@@ -136,16 +137,16 @@
                                 <DockPanel>
                                     <h:Row DockPanel.Dock="Top" Style="{DynamicResource {x:Static h:Row.Column12Key}}">
                                         <Button Grid.Column="0"
-                                                   Command="{x:Static h:CommandService.Prev}"
-                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
-                                                   h:Cattach.Icon="&#xe8b7;"
-                                                   Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                h:Cattach.Icon="&#xe8b7;"
+                                                Command="{x:Static h:Commander.Prev}"
+                                                CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
 
                                         <Button Grid.Column="1"
-                                                   Command="{x:Static h:CommandService.Next}"
-                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
-                                                   h:Cattach.Icon="&#xe8b6;"
-                                                   Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                h:Cattach.Icon="&#xe8b6;"
+                                                Command="{x:Static h:Commander.Next}"
+                                                CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
                                     </h:Row>
 
                                     <ItemsPresenter x:Name="items" />
@@ -154,62 +155,62 @@
                         </ListBox.Template>
 
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Purple"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Purple" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Gray"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Gray" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Red"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Red" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Orange"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Orange" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Green"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Green" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Beige"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Beige" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Blue"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Blue" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Beige"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Beige" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Green"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Green" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Orange"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Orange" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Red"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Red" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Gray"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Gray" />
                         <Button Width="300"
-                                   Height="400"
-                                   Background="Purple"
-                                   h:Cattach.Icon="" />
+                                Height="400"
+                                h:Cattach.Icon=""
+                                Background="Purple" />
                     </ListBox>
                 </GroupBox>
 
                 <GroupBox Height="500" Header="ArcPanel">
-                    <ListBox ItemsSource="{Binding Collection}">
+                    <ListBox ItemsSource="{Binding Collection}"  h:Cattach.ItemHeight="Auto">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <h:ArcPanel Margin="10"
@@ -225,16 +226,16 @@
                                 <DockPanel>
                                     <h:Row DockPanel.Dock="Top" Style="{DynamicResource {x:Static h:Row.Column12Key}}">
                                         <Button Grid.Column="0"
-                                                   Command="{x:Static h:CommandService.Prev}"
-                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
-                                                   h:Cattach.Icon="&#xe8b7;"
-                                                   Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                h:Cattach.Icon="&#xe8b7;"
+                                                Command="{x:Static h:Commander.Prev}"
+                                                CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
 
                                         <Button Grid.Column="1"
-                                                   Command="{x:Static h:CommandService.Next}"
-                                                   CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
-                                                   h:Cattach.Icon="&#xe8b6;"
-                                                   Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
+                                                h:Cattach.Icon="&#xe8b6;"
+                                                Command="{x:Static h:Commander.Next}"
+                                                CommandTarget="{Binding ElementName=items, Converter={x:Static h:XConverter.ItemPanelConverter}}"
+                                                Style="{StaticResource {x:Static h:ButtonKeys.Transparent}}" />
                                     </h:Row>
 
                                     <ItemsPresenter x:Name="items" />

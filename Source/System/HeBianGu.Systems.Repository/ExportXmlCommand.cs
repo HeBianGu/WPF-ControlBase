@@ -36,11 +36,11 @@ namespace HeBianGu.Systems.Repository
             {
 
                 XmlSerializer.Save(saveFileDialog.FileName, parameter);
-                Message.Instance.ShowSnackMessageWithNotice("导出成功!");
+                MessageProxy.Snacker.ShowTime("导出成功!");
             }
             catch (Exception ex)
             {
-                MessageDialog.Instance.ShowSumit("保存错误,详情请查看日志");
+                MessageProxy.Windower.ShowSumit("保存错误,详情请查看日志");
                 Logger.Instance.Error(ex);
             }
 

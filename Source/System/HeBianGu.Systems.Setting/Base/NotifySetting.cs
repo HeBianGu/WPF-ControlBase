@@ -5,7 +5,7 @@ using HeBianGu.Base.WpfBase;
 namespace HeBianGu.Systems.Setting
 {
     /// <summary> 提醒 </summary>
-    [SettingConfig(Name = "提醒", Group = "基本设置")]
+    [Displayer(Name = "提醒", GroupName = SystemSetting.GroupMessage)]
     public class NotifySetting : Setting<NotifySetting>
     {
     }

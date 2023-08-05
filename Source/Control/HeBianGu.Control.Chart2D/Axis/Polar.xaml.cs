@@ -113,6 +113,9 @@ namespace HeBianGu.Control.Chart2D
 
             Point center = new Point(0, 0);
 
+            if (this.yAxis.Count == 0)
+                return;
+
             double angle = 360 / this.yAxis.Count;
 
             //  Do ：绘制圆环 

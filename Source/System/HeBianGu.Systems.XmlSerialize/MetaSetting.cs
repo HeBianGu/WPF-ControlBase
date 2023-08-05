@@ -7,7 +7,7 @@ using System.Windows.Threading;
 
 namespace HeBianGu.Systems.XmlSerialize
 {
-    [SettingConfig(Name = "元配置数据", Group = "数据设置")]
+    [Displayer(Name = "元配置数据", GroupName = SystemSetting.GroupData)]
     public class MetaSetting : LazySettingInstance<MetaSetting>
     {
         [DefaultValue(DispatcherPriority.SystemIdle)]

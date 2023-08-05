@@ -105,13 +105,13 @@ namespace HeBianGu.Systems.Repository
 
             if (repository == null)
             {
-                await Message.Instance.ShowSumitMessge(error);
+                await MessageProxy.Messager.ShowSumit(error);
                 return;
             }
 
             System.Reflection.MethodInfo method = repository.GetType().GetMethod("GetAll");
 
-            IEnumerable enumerable = await Message.Instance.ShowWaittingResultMessge(() =>
+            IEnumerable enumerable = await MessageProxy.Messager.ShowWaitter(() =>
                 {
                     return method.Invoke(repository, new object[] { null }) as IEnumerable;
                 });

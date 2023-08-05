@@ -14,18 +14,21 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <ListBox SelectedItem="{Binding SelectedItem}"
-                 VerticalAlignment="Stretch" ItemsSource="{Binding LinkActions}"
+        <ListBox VerticalAlignment="Stretch"
+                 h:Cattach.ItemHeight="Auto"
+                 h:Cattach.ItemHorizontalAlignment="Center"
+                 h:Cattach.ItemHorizontalContentAlignment="Center"
                  BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
                  BorderThickness="0,0,1,0"
-                 SelectedIndex="0">
-            <ListBox.Resources>
+                 ItemsSource="{Binding LinkActions}"
+                 SelectedIndex="0"
+                 SelectedItem="{Binding SelectLink,Mode=TwoWay}"
+                 Style="{DynamicResource {x:Static h:ListBoxKeys.Dynamic}}">
+            <ListBox.ItemTemplate>
                 <DataTemplate DataType="{x:Type h:LinkAction}">
                     <Grid Height="80">
                         <StackPanel Margin="0" VerticalAlignment="Center">
-
                             <TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Logo}" />
-
                             <TextBlock Margin="0,10,0,0"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
@@ -33,34 +36,21 @@
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
-            </ListBox.Resources>
+            </ListBox.ItemTemplate>
 
-            <ListBox.Template>
+            <!--<ListBox.Template>
                 <ControlTemplate TargetType="ListBox">
                     <Grid>
-                        <Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_5}}" Opacity="0.6" />
+                        <Border Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}" Opacity="0.6" />
                         <ItemsPresenter SnapsToDevicePixels="True" />
                     </Grid>
                 </ControlTemplate>
-            </ListBox.Template>
-
-            <!--<h:LinkAction Action="Space"
-                          Controller="Loyout"
-                          DisplayName="会话"
-                          Logo="&#xe613;" />
-            <h:LinkAction Action="Share"
-                          Controller="Loyout"
-                          DisplayName="好友"
-                          Logo="&#xe764;" />
-            <h:LinkAction Action="Near"
-                          Controller="Loyout"
-                          DisplayName="群组"
-                          Logo="&#xe618;" />-->
+            </ListBox.Template>-->
         </ListBox>
 
         <!--  中间内容  -->
         <Grid Grid.Column="1">
-            <h:LinkActionFrame LinkAction="{Binding SelectedItem}" />
+            <h:LinkActionFrame LinkAction="{Binding SelectLink,Mode=TwoWay}" />
         </Grid>
     </Grid>
 </UserControl>

@@ -1,6 +1,8 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
+using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.MessageContainer;
+using HeBianGu.General.WpfControlLib;
 
 namespace HeBianGu.Window.Notify
 {
@@ -24,7 +26,7 @@ namespace HeBianGu.Window.Notify
             };
         }
 
-        public void Add(MessageBase message)
+        public void Add(INotifyMessageItem message)
         {
             this.contrainer.Add(message);
         }

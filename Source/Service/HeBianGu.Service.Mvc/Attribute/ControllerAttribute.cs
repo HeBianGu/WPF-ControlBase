@@ -22,6 +22,19 @@ namespace System
         }
     }
 
+    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
+    public sealed class RouteAttribute : Attribute
+    {
+        public string Path { get; set; }
+        public RouteAttribute(string path)
+        {
+            Path = path;
+        }
+    }
+
+
+
+
 
     /// <summary> 设置只加载一次 </summary>
     public sealed class InitializeOperationAttribute : Attribute

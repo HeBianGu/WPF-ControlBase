@@ -5,8 +5,18 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/HeBianGu.Systems.Setting;component/SettingBox.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Systems.Setting;component/SettingBox.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-
-
+    <DataTemplate DataType="{x:Type local:SettingViewPresenter}">
+        <Button Style="{DynamicResource {x:Static h:MvpKeys.Button}}" />
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsAuthority}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
 </ResourceDictionary>

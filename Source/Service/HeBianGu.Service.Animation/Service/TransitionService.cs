@@ -1,6 +1,5 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
-using HeBianGu.General.WpfControlLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -79,6 +78,7 @@ namespace HeBianGu.Service.Animation
         public static void OnIsVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             FrameworkElement element = d as FrameworkElement;
+
 
             TransitionCollection actions = TransitionService.GetVisibleActions(element);
 

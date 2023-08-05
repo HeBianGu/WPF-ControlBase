@@ -93,16 +93,43 @@ namespace HeBianGu.Control.StoryBoard
              }));
 
 
-        [TypeConverter(typeof(LengthConverter))]
-        public double SliderWidth
+        public Style ScrollViewStyle
         {
-            get { return (double)GetValue(SliderWidthProperty); }
-            set { SetValue(SliderWidthProperty, value); }
+            get { return (Style)GetValue(ScrollViewStyleProperty); }
+            set { SetValue(ScrollViewStyleProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SliderWidthProperty =
-            DependencyProperty.Register("SliderWidth", typeof(double), typeof(StoryBoardPlayer), new FrameworkPropertyMetadata(default(double), (d, e) =>
+        public static readonly DependencyProperty ScrollViewStyleProperty =
+            DependencyProperty.Register("ScrollViewStyle", typeof(Style), typeof(StoryBoardPlayer), new FrameworkPropertyMetadata(default(Style), (d, e) =>
+             {
+                 StoryBoardPlayer control = d as StoryBoardPlayer;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is Style o)
+                 {
+
+                 }
+
+                 if (e.NewValue is Style n)
+                 {
+
+                 }
+
+             }));
+
+
+
+        public double TickFrequency
+        {
+            get { return (double)GetValue(TickFrequencyProperty); }
+            set { SetValue(TickFrequencyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TickFrequencyProperty =
+            DependencyProperty.Register("TickFrequency", typeof(double), typeof(StoryBoardPlayer), new FrameworkPropertyMetadata(1.0, (d, e) =>
              {
                  StoryBoardPlayer control = d as StoryBoardPlayer;
 
@@ -119,6 +146,63 @@ namespace HeBianGu.Control.StoryBoard
                  }
 
              }));
+
+
+
+
+        public int TickSplitValue
+        {
+            get { return (int)GetValue(TickSplitValueProperty); }
+            set { SetValue(TickSplitValueProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TickSplitValueProperty =
+            DependencyProperty.Register("TickSplitValue", typeof(int), typeof(StoryBoardPlayer), new FrameworkPropertyMetadata(20, (d, e) =>
+             {
+                 StoryBoardPlayer control = d as StoryBoardPlayer;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is int o)
+                 {
+
+                 }
+
+                 if (e.NewValue is int n)
+                 {
+
+                 }
+
+             }));
+
+
+        public int TickSmallSplitValue
+        {
+            get { return (int)GetValue(TickSmallSplitValueProperty); }
+            set { SetValue(TickSmallSplitValueProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TickSmallSplitValueProperty =
+            DependencyProperty.Register("TickSmallSplitValue", typeof(int), typeof(StoryBoardPlayer), new FrameworkPropertyMetadata(1, (d, e) =>
+             {
+                 StoryBoardPlayer control = d as StoryBoardPlayer;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is int o)
+                 {
+
+                 }
+
+                 if (e.NewValue is int n)
+                 {
+
+                 }
+
+             }));
+
 
 
 

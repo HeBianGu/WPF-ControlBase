@@ -4,15 +4,21 @@ using HeBianGu.Base.WpfBase;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
 namespace HeBianGu.Service.Animation
 {
-    /// <summary> 根据输入动画执行渐进效果 </summary>
+    //[DefaultMember("Timelines")]
+    [DefaultProperty("Timelines")]
+    [ContentProperty("Timelines")]
     public class InvokeTimeSplitAnimationAction : TriggerAction<DependencyObject>
     {
         /// <summary>
@@ -113,23 +119,26 @@ namespace HeBianGu.Service.Animation
 
             }));
 
-        public ArrayList Timelines
-        {
-            get { return (ArrayList)GetValue(TimelinesProperty); }
-            set { SetValue(TimelinesProperty, value); }
-        }
+        public ObservableCollection<Timeline> Timelines { get; } = new ObservableCollection<Timeline>();
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty TimelinesProperty =
-            DependencyProperty.Register("Timelines", typeof(ArrayList), typeof(InvokeTimeSplitAnimationAction), new PropertyMetadata(new ArrayList(), (d, e) =>
-            {
-                InvokeTimeSplitAnimationAction control = d as InvokeTimeSplitAnimationAction;
 
-                if (control == null) return;
+        //public ArrayList Timelines
+        //{
+        //    get { return (ArrayList)GetValue(TimelinesProperty); }
+        //    set { SetValue(TimelinesProperty, value); }
+        //}
 
-                ArrayList config = e.NewValue as ArrayList;
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty TimelinesProperty =
+        //    DependencyProperty.Register("Timelines", typeof(ArrayList), typeof(InvokeTimeSplitAnimationAction), new PropertyMetadata(new ArrayList(), (d, e) =>
+        //    {
+        //        InvokeTimeSplitAnimationAction control = d as InvokeTimeSplitAnimationAction;
 
-            }));
+        //        if (control == null) return;
+
+        //        ArrayList config = e.NewValue as ArrayList;
+
+        //    }));
 
         public double SplitMilliSecond
         {
@@ -241,7 +250,7 @@ namespace HeBianGu.Service.Animation
 
             if (controls == null || controls.Count == 0) return;
 
-            Storyboard storyboard = new Storyboard();
+            Storyboard storyboard = StoryboardFactory.Create();
 
             for (int i = 0; i < controls.Count; i++)
             {
@@ -296,6 +305,7 @@ namespace HeBianGu.Service.Animation
             storyboard.FillBehavior = FillBehavior.HoldEnd;
             storyboard.RepeatBehavior = this.RepeatBehavior;
             storyboard.AutoReverse = this.AutoReverse;
+
             storyboard.Begin();
         }
     }

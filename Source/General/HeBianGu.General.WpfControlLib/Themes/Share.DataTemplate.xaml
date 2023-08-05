@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+    <DataTemplate x:Key="{ComponentResourceKey ResourceId=S.DataTemplate.Item.Close, TypeInTargetAssembly={x:Type local:DataTemplateKeys}}">
+        <DockPanel>
+            <Button Height="Auto"
+                    Margin="0"
+                    Padding="{DynamicResource {x:Static h:ThicknessKeys.DockRight}}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    DockPanel.Dock="Right"
+                    Foreground="{Binding RelativeSource={RelativeSource AncestorType=Control, AncestorLevel=1}, Path=Foreground}"
+                    Style="{DynamicResource {x:Static h:ButtonKeys.Clear}}"
+                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UseClose), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                <h:Interaction.Triggers>
+                    <h:EventTrigger EventName="Click">
+                        <h:CloseItemsAction Item="{Binding RelativeSource={RelativeSource AncestorType=Control, AncestorLevel=2}}" ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+            </Button>
+            <ContentPresenter VerticalAlignment="Center" Content="{Binding}" />
+        </DockPanel>
+    </DataTemplate>
+</ResourceDictionary>

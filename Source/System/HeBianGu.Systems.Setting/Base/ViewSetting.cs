@@ -5,7 +5,7 @@ using HeBianGu.Base.WpfBase;
 namespace HeBianGu.Systems.Setting
 {
     /// <summary> 显示 </summary>
-    [SettingConfig(Name = "显示", Group = "基本设置")]
+    [Displayer(Name = "显示", GroupName = SystemSetting.GroupBase)]
     public class ViewSetting : Setting<ViewSetting>
     {
 

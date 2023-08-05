@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace HeBianGu.Control.ScrollVewerLocator
 {
-    public class MaskGrid : Grid
+    public class MaskGrid : Border
     {
 
         //声明和注册路由事件

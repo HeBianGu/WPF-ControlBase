@@ -118,15 +118,15 @@
 
                     <UniformGrid Columns="3">
                         <Button Margin="-10"
-                                   Command="{x:Static local:Explorer.Next}"
-                                   Content="&lt;"
-                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
-                                   ToolTip="返回" />
+                                Command="{x:Static local:Explorer.Next}"
+                                Content="&lt;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                ToolTip="返回" />
                         <Button Margin="-10"
-                                   Command="{x:Static local:Explorer.Previous}"
-                                   Content="&gt;"
-                                   Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
-                                   ToolTip="前进" />
+                                Command="{x:Static local:Explorer.Previous}"
+                                Content="&gt;"
+                                Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                ToolTip="前进" />
                         <ToggleButton x:Name="tb"
                                       HorizontalAlignment="Center"
                                       Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
@@ -182,9 +182,10 @@
                                                                                       ResourceId=DataGridSelectAllButtonStyle}}"
                                         Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.All}}" />
 
-                                <Border Grid.Column="0" Grid.ColumnSpan="9" 
-                                                CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.CaptionCornerRadius)}"
-                                                Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=(h:Cattach.CaptionBackground)}"/>
+                                <Border Grid.Column="0"
+                                        Grid.ColumnSpan="9"
+                                        Background="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionBackground)}"
+                                        CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CaptionCornerRadius)}" />
 
                                 <DataGridColumnHeadersPresenter Name="PART_ColumnHeadersPresenter" Grid.Column="1" Visibility="{Binding RelativeSource={RelativeSource AncestorType={x:Type DataGrid}}, Path=HeadersVisibility, Converter={x:Static DataGrid.HeadersVisibilityConverter}, ConverterParameter={x:Static DataGridHeadersVisibility.Column}}" />
 
@@ -192,7 +193,6 @@
                                                         Grid.Row="1"
                                                         Grid.ColumnSpan="2"
                                                         CanContentScroll="{TemplateBinding CanContentScroll}" />
-
                             </Grid>
                         </ControlTemplate>
                     </ScrollViewer.Template>
@@ -208,7 +208,6 @@
                         </TextBlock>
                     </StackPanel>
                 </Grid>-->
-
                 <Popup x:Name="Pop"
                        HorizontalAlignment="Left"
                        VerticalAlignment="Bottom"
@@ -219,12 +218,12 @@
                        PopupAnimation="Slide"
                        StaysOpen="False">
                     <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
-                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}"
                             BorderThickness="1"
                             CornerRadius="5">
                         <StackPanel>
-                            <GroupBox Header="最近浏览的位置" Style="{DynamicResource {x:Static h:GroupBoxKeys.UnderLine}}">
-                                <ListBox ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=History}" SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=HistorySelectedItem}" Style="{DynamicResource {x:Static h:ListBoxKeys.Single}}">
+                            <GroupBox Header="最近浏览的位置" Style="{DynamicResource {x:Static h:GroupBoxKeys.UnderLine}}" Padding="0">
+                                <ListBox MinWidth="250" ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=History}" SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=HistorySelectedItem}" Style="{DynamicResource {x:Static h:ListBoxKeys.Dynamic}}">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate DataType="{x:Type local:DirectoryModel}">
                                             <Grid Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" Background="Transparent">
@@ -233,7 +232,6 @@
                                                            Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
                                                            Text="&#xe759;"
                                                            Visibility="Hidden" />
-
                                                 <StackPanel Margin="25,0,0,0"
                                                             HorizontalAlignment="Stretch"
                                                             VerticalAlignment="Center"
@@ -241,8 +239,6 @@
                                                     <Image Height="25" VerticalAlignment="Center" Source="{Binding Logo, Converter={x:Static h:XConverter.IconToImageSourceConverter}}" />
                                                     <TextBlock Margin="5,0,0,0" VerticalAlignment="Center" Text="{Binding Model.Name}" />
                                                 </StackPanel>
-
-                                                <!--<TextBlock Text="{Binding Model.Name}" VerticalAlignment="Center" HorizontalAlignment="Stretch" Margin="25,0,0,0" />-->
                                             </Grid>
                                             <DataTemplate.Triggers>
                                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">
@@ -261,7 +257,7 @@
         </Border>
     </ControlTemplate>
 
-    <Style x:Key="{ComponentResourceKey ResourceId=S.Explorer.Default, TypeInTargetAssembly={x:Type local:Explorer}}" BasedOn="{StaticResource {x:Static h:DataGridKeys.Default}}" TargetType="{x:Type local:Explorer}">
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Explorer.Default, TypeInTargetAssembly={x:Type local:Explorer}}" BasedOn="{StaticResource {x:Static h:DataGridKeys.Dynamic}}" TargetType="{x:Type local:Explorer}">
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="NavigationBarEnbled" Value="True" />
         <Setter Property="Template" Value="{StaticResource S.Explorer.Template.Default}" />

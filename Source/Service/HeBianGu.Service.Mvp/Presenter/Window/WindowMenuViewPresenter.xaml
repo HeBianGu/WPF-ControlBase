@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Service.Mvp">
+    <DataTemplate DataType="{x:Type local:WindowMenuViewPresenter}">
+        <Menu VerticalAlignment="Center"
+              VerticalContentAlignment="Center"
+              Background="Transparent"
+              IsEnabled="{Binding IsEnabled}"
+              ItemsSource="{Binding Collection}"
+              Style="{DynamicResource {x:Static h:MenuKeys.Window}}"
+              Visibility="{Binding IsVisible, Converter={x:Static h:Converter.GetTrueToVisible}}">
+            <Menu.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Nodes}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center" Text="{Binding Model.Name}" />
+                    </StackPanel>
+                </HierarchicalDataTemplate>
+            </Menu.ItemTemplate>
+            <Menu.ItemContainerStyle>
+                <Style BasedOn="{StaticResource {x:Static h:MenuItemKeys.Handy}}" TargetType="{x:Type MenuItem}">
+                    <Setter Property="Visibility" Value="{Binding Model.IsVisible, Converter={x:Static h:Converter.GetTrueToVisible}}" />
+                    <Setter Property="IsEnabled" Value="{Binding Model.IsEnabled}" />
+                    <Setter Property="Command" Value="{Binding Model.InvokeCommand}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding IsAuthority}" Value="False">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Menu.ItemContainerStyle>
+        </Menu>
+    </DataTemplate>
+</ResourceDictionary>

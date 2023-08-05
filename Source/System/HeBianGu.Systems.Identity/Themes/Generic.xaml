@@ -1,9 +1,476 @@
-<ResourceDictionary
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="clr-namespace:HeBianGu.Systems.Identity">
-    
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Identity">
+
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Systems.Identity;component/MultiLoginWindowBase.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Systems.Identity;component/LoginWindowBase.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Systems.Identity;component/MultiLoginWindowBase.xaml" />
     </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate DataType="{x:Type local:PasswordEditViewPresenter}">
+        <Grid>
+            <DockPanel Width="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <h:Row>
+                    <h:PasswordBox h:Cattach.Title="旧密码" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" Style="{DynamicResource {x:Static h:PasswordBox.LabelKey}}" />
+                </h:Row>
+                <h:Row>
+                    <h:PasswordBox h:Cattach.Title="新密码" Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" Style="{DynamicResource {x:Static h:PasswordBox.LabelKey}}" />
+                </h:Row>
+                <h:Row>
+                    <Button Margin="0"
+                            HorizontalAlignment="Right"
+                            Content="确定"
+                            IsDefault="True" />
+                </h:Row>
+            </DockPanel>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsAuthority}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:RoleViewPresenter}">
+        <Grid MinWidth="900">
+            <UniformGrid Rows="1">
+                <GroupBox Margin="5" Header="角色列表">
+                    <h:Cattach.CaptionRightTemplate>
+                        <ControlTemplate>
+                            <Button HorizontalAlignment="Right"
+                                    Content="{Binding AddCommand.Name}"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Add}}"
+                                    ToolTip="{Binding AddCommand.Name}"
+                                    Visibility="{Binding AddCommand.IsAuthority, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                                <h:Interaction.Triggers>
+                                    <h:EventTrigger EventName="Click">
+                                        <h:ChangeAttachPropertyAction AttachType="{x:Type h:TransitionService}"
+                                                                      PropertyName="IsVisible"
+                                                                      TargetObject="{Binding ElementName=pg_add}"
+                                                                      Value="True" />
+                                    </h:EventTrigger>
+                                </h:Interaction.Triggers>
+                            </Button>
+                        </ControlTemplate>
+                    </h:Cattach.CaptionRightTemplate>
+                    <ListBox h:Cattach.ItemPadding="0"
+                             ItemsSource="{Binding Roles}"
+                             SelectedItem="{Binding SelectedItem}" h:Cattach.ItemHeight="Auto"
+                             Style="{DynamicResource {x:Static h:ListBoxKeys.Dynamic}}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Background="Transparent">
+                                    <Expander Header="{Binding}" IsExpanded="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Style="{DynamicResource {x:Static h:ExpanderKeys.Clear}}">
+                                        <Expander.HeaderTemplate>
+                                            <DataTemplate>
+                                                <TextBox HorizontalAlignment="Stretch"
+                                                         Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                                                         Style="{DynamicResource {x:Static h:TextBoxKeys.Editable}}"
+                                                         Text="{Binding Name}" />
+                                            </DataTemplate>
+                                        </Expander.HeaderTemplate>
+                                        <h:Cattach.CaptionRightTemplate>
+                                            <ControlTemplate>
+                                                <TextBlock Margin="10,0" VerticalAlignment="Center">
+                                                    <Run Text="[" />
+                                                    <Run Text="{Binding Model.Authors.Count, Mode=OneWay}" />
+                                                    <Run Text="]" />
+                                                </TextBlock>
+                                            </ControlTemplate>
+                                        </h:Cattach.CaptionRightTemplate>
+                                        <ItemsControl Margin="0,0,0,2" Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" ItemsSource="{Binding Model.Authors}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Grid>
+                                                        <Label Margin="10,5" h:Cattach.Icon="{Binding Icon}" Content="{Binding Name}" />
+                                                        <Button Margin="0"
+                                                                HorizontalAlignment="Right"
+                                                                VerticalAlignment="Top"
+                                                                Command="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=DataContext.DeleteAuthorCommand}"
+                                                                CommandParameter="{Binding}"
+                                                                ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.Name}">
+                                                            <Button.Style>
+                                                                <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.CloseFlag}}" TargetType="Button">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}, Path=IsMouseOver}" Value="False">
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=GroupBox}, Path=DataContext.DeleteAuthorCommand.IsAuthority}" Value="False">
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Button.Style>
+                                                        </Button>
+                                                    </Grid>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <WrapPanel />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+                                    </Expander>
+                                    <Button Margin="0"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.DeleteCommand}"
+                                            CommandParameter="{Binding}"
+                                            ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.Name}">
+                                        <Button.Style>
+                                            <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.CloseFlag}}" TargetType="Button">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}, Path=IsMouseOver}" Value="False">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.DeleteCommand.IsAuthority}" Value="False">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Button.Style>
+                                    </Button>
+                                </Grid>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="SelectionChanged">
+                                <h:InvokeCommandAction Command="{Binding SelecttionChangedCommand}" />
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+                    </ListBox>
+                </GroupBox>
+
+                <GroupBox Margin="5" Header="权限配置" Visibility="{Binding EditCommand.IsAuthority, Converter={x:Static h:Converter.GetTrueToVisible}}">
+                    <h:Cattach.RightTemplate>
+                        <ControlTemplate>
+                            <TextBox Width="200" Style="{DynamicResource {x:Static h:TextBoxKeys.Search}}" />
+                        </ControlTemplate>
+                    </h:Cattach.RightTemplate>
+                    <TreeView IsEnabled="{Binding SelectedItem, Converter={x:Static h:Converter.GetNullToFalse}}" ItemsSource="{Binding Authorities}">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Nodes}">
+                                <StackPanel Orientation="Horizontal">
+                                    <CheckBox Command="{Binding RelativeSource={RelativeSource AncestorType=TreeView}, Path=DataContext.EditCommand}" IsChecked="{Binding IsChecked, Mode=TwoWay}" />
+                                    <TextBlock Margin="5,0" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="{Binding Model.Icon}" />
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Model.Name}" />
+                                </StackPanel>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+                </GroupBox>
+            </UniformGrid>
+
+            <h:PropertyGrid x:Name="pg_add"
+                            Title="添加用户"
+                            Width="500"
+                            Margin="0,40,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            h:TransitionService.IsVisible="False"
+                            h:UseEnumerator="False"
+                            Effect="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}"
+                            Style="{DynamicResource {x:Static h:PropertyGrid.TransitionKey}}"
+                            Visibility="Collapsed">
+                <h:TransitionService.VisibleActions>
+                    <h:TransitionCollection>
+                        <h:TranslateTransition StartPoint="0 -100" EndPoint="0 -100" />
+                    </h:TransitionCollection>
+                </h:TransitionService.VisibleActions>
+                <h:PropertyGrid.SelectObject>
+                    <local:Role />
+                </h:PropertyGrid.SelectObject>
+                <h:Interaction.Triggers>
+                    <h:EventTrigger EventName="Sumit">
+                        <h:InvokeCommandAction Command="{Binding AddCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=h:PropertyGrid}, Path=SelectObject}" />
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+            </h:PropertyGrid>
+        </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsAuthority}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:LoginManagerViewPresenter}">
+        <DockPanel Width="300"
+                   Background="Transparent"
+                   IsEnabled="{Binding IsEnabled}"
+                   LastChildFill="False"
+                   Visibility="{Binding IsVisible, Converter={x:Static h:Converter.GetTrueToVisible}}">
+            <DockPanel.Resources>
+                <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Dynamic}}" TargetType="{x:Type Button}">
+                    <Setter Property="HorizontalAlignment" Value="Stretch" />
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    <Setter Property="DockPanel.Dock" Value="Top" />
+                    <Setter Property="Margin" Value="0,5" />
+                </Style>
+            </DockPanel.Resources>
+            <DockPanel HorizontalAlignment="Center" DockPanel.Dock="Top">
+                <Button Margin="0,20"
+                        h:Cattach.Icon="{x:Static h:IconAll.UserCicleFill}"
+                        h:Cattach.IconSize="35"
+                        FontSize="20"
+                        IsHitTestVisible="False">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Transparent}}" TargetType="{x:Type Button}">
+                            <Setter Property="Content" Value="{Binding Source={x:Static h:Loginner.Instance}, Path=User.Name}" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Source={x:Static h:Loginner.Instance}, Path=User}" Value="{x:Null}">
+                                    <Setter Property="Content" Value="{Binding Name}" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+                <TextBlock VerticalAlignment="Center"
+                           FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header6}}"
+                           Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundAssist}}"
+                           Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}">
+                    <Run Text="(" />
+                    <Run Text="{Binding Source={x:Static h:Loginner.Instance}, Path=User.Role.Name}" />
+                    <Run Text=")" />
+                </TextBlock>
+
+            </DockPanel>
+
+
+            <!--<Button h:Cattach.Icon="{x:Static h:Icons.Message}" Content="账户管理" />
+            <Button h:Cattach.Icon="{x:Static h:Icons.Message}" Content="修改密码" />
+            <Button h:Cattach.Icon="{x:Static h:Icons.Message}" Content="修改头像" />
+            <Button h:Cattach.Icon="{x:Static h:Icons.Message}" Content="注销" />-->
+
+            <ItemsControl Margin="10,0"
+                          VerticalAlignment="Top"
+                          BorderThickness="0"
+                          ItemsSource="{Binding Presenters}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <h:Row>
+                            <Button h:Cattach.Icon="{Binding Icon}"
+                                    Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.InvokeCommand}"
+                                    CommandParameter="{Binding}"
+                                    Style="{DynamicResource {x:Static h:MvpKeys.ButtonDefault}}" />
+                        </h:Row>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+                <ItemsControl.ItemContainerStyle>
+                    <Style TargetType="ContentPresenter">
+                        <Setter Property="Visibility" Value="{Binding IsAuthority, Converter={x:Static h:Converter.GetTrueToVisible}}" />
+                    </Style>
+                </ItemsControl.ItemContainerStyle>
+            </ItemsControl>
+        </DockPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsAuthority}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:LoginViewPresenter}">
+        <Button h:Cattach.IconSize="25">
+            <Button.Style>
+                <Style BasedOn="{StaticResource {x:Static h:MvpKeys.ButtonDefault}}" TargetType="{x:Type Button}">
+                    <Setter Property="Content" Value="{Binding Source={x:Static h:Loginner.Instance}, Path=User.Name}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Source={x:Static h:Loginner.Instance}, Path=User}" Value="{x:Null}">
+                            <Setter Property="Content" Value="{Binding Name}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:UserViewPresenter}">
+        <DockPanel MinWidth="900"
+                   Background="{DynamicResource {x:Static h:BrushKeys.Dark0_2}}"
+                   IsEnabled="{Binding IsEnabled}"
+                   Visibility="{Binding IsVisible, Converter={x:Static h:Converter.GetTrueToVisible}}">
+            <h:Row Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}" DockPanel.Dock="Top">
+                <Button Margin="2,0"
+                        HorizontalAlignment="Left"
+                        Content="添加用户"
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Add}}">
+                    <h:Interaction.Triggers>
+                        <h:EventTrigger EventName="Click">
+                            <h:CallMethodAction MethodName="RefreshObject" TargetObject="{Binding ElementName=pg_add}">
+                                <!--<h:ChangePropertyAction.Value>
+                                    <local:User />
+                                </h:ChangePropertyAction.Value>-->
+                            </h:CallMethodAction>
+                            <h:ChangeAttachPropertyAction AttachType="{x:Type h:TransitionService}"
+                                                          PropertyName="IsVisible"
+                                                          TargetObject="{Binding ElementName=pg_add}"
+                                                          Value="True" />
+
+                        </h:EventTrigger>
+                    </h:Interaction.Triggers>
+                </Button>
+            </h:Row>
+
+            <Grid>
+                <ScrollViewer>
+                    <ItemsControl h:Cattach.ItemPadding="0" ItemsSource="{Binding Collection}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Width="350" Margin="2">
+                                    <Border ClipToBounds="True" CornerRadius="2" Style="{DynamicResource {x:Static h:BorderKeys.CardBorderBrush}}">
+                                        <h:PropertyGrid Padding="10,20,10,40"
+                                                        h:Cattach.CornerRadius="2"
+                                                        SelectObject="{Binding}"
+                                                        Style="{DynamicResource {x:Static h:PropertyGrid.ClearlyKey}}"
+                                                        UsePropertyNames="Name,Password,Account"
+                                                        UsePropertyView="{Binding ElementName=btn_edit, Path=Command.IsEditting, Converter={x:Static h:Converter.GetTrueToFalse}}" />
+                                    </Border>
+                                    <DockPanel HorizontalAlignment="Right" VerticalAlignment="Top">
+                                        <Button x:Name="btn_edit"
+                                                h:Cattach.Icon="{x:Static h:Icons.Edit}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.EditCommand}"
+                                                CommandParameter="{Binding}"
+                                                ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.Name}">
+                                            <Button.Style>
+                                                <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.MouseOver}}" TargetType="Button">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}, Path=IsMouseOver}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.IsAuthority}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.IsEditting}" Value="True">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button h:Cattach.Icon="{x:Static h:Icons.SuccessLine}" Command="{Binding ElementName=btn_edit, Path=Command.CommitCommand}" CommandParameter="{Binding}">
+                                            <Button.Style>
+                                                <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.MouseOver}}" TargetType="Button">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}, Path=IsMouseOver}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ElementName=btn_edit, Path=Command.IsAuthority}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ElementName=btn_edit, Path=Command.IsEditting}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+
+                                        <Button h:Cattach.Icon="{x:Static h:Icons.ErrorLine}" Command="{Binding ElementName=btn_edit, Path=Command.RollbackCommand}" CommandParameter="{Binding}">
+                                            <Button.Style>
+                                                <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.MouseOver}}" TargetType="Button">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}, Path=IsMouseOver}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ElementName=btn_edit, Path=Command.IsAuthority}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding ElementName=btn_edit, Path=Command.IsEditting}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                        <Button h:Cattach.Icon="{x:Static h:IconAll.Recycle1}"
+                                                Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.DeleteCommand}"
+                                                CommandParameter="{Binding}"
+                                                ToolTip="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Command.Name}">
+                                            <Button.Style>
+                                                <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.CloseMouseOver}}" TargetType="Button">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ContentPresenter}, Path=IsMouseOver}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.DeleteCommand.IsAuthority}" Value="False">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                        </Button>
+                                    </DockPanel>
+                                    <TextBlock Margin="20" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                                        <Run Text="[" />
+                                        <Run Text="{Binding Role.Name}" />
+                                        <Run Text="]" />
+                                    </TextBlock>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </ScrollViewer>
+                <h:PropertyGrid x:Name="pg_add"
+                                Title="添加用户"
+                                Width="500"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                h:TransitionService.IsVisible="False"
+                                h:UseEnumerator="False"
+                                Effect="{DynamicResource {x:Static h:EffectShadowKeys.Default3}}"
+                                Style="{DynamicResource {x:Static h:PropertyGrid.TransitionKey}}"
+                                UseClass="True"
+                                Visibility="Collapsed">
+                    <h:TransitionService.VisibleActions>
+                        <h:TransitionCollection>
+                            <h:TranslateTransition StartPoint="0 -100" EndPoint="0 -100" />
+                        </h:TransitionCollection>
+                    </h:TransitionService.VisibleActions>
+                    <Control.Resources>
+                        <DataTemplate DataType="{x:Type local:Role}">
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </Control.Resources>
+                    <h:PropertyGrid.SelectObject>
+                        <local:User />
+                    </h:PropertyGrid.SelectObject>
+                    <h:Interaction.Triggers>
+                        <h:EventTrigger EventName="Sumit">
+                            <h:InvokeCommandAction Command="{Binding AddCommand}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=h:PropertyGrid}, Path=SelectObject}" />
+                        </h:EventTrigger>
+                    </h:Interaction.Triggers>
+                </h:PropertyGrid>
+            </Grid>
+        </DockPanel>
+        <DataTemplate.Triggers>
+            <DataTrigger Binding="{Binding IsVisible}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding IsAuthority}" Value="False">
+                <Setter Property="Visibility" Value="Collapsed" />
+            </DataTrigger>
+        </DataTemplate.Triggers>
+    </DataTemplate>
+
 </ResourceDictionary>

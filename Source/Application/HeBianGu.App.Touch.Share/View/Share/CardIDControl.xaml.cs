@@ -1,4 +1,5 @@
-﻿using HeBianGu.Control.Message;
+﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Control.Message;
 using HeBianGu.General.WpfControlLib;
 using System.Windows;
 using System.Windows.Controls;
@@ -37,7 +38,7 @@ namespace HeBianGu.App.Touch.View.Share
             }
             else
             {
-                Message.Instance.ShowSnackMessageWithNotice("身份证号不合法，情检查！");
+                MessageProxy.Snacker.ShowTime("身份证号不合法，情检查！");
                 txt_value.Focus();
             }
 

@@ -1,0 +1,127 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Systems.Design"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <DataTemplate DataType="{x:Type local:ImagePresenter}">
+        <local:DesignBorder>
+            <Image Source="{Binding ImageSource}" Stretch="{Binding Stretch}" />
+        </local:DesignBorder>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:PropertyGridDesignPresenter}">
+        <local:DesignBorder>
+            <h:PropertyGrid Title="{Binding Name}"
+                            h:Cattach.Icon="{Binding Icon}"
+                            h:Cattach.UseClose="False"
+                            SelectObject="{Binding Data}"
+                            Style="{DynamicResource {x:Static h:PropertyGrid.LightKey}}"
+                            UsePropertyView="True" />
+        </local:DesignBorder>
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type local:TextBlockPresenter}">
+        <local:DesignBorder>
+            <TextBlock Height="Auto" VerticalAlignment="{Binding VerticalContentAlignment}" Style="{DynamicResource {x:Static h:TextBlockKeys.Binding}}" />
+        </local:DesignBorder>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:TitlePresenter}">
+        <local:DesignBorder>
+            <DockPanel VerticalAlignment="{Binding VerticalContentAlignment}">
+                <TextBlock Height="Auto"
+                           FontSize="{Binding TitleFontSize}"
+                           FontWeight="{Binding TitleFontWeight}"
+                           Foreground="{Binding TitleForeground}"
+                           Style="{DynamicResource {x:Static h:TextBlockKeys.Binding}}"
+                           Text="{Binding Title}" />
+                <TextBlock Height="Auto" Style="{DynamicResource {x:Static h:TextBlockKeys.Binding}}" />
+            </DockPanel>
+        </local:DesignBorder>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type local:CardPresenter}">
+        <local:DesignBorder>
+            <Border CornerRadius="{Binding CornerRadius}">
+                <Border.Effect>
+                    <DropShadowEffect Opacity="{Binding DropShadowEffectOpacity}" Color="Black" />
+                </Border.Effect>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                        <GradientStop Offset="0" Color="{Binding FromColor}" />
+                        <GradientStop Offset="1" Color="{Binding ToColor}" />
+                    </LinearGradientBrush>
+                </Border.Background>
+                <StackPanel HorizontalAlignment="{Binding HorizontalContentAlignment}" VerticalAlignment="{Binding VerticalContentAlignment}" Orientation="{Binding Orientation}">
+                    <TextBlock Margin="0"
+                               Padding="0"
+                               VerticalAlignment="Center"
+                               FontSize="{Binding TitleFontSize}"
+                               FontWeight="{Binding TitleFontWeight}"
+                               Foreground="{Binding TitleForeground}"
+                               Text="{Binding Title}" />
+                    <TextBlock Height="Auto"
+                               Margin="0"
+                               Padding="0"
+                               VerticalAlignment="Center"
+                               Style="{DynamicResource {x:Static h:TextBlockKeys.Binding}}" />
+                </StackPanel>
+            </Border>
+        </local:DesignBorder>
+    </DataTemplate>
+
+
+    <DataTemplate DataType="{x:Type local:DataGridDesignPresenter}">
+        <local:DesignBorder MinWidth="400" MinHeight="200">
+            <local:DesignDataGrid AlternatingRowBackground="{Binding AlternatingRowBackground}"
+                                  Background="{Binding GridBackground}"
+                                  BorderBrush="{Binding GridBorderBrush}"
+                                  ColumnHeaderHeight="{Binding ColumnHeaderHeight}"
+                                  ColumnPropertyInfos="{Binding ColumnPropertyInfos}"
+                                  Foreground="{Binding GridForeground}"
+                                  HorizontalGridLinesBrush="{Binding HorizontalGridLinesBrush}"
+                                  IsHitTestVisible="False"
+                                  IsReadOnly="True"
+                                  ItemsSource="{Binding ItemsSource}"
+                                  RowHeight="{Binding RowHeight}"
+                                  Style="{DynamicResource {x:Static local:DesignDataGrid.DefaultKey}}"
+                                  VerticalGridLinesBrush="{Binding VerticalGridLinesBrush}">
+                <DataGrid.ColumnHeaderStyle>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridHeaderBackground}" />
+                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridHeaderForeground}" />
+                        <Setter Property="Padding" Value="2,0" />
+                        <Setter Property="HorizontalContentAlignment" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.ColumnHorizontalContentAlignment}" />
+                    </Style>
+                </DataGrid.ColumnHeaderStyle>
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.GridForeground}" />
+                        <Setter Property="HorizontalContentAlignment" Value="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=DataContext.ColumnHorizontalContentAlignment}" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                    <Border Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
+                                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          Content="{TemplateBinding Content}"
+                                                          ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    </Border>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </DataGrid.CellStyle>
+            </local:DesignDataGrid>
+        </local:DesignBorder>
+    </DataTemplate>
+</ResourceDictionary>

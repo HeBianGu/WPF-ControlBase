@@ -12,7 +12,7 @@
              d:DesignWidth="800"
              Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
              mc:Ignorable="d">
-    <Grid Margin="50,30">
+    <Grid Margin="20">
         <Grid.Resources>
             <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.MouseOver}}" TargetType="Button">
                 <Setter Property="h:Cattach.IconSize" Value="50" />
@@ -52,12 +52,30 @@
                            Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}"
                            Text="{Binding RelativeSource={RelativeSource AncestorType=local:ConfigSceneControl}, Path=Model.Value3}" />
 
-                <ItemsControl Margin="10,20">
-
+                <ItemsControl Margin="10">
                     <UniformGrid Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" HorizontalAlignment="Center" Columns="3">
-                        <TextBlock Margin="-40,0" Text="发生器一" />
-                        <TextBlock Text="----" />  
-                        <ComboBox Margin="-40,0" h:Cattach.Watermark="请选择映射实际主机" SelectedIndex="0">
+                        <TextBlock Text="发生器一" />
+                        <TextBlock Text="----" />
+                        <ComboBox h:Cattach.Watermark="请选择映射实际主机" SelectedIndex="0">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <DockPanel>
+                                        <TextBlock Text="{Binding Value}" />
+                                        <TextBlock Margin="10,0" Text="{Binding Value2}" />
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+
+                            <h:TestViewModel Value1="192.168.0.1" Value2="(34,145)" Value="主机一" />
+                            <h:TestViewModel Value1="192.168.0.2" Value2="(334,45)" Value="主机二" />
+                            <h:TestViewModel Value1="192.168.0.3" Value2="(234,35)" Value="主机三" />
+                            <h:TestViewModel Value1="192.168.0.4" Value2="(11,435)" Value="主机四" />
+                        </ComboBox>
+                    </UniformGrid>
+                    <UniformGrid Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" HorizontalAlignment="Center" Columns="3">
+                        <TextBlock Text="发生器二" />
+                        <TextBlock Text="----" />
+                        <ComboBox h:Cattach.Watermark="请选择映射实际主机" SelectedIndex="1">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <DockPanel>
@@ -75,10 +93,9 @@
                         </ComboBox>
                     </UniformGrid>
                     <UniformGrid Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" HorizontalAlignment="Center" Columns="3">
-                        <TextBlock Margin="-40,0" Text="发生器二" />
-                        <TextBlock Text="----" /> 
-
-                        <ComboBox Margin="-40,0" h:Cattach.Watermark="请选择映射实际主机" SelectedIndex="1">
+                        <TextBlock Text="发生器三" />
+                        <TextBlock Text="----" />
+                        <ComboBox h:Cattach.Watermark="请选择映射实际主机" SelectedIndex="1">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <DockPanel>
@@ -96,9 +113,9 @@
                         </ComboBox>
                     </UniformGrid>
                     <UniformGrid Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" HorizontalAlignment="Center" Columns="3">
-                        <TextBlock Margin="-40,0" Text="发生器三" />
-                        <TextBlock Text="----" /> 
-                        <ComboBox Margin="-40,0" h:Cattach.Watermark="请选择映射实际主机" SelectedIndex="1">
+                        <TextBlock Text="发生器四" />
+                        <TextBlock Text="----" />
+                        <ComboBox h:Cattach.Watermark="请选择映射实际主机" SelectedIndex="3">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <DockPanel>
@@ -112,28 +129,6 @@
                             <h:TestViewModel Value1="192.168.0.2" Value2="(334,45)" Value="主机二" />
                             <h:TestViewModel Value1="192.168.0.3" Value2="(234,35)" Value="主机三" />
                             <h:TestViewModel Value1="192.168.0.4" Value2="(11,435)" Value="主机四" />
-
-                        </ComboBox>
-                    </UniformGrid>
-                    <UniformGrid Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" HorizontalAlignment="Center" Columns="3">
-                        <TextBlock Margin="-40,0" Text="发生器四" />
-                        <TextBlock Text="----" /> 
-
-                        <ComboBox Margin="-40,0" h:Cattach.Watermark="请选择映射实际主机" SelectedIndex="3">
-                            <ComboBox.ItemTemplate>
-                                <DataTemplate>
-                                    <DockPanel>
-                                        <TextBlock Text="{Binding Value}" />
-                                        <TextBlock Margin="10,0" Text="{Binding Value2}" />
-                                    </DockPanel>
-                                </DataTemplate>
-                            </ComboBox.ItemTemplate>
-
-                            <h:TestViewModel Value1="192.168.0.1" Value2="(34,145)" Value="主机一" />
-                            <h:TestViewModel Value1="192.168.0.2" Value2="(334,45)" Value="主机二" />
-                            <h:TestViewModel Value1="192.168.0.3" Value2="(234,35)" Value="主机三" />
-                            <h:TestViewModel Value1="192.168.0.4" Value2="(11,435)" Value="主机四" />
-
                         </ComboBox>
                     </UniformGrid>
                 </ItemsControl>
@@ -148,25 +143,25 @@
         <CheckBox Grid.Row="3" VerticalAlignment="Bottom" Content="不再提示" />
 
         <Button Grid.Row="2"
-                   Grid.ColumnSpan="2"
-                   Margin="0,0,0,0"
-                   HorizontalAlignment="Right"
-                   Command="{x:Static h:DialogHost.CloseDialogCommand}"
-                   Content="开始"
-                   IsDefault="True"
-                   Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}">
+                Grid.ColumnSpan="2"
+                Margin="0,0,0,0"
+                HorizontalAlignment="Right"
+                Command="{x:Static h:DialogHost.CloseDialogCommand}"
+                Content="开始"
+                IsDefault="True"
+                Style="{StaticResource {x:Static h:ButtonKeys.Dynamic}}">
             <Button.CommandParameter>
                 <system:Boolean>True</system:Boolean>
             </Button.CommandParameter>
         </Button>
 
         <Button Grid.Row="0"
-                   Grid.ColumnSpan="2"
-                   Margin="-40,-20"
-                   HorizontalAlignment="Right"
-                   Command="{x:Static h:DialogHost.CloseDialogCommand}"
-                   IsCancel="True"
-                   Style="{DynamicResource {x:Static h:ButtonKeys.Close}}">
+                Grid.ColumnSpan="2"
+                Margin="-40,-20"
+                HorizontalAlignment="Right"
+                Command="{x:Static h:DialogHost.CloseDialogCommand}"
+                IsCancel="True"
+                Style="{DynamicResource {x:Static h:ButtonKeys.Close}}">
             <Button.CommandParameter>
                 <system:Boolean>False</system:Boolean>
             </Button.CommandParameter>

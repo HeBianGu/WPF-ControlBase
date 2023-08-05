@@ -9,7 +9,7 @@ namespace HeBianGu.App.Manager.View.Panel
     {
         public PageControl()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }

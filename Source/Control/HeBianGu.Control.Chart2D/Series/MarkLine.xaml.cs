@@ -62,7 +62,7 @@ namespace HeBianGu.Control.Chart2D
                  if (control == null) return;
 
                  //Orientation config = e.NewValue as Orientation;
-
+                 control.TryDraw();
              }));
 
 
@@ -132,10 +132,8 @@ namespace HeBianGu.Control.Chart2D
         {
             base.Draw(canvas);
 
-            List<double> data = this.GetData();
-
+            List<double> data = this.GetData().ToList();
             List<string> names = this.GetDisplayName();
-
             for (int i = 0; i < data.Count; i++)
             {
                 double value = data[i];
@@ -352,34 +350,66 @@ namespace HeBianGu.Control.Chart2D
 
              }));
 
-        private List<double> GetData()
+        private IEnumerable<double> GetData()
         {
             List<double> result = new List<double>();
 
             if (this.MarkLineType == MarkLineType.Max)
             {
-                result.Add(this.maxY);
+                yield return this.maxY;
             }
 
             else if (this.MarkLineType == MarkLineType.Min)
             {
-                result.Add(this.minX);
+                yield return this.minX;
             }
 
             else if (this.MarkLineType == MarkLineType.Average)
             {
                 if (this.Data.Count > 0)
                 {
-                    result.Add(this.Data.Average());
+                    yield return this.Data.Average();
                 }
             }
             else
             {
-                result = this.Data.ToList();
+                if (this.Data.Count == 0 && this.Value != double.NaN)
+                    yield return this.Value;
+                else
+                    foreach (var item in this.Data)
+                    {
+                        yield return item;
+                    }
             }
-
-            return result;
         }
+
+        public double Value
+        {
+            get { return (double)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("Value", typeof(double), typeof(MarkLine), new FrameworkPropertyMetadata(double.NaN, (d, e) =>
+            {
+                MarkLine control = d as MarkLine;
+
+                if (control == null) return;
+
+                if (e.OldValue is double o)
+                {
+
+                }
+
+                if (e.NewValue is double n)
+                {
+
+                }
+
+            }));
+
+
 
         private List<string> GetDisplayName()
         {

@@ -2,13 +2,14 @@
 
 using HeBianGu.Base.WpfBase;
 using HeBianGu.General.WpfControlLib;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Reflection;
 
-namespace System
+namespace HeBianGu.Service.AppConfig
 {
-    [SettingConfig(Name = "系统路径", Group = "基本设置")]
+    [Displayer(Name = "路径", GroupName = SystemSetting.GroupSystem)]
     public class SystemPathSetting : LazySettingInstance<SystemPathSetting>
     {
         public string Company { get; set; } = "HeBianGu";
@@ -18,16 +19,31 @@ namespace System
         public SystemPathSetting()
         {
             this.CheckFolder(AppPath);
-            this.CheckFolder(DefaultPath);
-            this.CheckFolder(DefaultConfig);
+            this.CheckFolder(Default);
+            this.CheckFolder(Config);
+            this.CheckFolder(Data);
+            this.CheckFolder(Setting);
+            this.CheckFolder(License);
+            this.CheckFolder(Log);
+            this.CheckFolder(Project);
+            this.CheckFolder(Template);
+            this.CheckFolder(Setting);
+            this.CheckFolder(Cache);
         }
         #region - 基础目录 -
         public string Document { get; set; } = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         public string AppName => Assembly.GetEntryAssembly()?.GetName()?.Name;
         public string AppPath => Path.Combine(this.Document, Company, this.AppName);
-        public string DefaultPath => Path.Combine(this.Document, Company, this.AppName, "Default");
-        public string DefaultConfig => Path.Combine(this.DefaultPath, "Config");
-
+        public string Default => Path.Combine(this.Document, Company, this.AppName, nameof(Default));
+        public string Config => Path.Combine(this.Default, nameof(Config));
+        public string Data => Path.Combine(this.Default, nameof(Data));
+        public string RegistryPath => Path.Combine("SOFTWARE", this.AppName);
+        public string Setting => Path.Combine(this.Default, nameof(Setting));
+        public string License => Path.Combine(this.Default, nameof(License));
+        public string Log => Path.Combine(this.Default, nameof(Log));
+        public string Project => Path.Combine(this.Default, nameof(Project));
+        public string Template => Path.Combine(this.Default, nameof(Template));
+        public string Cache => Path.Combine(this.Default, nameof(Cache));
         #endregion
 
         #region - 登录用户目录 -
@@ -36,19 +52,16 @@ namespace System
 
         private string GetUserName()
         {
-            return ServiceRegistry.Instance.GetInstance<IIdentityService>()?.User?.Name;
+            return Loginner.Instance?.User?.Account;
         }
-
-        public string Setting => Path.Combine(this.UserPath, nameof(Setting));
-
-        public string Log => Path.Combine(this.UserPath, nameof(Log));
-
-        public string License => Path.Combine(this.UserPath, nameof(License));
-
-        public string Project => Path.Combine(this.UserPath, nameof(Project));
-
-        public string Cache => Path.Combine(this.UserPath, nameof(Cache));
-
+        
+        public string UserData=> Path.Combine(this.UserPath, nameof(Data));
+        public string UserSetting => Path.Combine(this.UserPath, nameof(Setting));
+        public string UserProject => Path.Combine(this.UserPath, nameof(Project));
+        public string UserTemplate => Path.Combine(this.UserPath, nameof(Template));
+        public string UserCache => Path.Combine(this.UserPath, nameof(Cache));
+        public string UserLicense => Path.Combine(this.Default, nameof(License));
+        public string UserLog => Path.Combine(this.Default, nameof(Log));
         #endregion
 
         #region - 程序根目录 -
@@ -61,7 +74,6 @@ namespace System
 
         #endregion
 
-        [Command]
         [Display(Name = "清空缓存")]
         public RelayCommand ClearCacheCommand => new RelayCommand(ClearCache);
 
@@ -70,16 +82,15 @@ namespace System
             try
             {
                 Directory.Delete(Cache, true);
-                Message.Instance.ShowSnackMessageWithNotice("操作完成");
+                MessageProxy.Snacker.ShowTime("操作完成");
             }
             catch (Exception ex)
             {
-                Message.Instance.ShowSumitMessge("清空失败,详情请查看日志");
+                MessageProxy.Messager.ShowSumit("清空失败,详情请查看日志");
                 Logger.Instance?.Error(ex);
             }
         }
 
-        [Command]
         [Display(Name = "清空配置")]
         public RelayCommand ClearSettingCommand => new RelayCommand(ClearSetting);
 
@@ -88,11 +99,12 @@ namespace System
             try
             {
                 Directory.Delete(this.Setting, true);
-                Message.Instance.ShowSnackMessageWithNotice("操作完成");
+                Directory.Delete(this.UserSetting, true);
+                MessageProxy.Snacker.ShowTime("操作完成");
             }
             catch (Exception ex)
             {
-                Message.Instance.ShowSumitMessge("清空失败,详情请查看日志");
+                MessageProxy.Messager.ShowSumit("清空失败,详情请查看日志");
                 Logger.Instance?.Error(ex);
             }
         }
@@ -103,5 +115,4 @@ namespace System
                 Directory.CreateDirectory(folder);
         }
     }
-
 }

@@ -189,22 +189,22 @@ namespace HeBianGu.Control.Chart2D
             DefaultStyleKeyProperty.OverrideMetadata(typeof(Bubble), new FrameworkPropertyMetadata(typeof(Bubble)));
         }
 
-        [TypeConverter(typeof(DataTypeConverter))]
-        public ObservableCollection<double> BubbleData
+        //[TypeConverter(typeof(DataTypeConverter))]
+        public DoubleCollection BubbleData
         {
-            get { return (ObservableCollection<double>)GetValue(BubbleDataProperty); }
+            get { return (DoubleCollection)GetValue(BubbleDataProperty); }
             set { SetValue(BubbleDataProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty BubbleDataProperty =
-            DependencyProperty.Register("BubbleData", typeof(ObservableCollection<double>), typeof(Bubble), new PropertyMetadata(default(ObservableCollection<double>), (d, e) =>
+            DependencyProperty.Register("BubbleData", typeof(DoubleCollection), typeof(Bubble), new PropertyMetadata(default(DoubleCollection), (d, e) =>
              {
                  Bubble control = d as Bubble;
 
                  if (control == null) return;
 
-                 ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+                 DoubleCollection config = e.NewValue as DoubleCollection;
 
                  control.TryDraw();
 
@@ -282,24 +282,17 @@ namespace HeBianGu.Control.Chart2D
             base.Draw(canvas);
 
             Point center = new Point(0, 0);
-
-
             for (int i = 0; i < this.yAxis.Count; i++)
             {
                 double x = this.yAxis[i];
-
+                if (this.Data.Count <= i)
+                    continue;
                 double d = this.Data[i];
-
                 double angle = x;
-
                 Point start = new Point(this.GetX(d, this.Len), center.Y);
-
                 Matrix matrix = new Matrix();
-
                 matrix.RotateAt(angle, center.X, center.Y);
-
                 Point end = matrix.Transform(start);
-
                 //  Do ：显示标记
                 Shape m = Activator.CreateInstance(this.MarkStyle.TargetType) as Shape;
 
@@ -327,22 +320,22 @@ namespace HeBianGu.Control.Chart2D
             DefaultStyleKeyProperty.OverrideMetadata(typeof(PolarBubble), new FrameworkPropertyMetadata(typeof(PolarBubble)));
         }
 
-        [TypeConverter(typeof(DataTypeConverter))]
-        public ObservableCollection<double> BubbleData
+        //[TypeConverter(typeof(DataTypeConverter))]
+        public DoubleCollection BubbleData
         {
-            get { return (ObservableCollection<double>)GetValue(BubbleDataProperty); }
+            get { return (DoubleCollection)GetValue(BubbleDataProperty); }
             set { SetValue(BubbleDataProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty BubbleDataProperty =
-            DependencyProperty.Register("BubbleData", typeof(ObservableCollection<double>), typeof(PolarBubble), new PropertyMetadata(default(ObservableCollection<double>), (d, e) =>
+            DependencyProperty.Register("BubbleData", typeof(DoubleCollection), typeof(PolarBubble), new PropertyMetadata(default(DoubleCollection), (d, e) =>
             {
                 PolarBubble control = d as PolarBubble;
 
                 if (control == null) return;
 
-                ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+                DoubleCollection config = e.NewValue as DoubleCollection;
 
             }));
 

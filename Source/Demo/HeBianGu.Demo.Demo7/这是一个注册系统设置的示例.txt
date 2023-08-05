@@ -1,0 +1,138 @@
+这是一个注册系统设置页面的示例
+
+1、注册
+            //  Do ： 添加Nuget包
+            HeBianGu.Systems.Setting
+	
+            //  Do ：注册系统设置功能接口ISystemSettingService
+            services.AddSetting();
+
+            //  Do ：注册系统设置功能按钮，注册后右边上角显示主题设置按钮
+            services.AddSettingViewPrenter();
+
+2、配置  
+            //  Do ：设置自定义配置到系统设置页面
+            app.UseSetting(x =>
+            {
+                x.Settings.Add(MySetting.Instance); 
+            });
+
+            //  Do ：使用自定义配置到
+            Title="{Binding Source={x:Static local:MySetting.Instance},Path=Title}"
+            Width="{Binding Source={x:Static local:MySetting.Instance},Path=Width,Mode=TwoWay}"
+            Height="{Binding Source={x:Static local:MySetting.Instance},Path=Height,Mode=TwoWay}"
+
+3、其他
+            //  Do ：设置默认设置，如：登录、快捷键等示例
+            app.UseSettingDefault();
+
+             注意：系统的其他功能有些在Use的时候默认也会添加到系统设置页里面，比如Use中的主题、登录、起始页、升级等等；
+
+
+    [SettingConfig(Name = "我的设置", Group = "自定义设置")]
+    public class MySetting : LazySettingInstance<MySetting>
+    {
+        private bool _auto;
+        [Display(Name = "自动启动")]
+        public bool Auto
+        {
+            get { return _auto; }
+            set
+            {
+                _auto = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private string _title;
+        [Display(Name = "窗口标题")]
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private HorizontalAlignment _horizontalAlignment;
+        [Display(Name = "水平布局")]
+        public HorizontalAlignment HorizontalAlignment
+        {
+            get { return _horizontalAlignment; }
+            set
+            {
+                _horizontalAlignment = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private VerticalAlignment _verticalAlignment;
+        [Display(Name = "垂直布局")]
+        public VerticalAlignment VerticalAlignment
+        {
+            get { return _verticalAlignment; }
+            set
+            {
+                _verticalAlignment = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _width = 1100;
+        [Range(800, 1300)]
+        [Display(Name = "窗口宽度")]
+        public int Width
+        {
+            get { return _width; }
+            set
+            {
+                _width = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private int _height = 650;
+        [Range(500, 900)]
+        [Display(Name = "窗口高度")]
+        public int Height
+        {
+            get { return _height; }
+            set
+            {
+                _height = value;
+                RaisePropertyChanged();
+            }
+        }
+    }
+
+        private int _range;
+        [Range(0, 100)]
+        [Display(Name = "限制范围")]
+        public int Range
+        {
+            get { return _range; }
+            set
+            {
+                _range = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
+        private int _range1;
+        [Range(0, 100)]
+        [Display(Name = "限制条件")]
+        public int Range1
+        {
+            get { return _range1; }
+            set
+            {
+                _range1 = value;
+                RaisePropertyChanged();
+            }
+        }
+    }
+
+

@@ -5,25 +5,28 @@ using HeBianGu.Control.PasswordBox;
 
 namespace System
 {
-    public static class PropertyGridExtention
+    public static class PasswordExtention
     {
         /// <summary>
         /// 注册
         /// </summary>
         /// <param name="service"></param>
-        public static void AddPropertyGrid(this IServiceCollection service)
+        public static void AddPasswordDialog(this IServiceCollection service,Action<IPasswordDialogServiceOption> action=null)
         {
-            service.AddSingleton<IService, Service>();
+            service.AddSingleton<IPasswordDialogService, PasswordDialogService>();
+            action?.Invoke(PasswordDialogService.Instance);
+            SystemSetting.Instance.Add(PasswordDialogService.Instance);
         }
 
-        /// <summary>
-        /// 配置
-        /// </summary>
-        /// <param name="service"></param>
-        public static void UsePropertyGrid(this IApplicationBuilder service, Action<Setting> action)
-        {
-            action?.Invoke(Setting.Instance);
-        }
+        ///// <summary>
+        ///// 配置
+        ///// </summary>
+        ///// <param name="service"></param>
+        //public static void UsePasswordDialog(this IApplicationBuilder service, Action<PasswordSetting> action)
+        //{
+        //    action?.Invoke(PasswordSetting.Instance);
+        //    SystemSetting.Instance.Add(PasswordSetting.Instance);
+        //}
     }
 
 

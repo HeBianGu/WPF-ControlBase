@@ -11,7 +11,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <!--<ResourceDictionary Source="../../Custom/System/DataGrid.xaml"/>-->
-        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/System/TreeView.Material.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Custom/System/TreeView.xaml" />
 
     </ResourceDictionary.MergedDictionaries>
 
@@ -35,7 +35,7 @@
     <HierarchicalDataTemplate DataType="{x:Type local:DirectoryModel}" ItemsSource="{Binding Path=Collection}">
         <Grid>
             <StackPanel Orientation="Horizontal">
-                <Image Margin="0" Source="{Binding Logo, Converter={x:Static h:XConverter.IconToImageSourceConverter}}" />
+                <Image Width="25" Height="25" Source="{Binding Logo, Converter={x:Static h:XConverter.IconToImageSourceConverter}}" />
                 <TextBlock Style="{DynamicResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding DisplayName}" />
             </StackPanel>
             <ProgressBar BorderThickness="0"
@@ -51,26 +51,18 @@
     <Style x:Key="{ComponentResourceKey ResourceId=S.ExplorerTree.Default, TypeInTargetAssembly={x:Type local:ExplorerTree}}" BasedOn="{StaticResource {x:Static h:TreeViewKeys.Material}}" TargetType="{x:Type local:ExplorerTree}">
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <Style BasedOn="{StaticResource S.TreeViewItem.Default}" TargetType="{x:Type TreeViewItem}">
+                <Style BasedOn="{StaticResource {x:Static h:TreeViewItemKeys.Material}}" TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                 </Style>
             </Setter.Value>
         </Setter>
-
-        <!--<Setter Property="h:Cattach.Behaviors">
-            <Setter.Value>
-                <h:Behaviors>
-                    <h:LoadedAdornerBehavior AdornerType="{x:Type h:WaterMarkAdorner}" />
-                </h:Behaviors>
-            </Setter.Value>
-        </Setter>-->
     </Style>
 
     <Style x:Key="{ComponentResourceKey ResourceId=S.ExplorerTree.Quick.Default, TypeInTargetAssembly={x:Type local:ExplorerTree}}" BasedOn="{StaticResource {x:Static local:ExplorerTree.DefaultKey}}" TargetType="{x:Type local:ExplorerTree}">
         <Setter Property="Customs">
             <Setter.Value>
                 <local:RootModelCollection>
-                    <local:RootModel DisplayName="快速访问" Icon="&#xe90c;" IsExpanded="True">
+                    <local:RootModel DisplayName="快速访问" Icon="&#xe848;" IsExpanded="True">
                         <local:DirectoryModel>Desktop</local:DirectoryModel>
                         <local:DirectoryModel>Recent</local:DirectoryModel>
                         <local:DirectoryModel>MyDocuments</local:DirectoryModel>
@@ -78,33 +70,18 @@
                         <local:DirectoryModel>MyMusic</local:DirectoryModel>
                         <local:DirectoryModel>MyVideos</local:DirectoryModel>
                     </local:RootModel>
-
-                    <!--<local:RootModel DisplayName="自定义位置" Icon="&#xe927;">
-                        <local:DirectoryModel>D:\ProgramData</local:DirectoryModel>
-                        <local:DirectoryModel>D:\ProgramData</local:DirectoryModel>
-                        <local:DirectoryModel>D:\ProgramData</local:DirectoryModel>
-                    </local:RootModel>-->
                 </local:RootModelCollection>
             </Setter.Value>
         </Setter>
     </Style>
 
-
     <Style x:Key="{ComponentResourceKey ResourceId=S.ExplorerTree.Single, TypeInTargetAssembly={x:Type local:ExplorerTree}}" BasedOn="{StaticResource {x:Static h:TreeViewKeys.Material}}" TargetType="{x:Type local:ExplorerTree}">
         <Setter Property="ItemContainerStyle">
             <Setter.Value>
-                <Style BasedOn="{StaticResource S.TreeViewItem.Default}" TargetType="{x:Type TreeViewItem}">
+                <Style BasedOn="{StaticResource {x:Static h:TreeViewItemKeys.Material}}" TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
                 </Style>
             </Setter.Value>
         </Setter>
-
-        <!--<Setter Property="h:Cattach.Behaviors">
-            <Setter.Value>
-                <h:Behaviors>
-                    <h:LoadedAdornerBehavior AdornerType="{x:Type h:WaterMarkAdorner}" />
-                </h:Behaviors>
-            </Setter.Value>
-        </Setter>-->
     </Style>
 </ResourceDictionary>

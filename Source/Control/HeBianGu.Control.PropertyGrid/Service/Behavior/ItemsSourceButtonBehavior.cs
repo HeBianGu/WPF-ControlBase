@@ -8,8 +8,6 @@ namespace HeBianGu.Control.PropertyGrid
 {
     public class AddItemWithPropertyGridButtonBehavior : AddItemButtonBehaviorBase
     {
-
-
         public string Title
         {
             get { return (string)GetValue(TitleProperty); }
@@ -41,7 +39,7 @@ namespace HeBianGu.Control.PropertyGrid
         {
             object instance = this.CreateNewItem();
 
-            bool r = await PropertyGrid.ShowObject(instance, null, this.Title);
+            bool r = await PropertyGrid.Show(instance, null, this.Title);
 
             if (r == false) return;
 
@@ -134,14 +132,14 @@ namespace HeBianGu.Control.PropertyGrid
         {
             if (this.UseSave)
             {
-                await PropertyGrid.ShowObject(this.Item);
+                await PropertyGrid.Show(this.Item);
                 return;
             }
 
 
             if (this.Item.GetType().TryCreateInstance(out object instance))
             {
-                bool r = await PropertyGrid.ShowObject(instance, null, this.Title);
+                bool r = await PropertyGrid.Show(instance, null, this.Title);
 
                 if (r == false) return;
 
@@ -211,7 +209,7 @@ namespace HeBianGu.Control.PropertyGrid
 
         protected override async void OnClick()
         {
-            await PropertyView.ShowObject(this.Item, null, this.Title);
+            await PropertyGrid.Show(this.Item, null, this.Title, x => x.UsePropertyView = true);
 
         }
     }

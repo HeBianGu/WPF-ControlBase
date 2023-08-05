@@ -1,0 +1,76 @@
+<ContentControl x:Class="HeBianGu.Control.Book.BookPage"
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                BorderBrush="Red"
+                BorderThickness="1"
+                Loaded="OnLoaded"
+                MouseDoubleClick="OnMouseDoubleClick"
+                MouseDown="OnMouseDown"
+                MouseLeave="OnMouseLeave"
+                MouseMove="OnMouseMove"
+                MouseUp="OnMouseUp">
+    <Grid x:Name="mainGrid">
+        <ContentPresenter x:Name="page2" />
+        <Canvas x:Name="nextPageShadowCanvas" Opacity="1" Visibility="Hidden">
+            <Canvas.Background>
+                <LinearGradientBrush x:Name="nextPageShadow" StartPoint="0 0" EndPoint="0 0">
+                    <GradientStop Offset="0" Color="Transparent" />
+                    <GradientStop x:Name="nextPageShadowCanvasOffset1" Offset="0" Color="Black" />
+                    <GradientStop x:Name="nextPageShadowCanvasOffset2" Offset="1" Color="Transparent" />
+                    <GradientStop Offset="1" Color="Transparent" />
+                </LinearGradientBrush>
+            </Canvas.Background>
+        </Canvas>
+        <Grid>
+            <Grid.Clip>
+                <CombinedGeometry x:Name="clippingPage0" GeometryCombineMode="Exclude">
+                    <CombinedGeometry.Geometry1>
+                        <RectangleGeometry />
+                    </CombinedGeometry.Geometry1>
+                    <CombinedGeometry.Geometry2>
+                        <PathGeometry>
+                            <PathFigure IsClosed="True" />
+                        </PathGeometry>
+                    </CombinedGeometry.Geometry2>
+                </CombinedGeometry>
+            </Grid.Clip>
+            <!--  Page 0 begin  -->
+            <ContentPresenter x:Name="page0" />
+            <!--  Page 0 end  -->
+        </Grid>
+        <Canvas x:Name="gridShadow" Opacity="1" Visibility="Hidden">
+            <Canvas.Background>
+                <LinearGradientBrush x:Name="pageShadow" StartPoint="0 0" EndPoint="0 0">
+                    <GradientStop Offset="0" Color="Transparent" />
+                    <GradientStop Offset="0" Color="Black" />
+                    <GradientStop Offset="1" Color="Transparent" />
+                </LinearGradientBrush>
+            </Canvas.Background>
+        </Canvas>
+        <Grid x:Name="rectangleVisible">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <TranslateTransform x:Name="rectangleTranslate" />
+                    <RotateTransform x:Name="rectangleRotate" />
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <Grid.Clip>
+                <PathGeometry x:Name="clippingFigure">
+                    <PathFigure IsClosed="True" />
+                </PathGeometry>
+            </Grid.Clip>
+            <!--  Page 1 begin  -->
+            <ContentPresenter x:Name="page1" />
+            <!--  Page 1 end  -->
+            <Canvas x:Name="canvasReflection" Opacity="0.7" Visibility="Hidden">
+                <Canvas.Background>
+                    <LinearGradientBrush x:Name="pageReflection" StartPoint="0 0" EndPoint="0 0">
+                        <GradientStop Offset="0" Color="Black" />
+                        <GradientStop Offset="0.35" Color="White" />
+                        <GradientStop Offset="1" Color="Transparent" />
+                    </LinearGradientBrush>
+                </Canvas.Background>
+            </Canvas>
+        </Grid>
+    </Grid>
+</ContentControl>

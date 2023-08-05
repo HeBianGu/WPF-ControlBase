@@ -86,24 +86,6 @@ namespace HeBianGu.App.DownLoad.ViewModel.Home
             SelectedItem = DownLoadItems.FirstOrDefault();
         }
 
-        protected override void RelayMethod(object obj)
-        {
-            string command = obj.ToString();
-
-            //  Do：应用
-            if (command == "Sumit")
-            {
-
-
-            }
-            //  Do：取消
-            else if (command == "Cancel")
-            {
-
-
-            }
-        }
-
         #endregion
     }
 

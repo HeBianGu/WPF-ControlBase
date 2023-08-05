@@ -19,10 +19,6 @@ using System.Xaml.Schema;
 
 namespace HeBianGu.Control.PropertyGrid
 {
-    internal class TestPropertyModel
-    {
-
-    }
 
     public class TypeCTestModel
     {

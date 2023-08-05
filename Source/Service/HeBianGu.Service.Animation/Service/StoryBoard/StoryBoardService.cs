@@ -24,7 +24,7 @@ namespace HeBianGu.Base.WpfBase
         {
             if (uclist.Count() <= 0) return;
 
-            Storyboard storyboard = new Storyboard();
+            Storyboard storyboard = StoryboardFactory.Create();
 
             double Init = 0;
             double Org = 1;
@@ -111,7 +111,7 @@ namespace HeBianGu.Base.WpfBase
         {
             if (controls.Count() <= 0) return;
 
-            Storyboard storyboard = new Storyboard();
+            Storyboard storyboard = StoryboardFactory.Create();
 
 
             int i = 0;
@@ -140,6 +140,8 @@ namespace HeBianGu.Base.WpfBase
 
             }
             storyboard.FillBehavior = FillBehavior.HoldEnd;
+            Timeline.SetDesiredFrameRate(storyboard, StoryboardSetting.DesiredFrameRate);
+
             storyboard.Begin();
         }
 
@@ -148,7 +150,7 @@ namespace HeBianGu.Base.WpfBase
         {
             if (controls.Count() <= 0) return;
 
-            Storyboard storyboard = new Storyboard();
+            Storyboard storyboard = StoryboardFactory.Create();
 
             int i = 0;
 
@@ -179,6 +181,7 @@ namespace HeBianGu.Base.WpfBase
 
             }
             storyboard.FillBehavior = FillBehavior.HoldEnd;
+
             storyboard.Begin();
         }
 

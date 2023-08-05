@@ -472,22 +472,22 @@ namespace HeBianGu.Control.Chart2D
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(yAnimationBar), new FrameworkPropertyMetadata(typeof(yAnimationBar)));
         }
-        [TypeConverter(typeof(DataTypeConverter))]
-        public ObservableCollection<double> AnimationData
+        //[TypeConverter(typeof(DataTypeConverter))]
+        public DoubleCollection AnimationData
         {
-            get { return (ObservableCollection<double>)GetValue(AnimationDataDataProperty); }
+            get { return (DoubleCollection)GetValue(AnimationDataDataProperty); }
             set { SetValue(AnimationDataDataProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty AnimationDataDataProperty =
-            DependencyProperty.Register("AnimationData", typeof(ObservableCollection<double>), typeof(yAnimationBar), new PropertyMetadata(default(ObservableCollection<double>), (d, e) =>
+            DependencyProperty.Register("AnimationData", typeof(DoubleCollection), typeof(yAnimationBar), new PropertyMetadata(default(DoubleCollection), (d, e) =>
              {
                  yAnimationBar control = d as yAnimationBar;
 
                  if (control == null) return;
 
-                 ObservableCollection<double> config = e.NewValue as ObservableCollection<double>;
+                 DoubleCollection config = e.NewValue as DoubleCollection;
 
                  control.Refresh();
              }));
@@ -511,38 +511,26 @@ namespace HeBianGu.Control.Chart2D
 
              }));
 
-
-
-
         protected override void InitY()
         {
             base.InitY();
-
             double span = (this.maxY - this.minY) / this.yAxis.Count;
-
             this.maxY = this.maxY + span / 2;
-
             this.minY = this.minY - span / 2;
         }
 
         public override void Draw(Canvas canvas)
         {
             base.Draw(canvas);
-
             double span = (this.maxY - this.minY) / this.yAxis.Count;
-
             double itemWidth = span * this.WidthPercent;
-
             for (int i = 0; i < this.yAxis.Count; i++)
             {
                 //double x = this.yAxis[i];
 
                 double x = this.minY;
-
                 double d = this.Data[i];
-
                 StackPanel panel = new StackPanel();
-
                 panel.Orientation = Orientation.Horizontal;
 
                 panel.RenderTransformOrigin = new Point(0.0, 0.0);

@@ -72,15 +72,14 @@
                             <ToggleButton x:Name="PART_DropDownToggle"
                                           Grid.Column="1"
                                           Grid.ColumnSpan="3"
+                                          HorizontalAlignment="Right"
                                           h:Cattach.IconMargin="{TemplateBinding h:Cattach.IconMargin}"
                                           h:Cattach.IconSize="15"
-                                          Background="{TemplateBinding h:Cattach.FocusBackground}"
                                           Foreground="{TemplateBinding Foreground}"
                                           IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                           IsEnabled="{Binding Path=IsReadOnly, RelativeSource={RelativeSource TemplatedParent}, Converter={x:Static h:XConverter.TrueToFalseConverter}, Mode=OneWay}"
                                           IsTabStop="False"
                                           Style="{DynamicResource {x:Static h:ToggleButtonKeys.ComboBox}}" />
-
 
                             <Border Grid.Column="1">
                                 <TextBlock x:Name="Message"
@@ -98,7 +97,8 @@
 
                             <Grid Grid.Column="1" Margin="1">
                                 <ListBox Height="Auto"
-                                         h:Cattach.IsUseClose="True"
+                                         h:Cattach.UseClose="True"
+                                         ItemTemplate="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=SelectedItemsTemplate}"
                                          ItemsPanel="{TemplateBinding SelectedItemsPanel}"
                                          ItemsSource="{Binding ElementName=PART_ListBox, Path=SelectedItems}">
                                     <ListBox.ItemContainerStyle>
@@ -106,6 +106,7 @@
                                             <Setter Property="MinHeight" Value="10" />
                                             <Setter Property="Height" Value="Auto" />
                                             <Setter Property="Padding" Value="2,0" />
+                                            <Setter Property="Margin" Value="1" />
                                             <Setter Property="Background" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectBackground)}" />
                                             <Setter Property="Foreground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectForeground)}" />
                                             <Setter Property="h:Cattach.MouseOverForeground" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.SelectForeground)}" />
@@ -120,7 +121,7 @@
                                             <Setter Property="Height" Value="Auto" />
                                             <Setter Property="Padding" Value="2,0" />
                                             <Setter Property="h:Cattach.CornerRadius" Value="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
-                                            <Setter Property="h:Cattach.IsUseClose" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=(h:Cattach.IsUseClose)}" />
+                                            <Setter Property="h:Cattach.UseClose" Value="{Binding RelativeSource={RelativeSource AncestorType=ListBox}, Path=(h:Cattach.UseClose)}" />
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -144,7 +145,7 @@
                                                                         VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                                                         Foreground="{TemplateBinding Foreground}"
                                                                         Style="{DynamicResource {x:Static h:ButtonKeys.Clear}}"
-                                                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IsUseClose), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                                                                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UseClose), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
                                                                     <h:Interaction.Triggers>
                                                                         <h:EventTrigger EventName="Click">
                                                                             <h:CloseItemsAction Item="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}}" ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}" />
@@ -181,12 +182,12 @@
                                           Margin="0,5,0,0"
                                           HorizontalAlignment="Stretch"
                                           VerticalAlignment="Top">
-                                        
+
                                         <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
-                                                BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=BorderBrush}"
+                                                BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BorderBrush}"
                                                 BorderThickness="1"
                                                 CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.CornerRadius}}" />
-                                        
+
                                         <Polygon Margin="0,-5,8,0"
                                                  HorizontalAlignment="Right"
                                                  Fill="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.FocusForeground)}"
@@ -195,9 +196,11 @@
                                                  Stroke="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
 
                                         <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                            <ListBox x:Name="PART_ListBox" Background="Transparent"
+                                            <ListBox x:Name="PART_ListBox"
                                                      MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                                     Margin="1,1" BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent},Path=BorderBrush}"
+                                                     Margin="1,1"
+                                                     Background="Transparent"
+                                                     BorderBrush="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=BorderBrush}"
                                                      ItemTemplate="{TemplateBinding ItemTemplate}"
                                                      ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource TemplatedParent}}"
                                                      SelectionMode="Multiple" />
@@ -235,7 +238,7 @@
                             <Setter TargetName="PART_DropDownToggle" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
                             <Setter TargetName="PART_AttachContent" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
                         </Trigger>
-                        
+
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="PART_Root" Property="Opacity" Value="{DynamicResource {x:Static h:OpacityKeys.Disable}}" />
                         </Trigger>

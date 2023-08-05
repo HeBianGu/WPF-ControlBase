@@ -27,7 +27,6 @@ namespace HeBianGu.Control.Filter
             DefaultStyleKeyProperty.OverrideMetadata(typeof(FilterBox), new FrameworkPropertyMetadata(typeof(FilterBox)));
         }
 
-
         public static RoutedCommand AddItemCommand = new RoutedCommand();
 
         public FilterBox()
@@ -50,12 +49,11 @@ namespace HeBianGu.Control.Filter
 
         public void RefreshOut()
         {
-            if (this.DataSource == null) return;
-            //  Do ：刷新输出数据源
+            if (this.DataSource == null) 
+                return;
+         
             System.Collections.Generic.IEnumerable<IFilter> filters = this.SelectedItems.OfType<IFilter>();
-
             IList cache = Activator.CreateInstance(this.DataSource.GetType()) as IList;
-
             foreach (object item in this.DataSource)
             {
                 if (filters == null || filters.Count() == 0)
@@ -146,6 +144,7 @@ namespace HeBianGu.Control.Filter
                  }
 
                  control.RefreshSetting();
+                 control.RefreshOut();
              }));
 
         private void Collection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -177,12 +176,19 @@ namespace HeBianGu.Control.Filter
             if (this.DataSource == null) return;
 
             Type ctype = this.DataSource.GetType();
-
             if (!ctype.IsGenericType) return;
-
             Type type = ctype.GetGenericArguments()?.FirstOrDefault();
-
             if (type == null) return;
+            if (typeof(IModelViewModel).IsAssignableFrom(type) && type.IsGenericType)
+            {
+                type = type.GetGenericArguments()?.FirstOrDefault();
+            }
+
+            //if (!string.IsNullOrEmpty(this.PropertyPath))
+            //{
+            //    type = type.GetProperty(this.PropertyPath).PropertyType;
+            //}
+
 
             System.Collections.Generic.IEnumerable<PropertyInfo> ps = type.GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance).Where(l => l.PropertyType.IsPrimitive || l.PropertyType.IsEnum || l.PropertyType.Equals(typeof(string)) || l.PropertyType.Equals(typeof(DateTime)));
             ps = ps.Where(l => l.GetCustomAttribute<BrowsableAttribute>()?.Browsable != false).Where(l => l.CanRead);
@@ -208,20 +214,6 @@ namespace HeBianGu.Control.Filter
 
              }));
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

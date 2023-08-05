@@ -89,13 +89,11 @@ namespace HeBianGu.Control.Ping
                              if (reply.Status == IPStatus.Success)
                              {
                                  this.RoundtripTime = reply.RoundtripTime;
-
                                  _cache.Insert(0, $"[{DateTime.Now.ToString("HH:mm:ss")}] ping {this.IP} {this.RoundtripTime} ms");
                              }
                              else
                              {
                                  this.RoundtripTime = -1;
-
                                  _cache.Insert(0, $"[{DateTime.Now.ToString("HH:mm:ss")}][{this.Status}] {this.IP} {reply.Options?.Ttl}");
                              }
                          });

@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 
 namespace System
 {
-    [SettingConfig(Name = "数据列表", Group = "基本设置")]
+    [Displayer(Name = "数据列表", GroupName = SystemSetting.GroupSystem)]
     public class RepositorySetting : LazySettingInstance<RepositorySetting>
     {
         [Browsable(false)]
@@ -257,7 +257,7 @@ namespace System
 
         private string _value = @"C:\Users\LENOVO\Documents\HeBianGu\HeBianGu.Application.RepositoryWindow\LENOVO\Setting";
         /// <summary> 说明  </summary>
-        [Property(Type = typeof(ClearPathTextPropertyItem))]
+        [PropertyItemType(Type = typeof(ClearPathTextPropertyItem))]
         public string Value
         {
             get { return _value; }
@@ -270,7 +270,7 @@ namespace System
 
         private string _value1 = @"C:\Users11\LENOVO\Documents\HeBianGu\HeBianGu.Application.RepositoryWindow\LENOVO\Setting";
         /// <summary> 说明  </summary>
-        [Property(Type = typeof(OpenPathTextPropertyItem))]
+        [PropertyItemType(Type = typeof(OpenPathTextPropertyItem))]
         public string Value1
         {
             get { return _value1; }
@@ -283,7 +283,7 @@ namespace System
 
         private string _value2 = @"C:\Users11\LENOVO\Documents\HeBianGu\HeBianGu.Application.RepositoryWindow\LENOVO\Setting";
         /// <summary> 说明  </summary>
-        [Property(Type = typeof(OpenClearPathTextPropertyItem))]
+        [PropertyItemType(Type = typeof(OpenClearPathTextPropertyItem))]
         public string Value2
         {
             get { return _value2; }

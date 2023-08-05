@@ -11,7 +11,7 @@ namespace HeBianGu.Control.Adorner
 {
 
     /// <summary> 用于显示ListBoxItem拖拽进行时的效果，通过附加属性Bool修改样式 </summary>
-    public class ElementAllowDrapBehavior : DrapAdornerBehavior
+    public class ElementAllowDragBehavior : DragAdornerBehavior
     {
         protected override void OnAttached()
         {
@@ -121,36 +121,6 @@ namespace HeBianGu.Control.Adorner
         {
             Cattach.SetIsDragEnter(this.AssociatedObject, false);
         }
-
-        //public static readonly DependencyProperty IsActiveProperty =
-        //    DependencyProperty.RegisterAttached("IsActive", typeof(bool), typeof(ElementAllowDrapBehavior),
-        //        new PropertyMetadata(default(bool), OnIsActiveChanged));
-
-        //public static bool GetIsActive(DependencyObject obj)
-        //{
-        //    return (bool)obj.GetValue(ElementAllowDrapBehavior.IsActiveProperty);
-        //}
-
-        //public static void SetIsActive(DependencyObject obj, bool value)
-        //{
-        //    obj.SetValue(IsActiveProperty, value);
-        //}
-
-        //private static void OnIsActiveChanged(DependencyObject dpo, DependencyPropertyChangedEventArgs e)
-        //{
-        //    BehaviorCollection bc = Interaction.GetBehaviors(dpo);
-
-        //    if (Convert.ToBoolean(e.NewValue))
-        //    {
-        //        bc.Add(new ElementAllowDrapBehavior());
-        //    }
-        //    else
-        //    {
-        //        var behavior = bc.FirstOrDefault(beh => beh.GetType() == typeof(ElementAllowDrapBehavior));
-        //        if (behavior != null)
-        //            bc.Remove(behavior);
-        //    }
-        //}
     }
 
     //  ToDo：目前不好用 后面测试

@@ -9,7 +9,7 @@ namespace HeBianGu.App.Manager.View.Transition
     {
         public TranslateControl()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
     }
 }

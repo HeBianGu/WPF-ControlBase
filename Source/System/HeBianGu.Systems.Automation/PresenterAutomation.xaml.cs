@@ -49,18 +49,18 @@ namespace HeBianGu.Systems.Automation
 
                     if (display == null) continue;
 
-                    result.Add(new ActionTest() { DisplayName = display.Name });
+                    result.Add(new ActionTest() { Name = display.Name });
                 }
             }
 
             this.Components = result.ToObservable();
 
 
-            CommandBinding binding = new CommandBinding(CommandService.Close);
+            CommandBinding binding = new CommandBinding(Commander.Close);
 
             binding.Executed += (l, k) =>
               {
-                  Message.Instance.CloseLayer();
+                  MessageProxy.Container.Close();
               };
 
             this.CommandBindings.Add(binding);

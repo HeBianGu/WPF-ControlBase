@@ -25,7 +25,7 @@ namespace HeBianGu.App.Repository
 
         [XmlIgnore]
         [Display(Name = "角色列表")]
-        [Property(Type = typeof(MultiSelectRepositoryPropertyItem))]
+        [PropertyItemType(Type = typeof(MultiSelectRepositoryPropertyItem))]
         public ICollection<hi_dd_role> Roles { get; set; }
     }
 }

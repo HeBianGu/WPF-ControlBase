@@ -1,6 +1,7 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Systems.Setting;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +15,7 @@ namespace HeBianGu.Demo.Demo10
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             return new MainWindow();
         }
@@ -27,25 +28,33 @@ namespace HeBianGu.Demo.Demo10
             services.AddWindowAnimation();
 
             //  Do ：注册消息
-            services.AddMessage();
-
-            //  Do ：注册窗口配置，注册后窗口右侧有可设置主题的按钮
-            services.AddTheme();
+            services.AddMessageProxy();
 
             //  Do ：注册序列化保存接口，注册后主题的配置会保存到本地，再次启动会读取
             services.AddXmlSerialize();
 
             //  Do ：注册后可以使用框架自带的对话框
-            services.AddMessageDialog();
+            services.AddWindowDialog();
 
             //  Do ：注册配置加载方式
             services.AddSetting();
 
+            //  Do ：注册窗口配置，注册后窗口右侧有可设置主题的按钮
+            services.AddThemeRightViewPresenter();
             //  Do ：注册右上角配置页面
             services.AddSettingViewPrenter();
+            services.AddWindowCaptionViewPresenter(x =>
+            {
+                x.AddPersenter(SettingViewPresenter.Instance);
+                x.AddPersenter(ThemeRightToolViewPresenter.Instance);
+            });
 
             //  Do ：注册启动页面
-            services.AddStart();
+            services.AddStart(l =>
+            {
+                l.Title = "HeBianGu";
+                l.ProductFontSize = 80;
+            });
 
             //  Do ：注册登录页面和使用测试接口
             services.AddIdentity();
@@ -53,32 +62,19 @@ namespace HeBianGu.Demo.Demo10
             ////  Do ：注册登录页面和使用自定义接口
             //services.AddSingleton<IIdentityService, IdentityService>();
 
+            services.AddXmlWebSerializerService();
             //  Do ：注册软件更新页面
-            services.AddUpgrade();
+            services.AddAutoUpgrade(l =>
+            {
+                //@"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"
+                l.Uri = "https://gitee.com/hebiangu/wpf-auto-update/raw/master/Install/Movie/Movie.xml";
+                l.UseIEDownload = true;
+            });
         }
 
         protected override void Configure(IApplicationBuilder app)
         {
             base.Configure(app);
-
-            //  Do ：添加软件更新配置
-            app.UseUpgrade(l =>
-            {
-
-            });
-
-            //  Do ：添加身份认证配置
-            app.UseIdentity(l =>
-            {
-
-            });
-
-            //  Do ：添加启动窗口配置
-            app.UseStart(l =>
-            {
-                l.Title = "HeBianGu";
-                l.TitleFontSize = 80;
-            });
 
             //  Do ：添加自定义配置信息
             app.UseSetting(l =>
@@ -90,8 +86,7 @@ namespace HeBianGu.Demo.Demo10
             app.UseLocalTheme(l =>
             {
                 l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
-                l.SmallFontSize = 14D;
-                l.LargeFontSize = 16D;
+                l.DefaultFontSize = 14D;
                 l.FontSize = FontSize.Small;
 
                 l.ItemHeight = 36;
@@ -113,7 +108,7 @@ namespace HeBianGu.Demo.Demo10
 
     }
 
-    [SettingConfig(Name = "自定义", Group = "我是分组")]
+    [Displayer(Name = "自定义", GroupName = "我是分组")]
     public class TestSetting : LazySettingInstance<TestSetting>
     {
         private bool _useIsEnabled;

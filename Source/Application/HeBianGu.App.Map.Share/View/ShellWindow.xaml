@@ -10,10 +10,15 @@
                   Title="ShellWindow"
                   Width="1300"
                   Height="800"
+                  h:Cattach.Icon="&#xeb02;"
                   CaptionHeight="50"
                   DataContext="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel}"
-                  Icon="&#xeb02;"
                   mc:Ignorable="d">
+    <!--<h:Cattach.CaptionRightTemplate>
+        <ControlTemplate TargetType="Control">
+            <Button h:Cattach.Icon="{x:Static h:Icons.Add}" Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+        </ControlTemplate>
+    </h:Cattach.CaptionRightTemplate>-->
 
     <h:TransitionService.VisibleActions>
         <h:TransitionCollection>
@@ -22,10 +27,64 @@
         </h:TransitionCollection>
     </h:TransitionService.VisibleActions>
 
+
+    <h:MenuWindowBase.MenuContent>
+        <Menu Style="{DynamicResource {x:Static h:MenuKeys.Window}}">
+            <!--<Menu.Resources>
+                <Style BasedOn="{StaticResource C.MenuItem.Default}" TargetType="MenuItem" />
+            </Menu.Resources>-->
+            <MenuItem Background="Transparent" Header="文件(F)">
+                <MenuItem Command="{Binding RelayCommand}" Header="新建任务" IsEnabled="True" />
+                <MenuItem Header="新建模板" IsEnabled="False" />
+                <MenuItem Header="打开任务" />
+                <MenuItem Header="保存任务" />
+                <MenuItem Header="另存为" />
+                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
+                <MenuItem Header="导出任务" />
+                <MenuItem Header="导入任务" />
+                <MenuItem Header="另存为模板" />
+                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
+                <MenuItem Header="退出" />
+            </MenuItem>
+
+            <MenuItem Background="Transparent" Header="编辑(E)">
+                <MenuItem Header="撤销" />
+                <MenuItem Header="剪切" />
+                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
+                <MenuItem Header="复制" />
+                <MenuItem Header="粘贴" />
+                <MenuItem Header="删除" />
+            </MenuItem>
+
+            <MenuItem Background="Transparent" Header="设置(S)">
+                <MenuItem Header="滤波" IsEnabled="False" />
+                <MenuItem Header="陷波" IsEnabled="False" />
+            </MenuItem>
+
+            <MenuItem Background="Transparent" Header="管理(S)">
+                <MenuItem Header="用户管理" IsEnabled="True" />
+                <MenuItem Header="地图管理" IsEnabled="True" />
+                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
+                <MenuItem Header="主机管理" IsEnabled="True" />
+                <MenuItem Header="设备模板管理" IsEnabled="True" />
+            </MenuItem>
+
+            <MenuItem Background="Transparent" Header="帮助(H)">
+                <MenuItem Header="查看帮助" IsEnabled="True" />
+                <MenuItem Header="注册产品" IsEnabled="True" />
+                <MenuItem Header="技术支持" IsEnabled="True" />
+                <MenuItem Header="软件升级" IsEnabled="True" />
+                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
+                <MenuItem Header="检查更新" IsEnabled="True" />
+                <MenuItem Header="关于" IsEnabled="True" />
+            </MenuItem>
+        </Menu>
+    </h:MenuWindowBase.MenuContent>
+
     <Grid>
         <DockPanel>
             <DockPanel Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
-                       Background="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}"
+                       Background="{DynamicResource {x:Static h:BrushKeys.Dark0_1}}"
                        DockPanel.Dock="Top"
                        LastChildFill="False">
                 <Button Width="80"
@@ -45,10 +104,39 @@
                               Width="80"
                               Margin="5,0,0,0"
                               Content="信号控制"
-                              Style="{DynamicResource {x:Static h:ToggleButtonKeys.Rotate90}}" />
+                              Style="{DynamicResource {x:Static h:ToggleButtonKeys.Rotate90}}"
+                              Template="{DynamicResource {x:Static h:ControlTemplateKeys.ContentControlIcon}}" />
 
             </DockPanel>
 
+
+            <DockPanel x:Name="dp_state"
+                       Height="{DynamicResource {x:Static h:SystemKeys.ItemHeight}}"
+                       VerticalAlignment="Bottom"
+                       Background="{DynamicResource {x:Static h:BrushKeys.Dark0_1}}"
+                       DockPanel.Dock="Bottom"
+                       LastChildFill="False">
+                <!--<h:TransitionService.VisibleActions>
+                <h:TransitionCollection>
+                    <h:TranslateTransition HiddenOrCollapsed="Hidden" />
+                </h:TransitionCollection>
+            </h:TransitionService.VisibleActions>-->
+
+                <TextBlock Margin="10,0" VerticalAlignment="Center" Text="{Binding Message}" />
+                <ProgressBar Width="200"
+                             Height="20"
+                             Margin="2,0"
+                             Background="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy3}}"
+                             DockPanel.Dock="Right"
+                             Style="{DynamicResource {x:Static h:ProgressBarKeys.Handy}}"
+                             Value="{Binding Percent}" />
+
+                <h:Interaction.Triggers>
+                    <h:EventTrigger EventName="MouseLeave">
+                        <h:ChangePropertyAction PropertyName="StateVisble" TargetObject="{Binding}" Value="False" />
+                    </h:EventTrigger>
+                </h:Interaction.Triggers>
+            </DockPanel>
             <Grid Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}">
                 <h:ImageCore Grid.ColumnSpan="4"
                              ImageSource="..\Resources\捕获.PNG"
@@ -78,7 +166,8 @@
                                      Height="800"
                                      HorizontalAlignment="Center"
                                      VerticalAlignment="Stretch"
-                                     ItemsSource="{Binding SelectedTask.Children}"
+                                     h:Cattach.ItemHeight="Auto"
+                                     ItemsSource="{Binding SelectedTask.Nodes}"
                                      SelectedItem="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.SelectedNode}"
                                      Style="{DynamicResource {x:Static h:ListBoxKeys.Clear}}">
                                 <ListBox.ItemTemplate>
@@ -95,9 +184,10 @@
                                                             CornerRadius="100"
                                                             Cursor="ScrollAll" />
 
-                                                    <ListBox ItemsSource="{Binding Children}" SelectedItem="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.SelectedNode}" Style="{DynamicResource {x:Static h:ListBoxKeys.Single}}">
-
-
+                                                    <ListBox h:Cattach.ItemHeight="Auto"
+                                                             ItemsSource="{Binding Children}"
+                                                             SelectedItem="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.SelectedNode}"
+                                                             Style="{DynamicResource {x:Static h:ListBoxKeys.Single}}">
                                                         <ListBox.ContextMenu>
                                                             <ContextMenu>
                                                                 <MenuItem Command="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.RelayCommand}"
@@ -165,8 +255,8 @@
                                                               Margin="5,0"
                                                               HorizontalAlignment="Right"
                                                               VerticalAlignment="Center"
-                                                              h:Cattach.SelectedText="&#xe863;"
-                                                              h:Cattach.UnSelectedText="&#xe862;"
+                                                              h:Cattach.CheckedIcon="&#xe863;"
+                                                              h:Cattach.UncheckedIcon="&#xe862;"
                                                               Style="{DynamicResource {x:Static h:CheckBoxKeys.Single}}"
                                                               Visibility="Collapsed" />
 
@@ -190,6 +280,7 @@
                                                 <ListBox Width="200"
                                                          MaxHeight="130"
                                                          HorizontalAlignment="Left"
+                                                         h:Cattach.ItemHeight="Auto"
                                                          h:TransitionService.IsVisible="{Binding ElementName=tb, Path=IsChecked}"
                                                          Background="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}"
                                                          ItemsSource="{Binding Children}"
@@ -254,12 +345,12 @@
                                                             <h:InvokeCommandAction Command="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.RelayCommand}" PassEventArgsToCommand="True" />
                                                         </h:EventTrigger>
                                                     </h:Interaction.Triggers>
-
                                                 </h:Sector>
 
                                                 <ListBox Margin="-130"
                                                          HorizontalAlignment="Left"
                                                          VerticalAlignment="Top"
+                                                         h:Cattach.ItemHeight="Auto"
                                                          ItemsSource="{Binding Children}"
                                                          SelectedItem="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.SelectedNode}"
                                                          Style="{DynamicResource {x:Static h:ListBoxKeys.Default}}">
@@ -411,21 +502,25 @@
                     <GroupBox Width="350"
                               Padding="0"
                               h:Cattach.CaptionForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                              Background="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}"
+                              Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
                               Header="设备模板"
                               Style="{DynamicResource {x:Static h:GroupBoxKeys.Close}}">
                         <DockPanel>
                             <h:Row DockPanel.Dock="Top">
                                 <TextBox Grid.ColumnSpan="22"
                                          Margin="5,0"
+                                         h:Cattach.FocusBackground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                          h:Cattach.Icon="&#xe787;"
+                                         h:Cattach.MouseOverBackground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                          h:Cattach.Watermark="请输入筛选条件"
-                                         Style="{DynamicResource {x:Static h:TextBoxKeys.ClearSingle}}" />
+                                         Style="{DynamicResource {x:Static h:TextBoxKeys.Search}}" />
                             </h:Row>
                             <DockPanel Grid.Row="1" DockPanel.Dock="Bottom" />
 
                             <ListBox Grid.Row="1"
                                      h:Cattach.ItemBackground="Transparent"
+                                     h:Cattach.MouseOverBackground="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy2}}"
+                                     h:Cattach.SelectBackground="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy4}}"
                                      AllowDrop="True"
                                      Background="Transparent"
                                      ItemTemplate="{StaticResource C.TestViewModel.Item.Many}"
@@ -478,7 +573,7 @@
                         <UniformGrid Width="350" Rows="2">
                             <GroupBox Padding="0"
                                       h:Cattach.CaptionForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                                      Background="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}"
+                                      Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
                                       Header="{Binding SelectedTask.Value}"
                                       Style="{DynamicResource {x:Static h:GroupBoxKeys.Close}}">
 
@@ -486,17 +581,21 @@
                                     <h:Row DockPanel.Dock="Top">
                                         <TextBox Grid.ColumnSpan="22"
                                                  Margin="5,0"
+                                                 h:Cattach.FocusBackground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                  h:Cattach.Icon="&#xe787;"
+                                                 h:Cattach.MouseOverBackground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                  h:Cattach.Watermark="请输入筛选条件"
-                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.ClearSingle}}" />
+                                                 Style="{DynamicResource {x:Static h:TextBoxKeys.Search}}" />
                                     </h:Row>
-
                                     <TreeView x:Name="tv"
                                               HorizontalAlignment="Stretch"
+                                              h:Cattach.MouseOverBackground="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy2}}"
+                                              h:Cattach.SelectBackground="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy5}}"
+                                              h:Cattach.UseSearch="False"
                                               Background="Transparent"
                                               BorderThickness="0"
                                               Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                                              ItemsSource="{Binding SelectedTask.Children}">
+                                              ItemsSource="{Binding SelectedTask.Nodes}">
                                         <TreeView.Resources>
                                             <HierarchicalDataTemplate DataType="{x:Type local:ServerViewModel}" ItemsSource="{Binding Children}">
                                                 <Grid x:Name="grid"
@@ -845,7 +944,7 @@
 
                             <GroupBox Padding="0"
                                       h:Cattach.CaptionForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
-                                      Background="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverForeground}}"
+                                      Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
                                       Header="属性"
                                       Style="{DynamicResource {x:Static h:GroupBoxKeys.Close}}">
                                 <Grid Margin="0">
@@ -1172,6 +1271,8 @@
 
                             <ListBox Grid.Row="1"
                                      h:Cattach.ItemBackground="Transparent"
+                                     h:Cattach.MouseOverBackground="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy2}}"
+                                     h:Cattach.SelectBackground="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy4}}"
                                      AllowDrop="True"
                                      Background="Transparent"
                                      ItemsSource="{Binding Servers}"
@@ -1239,7 +1340,8 @@
 
                                             <Button x:Name="btn_close"
                                                     Grid.Column="3"
-                                                    Margin="15,0"
+                                                    Width="Auto"
+                                                    Margin="25,0"
                                                     VerticalAlignment="Center"
                                                     Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                                                     Style="{DynamicResource {x:Static h:ButtonKeys.Close}}" />
@@ -1254,7 +1356,6 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </DockPanel>
-
                     </GroupBox>
                 </h:Drawer>
 
@@ -1262,7 +1363,7 @@
 
         </DockPanel>
 
-        <Border Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+        <!--<Border Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
                 Margin="300,0"
                 VerticalAlignment="Bottom"
                 Background="Transparent">
@@ -1271,34 +1372,9 @@
                     <h:ChangePropertyAction PropertyName="StateVisble" TargetObject="{Binding}" Value="True" />
                 </h:EventTrigger>
             </h:Interaction.Triggers>
-        </Border>
+        </Border>-->
 
-        <DockPanel x:Name="dp_state"
-                   Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
-                   VerticalAlignment="Bottom"
-                   h:TransitionService.IsVisible="{Binding StateVisble}"
-                   Background="{DynamicResource {x:Static h:BrushKeys.Dark0_6}}"
-                   LastChildFill="False">
-            <h:TransitionService.VisibleActions>
-                <h:TransitionCollection>
-                    <h:TranslateTransition HiddenOrCollapsed="Hidden" />
-                </h:TransitionCollection>
-            </h:TransitionService.VisibleActions>
 
-            <TextBlock Margin="10,0" VerticalAlignment="Center" Text="{Binding Message}" />
-            <ProgressBar Width="200"
-                         Margin="2,0"
-                         Background="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy3}}"
-                         DockPanel.Dock="Right"
-                         Style="{DynamicResource {x:Static h:ProgressBarKeys.Handy}}"
-                         Value="{Binding Percent}" />
-
-            <h:Interaction.Triggers>
-                <h:EventTrigger EventName="MouseLeave">
-                    <h:ChangePropertyAction PropertyName="StateVisble" TargetObject="{Binding}" Value="False" />
-                </h:EventTrigger>
-            </h:Interaction.Triggers>
-        </DockPanel>
 
         <UniformGrid Width="500"
                      Height="400"
@@ -1362,56 +1438,4 @@
         </UniformGrid>
     </Grid>
 
-    <h:MenuWindowBase.MenuContent>
-        <Menu DockPanel.Dock="Top">
-            <Menu.Resources>
-                <Style BasedOn="{StaticResource C.MenuItem.Default}" TargetType="MenuItem" />
-            </Menu.Resources>
-            <MenuItem Header="文件(F)" Style="{StaticResource C.MenuItem.Header}">
-                <MenuItem Command="{Binding RelayCommand}" Header="新建任务" IsEnabled="True" />
-                <MenuItem Header="新建模板" IsEnabled="True" />
-                <MenuItem Header="打开任务" />
-                <MenuItem Header="保存任务" />
-                <MenuItem Header="另存为" />
-                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
-                <MenuItem Header="导出任务" />
-                <MenuItem Header="导入任务" />
-                <MenuItem Header="另存为模板" />
-                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
-                <MenuItem Header="退出" />
-            </MenuItem>
-
-            <MenuItem Header="编辑(E)" Style="{StaticResource C.MenuItem.Header}">
-                <MenuItem Header="撤销" />
-                <MenuItem Header="剪切" />
-                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
-                <MenuItem Header="复制" />
-                <MenuItem Header="粘贴" />
-                <MenuItem Header="删除" />
-            </MenuItem>
-
-            <MenuItem Header="设置(S)" Style="{StaticResource C.MenuItem.Header}">
-                <MenuItem Header="滤波" IsEnabled="True" />
-                <MenuItem Header="陷波" IsEnabled="True" />
-            </MenuItem>
-
-            <MenuItem Header="管理(S)" Style="{StaticResource C.MenuItem.Header}">
-                <MenuItem Header="用户管理" IsEnabled="True" />
-                <MenuItem Header="地图管理" IsEnabled="True" />
-                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
-                <MenuItem Header="主机管理" IsEnabled="True" />
-                <MenuItem Header="设备模板管理" IsEnabled="True" />
-            </MenuItem>
-
-            <MenuItem Header="帮助(H)" Style="{StaticResource C.MenuItem.Header}">
-                <MenuItem Header="查看帮助" IsEnabled="True" />
-                <MenuItem Header="注册产品" IsEnabled="True" />
-                <MenuItem Header="技术支持" IsEnabled="True" />
-                <MenuItem Header="软件升级" IsEnabled="True" />
-                <Separator Style="{DynamicResource {x:Static h:SeparatorKeys.Default}}" />
-                <MenuItem Header="检查更新" IsEnabled="True" />
-                <MenuItem Header="关于" IsEnabled="True" />
-            </MenuItem>
-        </Menu>
-    </h:MenuWindowBase.MenuContent>
 </h:MenuWindowBase>

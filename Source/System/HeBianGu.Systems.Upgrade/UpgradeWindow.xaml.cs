@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 
@@ -74,24 +75,37 @@ namespace HeBianGu.Systems.Upgrade
         /// <returns></returns>
         public static bool BeginUpgrade(string verstion, string url, Func<string, string> convertToMessage, params string[] messages)
         {
-            DownLoadWindow downLoad = new DownLoadWindow();
-            UpgradeWindow window = new UpgradeWindow();
-            window.TitleMessage = "发现新版本：" + verstion;
-
-            window.Message = messages?.Select(l => convertToMessage(l))?.ToList();
-
-            bool? find = window.ShowDialog();
-
-            if (find.HasValue && find.Value)
+            bool? find = Application.Current.Dispatcher.Invoke(() =>
             {
-                downLoad.TitleMessage = "正在下载新版本：" + verstion;
-                downLoad.Message = messages?.Select(l => convertToMessage(l))?.ToList();
-                downLoad.Url = url;
-                return downLoad.ShowDialog() ?? false;
+                UpgradeWindow window = new UpgradeWindow();
+                window.TitleMessage = "发现新版本：" + verstion;
+                window.Message = messages?.Select(l => convertToMessage(l))?.ToList();
+                return window.ShowDialog();
+            });
+
+
+            if (find.Value != true)
+                return false;
+
+            if (UpgradeSetting.Instance.UseIEDownload)
+            {
+                //Process.Start("explorer.exe", url);
+                Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+
+                return find ?? false;
+            }
+            else
+            {
+                return Application.Current.Dispatcher.Invoke(() =>
+                 {
+                     DownLoadWindow downLoad = new DownLoadWindow();
+                     downLoad.TitleMessage = "正在下载新版本：" + verstion;
+                     downLoad.Message = messages?.Select(l => convertToMessage(l))?.ToList();
+                     downLoad.Url = url;
+                     return downLoad.ShowDialog() ?? false;
+                 });
 
             }
-
-            return find ?? false;
         }
 
         /// <summary>
@@ -105,6 +119,8 @@ namespace HeBianGu.Systems.Upgrade
         {
             Func<string, string> convertToMessage = s =>
             {
+                if (s == null) return null;
+
                 string[] from = s.Split(new string[] { @"\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
                 return from.Aggregate((l, k) => l + Environment.NewLine + k);

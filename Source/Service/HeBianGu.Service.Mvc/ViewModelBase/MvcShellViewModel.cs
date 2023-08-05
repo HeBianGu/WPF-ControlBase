@@ -11,15 +11,15 @@ namespace HeBianGu.Service.Mvc
     {
         #region - 属性 - 
 
-        private ObservableCollection<ILinkAction> _linkActions = new ObservableCollection<ILinkAction>();
+        private ObservableCollection<IAction> _linkActions = new ObservableCollection<IAction>();
         /// <summary> 说明  </summary>
-        public ObservableCollection<ILinkAction> LinkActions
+        public ObservableCollection<IAction> LinkActions
         {
             get { return _linkActions; }
             set
             {
                 _linkActions = value;
-                RaisePropertyChanged("LinkActions");
+                RaisePropertyChanged();
             }
         }
 

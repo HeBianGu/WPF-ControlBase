@@ -28,18 +28,15 @@ namespace HeBianGu.Control.Chart2D
         protected virtual void Refresh()
         {
             List<Series> series = this.GetParent<Chart>()?.GetChildren<Series>()?.ToList();
-
-            if (series == null) return;
-
+            if (series == null)
+                return;
             List<LegendItem> items = new List<LegendItem>();
-
             foreach (Series item in series)
             {
                 LegendItem legendItem = new LegendItem();
                 legendItem.Series = item;
                 items.Add(legendItem);
             }
-
             this.ItemsSource = items;
         }
     }
@@ -59,9 +56,8 @@ namespace HeBianGu.Control.Chart2D
             //  Do ：刷新饼图
             {
                 List<DataLayer> series = this.GetParent<Chart>()?.GetChildren<DataLayer>()?.ToList();
-
-                if (series == null) return;
-
+                if (series == null)
+                    return;
                 foreach (DataLayer item in series)
                 {
                     //  Do ：刷新数据源时更新
@@ -69,14 +65,14 @@ namespace HeBianGu.Control.Chart2D
                     item.Drawed += Item_Drawed;
 
                     List<Path> ps = item.GetChildren<Path>()?.Where(l => l.Tag != null)?.ToList();
-
-                    if (ps == null) continue;
-
+                    if (ps == null)
+                        continue;
                     foreach (Path p in ps)
                     {
                         ShapeLegendItem legendItem = new ShapeLegendItem();
                         legendItem.Shape = p;
                         legendItem.Index = ps.IndexOf(p);
+                        legendItem.Layer = item;
                         legendItem.IsChecked = item.DataBoolean.Count > legendItem.Index ? item.DataBoolean[legendItem.Index] : true;
                         items.Add(legendItem);
                     }
@@ -153,6 +149,19 @@ namespace HeBianGu.Control.Chart2D
 
     internal class ShapeLegendItem : NotifyPropertyChanged
     {
+        private DataLayer _layer;
+        /// <summary> 说明  </summary>
+        public DataLayer Layer
+        {
+            get { return _layer; }
+            set
+            {
+                _layer = value;
+                RaisePropertyChanged("Layer");
+            }
+        }
+
+
         private Shape _shape;
         /// <summary> 说明  </summary>
         public Shape Shape
@@ -191,28 +200,24 @@ namespace HeBianGu.Control.Chart2D
 
         public void Checked()
         {
-            if (this.Shape.Parent is DataLayer layer)
+            DataLayer layer = this.Layer;
+            if (layer.DataBoolean.Count > this.Index)
             {
-                if (layer.DataBoolean.Count > this.Index)
-                {
-                    layer.DataBoolean[this.Index] = true;
-                }
-
-                layer.Draw(layer);
+                layer.DataBoolean[this.Index] = true;
             }
+
+            layer.Draw(layer);
         }
 
         public void Unchecked()
         {
-            if (this.Shape.Parent is DataLayer layer)
+            DataLayer layer = this.Layer;
+            if (layer.DataBoolean.Count > this.Index)
             {
-                if (layer.DataBoolean.Count > this.Index)
-                {
-                    layer.DataBoolean[this.Index] = false;
-                }
-
-                layer.Draw(layer);
+                layer.DataBoolean[this.Index] = false;
             }
+
+            layer.Draw(layer);
         }
     }
 

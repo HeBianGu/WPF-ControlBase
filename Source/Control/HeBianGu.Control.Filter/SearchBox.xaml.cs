@@ -26,6 +26,8 @@ namespace HeBianGu.Control.Filter
               {
                   if (string.IsNullOrEmpty(this.Text)) return true;
 
+                 if (p.GetMethod.Name == "get_Item") return false;
+
                   object v = p.GetValue(o);
 
                   if (v == null) return false;

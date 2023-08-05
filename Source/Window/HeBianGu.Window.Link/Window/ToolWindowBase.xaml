@@ -1,0 +1,251 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.Window.Link">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.Window.Message;component/MessageWindowBase.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.Window.Tool.Default, TypeInTargetAssembly={x:Type local:ToolWindowBase}}" BasedOn="{StaticResource {x:Static h:MessageWindowBase.DynamicKey}}" TargetType="{x:Type local:ToolWindowBase}">
+        <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.AccentOpacity2}}" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" />
+        <Setter Property="FontSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Default}}" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="CaptionHeight" Value="150" />
+        <Setter Property="CaptionForeground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+        <Setter Property="CaptionBackground" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+        <Setter Property="Padding" Value="10" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:ToolWindowBase}">
+                    <Grid Name="g_all">
+                        <Border x:Name="Bg"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                Effect="{DynamicResource {x:Static h:EffectShadowKeys.Window}}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <Border x:Name="BgInner"
+                                Background="{TemplateBinding Background}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Border Grid.Row="0"
+                                    Height="{TemplateBinding CaptionHeight}"
+                                    Margin="0"
+                                    Background="{TemplateBinding CaptionBackground}"
+                                    CornerRadius="{DynamicResource {x:Static h:CornerRadiusKeys.Top}}">
+                                <Grid Margin="2,1,2,0">
+                                    <Grid.Background>
+                                        <ImageBrush ImageSource="/HeBianGu.General.WpfControlLib;component/Resources/Cover.png" />
+                                    </Grid.Background>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel x:Name="PART_Header"
+                                                Margin="0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal">
+                                        <Image Source="{TemplateBinding Icon}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2"
+                                                Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                                                Margin="10,0"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal"
+                                                WindowChrome.IsHitTestVisibleInChrome="True">
+
+                                        <ItemsControl Foreground="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:MvpKeys.WindowCaption}}" />
+                                        <Separator Height="20" Background="{Binding RelativeSource={RelativeSource AncestorType=h:MessageWindowBase}, Path=CaptionForeground}" Style="{DynamicResource {x:Static h:SeparatorKeys.Vertical}}" />
+
+                                        <Button Style="{DynamicResource {x:Static h:ButtonKeys.MinimizeWindow}}" />
+                                        <Button x:Name="btnMax" Style="{DynamicResource {x:Static h:ButtonKeys.MaximizeWindow}}" />
+                                        <Button Style="{DynamicResource {x:Static h:ButtonKeys.CloseWindow}}" />
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Row="1"
+                                                Margin="15,1,15,1"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Orientation="Horizontal">
+                                        <Image Margin="5,20" Source="{TemplateBinding Logo}" />
+                                    </StackPanel>
+
+                                    <ListBox Grid.Row="2"
+                                             Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                                             h:Cattach.ItemMargin="0" h:Cattach.ItemPadding="0"
+                                             Background="{DynamicResource {x:Static h:BrushKeys.AccentOpacity5}}"
+                                             BorderThickness="0"
+                                             ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=ClickActions}"
+                                             Style="{DynamicResource {x:Static h:ListBoxKeys.Clear}}"
+                                             WindowChrome.IsHitTestVisibleInChrome="True">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate DataType="{x:Type local:ClickAction}">
+                                                <Button h:Cattach.Icon="{Binding Logo}"
+                                                        h:Cattach.MouseOverForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
+                                                        Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhiteOpacity4}}"
+                                                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"
+                                                        ToolTip="{Binding DisplayName}">
+                                                    <h:Interaction.Triggers>
+                                                        <h:EventTrigger EventName="Click">
+                                                            <h:CallMethodAction MethodName="DoAction" TargetObject="{Binding}" />
+                                                        </h:EventTrigger>
+                                                    </h:Interaction.Triggers>
+                                                </Button>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel VerticalAlignment="Center" Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                    </ListBox>
+                                </Grid>
+                            </Border>
+
+                            <AdornerDecorator Grid.Row="1" Margin="1,0,1,1" WindowChrome.IsHitTestVisibleInChrome="True">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <h:NotifyIcon x:Name="PART_NotifyIcon"
+                                                  Command="{Binding Path=MinimizeWindowCommand, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  Icon="{Binding Path=NotifyIconSource, RelativeSource={RelativeSource TemplatedParent}}"
+                                                  IconVisibility="Visible"
+                                                  Text="{TemplateBinding Title}">
+
+                                        <FrameworkElement.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="显示面板" />
+
+                                                <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=NotifyWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="隐藏" />
+
+                                                <MenuItem Command="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CloseWindowCommand}" CommandTarget="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}" Header="退出" />
+                                            </ContextMenu>
+                                        </FrameworkElement.ContextMenu>
+                                    </h:NotifyIcon>
+
+                                    <ListBox x:Name="list"
+                                             Grid.Column="0"
+                                             Margin="2,1,2,1"
+                                             h:Cattach.ItemHeight="Auto"
+                                             h:Cattach.ItemMargin="0"
+                                             h:Cattach.ItemPadding="0"
+                                             Background="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy6}}"
+                                             BorderBrush="Transparent"
+                                             Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}"
+                                             ItemsSource="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=TabLinks}"
+                                             SelectedIndex="0"
+                                             SelectedItem="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink}"
+                                             Style="{DynamicResource {x:Static h:ListBoxKeys.Clear}}"
+                                             WindowChrome.IsHitTestVisibleInChrome="True">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Grid>
+                                                    <Border x:Name="border"
+                                                            Margin="2"
+                                                            Background="Transparent"
+                                                            CornerRadius="5">
+                                                        <Grid Margin="2,10">
+                                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical">
+                                                                <TextBlock x:Name="icon"
+                                                                           Margin="-10,0"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                                                           Text="{Binding Logo}" />
+                                                                <TextBlock x:Name="txt"
+                                                                           Margin="-10,0"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           FontSize="8"
+                                                                           Text="{Binding DisplayName}" />
+                                                            </StackPanel>
+                                                        </Grid>
+                                                    </Border>
+                                                </Grid>
+
+                                                <DataTemplate.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.AccentMouseOverBackground}}" />
+                                                    </Trigger>
+
+                                                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="true">
+                                                        <Setter TargetName="border" Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                                                        <Setter TargetName="icon" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                                                        <Setter TargetName="icon" Property="FontWeight" Value="Black" />
+                                                        <Setter TargetName="txt" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}" />
+                                                        <Setter TargetName="txt" Property="FontWeight" Value="Black" />
+                                                    </DataTrigger>
+                                                </DataTemplate.Triggers>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+
+                                    <Grid Grid.Column="1">
+
+                                        <h:DialogHost Margin="0,1,2,1"
+                                                      HorizontalAlignment="Stretch"
+                                                      VerticalAlignment="Stretch"
+                                                      Identifier="windowDialog">
+                                            <Grid>
+                                                <local:LinkActionFrame Background="{DynamicResource {x:Static h:BrushKeys.WhiteOpactiy4}}" LinkAction="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=CurrentLink}" UseRandomWipe="False" />
+
+                                                <h:ContainPanel x:Name="PART_LAYERGROUP"
+                                                                Background="{DynamicResource {x:Static h:BrushKeys.DialogCover}}"
+                                                                ClipToBounds="True"
+                                                                Visibility="Collapsed">
+                                                    <h:ContainPanel.AnimationAction>
+                                                        <h:ScaleTransition />
+                                                    </h:ContainPanel.AnimationAction>
+                                                </h:ContainPanel>
+                                            </Grid>
+                                        </h:DialogHost>
+
+                                        <h:MessageContainer x:Name="PART_Message" Grid.Row="1" />
+
+                                        <h:Snackbar x:Name="PART_SnackBar" MessageQueue="{h:MessageQueue}" />
+                                    </Grid>
+                                </Grid>
+                            </AdornerDecorator>
+                            <Grid Grid.Row="2" Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}">
+                                <ContentPresenter Panel.ZIndex="1" Content="{Binding Source={x:Static h:WindowStatusViewPresenter.Instance}}"/>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="WindowState" Value="Maximized">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe665;" />
+                            <Setter TargetName="g_all" Property="Margin" Value="0" />
+                        </Trigger>
+                        <Trigger Property="WindowState" Value="Normal">
+                            <Setter TargetName="btnMax" Property="h:Cattach.Icon" Value="&#xe615;" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style BasedOn="{StaticResource {x:Static local:ToolWindowBase.DefaultKey}}" TargetType="{x:Type local:ToolWindowBase}" />
+</ResourceDictionary>

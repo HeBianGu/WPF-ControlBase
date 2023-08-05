@@ -2,6 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:h="https://github.com/HeBianGu"
                     xmlns:local="clr-namespace:HeBianGu.Systems.Identity"
+                    xmlns:s="clr-namespace:System"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
 
 
@@ -12,7 +13,7 @@
     <Style x:Key="{ComponentResourceKey ResourceId=S.Window.MultiLogin.Default, TypeInTargetAssembly={x:Type local:MultiLoginWindowBase}}" BasedOn="{StaticResource {x:Static h:WindowBase.DynamicKey}}" TargetType="{x:Type local:MultiLoginWindowBase}">
         <Setter Property="Width" Value="750" />
         <Setter Property="Height" Value="480" />
-        <Setter Property="Icon" Value="&#xe79c;" />
+        <Setter Property="h:Cattach.Icon" Value="&#xe79c;" />
         <Setter Property="ShowInTaskbar" Value="True" />
         <Setter Property="Background" Value="{DynamicResource {x:Static h:BrushKeys.Dark0_3}}" />
         <Setter Property="h:TransitionService.VisibleActions">
@@ -99,7 +100,7 @@
 
                                     <Grid>
                                         <!--  登录  -->
-                                        <DockPanel Margin="80,0"  h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsLoginPage}">
+                                        <DockPanel Margin="80,0" h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsLoginPage}">
                                             <h:TransitionService.VisibleActions>
                                                 <h:TransitionCollection>
                                                     <h:TranslateTransition EndOpacity="0"
@@ -117,19 +118,19 @@
                                                 <RadioButton x:Name="radio_login"
                                                              HorizontalAlignment="Center"
                                                              VerticalAlignment="Bottom"
-                                                             h:Cattach.SelectedText=""
-                                                             h:Cattach.UnSelectedText=""
+                                                             h:Cattach.CheckedIcon=""
+                                                             h:Cattach.UncheckedIcon=""
                                                              Content="账号登录"
-                                                             FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header1}}"
+                                                             FontSize="{StaticResource {x:Static h:FontSizeKeys.Header1}}"
                                                              IsChecked="True" />
 
                                                 <RadioButton x:Name="radio_scan"
                                                              HorizontalAlignment="Center"
                                                              VerticalAlignment="Bottom"
-                                                             h:Cattach.SelectedText=""
-                                                             h:Cattach.UnSelectedText=""
+                                                             h:Cattach.CheckedIcon=""
+                                                             h:Cattach.UncheckedIcon=""
                                                              Content="扫一扫"
-                                                             FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header1}}" />
+                                                             FontSize="{StaticResource {x:Static h:FontSizeKeys.Header1}}" />
                                             </UniformGrid>
 
                                             <Grid HorizontalAlignment="Center" Background="Transparent" DockPanel.Dock="Top">
@@ -187,7 +188,7 @@
 
                                             <Grid>
                                                 <!--  账号登录  -->
-                                                <Grid Height="200"  h:TransitionService.IsBeginVisible="{Binding ElementName=radio_login, Path=IsChecked}">
+                                                <Grid Height="200" h:TransitionService.IsBeginVisible="{Binding ElementName=radio_login, Path=IsChecked}">
                                                     <h:TransitionService.VisibleActions>
                                                         <h:TransitionCollection>
                                                             <h:TranslateTransition EndOpacity="0"
@@ -230,6 +231,10 @@
                                                                    PassWord="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=LoginPassword, Mode=TwoWay}"
                                                                    Style="{DynamicResource {x:Static h:PasswordBox.DefaultKey}}" />
 
+                                                    <CheckBox Grid.Row="2"
+                                                              Content="记住密码"
+                                                              IsChecked="{Binding Source={x:Static s:IdentifySetting.Instance}, Path=Remember}"
+                                                              Style="{DynamicResource {x:Static h:CheckBoxKeys.Dynamic}}" />
                                                     <Button Grid.Row="2"
                                                             HorizontalAlignment="Right"
                                                             Content="忘记密码"
@@ -254,7 +259,7 @@
                                                     </Button>
 
                                                     <!--  登录  -->
-                                                    <Button Grid.Row="3"
+                                                    <!--<Button Grid.Row="3"
                                                             Width="Auto"
                                                             Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
                                                             h:Cattach.BuzyText="登录中..."
@@ -262,11 +267,20 @@
                                                             Command="{x:Static local:IdentifyCommands.Login}"
                                                             Content="{TemplateBinding LoginMessage}"
                                                             IsEnabled="{TemplateBinding IsLoginEnbled}"
-                                                            ToolTip="{TemplateBinding LoginMessage}" />
+                                                            ToolTip="{TemplateBinding LoginMessage}" />-->
+
+                                                    <h:ProgressButton x:Name="PART_BUTTON_SUMIT"
+                                                                      Grid.Row="3"
+                                                                      Width="Auto"
+                                                                      Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                                                                      Command="{x:Static local:IdentifyCommands.Login}"
+                                                                      Content="登录"
+                                                                      IsBusy="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsBuzy, Mode=TwoWay}"
+                                                                      IsIndeterminate="True" />
                                                 </Grid>
 
                                                 <!--  扫一扫  -->
-                                                <Grid Height="200"  h:TransitionService.IsBeginVisible="{Binding ElementName=radio_scan, Path=IsChecked}">
+                                                <Grid Height="200" h:TransitionService.IsBeginVisible="{Binding ElementName=radio_scan, Path=IsChecked}">
                                                     <h:TransitionService.VisibleActions>
                                                         <h:TransitionCollection>
                                                             <h:TranslateTransition EndOpacity="0"
@@ -293,10 +307,7 @@
                                         </DockPanel>
 
                                         <!--  注册  -->
-                                        <DockPanel Margin="80,0" 
-                                                   h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsLoginPage, Converter={x:Static h:XConverter.TrueToFalseConverter}}"
-                                                   
-                                                   Background="Transparent">
+                                        <DockPanel Margin="80,0" h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsLoginPage, Converter={x:Static h:XConverter.TrueToFalseConverter}}" Background="Transparent">
                                             <h:TransitionService.VisibleActions>
                                                 <h:TransitionCollection>
                                                     <h:TranslateTransition EndOpacity="0"
@@ -310,7 +321,7 @@
                                             <TextBlock Margin="0,40,0,10"
                                                        HorizontalAlignment="Center"
                                                        DockPanel.Dock="Top"
-                                                       FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header1}}"
+                                                       FontSize="{StaticResource {x:Static h:FontSizeKeys.Header1}}"
                                                        Text="注册账号" />
 
                                             <Line Margin="0,5"
@@ -341,7 +352,7 @@
 
                                                                 <TextBlock Margin="10,0"
                                                                            VerticalAlignment="Center"
-                                                                           FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header4}}"
+                                                                           FontSize="{StaticResource {x:Static h:FontSizeKeys.Header4}}"
                                                                            Text="{TemplateBinding Content}" />
                                                             </DockPanel>
                                                             <ControlTemplate.Triggers>
@@ -376,7 +387,7 @@
                                                                 <TextBlock x:Name="txt"
                                                                            Margin="10,0"
                                                                            VerticalAlignment="Center"
-                                                                           FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header4}}"
+                                                                           FontSize="{StaticResource {x:Static h:FontSizeKeys.Header4}}"
                                                                            Text="{TemplateBinding Content}" />
                                                             </DockPanel>
                                                             <ControlTemplate.Triggers>
@@ -433,13 +444,13 @@
                                                 <TextBlock Margin="0,-20,0,10"
                                                            HorizontalAlignment="Center"
                                                            DockPanel.Dock="Bottom"
-                                                           FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header5}}"
+                                                           FontSize="{StaticResource {x:Static h:FontSizeKeys.Header5}}"
                                                            Foreground="{DynamicResource {x:Static h:BrushKeys.Red}}"
                                                            Text="{TemplateBinding RegistorErrorMessage}" />
 
                                                 <Grid>
                                                     <!--  下一步  -->
-                                                    <Grid Height="200"  h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsNextPage, Converter={x:Static h:XConverter.TrueToFalseConverter}}">
+                                                    <Grid Height="200" h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsNextPage, Converter={x:Static h:XConverter.TrueToFalseConverter}}">
                                                         <h:TransitionService.VisibleActions>
                                                             <h:TransitionCollection>
                                                                 <h:TranslateTransition EndOpacity="0"
@@ -522,13 +533,12 @@
                                                                 Width="Auto"
                                                                 Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
                                                                 Command="{x:Static local:IdentifyCommands.NextPage}"
-                                                                Content="下一步"
-                                                                ToolTip="{TemplateBinding LoginMessage}" />
+                                                                Content="下一步" />
 
                                                     </Grid>
 
                                                     <!--  确认  -->
-                                                    <Grid Height="200"  h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsNextPage}">
+                                                    <Grid Height="200" h:TransitionService.IsBeginVisible="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=IsNextPage}">
                                                         <Grid.Resources>
                                                             <x:Array x:Key="S.Array.DisplayMap" Type="{x:Type h:DisplayMap}">
                                                                 <h:DisplayMap Value="重置">
@@ -586,8 +596,7 @@
                                                         <Button Grid.Row="2"
                                                                 Width="Auto"
                                                                 Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
-                                                                Content="上一步"
-                                                                ToolTip="{TemplateBinding LoginMessage}">
+                                                                Content="上一步">
                                                             <h:Interaction.Triggers>
                                                                 <h:EventTrigger EventName="Click">
                                                                     <h:ChangePropertyAction PropertyName="IsNextPage" TargetObject="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}}">

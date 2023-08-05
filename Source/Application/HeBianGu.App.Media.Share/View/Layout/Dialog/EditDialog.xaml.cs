@@ -1,4 +1,5 @@
-﻿using HeBianGu.General.WpfControlLib;
+﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.General.WpfControlLib;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -16,8 +17,8 @@ namespace HeBianGu.App.Media.View.Layout.Dialog
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Message.Instance.CloseLayer();
-            Message.Instance.ShowSnackMessageWithNotice("查询完成");
+            MessageProxy.Container.Close();
+            MessageProxy.Snacker.ShowTime("查询完成");
         }
     }
 }

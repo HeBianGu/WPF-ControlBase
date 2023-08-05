@@ -14,9 +14,9 @@ namespace HeBianGu.Control.ScrollInto
 
     }
 
-    [SettingConfig(Name = "参数设置", Group = "基本设置")]
-    public class Setting : LazySettingInstance<Setting>
-    {
+    //[Displayer(Name = "参数设置", GroupName = SystemSetting.GroupControl)]
+    //public class Setting : LazySettingInstance<Setting>
+    //{
 
-    }
+    //}
 }

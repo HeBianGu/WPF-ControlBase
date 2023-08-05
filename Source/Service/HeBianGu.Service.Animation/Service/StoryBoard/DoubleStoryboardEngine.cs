@@ -1,6 +1,8 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
 using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using System.Windows.Media.Animation;
 
@@ -38,24 +40,31 @@ namespace HeBianGu.Base.WpfBase
 
         }
 
+
+        protected bool CanAnimation(UIElement element)
+        {
+            if (element is FrameworkElement framework)
+            {
+                return element.IsVisible && framework.IsLoaded;
+            }
+            return element.IsVisible;
+        }
+
         public override StoryboardEngineBase Start(UIElement element, Action<UIElement> Completed = null, Action<StoryboardEngineBase> init = null)
         {
-            //  Do：时间线
+            if (this.CanAnimation(element) == false)
+            {
+                Completed?.Invoke(element);
+                return this;
+            }
             DoubleAnimation animation = new DoubleAnimation(this.FromValue, this.ToValue, this.Duration);
-
-            //if (this.RepeatBehavior != default(RepeatBehavior))
-            //    animation.RepeatBehavior = (RepeatBehavior);
-
-            //  Do：属性动画
             Storyboard.Children.Add(animation);
             Storyboard.SetTarget(animation, element);
             Storyboard.SetTargetProperty(animation, this.PropertyPath);
-
             if (CompletedEvent != null)
             {
                 Storyboard.Completed += CompletedEvent;
             }
-
             if (Completed != null)
             {
                 Storyboard.Completed += (l, k) =>
@@ -63,56 +72,15 @@ namespace HeBianGu.Base.WpfBase
                     Completed?.Invoke(element);
                 };
             }
-
+            Timeline.SetDesiredFrameRate(Storyboard, StoryboardSetting.DesiredFrameRate);
             init?.Invoke(this);
-
             animation.EasingFunction = this.Easing;
-
             Storyboard.Begin();
-
             return this;
         }
-
-        //public override StoryboardEngineBase Start(Animatable element, Action<Animatable> Completed = null, Action<Storyboard> init = null)
-        //{
-        //    //  Do：时间线
-        //    DoubleAnimation animation = new DoubleAnimation(this.FromValue, this.ToValue, this.Duration);
-
-        //    if (this.Easing != null)
-        //        animation.EasingFunction = this.Easing;
-
-        //    //if (this.RepeatBehavior != default(RepeatBehavior))
-        //    //    animation.RepeatBehavior = (RepeatBehavior);
-
-        //    //  Do：属性动画
-        //    storyboard.Children.Add(animation);
-        //    Storyboard.SetTarget(animation, element);
-        //    Storyboard.SetTargetProperty(animation, this.PropertyPath);
-
-        //    if (CompletedEvent != null)
-        //    {
-        //        storyboard.Completed += CompletedEvent;
-        //    }
-
-        //    if (Completed != null)
-        //    {
-        //        storyboard.Completed += (l, k) =>
-        //        {
-        //            Completed?.Invoke(element);
-        //        };
-        //    }
-
-        //    init?.Invoke(storyboard);
-
-        //    storyboard.Begin();
-
-        //    return this;
-        //}
-
         public override StoryboardEngineBase Stop()
         {
             this.Storyboard.Stop();
-
             return this;
         }
     }

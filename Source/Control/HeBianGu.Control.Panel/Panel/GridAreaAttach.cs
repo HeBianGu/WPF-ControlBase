@@ -7,8 +7,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
-
-
 namespace HeBianGu.Control.Panel
 {
     using LayoutUpdateEventHandler = EventHandler;
@@ -97,7 +95,6 @@ namespace HeBianGu.Control.Panel
             }
         }
 
-
         private static LayoutUpdateEventHandler CreateLayoutUpdateHandler(Grid grid)
         {
             int prevCount = 0;
@@ -139,7 +136,6 @@ namespace HeBianGu.Control.Panel
         // Using a DependencyProperty as the backing store for LayoutUpdatedCallback.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LayoutUpdatedCallbackProperty =
             DependencyProperty.RegisterAttached("LayoutUpdatedCallback", typeof(LayoutUpdateEventHandler), typeof(GridAreaAttach), new PropertyMetadata(null));
-
 
         private static void AutoFill(Grid grid)
         {
@@ -235,11 +231,11 @@ namespace HeBianGu.Control.Panel
             }
         }
 
-
         public static string GetColumnDefinition(DependencyObject obj)
         {
             return (string)obj.GetValue(ColumnDefinitionProperty);
         }
+
         public static void SetColumnDefinition(DependencyObject obj, string value)
         {
             obj.SetValue(ColumnDefinitionProperty, value);
@@ -344,8 +340,6 @@ namespace HeBianGu.Control.Panel
         public static readonly DependencyProperty AreaDefinitionsProperty =
             DependencyProperty.RegisterAttached("AreaDefinitions", typeof(IList<NamedAreaDefinition>), typeof(GridAreaAttach), new PropertyMetadata(null));
 
-
-
         public static string GetTemplateArea(DependencyObject obj)
         {
             return (string)obj.GetValue(TemplateAreaProperty);
@@ -417,7 +411,6 @@ namespace HeBianGu.Control.Panel
             }
         }
 
-
         private static IList<NamedAreaDefinition> ParseAreaDefinition(IEnumerable<string[]> columns)
         {
             List<NamedAreaDefinition> result = new List<NamedAreaDefinition>();
@@ -477,8 +470,6 @@ namespace HeBianGu.Control.Panel
             TypeConverter glc = TypeDescriptor.GetConverter(typeof(GridLength));
             return (GridLength)glc.ConvertFromString(source);
         }
-
-
 
         public static string GetAreaName(DependencyObject obj)
         {
@@ -547,7 +538,6 @@ namespace HeBianGu.Control.Panel
             }
         }
 
-
         private static void UpdateItemPosition(FrameworkElement element)
         {
             AreaDefinition area = GetAreaNameRegion(element) ?? GetAreaRegion(element);
@@ -559,7 +549,6 @@ namespace HeBianGu.Control.Panel
                 Grid.SetColumnSpan(element, area.ColumnSpan);
             }
         }
-
 
         private static AreaDefinition GetAreaNameRegion(FrameworkElement element)
         {

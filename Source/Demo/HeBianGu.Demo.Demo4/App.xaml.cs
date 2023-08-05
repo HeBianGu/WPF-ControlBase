@@ -12,7 +12,7 @@ namespace HeBianGu.Demo.Demo4
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             return new MainWindow();
         }
@@ -24,8 +24,8 @@ namespace HeBianGu.Demo.Demo4
             //  Do ：注册动画
             services.AddWindowAnimation();
 
-            //  Do ：注册消息
-            services.AddMessage();
+            //  Do ：注册消息,如果不注册则使用弹窗
+            services.AddMessageProxy();
 
         }
 
@@ -37,9 +37,8 @@ namespace HeBianGu.Demo.Demo4
             app.UseLocalTheme(l =>
             {
                 l.AccentColor = (Color)ColorConverter.ConvertFromString("#FF0093FF");
-                l.SmallFontSize = 14D;
-                l.LargeFontSize = 16D;
-                l.FontSize = FontSize.Small;
+                l.DefaultFontSize = 15D;
+                l.FontSize = FontSize.Normal;
 
                 l.ItemHeight = 36;
                 l.RowHeight = 40;

@@ -1,0 +1,2694 @@
+﻿<h:MainWindow x:Class="HeBianGu.Application.TestWindow.ShellWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:collections="clr-namespace:System.Collections;assembly=mscorlib"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:filter="clr-namespace:HeBianGu.Control.Filter;assembly=HeBianGu.Control.Filter"
+              xmlns:h="https://github.com/HeBianGu"
+              xmlns:local="clr-namespace:HeBianGu.Application.TestWindow"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:pg="clr-namespace:HeBianGu.Control.PropertyGrid;assembly=HeBianGu.Control.PropertyGrid"
+              xmlns:s="clr-namespace:System;assembly=mscorlib"
+              Title="测试用"
+              Width="1100"
+              Height="700"
+              CaptionHeight="50"
+              DataContext="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel}"
+              mc:Ignorable="d">
+    <h:Cattach.CaptionLeftTemplate>
+        <ControlTemplate TargetType="Control">
+            <Menu VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" Style="{DynamicResource {x:Static h:MenuKeys.Window}}">
+                <MenuItem Foreground="{TemplateBinding Foreground}" Header="文件">
+                    <MenuItem Header="打开" />
+                </MenuItem>
+                <MenuItem Foreground="{TemplateBinding Foreground}" Header="编辑">
+                    <MenuItem Header="打开" />
+                </MenuItem>
+            </Menu>
+        </ControlTemplate>
+    </h:Cattach.CaptionLeftTemplate>
+
+    <h:Cattach.CaptionRightTemplate>
+        <ControlTemplate TargetType="Control">
+            <DockPanel>
+                <Button Style="{DynamicResource {x:Static h:ButtonKeys.Edit}}" />
+                <Button Style="{DynamicResource {x:Static h:ButtonKeys.Start}}" />
+                <Button Foreground="{TemplateBinding Foreground}" Style="{DynamicResource {x:Static h:ButtonKeys.Add}}" />
+            </DockPanel>
+        </ControlTemplate>
+    </h:Cattach.CaptionRightTemplate>
+
+    <h:Cattach.CaptionCenterTemplate>
+        <ControlTemplate TargetType="Control">
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="新建文档.txt" />
+        </ControlTemplate>
+    </h:Cattach.CaptionCenterTemplate>
+
+    <Grid>
+        <TabControl h:Cattach.SearchDock="Top" h:Cattach.SearchWidth="Auto" TabStripPlacement="Left">
+
+            <TabItem Header="DataGrid - 使用 DataGrid 控件实现验证">
+                <TabControl>
+                    <TabItem Header="自定义行验证反馈">
+                        <Grid>
+                            <Grid.Resources>
+                                <local:Courses x:Key="courses" />
+                            </Grid.Resources>
+                            <local:EditDataGrid AutoGenerateColumns="False"
+                                                FontSize="20"
+                                                ItemsSource="{StaticResource courses}"
+                                                RowHeaderWidth="27"
+                                                Style="{x:Null}">
+
+                                <DataGrid.Resources>
+                                    <Style x:Key="errorStyle" TargetType="{x:Type TextBox}">
+                                        <Setter Property="Padding" Value="-2" />
+                                        <Style.Triggers>
+                                            <Trigger Property="Validation.HasError" Value="True">
+                                                <Setter Property="Background" Value="Red" />
+                                                <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=(Validation.Errors)[0].ErrorContent}" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.Resources>
+
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Binding="{Binding Name, TargetNullValue=(enter a course name)}" Header="Course Name" />
+                                    <DataGridTextColumn Binding="{Binding Id, ValidatesOnExceptions=True}"
+                                                        EditingElementStyle="{StaticResource errorStyle}"
+                                                        Header="Course ID"
+                                                        IsReadOnly="False" />
+                                    <DataGridTextColumn Binding="{Binding StartDate, ValidatesOnExceptions=True, StringFormat=d}"
+                                                        EditingElementStyle="{StaticResource errorStyle}"
+                                                        Header="Start Date"
+                                                        IsReadOnly="False" />
+                                    <DataGridTextColumn Binding="{Binding EndDate, ValidatesOnExceptions=True, StringFormat=d}" EditingElementStyle="{StaticResource errorStyle}" Header="End Date" />
+                                </DataGrid.Columns>
+
+                                <DataGrid.RowValidationRules>
+                                    <!--  ValidationStep 设置什么时候触发  -->
+                                    <local:CourseValidationRule ValidatesOnTargetUpdated="True" ValidationStep="UpdatedValue" />
+                                </DataGrid.RowValidationRules>
+
+                                <DataGrid.RowValidationErrorTemplate>
+                                    <ControlTemplate>
+                                        <Grid Margin="0,-2,0,-2" Background="Orange" ToolTip="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type DataGridRow}}, Path=(Validation.Errors)[0].ErrorContent}">
+                                            <Ellipse Width="{TemplateBinding FontSize}"
+                                                     Height="{TemplateBinding FontSize}"
+                                                     Fill="Red"
+                                                     StrokeThickness="0" />
+                                            <TextBlock HorizontalAlignment="Center"
+                                                       FontSize="{TemplateBinding FontSize}"
+                                                       FontWeight="Bold"
+                                                       Foreground="White"
+                                                       Text="!" />
+                                        </Grid>
+                                    </ControlTemplate>
+                                </DataGrid.RowValidationErrorTemplate>
+                                <DataGrid.RowStyle>
+                                    <Style BasedOn="{StaticResource {x:Type DataGridRow}}" TargetType="DataGridRow">
+                                        <Style.Triggers>
+                                            <Trigger Property="Validation.HasError" Value="True">
+                                                <Setter Property="Background" Value="Red" />
+                                                <Setter Property="Foreground" Value="White" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </DataGrid.RowStyle>
+
+                            </local:EditDataGrid>
+
+                        </Grid>
+                    </TabItem>
+
+                    <TabItem Header="自定义单元格验证反馈">
+                        <Grid />
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+
+            <TabItem Header="ListBox - 虚拟化">
+                <GroupBox Header=" VirtualizingPanel.IsContainerVirtualizable=&quot;True&quot; 获取或设置一个值，该值指示此 VirtualizingPanel 是否应当虚拟化一个项">
+                    <ListBox ItemsSource="{h:GetRange Start=1,
+                                                      Count=1000}"
+                             VirtualizingPanel.CacheLength="15"
+                             VirtualizingPanel.CacheLengthUnit="Item"
+                             VirtualizingPanel.IsVirtualizing="True"
+                             VirtualizingPanel.IsVirtualizingWhenGrouping="True"
+                             VirtualizingPanel.ScrollUnit="Pixel"
+                             VirtualizingPanel.VirtualizationMode="Recycling" />
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="ListBox - SelectionMode - Extended">
+                <GroupBox Header="Shift 区域选择， Ctrl 多选， Ctrl+A 全选">
+                    <ListBox ItemsSource="{h:GetRange Start=1, Count=100}" SelectionMode="Extended" />
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="ControlTypeConverterModel">
+                <Grid>
+                    <h:PropertyGrid h:Cattach.TitleWidth="200">
+                        <h:PropertyGrid.SelectObject>
+                            <h:ControlTypeConverterModel />
+                        </h:PropertyGrid.SelectObject>
+                    </h:PropertyGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="TypeCTestModel">
+                <Grid>
+                    <h:PropertyGrid h:Cattach.TitleWidth="200">
+                        <h:PropertyGrid.SelectObject>
+                            <h:TypeCTestModel />
+                        </h:PropertyGrid.SelectObject>
+                    </h:PropertyGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Student">
+                <Grid>
+                    <h:PropertyGrid h:Cattach.TitleWidth="200">
+                        <h:PropertyGrid.SelectObject>
+                            <h:Student />
+                        </h:PropertyGrid.SelectObject>
+                    </h:PropertyGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="FlashText">
+                <TabItem.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="RenderTransformOrigin" Value="0.5 0.5" />
+                        <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
+                    </Style>
+                    <Style TargetType="ItemsControl">
+                        <Setter Property="ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabItem.Resources>
+                <ScrollViewer>
+                    <StackPanel>
+
+                        <ItemsControl FontSize="25" ItemsSource="我是一行动画效果的文字">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Loaded">
+                                    <h:InvokeTimeSplitAnimationAction IsUseAll="True" RepeatBehavior="Forever" SplitMilliSecond="-700">
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                         From="0" To="1"
+                                                         Duration="00:00:01" />
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                         From="0" To="1"
+                                                         Duration="00:00:01" />
+                                    </h:InvokeTimeSplitAnimationAction>
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </ItemsControl>
+
+                        <ItemsControl FontSize="25" ItemsSource="我是一行动画效果的文字">
+                            <h:Interaction.Triggers>
+                                <h:EventTrigger EventName="Loaded">
+                                    <h:InvokeTimeSplitAnimationAction IsUseAll="True" RepeatBehavior="Forever" SplitMilliSecond="-700">
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                         From="0" To="1"
+                                                         Duration="00:00:01" />
+                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                         From="0" To="1"
+                                                         Duration="00:00:01" />
+                                    </h:InvokeTimeSplitAnimationAction>
+                                </h:EventTrigger>
+                            </h:Interaction.Triggers>
+                        </ItemsControl>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="AutoColumnPagedDataGrid">
+                <GroupBox Header="AutoColumnPagedDataGrid">
+                    <UniformGrid Columns="1">
+                        <h:AutoColumnPagedDataGrid h:Cattach.ItemHorizontalContentAlignment="Right"
+                                                   h:Cattach.ItemOverTemplate="{DynamicResource {x:Static h:ControlTemplateKeys.MouseOverOperationCommand}}"
+                                                   h:Cattach.ItemVerticalContentAlignment="Center"
+                                                   AutoGenerateColumns="True"
+                                                   ItemsSource="{Binding Teachers}" />
+                        <h:AutoColumnPagedDataGrid AutoGenerateColumns="True" ItemsSource="{Binding Teachers}">
+                            <h:AutoColumnPagedDataGrid.HomeColumns>
+                                <DataGridTemplateColumn Width="Auto"
+                                                        CellTemplate="{DynamicResource {x:Static h:DataGridTemplateColumnKeys.CheckAllCell}}"
+                                                        Header="序号"
+                                                        HeaderTemplate="{DynamicResource {x:Static h:DataGridTemplateColumnKeys.CheckAllHeader}}" />
+                            </h:AutoColumnPagedDataGrid.HomeColumns>
+                            <h:AutoColumnPagedDataGrid.EndColumns>
+                                <DataGridTemplateColumn Width="Auto" CellTemplate="{DynamicResource {x:Static h:DataGridTemplateColumnKeys.OperationCell}}" Header="操作" />
+                            </h:AutoColumnPagedDataGrid.EndColumns>
+                        </h:AutoColumnPagedDataGrid>
+                    </UniformGrid>
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="Excel - NPOI">
+                <GroupBox Header="DataGridDragRowBehavior">
+                    <DockPanel>
+                        <Button Command="{Binding ExportExcelCommand}" Content="导出数据" DockPanel.Dock="Top" />
+                        <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding Teachers}" />
+                    </DockPanel>
+
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="行为 - DataGrid数据行支持拖动">
+                <GroupBox Header="DataGridDragRowBehavior">
+                    <DataGrid AutoGenerateColumns="True" ItemsSource="{Binding Teachers}">
+                        <h:Interaction.Behaviors>
+                            <h:DataGridDragRowBehavior />
+                        </h:Interaction.Behaviors>
+                    </DataGrid>
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="GetBoolenBrush">
+                <StackPanel>
+                    <CheckBox Foreground="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsChecked, Converter={x:Static h:Converter.GetBoolenBrush}}" />
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="CheckBoxTreeConverter">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <local:CheckBoxTreeConverter x:Key="CheckBoxTreeConverter" />
+                    </StackPanel.Resources>
+                    <CheckBox Content="父节点" IsChecked="{Binding Checked1}" />
+                    <CheckBox x:Name="cb2" Margin="30,0" Content="子节点">
+                        <CheckBox.Style>
+                            <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="CheckBox">
+                                <Setter Property="IsChecked">
+                                    <Setter.Value>
+                                        <MultiBinding Converter="{StaticResource CheckBoxTreeConverter}">
+                                            <Binding Mode="OneWay" Path="Checked1" />
+                                            <Binding Mode="TwoWay" Path="Checked2" />
+                                            <Binding Path="." RelativeSource="{RelativeSource Mode=Self}" />
+                                        </MultiBinding>
+                                    </Setter.Value>
+                                </Setter>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Checked1}" Value="False">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="ColorAnimation">
+                <UniformGrid>
+                    <TextBlock FontSize="80" Style="{DynamicResource {x:Static h:TextBlockKeys.ColorAnimation}}" Text="ColorAnimation" />
+                </UniformGrid>
+            </TabItem>
+
+
+            <TabItem Header="ObjectWindowDialog">
+                <UniformGrid>
+                    <Button Command="{Binding ShowWindowCommand}" Content="Show">
+                        <Button.CommandParameter>
+                            <h:Student />
+                        </Button.CommandParameter>
+                    </Button>
+                </UniformGrid>
+            </TabItem>
+            <TabItem Header="ProgressButton">
+                <UniformGrid>
+                    <h:ProgressButton HorizontalAlignment="Left" Command="{Binding ProgressButtonCommand}" Content="ProgressButtonCommand" />
+                    <h:ProgressButton Command="{Binding ProgressButtonPercentCommand}" Content="ProgressButtonPercentCommand" />
+                    <h:ProgressButton Content="ProgressButton"
+                                      IsBusy="True"
+                                      IsIndeterminate="False"
+                                      Message="Message"
+                                      Percent="0.5"
+                                      ProgressOpacity="0.2" />
+
+                    <h:ProgressButton Content="ProgressButton"
+                                      IsBusy="True"
+                                      IsIndeterminate="True"
+                                      Message="Message"
+                                      Percent="0.5"
+                                      ProgressOpacity="0.2" />
+                </UniformGrid>
+            </TabItem>
+            <TabItem Header="Colors">
+                <ItemsControl ItemsSource="{Binding Colors}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Rectangle Width="25"
+                                       Height="25"
+                                       Stroke="{x:Static SystemColors.ActiveBorderBrush}"
+                                       StrokeThickness="1">
+                                <Rectangle.Fill>
+                                    <SolidColorBrush Color="{Binding}" />
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Columns="50" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </TabItem>
+            <TabItem Header="GetPointAtFractionLength">
+                <DockPanel>
+                    <Slider Margin="0,50"
+                            DockPanel.Dock="Top"
+                            Maximum="1"
+                            Minimum="0"
+                            Value="{Binding Progress}">
+                        <h:Interaction.Triggers>
+                            <h:EventTrigger EventName="ValueChanged">
+                                <h:InvokeCommandAction Command="{Binding GetProgressPointCommand}" />
+                            </h:EventTrigger>
+                        </h:Interaction.Triggers>
+                    </Slider>
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding PathPoint}" />
+                    <Button Command="{Binding GetProgressPointCommand}" Content="计算" DockPanel.Dock="Top" />
+                    <Grid>
+                        <Path Data="{Binding PathGeometry}" Stroke="Red" StrokeThickness="3" />
+                        <TextBlock Text="Point">
+                            <TextBlock.RenderTransform>
+                                <TranslateTransform X="{Binding PathPoint.X}" Y="{Binding PathPoint.Y}" />
+                            </TextBlock.RenderTransform>
+                        </TextBlock>
+                    </Grid>
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="ColorBox">
+                <ScrollViewer>
+                    <StackPanel>
+                        <GroupBox Header="1.0 0.8 0.7">
+                            <h:ColorBox Height="100"
+                                        h:Cattach.ItemHorizontalContentAlignment="Stretch"
+                                        h:Cattach.ItemMargin="0"
+                                        h:Cattach.ItemMinHeight="20"
+                                        Background="Red"
+                                        ItemsSource="{h:ColorSource Depthes=1.0 0.8 0.7}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border>
+                                            <Border.Background>
+                                                <SolidColorBrush Color="{Binding}" />
+                                            </Border.Background>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </h:ColorBox>
+                        </GroupBox>
+                        <GroupBox Header="1.0 0.8 0.7">
+                            <h:ColorBox Height="100"
+                                        h:Cattach.ItemMargin="0"
+                                        h:Cattach.ItemMinHeight="0"
+                                        h:Cattach.ItemMinWidth="5"
+                                        Background="Red"
+                                        ItemsSource="{h:ColorSource Depthes=1.0 0.8 0.7}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </h:ColorBox>
+                        </GroupBox>
+
+                        <GroupBox>
+                            <h:ColorBox Height="100"
+                                        h:Cattach.ItemMargin="0"
+                                        h:Cattach.ItemMinHeight="0"
+                                        h:Cattach.ItemMinWidth="5"
+                                        Background="Red"
+                                        ItemsSource="{h:ColorSource Depthes=1.0 0.8 0.7}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <DockPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </h:ColorBox>
+                        </GroupBox>
+                        <GroupBox>
+                            <h:ColorBox Height="100"
+                                        Margin="0"
+                                        Padding="0"
+                                        h:Cattach.ItemMargin="0"
+                                        h:Cattach.ItemMinHeight="0"
+                                        h:Cattach.ItemMinWidth="5"
+                                        Background="Black"
+                                        ItemsSource="{h:ColorSource Depthes=1.0 0.8 0.7}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <UniformGrid Rows="1" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </h:ColorBox>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="FlowDocument">
+                <FlowDocument>
+                    <Paragraph FontSize="100">FlowDocument</Paragraph>
+                    <Paragraph FontSize="100">FlowDocument</Paragraph>
+                    <Paragraph FontSize="100">FlowDocument</Paragraph>
+                    <Paragraph FontSize="100">FlowDocument</Paragraph>
+                    <Paragraph FontSize="100">FlowDocument</Paragraph>
+                    <Paragraph FontSize="100">FlowDocument</Paragraph>
+                    <Paragraph FontSize="100">FlowDocument</Paragraph>
+                </FlowDocument>
+            </TabItem>
+            <TabItem Header="GenericTypeExtension">
+                <TabItem.Resources>
+                    <!--<local:TestGeneric x:Key="2222" x:TypeArguments="s:String"/>-->
+                    <!--<DataTemplate DataType="local:TestGeneric(s:String)">
+                        <TextBlock Foreground="Red" Text="{Binding Value}"/>
+                    </DataTemplate>-->
+                    <DataTemplate DataType="HeBianGu.Application.TestWindow.TestGeneric`1[s:String]">
+                        <TextBlock Foreground="Red" Text="{Binding Value}" />
+                    </DataTemplate>
+                    <!--<DataTemplate DataType="{x:Static local:TestGeneric.StringType}">
+                        <TextBlock Foreground="Red" Text="{Binding Value}"/>
+                    </DataTemplate>-->
+                </TabItem.Resources>
+                <ContentControl Content="{Binding TestGeneric}" />
+            </TabItem>
+
+            <TabItem Header="Menu - StaysOpenOnClick">
+                <Menu>
+                    <MenuItem Header="文件" StaysOpenOnClick="True">
+                        <MenuItem Header="文件" StaysOpenOnClick="True" />
+                        <MenuItem Header="文件1" />
+                        <MenuItem Header="文件1" />
+                        <MenuItem Header="文件1" />
+                        <MenuItem Header="文件" StaysOpenOnClick="True" />
+                        <MenuItem Header="文件" StaysOpenOnClick="True" />
+                        <MenuItem Header="文件" StaysOpenOnClick="True">
+                            <MenuItem Header="文件" StaysOpenOnClick="True" />
+                            <MenuItem Header="文件" StaysOpenOnClick="True" />
+                            <MenuItem Header="文件" StaysOpenOnClick="True" />
+                            <MenuItem Header="文件" StaysOpenOnClick="True" />
+                            <MenuItem Header="文件" StaysOpenOnClick="True" />
+                            <MenuItem Header="文件" StaysOpenOnClick="True" />
+                            <MenuItem Header="文件" StaysOpenOnClick="True" />
+                        </MenuItem>
+                        <MenuItem Header="文件" StaysOpenOnClick="True" />
+                    </MenuItem>
+                </Menu>
+            </TabItem>
+            <TabItem Header="MarkupConverter">
+                <TabItem.Resources>
+                    <h:AddTestConverter x:Key="S.Convert.ddTest" First="1" Second="2" />
+                </TabItem.Resources>
+                <ScrollViewer>
+                    <UniformGrid Columns="2">
+                        <GroupBox Header="AddTestConverter">
+                            <StackPanel>
+                                <TextBox Text="{Binding Source={StaticResource S.Convert.ddTest}, Path=First, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding Source={StaticResource S.Convert.ddTest}, Path=Second, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Text="{Binding Source={StaticResource S.Convert.ddTest}, Path=Result}" />
+                                <TextBlock Text="{Binding Value, Mode=TwoWay, Converter={StaticResource S.Convert.ddTest}}" />
+                            </StackPanel>
+                        </GroupBox>
+                        <GroupBox Header="NullValueConverter">
+                            <StackPanel>
+                                <TextBox x:Name="tb_c_1" />
+                                <TextBlock Text="{Binding ElementName=tb_c_1, Path=Text, Converter={h:GetNullValueConverter NullValue=你好}}" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="BoolValueConverter">
+                            <StackPanel>
+                                <CheckBox x:Name="tb_c_2" />
+                                <TextBlock Text="{Binding ElementName=tb_c_2, Path=IsChecked, Converter={h:GetBoolValueConverter TrueValue=你好, FalseValue=你不好}}" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <GroupBox Header="PasswordValueConverter">
+                            <StackPanel>
+                                <TextBox x:Name="tb_c_3" />
+                                <TextBlock Text="{Binding ElementName=tb_c_3, Path=Text, Converter={h:GetPasswordValueConverter}}" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <!--<GroupBox Header="MultiValueConverter">
+                            <StackPanel>
+                                <TextBox x:Name="tb_c_4" />
+                                <TextBlock Text="{Binding ElementName=tb_c_4, Path=Text, Converter={h:GetMultiValueConverter Value1={h:StringValueConverter NullValue=12345678, EmptyValue=1234, SpaceValue=123456788999}, Value2={h:PasswordValueConverter Key=#}}}" />
+                            </StackPanel>
+                        </GroupBox>-->
+
+                        <GroupBox Header="PropertyValueConverter">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Student, Converter={h:GetPropertyValueConverter PropertyName=Name}}" />
+                            </StackPanel>
+                        </GroupBox>
+
+                        <!--<GroupBox Header="StringKeyValueConvert">
+                            <StackPanel>
+                                <TextBox x:Name="tb_c_5" />
+                                <TextBlock Text="{Binding ElementName=tb_c_5, Path=Text, Converter={h:GetStringKeyValueConverter Key1=1, Value1=你, Key2=2, Value2=差不多得了, Key3=3, Value3={x:Static Brushes.Red}, DefaultValue=看样都没找到}}" />
+                            </StackPanel>
+                        </GroupBox>-->
+
+                        <!--<GroupBox Header="IntKeyRangeConvert">
+                            <StackPanel>
+                                <TextBox x:Name="tb_c_6" />
+                                <TextBlock Text="{Binding ElementName=tb_c_6, Path=Text, Converter={h:GetIntKeyRangeConverter Key1=1, Value1=最小区间, Key2=2, Value2=区间一, Key3=3, Value3=区间二, DefaultValue=看样都没找到, MaxValue=最大区间}}" />
+                            </StackPanel>
+                        </GroupBox>-->
+                    </UniformGrid>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="Adorner - ControlTemplate">
+                <UniformGrid>
+                    <AdornerDecorator>
+                        <Border Width="100"
+                                Height="100"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Background="Orange">
+                            <h:ControlTemplateAdorner.Template>
+                                <ControlTemplate TargetType="ContentControl">
+                                    <Border Width="200"
+                                            Height="200"
+                                            Background="Green"
+                                            Opacity="0.5">
+                                        <Button HorizontalAlignment="Center" VerticalAlignment="Center" Content="立即创建" />
+                                    </Border>
+                                </ControlTemplate>
+                            </h:ControlTemplateAdorner.Template>
+                            <h:Interaction.Behaviors>
+                                <h:LoadedAdornerBehavior AdornerType="{x:Type h:ControlTemplateAdorner}" />
+                            </h:Interaction.Behaviors>
+                        </Border>
+                    </AdornerDecorator>
+
+                    <Canvas>
+                        <!--<AdornerDecorator Canvas.Left="100" Canvas.Top="100">-->
+                        <Border Canvas.Left="100"
+                                Canvas.Top="100"
+                                Width="100"
+                                Height="100"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                h:ControlTemplateAdorner.Template="{StaticResource {x:Static h:ResizeAdorner.TemplateDefaultKey}}"
+                                Background="Orange">
+                            <h:Interaction.Behaviors>
+                                <h:LoadedAdornerBehavior AdornerType="{x:Type h:ResizeAdorner}" />
+                            </h:Interaction.Behaviors>
+                        </Border>
+                        <!--</AdornerDecorator>-->
+                    </Canvas>
+                </UniformGrid>
+            </TabItem>
+
+            <TabItem Header="Shapes">
+                <ListBox h:Cattach.ItemHeight="Auto" ItemsSource="{x:Static h:ShapeFactory.AllShape}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <GroupBox Header="{Binding ., Converter={x:Static h:XConverter.GetTypeDisplayConverter}}">
+                                <ContentControl Content="{Binding}" />
+                            </GroupBox>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ListBox>
+            </TabItem>
+
+            <TabItem Header="Grid - SharedSizeGroup">
+                <StackPanel Margin="15" Grid.IsSharedSizeScope="True">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="B" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="Col 456456461" />
+                        <TextBox Grid.Column="1" />
+                        <TextBlock Grid.Column="2" Text="3rd column here" />
+                    </Grid>
+                    <Separator Margin="0,20" />
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" SharedSizeGroup="A" />
+                            <ColumnDefinition />
+                            <ColumnDefinition SharedSizeGroup="B" />
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Text="1" />
+                        <TextBox Grid.Column="1" />
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="VipAdorner">
+                <GroupBox Header="VipAdorner">
+                    <UniformGrid Columns="2">
+                        <Button h:VipAttach.Level="4">
+                            <h:Interaction.Behaviors>
+                                <h:LoadedAdornerBehavior AdornerType="{x:Type h:VipAdorner}" />
+                            </h:Interaction.Behaviors>
+                        </Button>
+
+                        <TextBox h:VipAttach.Level="4">
+                            <h:Interaction.Behaviors>
+                                <h:LoadedAdornerBehavior AdornerType="{x:Type h:VipAdorner}" />
+                            </h:Interaction.Behaviors>
+                        </TextBox>
+
+                        <CheckBox h:VipAttach.Level="4">
+                            <h:Interaction.Behaviors>
+                                <h:LoadedAdornerBehavior AdornerType="{x:Type h:VipAdorner}" />
+                            </h:Interaction.Behaviors>
+                        </CheckBox>
+
+                        <ComboBox h:VipAttach.Level="4">
+                            <h:Interaction.Behaviors>
+                                <h:LoadedAdornerBehavior AdornerType="{x:Type h:VipAdorner}" />
+                            </h:Interaction.Behaviors>
+                        </ComboBox>
+
+                        <DatePicker h:VipAttach.Level="4">
+                            <h:Interaction.Behaviors>
+                                <h:LoadedAdornerBehavior AdornerType="{x:Type h:VipAdorner}" />
+                            </h:Interaction.Behaviors>
+                        </DatePicker>
+
+                        <TabControl>
+                            <TabItem h:VipAttach.Level="4" Header="TabItem1">
+                                <h:Interaction.Behaviors>
+                                    <h:LoadedAdornerBehavior AdornerType="{x:Type h:VipAdorner}" />
+                                </h:Interaction.Behaviors>
+                            </TabItem>
+                            <TabItem Header="TabItem2">
+                                <h:Interaction.Behaviors>
+                                    <h:LoadedAdornerBehavior AdornerType="{x:Type h:VipAdorner}" />
+                                </h:Interaction.Behaviors>
+                            </TabItem>
+                        </TabControl>
+                    </UniformGrid>
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="FontEditor">
+                <GroupBox Header="FontEditor">
+                    <UniformGrid>
+                        <h:FontEditor />
+                        <h:FontEditor Style="{DynamicResource {x:Static h:FontEditor.CardKey}}" />
+                    </UniformGrid>
+                </GroupBox>
+            </TabItem>
+
+            <TabItem Header="PropertyGrid - Control">
+                <GroupBox Header="Font">
+                    <DockPanel>
+                        <h:PropertyGrid Width="300"
+                                        DockPanel.Dock="Right"
+                                        SelectObject="{Binding ElementName=tb}"
+                                        UseDeclaredOnly="True"
+                                        UseTypeConverterOnly="True" />
+                        <TextBlock x:Name="tb" Text="这是一段测试文字" />
+                    </DockPanel>
+                </GroupBox>
+            </TabItem>
+
+            <TabItem Header="VlcPlayer">
+                <GroupBox Header="VlcPlayer.ScrollViewerTransfor">
+                    <h:VlcPlayer Style="{DynamicResource {x:Static h:VlcPlayer.ScrollViewerTransforKey}}" />
+                </GroupBox>
+            </TabItem>
+            <TabItem Header="ItemsBoardToolBar">
+                <TabControl>
+                    <TabItem Header="ItemsBoardToolBar">
+                        <h:ItemsBoardToolBar h:Cattach.ItemHeight="Auto" Background="Gray">
+                            <h:TestViewModel Brush="Green" Double1="100" Double2="200" />
+                            <h:TestViewModel Brush="Brown" Double1="300" Double2="100" />
+                            <h:TestViewModel Brush="DarkBlue" Double1="500" Double2="100" />
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <h:ItemThumbBar Width="{Binding Double2}"
+                                                        Height="{DynamicResource {x:Static h:SystemKeys.RowHeight}}"
+                                                        Background="{Binding Brush}"
+                                                        Left="{Binding Double1, Mode=TwoWay}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource {x:Static h:ListBoxItemKeys.Default}}" TargetType="ListBoxItem">
+                                    <Setter Property="Canvas.Left" Value="{Binding Double1}" />
+                                    <Setter Property="Canvas.Top" Value="0" />
+                                    <Setter Property="Padding" Value="0" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </h:ItemsBoardToolBar>
+                    </TabItem>
+                    <TabItem Header="ItemsBoardToolBar">
+                        <h:ItemsBoardToolBar h:Cattach.ItemHeight="Auto" Background="Orange">
+                            <h:ItemThumbBar Width="100"
+                                            Height="30"
+                                            Background="Yellow"
+                                            Left="100" />
+                            <h:ItemThumbBar Width="100"
+                                            Height="30"
+                                            Background="Orange"
+                                            Left="400" />
+                            <h:ItemThumbBar Width="100"
+                                            Height="30"
+                                            Background="Red"
+                                            Left="600" />
+                        </h:ItemsBoardToolBar>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="SourcePagination">
+                <DockPanel>
+                    <h:SourcePagination x:Name="sp"
+                                        DockPanel.Dock="Bottom"
+                                        FromSource="{Binding Teachers}"
+                                        MaxPageCount="30" />
+                    <ListBox ItemsSource="{Binding ElementName=sp, Path=ToSource}" />
+                </DockPanel>
+            </TabItem>
+            <TabItem Header="ImageControl">
+                <TabControl>
+                    <TabItem Header="Uniform">
+                        <ScrollViewer>
+                            <UniformGrid Columns="2">
+                                <GroupBox Header="Default">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    Url="..\..\..\Document\Resource\h.png" />
+                                </GroupBox>
+                                <GroupBox Header="HorizontalContentAlignment ">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    HorizontalContentAlignment="Left"
+                                                    Background="Black"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+                                <GroupBox Header="DecodePixelHeight">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    DecodePixelHeight="10"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+
+                                <GroupBox Header="DecodePixelWidth">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    DecodePixelWidth="10"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+
+                                <GroupBox Header="DecodePixelWidth">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    DecodePixelHeight="10"
+                                                    DecodePixelWidth="10"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+
+                                <GroupBox Header="CreateOptions">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    CreateOptions="DelayCreation"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+
+                                <GroupBox Header="CacheOption">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    CacheOption="OnDemand"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+                            </UniformGrid>
+                        </ScrollViewer>
+                    </TabItem>
+
+                    <TabItem Header="Uniform">
+                        <ScrollViewer>
+                            <UniformGrid Columns="2">
+                                <GroupBox Header="Default">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    Stretch="UniformToFill"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+                                <GroupBox Header="HorizontalContentAlignment ">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    HorizontalContentAlignment="Left"
+                                                    Background="Black"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+                                <GroupBox Header="DecodePixelHeight">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    DecodePixelHeight="10"
+                                                    Stretch="UniformToFill"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+
+                                <GroupBox Header="DecodePixelWidth">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    DecodePixelWidth="2"
+                                                    Stretch="UniformToFill"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+
+                                <GroupBox Header="DecodePixelWidth">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    DecodePixelHeight="10"
+                                                    DecodePixelWidth="10"
+                                                    Stretch="UniformToFill"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+
+                                <GroupBox Header="CreateOptions">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    CreateOptions="DelayCreation"
+                                                    Stretch="UniformToFill"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+
+                                <GroupBox Header="CacheOption">
+                                    <h:ImageControl Width="300"
+                                                    Height="200"
+                                                    Background="Black"
+                                                    CacheOption="OnDemand"
+                                                    Stretch="UniformToFill"
+                                                    Url="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png" />
+                                </GroupBox>
+                            </UniformGrid>
+                        </ScrollViewer>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+
+            <TabItem Header="Image - Stretch">
+                <UniformGrid>
+                    <Grid Width="100" Background="Yellow">
+                        <Image HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Source="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png"
+                               Stretch="UniformToFill" />
+                    </Grid>
+                    <Grid Height="100" Background="Red">
+                        <Image HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Source="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png"
+                               Stretch="UniformToFill" />
+                    </Grid>
+                    <Grid Width="100" Height="100" Background="Green">
+                        <Image HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Source="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png"
+                               Stretch="UniformToFill" />
+                    </Grid>
+                    <Grid Background="Pink">
+                        <Image HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Source="C:\Users\LENOVO\Pictures\企业微信截图_1647336990617.png"
+                               Stretch="UniformToFill" />
+                    </Grid>
+                </UniformGrid>
+            </TabItem>
+
+            <TabItem Header="FilterHost - SelectionFilter">
+                <DockPanel>
+                    <DockPanel Width="200" Background="Transparent">
+                        <h:SelectionFilter BindFilterHost="{Binding ElementName=fh}"
+                                           DockPanel.Dock="Top"
+                                           InitSource="{Binding Teachers}"
+                                           IsUseCheckAll="True"
+                                           PropertyName="Age">
+                            <h:ItemsControlService.HomeTool>
+                                <ControlTemplate>
+                                    <CheckBox h:Cattach.SelectedText="" h:Cattach.UncheckedIcon="" Content="全选">
+                                        <CheckBox.Template>
+                                            <ControlTemplate TargetType="CheckBox">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </ControlTemplate>
+                                        </CheckBox.Template>
+                                        <h:Interaction.Behaviors>
+                                            <h:ListBoxSelectAllCheckBoxBehavior ListBox="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                                        </h:Interaction.Behaviors>
+                                    </CheckBox>
+                                </ControlTemplate>
+                            </h:ItemsControlService.HomeTool>
+                        </h:SelectionFilter>
+                        <h:SelectionFilter BindFilterHost="{Binding ElementName=fh}"
+                                           DockPanel.Dock="Top"
+                                           InitSource="{Binding Teachers}"
+                                           IsUseCheckAll="True"
+                                           PropertyName="Class">
+                            <h:ItemsControlService.HomeTool>
+                                <ControlTemplate>
+
+                                    <CheckBox h:Cattach.SelectedText="" h:Cattach.UncheckedIcon="" Content="全选">
+                                        <CheckBox.Template>
+                                            <ControlTemplate TargetType="CheckBox">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </ControlTemplate>
+                                        </CheckBox.Template>
+                                        <h:Interaction.Behaviors>
+                                            <h:ListBoxSelectAllCheckBoxBehavior ListBox="{Binding RelativeSource={RelativeSource AncestorType=ListBox}}" />
+                                        </h:Interaction.Behaviors>
+                                    </CheckBox>
+
+                                </ControlTemplate>
+                            </h:ItemsControlService.HomeTool>
+                        </h:SelectionFilter>
+                        <h:SelectionFilter BindFilterHost="{Binding ElementName=fh}"
+                                           DockPanel.Dock="Top"
+                                           InitSource="{Binding Teachers}"
+                                           IsUseCheckAll="True"
+                                           PropertyName="Address" />
+                        <h:SelectionFilter BindFilterHost="{Binding ElementName=fh}"
+                                           DockPanel.Dock="Top"
+                                           InitSource="{Binding Teachers}"
+                                           IsUseCheckAll="True"
+                                           PropertyName="IsEnbled" />
+                    </DockPanel>
+                    <h:FilterHost x:Name="fh" FromSource="{Binding Teachers}" IsAsync="False" />
+                    <h:AutoColumnPagedDataGrid DataSource="{Binding ElementName=fh, Path=ToSource}" />
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="MouseHost">
+                <TabControl>
+                    <TabItem Header="MouseHost1">
+                        <h:MouseHost>
+                            <h:MouseHost.HostData>
+                                <Grid>
+                                    <Grid.Resources>
+                                        <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Transparent}}" TargetType="Button">
+                                            <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
+                                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                                            <Setter Property="Width" Value="Auto" />
+                                            <Setter Property="Height" Value="Auto" />
+                                            <Setter Property="h:Cattach.IconSize" Value="350" />
+                                            <Setter Property="FontSize" Value="150" />
+                                            <Setter Property="IsHitTestVisible" Value="False" />
+                                        </Style>
+                                    </Grid.Resources>
+                                    <h:Interaction.Triggers>
+                                        <h:EventTrigger EventName="Loaded">
+                                            <h:InvokeTimeSplitAnimationAction SplitMilliSecond="-700">
+                                                <h:InvokeTimeSplitAnimationAction.Timelines>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                                     From="0.5" To="1"
+                                                                     Duration="00:00:01">
+                                                        <DoubleAnimation.EasingFunction>
+                                                            <ElasticEase />
+                                                        </DoubleAnimation.EasingFunction>
+                                                    </DoubleAnimation>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                                     From="0.5" To="1"
+                                                                     Duration="00:00:01">
+                                                        <DoubleAnimation.EasingFunction>
+                                                            <ElasticEase />
+                                                        </DoubleAnimation.EasingFunction>
+                                                    </DoubleAnimation>
+                                                </h:InvokeTimeSplitAnimationAction.Timelines>
+                                            </h:InvokeTimeSplitAnimationAction>
+                                        </h:EventTrigger>
+                                    </h:Interaction.Triggers>
+                                </Grid>
+                            </h:MouseHost.HostData>
+
+                            <Grid>
+                                <Button h:Cattach.Icon="&#xe7c4;" FontSize="200" Foreground="Red" />
+                                <Button h:Cattach.Icon="&#xe7c4;" FontSize="200" Foreground="Red" />
+                            </Grid>
+                        </h:MouseHost>
+                    </TabItem>
+                    <TabItem Header="MouseHost1">
+                        <h:MouseHost>
+                            <h:MouseHost.HostData>
+                                <Grid>
+                                    <Grid.Resources>
+                                        <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Transparent}}" TargetType="Button">
+                                            <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
+                                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                                            <Setter Property="Width" Value="Auto" />
+                                            <Setter Property="Height" Value="Auto" />
+                                            <Setter Property="h:Cattach.IconSize" Value="350" />
+                                            <Setter Property="FontSize" Value="150" />
+                                            <Setter Property="IsHitTestVisible" Value="False" />
+                                        </Style>
+                                    </Grid.Resources>
+                                    <h:Interaction.Triggers>
+                                        <h:EventTrigger EventName="Loaded">
+                                            <h:InvokeTimeSplitAnimationAction SplitMilliSecond="-700">
+                                                <h:InvokeTimeSplitAnimationAction.Timelines>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                                     From="0" To="1"
+                                                                     Duration="00:00:01" />
+                                                    <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                                     From="0" To="1"
+                                                                     Duration="00:00:01" />
+                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                     From="1" To="0"
+                                                                     Duration="00:00:01" />
+                                                </h:InvokeTimeSplitAnimationAction.Timelines>
+                                            </h:InvokeTimeSplitAnimationAction>
+                                        </h:EventTrigger>
+                                    </h:Interaction.Triggers>
+                                    <Button h:Cattach.Icon="&#xe79e;" Foreground="Red" />
+                                    <Button h:Cattach.Icon="&#xe79e;" Foreground="Orange" />
+                                    <Button h:Cattach.Icon="&#xe79e;" Foreground="Blue" />
+                                    <Button h:Cattach.Icon="&#xe79e;" Foreground="Green" />
+                                </Grid>
+                            </h:MouseHost.HostData>
+                        </h:MouseHost>
+                    </TabItem>
+                    <TabItem Header="MouseHost1">
+                        <h:MouseHost>
+                            <h:MouseHost.HostData>
+                                <Grid>
+                                    <Grid.Resources>
+                                        <Style BasedOn="{StaticResource {x:Static h:ButtonKeys.Transparent}}" TargetType="Button">
+                                            <Setter Property="RenderTransform" Value="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" />
+                                            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+                                            <Setter Property="Width" Value="Auto" />
+                                            <Setter Property="Height" Value="Auto" />
+                                            <Setter Property="h:Cattach.IconSize" Value="350" />
+                                            <Setter Property="FontSize" Value="150" />
+                                            <Setter Property="IsHitTestVisible" Value="False" />
+                                        </Style>
+                                    </Grid.Resources>
+                                    <h:Interaction.Triggers>
+                                        <h:EventTrigger EventName="Loaded">
+                                            <h:InvokeTimeSplitAnimationAction SplitMilliSecond="-700">
+                                                <!--<h:InvokeTimeSplitAnimationAction.Timelines>-->
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)"
+                                                                 From="0" To="1"
+                                                                 Duration="00:00:01" />
+                                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)"
+                                                                 From="0" To="1"
+                                                                 Duration="00:00:01" />
+                                                <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                                 From="1" To="0"
+                                                                 Duration="00:00:01" />
+                                                <!--</h:InvokeTimeSplitAnimationAction.Timelines>-->
+                                            </h:InvokeTimeSplitAnimationAction>
+                                        </h:EventTrigger>
+                                    </h:Interaction.Triggers>
+
+                                    <Button h:Cattach.Icon="&#xe6ba;" Foreground="Red" RenderTransformOrigin="0,0" />
+                                    <Button h:Cattach.Icon="&#xe6c0;" Foreground="Orange" RenderTransformOrigin="0.1,0" />
+                                    <Button h:Cattach.Icon="&#xe689;" Foreground="Blue" RenderTransformOrigin="0,0.1" />
+                                    <Button h:Cattach.Icon="&#xe6ba;" Foreground="Green" RenderTransformOrigin="0.2,0.3" />
+                                    <Button h:Cattach.Icon="&#xe6c0;" Foreground="Red" RenderTransformOrigin="0.4,0.2" />
+                                    <Button h:Cattach.Icon="&#xe689;" Foreground="Orange" RenderTransformOrigin="0.6,0.2" />
+                                    <Button h:Cattach.Icon="&#xe6ba;" Foreground="Blue" RenderTransformOrigin="0.6,0.2" />
+                                    <Button h:Cattach.Icon="&#xe6c0;" Foreground="Orange" RenderTransformOrigin="0.3,0.3" />
+                                    <Button h:Cattach.Icon="&#xe689;" Foreground="Green" RenderTransformOrigin="0.8,0.6" />
+                                    <Button h:Cattach.Icon="&#xe6ba;" Foreground="Red" RenderTransformOrigin="0.4,0.3" />
+                                    <Button h:Cattach.Icon="&#xe6c0;" Foreground="Orange" RenderTransformOrigin="0.4,0.6" />
+                                    <Button h:Cattach.Icon="&#xe689;" Foreground="Blue" RenderTransformOrigin="0.8,0.7" />
+                                    <Button h:Cattach.Icon="&#xe6ba;" Foreground="Green" RenderTransformOrigin="0.7,0.8" />
+                                    <Button h:Cattach.Icon="&#xe6c0;" Foreground="Orange" RenderTransformOrigin="0.6,0.9" />
+                                    <Button h:Cattach.Icon="&#xe6ba;" Foreground="Red" RenderTransformOrigin="0.9,0.9" />
+                                </Grid>
+                            </h:MouseHost.HostData>
+                        </h:MouseHost>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+            <TabItem Header="SelectorHost">
+                <h:SelectorHost ContainerStyle="{DynamicResource {x:Static h:HostContianerKeys.RightKey}}">
+                    <h:SelectorHost.HostData>
+                        <TextBlock FontSize="20"
+                                   Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                   Text="&#xe8bc;" />
+                    </h:SelectorHost.HostData>
+                    <ListBox>
+                        <Grid Width="90"
+                              Height="100"
+                              h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜"
+                              h:Cattach.UseGuide="True"
+                              Background="Red" />
+                        <Grid Width="130"
+                              Height="60"
+                              h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜"
+                              h:Cattach.UseGuide="True"
+                              Background="Green" />
+                        <Grid Width="230"
+                              Height="40"
+                              h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜"
+                              h:Cattach.UseGuide="True"
+                              Background="Orange" />
+                        <Grid Width="90"
+                              Height="100"
+                              h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜"
+                              h:Cattach.UseGuide="True"
+                              Background="Red" />
+                        <Grid Width="130"
+                              Height="60"
+                              h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜"
+                              h:Cattach.UseGuide="True"
+                              Background="Green" />
+                        <Grid Width="230"
+                              Height="40"
+                              h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜"
+                              h:Cattach.UseGuide="True"
+                              Background="Orange" />
+                    </ListBox>
+                </h:SelectorHost>
+            </TabItem>
+            <!--<TabItem Header="GuideHost">
+                <DockPanel>
+                    <CheckBox x:Name="cbbbb" />
+                    <h:GuideHost IsGuide="{Binding ElementName=cbbbb, Path=IsChecked}">
+                        <UniformGrid>
+                            <Grid Width="90"
+                                  Height="100"
+                                  h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜"
+                                  h:Cattach.UseGuide="True"
+                                  Background="Red" />
+                            <Grid Width="130"
+                                  Height="60"
+                                  h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜"
+                                  h:Cattach.UseGuide="True"
+                                  Background="Green" />
+                            <Grid Width="230"
+                                  Height="40"
+                                  h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜"
+                                  h:Cattach.UseGuide="True"
+                                  Background="Orange" />
+                            <Button h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜" h:Cattach.UseGuide="True" Content="Button" />
+                            <Button h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜" h:Cattach.UseGuide="True" Content="Button" />
+                            <Button h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜" h:Cattach.UseGuide="True" Content="Button" />
+                            <Button h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜" h:Cattach.UseGuide="True" Content="Button" />
+                            <Button h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜" h:Cattach.UseGuide="True" Content="Button" />
+                            <Button h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜" h:Cattach.UseGuide="True" Content="Button" />
+                            <Button h:Cattach.GuideData="研究者最近打算调查一下那些自然食物资源丰富的小昆虫是否会喜" h:Cattach.UseGuide="True" Content="Button" />
+                        </UniformGrid>
+                    </h:GuideHost>
+                </DockPanel>
+            </TabItem>-->
+
+            <TabItem Header="RandomPanel">
+                <h:RandomPanel>
+                    <Image Width="100" Height="100" Source="../Resources/main_middle.png" />
+                    <Image Width="100" Height="100" Source="../Resources/main_middle.png" />
+                    <Image Width="100" Height="100" Source="../Resources/main_middle.png" />
+                    <Image Width="100" Height="100" Source="../Resources/main_middle.png" />
+                    <Image Width="100" Height="100" Source="../Resources/main_middle.png" />
+                    <Image Width="100" Height="100" Source="../Resources/main_middle.png" />
+                    <Image Width="100" Height="100" Source="../Resources/main_middle.png" />
+                    <Image Width="100" Height="100" Source="../Resources/main_middle.png" />
+                    <Image Width="100" Height="100" Source="../Resources/main_middle.png" />
+                    <Image Width="100" Height="100" Source="../Resources/main_middle.png" />
+                </h:RandomPanel>
+            </TabItem>
+
+            <TabItem Header="PNG">
+                <UniformGrid Rows="1">
+                    <Grid Height="350" Background="{DynamicResource {x:Static h:BrushKeys.Accent}}">
+                        <Grid.OpacityMask>
+                            <ImageBrush ImageSource="../Resources/main_middle.png" />
+                        </Grid.OpacityMask>
+                    </Grid>
+                    <Image Source="../Resources/main_middle.png" />
+                </UniformGrid>
+            </TabItem>
+
+            <TabItem Header="DropShadowEffect">
+                <Grid>
+                    <Border Margin="100" Background="Orange" />
+                    <Border Margin="100" BorderBrush="Red" BorderThickness="1">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="35"
+                                              RenderingBias="Performance"
+                                              ShadowDepth="0"
+                                              Color="Red" />
+                        </Border.Effect>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="IconKeys">
+                <UniformGrid>
+                    <TextBlock Style="{DynamicResource {x:Static h:IconKeys.Arrow_left}}" />
+                </UniformGrid>
+            </TabItem>
+            <TabItem Header="ImageKeys">
+                <UniformGrid>
+                    <Image Style="{DynamicResource {x:Static h:ImageKeys.Logo}}" />
+                    <Border Background="{DynamicResource {x:Static h:BrushKeys.Accent}}">
+                        <Image Stretch="Fill" Style="{DynamicResource {x:Static h:ImageKeys.Material_Silky}}" />
+                    </Border>
+                    <Border Background="{DynamicResource {x:Static h:BrushKeys.Accent}}">
+                        <Image Stretch="Fill" Style="{DynamicResource {x:Static h:ImageKeys.Material_Silky1}}" />
+                    </Border>
+                </UniformGrid>
+            </TabItem>
+            <TabItem Header="SettingBox">
+                <h:SettingBox />
+            </TabItem>
+
+            <TabItem Header="基础控件">
+                <GroupBox Header="基础控件">
+                    <ScrollViewer>
+                        <StackPanel>
+                            <GroupBox Header="Button">
+                                <Button Content="按钮" />
+                            </GroupBox>
+
+                            <GroupBox Header="TextBlock">
+                                <TextBlock Text="TextBlock" />
+                            </GroupBox>
+
+                            <GroupBox Header="Label">
+                                <Label Content="Label" />
+                            </GroupBox>
+
+                            <GroupBox Header="TextBox">
+                                <StackPanel>
+                                    <TextBox h:Cattach.Watermark="水印" Text="文本控件" />
+                                    <TextBox Margin="0,5"
+                                             h:Cattach.Title="标题"
+                                             h:Cattach.Watermark="水印"
+                                             Text="文本控件" />
+                                    <TextBox h:Cattach.Title="标题" h:Cattach.Watermark="水印" Text="文本控件" />
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="CheckBox">
+                                <CheckBox Content="漩涡" />
+                            </GroupBox>
+
+
+                            <GroupBox Header="RadioButton">
+                                <StackPanel>
+                                    <RadioButton Content="第一个" />
+                                    <RadioButton Content="第二个" />
+                                    <RadioButton Content="第三个" />
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="ToggleButton">
+                                <ToggleButton Height="50" Content="ToggleButton" />
+                            </GroupBox>
+
+                            <GroupBox Header="ComboBox">
+                                <ComboBox ItemsSource="{Binding Teachers}" SelectedIndex="0" />
+                            </GroupBox>
+
+                            <GroupBox Header="DatePicker">
+                                <DatePicker />
+                            </GroupBox>
+
+                            <GroupBox Header="Slider">
+                                <Slider Value="50" />
+                            </GroupBox>
+
+                            <GroupBox Header="ProgressBar">
+                                <StackPanel>
+                                    <ProgressBar Value="50" />
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="ToolTip">
+                                <TextBlock Text="ToolTip" ToolTip="提示消息" />
+                            </GroupBox>
+
+                            <GroupBox Header="ContextMenu">
+                                <TextBlock Text="ContextMenu">
+                                    <TextBlock.ContextMenu>
+                                        <ContextMenu>
+                                            <MenuItem Header="添加文件" Icon="&#xe62c;" />
+                                            <MenuItem Header="添加文件夹" Icon="&#xe66b;">
+                                                <MenuItem Header="新建场景" Icon="&#xe661;" />
+                                                <MenuItem Header="新建模板" Icon="&#xe661;" />
+                                                <MenuItem Header="打开场景" Icon="&#xe661;" />
+                                                <MenuItem Header="保存场景" Icon="&#xe661;" />
+                                            </MenuItem>
+                                            <MenuItem Header="粘贴" Icon="&#xe661;" />
+                                            <MenuItem Header="删除" Icon="&#xe63b;" />
+                                        </ContextMenu>
+                                    </TextBlock.ContextMenu>
+                                </TextBlock>
+                            </GroupBox>
+
+                            <GroupBox Header="Menu">
+                                <Menu>
+                                    <MenuItem Header="文件(F)">
+                                        <MenuItem Header="新建场景" />
+                                        <MenuItem Header="新建模板" />
+                                        <MenuItem Header="打开场景" />
+                                        <MenuItem Header="保存场景" />
+                                        <MenuItem Header="另存为" />
+                                        <MenuItem Header="操作">
+                                            <MenuItem Header="上移" />
+                                            <MenuItem Header="下移" />
+                                            <MenuItem Header="复制" />
+                                            <MenuItem Header="粘贴" />
+                                            <MenuItem Header="删除" />
+                                        </MenuItem>
+                                        <MenuItem Header="退出" />
+                                    </MenuItem>
+
+                                    <MenuItem Header="设置(S)" />
+
+                                    <MenuItem Header="帮助(H)">
+                                        <MenuItem Header="软件升级" />
+                                        <MenuItem Header="关于" />
+                                    </MenuItem>
+                                </Menu>
+                            </GroupBox>
+
+                            <GroupBox Header="Expander">
+                                <StackPanel>
+                                    <Expander Header="Expander1">
+                                        <Grid Height="100" />
+                                    </Expander>
+                                    <Expander Header="Expander2">
+                                        <Grid Height="100" />
+                                    </Expander>
+                                </StackPanel>
+                            </GroupBox>
+
+                            <GroupBox Header="ListBox">
+                                <ListBox ItemsSource="{Binding Teachers}" />
+                            </GroupBox>
+
+                            <GroupBox Header="DataGrid">
+                                <DataGrid Height="300" AutoGenerateColumns="True" ItemsSource="{Binding Teachers}" />
+                            </GroupBox>
+
+                            <GroupBox Header="TreeView">
+                                <TreeView>
+                                    <TreeViewItem Header="我的电脑">
+                                        <TreeViewItem Header="记事本" />
+                                        <TreeViewItem Header="记事本" />
+                                        <TreeViewItem Header="记事本">
+                                            <TreeViewItem Header="记事本" />
+                                            <TreeViewItem Header="记事本" />
+                                            <TreeViewItem Header="记事本" />
+                                            <TreeViewItem Header="记事本" />
+                                        </TreeViewItem>
+                                        <TreeViewItem Header="记事本" />
+                                        <TreeViewItem Header="记事本" />
+                                    </TreeViewItem>
+                                </TreeView>
+                            </GroupBox>
+
+                            <GroupBox Header="TabControl">
+                                <TabControl>
+                                    <TabItem Header="TabItem1">
+                                        <Grid Height="100" Background="Red" />
+                                    </TabItem>
+                                    <TabItem Header="TabItem2">
+                                        <Grid Height="100" Background="Green" />
+                                    </TabItem>
+                                    <TabItem Header="TabItem3">
+                                        <Grid Height="100" Background="Purple" />
+                                    </TabItem>
+                                    <TabItem Header="TabItem4">
+                                        <Grid Height="100" Background="Orange" />
+                                    </TabItem>
+                                </TabControl>
+                            </GroupBox>
+                        </StackPanel>
+                    </ScrollViewer>
+                </GroupBox>
+            </TabItem>
+
+            <TabItem Header="Drawer">
+                <ScrollViewer>
+                    <DockPanel>
+                        <!--  右侧 Style="{DynamicResource {x:Static h:Drawer.RightKey}}"  -->
+                        <h:Drawer HorizontalAlignment="Left" Header="右侧" HorizontalOpenContentAlignment="Left">
+                            <h:TransitionService.VisibleActions>
+                                <h:TransitionCollection>
+                                    <h:TranslateTransition StartPoint="100,0" EndPoint="200,0" />
+                                </h:TransitionCollection>
+                            </h:TransitionService.VisibleActions>
+
+                            <ListBox Width="200"
+                                     Margin="40"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Center">
+                                <TextBox h:Cattach.IsUseHistory="False" />
+                                <TextBox />
+                            </ListBox>
+
+                        </h:Drawer>
+                    </DockPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="AddStyle">
+                <DockPanel>
+                    <Button h:Cattach.Title="etete" Content="AddStyle" Style="{StaticResource {x:Static h:ButtonKeys.Add}}" />
+
+                    <Button h:Cattach.Icon="&#xe8b4;"
+                            h:Cattach.Title="etete"
+                            Content="VerticalToolBar"
+                            Style="{StaticResource {x:Static h:ButtonKeys.VerticalToolBar}}" />
+                </DockPanel>
+            </TabItem>
+
+            <!--<TabItem Header="TypeControl">
+                <DockPanel>
+                    <h:PropertyGrid SelectObject="{Binding AutoViewModel}"/>
+                </DockPanel>
+            </TabItem>-->
+            <TabItem Header="TypeControl">
+                <DockPanel>
+                    <CheckBox Content="IsActive" IsChecked="{Binding ElementName=tc, Path=Content.IsActive}" />
+                    <h:TypeControl x:Name="tc" Type="{x:Type h:Snackbar}" TypeStyle="{DynamicResource S.Snackbar.Accent}" />
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="S.Border.Card">
+                <TabControl h:Cattach.SearchDock="Top" h:Cattach.SearchWidth="Auto" TabStripPlacement="Left">
+                    <TabItem Header="S.Border.Card">
+                        <ListBox Margin="5,0" ItemsSource="{Binding Teachers}" Style="{DynamicResource {x:Static h:ListBoxKeys.Clear}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="100" Height="100" Style="{DynamicResource {x:Static h:BorderKeys.Card}}">
+                                        <TextBlock Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" Text="{Binding Name}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border>
+                                                    <ContentPresenter />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </TabItem>
+                    <TabItem Header="S.Border.Card.BorderBrush">
+                        <ListBox Margin="5,0" ItemsSource="{Binding Teachers}" Style="{DynamicResource {x:Static h:ListBoxKeys.Clear}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="100" Height="100" Style="{DynamicResource {x:Static h:BorderKeys.CardBorderBrush}}">
+                                        <TextBlock Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" Text="{Binding Name}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border>
+                                                    <ContentPresenter />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </TabItem>
+                    <TabItem Header="S.Border.Card.Background">
+                        <ListBox Margin="5,0" ItemsSource="{Binding Teachers}" Style="{DynamicResource {x:Static h:ListBoxKeys.Clear}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="100" Height="100" Style="{DynamicResource {x:Static h:BorderKeys.CardBackground}}">
+                                        <TextBlock Text="{Binding Name}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border>
+                                                    <ContentPresenter />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </TabItem>
+                    <TabItem Header="S.Border.Card.BorderThickness">
+                        <ListBox Margin="5,0" ItemsSource="{Binding Teachers}" Style="{DynamicResource {x:Static h:ListBoxKeys.Clear}}">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Width="100" Height="100" Style="{DynamicResource {x:Static h:BorderKeys.CardBorderThickness}}">
+                                        <TextBlock Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}" Text="{Binding Name}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListBoxItem">
+                                                <Border>
+                                                    <ContentPresenter />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <UniformGrid />
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+
+            <TabItem Header="S.TextBox.Label IsReadOnly">
+                <TextBox h:Cattach.Title="233535"
+                         IsReadOnly="True"
+                         Style="{DynamicResource {x:Static h:TextBoxKeys.Label}}"
+                         Text="ssss" />
+            </TabItem>
+
+            <TabItem Header="PropertyView">
+                <h:PropertyGrid SelectObject="{Binding AutoViewModel}" UsePropertyView="True" />
+            </TabItem>
+
+            <TabItem Header="AutoColumnPagedDataGrid">
+                <h:AutoColumnPagedDataGrid DataSource="{Binding Teachers}" />
+            </TabItem>
+
+            <TabItem Header="PagedDataGrid - AutoGenerateColumns">
+                <h:PagedDataGrid AutoGenerateColumns="True" DataSource="{Binding Teachers}">
+                    <DataGrid.Columns>
+                        <DataGridCheckBoxColumn />
+                    </DataGrid.Columns>
+
+                    <h:PagedDataGrid.EndColumns>
+                        <DataGridTemplateColumn Width="200" Header="操作">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <UniformGrid Rows="1">
+                                        <Button Style="{DynamicResource {x:Static h:ButtonKeys.Delete}}" />
+                                        <Button Style="{DynamicResource {x:Static h:ButtonKeys.Edit}}" />
+                                    </UniformGrid>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </h:PagedDataGrid.EndColumns>
+                </h:PagedDataGrid>
+            </TabItem>
+            <TabItem Header="LeftMenu">
+                <h:LeftMenu Width="500">
+                    <h:RepositoryAction DisplayName="Home" Logo="&#xe7b3;" />
+                    <h:RepositoryAction DisplayName="Counter" Logo="&#xe7b8;" />
+                    <h:RepositoryAction DisplayName="Fetch Data" Logo="&#xe7be;" />
+                </h:LeftMenu>
+            </TabItem>
+
+            <TabItem Header="RespositoryBox">
+                <TabItem.Resources>
+                    <x:Array x:Key="S.Array.DiplayDataTemplate" Type="{x:Type h:DiplayDataTemplate}">
+                        <h:DiplayDataTemplate Name="PropertyView">
+                            <h:PropertyGrid RenderTransform="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}"
+                                            RenderTransformOrigin="0.5 0.5"
+                                            SelectObject="{Binding}"
+                                            UsePropertyView="True" />
+                        </h:DiplayDataTemplate>
+
+                        <h:DiplayDataTemplate Name="PropertyGrid">
+                            <h:PropertyGrid RenderTransform="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}" RenderTransformOrigin="0.5 0.5" SelectObject="{Binding}" />
+                        </h:DiplayDataTemplate>
+
+                        <h:DiplayDataTemplate Name="PropertyView-WrapPanel">
+                            <h:PropertyGrid RenderTransform="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}"
+                                            RenderTransformOrigin="0.5 0.5"
+                                            SelectObject="{Binding}"
+                                            Style="{DynamicResource {x:Static h:PropertyGrid.SingleKey}}"
+                                            UsePropertyView="True">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </h:PropertyGrid>
+                        </h:DiplayDataTemplate>
+
+                        <h:DiplayDataTemplate Name="PropertyView-Horizontal">
+                            <h:PropertyGrid RenderTransform="{DynamicResource {x:Static h:SystemKeys.TransformGroup}}"
+                                            RenderTransformOrigin="0.5 0.5"
+                                            SelectObject="{Binding}"
+                                            Style="{DynamicResource {x:Static h:PropertyGrid.SingleKey}}"
+                                            UsePropertyView="True">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </h:PropertyGrid>
+                        </h:DiplayDataTemplate>
+                    </x:Array>
+                </TabItem.Resources>
+                <h:RespositoryBox ItemTemplateSelectSource="{StaticResource S.Array.DiplayDataTemplate}" ModelType="{x:Type h:Student}" />
+            </TabItem>
+
+            <TabItem Header="S.ListBox.All">
+                <ListBox ItemsSource="{Binding Teachers}" Style="{DynamicResource {x:Static h:ListBoxKeys.CheckAll}}" />
+            </TabItem>
+
+            <TabItem Header="S.ListBox.All.PropertyGrid">
+                <ListBox ItemsSource="{Binding Teachers}" Style="{DynamicResource S.ListBox.All.PropertyGrid}" />
+            </TabItem>
+
+            <TabItem Header="ItemsSourceBehaior">
+                <DockPanel>
+                    <DockPanel DockPanel.Dock="Top">
+                        <Button Content="添加">
+                            <h:Interaction.Behaviors>
+                                <h:AddItemWithPropertyGridButtonBehavior ItemsSource="{Binding Teachers}" />
+                            </h:Interaction.Behaviors>
+                        </Button>
+
+                        <Button Content="清空">
+                            <h:Interaction.Behaviors>
+                                <h:ClearItemButtonBehavior ItemsSource="{Binding Teachers}" />
+                            </h:Interaction.Behaviors>
+                        </Button>
+
+                        <Button Content="删除选中">
+                            <h:Interaction.Behaviors>
+                                <h:RemoveAllCheckedItemButtonBehavior ItemsSource="{Binding Teachers}" ListBox="{Binding ElementName=lbbbb}" />
+                            </h:Interaction.Behaviors>
+                        </Button>
+                    </DockPanel>
+
+                    <ScrollViewer>
+                        <ListBox x:Name="lbbbb" h:ItemsControlService.InnerSource="{Binding Teachers}" Style="{DynamicResource {x:Static h:ListBoxKeys.CheckAllInner}}">
+                            <ItemsControl.Resources>
+                                <DataTemplate DataType="{x:Type h:Student}">
+                                    <DockPanel LastChildFill="False">
+                                        <CheckBox Margin="10,0" Content="选择" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" />
+
+                                        <Button Content="编辑" DockPanel.Dock="Right">
+                                            <h:Interaction.Behaviors>
+                                                <h:EditItemWithPropertyGridButtonBehavior Item="{Binding}" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.Teachers}" />
+                                            </h:Interaction.Behaviors>
+                                        </Button>
+
+                                        <Button Content="删除" DockPanel.Dock="Right">
+                                            <h:Interaction.Behaviors>
+                                                <h:RemoveItemButtonBehavior Item="{Binding}" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.Teachers}" />
+                                            </h:Interaction.Behaviors>
+                                        </Button>
+
+                                        <h:PropertyGrid SelectObject="{Binding}" Style="{DynamicResource {x:Static h:PropertyGrid.SingleKey}}" UsePropertyView="True">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </h:PropertyGrid>
+
+                                    </DockPanel>
+                                </DataTemplate>
+                            </ItemsControl.Resources>
+
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ListBox>
+
+                    </ScrollViewer>
+                </DockPanel>
+            </TabItem>
+
+            <TabItem Header="ItemsControlService">
+                <TabControl>
+                    <TabItem Header="S.ListBox.InnerSource.AddClose">
+                        <ListBox h:ItemsControlService.InnerSource="{Binding Teachers}" Style="{DynamicResource {x:Static h:ListBoxKeys.AddCloseInner}}">
+                            <ItemsControl.Resources>
+                                <DataTemplate DataType="{x:Type h:Student}">
+                                    <Grid Margin="10,6">
+                                        <TextBlock Foreground="Red" Text="{Binding Name}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.Resources>
+
+                            <h:ItemsControlService.EndTool>
+                                <ControlTemplate>
+
+                                    <Button Margin="-10" Style="{DynamicResource {x:Static h:ButtonKeys.AddTransparentBorder}}">
+                                        <h:Interaction.Behaviors>
+                                            <h:AddItemButtonBehavior ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=(h:ItemsControlService.InnerSource), Mode=TwoWay}" />
+                                            <h:SelectListBoxItemElementBehavior />
+                                        </h:Interaction.Behaviors>
+                                    </Button>
+                                </ControlTemplate>
+                            </h:ItemsControlService.EndTool>
+                        </ListBox>
+                    </TabItem>
+                    <TabItem Header="S.ListBox.InnerSource.CheckAll">
+                        <ListBox h:ItemsControlService.InnerSource="{Binding Teachers}" Style="{DynamicResource {x:Static h:ListBoxKeys.CheckAllInner}}">
+                            <ItemsControl.Resources>
+                                <DataTemplate DataType="{x:Type h:Student}">
+                                    <Grid>
+                                        <CheckBox Content="{Binding Name}" IsChecked="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Style="{DynamicResource {x:Static h:CheckBoxKeys.Box}}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.Resources>
+                        </ListBox>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+
+            <TabItem Header="TextEditor">
+                <TabControl>
+
+                    <TabItem Header="TextEditorBox">
+                        <DockPanel>
+                            <h:TextEditorBox DataSource="{Binding Teachers}" />
+                        </DockPanel>
+                    </TabItem>
+
+                    <TabItem Header="ListBoxEditor-AddItem">
+                        <DockPanel>
+                            <Button Content="添加">
+                                <h:Interaction.Behaviors>
+                                    <h:AddItemButtonBehavior ItemsSource="{Binding Teachers}" />
+                                </h:Interaction.Behaviors>
+                            </Button>
+                            <ItemsControl>
+                                <ItemsControl.Resources>
+                                    <DataTemplate DataType="{x:Type h:Student}">
+                                        <h:TextEditor Content="{Binding Name}" />
+                                    </DataTemplate>
+                                </ItemsControl.Resources>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemsSource>
+                                    <CompositeCollection>
+                                        <CollectionContainer Collection="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel.Teachers, Converter={x:Static h:XConverter.WriteLineObjectConverter}}" />
+                                        <Button Style="{DynamicResource {x:Static h:ButtonKeys.AddTransparent}}">
+                                            <h:Interaction.Behaviors>
+                                                <h:AddItemButtonBehavior ItemsSource="{Binding Teachers}" />
+                                            </h:Interaction.Behaviors>
+                                        </Button>
+                                    </CompositeCollection>
+                                </ItemsControl.ItemsSource>
+                            </ItemsControl>
+                        </DockPanel>
+                    </TabItem>
+
+                    <TabItem Header="TextEditor">
+                        <DockPanel>
+                            <h:PropertyGrid Width="250"
+                                            DockPanel.Dock="Right"
+                                            SelectObject="{Binding ElementName=te_1}"
+                                            UseDeclaredOnly="True" />
+
+                            <UniformGrid>
+                                <h:TextEditor x:Name="te_1" Content="{Binding EditValue, Mode=TwoWay}" />
+                                <ContentControl Content="{Binding EditValue}" Foreground="Red" />
+                            </UniformGrid>
+                        </DockPanel>
+                    </TabItem>
+
+                    <TabItem Header="TextEditor">
+                        <DockPanel>
+                            <h:PropertyGrid Width="250"
+                                            DockPanel.Dock="Right"
+                                            SelectObject="{Binding ElementName=te_2}"
+                                            UseDeclaredOnly="True" />
+
+                            <UniformGrid>
+                                <h:TextEditor x:Name="te_2"
+                                              Background="Red"
+                                              Content="{Binding EditValueString, Mode=TwoWay}"
+                                              DefaultType="{x:Type s:String}"
+                                              IsEditting="True" />
+                                <ContentControl Content="{Binding EditValueString}" Foreground="Red" />
+                            </UniformGrid>
+                        </DockPanel>
+                    </TabItem>
+                </TabControl>
+            </TabItem>
+
+            <TabItem Header="ScrollIntoView">
+                <TabItem.Resources>
+                    <collections:ArrayList x:Key="D.ArrayList.Items">
+                        <h:TestViewModel Value2="1"
+                                         Value3="6"
+                                         Value4="11"
+                                         Value="环境配置" />
+                        <h:TestViewModel Value2="2"
+                                         Value3="7"
+                                         Value4="12"
+                                         Value="工作项配置" />
+                        <h:TestViewModel Value2="3"
+                                         Value3="8"
+                                         Value4="13"
+                                         Value="参数配置" />
+                        <h:TestViewModel Value2="4"
+                                         Value3="9"
+                                         Value4="14"
+                                         Value="文本显示" />
+                        <h:TestViewModel Value2="5"
+                                         Value3="0"
+                                         Value4="15"
+                                         Value="数据配置" />
+                    </collections:ArrayList>
+                </TabItem.Resources>
+                <ScrollViewer>
+                    <ItemsControl>
+                        <GroupBox Height="800" Header="ScrollIntoView">
+                            <h:ScrollIntoView Source="{StaticResource D.ArrayList.Items}">
+                                <h:ScrollIntoView.NavigationDataTemplate>
+                                    <DataTemplate DataType="{x:Type h:TestViewModel}">
+                                        <TextBlock Text="{Binding Value}" />
+                                    </DataTemplate>
+                                </h:ScrollIntoView.NavigationDataTemplate>
+
+                                <h:ScrollIntoView.ContainDataTemplate>
+                                    <DataTemplate DataType="{x:Type h:TestViewModel}">
+                                        <Expander Margin="10,20" Header="{Binding Value}" IsExpanded="True">
+                                            <StackPanel Margin="10,6">
+                                                <TextBox Margin="0,6" h:Cattach.Title="项目地址：" Text="{Binding Value2}" />
+                                                <TextBox Margin="0,6" h:Cattach.Title="项目说明：" Text="{Binding Value2}" />
+                                                <TextBox Margin="0,6" h:Cattach.Title="仓储地址：" Text="{Binding Value3}" />
+                                                <TextBox Margin="0,6" h:Cattach.Title="用户名称：" Text="{Binding Value4}" />
+                                                <TextBox Margin="0,6" h:Cattach.Title="登录账户：" Text="{Binding Value4}" />
+                                                <TextBox Margin="0,6" h:Cattach.Title="登录密码：" Text="{Binding Value4}" />
+                                                <TextBox Margin="0,6" h:Cattach.Title="项目分支：" Text="{Binding Value4}" />
+                                            </StackPanel>
+                                        </Expander>
+                                    </DataTemplate>
+                                </h:ScrollIntoView.ContainDataTemplate>
+                            </h:ScrollIntoView>
+                        </GroupBox>
+
+                        <GroupBox Height="800" Header="ScrollIntoItems">
+                            <h:ScrollIntoItems NavigationSource="{StaticResource D.ArrayList.Items}">
+                                <h:ScrollIntoItems.NavigationDataTemplate>
+                                    <DataTemplate DataType="{x:Type h:TestViewModel}">
+                                        <TextBlock Text="{Binding Value}" />
+                                    </DataTemplate>
+                                </h:ScrollIntoItems.NavigationDataTemplate>
+
+                                <Expander Margin="10" Header="{Binding Value}" IsExpanded="True">
+                                    <Expander.DataContext>
+                                        <h:TestViewModel Value2="6"
+                                                         Value3="7"
+                                                         Value4="8"
+                                                         Value="环境配置一" />
+                                    </Expander.DataContext>
+                                    <StackPanel Margin="10,6">
+                                        <TextBox Margin="0,6" h:Cattach.Title="项目地址：" Text="{Binding Value2}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="项目说明：" Text="{Binding Value1}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="仓储地址：" Text="{Binding Value3}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="用户名称：" Text="{Binding Value4}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="登录账户：" Text="{Binding Value4}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="登录密码：" Text="{Binding Value4}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="项目分支：" Text="{Binding Value4}" />
+                                    </StackPanel>
+                                </Expander>
+
+                                <Expander Margin="10" Header="{Binding Value}" IsExpanded="True">
+                                    <Expander.DataContext>
+                                        <h:TestViewModel Value2="1"
+                                                         Value3="2"
+                                                         Value4="3"
+                                                         Value="工作项配置二" />
+                                    </Expander.DataContext>
+                                    <StackPanel Margin="10,6">
+                                        <TextBox Margin="0,6" h:Cattach.Title="项目地址：" Text="{Binding Value2}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="项目说明：" Text="{Binding Value1}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="仓储地址：" Text="{Binding Value3}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="用户名称：" Text="{Binding Value4}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="登录账户：" Text="{Binding Value4}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="登录密码：" Text="{Binding Value4}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="项目分支：" Text="{Binding Value4}" />
+                                    </StackPanel>
+                                </Expander>
+
+                                <Expander Margin="10" Header="{Binding Value}" IsExpanded="True">
+                                    <Expander.DataContext>
+                                        <h:TestViewModel Value2="211"
+                                                         Value3="23"
+                                                         Value4="535"
+                                                         Value="参数配置三" />
+                                    </Expander.DataContext>
+                                    <StackPanel Margin="10,6">
+                                        <TextBox Margin="0,6" h:Cattach.Title="项目地址：" Text="{Binding Value2}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="项目说明：" Text="{Binding Value1}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="仓储地址：" Text="{Binding Value3}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="用户名称：" Text="{Binding Value4}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="登录账户：" Text="{Binding Value4}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="登录密码：" Text="{Binding Value4}" />
+                                        <TextBox Margin="0,6" h:Cattach.Title="项目分支：" Text="{Binding Value4}" />
+                                    </StackPanel>
+                                </Expander>
+                            </h:ScrollIntoItems>
+                        </GroupBox>
+
+                        <!--<GroupBox Header="StackPanel" Height="600">
+                <h:ScrollIntoView ItemsSource="{Binding D.ArrayList.Items}">
+                    <h:ScrollIntoView.NavigationDataTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Value}"/>
+                        </DataTemplate>
+                    </h:ScrollIntoView.NavigationDataTemplate>
+
+                    <h:ScrollIntoView.ItemTemplate>
+                        <DataTemplate>
+                            <h:FExpander Header="{Binding Value}" IsExpanded="True">
+                                <StackPanel Height="500">
+                                    <Button/>
+                                    <Button/>
+                                    <Button/>
+                                    <Button/>
+                                    <Button/>
+                                    <Button/>
+                                    <Button/>
+                                </StackPanel>
+                            </h:FExpander>
+                        </DataTemplate>
+                    </h:ScrollIntoView.ItemTemplate>
+
+                    <h:FExpander Header="步骤一" IsExpanded="True">
+                        <StackPanel Height="500">
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                        </StackPanel>
+                    </h:FExpander>
+
+                    <h:FExpander Header="步骤二" IsExpanded="True">
+                        <StackPanel>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                        </StackPanel>
+                    </h:FExpander>
+
+                    <h:FExpander Header="步骤三" IsExpanded="True">
+                        <StackPanel>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                        </StackPanel>
+                    </h:FExpander>
+
+                    <h:FExpander Header="步骤四" IsExpanded="True">
+                        <StackPanel>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                        </StackPanel>
+                    </h:FExpander>
+
+                    <h:FExpander Header="步骤五" IsExpanded="True">
+                        <StackPanel>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                            <Button/>
+                        </StackPanel>
+                    </h:FExpander>
+                </h:ScrollIntoView>
+            </GroupBox>-->
+                    </ItemsControl>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="FilterBox">
+                <UniformGrid Columns="1">
+                    <GroupBox Header="筛选器">
+                        <StackPanel>
+                            <filter:FilterBox x:Name="fb"
+                                              Width="800"
+                                              Margin="0,10"
+                                              HorizontalAlignment="Right"
+                                              h:Cattach.Title="筛选器："
+                                              DataSource="{Binding Teachers}"
+                                              Style="{DynamicResource S.FilterBox.Label}" />
+
+
+                            <h:PagedDataGrid AutoGenerateColumns="True"
+                                             DataSource="{Binding ElementName=fb, Path=OutSource}"
+                                             PageCount="6"
+                                             Style="{DynamicResource {x:Static h:PagedDataGrid.SingleKey}}" />
+
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="筛选器 - 带初始条件">
+                        <StackPanel>
+                            <h:FilterBox x:Name="fb1"
+                                         Width="800"
+                                         Margin="0,10"
+                                         HorizontalAlignment="Right"
+                                         h:Cattach.Title="筛选器："
+                                         DataSource="{Binding Teachers}"
+                                         Style="{DynamicResource S.FilterBox.Label}">
+                                <h:FilterBox.FilterItemCollection>
+                                    <h:FilterItemCollection>
+                                        <h:DoubleFilter Name="Score"
+                                                        DisplayName="平均分"
+                                                        Operate="Equals"
+                                                        Value="96" />
+                                        <h:StringFilter Name="Address"
+                                                        DisplayName="地址"
+                                                        Operate="Contain"
+                                                        Value="4" />
+                                        <h:IntFilter Name="Age"
+                                                     DisplayName="年龄"
+                                                     Operate="Greater"
+                                                     Value="40" />
+                                        <h:BooleanFilter Name="IsEnbled"
+                                                         DisplayName="可用"
+                                                         Operate="Equals"
+                                                         Value="True" />
+                                        <h:DateTimeFilter Name="Time"
+                                                          DisplayName="时间"
+                                                          Operate="Greater"
+                                                          Value="{x:Static s:DateTime.Now}" />
+                                    </h:FilterItemCollection>
+                                </h:FilterBox.FilterItemCollection>
+                            </h:FilterBox>
+
+                            <h:PagedDataGrid AutoGenerateColumns="True"
+                                             DataSource="{Binding ElementName=fb1, Path=OutSource}"
+                                             PageCount="6"
+                                             Style="{DynamicResource {x:Static h:PagedDataGrid.SingleKey}}" />
+
+                        </StackPanel>
+                    </GroupBox>
+                </UniformGrid>
+            </TabItem>
+            <TabItem Header="Step">
+                <GroupBox Header="S.StepState.Default - 静态效果">
+                    <StackPanel>
+                        <h:Step ItemsSource="{x:Null}">
+                            <h:StepItem DisplayName="1"
+                                        Message="步骤一"
+                                        Percent="50"
+                                        State="2" />
+                            <h:StepItem DisplayName="2"
+                                        Message="步骤二"
+                                        Percent="10"
+                                        State="0" />
+                            <h:StepItem DisplayName="3"
+                                        Message="步骤三"
+                                        Percent="80"
+                                        State="-1" />
+                            <h:StepItem DisplayName="4"
+                                        Message="步骤四"
+                                        Percent="30"
+                                        State="0" />
+                        </h:Step>
+
+                        <h:Step ItemsSource="{x:Null}">
+                            <h:StepItem DisplayName="1"
+                                        Message="步骤一"
+                                        Percent="50"
+                                        State="2" />
+                            <h:StepItem DisplayName="2"
+                                        Message="步骤二"
+                                        Percent="10"
+                                        State="-1" />
+                            <h:StepItem DisplayName="3"
+                                        Message="步骤三"
+                                        Percent="80"
+                                        State="0" />
+                            <h:StepItem DisplayName="4"
+                                        Message="步骤四"
+                                        Percent="30"
+                                        State="0" />
+                        </h:Step>
+
+                        <h:Step ItemsSource="{x:Null}">
+                            <h:StepItem DisplayName="1"
+                                        Message="步骤一"
+                                        Percent="50"
+                                        State="2" />
+                            <h:StepItem DisplayName="2"
+                                        Message="步骤二"
+                                        Percent="10"
+                                        State="2" />
+                            <h:StepItem DisplayName="3"
+                                        Message="步骤三"
+                                        Percent="80"
+                                        State="2" />
+                            <h:StepItem DisplayName="4"
+                                        Message="步骤四"
+                                        Percent="30"
+                                        State="2" />
+                        </h:Step>
+                    </StackPanel>
+                </GroupBox>
+            </TabItem>
+
+            <TabItem Header="PropertyGrid">
+                <Grid>
+                    <pg:PropertyGrid h:Cattach.TitleWidth="200">
+                        <pg:PropertyGrid.SelectObject>
+                            <h:Student />
+                        </pg:PropertyGrid.SelectObject>
+                    </pg:PropertyGrid>
+                </Grid>
+            </TabItem>
+
+            <!--<TabItem Header="LayerListBox - PolarChart">
+                <Grid>
+                    <h:PolarChart Padding="100,50" Style="{DynamicResource {x:Static h:PolarChart.AngleKey}}"
+                                  yAxis="0,30,60,90,120,150,180,210,240,270,300,330,360" xAxis="0,2,4,6,8,10">
+                        <h:Series>
+                            <h:LayerListBox Style="{DynamicResource {x:Static h:LayerListBox.PointKey}}">
+                                <Point X="1" Y="0"/>
+                                <Point X="2" Y="45"/>
+                                <Point X="3" Y="90"/>
+                                <Point X="4" Y="180"/>
+                                <Point X="5" Y="270"/>
+                                <Point X="6" Y="310"/>
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <h:PolarScatter/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </h:LayerListBox>
+                        </h:Series>
+                    </h:PolarChart>
+                </Grid>
+            </TabItem>-->
+
+            <TabItem Header="ExplorerTree">
+                <ScrollViewer>
+                    <StackPanel Margin="10,0">
+                        <GroupBox Height="500" Header="S.ExplorerTree.Default">
+                            <h:ExplorerTree />
+                        </GroupBox>
+
+                        <GroupBox Height="500" Header="S.ExplorerTree.Default - 显示文件">
+                            <h:ExplorerTree FileInfoVisible="True" />
+                        </GroupBox>
+
+                        <GroupBox Header="S.ExplorerTree.Sinlge">
+                            <h:ExplorerTree Style="{StaticResource {x:Static h:ExplorerTree.QuickKey}}" />
+                        </GroupBox>
+
+                        <GroupBox Height="500" Header="S.ExplorerTree.Default - 自定义根目录">
+                            <h:ExplorerTree>
+                                <h:ExplorerTree.Customs>
+                                    <h:RootModelCollection>
+                                        <h:RootModel DisplayName="快速访问"
+                                                     FileInfoVisible="True"
+                                                     Icon="&#xe90c;"
+                                                     IsExpanded="True">
+                                            <h:DirectoryModel>Desktop</h:DirectoryModel>
+                                            <h:DirectoryModel>Recent</h:DirectoryModel>
+                                            <h:DirectoryModel>MyDocuments</h:DirectoryModel>
+                                            <h:DirectoryModel>Favorites</h:DirectoryModel>
+                                            <h:DirectoryModel>MyMusic</h:DirectoryModel>
+                                            <h:DirectoryModel>MyVideos</h:DirectoryModel>
+                                        </h:RootModel>
+
+                                        <h:RootModel DisplayName="自定义位置"
+                                                     FileInfoVisible="False"
+                                                     Icon="&#xe68a;"
+                                                     IsExpanded="True">
+                                            <h:DirectoryModel>C:\ProgramData</h:DirectoryModel>
+                                            <h:DirectoryModel>C:\Program Files</h:DirectoryModel>
+                                            <h:DirectoryModel>C:\Windows\Cursors</h:DirectoryModel>
+                                        </h:RootModel>
+                                    </h:RootModelCollection>
+                                </h:ExplorerTree.Customs>
+                            </h:ExplorerTree>
+                        </GroupBox>
+
+
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Explorer">
+                <ScrollViewer>
+                    <Grid>
+                        <GroupBox Header="S.Explorer.Default">
+                            <h:Explorer Margin="0,0,10,0">
+                                <h:Interaction.Behaviors>
+                                    <h:LoadAnimationBehavior End="0.05"
+                                                             EndValue="1"
+                                                             IsUseAll="True"
+                                                             LoadAnimationType="Opactiy"
+                                                             Split="0.02"
+                                                             StartValue="0" />
+                                </h:Interaction.Behaviors>
+                                <h:Explorer.Columns>
+                                    <DataGridTemplateColumn Width="50" Header="">
+                                        <DataGridTemplateColumn.HeaderTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridColumnHeader}, Path=Foreground}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.HeaderTemplate>
+
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Margin="9,0" HorizontalAlignment="Center" Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTemplateColumn Width="3*" Header="文件名">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Margin="5" Source="{Binding Logo, Converter={x:Static h:XConverter.IconToImageSourceConverter}}" />
+                                                    <TextBlock Foreground="{Binding RelativeSource={RelativeSource AncestorType=DataGridCell}, Path=Foreground}" Style="{StaticResource {x:Static h:TextBlockKeys.Default}}" Text="{Binding Model.Name}" />
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
+                                    <DataGridTextColumn Width="*" Binding="{Binding Model.LastWriteTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" Header="修改时间" />
+                                    <DataGridTextColumn Width="*" Header="大小" />
+                                </h:Explorer.Columns>
+                            </h:Explorer>
+                        </GroupBox>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Drawer">
+                <ScrollViewer>
+                    <StackPanel>
+                        <GroupBox Height="900" Header="上下左右">
+                            <Grid>
+
+                                <h:Drawer Header="右侧" Style="{DynamicResource {x:Static h:Drawer.RightKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="100,0" EndPoint="200,0" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Width="200"
+                                             Margin="40"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+
+                                </h:Drawer>
+
+
+                                <h:Drawer Header="左侧" Style="{StaticResource {x:Static h:Drawer.LeftKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="-300,0" EndPoint="-200,0" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+
+                                    <ListBox Grid.Row="1"
+                                             Width="200"
+                                             Margin="40"
+                                             HorizontalAlignment="Stretch">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+
+
+                                <h:Drawer Header="下侧" Style="{DynamicResource {x:Static h:Drawer.BottomKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="0,100" EndPoint="0,100" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1" Height="200" HorizontalAlignment="Stretch">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+
+                                <!--  上侧  -->
+                                <h:Drawer Header="上侧" Style="{DynamicResource {x:Static h:Drawer.TopKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="0,-500" EndPoint="0,-100" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1" Height="200" HorizontalAlignment="Stretch">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Height="900" Header="角落">
+                            <Grid>
+                                <h:Drawer Padding="0" Header="右下">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="200,200" EndPoint="200,200" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+
+                                <h:Drawer HorizontalContentAlignment="Left" Header="左下">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="-200,200" EndPoint="-200,200" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+
+                                <h:Drawer HorizontalContentAlignment="Left"
+                                          VerticalContentAlignment="Top"
+                                          ClipToBounds="True"
+                                          Header="左上">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="-200,-200" EndPoint="-200,-200" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+
+
+                                <h:Drawer VerticalContentAlignment="Top" ClipToBounds="True" Header="右上">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="200,-200" EndPoint="200,-200" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+                            </Grid>
+                        </GroupBox>
+
+                        <GroupBox Height="900" Header="UniformGrid">
+                            <UniformGrid>
+                                <h:Drawer Header="位置一" Style="{DynamicResource {x:Static h:Drawer.CenterKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="200,100" EndPoint="200,100" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+
+                                </h:Drawer>
+
+                                <h:Drawer Header="位置二" Style="{DynamicResource {x:Static h:Drawer.CenterKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="-200,100" EndPoint="-200,100" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+
+                                <h:Drawer Header="位置三" Style="{DynamicResource {x:Static h:Drawer.CenterKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="200,-100" EndPoint="200,-100" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+
+                                <h:Drawer Header="位置四" Style="{DynamicResource {x:Static h:Drawer.CenterKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="-200,-100" EndPoint="-200,-100" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+
+                            </UniformGrid>
+                        </GroupBox>
+
+                        <GroupBox Height="Auto" Header="StackPanel">
+                            <StackPanel>
+                                <h:Drawer Header="位置一" Style="{DynamicResource {x:Static h:Drawer.CenterKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="200,0" EndPoint="200,0" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+
+                                </h:Drawer>
+
+                                <h:Drawer Header="位置二" Style="{DynamicResource {x:Static h:Drawer.CenterKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="-1200,0" EndPoint="-1200,0" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+
+                                <h:Drawer Header="位置三" Style="{DynamicResource {x:Static h:Drawer.CenterKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="-200,-0" EndPoint="200,-0" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+
+                                <h:Drawer Header="位置四" Style="{DynamicResource {x:Static h:Drawer.CenterKey}}">
+                                    <h:TransitionService.VisibleActions>
+                                        <h:TransitionCollection>
+                                            <h:TranslateTransition StartPoint="500,-0" EndPoint="-500,-0" />
+                                        </h:TransitionCollection>
+                                    </h:TransitionService.VisibleActions>
+
+                                    <ListBox Grid.Row="1"
+                                             Width="500"
+                                             Height="300"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Center">
+                                        <TextBox h:Cattach.IsUseHistory="False" />
+                                        <TextBox />
+                                    </ListBox>
+                                </h:Drawer>
+
+                            </StackPanel>
+                        </GroupBox>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Ping">
+                <UniformGrid Width="600" Columns="1" DockPanel.Dock="Left">
+                    <GroupBox Header="S.Ping.Default">
+                        <StackPanel>
+                            <h:Ping IP="192.168.1.1" Start="True" />
+                            <h:Ping IP="localhost" Start="True" />
+                            <h:Ping IP="127.0.0.1" Start="True" />
+                            <h:Ping IP="www.baidu.com" Start="True" />
+                            <h:Ping IP="192.168.1.1" Start="False" />
+                            <h:Ping IP="www.baidu.com" Start="False" />
+                        </StackPanel>
+                    </GroupBox>
+
+                    <GroupBox Header="S.Ping.Single">
+                        <StackPanel>
+                            <h:Ping IP="192.168.1.1" Start="True" Style="{DynamicResource {x:Static h:Ping.SingleKey}}" />
+                            <h:Ping IP="localhost" Start="True" Style="{DynamicResource {x:Static h:Ping.SingleKey}}" />
+                            <h:Ping IP="127.0.0.1" Start="True" Style="{DynamicResource {x:Static h:Ping.SingleKey}}" />
+
+                            <h:Ping IP="www.baidu.com" Start="True" Style="{DynamicResource {x:Static h:Ping.SingleKey}}" />
+
+                            <h:Ping IP="192.168.1.1" Start="False" Style="{DynamicResource {x:Static h:Ping.SingleKey}}" />
+                            <h:Ping IP="www.baidu.com" Start="False" Style="{DynamicResource {x:Static h:Ping.SingleKey}}" />
+                        </StackPanel>
+                    </GroupBox>
+                </UniformGrid>
+            </TabItem>
+
+
+
+            <TabItem Header="Shuttle">
+                <GroupBox Header="支持【多分组/可拖动】的穿梭控件" Style="{StaticResource {x:Static h:GroupBoxKeys.UnderLine}}">
+                    <h:Shuttle Background="Red" Source="{Binding Shuttles}">
+                        <h:Shuttle.Resources>
+                            <DataTemplate DataType="{x:Type h:TestViewModel}">
+                                <TextBlock Margin="10,0" VerticalAlignment="Center" Text="{Binding Value}" />
+                            </DataTemplate>
+                        </h:Shuttle.Resources>
+                    </h:Shuttle>
+                </GroupBox>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</h:MainWindow>

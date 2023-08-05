@@ -12,6 +12,13 @@ namespace HeBianGu.Control.Guide
 
         }
 
+        public BorderAdorner(UIElement adornedElement, SolidColorBrush fill, SolidColorBrush stroke, double strokeThickness) : this(adornedElement)
+        {
+            this.Fill = fill;
+            this.Stroke = stroke;
+            this.StrokeThickness = strokeThickness;
+        }
+
         public Brush Fill { get; set; } = Brushes.Transparent;
 
         public Brush Stroke { get; set; } = Brushes.Red;
@@ -21,7 +28,6 @@ namespace HeBianGu.Control.Guide
         protected override void OnRender(DrawingContext dc)
         {
             Rect rect = new Rect(this.AdornedElement.RenderSize);
-
             dc.DrawRectangle(this.Fill, new Pen(this.Stroke, this.StrokeThickness), rect);
         }
     }

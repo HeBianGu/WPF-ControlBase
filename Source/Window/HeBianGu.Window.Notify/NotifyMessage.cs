@@ -1,15 +1,33 @@
 ﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
+using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.MessageContainer;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Service.Mvp;
 using System;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace HeBianGu.Window.Notify
 {
-    public class NotifyMessage : INotifyMessage
+    [Displayer(Name = "通知提示", GroupName = SystemSetting.GroupMessage)]
+    public class NotifyMessage : ServiceSettingInstance<NotifyMessage, INotifyMessage>, INotifyMessage
     {
+        private bool _useLogger;
+        [DefaultValue(true)]
+        [Display(Name = "启用提示消息输出到消息日志")]
+        public bool UseLogger
+        {
+            get { return _useLogger; }
+            set
+            {
+                _useLogger = value;
+                RaisePropertyChanged();
+            }
+        }
+
         #region - 列表消息 -
 
         private NotifyMessageWindow _notifyMessage;
@@ -20,204 +38,261 @@ namespace HeBianGu.Window.Notify
             Application.Current.Dispatcher.Invoke(() =>
             {
                 NotifyDialogWindow.ShowMessage(message, title, closeTime);
+                if (this.UseLogger)
+                    Logger.Instance?.Info(message?.ToString());
             });
         }
 
-
-        /// <summary> 显示自定义气泡消息 </summary>
-        public void ShowSysMessage(MessageBase message)
+        public void ShowSystem(INotifyMessageItem message)
         {
             if (_notifyMessage == null)
             {
                 _notifyMessage = new NotifyMessageWindow();
-
                 Application.Current.MainWindow.Closed += (l, k) =>
                 {
                     _notifyMessage.Close();
                 };
-
                 _notifyMessage.Show();
-
             }
-
             _notifyMessage.Add(message);
         }
 
-        /// <summary> 输出消息、按钮和参数 </summary>
-        public void ShowWinMessage(MessageBase message)
+        public void Show(INotifyMessageItem message)
+        {
+            IMainWindow window = Application.Current.MainWindow as IMainWindow;
+            window?.ShowWindowNotifyMessage(message);
+        }
+
+        public void ShowSuccessSystem(string message)
+        {
+            ShowSystem(new SuccessMessage
+            {
+                Message = message
+            });
+
+            if (this.UseLogger)
+                Logger.Instance?.Info(message?.ToString());
+        }
+
+        public void ShowInfoSystem(string message)
+        {
+            ShowSystem(new InfoMessage
+            {
+                Message = message
+            });
+            if (this.UseLogger)
+                Logger.Instance?.Info(message?.ToString());
+        }
+
+        public void ShowErrorSystem(string message)
+        {
+            ShowSystem(new ErrorMessage
+            {
+                Message = message
+            });
+            if (this.UseLogger)
+                Logger.Instance?.Error(message?.ToString());
+        }
+
+        public void ShowWarnSystem(string message)
+        {
+            ShowSystem(new WarnMessage
+            {
+                Message = message
+            });
+
+            if (this.UseLogger)
+                Logger.Instance?.Warn(message?.ToString());
+        }
+
+        public void ShowFatalSystem(string message)
+        {
+            ShowSystem(new FatalMessage
+            {
+                Message = message
+            });
+            if (this.UseLogger)
+                Logger.Instance?.Fatal(message?.ToString());
+        }
+
+        /// <summary> 显示等待效果的 </summary>
+        public async Task<T> ShowWaittingSystem<T>(Func<INotifyMessageItem, T> action)
+        {
+            WaittingMessage control = new WaittingMessage();
+            ShowSystem(control);
+            T result = await Task<T>.Run(() => action.Invoke(control));
+            control.Close();
+            return result;
+        }
+
+        /// <summary> 显示带进度的消息 </summary>
+        public async Task<T> ShowProgressSystem<T>(Func<IPercentProgressMessage, T> action)
+        {
+            PercentProgressMessage control = new PercentProgressMessage();
+            ShowSystem(control);
+            T result = await Task<T>.Run(() => action.Invoke(control));
+            control.Close();
+            return result;
+        }
+
+        public async Task<T> ShowStringSystem<T>(Func<INotifyMessageItem, T> action)
+        {
+            StringProgressMessage control = new StringProgressMessage();
+            ShowSystem(control);
+            T result = await Task<T>.Run(() => action.Invoke(control));
+            control.Close();
+            return result;
+        }
+
+        public void ShowSuccess(string message)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                IMainWindow window = Application.Current.MainWindow as IMainWindow;
-
-                if (window != null)
+                Show(new SuccessMessage
                 {
-                    window.ShowWindowNotifyMessage(message);
-                }
+                    Message = message
+                });
             });
+
+            if (this.UseLogger)
+                Logger.Instance?.Info(message?.ToString());
         }
 
-        public void ShowSysSuccessMessage(string message)
+        public void ShowInfo(string message)
         {
-            ShowSysMessage(new SuccessMessage
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                Message = message
+                Show(new InfoMessage
+                {
+                    Message = message
+                });
             });
+
+            if (this.UseLogger)
+                Logger.Instance?.Info(message?.ToString());
         }
 
-        public void ShowSysInfoMessage(string message)
+        /// <summary> 显示带进度的消息 </summary>
+        public async Task<T> ShowString<T>(Func<INotifyMessageItem, T> action)
         {
-            ShowSysMessage(new InfoMessage
-            {
-                Message = message
-            });
-        }
+            //return await Application.Current.Dispatcher.InvokeAsync(() =>
+            // {
+            //     StringProgressMessage control = new StringProgressMessage();
+            //     Show(control);
+            //     T result = action.Invoke(control);
+            //     control.Close();
+            //     return result;
+            // });
 
-        public void ShowSysErrorMessage(string message)
-        {
-            ShowSysMessage(new ErrorMessage
-            {
-                Message = message
-            });
-        }
 
-        public void ShowSysWarnMessage(string message)
-        {
-            ShowSysMessage(new WarnMessage
+            StringProgressMessage control1 = Application.Current.Dispatcher.Invoke(() =>
             {
-                Message = message
+                StringProgressMessage control = new StringProgressMessage();
+                Show(control);
+                return control;
             });
-        }
 
-        public void ShowSysFatalMessage(string message)
-        {
-            ShowSysMessage(new FatalMessage
+            return await Task.Run(() =>
             {
-                Message = message
+                T result = action.Invoke(control1);
+                control1.Close();
+                return result;
             });
         }
 
         /// <summary> 显示等待效果的 </summary>
-        public async Task<T> ShowSysWaittingMessage<T>(Func<WaittingMessage, T> action)
+        public async Task<T> ShowWaitting<T>(Func<INotifyMessageItem, T> action)
         {
-            WaittingMessage control = new WaittingMessage();
+            //return await Application.Current.Dispatcher.InvokeAsync(() =>
+            //  {
+            //      WaittingMessage control = new WaittingMessage();
+            //      Show(control);
+            //      T result = action.Invoke(control);
+            //      control.Close();
+            //      return result;
+            //  });
 
-            ShowSysMessage(control);
-
-            T result = await Task<T>.Run(() => action.Invoke(control));
-
-            control.Close();
-
-            return result;
-        }
-
-        /// <summary> 显示带进度的消息 </summary>
-        public async Task<T> ShowSysProgressBarMessage<T>(Func<PercentProgressMessage, T> action)
-        {
-            PercentProgressMessage control = new PercentProgressMessage();
-
-            ShowSysMessage(control);
-
-            T result = await Task<T>.Run(() => action.Invoke(control));
-
-            control.Close();
-
-            return result;
-        }
-
-        /// <summary> 显示带进度的消息 </summary>
-        public async Task<T> ShowSysProgressStrMessage<T>(Func<StringProgressMessage, T> action)
-        {
-            StringProgressMessage control = new StringProgressMessage();
-
-            ShowSysMessage(control);
-
-            T result = await Task<T>.Run(() => action.Invoke(control));
-
-            control.Close();
-
-            return result;
-        }
-
-        public void ShowWinSuccessMessage(string message)
-        {
-            ShowWinMessage(new SuccessMessage
+            WaittingMessage control1 = Application.Current.Dispatcher.Invoke(() =>
             {
-                Message = message
+                WaittingMessage control = new WaittingMessage();
+                Show(control);
+                return control;
             });
-        }
 
-        public void ShowWinInfoMessage(string message)
-        {
-            ShowWinMessage(new InfoMessage
+            return await Task.Run(() =>
             {
-                Message = message
+                T result = action.Invoke(control1);
+                control1.Close();
+                return result;
             });
         }
 
         /// <summary> 显示带进度的消息 </summary>
-        public async Task<T> ShowWinProgressStrMessage<T>(Func<StringProgressMessage, T> action)
+        public async Task<T> ShowProgress<T>(Func<IPercentProgressMessage, T> action)
         {
-            StringProgressMessage control = new StringProgressMessage();
+            //return await Application.Current.Dispatcher.InvokeAsync(() =>
+            //  {
+            //      PercentProgressMessage control = new PercentProgressMessage();
+            //      Show(control);
+            //      T result = action.Invoke(control);
+            //      control.Close();
+            //      return result;
+            //  });
 
-            ShowWinMessage(control);
-
-            T result = await Task<T>.Run(() => action.Invoke(control));
-
-            control.Close();
-
-            return result;
-        }
-
-        /// <summary> 显示等待效果的 </summary>
-        public async Task<T> ShowWinWaittingMessage<T>(Func<WaittingMessage, T> action)
-        {
-            WaittingMessage control = new WaittingMessage();
-
-            ShowWinMessage(control);
-
-            T result = await Task<T>.Run(() => action.Invoke(control));
-
-            control.Close();
-
-            return result;
-        }
-
-        /// <summary> 显示带进度的消息 </summary>
-        public async Task<T> ShowWinProgressBarMessage<T>(Func<PercentProgressMessage, T> action)
-        {
-            PercentProgressMessage control = new PercentProgressMessage();
-
-            ShowWinMessage(control);
-
-            T result = await Task<T>.Run(() => action.Invoke(control));
-
-            control.Close();
-
-            return result;
-        }
-
-        public void ShowWinErrorMessage(string message)
-        {
-            ShowWinMessage(new ErrorMessage
+            PercentProgressMessage control1 = Application.Current.Dispatcher.Invoke(() =>
             {
-                Message = message
+                PercentProgressMessage control = new PercentProgressMessage();
+                Show(control);
+                return control;
+            });
+
+            return await Task.Run(() =>
+            {
+                T result = action.Invoke(control1);
+                control1.Close();
+                return result;
             });
         }
 
-        public void ShowWinWarnMessage(string message)
+        public void ShowError(string message)
         {
-            ShowWinMessage(new WarnMessage
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                Message = message
+                Show(new ErrorMessage
+                {
+                    Message = message
+                });
+            });
+
+            if (this.UseLogger)
+                Logger.Instance?.Error(message?.ToString());
+        }
+
+        public void ShowWarn(string message)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                Show(new WarnMessage
+                {
+                    Message = message
+                });
+
+                if (this.UseLogger)
+                    Logger.Instance?.Warn(message?.ToString());
             });
         }
 
-        public void ShowWinFatalMessage(string message)
+        public void ShowFatal(string message)
         {
-            ShowWinMessage(new FatalMessage
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                Message = message
+                Show(new FatalMessage
+                {
+                    Message = message
+                });
+
+                if (this.UseLogger)
+                    Logger.Instance?.Fatal(message?.ToString());
             });
         }
 

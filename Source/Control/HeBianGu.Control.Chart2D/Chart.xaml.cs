@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace HeBianGu.Control.Chart2D
@@ -251,31 +252,220 @@ namespace HeBianGu.Control.Chart2D
             }));
 
 
-        public Visibility LegendVisibility
+        //public Visibility LegendVisibility
+        //{
+        //    get { return (Visibility)GetValue(LegendVisibilityProperty); }
+        //    set { SetValue(LegendVisibilityProperty, value); }
+        //}
+
+        //// Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty LegendVisibilityProperty =
+        //    DependencyProperty.Register("LegendVisibility", typeof(Visibility), typeof(Chart), new FrameworkPropertyMetadata(Visibility.Visible, (d, e) =>
+        //     {
+        //         Chart control = d as Chart;
+
+        //         if (control == null) return;
+
+        //         if (e.OldValue is Visibility o)
+        //         {
+
+        //         }
+
+        //         if (e.NewValue is Visibility n)
+        //         {
+
+        //         }
+
+        //     }));
+
+
+        public bool UseRefreshButton
         {
-            get { return (Visibility)GetValue(LegendVisibilityProperty); }
-            set { SetValue(LegendVisibilityProperty, value); }
+            get { return (bool)GetValue(UseRefreshButtonProperty); }
+            set { SetValue(UseRefreshButtonProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty LegendVisibilityProperty =
-            DependencyProperty.Register("LegendVisibility", typeof(Visibility), typeof(Chart), new FrameworkPropertyMetadata(Visibility.Visible, (d, e) =>
+        public static readonly DependencyProperty UseRefreshButtonProperty =
+            DependencyProperty.Register("UseRefreshButton", typeof(bool), typeof(Chart), new FrameworkPropertyMetadata(true, (d, e) =>
              {
                  Chart control = d as Chart;
 
                  if (control == null) return;
 
-                 if (e.OldValue is Visibility o)
+                 if (e.OldValue is bool o)
                  {
 
                  }
 
-                 if (e.NewValue is Visibility n)
+                 if (e.NewValue is bool n)
                  {
 
                  }
 
              }));
+
+
+        public bool UseLegend
+        {
+            get { return (bool)GetValue(UseLegendProperty); }
+            set { SetValue(UseLegendProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseLegendProperty =
+            DependencyProperty.Register("UseLegend", typeof(bool), typeof(Chart), new FrameworkPropertyMetadata(true, (d, e) =>
+             {
+                 Chart control = d as Chart;
+
+                 if (control == null) return;
+
+                 if (e.OldValue is bool o)
+                 {
+
+                 }
+
+                 if (e.NewValue is bool n)
+                 {
+
+                 }
+
+             }));
+
+
+        public bool UsexAxis
+        {
+            get { return (bool)GetValue(UsexAxisProperty); }
+            set { SetValue(UsexAxisProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UsexAxisProperty =
+            DependencyProperty.Register("UsexAxis", typeof(bool), typeof(Chart), new FrameworkPropertyMetadata(true, (d, e) =>
+            {
+                Chart control = d as Chart;
+
+                if (control == null) return;
+
+                if (e.OldValue is bool o)
+                {
+
+                }
+
+                if (e.NewValue is bool n)
+                {
+
+                }
+            }));
+
+
+        public bool UseyAxis
+        {
+            get { return (bool)GetValue(UseyAxisProperty); }
+            set { SetValue(UseyAxisProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseyAxisProperty =
+            DependencyProperty.Register("UseyAxis", typeof(bool), typeof(Chart), new FrameworkPropertyMetadata(true, (d, e) =>
+            {
+                Chart control = d as Chart;
+
+                if (control == null) return;
+
+                if (e.OldValue is bool o)
+                {
+
+                }
+
+                if (e.NewValue is bool n)
+                {
+
+                }
+
+            }));
+
+
+        public bool UseGrid
+        {
+            get { return (bool)GetValue(UseGridProperty); }
+            set { SetValue(UseGridProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseGridProperty =
+            DependencyProperty.Register("UseGrid", typeof(bool), typeof(Chart), new FrameworkPropertyMetadata(true, (d, e) =>
+            {
+                Chart control = d as Chart;
+
+                if (control == null) return;
+
+                if (e.OldValue is bool o)
+                {
+
+                }
+
+                if (e.NewValue is bool n)
+                {
+
+                }
+
+            }));
+
+
+        public bool UseMarkLine
+        {
+            get { return (bool)GetValue(UseMarkLineProperty); }
+            set { SetValue(UseMarkLineProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseMarkLineProperty =
+            DependencyProperty.Register("UseMarkLine", typeof(bool), typeof(Chart), new FrameworkPropertyMetadata(true, (d, e) =>
+            {
+                Chart control = d as Chart;
+
+                if (control == null) return;
+
+                if (e.OldValue is bool o)
+                {
+
+                }
+
+                if (e.NewValue is bool n)
+                {
+
+                }
+
+            }));
+
+
+        public bool UseMarkPosition
+        {
+            get { return (bool)GetValue(UseMarkPositionProperty); }
+            set { SetValue(UseMarkPositionProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty UseMarkPositionProperty =
+            DependencyProperty.Register("UseMarkPosition", typeof(bool), typeof(Chart), new FrameworkPropertyMetadata(true, (d, e) =>
+            {
+                Chart control = d as Chart;
+
+                if (control == null) return;
+
+                if (e.OldValue is bool o)
+                {
+
+                }
+
+                if (e.NewValue is bool n)
+                {
+
+                }
+
+            }));
+
 
     }
 
@@ -496,8 +686,8 @@ namespace HeBianGu.Control.Chart2D
             double max = (xmax - xmin) * right + xmin;
 
             //  Do ：更新数据 
-            ObservableCollection<double> xa = new ObservableCollection<double>();
-            ObservableCollection<double> dd = new ObservableCollection<double>();
+            DoubleCollection xa = new DoubleCollection();
+            DoubleCollection dd = new DoubleCollection();
 
             for (int i = 0; i < this.xDatas.Count; i++)
             {

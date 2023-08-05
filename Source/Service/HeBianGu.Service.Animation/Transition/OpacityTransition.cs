@@ -15,7 +15,6 @@ namespace HeBianGu.Service.Animation
         public OpacityTransition()
         {
             this.StartOpacity = 0;
-
             this.EndOpacity = 0;
         }
         public override void BeginPrevious(UIElement element, Action complate = null)
@@ -23,7 +22,12 @@ namespace HeBianGu.Service.Animation
             if (!element.CheckDefaultTransformGroup()) return;
 
             //element.RenderTransformOrigin = this.RenderTransformOrigin;
-
+            if (!this.CanAnimation(element))
+            {
+                element.Visibility = HiddenOrCollapsed;
+                complate?.Invoke();
+                return;
+            }
             element.BeginAnimationOpacity(1, this.StartOpacity, this.HideDuration, l =>
             {
                 element.Visibility = HiddenOrCollapsed;
@@ -34,12 +38,14 @@ namespace HeBianGu.Service.Animation
 
         public override void BeginCurrent(UIElement element, Action complate = null)
         {
-            if (!element.CheckDefaultTransformGroup()) return;
-
-            //element.RenderTransformOrigin = this.RenderTransformOrigin;
-
+            if (!element.CheckDefaultTransformGroup()) 
+                return;
             element.Visibility = Visibility.Visible;
-
+            if (!this.CanAnimation(element))
+            {
+                complate?.Invoke();
+                return;
+            }
             element.BeginAnimationOpacity(this.StartOpacity, 1, this.VisibleDuration, l =>
             {
                 element.Visibility = Visibility.Visible;

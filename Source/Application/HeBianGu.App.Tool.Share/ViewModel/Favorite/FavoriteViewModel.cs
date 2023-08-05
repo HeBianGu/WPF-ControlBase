@@ -22,8 +22,10 @@ namespace HeBianGu.App.Tool
         }
 
 
+        public RelayCommand RelayCommand => new RelayCommand(RelayMethod);
+
         /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
+        protected async void RelayMethod(object obj)
 
         {
             string command = obj?.ToString();
@@ -41,7 +43,7 @@ namespace HeBianGu.App.Tool
 
                 //if (find == null)
                 //{
-                //    Message.Instance.ShowSystemNotifyMessageWithInfo("请先复制文件或文件夹");
+                //    Messager.Instance.ShowSystemNotifyMessageWithInfo("请先复制文件或文件夹");
                 //    return;
                 //}
 

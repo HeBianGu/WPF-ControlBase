@@ -1,4 +1,5 @@
-﻿using HeBianGu.Service.Mvc;
+﻿using HeBianGu.Base.WpfBase;
+using HeBianGu.Service.Mvc;
 using System;
 
 namespace HeBianGu.App.Tool
@@ -17,8 +18,10 @@ namespace HeBianGu.App.Tool
 
         }
 
+        public RelayCommand RelayCommand => new RelayCommand(RelayMethod);
+
         /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
+        protected async void RelayMethod(object obj)
 
         {
             string command = obj?.ToString();

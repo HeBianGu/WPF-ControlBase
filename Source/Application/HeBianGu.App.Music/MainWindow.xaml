@@ -6,171 +6,292 @@
                   xmlns:local="clr-namespace:HeBianGu.App.Music"
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   Title="MainWindow"
-                  Width="1320"
+                  Width="1200"
                   Height="750"
                   h:Cattach.CaptionForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
                   CaptionBackground="Transparent"
                   CaptionForeground="{DynamicResource {x:Static h:BrushKeys.ForegroundDefault}}"
+                  DataContext="{Binding Source={StaticResource S.DataSource.Locator}, Path=ShellViewModel}"
                   Style="{DynamicResource {x:Static h:LinkWindowBase.MusicKey}}"
                   mc:Ignorable="d">
-    <h:Cattach.Bottom>
-        <Border Height="70" Background="Transparent">
+    <h:Cattach.CaptionLeftTemplate>
+        <ControlTemplate>
             <DockPanel>
-                <Slider DockPanel.Dock="Top" Value="60" Height="5"/>
-                <DockPanel  Margin="10">
-                    <DockPanel Background="Yellow" DockPanel.Dock="Left">
-                        <Image Style="{DynamicResource {x:Static h:ImageKeys.Logo}}"/>
-                        <UniformGrid Columns="1" Margin="10 0">
-                            <TextBlock Text="流年"/>
-                            <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                                <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                                <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                            </DockPanel>
-                        </UniformGrid>
-                    </DockPanel>
-                    <DockPanel Background="Yellow" DockPanel.Dock="Right" VerticalAlignment="Center">
-                        <TextBlock Text="03:30:24" VerticalAlignment="Center" Margin="10 0"/>
-                        <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                        <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                        <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                        <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                        <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                        <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                    </DockPanel>
+                <Button Margin="10,0"
+                        h:Cattach.GuideData="点击此按钮返回上一页"
+                        h:Cattach.GuideTitle="返回上一页"
+                        h:Cattach.Icon="&#xe9be;"
+                        h:Cattach.IconSize="{DynamicResource {x:Static h:IconSizeKeys.Large}}"
+                        h:Cattach.UseGuide="True"
+                        Command="{Binding Source={StaticResource S.DataSource.Locator}, Path=HomeViewModel.GoBackCommand}"
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+                <Button h:Cattach.GuideData="点击此按钮返刷新"
+                        h:Cattach.GuideTitle="刷新"
+                        h:Cattach.Icon="&#xe755;"
+                        h:Cattach.IconSize="{DynamicResource {x:Static h:IconSizeKeys.Large}}"
+                        h:Cattach.UseGuide="True"
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+            </DockPanel>
+        </ControlTemplate>
+    </h:Cattach.CaptionLeftTemplate>
+    <h:Cattach.CaptionRightTemplate>
+        <ControlTemplate TargetType="Control">
+            <DockPanel Margin="10,0" LastChildFill="False">
+                <TextBox x:Name="tb_search"
+                         Width="320"
+                         Height="40"
+                         HorizontalAlignment="Stretch"
+                         h:Cattach.CornerRadius="20"
+                         h:Cattach.GuideData="您可以输入想要查询的功能和在线资源"
+                         h:Cattach.GuideTitle="全局搜索"
+                         h:Cattach.UseGuide="True"
+                         DockPanel.Dock="Left"
+                         Style="{DynamicResource {x:Static h:TextBoxKeys.Search}}" />
 
-                    <DockPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                        <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
-                        <Button h:Cattach.Icon="&#xe6a3;" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}"/>
+                <Popup HorizontalAlignment="Left"
+                       VerticalAlignment="Bottom"
+                       AllowsTransparency="True"
+                       IsOpen="{Binding ElementName=tb_search, Path=IsKeyboardFocused, Mode=OneWay}"
+                       Placement="Bottom"
+                       PlacementTarget="{Binding ElementName=tb_search}"
+                       PopupAnimation="Slide"
+                       StaysOpen="False">
+
+                    <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
+                            BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                            BorderThickness="1"
+                            CornerRadius="5">
+                        <StackPanel Margin="10">
+                            <MenuItem Header="注册产品">
+                                <MenuItem.Icon>
+                                    <TextBlock FontSize="17" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe713;" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="意见反馈">
+                                <MenuItem.Icon>
+                                    <TextBlock FontSize="17" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe713;" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="技术支持">
+                                <MenuItem.Icon>
+                                    <TextBlock FontSize="17" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe713;" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="检查更新">
+                                <MenuItem.Icon>
+                                    <TextBlock FontSize="17" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe713;" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="后台运行">
+                                <MenuItem.Icon>
+                                    <TextBlock FontSize="15" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe754;" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator Height="2" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                            <MenuItem Header="帮助">
+                                <MenuItem.Icon>
+                                    <TextBlock FontSize="17" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe713;" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="关于">
+                                <MenuItem.Icon>
+                                    <TextBlock FontSize="15" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe754;" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <Separator Height="8" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
+
+                            <MenuItem Header="设置">
+                                <MenuItem.Icon>
+                                    <TextBlock FontSize="15" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe88e;" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+
+                            <MenuItem Header="退出">
+                                <MenuItem.Icon>
+                                    <TextBlock FontSize="15" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe7dc;" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </StackPanel>
+                    </Border>
+                </Popup>
+
+                <Button Margin="10,0"
+                        h:Cattach.Icon="&#xe91a;"
+                        DockPanel.Dock="Left"
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
+
+                <UniformGrid Height="38"
+                             VerticalAlignment="Center"
+                             Columns="1"
+                             DockPanel.Dock="Right">
+                    <TextBlock Margin="0,0" VerticalAlignment="Bottom" Text="HeBianGu" />
+                    <TextBlock VerticalAlignment="Center"
+                               h:Cattach.GuideData="点击此按钮开通会员"
+                               h:Cattach.GuideTitle="开通会员"
+                               h:Cattach.UseGuide="True">
+                        <Hyperlink Foreground="{x:Static SystemColors.HighlightBrush}">开通会员</Hyperlink>
+                    </TextBlock>
+                </UniformGrid>
+                <Image Height="40"
+                       Margin="5,0"
+                       DockPanel.Dock="Right"
+                       Style="{DynamicResource {x:Static h:ImageKeys.Logo}}" />
+
+            </DockPanel>
+        </ControlTemplate>
+    </h:Cattach.CaptionRightTemplate>
+
+    <h:Cattach.BottomTemplate>
+        <ControlTemplate>
+            <Grid Height="70" Background="Transparent">
+                <DockPanel>
+                    <Slider Height="5"
+                            h:Cattach.GuideData="显示当前播放进度"
+                            h:Cattach.GuideTitle="播放进度条"
+                            h:Cattach.UseGuide="True"
+                            DockPanel.Dock="Top"
+                            Style="{DynamicResource {x:Static h:SliderKeys.Accent}}"
+                            Value="60" />
+                    <DockPanel Margin="10,5" HorizontalAlignment="Stretch" LastChildFill="False">
+                        <DockPanel Background="Transparent" DockPanel.Dock="Left">
+                            <Border Width="50"
+                                    h:Cattach.GuideData="显示当前歌曲图标"
+                                    h:Cattach.GuideTitle="歌曲图标"
+                                    h:Cattach.UseGuide="True"
+                                    Style="{DynamicResource {x:Static h:BorderKeys.Card}}">
+                                <Image Style="{StaticResource S.Image.Music1}" />
+                            </Border>
+
+                            <UniformGrid Margin="10,0" Columns="1">
+                                <TextBlock VerticalAlignment="Center"
+                                           h:Cattach.GuideData="显示当前歌曲名称和歌手名称"
+                                           h:Cattach.GuideTitle="歌曲名称"
+                                           h:Cattach.UseGuide="True"
+                                           Text="王菲 - 流年" />
+                                <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <Button Width="Auto"
+                                            h:Cattach.GuideData="点击收藏"
+                                            h:Cattach.GuideTitle="收藏"
+                                            h:Cattach.Icon="{x:Static h:IconAll.Heart}"
+                                            h:Cattach.UseGuide="True"
+                                            Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+                                    <Button Width="Auto"
+                                            h:Cattach.GuideData="打开歌曲评论"
+                                            h:Cattach.GuideTitle="歌曲评论"
+                                            h:Cattach.Icon="{x:Static h:IconAll.Message}"
+                                            h:Cattach.UseGuide="True"
+                                            Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+                                    <Button Width="Auto"
+                                            h:Cattach.GuideData="点击此按钮显示更多信息"
+                                            h:Cattach.GuideTitle="更多"
+                                            h:Cattach.Icon="&#xe76a;"
+                                            h:Cattach.UseGuide="True"
+                                            Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+
+                                    <Button Width="Auto"
+                                            h:Cattach.GuideData="点击此按钮下载歌曲到本地"
+                                            h:Cattach.GuideTitle="下载"
+                                            h:Cattach.Icon="{x:Static h:IconAll.Cloud_Download}"
+                                            h:Cattach.UseGuide="True"
+                                            Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+                                </DockPanel>
+                            </UniformGrid>
+                        </DockPanel>
+                        <DockPanel VerticalAlignment="Center" Background="Transparent" DockPanel.Dock="Right">
+                            <TextBlock Margin="50,0"
+                                       VerticalAlignment="Center"
+                                       h:Cattach.GuideData="显示当前播放时间"
+                                       h:Cattach.GuideTitle="播放时间"
+                                       h:Cattach.UseGuide="True"
+                                       FontSize="{DynamicResource {x:Static h:FontSizeKeys.Header4}}"
+                                       Text="03:30:24" />
+                            <Button h:Cattach.GuideData="设置播放音量"
+                                    h:Cattach.GuideTitle="音量"
+                                    h:Cattach.Icon="&#xe664;"
+                                    h:Cattach.UseGuide="True"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+                            <Button h:Cattach.GuideData="设置播放循环模式"
+                                    h:Cattach.GuideTitle="播放模式"
+                                    h:Cattach.Icon="&#xe755;"
+                                    h:Cattach.UseGuide="True"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+                            <Button h:Cattach.GuideData="点击邀请好友一起听"
+                                    h:Cattach.GuideTitle="邀请好友一起听"
+                                    h:Cattach.Icon="&#xe91b;"
+                                    h:Cattach.UseGuide="True"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+                            <Button h:Cattach.GuideData="点击打开桌面歌词"
+                                    h:Cattach.GuideTitle="桌面歌词"
+                                    h:Cattach.Icon="词"
+                                    h:Cattach.UseGuide="True"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+                            <Button h:Cattach.GuideData="点击显示播放队列"
+                                    h:Cattach.GuideTitle="播放队列"
+                                    h:Cattach.Icon="&#xeb3a;"
+                                    h:Cattach.UseGuide="True"
+                                    Command="{Binding PlayListCommand}"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+                        </DockPanel>
                     </DockPanel>
                 </DockPanel>
-            </DockPanel>
-        </Border>
-    </h:Cattach.Bottom>
-    <h:LinkWindowBase.CaptionCustomContent>
-        <DockPanel Margin="10,0" LastChildFill="False">
-            <TextBox x:Name="tb_search"
-                     Width="320"
-                     Height="40"
-                     HorizontalAlignment="Stretch"
-                     h:Cattach.CornerRadius="20"
-                     h:GuideService.Data="您可以输入想要查询的功能和在线资源"
-                     h:GuideService.Title="全局搜索"
-                     h:GuideService.UseGuide="True"
-                     DockPanel.Dock="Left"
-                     Style="{DynamicResource {x:Static h:TextBoxKeys.Search}}" />
 
-            <Popup HorizontalAlignment="Left"
-                   VerticalAlignment="Bottom"
-                   AllowsTransparency="True"
-                   IsOpen="{Binding ElementName=tb_search, Path=IsKeyboardFocused, Mode=OneWay}"
-                   Placement="Bottom"
-                   PlacementTarget="{Binding ElementName=tb_search}"
-                   PopupAnimation="Slide"
-                   StaysOpen="False">
+                <DockPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Button h:Cattach.GuideData="点击切换上一首"
+                            h:Cattach.GuideTitle="上一首"
+                            h:Cattach.Icon="{x:Static h:IconAll.Left_Home}"
+                            h:Cattach.IconSize="20"
+                            h:Cattach.UseGuide="True"
+                            Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+                    <ToggleButton Width="Auto"
+                                  Margin="20,-20"
+                                  h:Cattach.CheckedForeground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                  h:Cattach.CheckedIcon="{x:Static h:IconAll.PlayFill}"
+                                  h:Cattach.GuideData="点击控制播放和暂停"
+                                  h:Cattach.GuideTitle="播放/暂停"
+                                  h:Cattach.IconSize="35"
+                                  h:Cattach.UncheckForeground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                                  h:Cattach.UncheckedIcon="{x:Static h:IconAll.Suspend}"
+                                  h:Cattach.UseGuide="True"
+                                  Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}" />
+                    <Button h:Cattach.GuideData="点击切换下一首"
+                            h:Cattach.GuideTitle="下一首"
+                            h:Cattach.Icon="{x:Static h:IconAll.Right_End}"
+                            h:Cattach.IconSize="20"
+                            h:Cattach.UseGuide="True"
+                            Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
+                            Style="{DynamicResource {x:Static h:ButtonKeys.Icon}}" />
+                </DockPanel>
+            </Grid>
+        </ControlTemplate>
+    </h:Cattach.BottomTemplate>
+    <h:LinkWindowBase.Links>
+        <h:LinkAction Action="Home"
+                      Controller="Home"
+                      DisplayName="音乐"
+                      Logo="&#xe6a3;" />
 
-                <Border Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
-                        BorderBrush="{DynamicResource {x:Static h:BrushKeys.Accent}}"
-                        BorderThickness="1"
-                        CornerRadius="5">
-                    <StackPanel Margin="10">
-                        <MenuItem Header="注册产品">
-                            <MenuItem.Icon>
-                                <TextBlock FontSize="17" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe713;" />
-                            </MenuItem.Icon>
-                        </MenuItem>
+        <h:LinkAction Action="Layout"
+                      Controller="Layout"
+                      DisplayName="直播"
+                      Logo="{x:Null}" />
 
-                        <MenuItem Header="意见反馈">
-                            <MenuItem.Icon>
-                                <TextBlock FontSize="17" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe713;" />
-                            </MenuItem.Icon>
-                        </MenuItem>
+        <h:LinkAction Action="Custom"
+                      Controller="Custom"
+                      DisplayName="听书"
+                      Logo="{x:Null}" />
 
-                        <MenuItem Header="技术支持">
-                            <MenuItem.Icon>
-                                <TextBlock FontSize="17" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe713;" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-
-                        <MenuItem Header="检查更新">
-                            <MenuItem.Icon>
-                                <TextBlock FontSize="17" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe713;" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-
-                        <MenuItem Header="后台运行">
-                            <MenuItem.Icon>
-                                <TextBlock FontSize="15" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe754;" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-
-                        <Separator Height="2" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-
-                        <MenuItem Header="帮助">
-                            <MenuItem.Icon>
-                                <TextBlock FontSize="17" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe713;" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-
-                        <MenuItem Header="关于">
-                            <MenuItem.Icon>
-                                <TextBlock FontSize="15" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe754;" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-
-                        <Separator Height="8" Background="{DynamicResource {x:Static h:BrushKeys.BorderBrushDefault}}" />
-
-                        <MenuItem Header="设置">
-                            <MenuItem.Icon>
-                                <TextBlock FontSize="15" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe88e;" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-
-                        <MenuItem Header="退出">
-                            <MenuItem.Icon>
-                                <TextBlock FontSize="15" Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" Text="&#xe7dc;" />
-                            </MenuItem.Icon>
-                        </MenuItem>
-                    </StackPanel>
-                </Border>
-            </Popup>
-
-            <Button Margin="10,0"
-                    h:Cattach.Icon="&#xe91a;"
-                    DockPanel.Dock="Left"
-                    Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
-
-            <UniformGrid Height="38"
-                         VerticalAlignment="Center"
-                         Columns="1"
-                         DockPanel.Dock="Right">
-                <TextBlock Margin="10,0" Text="HeBianGu" />
-                <Button HorizontalAlignment="Left" Content="开通会员" Style="{DynamicResource {x:Static h:ButtonKeys.Transparent}}" />
-            </UniformGrid>
-            <Image Height="40" DockPanel.Dock="Right" Style="{DynamicResource {x:Static h:ImageKeys.Logo}}" />
-
-        </DockPanel>
-    </h:LinkWindowBase.CaptionCustomContent>
-    <h:LinkWindowBase.TabLinks>
-        <h:TabLink Action="Home"
-                   Controller="Home"
-                   DisplayName="音乐"
-                   Logo="&#xe6a3;" />
-
-        <h:TabLink Action="Layout"
-                   Controller="Layout"
-                   DisplayName="直播"
-                   Logo="{x:Null}" />
-
-        <h:TabLink Action="Custom"
-                   Controller="Custom"
-                   DisplayName="听书"
-                   Logo="{x:Null}" />
-
-        <h:TabLink Action="Set"
-                   Controller="Set"
-                   DisplayName="探索"
-                   Logo="{x:Null}" />
-    </h:LinkWindowBase.TabLinks>
+        <h:LinkAction Action="Set"
+                      Controller="Set"
+                      DisplayName="探索"
+                      Logo="{x:Null}" />
+    </h:LinkWindowBase.Links>
 </h:LinkWindowBase>

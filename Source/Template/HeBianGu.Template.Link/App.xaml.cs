@@ -12,7 +12,7 @@ namespace HeBianGu.Template.Link
     /// </summary>
     public partial class App : ApplicationBase
     {
-        protected override System.Windows.Window CreateMainWindow(StartupEventArgs e)
+        protected override MainWindowBase CreateMainWindow(StartupEventArgs e)
         {
             return new MainWindow();
         }
@@ -27,13 +27,13 @@ namespace HeBianGu.Template.Link
             ////  Do ：注入领域模型服务
             //services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
 
-            services.AddMessageDialog();
+            services.AddWindowDialog();
 
             //services.AddWindowAnimation();
 
             //services.AddStudentDemo();
 
-            services.AddMessage();
+            services.AddMessageProxy();
 
             services.AddTheme();
 

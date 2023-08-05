@@ -1,0 +1,181 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:h="https://github.com/HeBianGu"
+                    xmlns:local="clr-namespace:HeBianGu.General.WpfControlLib">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/HeBianGu.General.WpfControlLib;component/Themes/Share.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTemplate x:Key="S.TabItem.Close" TargetType="{x:Type TabItem}">
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}">
+
+            <DockPanel Cursor="Hand">
+                <Button Margin="0"
+                        Padding="{DynamicResource {x:Static h:ThicknessKeys.DockRight}}"
+                        VerticalAlignment="Center"
+                        DockPanel.Dock="Right"
+                        Foreground="{TemplateBinding Foreground}"
+                        Style="{DynamicResource {x:Static h:ButtonKeys.Clear}}"
+                        Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UseClose), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                    <h:Interaction.Triggers>
+                        <h:EventTrigger EventName="Click">
+                            <h:CloseItemsAction Item="{Binding RelativeSource={RelativeSource AncestorType=TabItem}}" ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=TabControl}}" />
+                        </h:EventTrigger>
+                    </h:Interaction.Triggers>
+                </Button>
+
+                <TextBlock Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IconMargin)}"
+                           FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IconSize)}"
+                           Style="{DynamicResource {x:Static local:TextBlockKeys.Icon}}"
+                           Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.Icon)}" />
+
+                <ContentPresenter Margin="{TemplateBinding Padding}"
+                                  HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=(h:Cattach.ItemHorizontalContentAlignment)}"
+                                  VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=(h:Cattach.ItemVerticalContentAlignment)}"
+                                  ContentSource="Header"
+                                  RecognizesAccessKey="True" />
+            </DockPanel>
+        </Border>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="S.TabItem.Default" TargetType="{x:Type TabItem}">
+        <Border Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding h:Cattach.CornerRadius}">
+            <ContentPresenter Margin="{TemplateBinding Padding}"
+                              HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=(h:Cattach.ItemHorizontalContentAlignment)}"
+                              VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType=TabItem}, Path=(h:Cattach.ItemVerticalContentAlignment)}"
+                              ContentSource="Header"
+                              RecognizesAccessKey="True" />
+        </Border>
+    </ControlTemplate>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabItem.Default, TypeInTargetAssembly={x:Type local:TabItemKeys}}" BasedOn="{StaticResource {x:Static local:ControlKeys.Item}}" TargetType="{x:Type TabItem}">
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="h:Cattach.ItemHorizontalContentAlignment" Value="Center" />
+        <Setter Property="h:Cattach.ItemVerticalContentAlignment" Value="Center" />
+        <Setter Property="h:Cattach.CornerRadius" Value="0" />
+        <Setter Property="h:Cattach.GuideTitle" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header}" />
+        <Setter Property="h:Cattach.GuideData" Value="点击此处用来切换选中标签页" />
+        <Setter Property="h:Cattach.IsSelected" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=IsSelected}" />
+        <Setter Property="Template" Value="{StaticResource S.TabItem.Default}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabItem.Close, TypeInTargetAssembly={x:Type local:TabItemKeys}}" BasedOn="{StaticResource {x:Static h:TabItemKeys.Default}}" TargetType="{x:Type TabItem}">
+        <Setter Property="Template" Value="{StaticResource S.TabItem.Close}" />
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabItem.Icon, TypeInTargetAssembly={x:Type local:TabItemKeys}}" BasedOn="{StaticResource {x:Static h:TabItemKeys.Default}}" TargetType="{x:Type TabItem}">
+        <Setter Property="h:Cattach.Icon" Value="{x:Static h:Icons.Edit}" />
+        <Setter Property="h:Cattach.IconSize" Value="{DynamicResource {x:Static h:IconSizeKeys.Large}}" />
+        <Setter Property="Height" Value="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" />
+        <Setter Property="Width" Value="{DynamicResource {x:Static h:SystemKeys.RowHeight}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.CornerRadius)}">
+                        <TextBlock Margin="{TemplateBinding h:Cattach.IconMargin}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="{TemplateBinding h:Cattach.IconSize}"
+                                   Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{ComponentResourceKey ResourceId=S.TabItem.Line.Default, TypeInTargetAssembly={x:Type local:TabItemKeys}}" BasedOn="{StaticResource {x:Static h:TabItemKeys.Default}}" TargetType="{x:Type TabItem}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Border x:Name="boder"
+                            Background="Transparent"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="0">
+                        <DockPanel Margin="{TemplateBinding Padding}">
+                            <Button Margin="0"
+                                    Padding="{DynamicResource {x:Static h:ThicknessKeys.DockRight}}"
+                                    VerticalAlignment="Center"
+                                    DockPanel.Dock="Right"
+                                    Style="{DynamicResource {x:Static h:ButtonKeys.Clear}}"
+                                    Visibility="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.UseClose), Converter={x:Static h:XConverter.BooleanToVisibilityConverter}}">
+                                <h:Interaction.Triggers>
+                                    <h:EventTrigger EventName="Click">
+                                        <h:CloseItemsAction Item="{Binding RelativeSource={RelativeSource AncestorType=TabItem}}" ItemsControl="{Binding RelativeSource={RelativeSource AncestorType=TabControl}}" />
+                                    </h:EventTrigger>
+                                </h:Interaction.Triggers>
+                            </Button>
+
+                            <TextBlock x:Name="icon"
+                                       Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IconMargin)}"
+                                       HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.ItemHorizontalContentAlignment)}"
+                                       VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.ItemVerticalContentAlignment)}"
+                                       DockPanel.Dock="Left"
+                                       FontSize="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.IconSize)}"
+                                       Style="{DynamicResource {x:Static h:TextBlockKeys.Icon}}"
+                                       Text="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.Icon)}" />
+
+                            <ContentPresenter x:Name="header"
+                                              Margin="{Binding RelativeSource={RelativeSource Mode=TemplatedParent}, Path=(h:Cattach.ItemPadding)}"
+                                              HorizontalAlignment="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.ItemHorizontalContentAlignment)}"
+                                              VerticalAlignment="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=(h:Cattach.ItemVerticalContentAlignment)}"
+                                              ContentSource="Header"
+                                              ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                              RecognizesAccessKey="True" />
+                        </DockPanel>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=TabStripPlacement}" Value="Top" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="boder" Property="BorderThickness" Value="0,0,0,2" />
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=TabStripPlacement}" Value="Left" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="boder" Property="BorderThickness" Value="0,0,2,0" />
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=TabStripPlacement}" Value="Right" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="boder" Property="BorderThickness" Value="2,0,0,0" />
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding RelativeSource={RelativeSource AncestorType=TabControl}, Path=TabStripPlacement}" Value="Bottom" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="boder" Property="BorderThickness" Value="0,2,0,0" />
+                        </MultiDataTrigger>
+
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="boder" Property="BorderBrush" Value="{Binding RelativeSource={RelativeSource Mode=Self}, Path=(h:Cattach.MouseOverBackground)}" />
+                        </Trigger>
+
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="header" Property="TextElement.Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
+                            <Setter TargetName="icon" Property="Foreground" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
+                            <Setter TargetName="boder" Property="BorderBrush" Value="{DynamicResource {x:Static h:BrushKeys.ForegroundTitle}}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

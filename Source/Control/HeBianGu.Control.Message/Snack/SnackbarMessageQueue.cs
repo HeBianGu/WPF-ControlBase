@@ -297,6 +297,8 @@ namespace HeBianGu.Control.Message
                 //show message
                 if (snackbar != null)
                 {
+                    if (_snackbarMessages.First == null)
+                        return;
                     SnackbarMessageQueueItem message = _snackbarMessages.First.Value;
                     _snackbarMessages.RemoveFirst();
                     if (_latestShownItem == null

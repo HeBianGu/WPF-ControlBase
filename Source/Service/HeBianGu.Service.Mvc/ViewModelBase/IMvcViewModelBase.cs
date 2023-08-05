@@ -10,7 +10,7 @@ namespace HeBianGu.Service.Mvc
         RelayCommand<string> DoActionCommand { get; }
         RelayCommand<string> GoToActionCommand { get; }
         RelayCommand<ILinkAction> GoToLinkCommand { get; }
-        RelayCommand<string> LoadedCommand { get; }
+        RelayCommand LoadedCommand { get; }
         ObservableCollection<ILinkAction> Navigation { get; set; }
         ILinkAction SelectLink { get; set; }
     }

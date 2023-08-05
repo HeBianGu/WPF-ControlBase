@@ -11,7 +11,7 @@ namespace HeBianGu.App.Manager.View.Panel
     {
         public ContainControl()
         {
-            InitializeComponent();
+            //InitializeComponent();
         }
 
         private readonly Random _rng = new Random();

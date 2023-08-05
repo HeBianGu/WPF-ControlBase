@@ -124,19 +124,6 @@ namespace HeBianGu.App.Office
 
         }
 
-        /// <summary> 命令通用方法 </summary>
-        protected override async void RelayMethod(object obj)
-
-        {
-            string command = obj?.ToString();
-
-            //  Do：对话消息
-            if (command == "Sumit")
-            {
-
-            }
-        }
-
     }
 
     internal class Connect

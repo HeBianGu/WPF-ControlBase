@@ -1,36 +1,24 @@
-﻿// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
+﻿//// Copyright © 2022 By HeBianGu(QQ:908293466) https://github.com/HeBianGu/WPF-ControlBase
 
-using HeBianGu.Base.WpfBase;
-using System.Collections.ObjectModel;
+//using HeBianGu.Base.WpfBase;
+//using System.Collections.ObjectModel;
+//using System.ComponentModel;
+//using System.ComponentModel.DataAnnotations;
+//using System.Windows;
 
-namespace HeBianGu.Systems.Setting
-{
-    public class SystemSettingConfig : LazyNotifyInstance<SystemSettingConfig>
-    {
-        private ObservableCollection<ISetting> _settings = new ObservableCollection<ISetting>();
-        /// <summary> 说明  </summary>
-        public ObservableCollection<ISetting> Settings
-        {
-            get { return _settings; }
-            set
-            {
-                _settings = value;
-                RaisePropertyChanged("Settings");
-            }
-        }
-
-
-        private double _titleWidth = double.NaN;
-        /// <summary> 说明  </summary>
-        public double TitleWidth
-        {
-            get { return _titleWidth; }
-            set
-            {
-                _titleWidth = value;
-                RaisePropertyChanged();
-            }
-        }
-
-    }
-}
+//namespace HeBianGu.Systems.Setting
+//{
+//    public class SystemDisplay : LazyNotifyInstance<SystemDisplay>
+//    {
+//        private ObservableCollection<ISetting> _settings = new ObservableCollection<ISetting>();
+//        public ObservableCollection<ISetting> Settings
+//        {
+//            get { return _settings; }
+//            set
+//            {
+//                _settings = value;
+//                RaisePropertyChanged("Settings");
+//            }
+//        }
+//    }
+//}

@@ -11,26 +11,46 @@ using System.Windows.Media;
 namespace HeBianGu.Service.Animation
 {
     /// <summary> 容器内子控件加载时触发喷泉效果</summary>
-    [Obsolete("使用 InvokeTimeSplitAnimationAction 更灵活,后面不继续使用")]
+    //[Obsolete("使用 InvokeTimeSplitAnimationAction 更灵活,后面不继续使用")]
     public class FountainAnimationBehavior : Behavior<FrameworkElement>
     {
-
         protected override void OnAttached()
         {
             AssociatedObject.Loaded += AssociatedObject_Loaded;
         }
 
+
+        public static bool GetIsExcept(DependencyObject obj)
+        {
+            return (bool)obj.GetValue(IsExceptProperty);
+        }
+
+        public static void SetIsExcept(DependencyObject obj, bool value)
+        {
+            obj.SetValue(IsExceptProperty, value);
+        }
+
+        /// <summary> 应用窗体关闭和显示 </summary>
+        public static readonly DependencyProperty IsExceptProperty =
+            DependencyProperty.RegisterAttached("IsExcept", typeof(bool), typeof(FountainAnimationBehavior), new PropertyMetadata(default(bool), OnIsExceptChanged));
+
+        static public void OnIsExceptChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            DependencyObject control = d as DependencyObject;
+
+            bool n = (bool)e.NewValue;
+
+            bool o = (bool)e.OldValue;
+        }
+
+
         private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
         {
             if (IsUseAll)
             {
-
                 System.Collections.Generic.IEnumerable<UIElement> items = AssociatedObject.GetChildren<UIElement>().Where(l => l.RenderTransform is TransformGroup);
-
                 items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
-
-                items = items.Where(l => (l as FrameworkElement)?.Tag?.ToString() != "Except");
-
+                items = items.Where(l => (l as FrameworkElement)?.Tag?.ToString() != "Except" && FountainAnimationBehavior.GetIsExcept(l) == false);
                 StoryBoardService.FountainAnimation(items, PointLeft, PointTop, Mul, MiddleValue, EndValue, Split);
             }
             else
@@ -38,9 +58,8 @@ namespace HeBianGu.Service.Animation
                 if (AssociatedObject is Panel panel)
                 {
                     System.Collections.Generic.IEnumerable<UIElement> items = panel.Children?.Cast<UIElement>()?.Where(l => l.RenderTransform is TransformGroup);
-
                     items = items.Where(l => (l.RenderTransform as TransformGroup).Children.Count == 4);
-
+                    items = items.Where(l => (l as FrameworkElement)?.Tag?.ToString() != "Except" && FountainAnimationBehavior.GetIsExcept(l) == false);
                     StoryBoardService.FountainAnimation(items, PointLeft, PointTop, Mul, MiddleValue, EndValue, Split);
                 }
 

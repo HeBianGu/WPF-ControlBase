@@ -23,7 +23,6 @@ namespace HeBianGu.App.Touch
         public async Task<IActionResult> Bmi()
         {
             ShowGuideMessageAsync();
-
             return await ViewAsync();
         }
 
@@ -31,14 +30,10 @@ namespace HeBianGu.App.Touch
         public async Task<IActionResult> Fat()
         {
             bool result;
-
             result = await System.Windows.Application.Current.Dispatcher.Invoke(async () =>
               {
-
                   SexControl sex = new SexControl();
-
-                  return await Message.Instance.ShowCustomDialog<bool>(sex);
-
+                  return await Messager.Instance.ShowDialog<bool>(sex);
               });
 
             if (!result)
@@ -51,20 +46,15 @@ namespace HeBianGu.App.Touch
             result = await System.Windows.Application.Current.Dispatcher.Invoke(async () =>
              {
                  AgrControl age = new AgrControl();
-
-                 return await Message.Instance.ShowCustomDialog<bool>(age);
+                 return await Messager.Instance.ShowDialog<bool>(age);
              });
-
             if (!result)
             {
                 //  Do ：跳过测量
                 ViewModel.GoNext();
-
                 return await ViewAsync("Oxygen");
             }
-
             ShowGuideMessageAsync();
-
             return await ViewAsync();
         }
 
@@ -73,7 +63,6 @@ namespace HeBianGu.App.Touch
         public async Task<IActionResult> Oxygen()
         {
             ShowGuideMessageAsync();
-
             return await ViewAsync();
         }
 
@@ -82,7 +71,6 @@ namespace HeBianGu.App.Touch
         public async Task<IActionResult> Pressure()
         {
             ShowGuideMessageAsync();
-
             return await ViewAsync();
         }
 
@@ -90,7 +78,6 @@ namespace HeBianGu.App.Touch
         public async Task<IActionResult> Temperature()
         {
             ShowGuideMessageAsync();
-
             return await ViewAsync();
         }
     }
@@ -103,9 +90,7 @@ namespace HeBianGu.App.Touch
         public async Task<bool> ShowGuideMessageAsync([CallerMemberName] string name = "")
         {
             bool result = false;
-
             string displayName = null;
-
             await System.Windows.Application.Current.Dispatcher.Invoke(async () =>
              {
                  if (GetType().GetMethod(name).GetCustomAttributes(typeof(GuideMessageAttribute), true).FirstOrDefault() is GuideMessageAttribute route)
@@ -113,20 +98,15 @@ namespace HeBianGu.App.Touch
                      GuideMessageControl control = new GuideMessageControl
                      {
                          ImageSource = new BitmapImage(new Uri(route.ImagePath, UriKind.RelativeOrAbsolute)),
-
                          Message = route.Message
                      };
 
                      displayName = route.DisplayName;
-
-                     result = await Message.Instance.ShowCustomDialog<bool>(control);
+                     result = await Messager.Instance.ShowDialog<bool>(control);
                  }
              });
-
             LinkActionEntity current = ViewModel.SelectLink;
-
             await ViewModel.CheckAndRunMeasure(current);
-
             return result;
         }
     }
@@ -139,7 +119,5 @@ namespace HeBianGu.App.Touch
         public string DisplayName { get; set; }
         public string ImagePath { get; set; }
         public string Message { get; set; }
-
     }
-
 }

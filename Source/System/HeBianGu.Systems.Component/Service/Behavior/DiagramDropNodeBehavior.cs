@@ -20,7 +20,7 @@ namespace HeBianGu.Systems.Component
             {
                 Port port = Port.Create(node);
                 port.Dock = p.Dock;
-                port.Visibility = Visibility.Hidden;
+                //port.Visibility = Visibility.Hidden;
                 port.PortType = p.PortType;
                 port.Content = p;
                 node.AddPort(port);

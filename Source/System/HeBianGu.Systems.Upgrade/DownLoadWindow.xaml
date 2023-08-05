@@ -9,7 +9,8 @@
                     Width="620"
                     Height="320"
                     CaptionHeight="35"
-                    Icon=" &#xebf5;"
+                    h:Cattach.Icon="{x:Static h:Icons.IE}"
+                    Style="{DynamicResource {x:Static h:DialogWindowBase.AccentKey}}"
                     mc:Ignorable="d">
 
     <h:TransitionService.VisibleActions>
@@ -24,8 +25,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <StackPanel Background="{Binding RelativeSource={RelativeSource AncestorType=h:DialogWindowBase},Path=CaptionBackground}" Margin="-2">
-
+        <StackPanel Margin="0" Background="{Binding RelativeSource={RelativeSource AncestorType=h:DialogWindowBase}, Path=CaptionBackground}">
             <TextBlock Margin="10"
                        HorizontalAlignment="Center"
                        FontSize="25"
@@ -34,6 +34,7 @@
             <ScrollViewer Height="100" VerticalScrollBarVisibility="Auto">
                 <ItemsControl HorizontalAlignment="Center"
                               VerticalAlignment="Center"
+                              TextBlock.Foreground="{DynamicResource {x:Static h:BrushKeys.ForegroundWhite}}"
                               ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=local:DownLoadWindow}, Path=Message}"
                               TextBlock.FontSize="15">
                     <ItemsControl.ItemsPanel>
@@ -47,7 +48,7 @@
         </StackPanel>
 
         <Border Grid.Row="1"
-                Margin="-3"
+                Margin="0"
                 Background="{DynamicResource {x:Static h:BrushKeys.BackgroundDefault}}"
                 CornerRadius="0,0,4,4" />
 
@@ -56,8 +57,8 @@
                      Height="30"
                      Margin="10,0"
                      HorizontalAlignment="Stretch"
-                     VerticalAlignment="Center"
-                     Background="{DynamicResource {x:Static h:BrushKeys.Gray}}"
+                     VerticalAlignment="Center" BorderThickness="0"
+                     Background="{DynamicResource {x:Static h:BrushKeys.Dark0_5}}"
                      Foreground="{DynamicResource {x:Static h:BrushKeys.Accent}}"
                      Value="0" />
 
@@ -70,7 +71,7 @@
             <TextBlock.Triggers>
                 <EventTrigger RoutedEvent="Loaded">
                     <BeginStoryboard>
-                        <Storyboard>
+                        <Storyboard Timeline.DesiredFrameRate="{x:Static h:StoryboardSetting.DesiredFrameRate}">
                             <DoubleAnimation AutoReverse="True"
                                              BeginTime="00:00:00"
                                              RepeatBehavior="Forever"
