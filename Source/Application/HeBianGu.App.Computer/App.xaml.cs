@@ -7,7 +7,6 @@ using HeBianGu.Service.Mvp;
 using HeBianGu.Systems.About;
 using HeBianGu.Systems.Feedback;
 using HeBianGu.Systems.Identity;
-using HeBianGu.Systems.License;
 using HeBianGu.Systems.Logger;
 using HeBianGu.Systems.Notification;
 using HeBianGu.Systems.Operation;

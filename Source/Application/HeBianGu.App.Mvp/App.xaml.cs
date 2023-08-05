@@ -7,7 +7,6 @@ using HeBianGu.Service.Mvp;
 using HeBianGu.Systems.About;
 using HeBianGu.Systems.Feedback;
 using HeBianGu.Systems.Identity;
-using HeBianGu.Systems.License;
 using HeBianGu.Systems.Logger;
 using HeBianGu.Systems.Notification;
 using HeBianGu.Systems.Operation;
@@ -39,7 +38,7 @@ namespace HeBianGu.App.Mvp
         {
             base.ConfigureServices(services);
 
-            services.AddStart();
+            services.AddStart(x => x.ProductFontSize = 120);
             services.AddWindowDialog();
             services.AddObjectWindowDialog();
             services.AddWindowAnimation();

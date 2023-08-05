@@ -53,10 +53,10 @@ namespace HeBianGu.Application.TestWindow
             //services.AddIdentity();
             //services.AddLoginViewPresenter();
 
-            services.AddVip();
-            services.AddVipViewPresenter();
-            services.AddLicense();
-            services.AddLicenseViewPresenter();
+            //services.AddVip();
+            //services.AddVipViewPresenter();
+            //services.AddLicense();
+            //services.AddLicenseViewPresenter();
             services.AddGuideViewPresenter();
             services.AddUpgradeViewPresenter();
             ////  Do ：注册软件更新页面

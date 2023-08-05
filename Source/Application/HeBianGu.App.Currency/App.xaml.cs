@@ -6,7 +6,6 @@ using HeBianGu.General.WpfControlLib;
 using HeBianGu.Service.Mvp;
 using HeBianGu.Systems.About;
 using HeBianGu.Systems.Identity;
-using HeBianGu.Systems.License;
 using HeBianGu.Systems.Logger;
 using HeBianGu.Systems.Operation;
 using HeBianGu.Systems.Repository;
