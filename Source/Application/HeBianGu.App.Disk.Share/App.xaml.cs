@@ -29,7 +29,7 @@ namespace HeBianGu.App.Disk
         {
             base.ConfigureServices(services);
 
-            services.AddStart(x => x.ProductFontSize = 60);
+            services.AddStart(x => x.ProductFontSize = 90);
             services.AddWindowDialog();
             services.AddObjectWindowDialog();
             services.AddWindowAnimation();

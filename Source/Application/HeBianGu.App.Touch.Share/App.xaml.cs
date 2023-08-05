@@ -37,6 +37,9 @@ namespace HeBianGu.App.Touch
             //  Do ：启用和显示右上角主题设置
             services.AddTheme();
 
+            services.AddSetting();
+            services.AddSettingPath();
+            services.AddXmlSerialize();
             //  Do ：注入领域模型服务
             services.AddSingleton<IAssemblyDomain, AssemblyDomain>();
             services.AddMvc();

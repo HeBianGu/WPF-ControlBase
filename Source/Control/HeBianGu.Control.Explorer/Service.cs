@@ -107,7 +107,6 @@ namespace HeBianGu.Control.Explorer
         public WindowDirectoryInfo(string fullName)
         {
             _fullName = fullName;
-            var ss = Path.GetPathRoot(fullName);
         }
 
         public string FullName => _fullName;
