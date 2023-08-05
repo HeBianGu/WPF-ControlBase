@@ -80,7 +80,7 @@
 ![qrcode](https://gitee.com/hebiangu/wpf-document/raw/master/WPF-Controls/Images/Currency.png)
 
 [图片打不开？](https://gitee.com/hebiangu/wpf-document/blob/master/WPF-Controls/Images/Currency.png)
-### Disk.png
+### Disk
 ![qrcode](https://gitee.com/hebiangu/wpf-document/raw/master/WPF-Controls/Images/Disk.png)
 
 [图片打不开？](https://gitee.com/hebiangu/wpf-document/blob/master/WPF-Controls/Images/Disk.png)
@@ -98,7 +98,7 @@
 [图片打不开？](https://gitee.com/hebiangu/wpf-document/blob/master/WPF-Controls/Images/Image.png)
 
 [演示视频](https://www.bilibili.com/video/BV1Wv4y1o76g/?spm_id_from=333.788&vd_source=d056512191c083233a4da171dd62475c) 
-### Main.png
+### Main
 ![qrcode](https://gitee.com/hebiangu/wpf-document/raw/master/WPF-Controls/Images/Main.png)
 
 [图片打不开？](https://gitee.com/hebiangu/wpf-document/blob/master/WPF-Controls/Images/Main.png)
