@@ -15,6 +15,7 @@ namespace HeBianGu.Demo.Demo7
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            var vale = TestSetting.Instance.Value;
             MessageProxy.Windower.ShowSumit("框架自带的窗口对话框");
         }
     }
