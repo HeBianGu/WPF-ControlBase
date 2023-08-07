@@ -309,7 +309,7 @@
 ### TypeConverter
 
 ## 使用
-
+https://github.com/HeBianGu/WPF-ControlBase/wiki
 ### 示例
 #### 这是一个最简单的使用方式示例
 HeBianGu.Demo.Demo1
