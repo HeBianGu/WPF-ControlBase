@@ -1,7 +1,9 @@
 ﻿using HeBianGu.Base.WpfBase;
 using HeBianGu.Control.ThemeSet;
 using HeBianGu.General.WpfControlLib;
+using HeBianGu.Service.Mvp;
 using HeBianGu.Systems.Setting;
+using HeBianGu.Systems.Upgrade;
 using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -41,10 +43,17 @@ namespace HeBianGu.Demo.Demo10
 
             //  Do ：注册窗口配置，注册后窗口右侧有可设置主题的按钮
             services.AddThemeRightViewPresenter();
+
+            services.AddUpgradeViewPresenter();
+            services.AddMoreViewPresenter(x =>
+            {
+                x.AddPersenter(UpgradeViewPresenter.Instance);
+            });
             //  Do ：注册右上角配置页面
             services.AddSettingViewPrenter();
             services.AddWindowCaptionViewPresenter(x =>
             {
+                x.AddPersenter(MoreViewPresenter.Instance);
                 x.AddPersenter(SettingViewPresenter.Instance);
                 x.AddPersenter(ThemeRightToolViewPresenter.Instance);
             });
@@ -69,7 +78,10 @@ namespace HeBianGu.Demo.Demo10
                 //@"http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4"
                 l.Uri = "https://gitee.com/hebiangu/wpf-auto-update/raw/master/Install/Movie/Movie.xml";
                 l.UseIEDownload = true;
+              
             });
+
+
         }
 
         protected override void Configure(IApplicationBuilder app)
