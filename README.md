@@ -44,6 +44,8 @@
  
 
 ## 案例
+Release 下载地址
+[https://github.com/HeBianGu/WPF-ControlBase/releases](https://github.com/HeBianGu/WPF-ControlBase/releases)
 ### Above 
 ![qrcode](https://gitee.com/hebiangu/wpf-document/raw/master/WPF-Controls/Images/Above.png)
 
