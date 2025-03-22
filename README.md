@@ -40,6 +40,9 @@
 
 [![Stargazers over time](https://starchart.cc/HeBianGu/WPF-ControlBase.svg)](https://starchart.cc/HeBianGu/WPF-ControlBase)
 
+## 开发文档
+https://hebiangu.github.io/WPF-ControlBase-Docs/
+
 ## 推荐学习官方文档
 https://learn.microsoft.com/zh-cn/dotnet/api/system.windows.controls?view=windowsdesktop-8.0?wt.mc_id=MVP_380318
 
